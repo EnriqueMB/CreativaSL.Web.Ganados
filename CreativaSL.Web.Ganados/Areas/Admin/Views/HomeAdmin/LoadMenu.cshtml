@@ -1,0 +1,54 @@
+﻿@using System.Data
+@model CreativaSL.Web.Ganados.Models.MenuModels
+@{
+    Layout = null;
+}
+@helper DibujarMenu(CreativaSL.Web.Ganados.Models.MenuModels Item)
+{
+if (Item.ParentMenuID == 0)
+{
+    if (Item.ListaMenu.Count == 0)
+    {
+                <li class="">
+                    <a href="@Url.Action("Index", Item.UrlMenu)"><span class="fa fa-check"></span> <span class="xn-text">@Item.NombreMenu</span></a>
+                </li>
+    }
+    else
+    {
+                <li class="xn-openable">
+                    <a><span class="fa fa-check"></span> <span class="xn-text">@Item.NombreMenu</span></a>
+                    <ul>
+                        @foreach (var SubMenu in Item.ListaMenu)
+                        {
+                            @DibujarMenu(SubMenu);
+                        }
+                    </ul>
+                </li>
+    }
+}
+else
+{
+    if (Item.ListaMenu.Count == 0)
+    {
+            <li><a href="@Url.Action("Index", Item.UrlMenu)"><span class="fa fa-align-justify"></span> @Item.NombreMenu</a></li>
+    }
+    else
+    {
+            <li class="xn-openable">
+                <a><span class="fa fa-check"></span> <span class="xn-text">@Item.NombreMenu</span></a>
+                <ul>
+                    @foreach (var SubMenu in Item.ListaMenu)
+                    {
+                        @DibujarMenu(SubMenu);
+                    }
+                </ul>
+            </li>
+    }
+}
+}
+
+
+@foreach (var item in Model.ListaMenu)
+{
+    @DibujarMenu(item);
+}

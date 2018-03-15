@@ -1,0 +1,171 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section featured
+{
+@{
+    var message = TempData["message"] ?? string.Empty;
+    var typemessage = TempData["typemessage"] ?? string.Empty;
+}
+<div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+    <h3></h3>
+</div>
+<div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+    <h3></h3>
+</div>
+<div class="page-title">
+    <h2><span class="fa fa-arrow-circle-o-left"></span> Tabla de Ejemplo </h2>
+</div>
+<!-- END PAGE TITLE -->
+<!-- PAGE CONTENT WRAPPER -->
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- START DEFAULT DATATABLE -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Tabla de Default</h3>
+                    <ul class="panel-controls" >
+                        <li><a href="@Url.Action("Create","CatLugar")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Lugar</a></li>
+                        <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                        <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
+                    </ul>
+                </div>
+                <div class="panel-body">
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Position</th>
+                                <th>Office</th>
+                                <th>Age</th>
+                                <th>Start date</th>
+                                <th>Salary</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="trow_1">
+                                <td>Tiger Nixon</td>
+                                <td>System Architect</td>
+                                <td>Edinburgh</td>
+                                <td>61</td>
+                                <td>2011/04/25</td>
+                                <td>$320,800</td>
+                                <td style="text-align:center;">
+                                    <a title="Editar" class="btn btn-yellow" href="@Url.Action("#", "#", new { id = 1})"><i class="fa fa-edit"></i></a>
+                                    <a title="Eliminar" class="btn delete btn-danger" id="delete-trow_1" data-hrefa="@Url.Action("#", "#", new { id = 1})" onClick="delete_row('trow_1');"><i class="fa fa-trash-o"></i></a>
+                                    <a title="Otros" class="btn btn-green" href="@Url.Action("#", "#", new { id = 1})"><i class="fa fa-plus"></i></a>
+                                </td>
+
+                            </tr>
+                            <tr id="trow_2">
+                                <td>Garrett Winters</td>
+                                <td>Accountant</td>
+                                <td>Tokyo</td>
+                                <td>63</td>
+                                <td>2011/07/25</td>
+                                <td>$170,750</td>
+                                <td style="text-align:center;">
+                                    <a title="Editar" class="btn btn-yellow" href="@Url.Action("#", "#", new { id = 1})"><i class="fa fa-edit"></i></a>
+                                    <a title="Eliminar" class="btn delete btn-danger" id="delete-trow_2" data-hrefa="@Url.Action("#", "#", new { id = 2})" onClick="delete_row('trow_2');"><i class="fa fa-trash-o"></i></a>
+                                    <a title="Otros" class="btn btn-green" href="@Url.Action("#", "#", new { id = 1})"><i class="fa fa-plus"></i></a>
+                                </td>
+                            </tr>
+                            <tr id="trow_3">
+                                <td>Ashton Cox</td>
+                                <td>Junior Technical Author</td>
+                                <td>San Francisco</td>
+                                <td>66</td>
+                                <td>2009/01/12</td>
+                                <td>$86,000</td>
+                                <td style="text-align:center;">
+                                    <a title="Editar" class="btn btn-yellow" href="@Url.Action("#", "#", new { id = 1})"><i class="fa fa-edit"></i></a>
+                                    <a title="Eliminar" class="btn delete btn-danger" id="delete-trow_3" data-hrefa="@Url.Action("#", "#", new { id = 3})" onClick="delete_row('trow_3');"><i class="fa fa-trash-o"></i></a>
+                                    <a title="Otros" class="btn btn-green" href="@Url.Action("#", "#", new { id = 1})"><i class="fa fa-plus"></i></a>
+                                </td>
+                            </tr>
+                            <tr id="trow_4">
+                                <td>Cedric Kelly</td>
+                                <td>Senior Javascript Developer</td>
+                                <td>Edinburgh</td>
+                                <td>22</td>
+                                <td>2012/03/29</td>
+                                <td>$433,060</td>
+                                <td style="text-align:center;">
+                                    <a title="Editar" class="btn btn-yellow" href="@Url.Action("#", "#", new { id = 1})"><i class="fa fa-edit"></i></a>
+                                    <a title="Eliminar" class="btn delete btn-danger" id="delete-trow_4" data-hrefa="@Url.Action("#", "#", new { id = 4})" onClick="delete_row('trow_4');"><i class="fa fa-trash-o"></i></a>
+                                    <a title="Otros" class="btn btn-green" href="@Url.Action("#", "#", new { id = 1})"><i class="fa fa-plus"></i></a>
+                                </td>
+                            </tr>
+                            <tr id="trow_5">
+                                <td>Airi Satou</td>
+                                <td>Accountant</td>
+                                <td>Tokyo</td>
+                                <td>33</td>
+                                <td>2008/11/28</td>
+                                <td>$162,700</td>
+                                <td style="text-align:center;">
+                                    <a title="Editar" class="btn btn-yellow" href="@Url.Action("#", "#", new { id = 1})"><i class="fa fa-edit"></i></a>
+                                    <a title="Eliminar" class="btn delete btn-danger" id="delete-trow_5" data-hrefa="@Url.Action("#", "#", new { id = 5})" onClick="delete_row('trow_5');"><i class="fa fa-trash-o"></i></a>
+                                    <a title="Otros" class="btn btn-green" href="@Url.Action("#", "#", new { id = 1})"><i class="fa fa-plus"></i></a>
+                                </td>
+                            </tr>
+                            <tr id="trow_6">
+                                <td>Brielle Williamson</td>
+                                <td>Integration Specialist</td>
+                                <td>New York</td>
+                                <td>61</td>
+                                <td>2012/12/02</td>
+                                <td>$372,000</td>
+                                <td style="text-align:center;">
+                                    <a title="Editar" class="btn btn-yellow" href="@Url.Action("#", "#", new { id = 1})"><i class="fa fa-edit"></i></a>
+                                    <a title="Eliminar" class="btn delete btn-danger" id="delete-trow_6" data-hrefa="@Url.Action("#", "#", new { id = 6})" onClick="delete_row('trow_6');"><i class="fa fa-trash-o"></i></a>
+                                    <a title="Otros" class="btn btn-green" href="@Url.Action("#", "#", new { id = 1})"><i class="fa fa-plus"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- END DEFAULT DATATABLE -->
+        </div>
+    </div>
+</div>
+<!-- PAGE CONTENT WRAPPER -->  
+<div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+            <div class="mb-content">
+                <p>¿Seguro que quieres eliminar esta fila?</p>
+                <p>Presione "sí" si está seguro.</p>
+            </div>
+            <div class="mb-footer">
+                <div class="pull-right">
+                    <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                    <button class="btn btn-default btn-lg mb-control-close">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var message = '@message';
+    var typemessage = '@typemessage';
+</script>
+}
+@section script
+{
+<script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script> 
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+<script>
+    jQuery(document).ready(function () {
+        Mensaje(message, typemessage);
+        });
+</script>
+}

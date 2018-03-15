@@ -1,0 +1,134 @@
+﻿@model CreativaSL.Web.Ganados.Models.CatChoferModels
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section featured{
+
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            @*<form class="form-horizontal">*@
+            @using (Html.BeginForm("Edit", "CatChofer", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                @Html.HiddenFor(model => model.IDChofer)
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Editar</strong> Chofer</h3>
+                        <ul class="panel-controls">
+                            @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <label class="col-md-3 control-label">Nombre Chofer</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.Nombre, new { id = "Nombre", @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Nombre)
+                                    <span class="help-block">Ingrese el nombre del chofer</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-md-3 control-label">Apellido Parterno</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.ApPaterno, new { id = "ApPaterno", @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ApPaterno)
+                                    <span class="help-block">Ingrese el apellido paterno</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <label class="col-md-3 control-label">Apellido Materno</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.ApMaterno, new { id = "ApMaterno", @class = "form-control" })
+                                    </div>
+                                    <span class="help-block">Ingrese el apellido materno</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-md-3 control-label">Checkbox</label>
+                                <div class="col-md-9">
+                                    @Html.CheckBoxFor(model => model.Licencia)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" id="licencia-cont" style="">
+                            <div class="col-md-6">
+                                <label class="col-md-3 control-label">Número de licencia</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.numLicencia, new { id = "numLicencia", @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.numLicencia)
+                                    <span class="help-block">Ingrese el número de licencia</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-md-3 control-label">Vigencia</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                        @Html.TextBoxFor(model => model.vigencia, "{0:yyyy/MM/dd}", new { id = "vigencia", @class = "form-control datepicker", @readonly = "readonly" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.vigencia)
+                                    <span class="help-block">Ingrese el la fecha de vigencia</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("Index","CatChofer")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    </div>
+                </div>
+                @*</form>*@
+            }
+        </div>
+    </div>
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+
+    <script>
+    jQuery(document).ready(function () {
+        $('#Licencia').change(function () {
+            $('#licencia-cont').toggle(1000);
+        });
+        Mensaje(message, typemessage);
+    });
+    </script>
+    }
