@@ -47,8 +47,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 CatProductosModels Producto = new CatProductosModels();
                 _CatProductos_Datos ProductoDatos = new _CatProductos_Datos();
-
-              
                 return View(Producto);
             }
             catch (Exception)
@@ -80,6 +78,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     TempData["typemessage"] = "1";
                     TempData["message"] = "El registro se guardo correctamente.";
+
 
                 }
                 else

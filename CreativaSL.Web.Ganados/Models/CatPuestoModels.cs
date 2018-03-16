@@ -12,6 +12,7 @@ namespace CreativaSL.Web.Ganados.Models
         {
             _Descripcion = string.Empty;
             _ListaPuesto = new List<CatPuestoModels>();
+            _EsGerente = true;
         }
 
         private int _IDPuesto;
