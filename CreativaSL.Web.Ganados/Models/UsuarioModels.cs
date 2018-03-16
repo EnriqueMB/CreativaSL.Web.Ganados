@@ -259,6 +259,14 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _tablaMunicipioCmb; }
             set { _tablaMunicipioCmb = value; }
         }
+        private List<MenuModels> _listaMenu;
+
+        public List<MenuModels> listaMenu
+        {
+            get { return _listaMenu; }
+            set { _listaMenu = value; }
+        }
+
         private string  _clvUser;
 
         public string  clvUser

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.Models;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,12 +9,89 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CatVehiculoModels
     {
+        public CatVehiculoModels()
+        {
+            _IDVehiculo = string.Empty;
+            _IDSucursal = string.Empty;
+            _IDMarca = 0;
+            _IDTipoVehiculo = 0;
+            _EsPropio = true;
+            _Capacidad = string.Empty;
+            _Modelo = string.Empty;
+            _Color = string.Empty;
+            _Placas = string.Empty;
+            _Remolque = string.Empty;
+            _NoSerie = string.Empty;
+            _Estatus = true;
+            //datos de control
+            Conexion = string.Empty;
+            Resultado = 0;
+            Opcion = 0;
+            Completado = false;
+            Usuario = string.Empty;
+        }
+        private List<CatSucursalesModels> _listaSucursal;
+        [Required(ErrorMessage = "La sucursal es obligatoria")]
+        [Display(Name = "Sucursal")]
+        public List<CatSucursalesModels> listaSucursal
+        {
+            get { return _listaSucursal; }
+            set { _listaSucursal = value; }
+        }
+        private List<CatMarcaVehiculoModels> _listaMarcas;
+        [Required(ErrorMessage = "La marca es obligatorio")]
+        [Display(Name = "Marca")]
+        [RegularExpression(@"^[1-9][0-9]*$", ErrorMessage = "Seleccione una marca")]
+        public List<CatMarcaVehiculoModels> listaMarcas
+        {
+            get { return _listaMarcas; }
+            set { _listaMarcas = value; }
+        }
+        private List<CatTipoVehiculoModels> _listaTipoVehiculos;
+        [Required(ErrorMessage = "El tipo de Vehículo es obligatorio")]
+        [Display(Name = "tipo de Vehículo")]
+        [RegularExpression(@"^[1-9][0-9]*$", ErrorMessage = "Seleccione una marca")]
+        public List<CatTipoVehiculoModels> listaTipoVehiculos
+        {
+            get { return _listaTipoVehiculos; }
+            set { _listaTipoVehiculos = value; }
+        }
+
+        private List<CatVehiculoModels> _listaVehiculos;
+
+        public List<CatVehiculoModels> listaVehiculos
+        {
+            get { return _listaVehiculos; }
+            set { _listaVehiculos = value; }
+        }
+
         private string _IDVehiculo;
 
         public string IDVehiculo
         {
             get { return _IDVehiculo; }
             set { _IDVehiculo = value; }
+        }
+        private string _nombreSucursal;
+
+        public string nombreSucursal
+        {
+            get { return _nombreSucursal; }
+            set { _nombreSucursal = value; }
+        }
+        private string _nombreTipoVehiculo;
+
+        public string nombreTipoVehiculo
+        {
+            get { return _nombreTipoVehiculo; }
+            set { _nombreTipoVehiculo = value; }
+        }
+        private string _nombreMarca;
+
+        public string nombreMarca
+        {
+            get { return _nombreMarca; }
+            set { _nombreMarca = value; }
         }
 
         private string _IDSucursal;
@@ -48,7 +127,9 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _Capacidad;
-
+        [Required(ErrorMessage = "La capacidad es obligatorio")]
+        [Display(Name = "Capacidad")]
+        [StringLength(30, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         public string Capacidad
         {
             get { return _Capacidad; }
@@ -56,7 +137,10 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _Modelo;
-
+        [Required(ErrorMessage = "El modelo es obligatorio")]
+        [Display(Name = "Modelo")]
+        [StringLength(10, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
+        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s]*$", ErrorMessage = "Solo Letras y números")]
         public string Modelo
         {
             get { return _Modelo; }
@@ -64,7 +148,10 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _Color;
-
+        [Required(ErrorMessage = "El color es obligatorio")]
+        [Display(Name = "Color")]
+        [StringLength(30, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
+        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ\s]*$", ErrorMessage = "Solo Letras y números")]
         public string Color
         {
             get { return _Color; }
@@ -72,7 +159,10 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _Placas;
-
+        [Required(ErrorMessage = "Las placas es obligatorio")]
+        [Display(Name = "Placas")]
+        [StringLength(10, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
+        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s\-]*$", ErrorMessage = "Solo Letras y números")]
         public string Placas
         {
             get { return _Placas; }
@@ -81,6 +171,8 @@ namespace CreativaSL.Web.Ganados.Models
 
         private string _Remolque;
 
+
+        [StringLength(30, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         public string Remolque
         {
             get { return _Remolque; }
@@ -88,7 +180,10 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _NoSerie;
-
+        //[Required(ErrorMessage = "Número de serie es obligatorio")]
+        [Display(Name = "Número de serie")]
+        [StringLength(30, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
+        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s]*$", ErrorMessage = "Solo Letras y números")]
         public string NoSerie
         {
             get { return _NoSerie; }

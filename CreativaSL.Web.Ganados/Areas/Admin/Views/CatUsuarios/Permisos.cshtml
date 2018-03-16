@@ -1,4 +1,5 @@
-﻿@model CreativaSL.Web.Ganados.Models.UsuarioModels
+﻿@using System.Data
+@model CreativaSL.Web.Ganados.Models.UsuarioModels
 @{
     ViewBag.Title = "Permisos";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -42,10 +43,10 @@
                             <tbody>
                                 @{
                                     int contAlumno = 0, ContP = 0;
-                                    string cadenaContAlumno = "", CadenaContP = "";
+                                    string cadenaContAlumno = "", CadenaContP = "", contenedorceldas = "";
                                     string asistenciaContAlumno = "", PermisosContP = "", Clase = "";
 
-                                    foreach (var Lista in Model.ListaPermisos)
+                                    foreach (var Lista in Model.listaMenu)
                                     {
                                         Clase = "clase" + contAlumno;
                                         contAlumno = contAlumno + 1;
@@ -54,28 +55,29 @@
 
                                         <tr class="info">
                                             <td style="display:none"><input type="hidden" name="@Html.Raw(cadenaContAlumno)" value="@Html.Raw(Lista.IDPermiso)"></td>
-                                            <td >@Lista.NombreMenu.ToString()</td>
+                                            <td>@Lista.NombreMenu.ToString()</td>
 
                                             @if (Lista.ver)
                                             {
-                                                <td ><input class="form-control validAsistencia maincheck " type="checkbox" id="@Html.Raw(asistenciaContAlumno)" data-cont="@contAlumno" name="@Html.Raw(asistenciaContAlumno)" value="@Html.Raw(Lista.ver)" checked /></td>
+                                                <td><input class="form-control validAsistencia maincheck " type="checkbox" id="@Html.Raw(asistenciaContAlumno)" data-cont="@contAlumno" name="@Html.Raw(asistenciaContAlumno)" value="@Html.Raw(Lista.ver)" checked /></td>
                                             }
                                             else
 
                                             {
-                                                <td ><input class="form-control validAsistencia maincheck " type="checkbox" id="@Html.Raw(asistenciaContAlumno)" data-cont="@contAlumno" name="@Html.Raw(asistenciaContAlumno)" value="@Html.Raw(Lista.ver)" /></td>
+                                                <td><input class="form-control validAsistencia maincheck " type="checkbox" id="@Html.Raw(asistenciaContAlumno)" data-cont="@contAlumno" name="@Html.Raw(asistenciaContAlumno)" value="@Html.Raw(Lista.ver)" /></td>
 
                                             }
                                         </tr>
-                                        foreach (var Item in Lista.ListaPermisosDetalle)
+                                        foreach (var Item in Lista.ListaMenu)
                                         {
                                             ContP++;
 
                                             CadenaContP = "ID" + ContP;
+                                            contenedorceldas = "tr" + contAlumno;
                                             PermisosContP = "PermisoD" + ContP;
-                                            <tr class="active">
+                                            <tr class="success @contenedorceldas">
                                                 <td style="display:none"><input type="hidden" name="@Html.Raw(CadenaContP)" value="@Html.Raw(Item.IDPermiso)"></td>
-                                                <td >@Item.NombreMenu</td>
+                                                <td>@Item.NombreMenu</td>
 
                                                 @if (Item.ver)
                                                 {
@@ -90,12 +92,37 @@
                                                     </td>
                                                 }
                                             </tr>
+                                            if (Item.ListaMenu.Count > 0)
+                                            {
+                                                foreach (var Item2 in Item.ListaMenu)
+                                                {
+                                                    <tr class=" active @contenedorceldas">
+                                                        <td style="display:none"><input type="hidden" name="@Html.Raw(CadenaContP)" value="@Html.Raw(Item.IDPermiso)"></td>
+                                                        <td>@Item2.NombreMenu</td>
+
+                                                        @if (Item2.ver)
+                                                        {
+                                                            <td>
+                                                                <input class="form-control validAsistencia @Clase submaincheck" type="checkbox" id="@Html.Raw(PermisosContP)" name="@Html.Raw(PermisosContP)" value="@Html.Raw(Lista.ver)" checked />
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>
+                                                                <input class="form-control validAsistencia @Clase submaincheck" type="checkbox" id="@Html.Raw(PermisosContP)" name="@Html.Raw(PermisosContP)" value="@Html.Raw(Lista.ver)" />
+                                                            </td>
+                                                        }
+                                                    </tr>
+                                                }
+
+                                            }
                                         }
                                     }
                                     int total = ContP + contAlumno;
 
                                     <input id="Total" name="Total" type="text" value="@total" style="display:none" />
                                 }
+                              
                             </tbody>
                         </table>
                         <div class="panel-footer">
@@ -157,15 +184,17 @@
             $('#Permiso' + contador).change(function () {;
                 var c = $(this).attr('data-cont');
                 cont = c - 1;
-
+                
                 if ($(this).is(':checked')) {
+
                     $('.clase' + cont).removeAttr('disabled');
                     $('.clase' + cont).prop("checked", true);
-
+                  
+                    
                 }
                 else {
                     $('.clase' + cont).attr('disabled', 'disabled');
-
+                    $('.tr' + cont).css("display", "block");
                     $('.clase' + cont).prop("checked", false);
                 }
 
@@ -182,32 +211,9 @@
 
         });
 
-        $('#example').DataTable({
-            "bSort": false,
-            "bAutoWidth": false,
-            "aLengthMenu": [
-            [-1], ["All"]
-            ],
-            "iDisplayLength": -1
-        });
+     
 
-        $('a.delete').live('click', function (e) {
-            e.preventDefault();
-            if (confirm("¿Confirmar eliminación?") == false) return;
-            var url = $(this).attr('href');
-            $.ajax({
-                url: url,
-                type: 'POST',
-                dataType: 'json',
-                success: function (result) { location.reload(true); },
-                error: function () {
-                    $('#Error').html('<h3>Ocurrio un error al eliminar este registro<h3>');
-                    $('#Error').css("display", "block");
-                    $('#Error').delay(400).slideDown(400).delay(2000).slideUp(400);
-                    $('#Error').css("display", "block");
-                }
-            });
-        });
+       
 
     });
     </script>

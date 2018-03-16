@@ -217,7 +217,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 usuario.conexion = Conexion;
                 usuario.id_usuario = id;
                 usuario.id_tipoUsuario = 1;
-                usuario = UsuarioDatos.ObtenerPermisoUsuario(usuario);
+                usuario.listaMenu = UsuarioDatos.ObtenerAllPermisoUsuario(usuario);
                 if (usuario.ListaPermisos != null)
                 {
                     usuario.numeroMenu = usuario.ListaPermisos.Count;

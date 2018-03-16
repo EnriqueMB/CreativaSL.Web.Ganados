@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using Microsoft.ApplicationBlocks.Data;
 using System.Xml;
+using System.Linq;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -286,6 +287,54 @@ namespace CreativaSL.Web.Ganados.Models
                     }
                 }
                 return Datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<MenuModels> ObtenerAllPermisoUsuario(UsuarioModels Datos)
+        {
+            try
+            {
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Datos.conexion, "spCSLDB_get_Menu2", Datos.id_usuario, Datos.id_tipoUsuario);
+                List<MenuModels> ListaPrinc = new List<MenuModels>();
+                MenuModels Item;
+                while (Dr.Read())
+                {
+                    Item = new MenuModels();
+                    Item.ListaPermisoDetalle = new List<MenuModels>();
+                    Item.IDPermiso = !Dr.IsDBNull(Dr.GetOrdinal("IDPermiso")) ? Dr.GetString(Dr.GetOrdinal("IDPermiso")) : string.Empty;
+                    Item.UrlMenu = !Dr.IsDBNull(Dr.GetOrdinal("MenuURL")) ? Dr.GetString(Dr.GetOrdinal("MenuURL")) : string.Empty;
+                    Item.IconMenu = !Dr.IsDBNull(Dr.GetOrdinal("MenuIcon")) ? Dr.GetString(Dr.GetOrdinal("MenuIcon")) : string.Empty;
+                    Item.MenuID = !Dr.IsDBNull(Dr.GetOrdinal("MenuID")) ? Dr.GetInt32(Dr.GetOrdinal("MenuID")) : 0;
+                    Item.ParentMenuID = !Dr.IsDBNull(Dr.GetOrdinal("ParentMenuID")) ? Dr.GetInt32(Dr.GetOrdinal("ParentMenuID")) : 0;
+                    Item.NombreMenu = !Dr.IsDBNull(Dr.GetOrdinal("NombreMenu")) ? Dr.GetString(Dr.GetOrdinal("NombreMenu")) : string.Empty;
+                    Item.ver = Dr.GetBoolean(Dr.GetOrdinal("ver"));
+                    ListaPrinc.Add(Item);
+                }
+
+                Datos.listaMenu = this.ObtenerListaSubMenus(0, ListaPrinc);
+                return Datos.listaMenu;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private List<MenuModels> ObtenerListaSubMenus(int ParentID, List<MenuModels> FullList)
+        {
+            try
+            {
+                List<MenuModels> ListaSubMenu = new List<MenuModels>();
+                List<MenuModels> ListaAux = FullList.FindAll(x => x.ParentMenuID == ParentID).OrderBy(x => x.OrdenMenu).ToList<MenuModels>();
+                foreach (MenuModels ItemMenu in ListaAux)
+                {
+                    ItemMenu.ListaMenu = ObtenerListaSubMenus(ItemMenu.MenuID, FullList);
+                    ListaSubMenu.Add(ItemMenu);
+                }
+                return ListaSubMenu;
             }
             catch (Exception ex)
             {
