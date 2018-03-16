@@ -1,0 +1,278 @@
+﻿@model CreativaSL.Web.Ganados.Models.CatLugarModels
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section featured{
+
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            @*<form class="form-horizontal">*@
+            @using (Html.BeginForm("Create", "CatLugar", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                @Html.HiddenFor(model => model.id_lugar)
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Información</strong> Chofer</h3>
+                        <ul class="panel-controls">
+                            @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <label class="col-md-12 control-label text-center">Descripción del lugar</label>
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.descripcion, new { id = "Nombre", @class = "form-control" })
+                                        
+                                        
+                                    </div>
+                                    <span class="help-block text-center">Descripción del lugar</span>
+                                    @Html.ValidationMessageFor(model => model.descripcion)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-md-12 control-label text-center">Ejido del lugar</label>
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.ejido, new { id = "ejido", @class = "form-control" })
+                                        
+
+                                    </div>
+                                    <span class="help-block text-center">Ejido del lugar</span>
+                                    @Html.ValidationMessageFor(model => model.ejido)
+                                </div>
+                            </div>
+
+                            
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <label class="col-md-3 control-label">Paises</label>
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(model => model.listaPaises, ViewData["cmbPaises"] as SelectList, new { id = "ListPaises", @class = "form-control " })
+
+                                </div>
+                                @Html.ValidationMessageFor(model => model.listaPaises)
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-3 control-label">Estado</label>
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(model => model.listaEstado, ViewData["cmbEstados"] as SelectList, new { id = "ListEstado", @class = "form-control " })
+
+                                </div>
+                                @Html.ValidationMessageFor(model => model.listaEstado)
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-3 control-label">Estado</label>
+                                <div class="col-md-9">
+                                   @Html.DropDownListFor(model => model.listaMunicipio, ViewData["cmbMunicipios"] as SelectList, new { id = "ListMunicipio", @class = "form-control " })
+
+                                </div>
+                                @Html.ValidationMessageFor(model => model.listaMunicipio)
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-md-6">
+                               
+                                <div class="col-md-11 col-xs-12 col-md-offset-1">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-map-marker"></span></span>
+                                        @Html.TextBoxFor(model => model.lng, new { id = "longitud", @class = "form-control", @readonly = true })
+                                   </div>
+                                    <span class="help-block">Longitud del lugar</span>
+                                   
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                              
+                                <div class="col-md-11 col-xs-12 col-md-offset-1">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-map-marker"></span></span>
+                                        @Html.TextBoxFor(model => model.lat, new { id = "latitud", @class = "form-control", @readonly = true })
+                                             </div>
+                                    <span class="help-block">Latitud del lugar</span>
+                                  
+                                </div>
+                            </div>
+                          
+                        </div>
+                   
+                        <div class="form-group">
+                        
+
+                                <div class="col-md-12">
+                                    <!-- START GOOGLE MAP WITH MARKER -->
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Ubicación del lugar</h3>
+                                       </div>
+                                        <div class="panel-body panel-body-map">
+                                            <div id="google_pps_map" style="width: 100%; height: 300px;"></div>
+                                        </div>
+                                    </div>
+                                    <!-- END GOOGLE MAP WITH MARKER -->
+                                </div>   
+
+                            
+                           
+                        </div>
+                       
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("Index","CatChofer")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    </div>
+                </div>
+                @*</form>*@
+            }
+        </div>
+    </div>
+    <script>
+        
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+  
+    
+<script src="@Url.Content("~/Content/js/plugins/config.map.places.js")"></script>
+    <script>
+    jQuery(document).ready(function () {
+        $('#Licencia').change(function () {
+            $('#licencia-cont').toggle(1000);
+        });
+        Mensaje(message, typemessage);
+    });
+    jQuery(document).ready(function () {
+        //LISTA DE ESTADOS CUANDO COMBO PAISES CAMBIA
+        $("#ListPaises").val('MEX');
+        getEstado( $("#ListPaises").val());
+        $("#ListPaises").change(function () {
+
+            var id = $("#ListPaises").val();
+            getEstado(id);
+            var municipio = $("#ListMunicipio option:selected").text();
+            var estado = $("#ListEstado option:selected").text();
+            var pais = $("#ListPaises option:selected").text();
+            var busqueda = pais;
+
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'address': busqueda }, geocodeResult);
+        });
+        $("#ListEstado").change(function () {
+            var id2 = $("#ListPaises").val();
+            var id = $("#ListEstado").val();
+            getMunicipio(id2, id);
+            var municipio = $("#ListMunicipio option:selected").text();
+            var estado = $("#ListEstado option:selected").text();
+            var pais = $("#ListPaises option:selected").text();
+            var busqueda = estado + ',' + pais;
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'address': busqueda }, geocodeResult);
+        });
+
+        $("#ListMunicipio").change(function () {
+
+            var municipio = $("#ListMunicipio option:selected").text();
+            var estado = $("#ListEstado option:selected").text();
+            var pais = $("#ListPaises option:selected").text();
+            var busqueda = municipio + ',' + estado + ',' + pais;
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'address': busqueda }, geocodeResult);
+        });
+        function getEstado(id) {
+
+            $.ajax({
+                url: "/Admin/CatLugar/Estado",
+                data: { id: id },
+                dataType: "json",
+                type: "POST",
+                error: function () {
+                    $("#ListEstado").html('');
+                },
+                success: function (estado) {
+
+                    var items = "";
+                    for (var i = 0; i < estado.length; i++) {
+                       
+                        items += "<option value=\"" + estado[i].codigoEstado + "\">" + estado[i].descripcion + "</option>";
+                    }
+                    $("#ListEstado").html(items);
+                   // getMunicipio($("#ListPaises").val(), $("#ListEstado").val());
+                  
+                        var municipio = $("#ListMunicipio option:selected").text();
+                        var estado = $("#ListEstado option:selected").text();
+                        var pais = $("#ListPaises option:selected").text();
+                        var busqueda = pais;
+                       
+                        var geocoder = new google.maps.Geocoder();
+                        
+
+                        geocoder.geocode({ 'address': busqueda }, geocodeResult);
+
+                        auxbol = 0;
+                    
+                }
+            });
+        }
+        function getMunicipio(IdP, id) {
+            $.ajax({
+                url: "/Admin/CatLugar/Municipio",
+                data: {
+                    idPais: IdP,
+                    id: id
+                },
+                dataType: "json",
+                type: "POST",
+                error: function () {
+                    $("#ListMunicipio").html('');
+                },
+                success: function (municipio) {
+                    var items = "";
+                    for (var i = 0; i < municipio.length; i++) {
+                        items += "<option value=\"" + municipio[i].id_municipio + "\">" + municipio[i].descripcion + "</option>";
+                    }
+                    $("#ListMunicipio").html(items);
+                   
+                        var municipio = $("#ListMunicipio option:selected").text();
+                        var estado = $("#ListEstado option:selected").text();
+                        var pais = $("#ListPaises option:selected").text();
+                        var busqueda =  estado + ',' + pais;
+
+                        var geocoder = new google.maps.Geocoder();
+                        geocoder.geocode({ 'address': busqueda }, geocodeResult);
+                      
+                    
+                }
+            });
+        }
+    });
+    
+    </script>
+}
+

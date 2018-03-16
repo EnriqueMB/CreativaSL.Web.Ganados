@@ -541,6 +541,7 @@
     <Content Include="Content\js\plugins\codemirror\mode\xquery\xquery.js" />
     <Content Include="Content\js\plugins\codemirror\mode\yaml\yaml.js" />
     <Content Include="Content\js\plugins\codemirror\mode\z80\z80.js" />
+    <Content Include="Content\js\plugins\config.map.places.js" />
     <Content Include="Content\js\plugins\datatables\jquery.dataTables.min.js" />
     <Content Include="Content\js\plugins\daterangepicker\daterangepicker.js" />
     <Content Include="Content\js\plugins\dropzone\dropzone.min.js" />
@@ -899,6 +900,13 @@
     <Content Include="Areas\Admin\Views\CatChofer\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatChofer\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatChofer\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatLugar\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatLugar\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatLugar\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatUsuarios\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatUsuarios\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatUsuarios\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatUsuarios\Permisos.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

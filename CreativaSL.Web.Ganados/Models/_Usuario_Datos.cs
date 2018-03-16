@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using Microsoft.ApplicationBlocks.Data;
+using System.Xml;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -86,7 +87,32 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        
+        public UsuarioModels EliminarUsuario(UsuarioModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.id_usuario, datos.user
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.conexion, "spCSLDB_Catalogo_del_Usuarios", parametros);
+                datos.id_usuario = aux.ToString();
+                if (!string.IsNullOrEmpty(datos.id_usuario))
+                {
+                    datos.Completado = true;
+                }
+                else
+                {
+                    datos.Completado = false;
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public UsuarioModels AbcCatUsuarios(UsuarioModels datos)
         {
             try
@@ -198,6 +224,87 @@ namespace CreativaSL.Web.Ganados.Models
             {
 
                 throw ex;
+            }
+        }
+        //OBTIENE LISTA DE RUTAS PARA SER DESPLEGADOS EN PERMISOS
+
+        public UsuarioModels ObtenerPermisoUsuario(UsuarioModels Datos)
+        {
+            try
+            {
+                DataSet Ds = SqlHelper.ExecuteDataset(Datos.conexion, "spCSLDB_get_PermisosXID", Datos.id_usuario, Datos.id_tipoUsuario);
+                if (Ds != null)
+                {
+                    if (Ds.Tables.Count == 1)
+                    {
+                        List<UsuarioModels> ListaPrinc = new List<UsuarioModels>();
+                        UsuarioModels Item;
+                        DataTableReader DTR = Ds.Tables[0].CreateDataReader();
+                        DataTable Tbl1 = Ds.Tables[0];
+                        while (DTR.Read())
+                        {
+                            Item = new UsuarioModels();
+                            Item.ListaPermisosDetalle = new List<UsuarioModels>();
+                            Item.IDPermiso = !DTR.IsDBNull(DTR.GetOrdinal("IDPermiso")) ? DTR.GetString(DTR.GetOrdinal("IDPermiso")) : string.Empty;
+                            Item.IDMenu = !DTR.IsDBNull(DTR.GetOrdinal("MenuID")) ? DTR.GetInt32(DTR.GetOrdinal("MenuID")) : 0;
+                            Item.NombreMenu = !DTR.IsDBNull(DTR.GetOrdinal("NombreMenu")) ? DTR.GetString(DTR.GetOrdinal("NombreMenu")) : string.Empty;
+                            Item.ver = DTR.GetBoolean(DTR.GetOrdinal("ver"));
+                            //string Aux = DTR.GetString(2);
+                            string Aux = !DTR.IsDBNull(DTR.GetOrdinal("TablaPermiso")) ? DTR.GetString(DTR.GetOrdinal("TablaPermiso")) : string.Empty;
+                            Aux = string.Format("<Main>{0}</Main>", Aux);
+                            XmlDocument xm = new XmlDocument();
+                            xm.LoadXml(Aux);
+                            XmlNodeList Registros = xm.GetElementsByTagName("Main");
+                            XmlNodeList Lista = ((XmlElement)Registros[0]).GetElementsByTagName("C");
+                            List<UsuarioModels> ListaAux = new List<UsuarioModels>();
+                            UsuarioModels ItemAux;
+                            foreach (XmlElement Nodo in Lista)
+                            {
+                                ItemAux = new UsuarioModels();
+                                XmlNodeList MenuID = Nodo.GetElementsByTagName("MenuID");
+                                XmlNodeList NombreMenu = Nodo.GetElementsByTagName("NombreMenu");
+                                XmlNodeList ver = Nodo.GetElementsByTagName("ver");
+                                XmlNodeList IDPermiso = Nodo.GetElementsByTagName("IDPermiso");
+                                ItemAux.IDMenu = Convert.ToInt32(MenuID[0].InnerText);
+                                ItemAux.NombreMenu = NombreMenu[0].InnerText;
+                                int Visto = 0;
+                                int.TryParse(ver[0].InnerText, out Visto);
+                                if (Visto == 1)
+                                {
+                                    ItemAux.ver = true;
+                                }
+                                else
+                                {
+                                    ItemAux.ver = false;
+                                }
+                                ItemAux.IDPermiso = IDPermiso[0].InnerText;
+                                Item.ListaPermisosDetalle.Add(ItemAux);
+                            }
+                            ListaPrinc.Add(Item);
+                        }
+                        Datos.ListaPermisos = ListaPrinc;
+                    }
+                }
+                return Datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public int GuardarPermisos(UsuarioModels datos)
+        {
+            try
+            {
+                DataSet dt = SqlHelper.ExecuteDataset(datos.conexion, CommandType.StoredProcedure, "spCSLDB_abc_ActualizarPermiso",
+                new SqlParameter("@IDPersona", datos.id_usuario),
+                new SqlParameter("@Permisos", datos.TablaPermisos),
+                new SqlParameter("@usuario", datos.user));
+                return Convert.ToInt32(dt.Tables[0].Rows[0][0].ToString());
+            }
+            catch (Exception ex)
+            {
+                return -1;
             }
         }
     }
