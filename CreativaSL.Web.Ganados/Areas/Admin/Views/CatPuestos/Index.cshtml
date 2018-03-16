@@ -1,4 +1,4 @@
-﻿@model CreativaSL.Web.Ganados.Models.CatClienteModels
+﻿@model CreativaSL.Web.Ganados.Models.CatPuestoModels
 
 @{
     ViewBag.Title = "Index";
@@ -17,7 +17,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Clientes </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Puestos </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -29,7 +29,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("Create","CatCliente")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Cliente</a></li>
+                            <li><a href="@Url.Action("Create","CatPuestos")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Puesto</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
                         </ul>
@@ -38,22 +38,17 @@
                         <table class="table datatable">
                             <thead>
                                 <tr>
-                                    <th>Razón Social</th>
-                                    <th>RFC</th>
-                                    <th>Sucursal</th>
-                                    <th>Es Persona</th>
-                                    <th>Régimen Fiscal</th>
+                                    <th>Nombre del Puesto</th>
+                                    <th>Es Gerente</th>
                                     <th>Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
-                               @foreach (var Cliente in Model.ListaClientes)
+                               @foreach (var Puesto in Model.ListaPuesto)
                                {
-                                <tr id="@Cliente.IDCliente">
-                                    <td>@Cliente.NombreRazonSocial</td>
-                                    <td>@Cliente.RFC</td>
-                                    <td>@Cliente.NombreSucursal</td>
-                                    @if (Cliente.EsPersonaFisica)
+                                <tr id="@Puesto.IDPuesto">
+                                    <td>@Puesto.Descripcion</td>
+                                    @if (Puesto.EsGerente)
                                     {
                                         <td>SI</td>
                                     }
@@ -61,10 +56,9 @@
                                     {
                                         <td>NO</td>
                                     }
-                                    <td>@Cliente.NombreRegimenFiscal</td>
                                     <td style="text-align:center;">
-                                        <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatCliente", new { id = Cliente.IDCliente })"><i class="fa fa-edit"></i></a>
-                                        <a title="Eliminar" class="btn delete btn-danger" id="delete-@Cliente.IDCliente" data-hrefa="@Url.Action("Delete", "CatCliente", new { id = Cliente.IDCliente, id2 = Cliente.IDSucursal })" onClick="delete_row('@Cliente.IDCliente');"><i class="fa fa-trash-o"></i></a>
+                                        <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatPuestos", new { id = Puesto.IDPuesto })"><i class="fa fa-edit"></i></a>
+                                        <a title="Eliminar" class="btn delete btn-danger" id="delete-@Puesto.IDPuesto" data-hrefa="@Url.Action("Delete", "CatPuestos", new { id = Puesto.IDPuesto })" onClick="delete_row('@Puesto.IDPuesto');"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                 </tr>
                                }
@@ -99,8 +93,7 @@
     var typemessage = '@typemessage';
     </script>
 }
-@section script
-{
+@section script{
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
@@ -110,7 +103,3 @@
         });
     </script>
 }
-
-
-
-

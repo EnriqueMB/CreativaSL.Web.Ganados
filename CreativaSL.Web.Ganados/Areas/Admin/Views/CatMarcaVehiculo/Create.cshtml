@@ -1,9 +1,10 @@
-﻿@model CreativaSL.Web.Ganados.Models.CatJaulaModels
+﻿@model CreativaSL.Web.Ganados.Models.CatMarcaVehiculoModels
 
 @{
     ViewBag.Title = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+
 @section featured{
 
     @{
@@ -19,45 +20,37 @@
         </div>
         <div class="col-md-12">
             @*<form class="form-horizontal">*@
-            @using (Html.BeginForm("Create", "CatJaula", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+            @using (Html.BeginForm("Create", "CatMarcaVehiculo", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
 
-                @Html.HiddenFor(model => model.IDJaula)
+                @Html.HiddenFor(model => model.IDMarca)
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Información</strong> Jaula</h3>
+                        <h3 class="panel-title"><strong>Información</strong> Marca Vehículo</h3>
                         <ul class="panel-controls">
                             @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
                         </ul>
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <div class="col-md-6">
-                                <label class="col-md-3 col-xs-12 control-label">Sucursales</label>
-                                <div class="col-md-9 col-xs-12">
-                                    @Html.DropDownListFor(model => model.listaSucursales, ViewData["cmbSucursal"] as SelectList, new { id = "ListSucursal", @class = "form-control select" })
-                                    @Html.ValidationMessageFor(model => model.listaSucursales)
-                                    <span class="help-block">Seleccione la sucursal</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="col-md-4 control-label">Matricula</label>
+                            <div class="col-md-12">
+                                <label class="col-md-3 control-label">Nombre Marca</label>
                                 <div class="col-md-8 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.Matricula, new { id = "Matricula", @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.Descripcion, new { id = "Descripcion", @class = "form-control" })
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.Matricula)
-                                    <span class="help-block">Ingrese la matricula de la jaula</span>
+                                    @Html.ValidationMessageFor(model => model.Descripcion)
+                                    <span class="help-block">Ingrese el nombre de la marca</span>
                                 </div>
-                            </div>
-                        </div>
+                            </div>                           
+                        </div>                       
                     </div>
                     <div class="panel-footer">
                         <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                        <a href="@Url.Action("Index","CatJaula")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                        <a href="@Url.Action("Index","CatMarcaVehiculo")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                     </div>
                 </div>
                 @*</form>*@
@@ -79,6 +72,9 @@
 
     <script>
     jQuery(document).ready(function () {
+        $('#Licencia').change(function () {
+            $('#licencia-cont').toggle(1000);
+        });
         Mensaje(message, typemessage);
     });
     </script>

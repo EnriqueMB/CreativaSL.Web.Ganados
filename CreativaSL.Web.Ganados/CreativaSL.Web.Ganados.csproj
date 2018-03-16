@@ -914,12 +914,6 @@
     <Content Include="Areas\Admin\Views\CatUsuarios\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatUsuarios\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatUsuarios\Permisos.cshtml" />
-    <Content Include="Areas\Admin\Views\CatProductos\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\CatProductos\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\CatProductos\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\CatVehiculo\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\CatVehiculo\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\CatVehiculo\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

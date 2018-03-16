@@ -47,8 +47,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 CatProductosModels Producto = new CatProductosModels();
                 _CatProductos_Datos ProductoDatos = new _CatProductos_Datos();
-
-              
                 return View(Producto);
             }
             catch (Exception)
