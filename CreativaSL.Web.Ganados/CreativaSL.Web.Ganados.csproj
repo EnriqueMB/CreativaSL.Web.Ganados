@@ -904,6 +904,9 @@
     <Content Include="Areas\Admin\Views\CatCliente\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatJaula\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatJaula\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatJaula\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatLugar\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatLugar\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatLugar\Edit.cshtml" />
