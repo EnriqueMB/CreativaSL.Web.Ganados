@@ -177,7 +177,6 @@ $(document).ready(function(){
     $(".panel-refresh").on("click",function(){
         var panel = $(this).parents(".panel");
         panel_refresh(panel);
-
         setTimeout(function(){
             panel_refresh(panel);
         },3000);
@@ -386,7 +385,7 @@ function panel_collapse(panel,action,callback){
         
     }
 }
-function panel_refresh(panel,action,callback){        
+function panel_refresh(panel, action, callback) {
     if(!panel.hasClass("panel-refreshing")){
         panel.append('<div class="panel-refresh-layer"><img src="/Content/img/loaders/default.gif"/></div>');
         panel.find(".panel-refresh-layer").width(panel.width()).height(panel.height());
