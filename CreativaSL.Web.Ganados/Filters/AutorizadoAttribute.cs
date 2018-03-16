@@ -29,7 +29,12 @@ namespace CreativaSL.Web.Ganados.Filters
                     int TipoUsario = usuario_datos.ObtenerTipoUsuarioByUserName(Usuario);
                     HttpContext.Current.Session["SessionTipoUsuario"] = TipoUsario;
                 }
-                else if (HttpContext.Current.Session["SessionListaPermiso"] == null)
+                else
+                {
+                    int TipoUsuario = (int)HttpContext.Current.Session["SessionTipoUsuario"];
+                    HttpContext.Current.Session["SessionTipoUsuario"] = TipoUsuario;
+                }
+                if (HttpContext.Current.Session["SessionListaPermiso"] == null)
                 {
                     UsuarioModels Usuario = new UsuarioModels();
 
@@ -45,7 +50,14 @@ namespace CreativaSL.Web.Ganados.Filters
                     }
                     HttpContext.Current.Session["SessionListaPermiso"] = ListaPermiso;
                 }
-                else if (HttpContext.Current.Session["NombreUsuario"] == null)
+                else
+                {
+                    
+                    List<string> ListaPermiso = new List<string>();
+                    ListaPermiso = (List<string>)HttpContext.Current.Session["SessionListaPermiso"];
+                    HttpContext.Current.Session["SessionListaPermiso"] = ListaPermiso;
+                }
+                if (HttpContext.Current.Session["NombreUsuario"] == null)
                 {
                     UsuarioModels CuentaUsuario = new UsuarioModels();
                     CuentaUsuario.conexion = Conexion;
@@ -58,13 +70,8 @@ namespace CreativaSL.Web.Ganados.Filters
                 }
                 else
                 {
-                    int TipoUsuario = (int)HttpContext.Current.Session["SessionTipoUsuario"];
-                    List<string> ListaPermiso = new List<string>();
-                    ListaPermiso = (List<string>)HttpContext.Current.Session["SessionListaPermiso"];
-                    string NombreUsurario = (string)HttpContext.Current.Session["NombreUsuario"];
-                    HttpContext.Current.Session["SessionTipoUsuario"] = TipoUsuario;
-                    HttpContext.Current.Session["SessionListaPermiso"] = ListaPermiso;
-                    HttpContext.Current.Session["NombreUsuario"] = NombreUsurario;
+                    string NombreUsuario = (string)HttpContext.Current.Session["NombreUsuario"];
+                    HttpContext.Current.Session["NombreUsuario"] = NombreUsuario;
                 }
             }
         }

@@ -97,7 +97,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                     return RedirectToAction("Create");
                 }
-               
             }
             catch
             {

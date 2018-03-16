@@ -836,6 +836,7 @@
     <Content Include="Content\js\plugins\validationengine\languages\jquery.validationEngine-zh_TW.js" />
     <Content Include="Content\js\portlet.js" />
     <Content Include="Content\js\settings.js" />
+    <Content Include="Content\Ocampo.ico" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -900,6 +901,9 @@
     <Content Include="Areas\Admin\Views\CatChofer\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatChofer\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatChofer\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatLugar\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatLugar\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatLugar\Edit.cshtml" />

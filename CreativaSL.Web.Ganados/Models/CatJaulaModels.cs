@@ -12,7 +12,7 @@ namespace CreativaSL.Web.Ganados.Models
             _IDJaula = string.Empty;
             _IDSucursal = string.Empty;
             _Matricula = string.Empty;
-            _Estatus = false;
+            _Estatus = true;
             //Datos de control
             activo = false;
             user = string.Empty;

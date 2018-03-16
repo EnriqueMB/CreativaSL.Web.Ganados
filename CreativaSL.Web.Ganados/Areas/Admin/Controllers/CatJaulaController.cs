@@ -81,21 +81,22 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     TempData["typemessage"] = "1";
                     TempData["message"] = "El registro se guardo correctamente.";
-
+                    return RedirectToAction("Index");
                 }
                 else
                 {
+                    Jaula.Estatus = true;
                     TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrió un error al guardar el registro.";
+                    TempData["message"] = "Ocurrió un error al guardar el registro. Intente más tarde.";
+                    return View(Jaula);
                 }
-                return RedirectToAction("Index");
+               
             }
             catch
             {
                 CatJaulaModels Jaula = new CatJaulaModels();
-
                 TempData["typemessage"] = "2";
-                TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
+                TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico.";
                 return View(Jaula);
             }
         }
@@ -143,21 +144,22 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     TempData["typemessage"] = "1";
                     TempData["message"] = "El registro se guardo correctamente.";
-
+                    return RedirectToAction("Index");
                 }
                 else
                 {
+                    Jaula.Estatus = true;
                     TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrió un error al guardar el registro.";
+                    TempData["message"] = "Ocurrió un error al guardar el registro. Intente más tarde.";
+                    return View(Jaula);
                 }
-                return RedirectToAction("Index");
             }
             catch
             {
                 CatJaulaModels Jaula = new CatJaulaModels();
 
                 TempData["typemessage"] = "2";
-                TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
+                TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico.";
                 return View(Jaula);
             }
         }
