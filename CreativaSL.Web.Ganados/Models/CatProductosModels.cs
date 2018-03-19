@@ -13,7 +13,7 @@ namespace CreativaSL.Web.Ganados.Models
             _Clave = string.Empty;
             _Descripcion = string.Empty;
             _Clave_cfdi = string.Empty;
-
+            _listaProductos = new List<CatProductosModels>();
             //Datos control
             Conexion = string.Empty;
             Resultado = 0;

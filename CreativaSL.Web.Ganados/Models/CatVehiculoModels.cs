@@ -11,6 +11,10 @@ namespace CreativaSL.Web.Ganados.Models
     {
         public CatVehiculoModels()
         {
+            _listaSucursal = new List<CatSucursalesModels>();
+            _listaMarcas = new List<CatMarcaVehiculoModels>();
+            _listaTipoVehiculos = new List<CatTipoVehiculoModels>();
+            _listaVehiculos = new List<CatVehiculoModels>();
             _IDVehiculo = string.Empty;
             _IDSucursal = string.Empty;
             _IDMarca = 0;

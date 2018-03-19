@@ -16,6 +16,9 @@ namespace CreativaSL.Web.Ganados.Models
             _RFC = string.Empty;
             _ImgINE = string.Empty;
             _ImgManifestacionFierro = string.Empty;
+            _listaProveedores = new List<CatProveedorModels>();
+            _listaSucursal = new List<CatSucursalesModels>();
+            _listaTipoProveedor = new List<CatTipoProveedorModels>();
             //Datos control
             Conexion = string.Empty;
             Resultado = 0;
