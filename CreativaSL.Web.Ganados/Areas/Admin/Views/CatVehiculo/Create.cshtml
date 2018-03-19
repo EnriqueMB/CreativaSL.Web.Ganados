@@ -152,7 +152,7 @@
                             <div class="col-md-6">
                                 <label class="col-md-12 control-label text-center">Propio</label>
                                 <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
+                                    <div class="input-group text-center" style="margin: auto;padding: 5px;">
                                         
                                         @Html.CheckBoxFor(model => model.EsPropio)
                                     </div>
@@ -185,9 +185,7 @@
 
     <script>
     jQuery(document).ready(function () {
-        $('#Licencia').change(function () {
-            $('#licencia-cont').toggle(1000);
-        });
+        
         Mensaje(message, typemessage);
     });
     </script>
