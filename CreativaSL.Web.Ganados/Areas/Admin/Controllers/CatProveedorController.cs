@@ -132,11 +132,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
                 var listaSucursal = new SelectList(Proveedor.listaSucursal, "IDSucursal", "NombreSucursal");
                 ViewData["cmbSucursal"] = listaSucursal;
-                Proveedor = ProveedorDatos.ObtenerDetalleCatProveedor(Proveedor);
                 Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
                 var listaTipoProveedores = new SelectList(Proveedor.listaTipoProveedor, "IDTipoProveedor", "Descripcion");
                 ViewData["cmbTipoProveedor"] = listaTipoProveedores;
-
+                Proveedor = ProveedorDatos.ObtenerDetalleCatProveedor(Proveedor);
                 return View(Proveedor);
             }
             catch (Exception ex)
@@ -165,11 +164,18 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Proveedor.IDSucursal = collection["listaSucursal"];
                 Proveedor.IDTipoProveedor = Convert.ToInt32(collection["listaTipoProveedor"]);
                 HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                if (bannerImage != null && bannerImage.ContentLength > 0)
+                if (!string.IsNullOrEmpty(bannerImage.FileName))
                 {
-                    Stream s = bannerImage.InputStream;
-                    Bitmap img = new Bitmap(s);
-                    Proveedor.ImgINE = img.ToBase64String(ImageFormat.Png);
+                    if (bannerImage != null && bannerImage.ContentLength > 0)
+                    {
+                        Stream s = bannerImage.InputStream;
+                        Bitmap img = new Bitmap(s);
+                        Proveedor.ImgINE = img.ToBase64String(ImageFormat.Png);
+                    }
+                }
+                else
+                {
+
                 }
                 HttpPostedFileBase bannerImage2 = Request.Files[1] as HttpPostedFileBase;
                 if (bannerImage2 != null && bannerImage2.ContentLength > 0)
