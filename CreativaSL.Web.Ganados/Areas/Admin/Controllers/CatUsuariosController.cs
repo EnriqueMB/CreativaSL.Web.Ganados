@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -183,19 +184,19 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 
                 usuario.opcion = 3;
                 usuario.user = User.Identity.Name;
-                usuario = UsuarioDatos.AbcCatUsuarios(usuario);
+                usuario = UsuarioDatos.EliminarUsuario(usuario);
                 if (usuario.Completado == true)
                 {
                     TempData["typemessage"] = "1";
                     TempData["message"] = "El registro se elimino correctamente.";
-                    return RedirectToAction("Index");
+                    return Json("");
                 }
                 else
                 {
                   
                     TempData["typemessage"] = "2";
                     TempData["message"] = "Ocurrió un error al intentar guardar.";
-                    return RedirectToAction("Index");
+                    return View(usuario);
                 }
 
             }
@@ -204,6 +205,102 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrió un error el intentar guardar. Contacte a soporte técnico";
                 return View();
+            }
+        }
+        //PERMISO
+        public ActionResult Permisos(string id)
+        {
+            try
+            {
+                UsuarioModels usuario = new UsuarioModels();
+                _Usuario_Datos UsuarioDatos = new _Usuario_Datos();
+                usuario.conexion = Conexion;
+                usuario.id_usuario = id;
+                usuario.id_tipoUsuario = 1;
+                usuario.listaMenu = UsuarioDatos.ObtenerAllPermisoUsuario(usuario);
+                if (usuario.ListaPermisos != null)
+                {
+                    usuario.numeroMenu = usuario.ListaPermisos.Count;
+                }
+                else
+                {
+                    usuario.numeroMenu = 0;
+                }
+                return View(usuario);
+            }
+            catch (Exception)
+            {
+                UsuarioModels usuario = new UsuarioModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Permisos(string id, FormCollection collection)
+        {
+            try
+            {
+                UsuarioModels usuario = new UsuarioModels();
+                _Usuario_Datos UsuarioDatos = new _Usuario_Datos();
+                usuario.numeroMenu = Convert.ToInt32(collection["Total"]);
+                usuario.opcion = 1;
+                usuario.user = User.Identity.Name;
+                usuario.conexion = Conexion;
+                usuario.id_usuario = collection["id_usuario"];
+                usuario.TablaPermisos = new DataTable();
+                usuario.TablaPermisos.Columns.Add("IDPermiso", typeof(string));
+                usuario.TablaPermisos.Columns.Add("Ver", typeof(bool));
+                string IdPermiso = "";
+                string IDPermisos = "";
+                bool Ver = false;
+                bool Ver2 = false;
+                for (int AuxNumero = 1; AuxNumero <= usuario.numeroMenu; AuxNumero++)
+                {
+                    try
+                    {
+                        IdPermiso = collection["idPermiso" + AuxNumero.ToString()];
+                        Ver = Convert.ToBoolean(collection["Permiso" + AuxNumero.ToString()] == null ? "False" : "True");
+                        if (!string.IsNullOrEmpty(IdPermiso))
+                        {
+                            usuario.TablaPermisos.Rows.Add(IdPermiso, Ver);
+                        }
+                        IDPermisos = collection["ID" + AuxNumero.ToString()];
+                        Ver2 = Convert.ToBoolean(collection["PermisoD" + AuxNumero.ToString()] == null ? "False" : "True");
+                        if (!string.IsNullOrEmpty(IDPermisos))
+                        {
+                            usuario.TablaPermisos.Rows.Add(IDPermisos, Ver2);
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+                        if (IdPermiso != "")
+                        {
+                            usuario.TablaPermisos.Rows.Add(usuario, false);
+                        }
+                    }
+                }
+                if (UsuarioDatos.GuardarPermisos(usuario) == 1)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "Los permisos se guardaron correctamente.";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Los permisos no se guardaron correctamente. Intente más tarde.";
+                    return RedirectToAction("Index");
+                }
+
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Los permisos no se guardaron correctamente. Contacte a soporte técnico.";
+                return RedirectToAction("Index");
             }
         }
     }

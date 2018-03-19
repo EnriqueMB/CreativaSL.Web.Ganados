@@ -96,14 +96,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     TempData["typemessage"] = "1";
                     TempData["message"] = "El registro se guardo correctamente.";
+                    return RedirectToAction("Index");
 
                 }
                 else
                 {
                     TempData["typemessage"] = "2";
                     TempData["message"] = "Ocurrió un error al guardar el registro.";
+                    return View(Lugar);
                 }
-                return RedirectToAction("Index");
+               
             }
             catch(Exception ex)
             {

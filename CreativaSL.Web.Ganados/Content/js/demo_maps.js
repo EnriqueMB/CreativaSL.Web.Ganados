@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+    var markers = [];
 /* jVectorMaps */
 if($("#vector_world_map").length > 0){
     
@@ -74,6 +74,20 @@ if($("#vector_world_map").length > 0){
                                 });
 }                            
 /* EOF jVectorMaps */                            
+function geocodeAddress(geocoder, resultsMap) {
+   
+    geocoder.geocode({ 'address': address }, function (results, status) {
+        if (status === 'OK') {
+            resultsMap.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+                map: resultsMap,
+                position: results[0].geometry.location
+            });
+        } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+        }
+    });
+}
 
 /* Google maps */
 
@@ -88,6 +102,32 @@ if($("#google_ptm_map").length > 0){
     marker = new google.maps.Marker({position: cords, map: gPTM, title: "Marker 2"});
     cords = new google.maps.LatLng(50.8, 30.55);
     marker = new google.maps.Marker({position: cords, map: gPTM, title: "Marker 3"});    
+}
+if ($("#google_pps_map").length > 0) {
+    var longitud = $("#longitud").val();
+    var latitud = $("#latitud").val();
+    if (longitud != "" && latitud != "") {
+        var haightAshbury = new google.maps.LatLng(latitud, longitud);
+    }
+    else var haightAshbury = new google.maps.LatLng(20.68009, -101.35403);
+    var gPTMCords = new google.maps.LatLng(latitud, longitud);
+    var gPTMOptions = { zoom: 8, center: gPTMCords, mapTypeId: google.maps.MapTypeId.ROADMAP }
+    var gPTM = new google.maps.Map(document.getElementById("google_pps_map"), gPTMOptions);
+
+    var cords = new google.maps.LatLng(latitud, longitud);
+    var marker = new google.maps.Marker({ position: cords, map: gPTM, title: "Marker 1", draggable: true });
+   
+   
+    document.getElementById("latitud").value = marker.position.lat();
+    document.getElementById("longitud").value = marker.position.lng();
+
+    google.maps.event.addListener(marker, 'dragend', function () {
+        document.getElementById("latitud").value = marker.position.lat();
+        document.getElementById("longitud").value = marker.position.lng();
+    });
+ 
+    
+   
 }
 
 if($("#google_world_map").length > 0){

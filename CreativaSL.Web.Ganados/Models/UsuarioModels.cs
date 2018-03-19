@@ -259,6 +259,14 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _tablaMunicipioCmb; }
             set { _tablaMunicipioCmb = value; }
         }
+        private List<MenuModels> _listaMenu;
+
+        public List<MenuModels> listaMenu
+        {
+            get { return _listaMenu; }
+            set { _listaMenu = value; }
+        }
+
         private string  _clvUser;
 
         public string  clvUser
@@ -282,6 +290,16 @@ namespace CreativaSL.Web.Ganados.Models
             set { _NombreUrl = value; }
         }
 
+        
+
+        //VARIABLES PARA PERMISOS POR USUARIO
+        private DataTable _TablaPermisos;
+
+        public DataTable TablaPermisos
+        {
+            get { return _TablaPermisos; }
+            set { _TablaPermisos = value; }
+        }
         private List<UsuarioModels> _ListaPermisos;
 
         public List<UsuarioModels> ListaPermisos
@@ -290,6 +308,51 @@ namespace CreativaSL.Web.Ganados.Models
             set { _ListaPermisos = value; }
         }
 
+        private List<UsuarioModels> _ListaPermisosDetalle;
+
+        public List<UsuarioModels> ListaPermisosDetalle
+        {
+            get { return _ListaPermisosDetalle; }
+            set { _ListaPermisosDetalle = value; }
+        }
+        private string _IDPermiso;
+
+        public string IDPermiso
+        {
+            get { return _IDPermiso; }
+            set { _IDPermiso = value; }
+        }
+
+        private int _IDMenu;
+
+        public int IDMenu
+        {
+            get { return _IDMenu; }
+            set { _IDMenu = value; }
+        }
+
+        private bool _Ver;
+
+        public bool ver
+        {
+            get { return _Ver; }
+            set { _Ver = value; }
+        }
+
+        private string _NombreMenu;
+
+        public string NombreMenu
+        {
+            get { return _NombreMenu; }
+            set { _NombreMenu = value; }
+        }
+        private int _numeroMenu;
+
+        public int numeroMenu
+        {
+            get { return _numeroMenu; }
+            set { _numeroMenu = value; }
+        }
 
         #region Datos de control
         private int _opcion;
