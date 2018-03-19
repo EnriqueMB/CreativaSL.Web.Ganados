@@ -658,7 +658,7 @@
             tBtnLink = '<a href="{href}" tabindex="500" title="{title}" class="{css}" {status}>{icon} {label}</a>';
             //noinspection HtmlUnknownAttribute
             tBtnBrowse = '<div tabindex="500" class="{css}" {status}>{icon} {label}</div>';
-            tModalMain = '<div id="' + $h.MODAL_ID + '" class="file-zoom-dialog modal fade" style="visibility: hidden"' +
+            tModalMain = '<div id="' + $h.MODAL_ID + '" class="file-zoom-dialog modal fade"' +
                 'tabindex="-1" aria-labelledby="' + $h.MODAL_ID + 'Label"></div>';
             tModal = '<div class="modal-dialog modal-lg{rtl}" role="document">\n' +
                 '  <div class="modal-content">\n' +
@@ -854,7 +854,7 @@
                     showDownload: true,
                     showZoom: true,
                     showDrag: true,
-                    removeIcon: '<i class="icon-trash"></i>',
+                    removeIcon: '<i class="fa fa-trash"></i>',
                     removeClass: 'btn btn-sm btn-kv btn-default btn-outline-secondary',
                     removeErrorClass: 'btn btn-sm btn-kv btn-danger',
                     removeTitle: 'Remove file',
@@ -866,7 +866,7 @@
                     downloadIcon: '<i class="glyphicon glyphicon-download"></i>',
                     downloadClass: 'btn btn-sm btn-kv btn-default btn-outline-secondary',
                     downloadTitle: 'Download file',
-					zoomIcon: '<i class="icon-search"></i>',
+					zoomIcon: '<i class="fa fa-search"></i>',
                     zoomClass: 'btn btn-sm btn-kv btn-default btn-outline-secondary',
                     zoomTitle: 'View Details',
                     dragIcon: '<i class="glyphicon glyphicon-move"></i>',

@@ -14,8 +14,9 @@
     <link rel="icon" href="@Url.Content("~/Content/Ocampo.ico")" type="image/x-icon" />
     <!-- END META SECTION -->
     <!-- CSS INCLUDE -->
-    <link rel="stylesheet" type="text/css" id="theme" href="@Url.Content("~/Content/css/theme-default.css")" />
     @RenderSection("css", required: false)
+    <link rel="stylesheet" type="text/css" id="theme" href="@Url.Content("~/Content/css/theme-default.css")" />
+   
     <!-- EOF CSS INCLUDE -->
 </head>
 <body>
@@ -125,8 +126,13 @@
     <!-- START PLUGINS -->
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery/jquery.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery/jquery-ui.min.js")"></script>
+
+
+
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap.min.js")"></script>
     <!-- END PLUGINS -->
+
+
     <script src="@Url.Content("https://maps.googleapis.com/maps/api/js?key=AIzaSyB5BKT7iWoiumqmmh2ex_ixcg9QMLte5VY&v=3.exp&libraries=places")"></script>
     <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js")"></script>
     <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js")"></script>
