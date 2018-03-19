@@ -10,6 +10,7 @@ namespace CreativaSL.Web.Ganados.Models
         
     {
         public CatTipoVehiculoModels() {
+            _listaTipoVehiculos = new List<CatTipoVehiculoModels>();
             _IDTipoVehiculo = 0;
             _Descripcion = string.Empty;
             Conexion = string.Empty;
