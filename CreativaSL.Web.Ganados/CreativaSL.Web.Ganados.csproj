@@ -932,6 +932,8 @@
     <Content Include="Areas\Admin\Views\CatMarcaVehiculo\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatMarcaVehiculo\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatMarcaVehiculo\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\Create.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

@@ -1,4 +1,4 @@
-﻿@model CreativaSL.Web.Ganados.Models.CatChoferModels
+﻿@model CreativaSL.Web.Ganados.Models.CatProveedorModels
 
 @{
     ViewBag.Title = "Index";
@@ -17,7 +17,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Choferes </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Proveedor </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -29,7 +29,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("Create","CatChofer")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Chofer</a></li>
+                            <li><a href="@Url.Action("Create","CatProveedor")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Proveedor</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
                         </ul>
@@ -38,37 +38,26 @@
                         <table class="table datatable">
                             <thead>
                                 <tr>
-                                    <th>Nombre</th>
-                                    <th>Licencia</th>
-                                    <th>Estatus</th>
+                                    <th>Razon Social</th>
+                                    <th>RFC</th>
+                                    <th>Tipo de Proveedor</th>
+                                    <th>Sucursal</th>
                                     <th>Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var Chofer in Model.ListaChoferes)
-                                {
-                                    <tr  id="@Chofer.IDChofer">
-                                        <td>@Chofer.Nombre</td>
-                                        @if (Chofer.Licencia == true)
-                                        {
-                                            <td>SI</td>
-                                        }
-                                        else
-                                        {
-                                            <td>NO</td>
-                                        }
-                                        @{ var estatus = Convert.ToBoolean(Chofer.Estatus); }
-                                        @if (estatus == true)
-                                        {
-                                            <td style="text-align:center"><div style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:red"></div></td>
-                                        }
-                                        else
-                                        {
-                                            <td style="text-align:center"><div style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:green"></div></td>
-                                        }
-                                        <td style="text-align:center;"><a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatChofer", new { id = Chofer.IDChofer })"><i class="fa fa-edit"></i></a>
-                                        <a title="Eliminar" class="btn delete btn-danger" id="delete-@Chofer.IDChofer" data-hrefa="@Url.Action("Delete", "CatChofer", new { id = Chofer.IDChofer  })" onClick="delete_row('@Chofer.IDChofer');"><i class="fa fa-trash-o"></i></a></td>
-                                    </tr>
+                               @foreach (var proveedor in Model.listaProveedores)
+                               {
+                                <tr id="@proveedor.IDProveedor">
+                                    <td>@proveedor.NombreRazonSocial</td>
+                                    <td>@proveedor.RFC</td>
+                                    <td>@proveedor.nombreProveedor</td>
+                                    <td>@proveedor.nombreSucursal</td>
+                                    <td style="text-align:center;">
+                                        <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatProveedor", new { id = proveedor.IDProveedor})"><i class="fa fa-edit"></i></a>
+                                        <a title="Eliminar" class="btn delete btn-danger" id="delete-@proveedor.IDProveedor" data-hrefa="@Url.Action("Delete", "CatProveedor", new { id =  proveedor.IDProveedor })" onClick="delete_row('@proveedor.IDProveedor');"><i class="fa fa-trash-o"></i></a>
+                                    </td>
+                                </tr>
                                }
                             </tbody>
                         </table>
@@ -112,5 +101,4 @@
         });
     </script>
 }
-
 
