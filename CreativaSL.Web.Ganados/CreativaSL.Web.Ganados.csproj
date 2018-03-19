@@ -933,6 +933,11 @@
     <Content Include="Areas\Admin\Views\CatMarcaVehiculo\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatMarcaVehiculo\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatMarcaVehiculo\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\Fierros.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
