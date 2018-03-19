@@ -175,14 +175,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
                 else
                 {
-
+                    //FALTA POR IMPLEMENTAR SP
                 }
-                HttpPostedFileBase bannerImage2 = Request.Files[1] as HttpPostedFileBase;
-                if (bannerImage2 != null && bannerImage2.ContentLength > 0)
+                if (!string.IsNullOrEmpty(bannerImage.FileName))
                 {
-                    Stream s = bannerImage2.InputStream;
-                    Bitmap img = new Bitmap(s);
-                    Proveedor.ImgManifestacionFierro = img.ToBase64String(ImageFormat.Png);
+                    HttpPostedFileBase bannerImage2 = Request.Files[1] as HttpPostedFileBase;
+                    if (bannerImage2 != null && bannerImage2.ContentLength > 0)
+                    {
+                        Stream s = bannerImage2.InputStream;
+                        Bitmap img = new Bitmap(s);
+                        Proveedor.ImgManifestacionFierro = img.ToBase64String(ImageFormat.Png);
+                    }
+                }
+                else
+                {
+                    //FALTA POR IMPLEMENTAR SP
                 }
                 Proveedor = ProveedorDatos.AcCatProveedor(Proveedor);
                 if (Proveedor.Completado == true)
