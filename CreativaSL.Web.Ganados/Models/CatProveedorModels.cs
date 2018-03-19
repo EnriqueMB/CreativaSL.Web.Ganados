@@ -125,6 +125,26 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _RFC; }
             set { _RFC = value; }
         }
+        [Required(ErrorMessage = "Seleccione una imagen de un fierro, por lo menos.")]
+        [Display(Name = "Imganes Fierros")]
+        public HttpPostedFileBase[] ImgFierros { get; set; }
+
+        private string _Imagenes;
+
+        public string Imagenes
+        {
+            get { return _Imagenes; }
+            set { _Imagenes = value; }
+        }
+
+        private string _NombreImagen;
+
+        public string NombreImagen
+        {
+            get { return _NombreImagen; }
+            set { _NombreImagen = value; }
+        }
+
 
         private string _ImgINE;
         [Required(ErrorMessage = "La Imagen es obligatorio")]
