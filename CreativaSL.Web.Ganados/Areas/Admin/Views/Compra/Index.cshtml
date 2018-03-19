@@ -1,0 +1,132 @@
+﻿@model CreativaSL.Web.Ganados.Models.CompraModels
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section featured
+{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Compras </h2>
+    </div>
+    <!-- END PAGE TITLE -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                        <ul class="panel-controls">
+                            <li><a href="@Url.Action("Create","Compra")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva Compra</a></li>
+                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                            <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table datatable">
+                            <thead>
+                                <tr>
+                                <tr>
+                                    <th rowspan="2">Nombre cliente</th>
+                                    <th rowspan="2">Lugar</th>
+                                    <th colspan="3">Ganado pactado</th>
+                                    <th colspan="4">Ganado comprado</th>
+                                    <th colspan="3">Transacciones</th>
+                                    <th rowspan="2">Merma(%)</th>
+                                    <th rowspan="2">Estatus</th>
+                                    <th rowspan="2">Editar</th>
+                                    <th rowspan="2">Eliminar</th>
+                                </tr>
+                                <tr>
+                                    <th>Machos</th>
+                                    <th>Hembas</th>
+                                    <th>Total ganado</th>
+                                    <th>Machos</th>
+                                    <th>Hembas</th>
+                                    <th>Total ganado</th>
+                                    <th>Total kilos</th>
+                                    <th>Total de ingreso</th>
+                                    <th>Total de egreso</th>
+                                    <th>Monto total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (System.Data.DataRow Compra in Model.TablaCompra.Rows)
+                                {
+                                <tr>
+                                    <td>@Compra["NombreProveedor"].ToString()</td>
+                                    <td>@Compra["LugarDestino"].ToString()</td>
+                                    <td>@Compra["GanadoPactadoMachos"].ToString()</td>
+                                    <td>@Compra["GanadoPactadoHembras"].ToString()</td>
+                                    <td>@Compra["GanadoPactadoTotal"].ToString()</td>
+                                    <td>@Compra["GanadoCompradoMachos"].ToString()</td>
+                                    <td>@Compra["GanadoCompradoHembras"].ToString()</td>
+                                    <td>@Compra["GanadoCompradoTotal"].ToString()</td>
+                                    <td>@Compra["GanadoKilosTotal"].ToString()</td>@*Total de kilos*@
+                                    <td></td>@*Total de ingresos, checar en los pago por cobrar*@
+                                    <td></td>@*Total de egreso, checar en los pagos por pagar*@
+                                    <td></td>@*Total, diferencia entre ingreso y egreso*@
+                                    <td>@Compra["MermaPromedio"].ToString()</td>@*Merma promedio*@
+                                    <td>@Html.Label(@Compra["Estatus"].ToString(), new { @class = Compra["ClassEstatus"] })</td>
+                                    <td style="text-align:center;">
+                                        <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "Compra", new { id = Compra["id_compra"].ToString() })"><i class="fa fa-edit"></i></a>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <a title="Eliminar" class="btn delete btn-danger" id="delete-@Compra["id_compra"].ToString()" data-hrefa="@Url.Action("Delete", "Compra", new { id = Compra["id_compra"].ToString()  })" onClick="delete_row('@Compra["id_compra"].ToString()');"><i class="fa fa-trash-o"></i></a>
+                                    </td>
+                                </tr>
+                                 }
+                            </tbody>
+                        </table>
+                     </div>
+                </div>
+                        <!-- END DEFAULT DATATABLE -->
+            </div>
+        </div>
+    </div>
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres eliminar esta fila?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    var message = '@message';
+    var typemessage = '@typemessage';
+    </script>
+}
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+        });
+    </script>
+}

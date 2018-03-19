@@ -4,20 +4,26 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
+using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
+    [Autorizado]
     public class CompraController : Controller
     {
-        string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
+        private string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
+        private CompraModels Compra;
+        private _Compra_Datos CompraDatos;
+
         // GET: Admin/Compra
         public ActionResult Index()
         {
             try
             {
-                CompraModels Compra = new CompraModels();
-                _Compra_Datos CompraDatos = new _Compra_Datos();
+                Compra = new CompraModels();
+                CompraDatos = new _Compra_Datos();
                 Compra.Conexion = Conexion;
                 Compra = CompraDatos.ObtenerCompraIndex(Compra);
                 return View(Compra);
@@ -27,68 +33,60 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 throw ex;
             }
         }
+        public ActionResult Create()
+        {
+
+            Compra = new CompraModels();
+            CompraDatos = new _Compra_Datos();
+            Compra.Conexion = Conexion;
+            Compra = CompraDatos.ObtenerInfoTab1(Compra);
+            Compra.ListaProveedores = CompraDatos.ObtenerListadoProveedores(Compra);
+
+            return View(Compra);
+        }
+
+        // GET: Admin/Compra/Edit/5
+        public ActionResult Fierros(string id)
+        {
+            Compra = new CompraModels();
+            CompraDatos = new _Compra_Datos();
+            Compra.Conexion = Conexion;
+            Compra.IDCompra = id;
+            Compra = CompraDatos.ObtenerInfoTab2(Compra);
+
+            return View(Compra);
+        }
+
+        // GET: Admin/Compra/Edit/5
+        public ActionResult Flete(string id)
+        {
+            Compra = new CompraModels();
+            CompraDatos = new _Compra_Datos();
+            Compra.Conexion = Conexion;
+            Compra.IDFlete = id;
+            //Compra = CompraDatos.ObtenerInfoTab3(Compra);
+
+            return View(Compra);
+        }
 
         // GET: Admin/Compra/Details/5
         public ActionResult Details(int id)
         {
+
+
             return View();
         }
-
-        // GET: Admin/Compra/Create
-        public ActionResult Create()
-        {
-            try
-            {
-                CompraModels Compra = new CompraModels();
-                _Compra_Datos CompraDatos = new _Compra_Datos();
-                Compra.Conexion = Conexion;
-                Compra.TablaProveedoresCmb = CompraDatos.ObtenerListadoProveedores(Compra);
-                var ListProveedores = new SelectList(Compra.TablaProveedoresCmb, "IDProveedor", "NombreRazonSocial");
-                ViewData["cmbProveedores"] = ListProveedores;
-                return View();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        // POST: Admin/Compra/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         // GET: Admin/Compra/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            return View();
-        }
+            Compra = new CompraModels();
+            _Compra_Datos CompraDatos = new _Compra_Datos();
+            Compra.Conexion = Conexion;
+            Compra.IDProveedor = id;
+            Compra = CompraDatos.ObtenerInfoTab1(Compra);
+            Compra.ListaProveedores = CompraDatos.ObtenerListadoProveedores(Compra);
 
-        // POST: Admin/Compra/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return View(Compra);
         }
 
         // GET: Admin/Compra/Delete/5
@@ -111,6 +109,19 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 return View();
             }
+        }
+
+        [HttpPost]
+        public JsonResult Guardar(CompraModels Compra)
+        {
+            var rm = new ResponseModel();
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+            Compra.GanadosPactadoTotal = Compra.GanadosPactadoMachos + Compra.GanadosPactadoHembras;
+            Compra.IDUsuario = ticket.Name;
+
+            return Json(rm);
         }
     }
 }
