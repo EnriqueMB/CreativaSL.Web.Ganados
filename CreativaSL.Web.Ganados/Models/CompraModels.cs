@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Web;
+using System.Web.Mvc;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -30,10 +31,33 @@ namespace CreativaSL.Web.Ganados.Models
         private decimal _MermaPromedio;
         private bool _Estatus;
         private HttpPostedFileBase[] _ImgFierros;
-        private List<CatProveedorModels> _TablaProveedoresCmb;
-        #endregion
 
-        #region Metodos
+        public List<CatProveedorModels> ListaProveedores { get; set; }
+        public string IDUsuario { get; set; }
+        private CatProveedorModels Proveedor { get; set; }
+        
+        public  List<CatFierroModels> ListaFierros { get; set; }
+    #endregion
+
+    #region Metodos
+
+        //Constructor
+        public CompraModels()
+        {
+            ListaProveedores = new List<CatProveedorModels>();
+            Proveedor = new CatProveedorModels
+            {
+                IDProveedor = "0",
+                NombreRazonSocial = "SELECCIONE UN PROVEEDOR"
+            };
+            ListaProveedores.Add(Proveedor);
+            IDProveedor = "0";
+
+            ListaFierros = new List<CatFierroModels>();
+            
+        }
+
+
         [Required(ErrorMessage = "Seleccione una imagen de un fierro, por lo menos.")]
         [Display(Name = "Imganes Fierros")]
         public HttpPostedFileBase[] ImgFierros { get; set; }
@@ -94,7 +118,6 @@ namespace CreativaSL.Web.Ganados.Models
             set { _FechaHoraCompra = value; }
         }
 
-
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime FechaHoraProgramada
@@ -143,13 +166,6 @@ namespace CreativaSL.Web.Ganados.Models
             set { _tablaCompra = value; }
         }
 
-        [Required(ErrorMessage = "Tipo de Usuario es un campo requerido")]
-        [Display(Name = "Tipo de Usuario")]
-        public List<CatProveedorModels> TablaProveedoresCmb
-        {
-            get { return _TablaProveedoresCmb; }
-            set { _TablaProveedoresCmb = value; }
-        }
         #endregion 
 
         #region Datos De Control

@@ -1,0 +1,128 @@
+﻿@model CreativaSL.Web.Ganados.Models.CompraModels
+
+@{
+    ViewBag.Title = "Fierros";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section featured
+{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            @using (Html.BeginForm("GuardarFierros", "Compra", FormMethod.Post, new { id = "frm_tab2", @class = "form-horizontal", autocomplete = "off" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Información</strong> Compra </h3>
+                        <ul class="panel-controls"></ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label class="col-md-1 control-label">Ingrese la imagen de los fierros</label>
+                                <div class="col-md-11 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.ImgFierros, new { id = "ImgFierros", name = "ImgFierros[]", @type = "file", @class = "form-control", @multiple = "multiple" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ImgFierros)
+                                    <span class="help-block">Ingrese por lo menos 1 imagen.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("Create","Compra")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        var message     = '@message';
+        var typemessage = '@typemessage';
+    </script>
+
+}
+@section css
+{
+    <!--FILEINPUT-->
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
+}
+
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    
+    <!--FILEINPUT-->
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")"></script>
+
+    <!--FUNCIONES DE COMPRA JS-->
+    <script type="text/javascript" src="@Url.Content("~/Scripts/compra.js")"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+        });
+
+        $('#ImgFierros').fileinput({
+            theme: 'fa',
+            language: 'es',
+            uploadUrl: '#',
+            overwriteInitial: false,
+            allowedFileExtensions: ['jpg', 'png', 'gif'],
+            initialPreview: [
+                @for(var i = 0;  i < Model.ListaFierros.Count; i++)
+                {
+                    <text>
+                    '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.ListaFierros[i].ImgFierro" />'
+                    </text>
+                    if ((i + 1) != Model.ListaFierros.Count)
+                    {
+                        <text>
+                        ,
+                        </text>
+                    }
+                }
+            ],
+            initialPreviewConfig: [
+                @for (var i = 0 ;  i < Model.ListaFierros.Count; i++)
+                {
+                    <text>
+                    { caption: '@Model.ListaFierros[i].NombreFierro' }
+                    </text>
+
+                    if ((i + 1) != Model.ListaFierros.Count)
+                    {
+                        <text>
+                        ,
+                        </text>
+                    }
+                }
+            ]
+        })
+
+    </script>
+}
+
