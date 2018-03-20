@@ -60,8 +60,29 @@
                                         <td>@Rango.PesoMinimo - (KG)</td>
                                         <td>@Rango.PesoMaximo - (KG)</td>
                                         <td style="text-align:center;">
-                                            <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatRangoPesoCompra", new { id = Rango.IDRango })"><i class="fa fa-edit"></i></a>
-                                            <a title="Eliminar" class="btn delete btn-danger" id="delete-@Rango.IDRango" data-hrefa="@Url.Action("Delete", "CatRangoPesoCompra", new { id = Rango.IDRango })" onClick="delete_row('@Rango.IDRango');"><i class="fa fa-trash-o"></i></a>
+                                            <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                <a title="Editar" href="@Url.Action("Edit", "CatRangoPesoCompra", new { id = Rango.IDRango })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                <a title="Eliminar" id="delete-@Rango.IDRango" data-hrefa="@Url.Action("Delete", "CatRangoPesoCompra", new { id = Rango.IDRango })" onClick="delete_row('@Rango.IDRango');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                            </div>
+                                            <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                <div class="btn-group">
+                                                    <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                        <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                    </a>
+                                                    <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatRangoPesoCompra", new { id = Rango.IDRango })">
+                                                                <i class="fa fa-edit"></i> Editar
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" id="delete-@Rango.IDRango" data-hrefa="@Url.Action("Delete", "CatRangoPesoCompra", new { id = Rango.IDRango })" onClick="delete_row('@Rango.IDRango');">
+                                                                <i class="fa fa-trash-o"></i> Eliminar
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 }
