@@ -35,37 +35,39 @@
                         </ul>
                     </div>
                     <div class="panel-body">
-                        <table class="table datatable">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Matricula</th>
-                                    <th>Disponibilidad</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var jaula in Model.listaJaulas)
+                        <div class="table-responsive">
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Matricula</th>
+                                        <th>Disponibilidad</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var jaula in Model.listaJaulas)
                                 {
-                                    <tr id="@jaula.IDJaula">
-                                        <td>@jaula.nombreSucursal</td>
-                                        <td>@jaula.Matricula</td>
-                                        @if (jaula.Estatus)
+                                        <tr id="@jaula.IDJaula">
+                                            <td>@jaula.nombreSucursal</td>
+                                            <td>@jaula.Matricula</td>
+                                            @if (jaula.Estatus)
                                         {
-                                            <td style="text-align:center"><div title="Disponible" style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:green"></div></td>
+                                                <td style="text-align:center"><div title="Disponible" style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:green"></div></td>
                                         }
                                         else
                                         {
-                                            <td style="text-align:center"><div title="Ocupada" style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:red"></div></td>
+                                                <td style="text-align:center"><div title="Ocupada" style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:red"></div></td>
                                         }
-                                        <td style="text-align:center;">
-                                            <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatJaula", new { id = jaula.IDJaula})"><i class="fa fa-edit"></i></a>
-                                            <a title="Eliminar" class="btn delete btn-danger" id="delete-@jaula.IDJaula" data-hrefa="@Url.Action("Delete", "CatJaula", new { id = jaula.IDJaula })" onClick="delete_row('@jaula.IDJaula');"><i class="fa fa-trash-o"></i></a>
-                                        </td>
-                                    </tr>
+                                            <td style="text-align:center;">
+                                                <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatJaula", new { id = jaula.IDJaula})"><i class="fa fa-edit"></i></a>
+                                                <a title="Eliminar" class="btn delete btn-danger" id="delete-@jaula.IDJaula" data-hrefa="@Url.Action("Delete", "CatJaula", new { id = jaula.IDJaula })" onClick="delete_row('@jaula.IDJaula');"><i class="fa fa-trash-o"></i></a>
+                                            </td>
+                                        </tr>
                                 }
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <!-- END DEFAULT DATATABLE -->
