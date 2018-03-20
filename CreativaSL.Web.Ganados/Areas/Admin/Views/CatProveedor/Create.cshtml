@@ -143,8 +143,9 @@
         $('#file-es').fileinput({
             theme: 'fa',
             language: 'es',
-            uploadUrl: '#',
             minFileCount: 1,
+            showUpload: false,
+            showUploadedThumbs: false,
             overwriteInitial: false,
             allowedFileExtensions: ['png']
             @*initialPreview: [
@@ -180,9 +181,10 @@
         $('#file-esM').fileinput({
             theme: 'fa',
             language: 'es',
-            uploadUrl: '#',
             minFileCount: 1,
             overwriteInitial: false,
+            showUpload: false,
+            showUploadedThumbs: false,
             allowedFileExtensions: ['png']
             @*initialPreview: [
                 '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.ImgManifestacionFierro" />'
