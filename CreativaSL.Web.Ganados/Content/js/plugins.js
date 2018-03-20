@@ -2,9 +2,12 @@ $(function() {
 
     var formElements = function(){                
         // Bootstrap datepicker
-        var feDatepicker = function(){                        
-            if($(".datepicker").length > 0){
-                $(".datepicker").datepicker({format: 'yyyy-mm-dd'});                
+        var feDatepicker = function(){
+            if ($(".datepicker").length > 0) {
+                $(".datepicker").datepicker({
+                    format: 'dd-mm-yyyy',
+                    language: 'es'
+                });
                 $("#dp-2,#dp-3,#dp-4").datepicker(); // Sample
             }           
             
@@ -170,7 +173,8 @@ $(function() {
                 $(".datatable").dataTable({
                     "language": {
                         "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-                    }
+                    },
+                    responsive: true
                 });
                 $(".datatable").on('page.dt',function () {
                     onresize(100);

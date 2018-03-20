@@ -4,6 +4,14 @@
     ViewBag.Title = "Fierros";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+@section css
+{
+    <!--FILEINPUT-->
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" rel="stylesheet" type="text/css" />
+}
 
 @section featured
 {
@@ -19,14 +27,14 @@
             <h3></h3>
         </div>
         <div class="col-md-12">
-            @using (Html.BeginForm("GuardarFierros", "Compra", FormMethod.Post, new { id = "frm_tab2", @class = "form-horizontal", autocomplete = "off" }))
+            @using (Html.BeginForm("GuardarFierros", "Compra", FormMethod.Post, new { id = "frm_fierros", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Información</strong> Fierros </h3>
+                        <h3 class="panel-title">Información <strong>Fierros</strong>  </h3>
                         <ul class="panel-controls"></ul>
                     </div>
                     <div class="panel-body">
@@ -59,14 +67,6 @@
     </script>
 
 }
-@section css
-{
-    <!--FILEINPUT-->
-    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
-    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/font-awesome.min.css")" rel="stylesheet" />
-    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
-}
-
 @section script
 {
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
@@ -78,7 +78,7 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")"></script>
-    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
     <!--FUNCIONES DE COMPRA JS-->
     <script type="text/javascript" src="@Url.Content("~/Content/js/compra.js")"></script>
@@ -93,8 +93,8 @@
             uploadUrl: '#',
             overwriteInitial: false,
             previewFileIcon: '<i class="fa fa-file"></i>',
-            allowedPreviewTypes: ['image', 'text'],
-            allowedFileExtensions: ['png', 'jpg'],
+            allowedPreviewTypes: ['image'],
+            allowedFileExtensions: ['png'],
             initialPreview: [
                 @for(var i = 0;  i < Model.ListaFierros.Count; i++)
                 {
@@ -113,7 +113,7 @@
                 @for (var i = 0 ;  i < Model.ListaFierros.Count; i++)
                 {
                     <text>
-                    { caption: '@Model.ListaFierros[i].NombreFierro' }
+                    { caption: '@Model.ListaFierros[i].NombreFierro', url: "/site/file-delete" }
                     </text>
 
                     if ((i + 1) != Model.ListaFierros.Count)
@@ -123,8 +123,33 @@
                         </text>
                     }
                 }
-            ]
-        })
+            ],
+        }).on('filebeforedelete', function () {
+            return new Promise(function (resolve, reject) {
+                $.confirm({
+                    title: 'Confirmation!',
+                    content: '¿Está seguro que desea eliminar esta imagen?',
+                    type: 'red',
+                    buttons: {
+                        ok: {
+                            btnClass: 'btn-primary text-white',
+                            keys: ['enter'],
+                            action: function () {
+                                //resolve();
+                                console.log(reject);
+                            }
+                        },
+                        cancel: function () {
+                            $.alert('File deletion was aborted! ' + krajeeGetCount('file-6'));
+                        }
+                    }
+                });
+            });
+        }).on('filedeleted', function () {
+            setTimeout(function () {
+                $.alert('File deletion was successful! ' + krajeeGetCount('file-6'));
+            }, 900);
+        });
 
     </script>
 }

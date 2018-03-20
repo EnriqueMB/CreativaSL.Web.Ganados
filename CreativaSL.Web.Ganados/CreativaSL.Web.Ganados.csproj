@@ -803,6 +803,16 @@
     <Content Include="Content\js\plugins\tocify\jquery.tocify.min.js" />
     <Content Include="Content\js\plugins\tour\bootstrap-tour.min.js" />
     <Content Include="Content\js\plugins\tour\bootstro.min.js" />
+    <Content Include="Content\js\plugins\uploadFiles\es.js" />
+    <Content Include="Content\js\plugins\uploadFiles\explorer-fa\theme.css" />
+    <Content Include="Content\js\plugins\uploadFiles\explorer-fa\theme.js" />
+    <Content Include="Content\js\plugins\uploadFiles\fileinput.css" />
+    <Content Include="Content\js\plugins\uploadFiles\fileinput.js" />
+    <Content Include="Content\js\plugins\uploadFiles\font-awesome.min.css" />
+    <Content Include="Content\js\plugins\uploadFiles\jquery.js" />
+    <Content Include="Content\js\plugins\uploadFiles\sortable.js" />
+    <Content Include="Content\js\plugins\uploadFiles\theme.css" />
+    <Content Include="Content\js\plugins\uploadFiles\theme.js" />
     <Content Include="Content\js\plugins\validationengine\jquery.validationEngine.js" />
     <Content Include="Content\js\plugins\validationengine\languages\jquery.validationEngine-ca.js" />
     <Content Include="Content\js\plugins\validationengine\languages\jquery.validationEngine-cz.js" />
@@ -941,7 +951,6 @@
     <Content Include="Areas\Admin\Views\Compra\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Flete.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Ganado.cshtml" />
-    <Content Include="Areas\Admin\Views\CatProveedor\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
