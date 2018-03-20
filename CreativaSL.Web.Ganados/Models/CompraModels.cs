@@ -10,50 +10,90 @@ namespace CreativaSL.Web.Ganados.Models
     public class CompraModels
     {
         #region Variables
-        private DataTable _tablaCompra;
-        private DateTime _FechaHoraCompra;
-        private DateTime _FechaHoraProgramada;
-        private string _IDProveedor;
-        private string _IDSucursal;
-        private string _IDCompra;
-        private string _IDFlete;
-        private string _IDDocumentoXPagar;
-        private string _IDRecepcion;
-        private string _GuiaTransito;
-        private string _CertZoosanitario;
-        private string _CertTuberculosis;
-        private string _CertBrucelosis;
-        private int _GanadosPactadoMachos;
-        private int _GanadosPactadoHembras;
-        private int _GanadosPactadoTotal;
-        private decimal _MontoTotal;
-        private decimal _KilosTotal;
-        private decimal _MermaPromedio;
-        private bool _Estatus;
-        private HttpPostedFileBase[] _ImgFierros;
+        public DataTable TablaCompra { get; set; }
+        public DateTime FechaHoraCompra { get; set; }
+        public DateTime FechaHoraProgramada { get; set; }
+
+        public string IDDocumentoXPagar { get; set; }
+        public string IDRecepcion { get; set; }
+        public string GuiaTransito { get; set; }
+        public string CertZoosanitario { get; set; }
+        public string CertTuberculosis { get; set; }
+        public string CertBrucelosis { get; set; }
+        public int GanadosPactadoMachos { get; set; }
+        public int GanadosPactadoHembras { get; set; }
+        public int GanadosPactadoTotal { get; set; }
+        public decimal MontoTotal { get; set; }
+        public decimal KilosTotal { get; set; }
+        public decimal MermaPromedio { get; set; }
+        public bool Estatus { get; set; }
+        public HttpPostedFileBase[] _ImgFierros { get; set; }
+
+        public string IDUsuario { get; set; }
+        public string IDProveedor { get; set; }
+        public string IDSucursal { get; set; }
+        public string IDCompra { get; set; }
+        public string IDFlete { get; set; }
+        private CatProveedorModels Proveedor { get; set; }
+        public FleteModels Flete { get; set; }
+        public CatChoferModels Chofer { get; set; }
+        public CatVehiculoModels Vehiculo { get; set; }
+        public CatTipoVehiculoModels TipoVehiculo { get; set; }
+        public CatMarcaVehiculoModels Marca { get; set; }
+        public TrayectoModels Trayecto { get; set; }
+        public CatLugarModels Lugar { get; set; }
+        public CatSucursalesModels Sucursal { get; set; }
 
         public List<CatProveedorModels> ListaProveedores { get; set; }
-        public string IDUsuario { get; set; }
-        private CatProveedorModels Proveedor { get; set; }
-        
-        public  List<CatFierroModels> ListaFierros { get; set; }
-    #endregion
+        public List<CatFierroModels> ListaFierros { get; set; }
+        public List<CatChoferModels> ListaChoferes { get; set; }
+        public List<CatVehiculoModels> ListaVehiculos { get; set; }
 
-    #region Metodos
+        public DataTable TablaLugares { set; get; }
+        #endregion
+
+        #region Metodos
 
         //Constructor
         public CompraModels()
         {
-            ListaProveedores = new List<CatProveedorModels>();
+            //Inicializamos los objetos
+            Flete = new FleteModels();
+            TipoVehiculo = new CatTipoVehiculoModels();
+            Marca = new CatMarcaVehiculoModels();
+            Trayecto = new TrayectoModels();
+            Lugar = new CatLugarModels();
+            Sucursal = new CatSucursalesModels();
+
+            Chofer = new CatChoferModels
+            {
+                IDChofer = "0",
+                Nombre = "SELECCIONE UN CHOFER"
+            };
+            Vehiculo = new CatVehiculoModels
+            {
+                IDVehiculo = "0",
+                Modelo = "SELECCION UN VEHICULO"
+                
+            };
             Proveedor = new CatProveedorModels
             {
                 IDProveedor = "0",
                 NombreRazonSocial = "SELECCIONE UN PROVEEDOR"
             };
-            ListaProveedores.Add(Proveedor);
-            IDProveedor = "0";
-
+            //Inicializamos las listas
             ListaFierros = new List<CatFierroModels>();
+            ListaProveedores = new List<CatProveedorModels>();
+            ListaVehiculos = new List<CatVehiculoModels>();
+            ListaChoferes = new List<CatChoferModels>();
+            //Agregamos los objetos con valores predeterminados (servirán en los combobox)
+            ListaProveedores.Add(Proveedor);
+            ListaChoferes.Add(Chofer);
+            ListaVehiculos.Add(Vehiculo);
+            //Valores predeterminados de los atributos
+            IDProveedor = "0";
+            
+
             
         }
 
@@ -61,110 +101,6 @@ namespace CreativaSL.Web.Ganados.Models
         [Required(ErrorMessage = "Seleccione una imagen de un fierro, por lo menos.")]
         [Display(Name = "Imganes Fierros")]
         public HttpPostedFileBase[] ImgFierros { get; set; }
-
-        public string IDCompra
-        {
-            get { return _IDCompra; }
-            set { _IDCompra = value; }
-        }
-        public string IDProveedor
-        {
-            get { return _IDProveedor; }
-            set { _IDProveedor = value; }
-        }
-        public string IDSucursal
-        {
-            get { return _IDSucursal; }
-            set { _IDSucursal = value; }
-        }
-        public string IDFlete
-        {
-            get { return _IDFlete; }
-            set { _IDFlete = value; }
-        }
-        public string IDDocuentoXPagar
-        {
-            get { return _IDDocumentoXPagar; }
-            set { _IDDocumentoXPagar = value; }
-        }
-        public string IDRecepcion
-        {
-            get { return _IDRecepcion; }
-            set { _IDRecepcion = value; }
-        }
-        public string GuiaTransito
-        {
-            get { return _GuiaTransito; }
-            set { _GuiaTransito = value; }
-        }
-        public string CertZoosanitario
-        {
-            get { return _CertZoosanitario; }
-            set { _CertZoosanitario = value; }
-        }
-        public string CertTuberculosis
-        {
-            get { return _CertTuberculosis; }
-            set { _CertTuberculosis = value; }
-        }
-        public string CertBrucelosis
-        {
-            get { return _CertBrucelosis; }
-            set { _CertBrucelosis = value; }
-        }
-        public DateTime FechaHoraCompra
-        {
-            get { return _FechaHoraCompra; }
-            set { _FechaHoraCompra = value; }
-        }
-
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime FechaHoraProgramada
-        {
-            get { return _FechaHoraProgramada; }
-            set { _FechaHoraProgramada = value; }
-        }
-        public int GanadosPactadoMachos
-        {
-            get { return _GanadosPactadoMachos; }
-            set { _GanadosPactadoMachos = value; }
-        }
-        public int GanadosPactadoHembras
-        {
-            get { return _GanadosPactadoHembras; }
-            set { _GanadosPactadoHembras = value; }
-        }
-        public int GanadosPactadoTotal
-        {
-            get { return _GanadosPactadoTotal; }
-            set { _GanadosPactadoTotal = value; }
-        }
-        public decimal MontoTotal
-        {
-            get { return _MontoTotal; }
-            set { _MontoTotal = value; }
-        }
-        public decimal KilosTotal
-        {
-            get { return _KilosTotal; }
-            set { _KilosTotal = value; }
-        }
-        public decimal MermaPromedio
-        {
-            get { return _MermaPromedio; }
-            set { _MermaPromedio = value; }
-        }
-        public bool Estatus
-        {
-            get { return _Estatus; }
-            set { _Estatus = value; }
-        }
-        public DataTable TablaCompra
-        {
-            get { return _tablaCompra; }
-            set { _tablaCompra = value; }
-        }
 
         #endregion 
 

@@ -128,27 +128,9 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _RFC; }
             set { _RFC = value; }
         }
-        [Required(ErrorMessage = "Seleccione la imagen del INE")]
-        [Display(Name = "Imagen INE")]
-        public HttpPostedFileBase[] ImgINEE { get; set; }
-
-        private HttpPostedFileBase[] _ImgManifestacionFierros;
-        [Required(ErrorMessage = "Seleccione la imagen de la manifestación del fierro")]
-        [Display(Name = "Manifestación Fierro")]
-        public HttpPostedFileBase[] ImgManifestacionFierros
-        {
-            get { return _ImgManifestacionFierros; }
-            set { _ImgManifestacionFierros = value; }
-        }
-
-        public HttpPostedFileBase[] ImgINEE2 { get; set; }
-
-        private HttpPostedFileBase[] _ImgManifestacionFierros2;
-        public HttpPostedFileBase[] ImgManifestacionFierros2
-        {
-            get { return _ImgManifestacionFierros2; }
-            set { _ImgManifestacionFierros2 = value; }
-        }
+        [Required(ErrorMessage = "Seleccione una imagen de un fierro, por lo menos.")]
+        [Display(Name = "Imganes Fierros")]
+        public HttpPostedFileBase[] ImgFierros { get; set; }
 
         private string _Imagenes;
 
