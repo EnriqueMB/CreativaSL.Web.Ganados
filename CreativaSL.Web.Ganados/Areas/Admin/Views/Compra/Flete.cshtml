@@ -1,0 +1,198 @@
+﻿@model CreativaSL.Web.Ganados.Models.CompraModels
+
+@{
+    ViewBag.Title = "Flete";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section css
+{
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
+}
+
+@section featured
+{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            @using (Html.BeginForm("Guardar", "Compra", FormMethod.Post, new { id = "frm_flete", @class = "form-horizontal", autocomplete = "off" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Información del</strong> Flete </h3>
+                        <ul class="panel-controls"></ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <label class="col-md-3 control-label">Número de Guía</label>
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.GuiaTransito, new { id = "GuiaTransito", @class = "form-control" })
+                                   </div>
+                                    @Html.ValidationMessageFor(model => model.GuiaTransito)
+                                    <span class="help-block">Introduzca un número de guía.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-md-3 control-label">Precio del flete</label>
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.Flete.precioFlete, new { id = "PrecioFlete", @class = "form-control", @Value = "0" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Flete.precioFlete)
+                                    <span class="help-block">Introduzca precio por el flete en caso de cobrarlo.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <label class="col-md-4 control-label">Núm. de Certificado Zoosanitario</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.CertZoosanitario, new { id = "NumCertZoosanitario", @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.CertZoosanitario)
+                                    <span class="help-block">Introduzca un número de certificado zoosanitario.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-4 control-label">Núm. de Certificado Tuberculosis</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.CertTuberculosis, new { id = "NumCertTuberculosis", @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.CertTuberculosis)
+                                    <span class="help-block">Introduzca un número de certificado de tuberculosis.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-4 control-label">Núm. de Certificado Brucelosis</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.CertTuberculosis, new { id = "NumCertBrucelosis", @class = "form-control", @Value = "0" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.CertBrucelosis)
+                                    <span class="help-block">Introduzca un número de certificado de  .</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <label class="col-md-3 control-label">Vehículos disponibles</label>
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.DropDownListFor(model => model.Vehiculo.IDVehiculo, new SelectList(Model.ListaVehiculos, "IDVehiculo", "nombreMarca", "Modelo", 1), new { @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ListaChoferes)
+                                    <span class="help-block">Seleccione un vehículo.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-md-3 control-label">Choferes disponibles</label>
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.DropDownListFor(model => model.Chofer.IDChofer, new SelectList(Model.ListaChoferes, "IDChofer", "Nombre"), new { @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ListaChoferes)
+                                    <span class="help-block">Seleccione un chofer.</span>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div id="floating-panel">
+                                    <b>Inicio: </b>
+                                    @Html.DropDownList("start", ViewData["cmbLugarInicio"] as SelectList, new { id = "start" })
+                                    <b>Fin: </b>
+                                    @Html.DropDownList("end", ViewData["cmbLugarFinal"] as SelectList, new { id = "end" })
+                                </div>
+                                <div id="map"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Registrar el flete y continuar" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("Index","Compra")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        var message     = '@message';
+        var typemessage = '@typemessage';
+    </script>
+
+}
+
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2rqGcEDSsWZyBXeE5oUMSXXpmgL5cfY8&callback=initMap" async defer></script>
+    <!--FUNCIONES DE COMPRA JS-->
+    <script type="text/javascript" src="@Url.Content("~/Content/js/compra.js")"></script>
+    <script>
+        function initMap() {
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 7,
+                center: { lat: 41.85, lng: -87.65 }
+            });
+            directionsDisplay.setMap(map);
+
+            var onChangeHandler = function () {
+                calculateAndDisplayRoute(directionsService, directionsDisplay);
+            };
+            document.getElementById('start').addEventListener('change', onChangeHandler);
+            document.getElementById('end').addEventListener('change', onChangeHandler);
+        }
+        function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+
+            var arrayInicio = document.getElementById('start').value.split(" | ");
+            var inicio = new google.maps.LatLng(arrayInicio[1].replace(",", "."), arrayInicio[2].replace(",", "."));
+
+            var arrayFinal = document.getElementById('end').value.split(" | ");
+            var final = new google.maps.LatLng(arrayFinal[1].replace(",", "."), arrayFinal[2].replace(",", "."));
+
+            directionsService.route({
+                origin: inicio,
+                destination: final,
+                travelMode: 'DRIVING'
+            }, function (response, status) {
+                if (status === 'OK') {
+                    directionsDisplay.setDirections(response);
+                } else {
+                    window.alert('Directions request failed due to ' + status);
+                }
+            });
+        }
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+        });
+    </script>
+}
+
