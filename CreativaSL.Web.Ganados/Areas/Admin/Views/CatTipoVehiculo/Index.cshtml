@@ -35,47 +35,49 @@
                         </ul>
                     </div>
                     <div class="panel-body">
-                        <table class="table datatable">
-                            <thead>
-                                <tr>
-                                    <th>Tipo de Vehículo</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                               @foreach (var Tipo in Model.listaTipoVehiculos)
+                        <div class="table-responsive">
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Tipo de Vehículo</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var Tipo in Model.listaTipoVehiculos)
                                {
-                                <tr id="@Tipo.IDTipoVehiculo">
-                                    <td>@Tipo.Descripcion</td>
-                                    <td style="text-align:center;">
-                                        <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                            <a title="Editar" href="@Url.Action("Edit", "CatTipoVehiculo", new { id = Tipo.IDTipoVehiculo })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                            <a title="Eliminar" id="delete-@Tipo.IDTipoVehiculo" data-hrefa="@Url.Action("Delete", "CatTipoVehiculo", new { id = Tipo.IDTipoVehiculo })" onClick="delete_row('@Tipo.IDTipoVehiculo');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
-                                        </div>
-                                        <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                            <div class="btn-group">
-                                                <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                    <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                </a>
-                                                <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                    <li>
-                                                        <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatTipoVehiculo", new { id = Tipo.IDTipoVehiculo })">
-                                                            <i class="fa fa-edit"></i> Editar
+                                        <tr id="@Tipo.IDTipoVehiculo">
+                                            <td>@Tipo.Descripcion</td>
+                                            <td style="text-align:center;">
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    <a title="Editar" href="@Url.Action("Edit", "CatTipoVehiculo", new { id = Tipo.IDTipoVehiculo })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" id="delete-@Tipo.IDTipoVehiculo" data-hrefa="@Url.Action("Delete", "CatTipoVehiculo", new { id = Tipo.IDTipoVehiculo })" onClick="delete_row('@Tipo.IDTipoVehiculo');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                </div>
+                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
                                                         </a>
-                                                    </li>
-                                                    <li>
-                                                        <a role="menuitem" tabindex="-1" id="delete-@Tipo.IDTipoVehiculo" data-hrefa="@Url.Action("Delete", "CatTipoVehiculo", new { id = Tipo.IDTipoVehiculo })" onClick="delete_row('@Tipo.IDTipoVehiculo');">
-                                                            <i class="fa fa-trash-o"></i> Eliminar
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatTipoVehiculo", new { id = Tipo.IDTipoVehiculo })">
+                                                                    <i class="fa fa-edit"></i> Editar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" id="delete-@Tipo.IDTipoVehiculo" data-hrefa="@Url.Action("Delete", "CatTipoVehiculo", new { id = Tipo.IDTipoVehiculo })" onClick="delete_row('@Tipo.IDTipoVehiculo');">
+                                                                    <i class="fa fa-trash-o"></i> Eliminar
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
                                }
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <!-- END DEFAULT DATATABLE -->
