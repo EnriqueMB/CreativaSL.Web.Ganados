@@ -15,7 +15,8 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                   datos.Opcion,datos.IDProveedor,datos.IDTipoProveedor,datos.IDSucursal,datos.NombreRazonSocial,datos.RFC,datos.ImgINE,datos.ImgManifestacionFierro,datos.Usuario
+                   datos.Opcion, datos.IDProveedor, datos.IDTipoProveedor, datos.IDSucursal, datos.NombreRazonSocial, datos.RFC, datos.ImgINE, datos.ImgManifestacionFierro,
+                    datos.BandINE, datos.BandMF, datos.Usuario
                     };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatProveedor", parametros);
                 datos.IDProveedor = aux.ToString();

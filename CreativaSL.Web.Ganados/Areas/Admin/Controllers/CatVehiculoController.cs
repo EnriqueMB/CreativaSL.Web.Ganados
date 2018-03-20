@@ -178,7 +178,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Vehiculo.Color = collection["Color"];
                 Vehiculo.Capacidad = collection["Capacidad"];
                 Vehiculo.EsPropio = collection["EsPropio"].StartsWith("true");
-                Vehiculo.Estatus = collection["Estatus"].StartsWith("true");
+                Vehiculo.Estatus = true;
                 Vehiculo = VehiculoDatos.AcCatVehiculo(Vehiculo);
                 if (Vehiculo.Completado == true)
                 {

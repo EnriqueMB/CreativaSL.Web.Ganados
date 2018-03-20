@@ -9,6 +9,10 @@ namespace CreativaSL.Web.Ganados.Models
     public class CatLugarModels
     {
         public CatLugarModels() {
+            _listaEstado = new List<CatEstadoModels>();
+            _listaLugares = new List<CatLugarModels>();
+            _listaMunicipio = new List<CatMunicipioModels>();
+            _listaPaises = new List<CatPaisModels>();
             _id_estadoCodigo = string.Empty;
             _id_municipio = 0;
             _id_pais = string.Empty;

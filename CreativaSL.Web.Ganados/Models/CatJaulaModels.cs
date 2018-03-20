@@ -9,6 +9,9 @@ namespace CreativaSL.Web.Ganados.Models
     public class CatJaulaModels
     {
         public CatJaulaModels() {
+            _listaJaulas = new List<CatJaulaModels>();
+
+            _listaSucursales = new List<CatSucursalesModels>();
             _IDJaula = string.Empty;
             _IDSucursal = string.Empty;
             _Matricula = string.Empty;

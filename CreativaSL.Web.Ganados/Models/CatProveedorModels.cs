@@ -16,6 +16,9 @@ namespace CreativaSL.Web.Ganados.Models
             _RFC = string.Empty;
             _ImgINE = string.Empty;
             _ImgManifestacionFierro = string.Empty;
+            _listaProveedores = new List<CatProveedorModels>();
+            _listaSucursal = new List<CatSucursalesModels>();
+            _listaTipoProveedor = new List<CatTipoProveedorModels>();
             //Datos control
             Conexion = string.Empty;
             Resultado = 0;
@@ -125,6 +128,26 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _RFC; }
             set { _RFC = value; }
         }
+        [Required(ErrorMessage = "Seleccione una imagen de un fierro, por lo menos.")]
+        [Display(Name = "Imganes Fierros")]
+        public HttpPostedFileBase[] ImgFierros { get; set; }
+
+        private string _Imagenes;
+
+        public string Imagenes
+        {
+            get { return _Imagenes; }
+            set { _Imagenes = value; }
+        }
+
+        private string _NombreImagen;
+
+        public string NombreImagen
+        {
+            get { return _NombreImagen; }
+            set { _NombreImagen = value; }
+        }
+
 
         private string _ImgINE;
         [Required(ErrorMessage = "La Imagen es obligatorio")]
@@ -145,6 +168,23 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _ImgManifestacionFierro; }
             set { _ImgManifestacionFierro = value; }
         }
+
+        private bool _BandINE;
+
+        public bool BandINE
+        {
+            get { return _BandINE; }
+            set { _BandINE = value; }
+        }
+
+        private bool _BandMF;
+
+        public bool BandMF
+        {
+            get { return _BandMF; }
+            set { _BandMF = value; }
+        }
+
 
         #region Datos De Control
         public string Conexion { get; set; }

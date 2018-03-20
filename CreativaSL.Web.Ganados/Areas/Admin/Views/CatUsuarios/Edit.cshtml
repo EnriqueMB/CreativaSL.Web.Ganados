@@ -171,9 +171,7 @@
 
     <script>
     jQuery(document).ready(function () {
-        $('#Licencia').change(function () {
-            $('#licencia-cont').toggle(1000);
-        });
+        $('#ListTipo').val('@Model.id_tipoUsuario');
         Mensaje(message, typemessage);
     });
     </script>

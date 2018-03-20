@@ -1,8 +1,16 @@
 ﻿@model CreativaSL.Web.Ganados.Models.CatProveedorModels
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section css
+{
+    <!--FILEINPUT-->
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
 }
 @section featured{
 
@@ -19,7 +27,7 @@
         </div>
         <div class="col-md-12">
             @*<form class="form-horizontal">*@
-            @using (Html.BeginForm("Create", "CatProveedor", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off", @enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("Edit", "CatProveedor", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off", @enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
@@ -27,7 +35,7 @@
                 @Html.HiddenFor(model => model.IDProveedor)
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Información</strong> Proveedor</h3>
+                        <h3 class="panel-title"><strong>Editar</strong> Proveedor</h3>
                         <ul class="panel-controls">
                             @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
                         </ul>
@@ -45,8 +53,8 @@
                             <div class="col-md-6">
                                 <label class="col-md-3 col-xs-12 control-label">Tipo de proveedor</label>
                                 <div class="col-md-9 col-xs-12">
-                                   @Html.DropDownListFor(model => model.listaTipoProveedor, ViewData["cmbTipoProveedor"] as SelectList, new { id = "ListTipoProveedor", @class = "form-control select" })
-                                @Html.ValidationMessageFor(model => model.listaTipoProveedor)
+                                    @Html.DropDownListFor(model => model.listaTipoProveedor, ViewData["cmbTipoProveedor"] as SelectList, new { id = "ListTipoProveedor", @class = "form-control select" })
+                                    @Html.ValidationMessageFor(model => model.listaTipoProveedor)
                                     <span class="help-block">Seleccione el tipo de proveedor</span>
                                 </div>
                             </div>
@@ -76,14 +84,27 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-12">
-                                <label class="col-md-1 control-label">Ingrese la imagen de los fierros</label>
-                                <div class="col-md-11 col-xs-12">
+                            <div class="col-md-6">
+                                <label class="col-md-3 control-label">Ingrese imagen del (INE)</label>
+                                <div class="col-md-9 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.ImgFierros, new { id = "file-es", name = "file-es[]", @type = "file", @class = "form-control", @multiple = "multiple" })
+                                        @Html.TextBoxFor(model => model.ImgINEE2, new { id = "file-es", name = "file-es[]", @type = "file", @class = "form-control" })
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.ImgFierros)
+                                    @Html.ValidationMessageFor(model => model.ImgINEE2)
+                                    <span class="help-block">Ingrese por lo menos 1 imagen.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-md-3 control-label">Ingrese imagen de la (Manifestación Fierro)</label>
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <div class="file-loading">
+                                            @Html.TextBoxFor(model => model.ImgManifestacionFierros2, new { id = "file-esM", name = "file-esM[]", @type = "file", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ImgManifestacionFierros2)
                                     <span class="help-block">Ingrese por lo menos 1 imagen.</span>
                                 </div>
                             </div>
@@ -91,7 +112,7 @@
                     </div>
                     <div class="panel-footer">
                         <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                        <a href="@Url.Action("Index","CatProveedor")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                        <a href="@Url.Action("Index","CatChofer")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                     </div>
                 </div>
                 @*</form>*@
@@ -101,9 +122,16 @@
     <script>
         var message = '@message';
         var typemessage = '@typemessage';
+        $('#ListSucursal').val('@Model.IDSucursal');
+        $('#ListTipoProveedor').val('@Model.IDTipoProveedor');
     </script>
 }
 @section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/uploadFiles/fa/theme.js")" type="text/javascript"></script>
+
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
@@ -120,39 +148,56 @@
             theme: 'fa',
             language: 'es',
             uploadUrl: '#',
-            overwriteInitial: false,
+            maxFileCount: 1,
+            overwriteInitial: true,
+            showUploadedThumbs: false,
             allowedFileExtensions: ['png'],
             initialPreview: [
-                @for(var i = 0;  i < Model.listaProveedores.Count; i++)
-                {
-                    <text>
-                    '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.listaProveedores[i].Imagenes" />'
-                    </text>
-                    if ((i + 1) != Model.listaProveedores.Count)
-                    {
-                        <text>
-                        ,
-                        </text>
-                    }
-                }
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.ImgINE" />'
             ],
             initialPreviewConfig: [
-                @for (var i = 0 ;  i < Model.listaProveedores.Count; i++)
-                {
-                    <text>
-                    { caption: '@Model.listaProveedores[i].NombreImagen' }
-                    </text>
-
-                    if ((i + 1) != Model.listaProveedores.Count)
-                    {
-                        <text>
-                        ,
-                        </text>
-                    }
-                }
-            ]
+               { caption: 'INE'}
+            ],
+            initialPreviewShowDelete: false,
+            showRemove: false,
+            showClose: false,
+            layoutTemplates: { actionDelete: '' }
+        })
+        $('#file-esM').fileinput({
+            theme: 'fa',
+            language: 'es',
+            uploadUrl: '#',
+            autoReplace: true,
+            overwriteInitial: true,
+            showUploadedThumbs: false,
+            maxFileCount: 1,
+            initialPreview: [
+                '<img class="kv-preview-data file-preview-image" src="data:image/png;base64, @Model.ImgManifestacionFierro"/>'
+            ],
+            initialCaption: 'Initial-Image.png',
+            initialPreviewShowDelete: false,
+            showRemove: false,
+            showClose: false,
+            layoutTemplates: { actionDelete: '' }, // disable thumbnail deletion
+            allowedFileExtensions: ["png"]
+            @*theme: 'fa',
+            language: 'es',
+            uploadUrl: '#',
+            maxFileCount: 1,
+            overwriteInitial: true,
+            showUploadedThumbs: false,
+            allowedFileExtensions: ['png'],
+            initialPreview: [
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.ImgManifestacionFierro" />'
+            ],
+            initialPreviewConfig: [
+                { caption: "Manifestación"}
+            ],
+            initialPreviewShowDelete: false,
+            showRemove: false,
+            showClose: false,
+            layoutTemplates: { actionDelete: '' }*@
         })
 
     </script>
-    }
-
+}

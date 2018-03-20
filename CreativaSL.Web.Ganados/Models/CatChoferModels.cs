@@ -20,6 +20,7 @@ namespace CreativaSL.Web.Ganados.Models
             _ApMaterno = string.Empty;
             _Licencia = true;
             _Estatus = false;
+            _ListaChoferes = new List<CatChoferModels>();
             //Datos de control
             Conexion = string.Empty;
             Resultado = 0;
