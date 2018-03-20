@@ -941,6 +941,7 @@
     <Content Include="Areas\Admin\Views\Compra\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Flete.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Ganado.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

@@ -66,16 +66,14 @@
                                         {
                                             <td style="text-align:center"><div style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:green"></div></td>
                                         }
-
-
-                                        <td class="center">
+                                        <td style="text-align:center;">
                                             <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                <a href="@Url.Action("Edit", "CatChofer", new { id = Chofer.IDChofer })" class="btn btn-xs btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                <a id="delete-@Chofer.IDChofer" data-hrefa="@Url.Action("Delete", "CatChofer", new { id = Chofer.IDChofer  })" onClick="delete_row('@Chofer.IDChofer');" class="btn btn-xs btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                <a  title="Editar" href="@Url.Action("Edit", "CatChofer", new { id = Chofer.IDChofer })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                <a  title="Eliminar" id="delete-@Chofer.IDChofer" data-hrefa="@Url.Action("Delete", "CatChofer", new { id = Chofer.IDChofer  })" onClick="delete_row('@Chofer.IDChofer');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                             </div>
                                             <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                 <div class="btn-group">
-                                                    <a class="btn btn-green dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                    <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
                                                         <i class="fa fa-cog"></i> <span class="caret"></span>
                                                     </a>
                                                     <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
