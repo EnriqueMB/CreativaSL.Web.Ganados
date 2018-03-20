@@ -111,55 +111,33 @@
                     <table class="table datatable">
                         <thead>
                             <tr>
-                                <th rowspan="2">Nombre cliente</th>
-                                <th rowspan="2">Lugar</th>
-                                <th colspan="3">Ganado pactado</th>
-                                <th colspan="4">Ganado comprado</th>
-                                <th colspan="3">Transacciones</th>
-                                <th rowspan="2">Merma(%)</th>
-                                <th rowspan="2">Estatus</th>
-                                <th rowspan="2">Editar</th>
-                                <th rowspan="2">Eliminar</th>
+                                <th>Número de arete</th>
+                                <th>Género</th>
+                                <th>Peso inicial (kg.)</th>
+                                <th>Peso final - Repeso (kg.)</th>
+                                <th>Diferencia de peso(kg.)</th>
+                                <th>Precio por kilo</th>
+                                <th>Merma obtenida (%)</th>
+                                <th>Peso por kilo ($)</th>
+                                <th>Peso pagado ($)</th>
+                                <th>Editar</th>
+                                <th>Eliminar</th>
                             </tr>
-                            <tr>
-                                <th>Machos</th>
-                                <th>Hembas</th>
-                                <th>Total ganado</th>
-                                <th>Machos</th>
-                                <th>Hembas</th>
-                                <th>Total ganado</th>
-                                <th>Total kilos</th>
-                                <th>Total de ingreso</th>
-                                <th>Total de egreso</th>
-                                <th>Monto total</th>
-                            </tr>
-                        </thead>
+                            </thead>
                         <tbody>
-                            @foreach (System.Data.DataRow Compra in Model.TablaCompra.Rows)
-                            {
-                                <tr>
-                                    <td>@Compra["NombreProveedor"].ToString()</td>
-                                    <td>@Compra["LugarDestino"].ToString()</td>
-                                    <td>@Compra["GanadoPactadoMachos"].ToString()</td>
-                                    <td>@Compra["GanadoPactadoHembras"].ToString()</td>
-                                    <td>@Compra["GanadoPactadoTotal"].ToString()</td>
-                                    <td>@Compra["GanadoCompradoMachos"].ToString()</td>
-                                    <td>@Compra["GanadoCompradoHembras"].ToString()</td>
-                                    <td>@Compra["GanadoCompradoTotal"].ToString()</td>
-                                    <td>@Compra["GanadoKilosTotal"].ToString()</td>@*Total de kilos*@
-                                    <td></td>@*Total de ingresos, checar en los pago por cobrar*@
-                                    <td></td>@*Total de egreso, checar en los pagos por pagar*@
-                                    <td></td>@*Total, diferencia entre ingreso y egreso*@
-                                    <td>@Compra["MermaPromedio"].ToString()</td>@*Merma promedio*@
-                                    <td>@Html.Label(@Compra["Estatus"].ToString(), new { @class = Compra["ClassEstatus"] })</td>
-                                    <td style="text-align:center;">
-                                        <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "Compra", new { id = Compra["id_compra"].ToString() })"><i class="fa fa-edit"></i></a>
-                                    </td>
-                                    <td style="text-align:center;">
-                                        <a title="Eliminar" class="btn delete btn-danger" id="delete-@Compra["id_compra"].ToString()" data-hrefa="@Url.Action("Delete", "Compra", new { id = Compra["id_compra"].ToString()  })" onClick="delete_row('@Compra["id_compra"].ToString()');"><i class="fa fa-trash-o"></i></a>
-                                    </td>
-                                </tr>
-                            }
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -167,7 +145,7 @@
 
                     <div class="panel-footer">
                         <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
-                        <a href="@Url.Action("Index","Compra")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                        <a href="@Url.Action("OtrosMovimientos","Compra")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                     </div>
                 </div>
             }
