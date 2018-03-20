@@ -32,7 +32,7 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <div class="col-md-12">
-                                <label class="col-md-1 control-label">Nombre Chofer</label>
+                                <label class="col-md-1 control-label">Nombre del proveedor</label>
                                 <div class="col-md-11 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
@@ -71,7 +71,7 @@
                                 <div class="col-md-8 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                        @Html.TextBoxFor(model => model.FechaHoraProgramada, new { id = "vigencia", @class = "form-control datepicker", @readonly = "readonly", tipe = "data" })
+                                        @Html.TextBoxFor(model => model.FechaHoraProgramada, new { id = "vigencia", @class = "form-control datepicker", tipe = "data" })
                                     </div>
                                     <span class="help-block">Una fecha programada</span>
                                 </div>
