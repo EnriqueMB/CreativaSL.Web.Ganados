@@ -175,11 +175,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
                 else
                 {
-                    //FALTA POR IMPLEMENTAR SP
+                    Proveedor.BandINE = true;
                 }
-                if (!string.IsNullOrEmpty(bannerImage.FileName))
+                HttpPostedFileBase bannerImage2 = Request.Files[1] as HttpPostedFileBase;
+                if (!string.IsNullOrEmpty(bannerImage2.FileName))
                 {
-                    HttpPostedFileBase bannerImage2 = Request.Files[1] as HttpPostedFileBase;
                     if (bannerImage2 != null && bannerImage2.ContentLength > 0)
                     {
                         Stream s = bannerImage2.InputStream;
@@ -189,7 +189,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
                 else
                 {
-                    //FALTA POR IMPLEMENTAR SP
+                    Proveedor.BandMF = true;
                 }
                 Proveedor = ProveedorDatos.AcCatProveedor(Proveedor);
                 if (Proveedor.Completado == true)

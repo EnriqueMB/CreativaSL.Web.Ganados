@@ -187,6 +187,23 @@ namespace CreativaSL.Web.Ganados.Models
             set { _ImgManifestacionFierro = value; }
         }
 
+        private bool _BandINE;
+
+        public bool BandINE
+        {
+            get { return _BandINE; }
+            set { _BandINE = value; }
+        }
+
+        private bool _BandMF;
+
+        public bool BandMF
+        {
+            get { return _BandMF; }
+            set { _BandMF = value; }
+        }
+
+
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }

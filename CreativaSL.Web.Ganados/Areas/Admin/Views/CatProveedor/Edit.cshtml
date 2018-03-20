@@ -100,7 +100,9 @@
                                 <div class="col-md-9 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.ImgManifestacionFierros2, new { id = "file-esM", name = "file-esM[]", @type = "file", @class = "form-control" })
+                                        <div class="file-loading">
+                                            @Html.TextBoxFor(model => model.ImgManifestacionFierros2, new { id = "file-esM", name = "file-esM[]", @type = "file", @class = "form-control" })
+                                        </div>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.ImgManifestacionFierros2)
                                     <span class="help-block">Ingrese por lo menos 1 imagen.</span>
@@ -165,6 +167,22 @@
             theme: 'fa',
             language: 'es',
             uploadUrl: '#',
+            autoReplace: true,
+            overwriteInitial: true,
+            showUploadedThumbs: false,
+            maxFileCount: 1,
+            initialPreview: [
+                '<img class="kv-preview-data file-preview-image" src="data:image/png;base64, @Model.ImgManifestacionFierro"/>'
+            ],
+            initialCaption: 'Initial-Image.png',
+            initialPreviewShowDelete: false,
+            showRemove: false,
+            showClose: false,
+            layoutTemplates: { actionDelete: '' }, // disable thumbnail deletion
+            allowedFileExtensions: ["png"]
+            @*theme: 'fa',
+            language: 'es',
+            uploadUrl: '#',
             maxFileCount: 1,
             overwriteInitial: true,
             showUploadedThumbs: false,
@@ -178,7 +196,7 @@
             initialPreviewShowDelete: false,
             showRemove: false,
             showClose: false,
-            layoutTemplates: { actionDelete: '' }
+            layoutTemplates: { actionDelete: '' }*@
         })
 
     </script>
