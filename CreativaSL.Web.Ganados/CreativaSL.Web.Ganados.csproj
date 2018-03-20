@@ -545,6 +545,7 @@
     <Content Include="Content\js\plugins\codemirror\mode\z80\z80.js" />
     <Content Include="Content\js\plugins\config.map.places.js" />
     <Content Include="Content\js\plugins\datatables\jquery.dataTables.min.js" />
+    <Content Include="Content\js\plugins\daterangepicker\bootstrap-datepicker.es.js" />
     <Content Include="Content\js\plugins\daterangepicker\daterangepicker.js" />
     <Content Include="Content\js\plugins\dropzone\dropzone.min.js" />
     <Content Include="Content\js\plugins\fileinput\fileinput.min.js" />

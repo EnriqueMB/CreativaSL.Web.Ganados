@@ -113,7 +113,7 @@
                 @for (var i = 0 ;  i < Model.ListaFierros.Count; i++)
                 {
                     <text>
-                    { caption: '@Model.ListaFierros[i].NombreFierro', url: "/site/file-delete" }
+                    { caption: '@Model.ListaFierros[i].NombreFierro', url: "/site/file-delete", key: '@Model.ListaFierros[i].IDFierro' } 
                     </text>
 
                     if ((i + 1) != Model.ListaFierros.Count)
@@ -128,15 +128,14 @@
             return new Promise(function (resolve, reject) {
                 $.confirm({
                     title: 'Confirmation!',
-                    content: '¿Está seguro que desea eliminar esta imagen?',
+                    content: '¿Está imagen ya ha sido guardada, desea borrarla?',
                     type: 'red',
                     buttons: {
                         ok: {
                             btnClass: 'btn-primary text-white',
                             keys: ['enter'],
                             action: function () {
-                                //resolve();
-                                console.log(reject);
+                                resolve();
                             }
                         },
                         cancel: function () {
