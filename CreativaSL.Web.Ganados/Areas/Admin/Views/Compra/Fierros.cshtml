@@ -4,14 +4,6 @@
     ViewBag.Title = "Fierros";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-@section css
-{
-    <!--FILEINPUT-->
-    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-    
-    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
-}
 
 @section featured
 {
@@ -27,14 +19,14 @@
             <h3></h3>
         </div>
         <div class="col-md-12">
-            @using (Html.BeginForm("GuardarFierros", "Compra", FormMethod.Post, new { id = "frm_tab2", @class = "form-horizontal", autocomplete = "off", @enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("GuardarFierros", "Compra", FormMethod.Post, new { id = "frm_tab2", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Información</strong> Compra </h3>
+                        <h3 class="panel-title"><strong>Información</strong> Fierros </h3>
                         <ul class="panel-controls"></ul>
                     </div>
                     <div class="panel-body">
@@ -44,7 +36,7 @@
                                 <div class="col-md-11 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.ImgFierros, new { id = "file-es", name = "file-es[]", @type = "file", @class = "form-control", @multiple = "multiple" })
+                                        @Html.TextBoxFor(model => model.ImgFierros, new { id = "ImgFierros", name = "ImgFierros[]", @type = "file", @class = "form-control", @multiple = "multiple" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.ImgFierros)
                                     <span class="help-block">Ingrese por lo menos 1 imagen.</span>
@@ -67,34 +59,42 @@
     </script>
 
 }
+@section css
+{
+    <!--FILEINPUT-->
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
+}
+
 @section script
 {
-
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
-<script src="@Url.Content("~/Content/js/plugins/uploadFiles/fa/theme.js")" type="text/javascript"></script>
-
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     
     <!--FILEINPUT-->
-  
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")"></script>
+    
 
     <!--FUNCIONES DE COMPRA JS-->
-    <script type="text/javascript" src="@Url.Content("~/Scripts/compra.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/compra.js")"></script>
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
         });
 
-        $('#file-es').fileinput({
+        $('#ImgFierros').fileinput({
             theme: 'fa',
             language: 'es',
             uploadUrl: '#',
             overwriteInitial: false,
-            allowedFileExtensions: ['png'],
+            previewFileIcon: '<i class="fa fa-file"></i>',
+            allowedPreviewTypes: ['image', 'text'],
+            allowedFileExtensions: ['png', 'jpg'],
             initialPreview: [
                 @for(var i = 0;  i < Model.ListaFierros.Count; i++)
                 {

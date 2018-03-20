@@ -1,0 +1,232 @@
+﻿@model CreativaSL.Web.Ganados.Models.CompraModels
+
+@{
+    ViewBag.Title = "Ganado";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section css
+{
+    
+}
+
+@section featured
+{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            @using (Html.BeginForm("Guardar", "Compra", FormMethod.Post, new { id = "frm_ganado", @class = "form-horizontal", autocomplete = "off" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Información del <strong>Ganado</strong></h3>
+                        <ul class="panel-controls"></ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <label class="col-md-3 control-label">Merma sugerida</label>
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.Sucursal, new { id = "MermaSugerida", @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.CertZoosanitario)
+                                    <span class="help-block">Introduzca un número de certificado zoosanitario.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-3 control-label">Merma promedio</label>
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.MermaPromedio, new { id = "MermaPromedio", @class = "form-control", disabled = "disabled" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.MermaPromedio)
+                                    <span class="help-block">Merma promedio de la compra.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-3 control-label">Total de la compra</label>
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.MontoTotal, new { id = "MontoTotal", @class = "form-control", @Value = "0" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.MontoTotal)
+                                    <span class="help-block">Total de la compra ($).</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <label class="col-md-3 control-label">Cantidad de ganado total</label>
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.MontoTotal, new { id = "MontoTotal", @class = "form-control", @Value = "0" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ListaChoferes)
+                                    <span class="help-block">Cantidad total de ganados en la compra.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-3 control-label">Cantidad de ganado machos</label>
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.MontoTotal, new { id = "MontoTotal", @class = "form-control", @Value = "0" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ListaChoferes)
+                                    <span class="help-block">Cantidad total de ganados machos.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-3 control-label">Cantidad de ganado hembras</label>
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.MontoTotal, new { id = "MontoTotal", @class = "form-control", @Value = "0" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ListaChoferes)
+                                    <span class="help-block">Cantidad total de ganados hembras.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Nombre cliente</th>
+                                <th rowspan="2">Lugar</th>
+                                <th colspan="3">Ganado pactado</th>
+                                <th colspan="4">Ganado comprado</th>
+                                <th colspan="3">Transacciones</th>
+                                <th rowspan="2">Merma(%)</th>
+                                <th rowspan="2">Estatus</th>
+                                <th rowspan="2">Editar</th>
+                                <th rowspan="2">Eliminar</th>
+                            </tr>
+                            <tr>
+                                <th>Machos</th>
+                                <th>Hembas</th>
+                                <th>Total ganado</th>
+                                <th>Machos</th>
+                                <th>Hembas</th>
+                                <th>Total ganado</th>
+                                <th>Total kilos</th>
+                                <th>Total de ingreso</th>
+                                <th>Total de egreso</th>
+                                <th>Monto total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (System.Data.DataRow Compra in Model.TablaCompra.Rows)
+                            {
+                                <tr>
+                                    <td>@Compra["NombreProveedor"].ToString()</td>
+                                    <td>@Compra["LugarDestino"].ToString()</td>
+                                    <td>@Compra["GanadoPactadoMachos"].ToString()</td>
+                                    <td>@Compra["GanadoPactadoHembras"].ToString()</td>
+                                    <td>@Compra["GanadoPactadoTotal"].ToString()</td>
+                                    <td>@Compra["GanadoCompradoMachos"].ToString()</td>
+                                    <td>@Compra["GanadoCompradoHembras"].ToString()</td>
+                                    <td>@Compra["GanadoCompradoTotal"].ToString()</td>
+                                    <td>@Compra["GanadoKilosTotal"].ToString()</td>@*Total de kilos*@
+                                    <td></td>@*Total de ingresos, checar en los pago por cobrar*@
+                                    <td></td>@*Total de egreso, checar en los pagos por pagar*@
+                                    <td></td>@*Total, diferencia entre ingreso y egreso*@
+                                    <td>@Compra["MermaPromedio"].ToString()</td>@*Merma promedio*@
+                                    <td>@Html.Label(@Compra["Estatus"].ToString(), new { @class = Compra["ClassEstatus"] })</td>
+                                    <td style="text-align:center;">
+                                        <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "Compra", new { id = Compra["id_compra"].ToString() })"><i class="fa fa-edit"></i></a>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <a title="Eliminar" class="btn delete btn-danger" id="delete-@Compra["id_compra"].ToString()" data-hrefa="@Url.Action("Delete", "Compra", new { id = Compra["id_compra"].ToString()  })" onClick="delete_row('@Compra["id_compra"].ToString()');"><i class="fa fa-trash-o"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("Index","Compra")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        var message     = '@message';
+        var typemessage = '@typemessage';
+    </script>
+
+}
+
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2rqGcEDSsWZyBXeE5oUMSXXpmgL5cfY8&callback=initMap" async defer></script>
+    <!--FUNCIONES DE COMPRA JS-->
+    <script type="text/javascript" src="@Url.Content("~/Content/js/compra.js")"></script>
+    <script>
+        function initMap() {
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 7,
+                center: { lat: 41.85, lng: -87.65 }
+            });
+            directionsDisplay.setMap(map);
+
+            var onChangeHandler = function () {
+                calculateAndDisplayRoute(directionsService, directionsDisplay);
+            };
+            document.getElementById('start').addEventListener('change', onChangeHandler);
+            document.getElementById('end').addEventListener('change', onChangeHandler);
+        }
+        function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+
+            var arrayInicio = document.getElementById('start').value.split(" | ");
+            var inicio = new google.maps.LatLng(arrayInicio[1].replace(",", "."), arrayInicio[2].replace(",", "."));
+
+            var arrayFinal = document.getElementById('end').value.split(" | ");
+            var final = new google.maps.LatLng(arrayFinal[1].replace(",", "."), arrayFinal[2].replace(",", "."));
+
+            directionsService.route({
+                origin: inicio,
+                destination: final,
+                travelMode: 'DRIVING'
+            }, function (response, status) {
+                if (status === 'OK') {
+                    directionsDisplay.setDirections(response);
+                } else {
+                    window.alert('Directions request failed due to ' + status);
+                }
+            });
+        }
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+        });
+    </script>
+}
+

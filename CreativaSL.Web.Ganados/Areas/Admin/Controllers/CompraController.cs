@@ -39,36 +39,95 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             Compra = new CompraModels();
             CompraDatos = new _Compra_Datos();
             Compra.Conexion = Conexion;
-            Compra = CompraDatos.ObtenerInfoTab1(Compra);
+            Compra = CompraDatos.GetCompraPacta(Compra);
             Compra.ListaProveedores = CompraDatos.ObtenerListadoProveedores(Compra);
 
             return View(Compra);
         }
-
-        // GET: Admin/Compra/Edit/5
+        // GET: Admin/Compra/Fierros/5
         public ActionResult Fierros(string id)
         {
             Compra = new CompraModels();
             CompraDatos = new _Compra_Datos();
             Compra.Conexion = Conexion;
             Compra.IDCompra = id;
-            Compra = CompraDatos.ObtenerInfoTab2(Compra);
+            Compra = CompraDatos.GetFierros(Compra);
 
             return View(Compra);
         }
-
-        // GET: Admin/Compra/Edit/5
+        // GET: Admin/Compra/Flete/5
         public ActionResult Flete(string id)
         {
             Compra = new CompraModels();
             CompraDatos = new _Compra_Datos();
             Compra.Conexion = Conexion;
-            Compra.IDFlete = id;
-            //Compra = CompraDatos.ObtenerInfoTab3(Compra);
+            Compra.IDCompra = id;
+            Compra = CompraDatos.GetFlete(Compra);
+            Compra.ListaChoferes = CompraDatos.GetChoferes(Compra);
+            Compra.ListaVehiculos = CompraDatos.GetVehiculos(Compra);
+
+
+            /*Relleno el combobox de lugares INICIO*/
+            Compra = CompraDatos.ObtenerLugares(Compra, 1);
+            CompraModels CompraLugar = new CompraModels();
+            Compra.Lugar = new CatLugarModels
+            {
+                listaLugares = new List<CatLugarModels>()
+            };
+
+
+            foreach (System.Data.DataRow Lugar in Compra.TablaLugares.Rows)
+            {
+                CompraLugar.Lugar = new CatLugarModels
+                {
+                    id_lugar = Lugar["id_lugar"].ToString() + " | " + Lugar["gpsLatitud"].ToString() + " | " + Lugar["gpsLongitud"].ToString(),
+                    descripcion = Lugar["descripcion"].ToString()
+                };
+
+                Compra.Lugar.listaLugares.Add(CompraLugar.Lugar);
+            }
+            var ListLugaresInicio = new SelectList(Compra.Lugar.listaLugares, "id_lugar", "descripcion");
+            ViewData["cmbLugarInicio"] = ListLugaresInicio;
+
+            /*Relleno el combobox de lugares FINAL*/
+            Compra = new CompraModels
+            {
+                Conexion = Conexion
+            };
+            Compra = CompraDatos.ObtenerLugares(Compra, 0);
+            Compra.Lugar = new CatLugarModels
+            {
+                listaLugares = new List<CatLugarModels>()
+            };
+
+            foreach (System.Data.DataRow Lugar in Compra.TablaLugares.Rows)
+            {
+                CompraLugar.Lugar = new CatLugarModels
+                {
+                    id_lugar = Lugar["id_lugar"].ToString() + " | " + Lugar["gpsLatitud"].ToString() + " | " + Lugar["gpsLongitud"].ToString(),
+                    descripcion = Lugar["descripcion"].ToString()
+                };
+
+                Compra.Lugar.listaLugares.Add(CompraLugar.Lugar);
+            }
+            var ListLugaresFinal = new SelectList(Compra.Lugar.listaLugares, "id_lugar", "descripcion");
+            ViewData["cmbLugarFinal"] = ListLugaresFinal;
+
+
 
             return View(Compra);
         }
+        public ActionResult Ganado(string id)
+        {
+            Compra = new CompraModels();
 
+
+
+            return View(Compra);
+        }
+        
+        
+        
         // GET: Admin/Compra/Details/5
         public ActionResult Details(int id)
         {
@@ -83,8 +142,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _Compra_Datos CompraDatos = new _Compra_Datos();
             Compra.Conexion = Conexion;
             Compra.IDProveedor = id;
-            Compra = CompraDatos.ObtenerInfoTab1(Compra);
-            Compra.ListaProveedores = CompraDatos.ObtenerListadoProveedores(Compra);
+            Compra = CompraDatos.GetCompraPacta(Compra);
+            
 
             return View(Compra);
         }
