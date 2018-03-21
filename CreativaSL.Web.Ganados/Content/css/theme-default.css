@@ -5085,7 +5085,7 @@ background: #bd2020 !important;
   padding: 0;
   width: 18px;
   height: 18px;
-  background: url("../Content/img/icheck/grey.png") no-repeat;
+  background: url("/Content/img/icheck/grey.png") no-repeat;
   border: none;
   cursor: pointer;
 }

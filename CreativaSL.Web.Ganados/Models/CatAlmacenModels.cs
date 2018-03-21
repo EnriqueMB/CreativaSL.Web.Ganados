@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -13,6 +14,8 @@ namespace CreativaSL.Web.Ganados.Models
         /// </summary>
         public CatAlmacenModels()
         {
+            this._IDSucursal = string.Empty;
+            this.nombreAlmacen = string.Empty;
             this._IDAlmacen = string.Empty;
             this._ClaveAlmacen = string.Empty;
             //Se da por hecho que CatSucursalModels tiene un constructor que inicializa sus datos
@@ -27,8 +30,22 @@ namespace CreativaSL.Web.Ganados.Models
             this.Opcion = 0;
         }
 
+        private string _nombreAlmacen;
 
-        
+        public string nombreAlmacen
+        {
+            get { return _nombreAlmacen; }
+            set { _nombreAlmacen = value; }
+        }
+
+        private string _IDSucursal;
+
+        public string IDSucursal
+        {
+            get { return _IDSucursal; }
+            set { _IDSucursal = value; }
+        }
+
         private string _IDAlmacen;
         /// <summary>
         /// Identificador primario del almacén
@@ -44,6 +61,10 @@ namespace CreativaSL.Web.Ganados.Models
         /// <summary>
         /// Identificador interno del almacén
         /// </summary>
+        /// [Required(ErrorMessage = "La matricula es obligatoria")]
+        [Display(Name = "Clave")]
+        [StringLength(20, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
+        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s\-]*$", ErrorMessage = "Solo Letras, Números y '-'")]
         public string ClaveAlmacen
         {
             get { return _ClaveAlmacen; }
@@ -65,6 +86,8 @@ namespace CreativaSL.Web.Ganados.Models
         /// Descripción del almacen 
         /// </summary>
         private string _Descripcion;
+        [Required(ErrorMessage = "La descripcion es obligatoria")]
+        [Display(Name = "descripcion")]
         public string Descripcion
         {
             get { return _Descripcion; }

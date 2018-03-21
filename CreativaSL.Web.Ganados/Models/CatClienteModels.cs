@@ -108,7 +108,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private List<CFDI_RegimenFiscalModels> _ListaRegimenCMB;
-        [Required(ErrorMessage = "El régimien fiscal es obligatorio")]
+        [Required(ErrorMessage = "El régimen fiscal es obligatorio")]
         [Display(Name = "Régimen Fiscal")]
         public List<CFDI_RegimenFiscalModels> ListaRegimenCMB
         {
@@ -139,7 +139,6 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _NombreRegimenFiscal; }
             set { _NombreRegimenFiscal = value; }
         }
-
 
         #region Datos De Control
         public string Conexion { get; set; }

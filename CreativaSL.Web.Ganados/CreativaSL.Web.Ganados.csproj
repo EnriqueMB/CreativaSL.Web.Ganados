@@ -423,6 +423,7 @@
     <Content Include="Content\img\themes\default.jpg" />
     <Content Include="Content\img\themes\light.jpg" />
     <Content Include="Content\js\actions.js" />
+    <Content Include="Content\js\clientes.js" />
     <Content Include="Content\js\demo_charts_morris.js" />
     <Content Include="Content\js\demo_charts_nvd3.js" />
     <Content Include="Content\js\demo_charts_rickshaw.js" />
@@ -956,6 +957,10 @@
     <Content Include="Areas\Admin\Views\CatCategoriaPuesto\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatCategoriaPuesto\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatCategoriaPuesto\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatAlmacen\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatAlmacen\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatAlmacen\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\Create2.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalGanado.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\OtrosMovimientos.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalInventario.cshtml" />
@@ -984,6 +989,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AlmacenController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatCategoriaPuestoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatChoferController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatClienteController.cs" />
@@ -1095,6 +1101,7 @@
     <Compile Include="Models\UsuarioModels.cs" />
     <Compile Include="Models\VentaGanadoModels.cs" />
     <Compile Include="Models\VentaModels.cs" />
+    <Compile Include="Models\_CatAlmacen_Datos.cs" />
     <Compile Include="Models\_CatCategoriaPuesto_Datos.cs" />
     <Compile Include="Models\_CatChofer_Datos.cs" />
     <Compile Include="Models\_CatCliente_Datos.cs" />

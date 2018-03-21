@@ -52,11 +52,41 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Clientes.EsPersonaFisica = true;
                 Clientes.Conexion = Conexion;
                 Clientes.ListaCmbSucursal = ClientesDatos.ObteneComboCatSucursal(Clientes);
+                //var list = new SelectList(Clientes.ListaCmbSucursal, "IDSucursal", "NombreSucursal");
+                //ViewData["cmbSucursal"] = list;
+                Clientes.ListaRegimenCMB = ClientesDatos.ObtenerComboRegimenFiscal(Clientes);
+                //var list1 = new SelectList(Clientes.ListaRegimenCMB, "Clave", "Descripcion");
+                //ViewData["cmbRegimenFiscal"] = list1;
+                return View(Clientes);
+            }
+            catch (Exception)
+            {
+                CatClienteModels Cliente = new CatClienteModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Cliente);
+            }
+        }
+
+        // GET: Admin/CatClientes/Create2
+        [HttpGet]
+        public ActionResult Create2()
+        {
+            try
+            {
+                CatClienteModels Clientes = new CatClienteModels();
+                CatCliente_Datos ClientesDatos = new CatCliente_Datos();
+                //Clientes.nvc.Add("data-live-search", "true");
+                //Clientes.nvc.Add("class", "form-control select");
+                Clientes.EsPersonaFisica = true;
+                Clientes.Conexion = Conexion;
+                Clientes.ListaCmbSucursal = ClientesDatos.ObteneComboCatSucursal(Clientes);
                 var list = new SelectList(Clientes.ListaCmbSucursal, "IDSucursal", "NombreSucursal");
                 ViewData["cmbSucursal"] = list;
+
                 Clientes.ListaRegimenCMB = ClientesDatos.ObtenerComboRegimenFiscal(Clientes);
-                var list1 = new SelectList(Clientes.ListaRegimenCMB, "Clave", "Descripcion");
-                ViewData["cmbRegimenFiscal"] = list1;
+                //var list1 = new SelectList(Clientes.ListaRegimenCMB, "Clave", "Descripcion");
+                //ViewData["cmbRegimenFiscal"] = list1;
                 return View(Clientes);
             }
             catch (Exception)
@@ -70,32 +100,29 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatClientes/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CatClienteModels clienteID)
         {
+            CatCliente_Datos ClienteDatos = new CatCliente_Datos();
             try
             {
                 CatClienteModels Cliente = new CatClienteModels();
-                CatCliente_Datos ClienteDatos = new CatCliente_Datos();
-                Cliente.Conexion = Conexion;
-                Cliente.Opcion = 1;
-                Cliente.IDSucursal = collection["ListaCmbSucursal"];
-                Cliente.IDRegimenFiscal = collection["ListaRegimenCMB"];
-                Cliente.NombreRazonSocial = collection["NombreRazonSocial"];
-                Cliente.RFC = collection["RFC"];
-                Cliente.EsPersonaFisica = collection["EsPersonaFisica"].StartsWith("true");
-                Cliente.Usuario = User.Identity.Name;
-                Cliente = ClienteDatos.AbcCatClientes(Cliente);
-                if (Cliente.Completado == true)
-                {
+                clienteID.Conexion = Conexion;
+                clienteID.Opcion = 1;
+                clienteID.Usuario = User.Identity.Name;
+                clienteID = ClienteDatos.AbcCatClientes(clienteID);
+                if (clienteID.Completado == true)
+                {                    
                     TempData["typemessage"] = "1";
-                    TempData["message"] = "Los datos se guardarón correctamente.";
+                    TempData["message"] = "Los datos se guardaron correctamente.";
                     return RedirectToAction("Index");
                 }
                 else
                 {
+                    clienteID.ListaCmbSucursal = ClienteDatos.ObteneComboCatSucursal(clienteID);
+                    clienteID.ListaRegimenCMB = ClienteDatos.ObtenerComboRegimenFiscal(clienteID);
                     TempData["typemessage"] = "2";
                     TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                    return RedirectToAction("Create");
+                    return View(clienteID);
                 }
             }
             catch
@@ -117,11 +144,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Client.Conexion = Conexion;
                 Client.IDCliente = id;
                 Client.ListaCmbSucursal = ClienteDatos.ObteneComboCatSucursal(Client);
-                var list = new SelectList(Client.ListaCmbSucursal, "IDSucursal", "NombreSucursal");
-                ViewData["cmbSucursal"] = list;
+                //var list = new SelectList(Client.ListaCmbSucursal, "IDSucursal", "NombreSucursal");
+                //ViewData["cmbSucursal"] = list;
                 Client.ListaRegimenCMB = ClienteDatos.ObtenerComboRegimenFiscal(Client);
-                var list1 = new SelectList(Client.ListaRegimenCMB, "Clave", "Descripcion");
-                ViewData["cmbRegimenFiscal"] = list1;
+                //var list1 = new SelectList(Client.ListaRegimenCMB, "Clave", "Descripcion");
+                //ViewData["cmbRegimenFiscal"] = list1;
                 Client = ClienteDatos.ObtenerDetalleCatCliente(Client);
                 return View(Client);
             }
@@ -136,22 +163,22 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatClientes/Edit/5
         [HttpPost]
-        public ActionResult Edit(string id, FormCollection collection)
+        public ActionResult Edit(string id, CatClienteModels clienteID, FormCollection collection)
         {
             try
             {
                 CatClienteModels Cliente = new CatClienteModels();
                 CatCliente_Datos ClienteDatos = new CatCliente_Datos();
-                Cliente.Conexion = Conexion;
-                Cliente.Opcion = 2;
+                clienteID.Conexion = Conexion;
+                clienteID.Opcion = 2;
                 Cliente.IDCliente = collection["IDCliente"];
                 Cliente.IDSucursal = collection["ListaCmbSucursal"];
                 Cliente.IDRegimenFiscal = collection["ListaRegimenCMB"];
                 Cliente.NombreRazonSocial = collection["NombreRazonSocial"];
                 Cliente.RFC = collection["RFC"];
                 Cliente.EsPersonaFisica = collection["EsPersonaFisica"].StartsWith("true");
-                Cliente.Usuario = User.Identity.Name;
-                Cliente = ClienteDatos.AbcCatClientes(Cliente);
+                clienteID.Usuario = User.Identity.Name;
+                Cliente = ClienteDatos.AbcCatClientes(clienteID);
                 if (Cliente.Completado == true)
                 {
                     TempData["typemessage"] = "1";

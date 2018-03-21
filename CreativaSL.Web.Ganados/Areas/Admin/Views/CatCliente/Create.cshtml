@@ -1,11 +1,10 @@
 ﻿@model CreativaSL.Web.Ganados.Models.CatClienteModels
-
 @{
     ViewBag.Title = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-@section featured{
 
+@section featured{
     @{
         var message = TempData["message"] ?? string.Empty;
         var typemessage = TempData["typemessage"] ?? string.Empty;
@@ -37,7 +36,7 @@
                             <div class="col-md-6">
                                 <label class="col-md-3 col-xs-12 control-label">Sucursales</label>
                                 <div class="col-md-9 col-xs-12">
-                                    @Html.DropDownListFor(model => model.ListaCmbSucursal, ViewData["cmbSucursal"] as SelectList, new { id = "ListSucursal", @class = "form-control select" })
+                                    @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaCmbSucursal, "IDSucursal", "NombreSucursal"), new { id = "ListSucursal2", @class = "form-control select" })
                                     @Html.ValidationMessageFor(model => model.ListaCmbSucursal)
                                     <span class="help-block">Seleccione la sucursal</span>
                                 </div>
@@ -45,7 +44,7 @@
                             <div class="col-md-6">
                                 <label class="col-md-3 col-xs-12 control-label">Regimen Fiscal</label>
                                 <div class="col-md-9 col-xs-12">
-                                    @Html.DropDownListFor(model => model.ListaRegimenCMB, ViewData["cmbRegimenFiscal"] as SelectList, new { id = "ListRegimen", @class = "form-control select" })
+                                    @Html.DropDownListFor(model => model.IDRegimenFiscal, new SelectList(Model.ListaRegimenCMB, "Clave", "Descripcion"), new { id = "ListRegimen2", @class = "form-control select" })
                                     @Html.ValidationMessageFor(model => model.ListaRegimenCMB)
                                     <span class="help-block">Seleccione el regimen fisca</span>
                                 </div>
@@ -185,12 +184,12 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-<script type='text/javascript' src="@Url.Content("~/Content/js/plugins/validationengine/languages/jquery.validationEngine-en.js")"></script>
-<script type='text/javascript' src="@Url.Content("~/Content/js/plugins/validationengine/jquery.validationEngine.js")"></script>
+    <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/validationengine/languages/jquery.validationEngine-en.js")"></script>
+    <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/validationengine/jquery.validationEngine.js")"></script>
 
-<script type='text/javascript' src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
 
-<script type='text/javascript' src="@Url.Content("~/Content/js/plugins/maskedinput/jquery.maskedinput.min.js")"></script>
+    <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/maskedinput/jquery.maskedinput.min.js")"></script>
 
     <script>
     jQuery(document).ready(function () {
