@@ -11,6 +11,8 @@
                 dataType: 'json',
                 success: function (result) { 
                     $("#" + row).hide("slow", function () {
+                        console.log(row);
+                        box.find(".mb-control-yes").prop('onclick', null).off('click');
                         $("#" + row).remove();
                         location.reload(true);
                     });
@@ -22,6 +24,7 @@
                     $('#Error').css("display", "block");
                 }
             });
+
         });
         
     }

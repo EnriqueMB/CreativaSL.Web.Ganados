@@ -198,8 +198,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Chofer.IDChofer = id;
                 Chofer.Usuario = User.Identity.Name;
                 Chofer = ChoferDatos.EliminarChofer(Chofer);
-                TempData["typemessage"] = "1";
-                TempData["message"] = "El registro se ha eliminado correctamente";
+
                 return Json("");
             }
             catch

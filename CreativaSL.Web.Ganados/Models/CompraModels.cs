@@ -43,11 +43,13 @@ namespace CreativaSL.Web.Ganados.Models
         public TrayectoModels Trayecto { get; set; }
         public CatLugarModels Lugar { get; set; }
         public CatSucursalesModels Sucursal { get; set; }
+        public GanadosModels Ganado { get; set; }
 
         public List<CatProveedorModels> ListaProveedores { get; set; }
         public List<CatFierroModels> ListaFierros { get; set; }
         public List<CatChoferModels> ListaChoferes { get; set; }
         public List<CatVehiculoModels> ListaVehiculos { get; set; }
+        public List<GanadosModels> ListaGanados { get; set; }
 
         public DataTable TablaLugares { set; get; }
         #endregion
@@ -59,11 +61,13 @@ namespace CreativaSL.Web.Ganados.Models
         {
             //Inicializamos los objetos
             Flete = new FleteModels();
+            Ganado = new GanadosModels();
             TipoVehiculo = new CatTipoVehiculoModels();
             Marca = new CatMarcaVehiculoModels();
             Trayecto = new TrayectoModels();
             Lugar = new CatLugarModels();
             Sucursal = new CatSucursalesModels();
+
 
             Chofer = new CatChoferModels
             {
@@ -74,7 +78,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 IDVehiculo = "0",
                 Modelo = "SELECCION UN VEHICULO"
-                
+
             };
             Proveedor = new CatProveedorModels
             {
@@ -86,6 +90,7 @@ namespace CreativaSL.Web.Ganados.Models
             ListaProveedores = new List<CatProveedorModels>();
             ListaVehiculos = new List<CatVehiculoModels>();
             ListaChoferes = new List<CatChoferModels>();
+            ListaGanados = new List<GanadosModels>();
             //Agregamos los objetos con valores predeterminados (servirán en los combobox)
             ListaProveedores.Add(Proveedor);
             ListaChoferes.Add(Chofer);
