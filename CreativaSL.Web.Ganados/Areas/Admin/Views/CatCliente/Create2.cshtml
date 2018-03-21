@@ -1,0 +1,167 @@
+﻿@model CreativaSL.Web.Ganados.Models.CatClienteModels
+@{
+    ViewBag.Title = "Create2";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            
+                <div class="panel panel-default tabs">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="active"><a href="#tab-first" role="tab" data-toggle="tab">Datos personales</a></li>
+                        <li><a href="#tab-second" role="tab" data-toggle="tab">Datos fiscales</a></li>
+                        <li><a href="#tab-third" role="tab" data-toggle="tab">Datos bancarios</a></li>
+                    </ul>
+                    <div class="panel-body tab-content">
+                        <div class="tab-pane active" id="tab-first">
+                            @using (Html.BeginForm("DatosGenerales", "CatCliente", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true)
+
+                                @Html.HiddenFor(model => model.IDCliente, new { id="IDClienteDG" })
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        
+                                        <div class="form-group">
+                                            <label class="col-md-2 col-xs-12 control-label">Sucursal</label>
+                                                <div class="col-md-6 col-xs-12">
+                                                    @Html.DropDownListFor(model => model.ListaCmbSucursal, ViewData["cmbSucursal"] as SelectList, new { id = "ListSucursal", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.ListaCmbSucursal)
+                                                    <span class="help-block">Seleccione la sucursal</span>                                                
+                                            </div>
+                                        </div>
+                                        <div class="form-group">                                            
+                                            <label class="col-md-2 col-xs-12 control-label">Razón Social</label>
+                                            <div class="col-md-6 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.NombreRazonSocial, new { id = "RazonSocial", @class = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.NombreRazonSocial)
+                                                <span class="help-block">Ingrese la razón social</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <input type="submit" value="Guardar"  class="btn btn-primary pull-right">
+                                        <a href="@Url.Action("Index","CatCliente")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+
+                        <div class="tab-pane" id="tab-second">
+                            
+                            @using (Html.BeginForm("DatosFiscales", "CatCliente", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true)
+
+                                @Html.HiddenFor(model => model.IDCliente, new { id="IDClienteDF" })
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+
+                                        <div class="form-group">
+                                            <label class="col-md-2 col-xs-12 control-label">Régimen Fiscal</label>
+                                            <div class="col-md-6 col-xs-12">
+                                                @Html.DropDownListFor(model => model.IDRegimenFiscal, new SelectList(Model.ListaCmbSucursal, "IDSucursal", "NombreSucursal"), new { id = "ListRegimen", @class = "form-control select", data_live_search = "true" })
+                                                
+                                                @Html.ValidationMessageFor(model => model.ListaRegimenCMB)
+                                                <span class="help-block">Seleccione el régimen fiscal</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-2 col-xs-12 control-label">RFC</label>
+                                            <div class="col-md-6 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.RFC, new { id = "RFC", @class = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.RFC)
+                                                <span class="help-block">Ingrese el Registro Federal de Contribuyentes</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="panel-footer">
+                                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                                        <a href="@Url.Action("Index","CatCliente")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                                    </div>
+                                </div>
+                            }
+
+
+                        </div>
+
+                        <div class="tab-pane" id="tab-third">
+                            <form class="form-horizontal">
+                                <p>This is non libero bibendum, scelerisque arcu id, placerat nunc. Integer ullamcorper rutrum dui eget porta. Fusce enim dui, pulvinar a augue nec, dapibus hendrerit mauris. Praesent efficitur, elit non convallis faucibus, enim sapien suscipit mi, sit amet fringilla felis arcu id sem. Phasellus semper felis in odio convallis, et venenatis nisl posuere. Morbi non aliquet magna, a consectetur risus. Vivamus quis tellus eros. Nulla sagittis nisi sit amet orci consectetur laoreet.</p>
+
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">E-mail</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <input type="text" class="form-control" value="johndoe@domain.com" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Password</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <input type="password" class="form-control" value="password" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">POP3</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <input type="text" class="form-control" value="pop3.domain.com" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group push-up-30">
+                                    <label class="col-md-3 col-xs-12 control-label">Copy to</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <input type="text" class="form-control" value="doejohn@domain.com" />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';        
+    </script>
+}
+@section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>    
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/icheck/icheck.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script>
+    jQuery(document).ready(function () {
+        Mensaje(message, typemessage);
+    });
+    </script>
+}
