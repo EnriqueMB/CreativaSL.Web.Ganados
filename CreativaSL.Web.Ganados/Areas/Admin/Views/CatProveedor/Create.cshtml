@@ -53,7 +53,7 @@
                             <div class="col-md-6">
                                 <label class="col-md-3 col-xs-12 control-label">Tipo de proveedor</label>
                                 <div class="col-md-9 col-xs-12">
-                                   @Html.DropDownListFor(model => model.listaTipoProveedor, ViewData["cmbTipoProveedor"] as SelectList, new { id = "ListTipoProveedor", @class = "form-control select" })
+                                   @Html.DropDownListFor(model => model.listaTipoProveedor, ViewData["cmbTipoProveedor"] as SelectList, new { id = "ListTipoProveedor", @class = "form-control select", data_live_search = "true", required = "true" })
                                 @Html.ValidationMessageFor(model => model.listaTipoProveedor)
                                     <span class="help-block">Seleccione el tipo de proveedor</span>
                                 </div>
