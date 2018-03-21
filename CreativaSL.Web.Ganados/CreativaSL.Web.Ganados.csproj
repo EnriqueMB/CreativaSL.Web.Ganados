@@ -545,6 +545,7 @@
     <Content Include="Content\js\plugins\codemirror\mode\z80\z80.js" />
     <Content Include="Content\js\plugins\config.map.places.js" />
     <Content Include="Content\js\plugins\datatables\jquery.dataTables.min.js" />
+    <Content Include="Content\js\plugins\daterangepicker\bootstrap-datepicker.es.js" />
     <Content Include="Content\js\plugins\daterangepicker\daterangepicker.js" />
     <Content Include="Content\js\plugins\dropzone\dropzone.min.js" />
     <Content Include="Content\js\plugins\fileinput\fileinput.min.js" />
@@ -803,6 +804,16 @@
     <Content Include="Content\js\plugins\tocify\jquery.tocify.min.js" />
     <Content Include="Content\js\plugins\tour\bootstrap-tour.min.js" />
     <Content Include="Content\js\plugins\tour\bootstro.min.js" />
+    <Content Include="Content\js\plugins\uploadFiles\es.js" />
+    <Content Include="Content\js\plugins\uploadFiles\explorer-fa\theme.css" />
+    <Content Include="Content\js\plugins\uploadFiles\explorer-fa\theme.js" />
+    <Content Include="Content\js\plugins\uploadFiles\fileinput.css" />
+    <Content Include="Content\js\plugins\uploadFiles\fileinput.js" />
+    <Content Include="Content\js\plugins\uploadFiles\font-awesome.min.css" />
+    <Content Include="Content\js\plugins\uploadFiles\jquery.js" />
+    <Content Include="Content\js\plugins\uploadFiles\sortable.js" />
+    <Content Include="Content\js\plugins\uploadFiles\theme.css" />
+    <Content Include="Content\js\plugins\uploadFiles\theme.js" />
     <Content Include="Content\js\plugins\validationengine\jquery.validationEngine.js" />
     <Content Include="Content\js\plugins\validationengine\languages\jquery.validationEngine-ca.js" />
     <Content Include="Content\js\plugins\validationengine\languages\jquery.validationEngine-cz.js" />
@@ -941,8 +952,6 @@
     <Content Include="Areas\Admin\Views\Compra\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Flete.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Ganado.cshtml" />
-    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Admin\Views\CatCliente\Create2.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -967,6 +976,8 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AlmacenController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatAlmacenController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatCategoriaPuestoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatChoferController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatClienteController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatFierroController.cs" />
@@ -993,6 +1004,7 @@
     </Compile>
     <Compile Include="Models\AlmacenEntradaModels.cs" />
     <Compile Include="Models\CatAlmacenModels.cs" />
+    <Compile Include="Models\CatCategoriaPuestoModels.cs" />
     <Compile Include="Models\CatChoferModels.cs" />
     <Compile Include="Models\CatClienteModels.cs" />
     <Compile Include="Models\CatConceptoDetalleDocumentosModels.cs" />
@@ -1076,6 +1088,8 @@
     <Compile Include="Models\UsuarioModels.cs" />
     <Compile Include="Models\VentaGanadoModels.cs" />
     <Compile Include="Models\VentaModels.cs" />
+    <Compile Include="Models\_CatAlmacen_Datos.cs" />
+    <Compile Include="Models\_CatCategoriaPuesto_Datos.cs" />
     <Compile Include="Models\_CatChofer_Datos.cs" />
     <Compile Include="Models\_CatCliente_Datos.cs" />
     <Compile Include="Models\_CatFierro_Datos.cs" />

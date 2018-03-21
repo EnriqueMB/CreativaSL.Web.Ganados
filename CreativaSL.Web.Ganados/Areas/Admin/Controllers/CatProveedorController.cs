@@ -29,10 +29,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                CatLugarModels Lugar = new CatLugarModels();
+                CatProveedorModels Proveedor = new CatProveedorModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return View(Lugar);
+                return View(Proveedor);
             }
         }
 
@@ -231,8 +231,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Proveedor.IDProveedor = id;
                 Proveedor.Usuario = User.Identity.Name;
                 Proveedor = ProveedorDatos.EliminarProveedor(Proveedor);
-                TempData["typemessage"] = "1";
-                TempData["message"] = "El registro se ha eliminado correctamente";
+                
                 return Json("");
                 // TODO: Add delete logic here
 

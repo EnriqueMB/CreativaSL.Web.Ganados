@@ -1,0 +1,122 @@
+﻿@model CreativaSL.Web.Ganados.Models.CatCategoriaPuestoModels
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section featured{
+
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            @*<form class="form-horizontal">*@
+            @using (Html.BeginForm("Create", "CatCategoriaPuesto", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                @Html.HiddenFor(model => model.id_categoria)
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Información</strong> Chofer</h3>
+                        <ul class="panel-controls">
+                            @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <label class="col-md-12 control-label text-center">Descripción del puesto</label>
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.descripcion, new { id = "Nombre", @class = "form-control" })
+
+
+                                    </div>
+                                    <span class="help-block text-center">Descripción del lugar</span>
+                                    @Html.ValidationMessageFor(model => model.descripcion)
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-12 control-label text-center">Puesto</label>
+                                <div class="col-md-12">
+                                    @Html.DropDownListFor(model => model.listaPuestos, ViewData["cmbCategoriaPuestos"] as SelectList, new { id = "ListPaises", @class = "form-control " })
+
+                                </div>
+                                @Html.ValidationMessageFor(model => model.listaPuestos)
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-12 control-label text-center">Sueldo Base</label>
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.sueldoBase, new { id = "sueldoBase", @class = "form-control" })
+
+
+                                    </div>
+                                    <span class="help-block text-center">Sueldo Base</span>
+                                    @Html.ValidationMessageFor(model => model.sueldoBase)
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                           
+                           
+                        </div>
+                        <br />
+                        
+
+                       
+
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("Index","CatCategoriaPuesto")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    </div>
+                </div>
+                @*</form>*@
+            }
+        </div>
+    </div>
+    <script>
+
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+
+
+    <script src="@Url.Content("~/Content/js/plugins/config.map.places.js")"></script>
+    <script>
+    jQuery(document).ready(function () {
+       
+        Mensaje(message, typemessage);
+    });
+    
+
+    </script>
+}
+
+
+
+
+

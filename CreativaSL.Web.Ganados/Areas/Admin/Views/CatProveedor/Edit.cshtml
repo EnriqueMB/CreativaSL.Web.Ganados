@@ -112,7 +112,7 @@
                     </div>
                     <div class="panel-footer">
                         <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                        <a href="@Url.Action("Index","CatChofer")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                        <a href="@Url.Action("Index", "CatProveedor")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                     </div>
                 </div>
                 @*</form>*@
@@ -147,7 +147,6 @@
         $('#file-es').fileinput({
             theme: 'fa',
             language: 'es',
-            uploadUrl: '#',
             maxFileCount: 1,
             overwriteInitial: true,
             showUploadedThumbs: false,
@@ -161,12 +160,12 @@
             initialPreviewShowDelete: false,
             showRemove: false,
             showClose: false,
+            showUpload: false,
             layoutTemplates: { actionDelete: '' }
         })
         $('#file-esM').fileinput({
             theme: 'fa',
             language: 'es',
-            uploadUrl: '#',
             autoReplace: true,
             overwriteInitial: true,
             showUploadedThumbs: false,
@@ -178,6 +177,7 @@
             initialPreviewShowDelete: false,
             showRemove: false,
             showClose: false,
+            showUpload: false,
             layoutTemplates: { actionDelete: '' }, // disable thumbnail deletion
             allowedFileExtensions: ["png"]
             @*theme: 'fa',

@@ -182,5 +182,24 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
             return Json(rm);
         }
+
+        /*ACTION DELETE*/
+        /*FIERROS*/
+        [HttpPost]
+        public JsonResult EliminarFierro(string id_fierro)
+        {
+
+            return Json("a");
+        }
+
+        /*MODAL*/
+        /*GANADO*/
+        [HttpGet]
+        public ActionResult NuevoGanado()
+        {
+            Compra = new CompraModels();   
+            return PartialView("ModalGanado", Compra.Ganado);
+        }
+
     }
 }

@@ -35,35 +35,58 @@
                         </ul>
                     </div>
                     <div class="panel-body">
-                        <table class="table datatable">
-                            <thead>
-                                <tr>
-                                    <th>Nombre del Puesto</th>
-                                    <th>Es Gerente</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                               @foreach (var Puesto in Model.ListaPuesto)
+                        <div class="table-responsive">
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre del Puesto</th>
+                                        <th>Es Gerente</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var Puesto in Model.ListaPuesto)
                                {
-                                <tr id="@Puesto.IDPuesto">
-                                    <td>@Puesto.Descripcion</td>
-                                    @if (Puesto.EsGerente)
+                                        <tr id="@Puesto.IDPuesto">
+                                            <td>@Puesto.Descripcion</td>
+                                            @if (Puesto.EsGerente)
                                     {
-                                        <td>SI</td>
+                                                <td>SI</td>
                                     }
                                     else
                                     {
-                                        <td>NO</td>
+                                                <td>NO</td>
                                     }
-                                    <td style="text-align:center;">
-                                        <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatPuestos", new { id = Puesto.IDPuesto })"><i class="fa fa-edit"></i></a>
-                                        <a title="Eliminar" class="btn delete btn-danger" id="delete-@Puesto.IDPuesto" data-hrefa="@Url.Action("Delete", "CatPuestos", new { id = Puesto.IDPuesto })" onClick="delete_row('@Puesto.IDPuesto');"><i class="fa fa-trash-o"></i></a>
-                                    </td>
-                                </tr>
+                                            <td style="text-align:center;">
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    <a title="Editar" href="@Url.Action("Edit", "CatPuestos", new { id = Puesto.IDPuesto })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" id="delete-@Puesto.IDPuesto" data-hrefa="@Url.Action("Delete", "CatPuestos", new { id = Puesto.IDPuesto })" onClick="delete_row('@Puesto.IDPuesto');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                </div>
+                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                        </a>
+                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatPuestos", new { id = Puesto.IDPuesto })">
+                                                                    <i class="fa fa-edit"></i> Editar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" id="delete-@Puesto.IDPuesto" data-hrefa="@Url.Action("Delete", "CatPuestos", new { id = Puesto.IDPuesto })" onClick="delete_row('@Puesto.IDPuesto');">
+                                                                    <i class="fa fa-trash-o"></i> Eliminar
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
                                }
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <!-- END DEFAULT DATATABLE -->

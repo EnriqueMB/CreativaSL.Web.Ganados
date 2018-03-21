@@ -36,45 +36,66 @@
                         </ul>
                     </div>
                     <div class="panel-body">
-                        <table class="table datatable">
-                            <thead>
-                                <tr>
-                                    <th>Tipo de Vehículo</th>
-                                    <th>Marca</th>
-                                    <th>Sucursal</th>
-                                    <th>Disponibilidad</th>
-                                    <th>Número de serie</th>
-                                    <th>Acción</th>
-                                    
+                        <div class="table-responsive">
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Tipo de Vehículo</th>
+                                        <th>Marca</th>
+                                        <th>Sucursal</th>
+                                        <th>Disponibilidad</th>
+                                        <th>Número de serie</th>
+                                        <th>Acción</th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                               @foreach (var vehiculo in Model.listaVehiculos)
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var vehiculo in Model.listaVehiculos)
                                {
-                                    <tr id="@vehiculo.IDVehiculo">
-                                        <td>@vehiculo.nombreTipoVehiculo</td>
-                                        <td>@vehiculo.nombreMarca</td>
-                                        <td>@vehiculo.nombreSucursal</td>
-                                        @if (@vehiculo.Estatus != true)
+                                        <tr id="@vehiculo.IDVehiculo">
+                                            <td>@vehiculo.nombreTipoVehiculo</td>
+                                            <td>@vehiculo.nombreMarca</td>
+                                            <td>@vehiculo.nombreSucursal</td>
+                                            @if (@vehiculo.Estatus != true)
                                         {
-                                            <td style="text-align:center"><div style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:red"></div></td>
+                                                <td style="text-align:center"><div style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:red"></div></td>
                                         }
                                         else
                                         {
-                                            <td style="text-align:center"><div style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:green"></div></td>
+                                                <td style="text-align:center"><div style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:green"></div></td>
                                         }
-
-                                        <td>@vehiculo.NoSerie</td>
-                                        <td style="text-align:center;">
-                                            <a class="btn btn-yellow" href="@Url.Action("Edit", "CatVehiculo", new { id =vehiculo.IDVehiculo  })"><i class="fa fa-edit"></i></a>
-                                            <a class="btn delete btn-danger" id="delete-@vehiculo.IDVehiculo" data-hrefa="@Url.Action("Delete", "CatVehiculo", new { id =vehiculo.IDVehiculo })" onClick="delete_row('@vehiculo.IDVehiculo');"><i class="fa fa-trash-o"></i></a>
-
-                                        </td>
-                                    </tr>
+                                            <td>@vehiculo.NoSerie</td>
+                                            <td style="text-align:center;">
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    <a title="Editar" href="@Url.Action("Edit", "CatVehiculo", new { id =vehiculo.IDVehiculo  })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" id="delete-@vehiculo.IDVehiculo" data-hrefa="@Url.Action("Delete", "CatVehiculo", new { id =vehiculo.IDVehiculo })" onClick="delete_row('@vehiculo.IDVehiculo');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                </div>
+                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                        </a>
+                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatVehiculo", new { id =vehiculo.IDVehiculo  })">
+                                                                    <i class="fa fa-edit"></i> Editar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" id="delete-@vehiculo.IDVehiculo" data-hrefa="@Url.Action("Delete", "CatVehiculo", new { id =vehiculo.IDVehiculo })" onClick="delete_row('@vehiculo.IDVehiculo');">
+                                                                    <i class="fa fa-trash-o"></i> Eliminar
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
                                 }
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <!-- END DEFAULT DATATABLE -->

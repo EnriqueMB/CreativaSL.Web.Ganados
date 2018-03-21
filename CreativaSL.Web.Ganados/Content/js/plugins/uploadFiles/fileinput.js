@@ -629,7 +629,7 @@
                 '<div class="input-group-btn input-group-append">\n' +
                 '      {remove}\n' +
                 '      {cancel}\n' +
-                //'      {upload}\n' +
+                '      {upload}\n' +
                 '      {browse}\n' +
                 '    </div>\n' +
                 '</div>';
@@ -658,14 +658,14 @@
             tBtnLink = '<a href="{href}" tabindex="500" title="{title}" class="{css}" {status}>{icon} {label}</a>';
             //noinspection HtmlUnknownAttribute
             tBtnBrowse = '<div tabindex="500" class="{css}" {status}>{icon} {label}</div>';
-            tModalMain = '<div id="' + $h.MODAL_ID + '" class="file-zoom-dialog modal fade" style=""' +
+            tModalMain = '<div id="' + $h.MODAL_ID + '" class="file-zoom-dialog modal fade" ' +
                 'tabindex="-1" aria-labelledby="' + $h.MODAL_ID + 'Label"></div>';
             tModal = '<div class="modal-dialog modal-lg{rtl}" role="document">\n' +
                 '  <div class="modal-content">\n' +
                 '    <div class="modal-header">\n' +
                 '      <h5 class="modal-title">{heading}</h5>\n' +
                 '      <span class="kv-zoom-title"></span>\n' +
-                '      <div class="kv-zoom-actions">{close}</div>\n' +
+                '      <div class="kv-zoom-actions">{toggleheader}{fullscreen}{borderless}{close}</div>\n' +
                 '    </div>\n' +
                 '    <div class="modal-body">\n' +
                 '      <div class="floating-buttons"></div>\n' +
@@ -697,7 +697,8 @@
             //noinspection HtmlUnknownAttribute
             tActionDelete = '<button type="button" class="kv-file-remove {removeClass}" ' +
                 'title="{removeTitle}" {dataUrl}{dataKey}>{removeIcon}</button>\n';
-            tActionUpload = '';
+            tActionUpload = '<button type="button" class="kv-file-upload {uploadClass}" title="{uploadTitle}">' +
+                '{uploadIcon}</button>';
             tActionDownload = '<a class="kv-file-download {downloadClass}" title="{downloadTitle}" ' +
                 'href="{downloadUrl}" download="{caption}" target="_blank">{downloadIcon}</a>';
             tActionZoom = '<button type="button" class="kv-file-zoom {zoomClass}" ' +
@@ -854,7 +855,7 @@
                     showDownload: true,
                     showZoom: true,
                     showDrag: true,
-                    removeIcon: '<i class="icon-trash"></i>',
+                    removeIcon: '<i class="glyphicon glyphicon-trash"></i>',
                     removeClass: 'btn btn-sm btn-kv btn-default btn-outline-secondary',
                     removeErrorClass: 'btn btn-sm btn-kv btn-danger',
                     removeTitle: 'Remove file',
@@ -866,7 +867,7 @@
                     downloadIcon: '<i class="glyphicon glyphicon-download"></i>',
                     downloadClass: 'btn btn-sm btn-kv btn-default btn-outline-secondary',
                     downloadTitle: 'Download file',
-					zoomIcon: '<i class="icon-search"></i>',
+                    zoomIcon: '<i class="glyphicon glyphicon-zoom-in"></i>',
                     zoomClass: 'btn btn-sm btn-kv btn-default btn-outline-secondary',
                     zoomTitle: 'View Details',
                     dragIcon: '<i class="glyphicon glyphicon-move"></i>',
@@ -3228,7 +3229,7 @@
             self.$element.before($container);
             self._initBrowse($container);
             if (self.theme) {
-                $container.addClass('span12 m-wrap theme-' + self.theme);
+                $container.addClass('theme-' + self.theme);
             }
             return $container;
         },
@@ -3363,7 +3364,6 @@
                     'key': key
                 });
             }
-			/*
             if (showUpl) {
                 btnUpload = self._getLayoutTemplate('actionUpload').setTokens({
                     'uploadClass': config.uploadClass,
@@ -3371,7 +3371,6 @@
                     'uploadTitle': config.uploadTitle
                 });
             }
-			*/
             if (showDwn) {
                 btnDownload = self._getLayoutTemplate('actionDownload').setTokens({
                     'downloadClass': config.downloadClass,
@@ -4133,7 +4132,7 @@
         showUpload: true,
         showCancel: true,
         showClose: true,
-        showUploadedThumbs: true,
+        showUploadedThumbs: false,
         browseOnZoneClick: false,
         autoReplace: false,
         autoOrientImage: true, // for JPEG images based on EXIF orientation tag
@@ -4168,7 +4167,7 @@
             toggleheader: '<i class="glyphicon glyphicon-resize-vertical"></i>',
             fullscreen: '<i class="glyphicon glyphicon-fullscreen"></i>',
             borderless: '<i class="glyphicon glyphicon-resize-full"></i>',
-            close: '<i class="icon-remove"></i>'
+            close: '<i class="glyphicon glyphicon-remove"></i>'
         },
         previewZoomButtonClasses: {
             prev: 'btn btn-navigate',

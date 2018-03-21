@@ -35,36 +35,64 @@
                         </ul>
                     </div>
                     <div class="panel-body">
-                        <table class="table datatable">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Correo</th>
-                                    <th>Teléfono</th>
-                                    <th>Tipo</th>
-                                    <th>Usuario</th>
-                                    <th>Acción</th>
-                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (System.Data.DataRow admin in Model.tablaUsuario.Rows)
-                                {
-                                    <tr id="@admin["id_persona"].ToString()">
-                                        <td>@admin["nombreCompleto"].ToString()</td>
-                                        <td>@admin["correo"].ToString()</td>
-                                        <td>@admin["telefono"].ToString()</td>
-                                        <td>@admin["descripcion"].ToString()</td>
-                                        <td>@admin["clvUser"].ToString()</td>
-                                        <td style="text-align:center;">
-                                            <a class="btn btn-yellow" href="@Url.Action("Edit", "CatUsuarios", new { id =admin["id_persona"].ToString() })"><i class="fa fa-edit"></i></a>
-                                            <a class="btn delete btn-danger" id="delete-@admin["id_persona"].ToString()" data-hrefa="@Url.Action("Delete", "CatUsuarios", new { id =admin["id_persona"].ToString()  })" onClick="delete_row('@admin["id_persona"].ToString()');"><i class="fa fa-trash-o"></i></a>
-                                            <a class="btn btn-green" href="@Url.Action("Permisos", "CatUsuarios", new { id =admin["id_persona"].ToString() })"><i class="fa fa-unlock-alt"></i></a>
-                                        </td>
+                        <div class="table-responsive">
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Correo</th>
+                                        <th>Teléfono</th>
+                                        <th>Tipo</th>
+                                        <th>Usuario</th>
+                                        <th>Acción</th>
+
                                     </tr>
-                                            }
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach (System.Data.DataRow admin in Model.tablaUsuario.Rows)
+                                    {
+                                        <tr id="@admin["id_persona"].ToString()">
+                                            <td>@admin["nombreCompleto"].ToString()</td>
+                                            <td>@admin["correo"].ToString()</td>
+                                            <td>@admin["telefono"].ToString()</td>
+                                            <td>@admin["descripcion"].ToString()</td>
+                                            <td>@admin["clvUser"].ToString()</td>
+                                            <td style="text-align:center;">
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    <a title="Editar" href="@Url.Action("Edit", "CatUsuarios", new { id =admin["id_persona"].ToString() })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" id="delete-@admin["id_persona"].ToString()" data-hrefa="@Url.Action("Delete", "CatUsuarios", new { id =admin["id_persona"].ToString()  })" onClick="delete_row('@admin["id_persona"].ToString()');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Editar" class="btn btn-green tooltips" href="@Url.Action("Permisos", "CatUsuarios", new { id =admin["id_persona"].ToString() })" data-placement="top" data-original-title="Permiso"><i class="fa fa-unlock-alt"></i></a>
+                                                </div>
+                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                        </a>
+                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatUsuarios", new { id =admin["id_persona"].ToString() })">
+                                                                    <i class="fa fa-edit"></i> Editar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" id="delete-@admin["id_persona"].ToString()" data-hrefa="@Url.Action("Delete", "CatUsuarios", new { id =admin["id_persona"].ToString()  })" onClick="delete_row('@admin["id_persona"].ToString()');">
+                                                                    <i class="fa fa-trash-o"></i> Eliminar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Permisos", "CatUsuarios", new { id =admin["id_persona"].ToString() })">
+                                                                    <i class="fa fa-unlock-alt"></i> Permiso
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <!-- END DEFAULT DATATABLE -->
