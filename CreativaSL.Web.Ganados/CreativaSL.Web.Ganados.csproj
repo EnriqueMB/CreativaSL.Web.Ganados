@@ -956,6 +956,9 @@
     <Content Include="Areas\Admin\Views\CatCategoriaPuesto\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatCategoriaPuesto\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatCategoriaPuesto\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatAlmacen\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatAlmacen\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatAlmacen\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -980,6 +983,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AlmacenController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatCategoriaPuestoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatChoferController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatClienteController.cs" />
@@ -1091,6 +1095,7 @@
     <Compile Include="Models\UsuarioModels.cs" />
     <Compile Include="Models\VentaGanadoModels.cs" />
     <Compile Include="Models\VentaModels.cs" />
+    <Compile Include="Models\_CatAlmacen_Datos.cs" />
     <Compile Include="Models\_CatCategoriaPuesto_Datos.cs" />
     <Compile Include="Models\_CatChofer_Datos.cs" />
     <Compile Include="Models\_CatCliente_Datos.cs" />
