@@ -956,6 +956,11 @@
     <Content Include="Areas\Admin\Views\CatCategoriaPuesto\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatCategoriaPuesto\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatCategoriaPuesto\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatAlmacen\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatAlmacen\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatAlmacen\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\Create2.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\ModalGanado.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
