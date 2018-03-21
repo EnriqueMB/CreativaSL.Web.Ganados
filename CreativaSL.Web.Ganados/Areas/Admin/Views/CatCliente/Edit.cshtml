@@ -20,7 +20,7 @@
         </div>
         <div class="col-md-12">
             @*<form class="form-horizontal">*@
-            @using (Html.BeginForm("Create", "CatCliente", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+            @using (Html.BeginForm("Edit", "CatCliente", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
@@ -38,7 +38,7 @@
                             <div class="col-md-6">
                                 <label class="col-md-3 col-xs-12 control-label">Sucursales</label>
                                 <div class="col-md-9 col-xs-12">
-                                    @Html.DropDownListFor(model => model.ListaCmbSucursal, ViewData["cmbSucursal"] as SelectList, new { id = "ListSucursal", @class = "form-control select" })
+                                    @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaCmbSucursal, "IDSucursal", "NombreSucursal"), new { id = "ListSucursal2", @class = "form-control select" })
                                     @Html.ValidationMessageFor(model => model.ListaCmbSucursal)
                                     <span class="help-block">Select box example</span>
                                 </div>
@@ -46,7 +46,7 @@
                             <div class="col-md-6">
                                 <label class="col-md-3 col-xs-12 control-label">Regimen Fiscal</label>
                                 <div class="col-md-9 col-xs-12">
-                                    @Html.DropDownListFor(model => model.ListaRegimenCMB, ViewData["cmbRegimenFiscal"] as SelectList, new { id = "ListRegimen", @class = "form-control select" })
+                                    @Html.DropDownListFor(model => model.IDRegimenFiscal, new SelectList(Model.ListaRegimenCMB, "Clave", "Descripcion"), new { id = "ListRegimen2", @class = "form-control select" })
                                     @Html.ValidationMessageFor(model => model.ListaRegimenCMB)
                                     <span class="help-block">Select box example</span>
                                 </div>
