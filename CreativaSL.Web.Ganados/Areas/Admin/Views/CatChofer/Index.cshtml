@@ -132,7 +132,9 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script>
-    jQuery(document).ready(function () {
+        jQuery(document).ready(function () {
+            console.log(message);
+            console.log(typemessage);
         Mensaje(message, typemessage);
         });
     </script>

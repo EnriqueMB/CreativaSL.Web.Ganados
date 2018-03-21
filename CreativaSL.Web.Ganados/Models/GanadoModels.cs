@@ -7,6 +7,19 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class GanadosModels
     {
+        public GanadosModels()
+        {
+            _id_estatus_Ganados = string.Empty;
+            _id_sucursal = string.Empty;
+            _id_estatus_Ganados = string.Empty;
+            id_tipoGanadosPorPeso = 0;
+            _observacion = string.Empty;
+            Conexion = string.Empty;
+            Usuario = string.Empty;
+            numArete = string.Empty;
+            ranchoCliente = false;
+        }
+
         private string _id_Ganados;
 
         public string id_Ganados

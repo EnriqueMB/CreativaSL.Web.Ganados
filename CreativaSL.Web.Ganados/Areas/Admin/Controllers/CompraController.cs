@@ -191,5 +191,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
             return Json("a");
         }
+
+        /*MODAL*/
+        /*GANADO*/
+        [HttpGet]
+        public ActionResult NuevoGanado()
+        {
+            Compra = new CompraModels();   
+            return PartialView("ModalGanado", Compra.Ganado);
+        }
+
     }
 }

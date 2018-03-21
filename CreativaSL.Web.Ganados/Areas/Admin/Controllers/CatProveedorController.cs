@@ -231,8 +231,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Proveedor.IDProveedor = id;
                 Proveedor.Usuario = User.Identity.Name;
                 Proveedor = ProveedorDatos.EliminarProveedor(Proveedor);
-                TempData["typemessage"] = "1";
-                TempData["message"] = "El registro se ha eliminado correctamente";
+                
                 return Json("");
                 // TODO: Add delete logic here
 

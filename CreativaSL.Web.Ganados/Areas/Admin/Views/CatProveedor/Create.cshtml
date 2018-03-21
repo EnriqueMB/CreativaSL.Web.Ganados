@@ -144,54 +144,21 @@
             theme: 'fa',
             language: 'es',
             minFileCount: 1,
+            uploadUrl: "#",
             showUpload: false,
             showUploadedThumbs: false,
             overwriteInitial: false,
             allowedFileExtensions: ['png']
-            @*initialPreview: [
-                @for(var i = 0;  i < Model.listaProveedores.Count; i++)
-                {
-                    <text>
-                    '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.listaProveedores[i].Imagenes" />'
-                    </text>
-                    if ((i + 1) != Model.listaProveedores.Count)
-                    {
-                        <text>
-                        ,
-                        </text>
-                    }
-                }
-            ],
-            initialPreviewConfig: [
-                @for (var i = 0 ;  i < Model.listaProveedores.Count; i++)
-                {
-                    <text>
-                    { caption: '@Model.listaProveedores[i].NombreImagen' }
-                    </text>
-
-                    if ((i + 1) != Model.listaProveedores.Count)
-                    {
-                        <text>
-                        ,
-                        </text>
-                    }
-                }
-            ]*@
         })
         $('#file-esM').fileinput({
             theme: 'fa',
             language: 'es',
             minFileCount: 1,
+            uploadUrl: "#",
             overwriteInitial: false,
             showUpload: false,
             showUploadedThumbs: false,
             allowedFileExtensions: ['png']
-            @*initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.ImgManifestacionFierro" />'
-            ],
-            initialPreviewConfig: [
-                { caption: "Manifestación"}
-            ]*@
         })
 
     </script>

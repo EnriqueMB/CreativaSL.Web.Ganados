@@ -11,8 +11,10 @@
                 dataType: 'json',
                 success: function (result) { 
                     $("#" + row).hide("slow", function () {
+                        box.find(".mb-control-yes").prop('onclick', null).off('click');
                         $("#" + row).remove();
-                        location.reload(true);
+                        //location.reload(true);
+                        Mensaje("Registro Eliminado Correctamente", "1");
                     });
                 },
                 error: function () {
@@ -22,6 +24,7 @@
                     $('#Error').css("display", "block");
                 }
             });
+
         });
         
     }
