@@ -851,7 +851,7 @@
                 },
                 fileActionSettings: {
                     showRemove: true,
-                    showUpload: true,
+                    showUpload: false,
                     showDownload: true,
                     showZoom: true,
                     showDrag: true,
@@ -4132,7 +4132,7 @@
         showUpload: true,
         showCancel: true,
         showClose: true,
-        showUploadedThumbs: true,
+        showUploadedThumbs: false,
         browseOnZoneClick: false,
         autoReplace: false,
         autoOrientImage: true, // for JPEG images based on EXIF orientation tag
