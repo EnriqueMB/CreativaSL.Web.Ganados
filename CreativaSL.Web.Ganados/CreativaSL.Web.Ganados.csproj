@@ -423,6 +423,7 @@
     <Content Include="Content\img\themes\default.jpg" />
     <Content Include="Content\img\themes\light.jpg" />
     <Content Include="Content\js\actions.js" />
+    <Content Include="Content\js\clientes.js" />
     <Content Include="Content\js\demo_charts_morris.js" />
     <Content Include="Content\js\demo_charts_nvd3.js" />
     <Content Include="Content\js\demo_charts_rickshaw.js" />
@@ -961,6 +962,9 @@
     <Content Include="Areas\Admin\Views\CatAlmacen\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Create2.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalGanado.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\OtrosMovimientos.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\ModalInventario.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\ModalRenta.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

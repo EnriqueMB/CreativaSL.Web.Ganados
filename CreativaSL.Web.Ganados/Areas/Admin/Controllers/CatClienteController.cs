@@ -100,32 +100,29 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatClientes/Create
         [HttpPost]
-        public ActionResult Create(CatClienteModels clienteID, FormCollection collection)
+        public ActionResult Create(CatClienteModels clienteID)
         {
+            CatCliente_Datos ClienteDatos = new CatCliente_Datos();
             try
             {
                 CatClienteModels Cliente = new CatClienteModels();
-                CatCliente_Datos ClienteDatos = new CatCliente_Datos();
-                Cliente.Conexion = Conexion;
-                Cliente.Opcion = 1;
-                Cliente.IDSucursal = collection["ListaCmbSucursal"];
-                Cliente.IDRegimenFiscal = collection["ListaRegimenCMB"];
-                Cliente.NombreRazonSocial = collection["NombreRazonSocial"];
-                Cliente.RFC = collection["RFC"];
-                Cliente.EsPersonaFisica = collection["EsPersonaFisica"].StartsWith("true");
-                Cliente.Usuario = User.Identity.Name;
-                Cliente = ClienteDatos.AbcCatClientes(Cliente);
-                if (Cliente.Completado == true)
+                clienteID.Conexion = Conexion;
+                clienteID.Opcion = 1;
+                clienteID.Usuario = User.Identity.Name;
+                clienteID = ClienteDatos.AbcCatClientes(clienteID);
+                if (clienteID.Completado == true)
                 {                    
                     TempData["typemessage"] = "1";
-                    TempData["message"] = "Los datos se guardarón correctamente.";
+                    TempData["message"] = "Los datos se guardaron correctamente.";
                     return RedirectToAction("Index");
                 }
                 else
                 {
+                    clienteID.ListaCmbSucursal = ClienteDatos.ObteneComboCatSucursal(clienteID);
+                    clienteID.ListaRegimenCMB = ClienteDatos.ObtenerComboRegimenFiscal(clienteID);
                     TempData["typemessage"] = "2";
                     TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                    return RedirectToAction("Create");
+                    return View(clienteID);
                 }
             }
             catch
