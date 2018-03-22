@@ -10,7 +10,7 @@ namespace CreativaSL.Web.Ganados.Models
     public class CatChoferModels
     {
         public CatChoferModels() {
-          
+
             _id_licencia = string.Empty;
             _numLicencia = string.Empty;
             _vigencia = DateTime.Now;
@@ -21,6 +21,17 @@ namespace CreativaSL.Web.Ganados.Models
             _Licencia = true;
             _Estatus = false;
             _ListaChoferes = new List<CatChoferModels>();
+            _Ife = string.Empty;
+            _TipoSangre = string.Empty;
+            _IDGenero = 0;
+            _NumSeguroSocial = string.Empty;
+            _AvisoAccidente = string.Empty;
+            _TelefonoAccidente = string.Empty;
+            _Telefono = string.Empty;
+            _Movil = string.Empty;
+            _FechaNacimiento = DateTime.Now.AddYears(-15);
+            _FechaIngreso = DateTime.Now;
+            _ListaGeneroCMB = new List<CatGeneroModels>();
             //Datos de control
             Conexion = string.Empty;
             Resultado = 0;
@@ -38,9 +49,9 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _id_licencia; }
             set { _id_licencia = value; }
         }
-       /// <summary>
-       /// NUMERO DE LICENCIA DEL CHOFER
-       /// </summary>
+        /// <summary>
+        /// NUMERO DE LICENCIA DEL CHOFER
+        /// </summary>
         private string _numLicencia;
         [Display(Name = "número licencia")]
         [StringLength(20, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
@@ -144,6 +155,112 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _TablaDatos; }
             set { _TablaDatos = value; }
         }
+
+        private string _Ife;
+        [Required(ErrorMessage = "El número del ife es obligatorio")]
+        [Display(Name = "Número del ife")]
+        [StringLength(13, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
+        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s]*$", ErrorMessage = "Solo Letras y número")]
+        public string Ife
+        {
+            get { return _Ife; }
+            set { _Ife = value; }
+        }
+
+        private string _TipoSangre;
+        [Required(ErrorMessage = "El tipo de sangre es obligatorio")]
+        [Display(Name = "tipo de sangre")]
+        [StringLength(15, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
+        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s]*$", ErrorMessage = "Solo Letras y número")]
+        public string TipoSangre
+        {
+            get { return _TipoSangre; }
+            set { _TipoSangre = value; }
+        }
+
+        private int _IDGenero;
+
+        public int IDGenero
+        {
+            get { return _IDGenero; }
+            set { _IDGenero = value; }
+        }
+
+        private string _NumSeguroSocial;
+        [Required(ErrorMessage = "El número de seguro social es obligatorio")]
+        [Display(Name = "número de seguro social")]
+        [StringLength(30, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
+        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s]*$", ErrorMessage = "Solo Letras y número")]
+        public string NumSeguroSocial
+        {
+            get { return _NumSeguroSocial; }
+            set { _NumSeguroSocial = value; }
+        }
+
+        private string _AvisoAccidente;
+        [Required(ErrorMessage = "El nombre encaso de accidente es obligatorio")]
+        [Display(Name = "nombre encaso de accidente")]
+        [StringLength(250, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
+        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ\s]*$", ErrorMessage = "Solo Letras y número")]
+        public string AvisoAccidente
+        {
+            get { return _AvisoAccidente; }
+            set { _AvisoAccidente = value; }
+        }
+
+        private string _TelefonoAccidente;
+    
+        public string TelefonoAccidente
+        {
+            get { return _TelefonoAccidente; }
+            set { _TelefonoAccidente = value; }
+        }
+
+        private string _Telefono;
+
+        public string Telefono
+        {
+            get { return _Telefono; }
+            set { _Telefono = value; }
+        }
+
+        private string _Movil;
+
+        public string Movil
+        {
+            get { return _Movil; }
+            set { _Movil = value; }
+        }
+
+        private DateTime _FechaNacimiento;
+        [Required(ErrorMessage = "La Fecha de nacimiento es obligatorio")]
+        [Display(Name = "Fecha de nacimiento")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime FechaNacimiento
+        {
+            get { return _FechaNacimiento; }
+            set { _FechaNacimiento = value; }
+        }
+
+        private DateTime _FechaIngreso;
+        [Required(ErrorMessage = "La Fecha de ingreso es obligatorio")]
+        [Display(Name = "Fecha de ingreso")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime FechaIngreso
+        {
+            get { return _FechaIngreso; }
+            set { _FechaIngreso = value; }
+        }
+        private List<CatGeneroModels> _ListaGeneroCMB;
+
+        public List<CatGeneroModels> ListaGeneroCMB
+        {
+            get { return _ListaGeneroCMB; }
+            set { _ListaGeneroCMB = value; }
+        }
+
 
         #region Datos De Control
         public string Conexion { get; set; }

@@ -15,7 +15,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                   datos.Opcion,datos.IDProducto,datos.Clave,datos.Descripcion,datos.Clave_cfdi,datos.Usuario
+                   datos.Opcion,datos.IDProducto,datos.Clave,datos.nombre,datos.Descripcion,datos.Clave_cfdi,datos.Usuario
                     };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatProducto", parametros);
                 datos.IDProducto = aux.ToString();
@@ -71,6 +71,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     datos.IDProducto = dr["id_producto"].ToString();
                     datos.Clave = dr["clave"].ToString();
+                    datos.nombre = dr["nombre"].ToString();
                     datos.Descripcion = dr["descripcion"].ToString();
                     datos.Clave_cfdi = dr["clave_cfdi"].ToString();
                     
@@ -96,6 +97,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item = new CatProductosModels();
                     item.IDProducto = dr["id_producto"].ToString();
                     item.Clave = dr["clave"].ToString();
+                    item.nombre = dr["nombre"].ToString();
                     item.Descripcion = dr["descripcion"].ToString();
                     item.Clave_cfdi = dr["clave_cfdi"].ToString();
                     lista.Add(item);

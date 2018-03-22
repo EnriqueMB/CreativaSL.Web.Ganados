@@ -120,14 +120,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         public ActionResult Ganado(string id)
         {
             Compra = new CompraModels();
-
-
-
             return View(Compra);
         }
-        
-        
-        
+        public ActionResult OtrosMovimientos(string id)
+        {
+            Compra = new CompraModels();
+            return View(Compra);
+        }
+
+
         // GET: Admin/Compra/Details/5
         public ActionResult Details(int id)
         {
@@ -143,7 +144,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             Compra.Conexion = Conexion;
             Compra.IDProveedor = id;
             Compra = CompraDatos.GetCompraPacta(Compra);
-            
+
 
             return View(Compra);
         }
@@ -192,14 +193,31 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return Json("a");
         }
 
-        /*MODAL*/
-        /*GANADO*/
+        #region MODALES
+        #region Ganado
         [HttpGet]
         public ActionResult NuevoGanado()
         {
             Compra = new CompraModels();   
             return PartialView("ModalGanado", Compra.Ganado);
         }
-
+        #endregion
+        #region Inventario
+        [HttpGet]
+        public ActionResult Inventario()
+        {
+            Compra = new CompraModels();
+            return PartialView("ModalInventario", Compra.Ganado);
+        }
+        #endregion
+        #region Renta
+        [HttpGet]
+        public ActionResult Renta()
+        {
+            Compra = new CompraModels();
+            return PartialView("ModalRenta", Compra.Ganado);
+        }
+        #endregion
+        #endregion
     }
 }

@@ -23,3 +23,13 @@
         line-height: 30px;
         padding-left: 10px;
     }
+    .izquierda{
+        float: left;
+    }
+    .derecha{
+        float:right;
+    }
+
+    .areaObservacion{
+        resize:none;
+    }

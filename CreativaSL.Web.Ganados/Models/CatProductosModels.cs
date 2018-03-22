@@ -22,6 +22,14 @@ namespace CreativaSL.Web.Ganados.Models
             Usuario = string.Empty;
 
         }
+        private string _nombre;
+
+        public string nombre
+        {
+            get { return _nombre; }
+            set { _nombre = value; }
+        }
+
         /// <summary>
         /// LISTA DE PRODUCTOS
         /// </summary>

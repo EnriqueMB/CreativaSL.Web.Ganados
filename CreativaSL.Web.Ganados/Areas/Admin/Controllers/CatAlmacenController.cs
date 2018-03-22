@@ -33,7 +33,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/CatAlmacen/Details/5
+        // GET: Admin/CatAlmacen/Details/5 
         public ActionResult Details(int id)
         {
             return View();

@@ -61,6 +61,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Lugar.listaMunicipio = LugarDatos.obtenerListaMunicipios(Lugar);
                 var Listam = new SelectList(Lugar.listaMunicipio, "id_municipio", "descripcion");
                 ViewData["cmbMunicipios"] = Listam;
+
+                Lugar.listaSucursal = LugarDatos.obtenerListaSucursales(Lugar);
+                var listaSucursal = new SelectList(Lugar.listaSucursal, "IDSucursal", "NombreSucursal");
+                ViewData["cmbSucursal"] = listaSucursal;
+
                 return View(Lugar);
             }
             catch (Exception ex)
@@ -90,6 +95,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Lugar.id_pais = collection["listaPaises"];
                 Lugar.id_estadoCodigo = collection["listaEstado"];
                 Lugar.id_municipio = Convert.ToInt32(collection["listaMunicipio"]);
+                Lugar.id_sucursal = collection["listaSucursal"];
+                Lugar.observaciones = collection["observaciones"];
+                Lugar.nombrePropietario = collection["nombrePropietario"];
+                Lugar.apellidoMaterno = collection["apellidoMaterno"];
+                Lugar.apellidoPaterno = collection["apellidoPaterno"];
+                Lugar.bascula = collection["bascula"].StartsWith("true");
                 Lugar.user = User.Identity.Name;
                 Lugar = LugarDatos.AbcCatLugar(Lugar);
                 if (Lugar.Completado == true)
@@ -140,6 +151,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Lugar.listaMunicipio = LugarDatos.obtenerListaMunicipios(Lugar);
                 var Listam = new SelectList(Lugar.listaMunicipio, "id_municipio", "descripcion");
                 ViewData["cmbMunicipios"] = Listam;
+
+                Lugar.listaSucursal = LugarDatos.obtenerListaSucursales(Lugar);
+                var listaSucursal = new SelectList(Lugar.listaSucursal, "IDSucursal", "NombreSucursal");
+                ViewData["cmbSucursal"] = listaSucursal;
+
                 return View(Lugar);
             }
             catch (Exception ex)
@@ -168,8 +184,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Lugar.descripcion = collection["descripcion"];
                 Lugar.ejido = collection["ejido"];
                 Lugar.id_pais = collection["listaPaises"];
+                Lugar.id_sucursal = collection["listaSucursal"];
                 Lugar.id_estadoCodigo = collection["listaEstado"];
                 Lugar.id_municipio = Convert.ToInt32(collection["listaMunicipio"]);
+                Lugar.observaciones = collection["observaciones"];
+                Lugar.nombrePropietario = collection["nombrePropietario"];
+                Lugar.apellidoMaterno = collection["apellidoMaterno"];
+                Lugar.apellidoPaterno = collection["apellidoPaterno"];
+                Lugar.bascula = collection["bascula"].StartsWith("true");
                 Lugar.user = User.Identity.Name;
                 Lugar = LugarDatos.AbcCatLugar(Lugar);
                 if (Lugar.Completado == true)

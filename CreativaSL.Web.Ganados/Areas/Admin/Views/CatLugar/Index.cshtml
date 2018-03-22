@@ -17,7 +17,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Choferes </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Lugares </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -29,7 +29,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("Create","CatLugar")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Chofer</a></li>
+                            <li><a href="@Url.Action("Create","CatLugar")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Lugar</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
                         </ul>
@@ -39,11 +39,14 @@
                         <table class="table datatable">
                             <thead>
                                 <tr>
-                                    <th>Nombre</th>
-                                    <th>Latitud</th>
-                                    <th>Longitud</th>
-                                    <th>Editar</th>
-                                    <th>Eliminar</th>
+                                    <th>Nombre de Lugar</th>
+                                    <th>Estado</th>
+                                    <th>Municipio</th>
+                                   
+                                    <th>Nombre Propietario</th>
+                                    
+                                    
+                                    <th>Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,8 +54,10 @@
                                 {
                                     <tr  id="@lugar.id_lugar">
                                         <td>@lugar.descripcion</td>
-                                        <td>@lugar.latitud</td>
-                                        <td>@lugar.longitud</td>
+                                        <td>@lugar.id_estadoCodigo</td>
+                                        <td>@lugar.municipio</td>
+                                        <td>@lugar.nombrePropietario</td>
+                                       
                                         <td style="text-align:center;">
                                             <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                 <a title="Editar" href="@Url.Action("Edit", "CatLugar", new { id = lugar.id_lugar })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>

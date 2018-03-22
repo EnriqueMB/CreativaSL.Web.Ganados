@@ -962,6 +962,9 @@
     <Content Include="Areas\Admin\Views\CatAlmacen\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Create2.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalGanado.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\OtrosMovimientos.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\ModalInventario.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\ModalRenta.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1021,6 +1024,7 @@
     <Compile Include="Models\CatConceptoNominaModels.cs" />
     <Compile Include="Models\CatEstadoModels.cs" />
     <Compile Include="Models\CatFierroModels.cs" />
+    <Compile Include="Models\CatGeneroModels.cs" />
     <Compile Include="Models\CatJaulaModels.cs" />
     <Compile Include="Models\CatLugarModels.cs" />
     <Compile Include="Models\CatMarcaVehiculoModels.cs" />
