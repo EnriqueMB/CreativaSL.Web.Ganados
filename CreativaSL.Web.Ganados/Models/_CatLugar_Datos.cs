@@ -15,7 +15,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                   datos.opcion,datos.id_lugar,datos.descripcion,datos.latitud,datos.longitud,datos.ejido,datos.id_pais,datos.id_estadoCodigo,datos.id_municipio,datos.user
+                   datos.opcion,datos.id_lugar,datos.descripcion,datos.latitud,datos.longitud,datos.ejido,datos.id_sucursal,datos.id_pais,datos.id_estadoCodigo,datos.id_municipio,datos.bascula,datos.nombrePropietario,datos.apellidoPaterno,datos.apellidoMaterno,datos.observaciones,datos.user
                     };
                 object aux = SqlHelper.ExecuteScalar(datos.conexion, "spCSLDB_ac_CatLugar", parametros);
                 datos.id_lugar = aux.ToString();
@@ -48,8 +48,10 @@ namespace CreativaSL.Web.Ganados.Models
                     item = new CatLugarModels();
                     item.id_lugar = dr["IDLugar"].ToString();
                     item.descripcion = dr["descripcion"].ToString();
-                    item.latitud = Convert.ToSingle(dr["latitud"].ToString());
-                    item.longitud = Convert.ToSingle(dr["longitud"].ToString());
+                    item.municipio = dr["municipio"].ToString();
+                    item.id_estadoCodigo = dr["nombreEstado"].ToString();
+                    item.nombrePropietario = dr["nombrePropietario"].ToString();
+                    //item.bascula = Convert.ToBoolean(dr["bascula"].ToString());
                     lista.Add(item);
                 }
                 return lista;
@@ -74,10 +76,16 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.ejido = dr["ejido"].ToString();
                     datos.lat = dr["gpsLatitud"].ToString();
                     datos.lng = dr["gpsLongitud"].ToString();
-                    datos.id_municipio =Convert.ToInt32( dr["id_municipio"].ToString());
-                    datos.id_estado =Convert.ToInt32( dr["id_estado"].ToString());
-                    datos.id_pais= dr["id_pais"].ToString();
-                    datos.id_estadoCodigo= dr["c_Estado"].ToString();
+                    datos.id_municipio = Convert.ToInt32(dr["id_municipio"].ToString());
+                    datos.id_estado = Convert.ToInt32(dr["id_estado"].ToString());
+                    datos.id_pais = dr["id_pais"].ToString();
+                    datos.id_estadoCodigo = dr["c_Estado"].ToString();
+                    datos.nombrePropietario = dr["nombrePropietario"].ToString();
+                    datos.apellidoMaterno = dr["apellidoMaterno"].ToString();
+                    datos.apellidoPaterno = dr["apellidoPaterno"].ToString();
+                    datos.observaciones = dr["observaciones"].ToString();
+                    datos.nombreSucursal = dr["nombreSucursal"].ToString();
+                    datos.bascula = Convert.ToBoolean(dr["bascula"].ToString());
                 }
                 return datos;
             }
@@ -111,6 +119,30 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 throw ex;
             }
+        }
+        public List<CatSucursalesModels> obtenerListaSucursales(CatLugarModels Datos)
+        {
+            try
+            {
+                List<CatSucursalesModels> lista = new List<CatSucursalesModels>();
+                CatSucursalesModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.conexion, "spCSLDB_get_ComboSucursales");
+                while (dr.Read())
+                {
+                    item = new CatSucursalesModels();
+                    item.IDSucursal = dr["id_sucursal"].ToString();
+                    item.NombreSucursal = dr["nombre"].ToString();
+
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
         public List<CatPaisModels> obtenerListaPaises(CatLugarModels Datos)
         {
