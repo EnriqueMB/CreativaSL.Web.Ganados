@@ -28,13 +28,14 @@
                 <div id="validation_summary" class="field_error"></div>
                 <div class="panel panel-default tabs">
                     <ul class="nav nav-tabs" role="tablist">
-                        <li class="active"><a href="#tab-first" role="tab" data-toggle="tab">Datos personales</a></li>
-                        <li ><a href="#tab-second" role="tab" data-toggle="tab">Datos fiscales</a></li>
+                        <li class="active"><a href="#tab-first" role="tab" data-toggle="tab">Datos generales</a></li>
+                        <li ><a href="#tab-second" role="tab" data-toggle="tab">Datos de contacto</a></li>
                     </ul>
                     <div class="panel-body tab-content">
                         <div class="tab-pane active" id="tab-first">
                             <div class="panel panel-default">
                                 <div class="panel-body">
+
                                     <div class="form-group">
                                         <label class="col-md-2 col-xs-12 control-label">Sucursal</label>
                                         <div class="col-md-6 col-xs-12">
@@ -42,22 +43,25 @@
                                             @Html.ValidationMessageFor(model => model.IDSucursal)
                                         </div>
                                     </div>
+
                                     <div class="form-group">
                                         <label class="col-md-2 col-xs-12 control-label">Razón Social</label>
                                         <div class="col-md-6 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.NombreRazonSocial, new { id = "NombreRazonSocial", @class = "form-control", placeholder="Ingrese la razón social" })
+                                                @Html.TextBoxFor(model => model.NombreRazonSocial, new { id = "NombreRazonSocial", @class = "form-control", placeholder = "Ingrese la razón social" })
                                             </div>
                                             @Html.ValidationMessageFor(model => model.NombreRazonSocial)
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="tab-second">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label">¿Es persona Física?</label>
+                                        <div class="col-md-6 col-xs-12">
+                                            @Html.CheckBoxFor(model => model.EsPersonaFisica, new { @class = "icheckbox" })
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
                                         <label class="col-md-2 col-xs-12 control-label">Régimen Fiscal</label>
                                         <div class="col-md-6 col-xs-12">
@@ -71,11 +75,89 @@
                                         <div class="col-md-6 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.RFC, new { id = "RFC", @class = "form-control", placeholder = "Ingrese un RFC en formato XXXX000000AAA" })
+                                                @Html.TextBoxFor(model => model.RFC, new { id = "RFC", @class = "mask_rfc form-control", placeholder = "Capture el RFC del cliente" })
                                             </div>
                                             @Html.ValidationMessageFor(model => model.RFC)
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label">Domicilio Fiscal</label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.Direccion, new { id = "Direccion", @class = "form-control", placeholder = "Dirección del cliente" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Direccion)
+                                        </div>
+                                    </div>
+
+                                    
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label">Fecha de inicio de relación</label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                                @Html.TextBoxFor(model => model.FechaIngreso, "{0:yyyy/MM/dd}", new { id = "FechaIngreso", @class = "form-control datepicker", @readonly = "readonly" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.FechaIngreso)
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab-second">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label">Nombre del responsable</label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.NombreResponsable, new { id = "NombreResponsable", @class = "form-control", placeholder = "Ingrese el nombre del contacto" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.NombreResponsable)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label">Celular </label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.Celular, new { id = "Celular", @class = "mask_phone form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Celular)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label">Teléfono </label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.Telefono, new { id = "Telefono", @class = "mask_phone form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Telefono)
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label">E-mail</label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.CorreoElectronico, new { id = "CorreoElectronico", @class = "form-control", placeholder = "Ingrese el correo electrónico de contacto del cliente" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.CorreoElectronico)
+                                        </div>
+                                    </div>
+
+
                                 </div>
                             </div>
                         </div>
@@ -94,11 +176,11 @@
 }
 @section script{
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>    
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
-    <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/icheck/icheck.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+    <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/maskedinput/jquery.maskedinput.min.js")"></script>  
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/clientes.js")"></script>
     <script>
