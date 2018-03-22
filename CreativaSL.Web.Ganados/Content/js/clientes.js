@@ -9,6 +9,7 @@
         $('#form-dg').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
+            errorLabelContainer: $("#validation_summary"),
             errorPlacement: function (error, element) { // render error placement for each input type
                 if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
                     error.insertAfter($(element).closest('.form-group').children('div').children().last());
@@ -37,6 +38,8 @@
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
                 errorHandler1.show();
+                console.log(validator);
+                //$("#validation_summary").text(validator.showErrors());
             },
             highlight: function (element) {
                 $(element).closest('.help-block').removeClass('valid');
