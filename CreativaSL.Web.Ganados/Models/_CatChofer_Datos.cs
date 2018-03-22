@@ -42,7 +42,9 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    datos.Opcion, datos.IDChofer, datos.Nombre, datos.ApPaterno, datos.ApMaterno,datos.Licencia,datos.numLicencia,datos.vigencia, datos.Usuario
+                    datos.Opcion, datos.IDChofer, datos.Nombre, datos.ApPaterno, datos.ApMaterno,datos.Licencia,datos.numLicencia,datos.vigencia,
+                    datos.Ife,datos.TipoSangre,datos.IDGenero,datos.NumSeguroSocial,datos.AvisoAccidente,datos.TelefonoAccidente,datos.Telefono,
+                    datos.FechaNacimiento,datos.FechaIngreso,datos.Movil,datos.Usuario
                 };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "EM_spCSLDB_abc_Chofer", parametros);
                 datos.IDChofer = aux.ToString();
@@ -104,6 +106,14 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Licencia = dr.GetBoolean(dr.GetOrdinal("Licencia"));
                     datos.numLicencia = dr["numLicencia"].ToString();
                     datos.vigencia = dr.GetDateTime(dr.GetOrdinal("vigencia"));
+                    datos.Ife= dr["ife"].ToString();
+                    datos.TipoSangre = dr["tipoSangre"].ToString();
+                    datos.IDGenero = Convert.ToInt32(dr["id_genero"].ToString());
+                    datos.NumSeguroSocial= dr["numSeguroSocial"].ToString();
+                    datos.AvisoAccidente= dr["avisoAccidente"].ToString();
+                    datos.TelefonoAccidente = dr["telefonoAccidente"].ToString();
+                    datos.Telefono = dr["telefono"].ToString();
+                    datos.Movil = dr["movil"].ToString();
                 }
                 return datos;
             }
