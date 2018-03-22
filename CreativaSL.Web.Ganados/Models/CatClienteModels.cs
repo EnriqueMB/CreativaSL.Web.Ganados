@@ -39,7 +39,8 @@ namespace CreativaSL.Web.Ganados.Models
         /// El identificador por sucursar
         /// </summary>
         private string _IDSucursal;
-
+        [Required(ErrorMessage = "Seleccione una sucursal")]
+        [Display(Name = "Sucursal")]
         public string IDSucursal
         {
             get { return _IDSucursal; }
@@ -49,7 +50,7 @@ namespace CreativaSL.Web.Ganados.Models
         /// EL Registro Federal de Contribuyentes
         /// </summary>
         private string _RFC;
-        [Required(ErrorMessage = "El rfc es obligatorio")]
+        [Required(ErrorMessage = "Debe ingresar el RFC")]
         [Display(Name = "rfc")]
         [StringLength(20, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\(\)\-\,\.\;\:\s]*$", ErrorMessage = "Solo Letras y números")]
@@ -83,7 +84,8 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _IDRegimenFiscal;
-
+        [Required(ErrorMessage = "El régimen fiscal es obligatorio")]
+        [Display(Name = "Régimen Fiscal")]
         public string IDRegimenFiscal
         {
             get { return _IDRegimenFiscal; }
@@ -99,8 +101,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private List<CatSucursalesModels> _ListaCmbSucursal;
-        [Required(ErrorMessage = "La Sucursal es obligatorio")]
-        [Display(Name = "Sucursal")]
+        
         public List<CatSucursalesModels> ListaCmbSucursal
         {
             get { return _ListaCmbSucursal; }
@@ -108,8 +109,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private List<CFDI_RegimenFiscalModels> _ListaRegimenCMB;
-        [Required(ErrorMessage = "El régimen fiscal es obligatorio")]
-        [Display(Name = "Régimen Fiscal")]
+        
         public List<CFDI_RegimenFiscalModels> ListaRegimenCMB
         {
             get { return _ListaRegimenCMB; }
@@ -124,8 +124,7 @@ namespace CreativaSL.Web.Ganados.Models
             set { _DatosRegimen = value; }
         }
 
-        private string _NombreSucursal;
-
+        private string _NombreSucursal;        
         public string NombreSucursal
         {
             get { return _NombreSucursal; }
