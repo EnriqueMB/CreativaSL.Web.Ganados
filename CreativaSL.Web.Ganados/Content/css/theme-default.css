@@ -271,6 +271,9 @@ body.page-container-boxed .page-container {
   display: block;
   z-index: 3;
 }
+.field_error span {
+   color: #E04B4A !important;
+}
 .x-navigation {
   background: #1b1e24;
   /* NAV LIST ELEMENT */

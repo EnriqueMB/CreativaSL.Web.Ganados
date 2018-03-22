@@ -74,6 +74,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Chofer.Licencia = collection["Licencia"].StartsWith("true");
                 Chofer.numLicencia = collection["numLicencia"];
                 //Chofer.vigencia = DateTime.ParseExact(collection["vigencia"], "yyyy/MM/dd", CultureInfo.InvariantCulture);
+                string fec = collection["vigencia"];
+                string fec2 = collection["FechaNacimiento"];
+                string fec3 = collection["FechaIngreso"];
                 DateTime Fecha = DateTime.Now;
                 DateTime.TryParse(collection["vigencia"], out Fecha);
                 Chofer.vigencia = Fecha;
@@ -88,8 +91,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Chofer.TelefonoAccidente = collection["TelefonoAccidente"];
                 Chofer.Telefono = collection["Telefono"];
                 Chofer.Movil = collection["Movil"];
-                Chofer.FechaNacimiento = DateTime.ParseExact(collection["FechaNacimiento"], "yyyy/MM/dd", CultureInfo.InvariantCulture);
-                Chofer.FechaIngreso = DateTime.ParseExact(collection["FechaIngreso"], "yyyy/MM/dd", CultureInfo.InvariantCulture);
+                Chofer.FechaNacimiento = DateTime.ParseExact(collection["FechaNacimiento"], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                Chofer.FechaIngreso = DateTime.ParseExact(collection["FechaIngreso"], "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 Chofer.Usuario = User.Identity.Name;
                 Chofer.Opcion = 1;
                 Chofer = ChoferDatos.AbcCatChofer(Chofer);
@@ -132,6 +135,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Chofer.IDChofer = id;
                 Chofer.Conexion = Conexion;
                 Chofer = ChoferDatos.ObtenerDetalleCatChofer(Chofer);
+                Chofer.ListaGeneroCMB = ChoferDatos.ObteneComboCatGenero(Chofer);
+                var list = new SelectList(Chofer.ListaGeneroCMB, "IDGenero", "Descripcion");
+                ViewData["cmbGenero"] = list;
                 return View(Chofer);
             }
             catch (Exception)
@@ -164,6 +170,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 DateTime Fecha = DateTime.Now;
                 DateTime.TryParse(collection["vigencia"], out Fecha);
                 Chofer.vigencia = Fecha;
+                Chofer.Ife = collection["Ife"];
+                Chofer.TipoSangre = collection["TipoSangre"];
+                Chofer.IDGenero = 0;
+                Chofer.NumSeguroSocial = collection["NumSeguroSocial"];
+                Chofer.AvisoAccidente = collection["AvisoAccidente"];
+                Chofer.TelefonoAccidente = collection["TelefonoAccidente"];
+                Chofer.Telefono = collection["Telefono"];
+                Chofer.Movil = collection["Movil"];
+                Chofer.FechaNacimiento = DateTime.ParseExact(collection["FechaNacimiento"], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                Chofer.FechaIngreso = DateTime.ParseExact(collection["FechaIngreso"], "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 Chofer.Usuario = User.Identity.Name;
                 Chofer.Opcion = 2;
                 Chofer = ChoferDatos.AbcCatChofer(Chofer);
