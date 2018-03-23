@@ -99,6 +99,7 @@ $(function() {
                 $("input.mask_phone_ext").mask('99 (999) 999-9999? x99999');
                 $("input.mask_credit").mask('9999-9999-9999-9999');        
                 $("input.mask_percent").mask('99%');
+                $("input.mask_rfc").mask('aaaa999999x');
             }            
         }//END Masked Inputs
         
