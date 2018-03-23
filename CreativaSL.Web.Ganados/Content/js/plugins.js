@@ -5,7 +5,7 @@ $(function() {
         var feDatepicker = function(){
             if ($(".datepicker").length > 0) {
                 $(".datepicker").datepicker({
-                    format: 'dd-mm-yyyy',
+                    format: 'dd/mm/yyyy',
                     language: 'es'
                 });
                 $("#dp-2,#dp-3,#dp-4").datepicker(); // Sample
