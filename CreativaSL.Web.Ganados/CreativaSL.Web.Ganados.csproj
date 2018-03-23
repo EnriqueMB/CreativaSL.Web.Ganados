@@ -1020,6 +1020,7 @@
     <Compile Include="Models\CatConceptoNominaModels.cs" />
     <Compile Include="Models\CatEstadoModels.cs" />
     <Compile Include="Models\CatFierroModels.cs" />
+    <Compile Include="Models\CatGeneroModels.cs" />
     <Compile Include="Models\CatJaulaModels.cs" />
     <Compile Include="Models\CatLugarModels.cs" />
     <Compile Include="Models\CatMarcaVehiculoModels.cs" />
@@ -1095,6 +1096,15 @@
     <Compile Include="Models\UnidadesProductosAlmacenModels.cs" />
     <Compile Include="Models\UPPProvedorModels.cs" />
     <Compile Include="Models\UsuarioModels.cs" />
+    <Compile Include="Models\Validaciones\CorreoAttribute.cs" />
+    <Compile Include="Models\Validaciones\DescripcionAttribute.cs" />
+    <Compile Include="Models\Validaciones\DireccionAttribute.cs" />
+    <Compile Include="Models\Validaciones\IFEAttribute.cs" />
+    <Compile Include="Models\Validaciones\NombreAttribute.cs" />
+    <Compile Include="Models\Validaciones\RFCAttribute.cs" />
+    <Compile Include="Models\Validaciones\TarjetaCreditoAttribute.cs" />
+    <Compile Include="Models\Validaciones\TelefonoAttribute.cs" />
+    <Compile Include="Models\Validaciones\TextoAttribute.cs" />
     <Compile Include="Models\VentaGanadoModels.cs" />
     <Compile Include="Models\VentaModels.cs" />
     <Compile Include="Models\_CatAlmacen_Datos.cs" />

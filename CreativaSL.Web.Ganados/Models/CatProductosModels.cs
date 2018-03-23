@@ -9,6 +9,7 @@ namespace CreativaSL.Web.Ganados.Models
     public class CatProductosModels
     {
         public CatProductosModels() {
+            _nombre = string.Empty;
             _IDProducto = string.Empty;
             _Clave = string.Empty;
             _Descripcion = string.Empty;
@@ -22,6 +23,17 @@ namespace CreativaSL.Web.Ganados.Models
             Usuario = string.Empty;
 
         }
+        private string _nombre;
+        [Required(ErrorMessage = "La Nombre es obligatoria")]
+        [Display(Name = "Nombre")]
+        [StringLength(20, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
+        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s\-]*$", ErrorMessage = "Solo Letras, Números y '-'")]
+        public string nombre
+        {
+            get { return _nombre; }
+            set { _nombre = value; }
+        }
+
         /// <summary>
         /// LISTA DE PRODUCTOS
         /// </summary>

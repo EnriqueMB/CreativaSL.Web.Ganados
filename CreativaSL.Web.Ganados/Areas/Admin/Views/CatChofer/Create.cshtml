@@ -90,12 +90,129 @@
                         <div class="col-md-6">
                             <label class="col-md-12 control-label text-center">Vigencia</label>
                             <div class="col-md-12 col-xs-12">
-                                <div class="input-group">
+                                <div class="input-group " >
                                     <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                    @Html.TextBoxFor(model => model.vigencia, "{0:yyyy/MM/dd}", new { id = "vigencia", @class = "form-control datepicker", @readonly = "readonly"})
+                                    @Html.TextBoxFor(model => model.vigencia, "{0:yyyy/MM/dd}", new { id = "vigencia", @class = "form-control ",@type="date" ,@style= "line-height: 18px;" })
                                 </div>
                                 @Html.ValidationMessageFor(model => model.vigencia)
                                 <span class="help-block">Ingrese la fecha de vigencia</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <label class="col-md-12 control-label text-center">IFE</label>
+                            <div class="col-md-12 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.Ife, new { id = "Ife", @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Ife)
+                                <span class="help-block">Ingrese el número del IFE</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-md-12 control-label text-center">Tipo Sangre</label>
+                            <div class="col-md-12 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.TipoSangre, new { id = "TipoSangre", @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.TipoSangre)
+                                <span class="help-block">Ingrese el tipo sangre</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <label class="col-md-12 col-xs-12 control-label text-center">Genero</label>
+                            <div class="col-md-12 col-xs-12">
+                                @Html.DropDownListFor(model => model.ListaGeneroCMB, ViewData["cmbGenero"] as SelectList, new { id = "ListGenero", @class = "form-control select", data_live_search = "true" })
+                                @Html.ValidationMessageFor(model => model.ListaGeneroCMB)
+                                <span class="help-block">Seleccione la sucursal</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-md-12 control-label text-center">Número Seguro Social</label>
+                            <div class="col-md-12 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.NumSeguroSocial, new { id = "NumSeguroSocial", @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.NumSeguroSocial)
+                                <span class="help-block">Ingrese el número de seguro social</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <label class="col-md-12 control-label text-center">Aquí avisar en caso de accidente</label>
+                            <div class="col-md-12 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.AvisoAccidente, new { id = "AvisoAccidente", @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.AvisoAccidente)
+                                <span class="help-block">Ingrese el nombre</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-md-12 control-label text-center">Teléfono</label>
+                            <div class="col-md-12 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.TelefonoAccidente, new { id = "TelefonoAccidente", @class = "mask_phone form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.TelefonoAccidente)
+                                <span class="help-block">Ingrese el número teléfono </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <label class="col-md-12 control-label text-center">Teléfono Casa</label>
+                            <div class="col-md-12 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-phone-square"></span></span>
+                                    @Html.TextBoxFor(model => model.Telefono, new { id = "Telefono", @class = "mask_phone form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Telefono)
+                                <span class="help-block">Ingrese el teléfono de casa</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-md-12 control-label text-center">Teléfono Movil</label>
+                            <div class="col-md-12 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-mobile"></span></span>
+                                    @Html.TextBoxFor(model => model.Movil, new { id = "Movil", @class = "mask_phone form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Movil)
+                                <span class="help-block">Ingrese el teléfono Movil</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <label class="col-md-12 control-label text-center">Fecha Nacimiento</label>
+                            <div class="col-md-12 col-xs-12">
+                                <div class="input-group date"  >
+                                    @Html.TextBoxFor(model => model.FechaNacimiento, "{0:yyyy/MM/dd}", new { id = "FechaNacimiento", @class = "form-control ", @type = "date", @style = "line-height: 18px;" })
+                                    <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.FechaNacimiento)
+                                <span class="help-block">Ingrese la fecha de nacimiento</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-md-12 control-label text-center">Fecha Ingreso</label>
+                            <div class="col-md-12 col-xs-12">
+                                <div class="input-group "  >
+                                    @Html.TextBoxFor(model => model.FechaIngreso, "{0:yyyy/MM/dd}", new { id = "FechaIngreso", @class = "form-control ",@type="date", @style = "line-height: 18px;" })
+                                    <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.FechaIngreso)
+                                <span class="help-block">Ingrese la fecha de ingreso</span>
                             </div>
                         </div>
                     </div>
@@ -118,9 +235,11 @@
 <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>  
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+    <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/maskedinput/jquery.maskedinput.min.js")"></script>  
 <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
 
 <script>
     jQuery(document).ready(function () {
@@ -128,6 +247,11 @@
             $('#licencia-cont').toggle(1000);
         });
         Mensaje(message, typemessage);
+        
+       
+        
     });
+
+    jQuery.validator.methods["date"] = function (value, element) { return true; }
 </script>
 }

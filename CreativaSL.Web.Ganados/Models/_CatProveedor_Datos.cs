@@ -16,7 +16,7 @@ namespace CreativaSL.Web.Ganados.Models
                 object[] parametros =
                 {
                    datos.Opcion, datos.IDProveedor, datos.IDTipoProveedor, datos.IDSucursal, datos.NombreRazonSocial, datos.RFC, datos.ImgINE, datos.ImgManifestacionFierro,
-                    datos.BandINE, datos.BandMF, datos.Usuario
+                    datos.BandINE, datos.BandMF,datos.direccion,datos.telefonoCelular,datos.telefonoCasa,datos.correo,datos.sexo, datos.Usuario
                     };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatProveedor", parametros);
                 datos.IDProveedor = aux.ToString();
@@ -77,7 +77,12 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.RFC = dr["rfc"].ToString();
                     datos.ImgINE = dr["imgINE"].ToString();
                     datos.ImgManifestacionFierro = dr["imgManifestacionFierro"].ToString();
-                 }
+                    datos.direccion = dr["direccion"].ToString();
+                    datos.correo = dr["correo"].ToString();
+                    datos.telefonoCasa = dr["telefonoCasa"].ToString();
+                    datos.telefonoCelular = dr["telefonoCelular"].ToString();
+                    datos.sexo = Convert.ToInt32(dr["sexo"].ToString());
+                }
                 return datos;
             }
 
@@ -160,6 +165,29 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
 
+        }
+        public List<CatGeneroModels> ObteneComboCatGenero(CatProveedorModels Datos)
+        {
+            try
+            {
+                List<CatGeneroModels> lista = new List<CatGeneroModels>();
+                CatGeneroModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Combo_get_CatGenero");
+                // lista.Add(new CatGeneroModels { IDGenero = string.Empty, NombreSucursal = " - Seleccione -" });
+                while (dr.Read())
+                {
+                    item = new CatGeneroModels();
+                    item.IDGenero = !dr.IsDBNull(dr.GetOrdinal("IDGenero")) ? dr.GetInt32(dr.GetOrdinal("IDGenero")) : 0;
+                    item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

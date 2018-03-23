@@ -27,6 +27,56 @@ namespace CreativaSL.Web.Ganados.Models
             Usuario = string.Empty;
 
         }
+        private string _telefonoCasa;
+
+        public string telefonoCasa
+        {
+            get { return _telefonoCasa; }
+            set { _telefonoCasa = value; }
+        }
+        private string _telefonoCelular;
+
+        public string telefonoCelular
+        {
+            get { return _telefonoCelular; }
+            set { _telefonoCelular = value; }
+        }
+        private string _correo;
+        [Required(ErrorMessage = "El Correo es obligatorio")]
+        [Display(Name = "Correo")]
+        [RegularExpression(@"^[_A-Za-z0-9-.\\+]+(\\.[_A-Za-z0-9-.]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", ErrorMessage = "Correo no Valido")]
+        [StringLength(300, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
+        public string correo
+        {
+            get { return _correo; }
+            set { _correo = value; }
+        }
+        private int _sexo;
+        [Required(ErrorMessage = "La marca es obligatorio")]
+        [Display(Name = "Marca")]
+        [RegularExpression(@"^[1-9][0-9]*$", ErrorMessage = "Seleccione una marca")]
+        public int sexo
+        {
+            get { return _sexo; }
+            set { _sexo = value; }
+        }
+        private string _direccion;
+
+        public string direccion
+        {
+            get { return _direccion; }
+            set { _direccion = value; }
+        }
+        /// <summary>
+        /// LISTA DE GENERO DE PERSONA
+        /// </summary>
+        private List<CatGeneroModels> _ListaGeneroCMB;
+
+        public List<CatGeneroModels> ListaGeneroCMB
+        {
+            get { return _ListaGeneroCMB; }
+            set { _ListaGeneroCMB = value; }
+        }
         /// <summary>
         /// LISTA DE TIPO DE PROVEEDOR
         /// </summary>
