@@ -27,6 +27,10 @@ namespace CreativaSL.Web.Ganados.Models
             _Remolque = string.Empty;
             _NoSerie = string.Empty;
             _Estatus = true;
+            _fechaIngreso = DateTime.Now;
+            _colorRemolque = string.Empty;
+            _placaRemolque = string.Empty;
+            _tarjetaCirculacion = string.Empty;
             //datos de control
             Conexion = string.Empty;
             Resultado = 0;
@@ -34,6 +38,51 @@ namespace CreativaSL.Web.Ganados.Models
             Completado = false;
             Usuario = string.Empty;
         }
+        private string _colorRemolque;
+       // [Required(ErrorMessage = "El color es obligatorio")]
+        [Display(Name = "Color")]
+        [StringLength(30, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
+        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ\s]*$", ErrorMessage = "Solo Letras")]
+        public string colorRemolque
+        {
+            get { return _colorRemolque; }
+            set { _colorRemolque = value; }
+        }
+        private string _placaRemolque;
+        //[Required(ErrorMessage = "Las placas es obligatorio")]
+        [Display(Name = "Placas")]
+        [StringLength(10, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
+        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s\-]*$", ErrorMessage = "Solo Letras y números")]
+        public string placaRemolque
+        {
+            get { return _placaRemolque; }
+            set { _placaRemolque = value; }
+        }
+        private string _tarjetaCirculacion;
+        [Required(ErrorMessage = "La tarjeta de Circulacion es obligatoria")]
+        [Display(Name = "Tarjeta Circulación")]
+        [StringLength(10, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
+        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9]*$", ErrorMessage = "Solo Letras y números")]
+        public string tarjetaCirculacion
+        {
+            get { return _tarjetaCirculacion; }
+            set { _tarjetaCirculacion = value; }
+        }
+
+        
+        [Required(ErrorMessage = "La Fecha de ingreso es obligatorio")]
+        [Display(Name = "Fecha de ingreso")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
+        private DateTime _fechaIngreso;
+        public DateTime fechaIngreso
+        {
+            get { return _fechaIngreso; }
+            set { _fechaIngreso = value; }
+        }
+
+
+
         private List<CatSucursalesModels> _listaSucursal;
         [Required(ErrorMessage = "La sucursal es obligatoria")]
         [Display(Name = "Sucursal")]

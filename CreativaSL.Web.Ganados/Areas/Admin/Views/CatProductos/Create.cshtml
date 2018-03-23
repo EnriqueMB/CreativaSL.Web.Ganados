@@ -34,7 +34,29 @@
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
+                                <label class="col-md-3 control-label">Nombre</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.nombre, new { id = "Nombre", @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.nombre)
+                                    <span class="help-block">Ingrese el nombre del producto</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-md-3 control-label">Descripción</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.Descripcion, new { id = "descripcion", @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Descripcion)
+                                    <span class="help-block">Ingrese la descripción del producto</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <label class="col-md-3 control-label">Clave</label>
                                 <div class="col-md-8 col-xs-12">
                                     <div class="input-group">
@@ -45,18 +67,8 @@
                                     <span class="help-block">Clave del producto</span>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <label class="col-md-3 control-label">Descripción</label>
-                                <div class="col-md-8 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                       @Html.TextBoxFor(model => model.Descripcion, new { id = "descripcion", @class = "form-control" })
-                                    </div>
-                                   @Html.ValidationMessageFor(model => model.Descripcion)
-                                    <span class="help-block">Ingrese la descripción del producto</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
+                           
+                            <div class="col-md-6">
                                 <label class="col-md-3 control-label">Clave CFDI</label>
                                 <div class="col-md-8 col-xs-12">
                                     <div class="input-group">

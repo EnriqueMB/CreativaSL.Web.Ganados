@@ -68,7 +68,7 @@ namespace CreativaSL.Web.Ganados.Models
        // [Required(ErrorMessage = "La Fecha de nacimiento es obligatorio")]
         [Display(Name = "Vigencia")]
 
-        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public DateTime vigencia
         {
             get { return _vigencia; }
@@ -239,7 +239,7 @@ namespace CreativaSL.Web.Ganados.Models
         [Required(ErrorMessage = "La Fecha de nacimiento es obligatorio")]
         [Display(Name = "Fecha de nacimiento")]
       
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public DateTime FechaNacimiento
         {
             get { return _FechaNacimiento; }
@@ -250,7 +250,7 @@ namespace CreativaSL.Web.Ganados.Models
         [Required(ErrorMessage = "La Fecha de ingreso es obligatorio")]
         [Display(Name = "Fecha de ingreso")]
      
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public DateTime FechaIngreso
         {
             get { return _FechaIngreso; }
