@@ -33,7 +33,7 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#proveedor" aria-controls="proveedor" role="tab" data-toggle="tab">Proveedor</a></li>
-                @if (!string.IsNullOrEmpty(Model.IDCompra))
+                @if (string.IsNullOrEmpty(Model.IDCompra))
                 {
                     <li role="presentation"><a class="pestaña" href="#fierros" aria-controls="fierros" role="tab" data-toggle="tab">Fierros</a></li>
                     <li role="presentation"><a class="pestaña" href="#ganados" aria-controls="ganados" role="tab" data-toggle="tab">Ganados</a></li>
@@ -248,7 +248,7 @@
                         }
                     </div>
                 </div>
-                @if (!string.IsNullOrEmpty(Model.IDCompra))
+                @if (string.IsNullOrEmpty(Model.IDCompra))
                 {
                     <div role="tabpanel" class="tab-pane" id="fierros">
                         <div class="panel panel-default">
@@ -702,24 +702,33 @@
         $('#ImgFierros').fileinput({
             theme: 'fa',
             language: 'es',
-            uploadUrl: '',
+            uploadUrl: 'SaveImages',
             overwriteInitial: false,
             previewFileIcon: '<i class="fa fa-file"></i>',
             allowedPreviewTypes: ['image'],
             allowedFileExtensions: ['png'],
+            uploadExtraData: function(previewId, index) {
+                return {
+                    key: previewId,
+                    index: index
+                };
+            },
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+
             initialPreview: [
-                @for(var i = 0;  i < Model.ListaFierros.Count; i++)
-        {
-            <text>
-            '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.ListaFierros[i].ImgFierro" />'
-            </text>
-            if ((i + 1) != Model.ListaFierros.Count)
+            @for(var i = 0;  i < Model.ListaFierros.Count; i++)
             {
                 <text>
-                ,
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.ListaFierros[i].ImgFierro" />'
                 </text>
+                if ((i + 1) != Model.ListaFierros.Count)
+                {
+                    <text>
+                    ,
+                    </text>
+                }
             }
-        }
         ],
         initialPreviewConfig: [
             @for (var i = 0 ;  i < Model.ListaFierros.Count; i++)
@@ -760,6 +769,11 @@
             setTimeout(function () {
                 $.alert('File deletion was successful! ' + krajeeGetCount('file-6'));
             }, 900);
+        });
+        $('#ImgFierros').on('filepreupload', function (event, data, previewId, index) {
+            var form = data.form, files = data.files, extra = data.extra,
+                response = data.response, reader = data.reader;
+            console.log('File pre upload triggered');
         });
     </script>
 }

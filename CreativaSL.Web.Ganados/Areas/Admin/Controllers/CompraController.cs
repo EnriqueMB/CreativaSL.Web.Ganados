@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using System.Web.Security;
 using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
+using System.IO;
+using System.Net;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -36,7 +38,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         public ActionResult Create()
         {
-
             try
             {
                 Compra = new CompraModels();
@@ -63,8 +64,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _Compra_Datos CompraDatos = new _Compra_Datos();
             Compra.Conexion = Conexion;
             Compra.IDCompra = IDCompra;
-            //Compra = CompraDatos.GetCompraPacta(Compra);
             Compra.Sucursal.IDSucursal = SucursalDefault;
+            //Compra = CompraDatos.GetCompra(Compra);
             Compra.ListaProveedores = CompraDatos.GetListadoProveedores(Compra);
             Compra.ListaLugares = CompraDatos.GetListadoLugares(Compra);
             Compra.ListaChoferes = CompraDatos.GetListadoChoferes(Compra);
@@ -89,6 +90,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra.Sucursal.IDSucursal = SucursalDefault;
                 Compra.Conexion = Conexion;
                 Compra = CompraDatos.SaveCompra(Compra);
+                Compra.ListaProveedores = CompraDatos.GetListadoProveedores(Compra);
+                Compra.ListaLugares = CompraDatos.GetListadoLugares(Compra);
+                Compra.ListaChoferes = CompraDatos.GetListadoChoferes(Compra);
+                Compra.ListaVehiculos = CompraDatos.GetListadoVehiculos(Compra);
+                Compra.ListaJaulas = CompraDatos.GetListadoJaulas(Compra);
                 Compra.TipoResultado = 1;
                 Compra.Mensaje = "Compra creada satisfactoriamente.";
             }
@@ -99,7 +105,36 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             return View("Create", Compra);
         }
+        [HttpPost]
+        public JsonResult SaveImages()
+        {
+            try
+            {
+                foreach (string file in Request.Files)
+                {
+                    var fileContent = Request.Files[file];
+                    if (fileContent != null && fileContent.ContentLength > 0)
+                    {
+                        // get a stream
+                        var stream = fileContent.InputStream;
 
+                        byte[] fileData = null;
+                        using (var binaryReader = new BinaryReader(stream))
+                        {
+                            fileData = binaryReader.ReadBytes(fileContent.ContentLength);
+                        }
+                        string base64 = Convert.ToBase64String(fileData);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Upload failed");
+            }
+
+            return Json("{ id: 100, value: '100 Details'}");
+        }
 
 
 
