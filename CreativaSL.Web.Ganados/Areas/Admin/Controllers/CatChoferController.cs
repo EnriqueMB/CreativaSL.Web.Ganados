@@ -73,13 +73,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Chofer.Conexion = Conexion;
                 Chofer.Licencia = collection["Licencia"].StartsWith("true");
                 Chofer.numLicencia = collection["numLicencia"];
-                //Chofer.vigencia = DateTime.ParseExact(collection["vigencia"], "yyyy/MM/dd", CultureInfo.InvariantCulture);
-                string fec = collection["vigencia"];
-                string fec2 = collection["FechaNacimiento"];
-                string fec3 = collection["FechaIngreso"];
-                DateTime Fecha = DateTime.Now;
-                DateTime.TryParse(collection["vigencia"], out Fecha);
-                Chofer.vigencia = Fecha;
+              
+                
+                //string fec = collection["vigencia"];
+                //string fec2 = collection["FechaNacimiento"];
+                //string fec3 = collection["FechaIngreso"];
+                //DateTime Fecha = DateTime.Now;
+
+             
                 Chofer.Nombre = collection["nombre"];
                 Chofer.ApPaterno = collection["ApPaterno"];
                 Chofer.ApMaterno = collection["ApMaterno"];
@@ -91,8 +92,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Chofer.TelefonoAccidente = collection["TelefonoAccidente"];
                 Chofer.Telefono = collection["Telefono"];
                 Chofer.Movil = collection["Movil"];
-                Chofer.FechaNacimiento = DateTime.ParseExact(collection["FechaNacimiento"], "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                Chofer.FechaIngreso = DateTime.ParseExact(collection["FechaIngreso"], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                Chofer.FechaNacimiento = DateTime.ParseExact(collection["FechaNacimiento"], "yyyy/MM/dd", CultureInfo.InvariantCulture);
+                Chofer.FechaIngreso = DateTime.ParseExact(collection["FechaIngreso"], "yyyy/MM/dd", CultureInfo.InvariantCulture);
+                Chofer.vigencia = DateTime.ParseExact(collection["vigencia"], "yyyy/MM/dd", CultureInfo.InvariantCulture);
                 Chofer.Usuario = User.Identity.Name;
                 Chofer.Opcion = 1;
                 Chofer = ChoferDatos.AbcCatChofer(Chofer);

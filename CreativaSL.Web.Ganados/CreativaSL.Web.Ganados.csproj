@@ -950,10 +950,7 @@
     <Content Include="Areas\Admin\Views\CatProveedor\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Compra\Fierros.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Compra\Flete.cshtml" />
-    <Content Include="Areas\Admin\Views\Compra\Ganado.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatCategoriaPuesto\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatCategoriaPuesto\Edit.cshtml" />
@@ -963,7 +960,6 @@
     <Content Include="Areas\Admin\Views\CatAlmacen\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Create2.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalGanado.cshtml" />
-    <Content Include="Areas\Admin\Views\Compra\OtrosMovimientos.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalInventario.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalRenta.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

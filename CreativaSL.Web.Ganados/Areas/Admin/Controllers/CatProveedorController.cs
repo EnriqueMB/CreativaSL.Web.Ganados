@@ -58,6 +58,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 var listaTipoProveedores = new SelectList(Proveedor.listaTipoProveedor, "IDTipoProveedor", "Descripcion");
                 ViewData["cmbTipoProveedor"] = listaTipoProveedores;
 
+                Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                var list = new SelectList(Proveedor.ListaGeneroCMB, "IDGenero", "Descripcion");
+                ViewData["cmbGenero"] = list;
+
                 return View(Proveedor);
             }
             catch (Exception ex)
@@ -84,6 +88,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Proveedor.RFC = collection["RFC"];
                 Proveedor.IDSucursal = collection["listaSucursal"];
                 Proveedor.IDTipoProveedor = Convert.ToInt32(collection["listaTipoProveedor"]);
+                Proveedor.direccion = collection["direccion"];
+                Proveedor.telefonoCelular = collection["telefonoCelular"];
+                Proveedor.telefonoCasa = collection["telefonoCasa"];
+                Proveedor.correo = collection["correo"];
+                Proveedor.sexo = Convert.ToInt32(collection["ListaGeneroCMB"]);
                 HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
                 if (bannerImage != null && bannerImage.ContentLength > 0)
                 {
@@ -129,12 +138,19 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
                 Proveedor.IDProveedor = id;
                 Proveedor.Conexion = Conexion;
+
                 Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
                 var listaSucursal = new SelectList(Proveedor.listaSucursal, "IDSucursal", "NombreSucursal");
                 ViewData["cmbSucursal"] = listaSucursal;
+
                 Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
                 var listaTipoProveedores = new SelectList(Proveedor.listaTipoProveedor, "IDTipoProveedor", "Descripcion");
                 ViewData["cmbTipoProveedor"] = listaTipoProveedores;
+
+                Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                var list = new SelectList(Proveedor.ListaGeneroCMB, "IDGenero", "Descripcion");
+                ViewData["cmbGenero"] = list;
+
                 Proveedor = ProveedorDatos.ObtenerDetalleCatProveedor(Proveedor);
                 return View(Proveedor);
             }
@@ -163,6 +179,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Proveedor.RFC = collection["RFC"];
                 Proveedor.IDSucursal = collection["listaSucursal"];
                 Proveedor.IDTipoProveedor = Convert.ToInt32(collection["listaTipoProveedor"]);
+                Proveedor.direccion = collection["direccion"];
+                Proveedor.telefonoCelular = collection["telefonoCelular"];
+                Proveedor.telefonoCasa = collection["telefonoCasa"];
+                Proveedor.correo = collection["correo"];
+                Proveedor.sexo = Convert.ToInt32(collection["ListaGeneroCMB"]);
                 HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
                 if (!string.IsNullOrEmpty(bannerImage.FileName))
                 {

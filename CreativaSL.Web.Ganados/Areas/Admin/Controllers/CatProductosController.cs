@@ -68,6 +68,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 _CatProductos_Datos ProductoDatos = new _CatProductos_Datos();
                 Producto.Conexion = Conexion;
                 Producto.Clave = collection["Clave"];
+                Producto.nombre = collection["nombre"];
                 Producto.Descripcion = collection["Descripcion"];
                 Producto.Clave_cfdi = collection["Clave_cfdi"];
                 Producto.Usuario = User.Identity.Name;
@@ -133,6 +134,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 _CatProductos_Datos ProductoDatos = new _CatProductos_Datos();
                 Producto.IDProducto = id;
                 Producto.Conexion = Conexion;
+                Producto.nombre = collection["nombre"];
                 Producto.Clave = collection["Clave"];
                 Producto.Descripcion = collection["Descripcion"];
                 Producto.Clave_cfdi = collection["Clave_cfdi"];

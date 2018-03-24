@@ -85,6 +85,64 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-6">
+                                <label class="col-md-3 control-label">Dirección</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.direccion, new { id = "direccion", @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.direccion)
+                                    <span class="help-block">Ingrese la dirección</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-md-3 control-label">Correo</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.correo, new { id = "correo", @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.correo)
+                                    <span class="help-block">Ingrese el correo</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <label class="col-md-12 col-xs-12 control-label text-center">Genero</label>
+                                <div class="col-md-12 col-xs-12">
+                                    @Html.DropDownListFor(model => model.ListaGeneroCMB, ViewData["cmbGenero"] as SelectList, new { id = "ListGenero", @class = "form-control select", data_live_search = "true" })
+                                    @Html.ValidationMessageFor(model => model.ListaGeneroCMB)
+                                    <span class="help-block">Seleccione la sucursal</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-12 control-label text-center">Teléfono Casa</label>
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.telefonoCasa, new { id = "telefonoCasa", @class = " form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.telefonoCasa)
+                                    <span class="help-block">Ingrese el número teléfono </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-12 control-label text-center">Teléfono Celular</label>
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.telefonoCelular, new { id = "TelefonoAccidente", @class = " form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.telefonoCelular)
+                                    <span class="help-block">Ingrese el número teléfono </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6">
                                 <label class="col-md-3 control-label">Ingrese imagen del (INE)</label>
                                 <div class="col-md-9 col-xs-12">
                                     <div class="input-group">
@@ -124,6 +182,8 @@
         var typemessage = '@typemessage';
         $('#ListSucursal').val('@Model.IDSucursal');
         $('#ListTipoProveedor').val('@Model.IDTipoProveedor');
+        $('#ListGenero').val('@Model.sexo');
+      
     </script>
 }
 @section script{
@@ -136,12 +196,14 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
 
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
+
         });
 
         $('#file-es').fileinput({

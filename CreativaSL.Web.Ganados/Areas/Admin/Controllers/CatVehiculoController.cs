@@ -4,6 +4,7 @@ using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -76,25 +77,68 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatVehiculo/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        //public ActionResult Create(FormCollection collection)
+        //{
+        //    try
+        //    {
+        //        CatVehiculoModels Vehiculo = new CatVehiculoModels();
+        //        _CatVehiculo_Datos VehiculoDatos = new _CatVehiculo_Datos();
+        //        Vehiculo.Conexion = Conexion;
+        //        Vehiculo.Opcion = 1;
+
+        //        Vehiculo.Usuario = User.Identity.Name;
+        //        Vehiculo.IDMarca = Convert.ToInt32(collection["listaMarcas"]);
+        //        Vehiculo.IDTipoVehiculo = Convert.ToInt32(collection["listaTipoVehiculos"]);
+        //        Vehiculo.IDSucursal = collection["listaSucursal"];
+        //        Vehiculo.Placas = collection["Placas"];
+        //        Vehiculo.Modelo = collection["Modelo"];
+        //        Vehiculo.NoSerie = collection["NoSerie"];
+        //        Vehiculo.Remolque = collection["Remolque"];
+        //        Vehiculo.Color = collection["Color"];
+        //        Vehiculo.Capacidad = collection["Capacidad"];
+        //        //El formato de fecha viene en yyyy-mm-dd
+        //        string c = collection["fechaIngreso"];
+        //        string b = c.Replace("-", "/");
+        //        Vehiculo.fechaIngreso = DateTime.ParseExact(b, "yyyy/MM/dd", CultureInfo.InvariantCulture);
+        //        Vehiculo.placaRemolque = collection["placaRemolque"];
+        //        Vehiculo.colorRemolque = collection["colorRemolque"];
+        //        Vehiculo.tarjetaCirculacion = collection["tarjetaCirculacion"];
+        //        Vehiculo.EsPropio = collection["EsPropio"].StartsWith("true");
+        //        Vehiculo.Estatus = true;
+        //        Vehiculo = VehiculoDatos.AcCatVehiculo(Vehiculo);
+        //        if (Vehiculo.Completado == true)
+        //        {
+        //            TempData["typemessage"] = "1";
+        //            TempData["message"] = "El registro se guardo correctamente.";
+        //            return RedirectToAction("Index");
+        //        }
+        //        else
+        //        {
+        //            TempData["typemessage"] = "2";
+        //            TempData["message"] = "Ocurrió un error al guardar el registro.";
+        //            return View(Vehiculo);
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        CatVehiculoModels Vehiculo = new CatVehiculoModels();
+
+        //        TempData["typemessage"] = "2";
+        //        TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
+        //        return View(Vehiculo);
+        //    }
+        //}
+        public ActionResult Create(CatVehiculoModels Vehiculo)
         {
             try
             {
-                CatVehiculoModels Vehiculo = new CatVehiculoModels();
+                
                 _CatVehiculo_Datos VehiculoDatos = new _CatVehiculo_Datos();
                 Vehiculo.Conexion = Conexion;
                 Vehiculo.Opcion = 1;
-                Vehiculo.Usuario = User.Identity.Name;
-                Vehiculo.IDMarca = Convert.ToInt32(collection["listaMarcas"]);
-                Vehiculo.IDTipoVehiculo = Convert.ToInt32(collection["listaTipoVehiculos"]);
-                Vehiculo.IDSucursal = collection["listaSucursal"];
-                Vehiculo.Placas = collection["Placas"];
-                Vehiculo.Modelo = collection["Modelo"];
-                Vehiculo.NoSerie = collection["NoSerie"];
-                Vehiculo.Remolque = collection["Remolque"];
-                Vehiculo.Color = collection["Color"];
-                Vehiculo.Capacidad = collection["Capacidad"];
-                Vehiculo.EsPropio = collection["EsPropio"].StartsWith("true");
+                Vehiculo.IDVehiculo = "0";
+              
                 Vehiculo.Estatus = true;
                 Vehiculo = VehiculoDatos.AcCatVehiculo(Vehiculo);
                 if (Vehiculo.Completado == true)
@@ -109,17 +153,18 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     TempData["message"] = "Ocurrió un error al guardar el registro.";
                     return View(Vehiculo);
                 }
-               
+
             }
-            catch
+            catch (Exception ex)
             {
-                CatVehiculoModels Vehiculo = new CatVehiculoModels();
+                
 
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
                 return View(Vehiculo);
             }
         }
+
 
         // GET: Admin/CatVehiculo/Edit/5
         public ActionResult Edit(string id)
@@ -178,6 +223,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Vehiculo.Color = collection["Color"];
                 Vehiculo.Capacidad = collection["Capacidad"];
                 Vehiculo.EsPropio = collection["EsPropio"].StartsWith("true");
+                string c = collection["fechaIngreso"];
+                string b = c.Replace("-", "/");
+                Vehiculo.fechaIngreso = DateTime.ParseExact(b, "yyyy/MM/dd", CultureInfo.InvariantCulture);
+                Vehiculo.placaRemolque = collection["placaRemolque"];
+                Vehiculo.colorRemolque = collection["colorRemolque"];
+                Vehiculo.tarjetaCirculacion = collection["tarjetaCirculacion"];
                 Vehiculo.Estatus = true;
                 Vehiculo = VehiculoDatos.AcCatVehiculo(Vehiculo);
                 if (Vehiculo.Completado == true)
