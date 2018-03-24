@@ -850,6 +850,7 @@
     <Content Include="Content\js\plugins\validationengine\languages\jquery.validationEngine-zh_TW.js" />
     <Content Include="Content\js\portlet.js" />
     <Content Include="Content\js\settings.js" />
+    <Content Include="Content\js\validaciones\additionals.js" />
     <Content Include="Content\Ocampo.ico" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />

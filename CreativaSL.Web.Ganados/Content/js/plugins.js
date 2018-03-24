@@ -53,7 +53,8 @@ $(function() {
             if($(".select").length > 0){
                 $(".select").selectpicker();
                 
-                $(".select").on("change", function(){
+                $(".select").on("change", function () {
+                    console.log("Se activo el evento change");
                     if($(this).val() == "" || null === $(this).val()){
                         if(!$(this).attr("multiple"))
                             $(this).val("").find("option").removeAttr("selected").prop("selected",false);
