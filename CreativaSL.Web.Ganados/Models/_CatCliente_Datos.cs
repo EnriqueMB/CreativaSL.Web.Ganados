@@ -43,9 +43,21 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                object[] parametros =
-                {
-                    datos.Opcion, datos.IDCliente, datos.IDSucursal, datos.RFC, datos.NombreRazonSocial, datos.EsPersonaFisica, datos.IDRegimenFiscal, datos.Usuario
+                object[] parametros = {
+                    datos.Opcion,
+                    datos.IDCliente ?? string.Empty,
+                    datos.IDSucursal ?? string.Empty,
+                    datos.NombreResponsable ?? string.Empty,
+                    datos.CorreoElectronico ?? string.Empty,
+                    datos.Telefono ?? string.Empty,
+                    datos.Celular ?? string.Empty,
+                    datos.FechaIngreso != null ? datos.FechaIngreso : DateTime.Today,
+                    datos.NombreRazonSocial ?? string.Empty,
+                    datos.RFC ?? string.Empty,
+                    datos.EsPersonaFisica,
+                    datos.Direccion ?? string.Empty,
+                    datos.IDRegimenFiscal ?? string.Empty,
+                    datos.Usuario ?? string.Empty
                 };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatCliente", parametros);
                 datos.IDCliente = aux.ToString();
@@ -122,7 +134,7 @@ namespace CreativaSL.Web.Ganados.Models
                 List<CFDI_RegimenFiscalModels> lista = new List<CFDI_RegimenFiscalModels>();
                 CFDI_RegimenFiscalModels item;
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Combo_get_cfdiRegimenFiscal");
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Combo_get_cfdiRegimenFiscal", Datos.EsPersonaFisica);
                 while (dr.Read())
                 {
                     item = new CFDI_RegimenFiscalModels();
@@ -149,9 +161,15 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     datos.IDCliente = !dr.IsDBNull(dr.GetOrdinal("IDCliente")) ? dr.GetString(dr.GetOrdinal("IDCliente")) : string.Empty;
                     datos.IDSucursal = !dr.IsDBNull(dr.GetOrdinal("IDSucursal")) ? dr.GetString(dr.GetOrdinal("IDSucursal")) : string.Empty;
-                    datos.RFC = !dr.IsDBNull(dr.GetOrdinal("RFC")) ? dr.GetString(dr.GetOrdinal("RFC")) : string.Empty;
+                    datos.NombreResponsable = !dr.IsDBNull(dr.GetOrdinal("NombreContacto")) ? dr.GetString(dr.GetOrdinal("NombreContacto")) : string.Empty;
+                    datos.CorreoElectronico = !dr.IsDBNull(dr.GetOrdinal("CorreoElectronico")) ? dr.GetString(dr.GetOrdinal("CorreoElectronico")) : string.Empty;
+                    datos.Telefono = !dr.IsDBNull(dr.GetOrdinal("TelefonoContacto")) ? dr.GetString(dr.GetOrdinal("TelefonoContacto")) : string.Empty;
+                    datos.Celular = !dr.IsDBNull(dr.GetOrdinal("CelularContacto")) ? dr.GetString(dr.GetOrdinal("CelularContacto")) : string.Empty;
+                    datos.FechaIngreso = !dr.IsDBNull(dr.GetOrdinal("FechaIngreso")) ? dr.GetDateTime(dr.GetOrdinal("FechaIngreso")) : DateTime.Today;
                     datos.NombreRazonSocial = !dr.IsDBNull(dr.GetOrdinal("RazonSocial")) ? dr.GetString(dr.GetOrdinal("RazonSocial")) : string.Empty;
+                    datos.RFC = !dr.IsDBNull(dr.GetOrdinal("RFC")) ? dr.GetString(dr.GetOrdinal("RFC")) : string.Empty;
                     datos.EsPersonaFisica = !dr.IsDBNull(dr.GetOrdinal("EsPersona")) ? dr.GetBoolean(dr.GetOrdinal("EsPersona")) : false;
+                    datos.Direccion = !dr.IsDBNull(dr.GetOrdinal("Direccion")) ? dr.GetString(dr.GetOrdinal("Direccion")) : string.Empty;
                     datos.IDRegimenFiscal = !dr.IsDBNull(dr.GetOrdinal("IDRegimenFiscal")) ? dr.GetString(dr.GetOrdinal("IDRegimenFiscal")) : string.Empty;
                 }
                 return datos;

@@ -37,7 +37,7 @@
                                 <div class="panel-body">
 
                                     <div class="form-group">
-                                        <label class="col-md-2 col-xs-12 control-label">Sucursal</label>
+                                        <label class="col-md-2 col-xs-12 control-label"><span>* </span> Sucursal </label>
                                         <div class="col-md-6 col-xs-12">
                                             @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaCmbSucursal, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control"})
                                             @Html.ValidationMessageFor(model => model.IDSucursal)
@@ -45,7 +45,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-md-2 col-xs-12 control-label">Razón Social</label>
+                                        <label class="col-md-2 col-xs-12 control-label"><span>* </span> Razón Social</label>
                                         <div class="col-md-6 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
@@ -63,7 +63,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-md-2 col-xs-12 control-label">Régimen Fiscal</label>
+                                        <label class="col-md-2 col-xs-12 control-label"><span>* </span> Régimen Fiscal</label>
                                         <div class="col-md-6 col-xs-12">
                                             @Html.DropDownListFor(model => model.IDRegimenFiscal, new SelectList(Model.ListaRegimenCMB, "Clave", "Descripcion"), new { id = "IDRegimenFiscal", @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.IDRegimenFiscal)
@@ -71,11 +71,11 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-md-2 col-xs-12 control-label">RFC</label>
+                                        <label class="col-md-2 col-xs-12 control-label"><span>* </span> RFC</label>
                                         <div class="col-md-6 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.RFC, new { id = "RFC", @class = "mask_rfc form-control", placeholder = "Capture el RFC del cliente" })
+                                                @Html.TextBoxFor(model => model.RFC, new { id = "RFC", @class = "form-control", placeholder = "Capture el RFC del cliente" })
                                             </div>
                                             @Html.ValidationMessageFor(model => model.RFC)
                                         </div>
@@ -99,7 +99,7 @@
                                         <div class="col-md-6 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                                @Html.TextBoxFor(model => model.FechaIngreso, "{0:yyyy/MM/dd}", new { id = "FechaIngreso", @class = "form-control datepicker", @readonly = "readonly" })
+                                                @Html.TextBoxFor(model => model.FechaIngreso, "{0:dd/MM/yyyy}", new { id = "FechaIngreso", @class = "form-control datepicker", @readonly = "readonly" })
                                             </div>
                                             @Html.ValidationMessageFor(model => model.FechaIngreso)
                                         </div>
@@ -113,7 +113,7 @@
                                 <div class="panel-body">
 
                                     <div class="form-group">
-                                        <label class="col-md-2 col-xs-12 control-label">Nombre del responsable</label>
+                                        <label class="col-md-2 col-xs-12 control-label">Nombre de la persona de contacto</label>
                                         <div class="col-md-6 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
@@ -128,7 +128,7 @@
                                         <div class="col-md-6 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.Celular, new { id = "Celular", @class = "mask_phone form-control" })
+                                                @Html.TextBoxFor(model => model.Celular, new { id = "Celular", @class = "form-control" })
                                             </div>
                                             @Html.ValidationMessageFor(model => model.Celular)
                                         </div>
@@ -139,7 +139,7 @@
                                         <div class="col-md-6 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.Telefono, new { id = "Telefono", @class = "mask_phone form-control" })
+                                                @Html.TextBoxFor(model => model.Telefono, new { id = "Telefono", @class = "form-control" })
                                             </div>
                                             @Html.ValidationMessageFor(model => model.Telefono)
                                         </div>
@@ -147,7 +147,7 @@
 
 
                                     <div class="form-group">
-                                        <label class="col-md-2 col-xs-12 control-label">E-mail</label>
+                                        <label class="col-md-2 col-xs-12 control-label"><span>* </span> E-mail</label>
                                         <div class="col-md-6 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
@@ -182,6 +182,7 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
     <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/maskedinput/jquery.maskedinput.min.js")"></script>  
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/clientes.js")"></script>
     <script>
     jQuery(document).ready(function () {

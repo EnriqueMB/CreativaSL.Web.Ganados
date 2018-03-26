@@ -5,7 +5,7 @@ $(function() {
         var feDatepicker = function(){
             if ($(".datepicker").length > 0) {
                 $(".datepicker").datepicker({
-                    format: 'dd-mm-yyyy',
+                    format: 'dd/mm/yyyy',
                     language: 'es'
                 });
                 $("#dp-2,#dp-3,#dp-4").datepicker(); // Sample
@@ -53,7 +53,8 @@ $(function() {
             if($(".select").length > 0){
                 $(".select").selectpicker();
                 
-                $(".select").on("change", function(){
+                $(".select").on("change", function () {
+                    console.log("Se activo el evento change");
                     if($(this).val() == "" || null === $(this).val()){
                         if(!$(this).attr("multiple"))
                             $(this).val("").find("option").removeAttr("selected").prop("selected",false);

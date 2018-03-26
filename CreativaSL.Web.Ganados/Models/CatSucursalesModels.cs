@@ -46,7 +46,7 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _NombreSucursal; }
             set { _NombreSucursal = value; }
         }
-
+        public decimal MermaPredeterminada { get; set; }
 
         #region Datos De Control
         public string Conexion { get; set; }

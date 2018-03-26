@@ -7,6 +7,9 @@ using System.Web.Mvc;
 using System.Web.Security;
 using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
+using System.IO;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -16,6 +19,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         private string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         private CompraModels Compra;
         private _Compra_Datos CompraDatos;
+        private string SucursalDefault = "892ABBA2-325F-4613-AE2B-E4AB34AADBED";
 
         // GET: Admin/Compra
         public ActionResult Index()
@@ -35,99 +39,150 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         public ActionResult Create()
         {
-
-            Compra = new CompraModels();
-            CompraDatos = new _Compra_Datos();
-            Compra.Conexion = Conexion;
-            Compra = CompraDatos.GetCompraPacta(Compra);
-            Compra.ListaProveedores = CompraDatos.ObtenerListadoProveedores(Compra);
-
-            return View(Compra);
-        }
-        // GET: Admin/Compra/Fierros/5
-        public ActionResult Fierros(string id)
-        {
-            Compra = new CompraModels();
-            CompraDatos = new _Compra_Datos();
-            Compra.Conexion = Conexion;
-            Compra.IDCompra = id;
-            Compra = CompraDatos.GetFierros(Compra);
-
-            return View(Compra);
-        }
-        // GET: Admin/Compra/Flete/5
-        public ActionResult Flete(string id)
-        {
-            Compra = new CompraModels();
-            CompraDatos = new _Compra_Datos();
-            Compra.Conexion = Conexion;
-            Compra.IDCompra = id;
-            Compra = CompraDatos.GetFlete(Compra);
-            Compra.ListaChoferes = CompraDatos.GetChoferes(Compra);
-            Compra.ListaVehiculos = CompraDatos.GetVehiculos(Compra);
-
-
-            /*Relleno el combobox de lugares INICIO*/
-            Compra = CompraDatos.ObtenerLugares(Compra, 1);
-            CompraModels CompraLugar = new CompraModels();
-            Compra.Lugar = new CatLugarModels
+            try
             {
-                listaLugares = new List<CatLugarModels>()
-            };
-
-
-            foreach (System.Data.DataRow Lugar in Compra.TablaLugares.Rows)
-            {
-                CompraLugar.Lugar = new CatLugarModels
-                {
-                    id_lugar = Lugar["id_lugar"].ToString() + " | " + Lugar["gpsLatitud"].ToString() + " | " + Lugar["gpsLongitud"].ToString(),
-                    descripcion = Lugar["descripcion"].ToString()
-                };
-
-                Compra.Lugar.listaLugares.Add(CompraLugar.Lugar);
+                Compra = new CompraModels();
+                CompraDatos = new _Compra_Datos();
+                Compra.Conexion = Conexion;
+                Compra.Sucursal.IDSucursal = SucursalDefault;
+                Compra.ListaProveedores = CompraDatos.GetListadoProveedores(Compra);
+                Compra.ListaLugares = CompraDatos.GetListadoLugares(Compra);
+                Compra.ListaChoferes = CompraDatos.GetListadoChoferes(Compra);
+                Compra.ListaVehiculos = CompraDatos.GetListadoVehiculos(Compra);
+                Compra.ListaJaulas = CompraDatos.GetListadoJaulas(Compra);
             }
-            var ListLugaresInicio = new SelectList(Compra.Lugar.listaLugares, "id_lugar", "descripcion");
-            ViewData["cmbLugarInicio"] = ListLugaresInicio;
-
-            /*Relleno el combobox de lugares FINAL*/
-            Compra = new CompraModels
+            catch (Exception ex)
             {
-                Conexion = Conexion
-            };
-            Compra = CompraDatos.ObtenerLugares(Compra, 0);
-            Compra.Lugar = new CatLugarModels
-            {
-                listaLugares = new List<CatLugarModels>()
-            };
-
-            foreach (System.Data.DataRow Lugar in Compra.TablaLugares.Rows)
-            {
-                CompraLugar.Lugar = new CatLugarModels
-                {
-                    id_lugar = Lugar["id_lugar"].ToString() + " | " + Lugar["gpsLatitud"].ToString() + " | " + Lugar["gpsLongitud"].ToString(),
-                    descripcion = Lugar["descripcion"].ToString()
-                };
-
-                Compra.Lugar.listaLugares.Add(CompraLugar.Lugar);
+                throw ex;
             }
-            var ListLugaresFinal = new SelectList(Compra.Lugar.listaLugares, "id_lugar", "descripcion");
-            ViewData["cmbLugarFinal"] = ListLugaresFinal;
-
-
 
             return View(Compra);
         }
-        public ActionResult Ganado(string id)
+        // GET: Admin/Compra/Edit/5
+        public ActionResult Edit(string IDCompra)
         {
             Compra = new CompraModels();
-            return View(Compra);
-        }
-        public ActionResult OtrosMovimientos(string id)
-        {
-            Compra = new CompraModels();
+            CompraDatos = new _Compra_Datos();
+            //Asigno valores para los querys
+            Compra.Conexion = Conexion;
+            Compra.IDCompra = IDCompra;
+            Compra.Sucursal.IDSucursal = SucursalDefault;
+            //Obtengo los datos de la compra
+            Compra = CompraDatos.GetCompra(Compra);
+            Compra.ListaFierros = CompraDatos.GetListadoFierros(Compra);
+            Compra.ListaProveedores = CompraDatos.GetListadoProveedores(Compra);
+            Compra.ListaLugares = CompraDatos.GetListadoLugares(Compra);
+            Compra.ListaChoferes = CompraDatos.GetListadoChoferes(Compra);
+            Compra.ListaVehiculos = CompraDatos.GetListadoVehiculos(Compra);
+            Compra.ListaJaulas = CompraDatos.GetListadoJaulas(Compra);
+
             return View(Compra);
         }
 
+
+
+        [HttpPost]
+        public ActionResult SaveCompra(CompraModels Compra)
+        {
+            if (ModelState.IsValid)
+            {
+                //Obtengo al usuario actual
+                HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                CompraDatos = new _Compra_Datos();
+                Compra.IDUsuario = ticket.Name;
+                Compra.Sucursal.IDSucursal = SucursalDefault;
+                Compra.Conexion = Conexion;
+                Compra = CompraDatos.SaveCompra(Compra);
+                Compra.ListaProveedores = CompraDatos.GetListadoProveedores(Compra);
+                Compra.ListaLugares = CompraDatos.GetListadoLugares(Compra);
+                Compra.ListaChoferes = CompraDatos.GetListadoChoferes(Compra);
+                Compra.ListaVehiculos = CompraDatos.GetListadoVehiculos(Compra);
+                Compra.ListaJaulas = CompraDatos.GetListadoJaulas(Compra);
+                Compra.TipoResultado = 1;
+                Compra.Mensaje = "Compra creada satisfactoriamente.";
+            }
+            else
+            {
+                Compra.TipoResultado = 2;
+                Compra.Mensaje = "Ha ocurrido un error al momento de crear la compra, verifique sus datos.";
+            }
+            return View("Create", Compra);
+        }
+        [HttpPost]
+        public ContentResult SaveImageFierro(string IDCompra)
+        {
+            string jsString = "{}";
+            try
+            {
+                foreach (string file in Request.Files)
+                {
+                    var fileContent = Request.Files[file];
+                    if (fileContent != null && fileContent.ContentLength > 0)
+                    {
+                        //Obtengo el stream
+                        var stream = fileContent.InputStream;
+                        //Genero un array de bytes
+                        byte[] fileData = null;
+                        using (var binaryReader = new BinaryReader(stream))
+                        {
+                            fileData = binaryReader.ReadBytes(fileContent.ContentLength);
+                        }
+                        //Realizo la convercion a base 64
+                        string Base64 = Convert.ToBase64String(fileData);
+                        //Ya tengo la imagen ahora la guardo en la bd
+                        HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                        FormsAuthenticationTicket Ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                        Compra = new CompraModels();
+                        CompraDatos = new _Compra_Datos();
+
+                        Compra.IDCompra = IDCompra;
+                        Compra.Conexion = Conexion;
+                        Compra.Fierro.ImgFierro = Base64;
+                        Compra.Fierro.NombreFierro = Request.Files[file].FileName;
+                        Compra.IDUsuario = Ticket.Name;
+                        Compra = CompraDatos.SaveImageFierro(Compra);
+
+                        jsString = "{ \"initialPreview\":[\"<img class='file-preview-image' style='width: auto; height: auto; max-width: 100 %; max-height: 100%; ' src='data: image/png; base64, " + Base64 + "' />\"],\"initialPreviewConfig\":[{\"caption\":\"" + Compra.Fierro.NombreFierro + "\",\"size\":" + fileContent.ContentLength + ",\"width\":\"50px\",\"url\":\"DeleteImageFierro\",\"key\":\"" + Compra.Fierro.IDFierro + "\"}]}";
+
+                        return Content(jsString, "application/json");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                jsString = "{\"Mensaje de error\": \"" + ex + "\"}";
+                return Content(jsString, "application/json");
+            }
+            return Content(jsString, "application/json");
+        }
+        [HttpPost]
+        public ContentResult DeleteImageFierro(string key)
+        {
+            string jsString;
+            try
+            {
+                HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                FormsAuthenticationTicket Ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                Compra = new CompraModels();
+                CompraDatos = new _Compra_Datos();
+                Compra.Conexion = Conexion;
+                Compra.Sucursal.IDSucursal = SucursalDefault;
+                Compra.Fierro.IDFierro = key;
+                Compra.IDUsuario = Ticket.Name;
+                Compra = CompraDatos.DeleteImageFierro(Compra);
+                jsString = "{\"Mensaje\": \"" + Compra.Mensaje + "\"}";
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                jsString = "{\"Mensaje de error\": \"" + ex + "\"}";
+            }
+            return Content(jsString, "application/json");
+        }
 
         // GET: Admin/Compra/Details/5
         public ActionResult Details(int id)
@@ -136,18 +191,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
             return View();
         }
-        // GET: Admin/Compra/Edit/5
-        public ActionResult Edit(string id)
-        {
-            Compra = new CompraModels();
-            _Compra_Datos CompraDatos = new _Compra_Datos();
-            Compra.Conexion = Conexion;
-            Compra.IDProveedor = id;
-            Compra = CompraDatos.GetCompraPacta(Compra);
 
-
-            return View(Compra);
-        }
 
         // GET: Admin/Compra/Delete/5
         public ActionResult Delete(int id)
@@ -172,34 +216,49 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult Guardar(CompraModels Compra)
+        public JsonResult GuardarCompra(CompraModels Compra)
         {
+
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
             var rm = new ResponseModel();
-            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
 
-            Compra.GanadosPactadoTotal = Compra.GanadosPactadoMachos + Compra.GanadosPactadoHembras;
-            Compra.IDUsuario = ticket.Name;
+            if (ModelState.IsValid)
+            {
+                HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
 
+                Compra.IDUsuario = ticket.Name;
+                rm.Result = "1234-1234-1234-1234";
+                rm.Message = "Datos guardados con éxito.";
+                rm.Response = true;
+            }
+            else
+            {
+                rm.Message = "Verifique su formulario.";
+            }
             return Json(rm);
         }
-
-        /*ACTION DELETE*/
-        /*FIERROS*/
         [HttpPost]
-        public JsonResult EliminarFierro(string id_fierro)
+        public PartialViewResult PartialFierros(string ID)
         {
-
-            return Json("a");
+            Compra = new CompraModels();
+            Compra.Conexion = Conexion;
+            Compra.IDCompra = ID;
+            return PartialView(Compra);
         }
+
+
 
         #region MODALES
         #region Ganado
         [HttpGet]
-        public ActionResult NuevoGanado()
+        public ActionResult ModalGanado(string idGanado)
         {
-            Compra = new CompraModels();   
-            return PartialView("ModalGanado", Compra.Ganado);
+            Compra = new CompraModels();
+            CompraDatos = new _Compra_Datos();
+            Compra.Ganado.id_Ganados = idGanado;
+            Compra = CompraDatos.GetCompraGanadoXIDGanado(Compra);
+            return PartialView("ModalGanado", Compra);
         }
         #endregion
         #region Inventario
@@ -212,8 +271,20 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
         #region Renta
         [HttpGet]
-        public ActionResult Renta()
+        public ActionResult Renta(string opcion)
         {
+            //Aquí será la consulta a mostrar y así poder desplegar el modal con los datos correspondientes
+            switch (opcion)
+            {
+                case "Vehiculo":
+                    break;
+                case "Remolque":
+                    break;
+                case "Jaula":
+                    break;
+                default:
+                    break;
+            }
             Compra = new CompraModels();
             return PartialView("ModalRenta", Compra.Ganado);
         }
