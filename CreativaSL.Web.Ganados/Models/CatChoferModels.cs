@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Data;
+using CreativaSL.Web.Ganados.Models.Validaciones;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -165,7 +166,7 @@ namespace CreativaSL.Web.Ganados.Models
         [Required(ErrorMessage = "El número del ife es obligatorio")]
         [Display(Name = "Número del ife")]
         [StringLength(13, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s]*$", ErrorMessage = "Solo Letras y número")]
+        [IFE(ErrorMessage = "Ingrese un dato válido para credencial de elector")]
         public string Ife
         {
             get { return _Ife; }
@@ -176,7 +177,7 @@ namespace CreativaSL.Web.Ganados.Models
         [Required(ErrorMessage = "El tipo de sangre es obligatorio")]
         [Display(Name = "tipo de sangre")]
         [StringLength(15, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s]*$", ErrorMessage = "Solo Letras y número")]
+       
         public string TipoSangre
         {
             get { return _TipoSangre; }
@@ -195,7 +196,7 @@ namespace CreativaSL.Web.Ganados.Models
         [Required(ErrorMessage = "El número de seguro social es obligatorio")]
         [Display(Name = "número de seguro social")]
         [StringLength(30, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s]*$", ErrorMessage = "Solo Letras y número")]
+        [Texto( ErrorMessage = "Solo Letras y número")]
         public string NumSeguroSocial
         {
             get { return _NumSeguroSocial; }
@@ -206,7 +207,7 @@ namespace CreativaSL.Web.Ganados.Models
         [Required(ErrorMessage = "El nombre encaso de accidente es obligatorio")]
         [Display(Name = "nombre encaso de accidente")]
         [StringLength(250, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ\s]*$", ErrorMessage = "Solo Letras y número")]
+        [Texto(ErrorMessage = "Solo Letras y número")]
         public string AvisoAccidente
         {
             get { return _AvisoAccidente; }
