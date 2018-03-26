@@ -7,56 +7,69 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CompraGanadosModels
     {
-        private string _IDGanados;
-
-        public string IDGanados
+        public CompraGanadosModels()
         {
-            get { return _IDGanados; }
-            set { _IDGanados = value; }
+            IDCompra = string.Empty;
+            DifPeso = 0;
+            IDGanados = string.Empty;
+            Merma = 0;
+            PesoInicial = 0;
+            PesoFinal = 0;
+            PesoPagado = 0;
+            PrecioKilo = 0;
+            Repeso = true;
         }
 
-        private decimal _PesoInicial;
+        public bool Repeso { get; set; }
 
-        public decimal PesoInicial
-        {
-            get { return _PesoInicial; }
-            set { _PesoInicial = value; }
-        }
-
+        private decimal _DifPeso;
         private string _IDCompra;
+        private string _IDGanados;
+        private decimal _Merma;
+        private decimal _PesoInicial;
+        private decimal _PesoFinal;
+        private decimal _PesoPagado;
+        private decimal _PrecioKilo;
 
+        public decimal DifPeso
+        {
+            get
+            {
+                _DifPeso = PesoInicial - PesoFinal;
+                return _DifPeso;
+            }
+            set { _DifPeso = value; }
+        }
         public string IDCompra
         {
             get { return _IDCompra; }
             set { _IDCompra = value; }
         }
-
-        private string _PesoFinal;
-
-        public string PesoFinal
+        public string IDGanados
         {
-            get { return _PesoFinal; }
-            set { _PesoFinal = value; }
+            get { return _IDGanados; }
+            set { _IDGanados = value; }
         }
-
-        private decimal _Merma;
-
         public decimal Merma
         {
             get { return _Merma; }
             set { _Merma = value; }
         }
-
-        private string _PesoPagado;
-
-        public string PesoPagado
+        public decimal PesoInicial
+        {
+            get { return _PesoInicial; }
+            set { _PesoInicial = value; }
+        }
+        public decimal PesoFinal
+        {
+            get { return _PesoFinal; }
+            set { _PesoFinal = value; }
+        }
+        public decimal PesoPagado
         {
             get { return _PesoPagado; }
             set { _PesoPagado = value; }
         }
-
-        private decimal _PrecioKilo;
-
         public decimal PrecioKilo
         {
             get { return _PrecioKilo; }
@@ -70,5 +83,6 @@ namespace CreativaSL.Web.Ganados.Models
         public string Usuario { get; set; }
         public int Opcion { get; set; }
         #endregion
+
     }
 }

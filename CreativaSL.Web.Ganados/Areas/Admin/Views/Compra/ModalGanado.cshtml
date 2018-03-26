@@ -1,9 +1,9 @@
-﻿@model CreativaSL.Web.Ganados.Models.GanadosModels
+﻿@model CreativaSL.Web.Ganados.Models.CompraModels
 
-<div class="modal-content" >
+<div class="modal-content">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Alta ganado - merma permitida</h4>
+        <h4 class="modal-title">Ganado</h4>
     </div>
     <div class="modal-body">
         <!--INICIA CUERPO MODAL-->
@@ -14,9 +14,9 @@
                     <div class="col-md-9 col-xs-12">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                            @Html.TextBoxFor(model => model.numArete, new { id = "NumArete", @class = "form-control", @Value = "0", disabled = "disabled" })
+                            @Html.TextBoxFor(model => model.Ganado.numArete, new { id = "NumArete", @class = "form-control", disabled = "disabled" })
                         </div>
-                        @Html.ValidationMessageFor(model => model.numArete)
+                        @Html.ValidationMessageFor(model => model.Ganado.numArete)
                         <span class="help-block">Número de arete.</span>
                     </div>
                 </div>
@@ -27,12 +27,11 @@
                 <div class="col-md-9 col-xs-12">
                     <div class="input-group">
                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                        <select class = "form-control">
-                            <option>Macho</option>
-                            <option>Hembra</option>
-                        </select>                        
+                        <select class="form-control">
+                            <option value="MACHO" selected>MACHO</option>
+                            <option value="HEMBRA">HEMBRA</option>
+                        </select>
                     </div>
-                    @Html.ValidationMessageFor(model => model.numArete)
                     <span class="help-block">Seleccione el género del ganado.</span>
                 </div>
             </div>
@@ -43,9 +42,9 @@
                     <div class="col-md-9 col-xs-12">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                            @Html.TextBoxFor(model => model.observacion, new { id = "inputPesoInicial", @class = "form-control", @Value = "0"})
+                            @Html.TextBoxFor(model => model.Ganado, new { id = "inputPesoInicial", @class = "form-control" })
                         </div>
-                        @Html.ValidationMessageFor(model => model.observacion)
+                        @Html.ValidationMessageFor(model => model.CompraGanado.PesoInicial)
                         <span class="help-block">Ingrese el peso inicial.</span>
                     </div>
                 </div>
@@ -57,9 +56,9 @@
                     <div class="col-md-9 col-xs-12">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                            @Html.TextBoxFor(model => model.observacion, new { id = "inputPesoFinal", @class = "form-control", @Value = "0" })
+                            @Html.TextBoxFor(model => model.CompraGanado.PesoFinal, new { id = "inputPesoFinal", @class = "form-control" })
                         </div>
-                        @Html.ValidationMessageFor(model => model.observacion)
+                        @Html.ValidationMessageFor(model => model.CompraGanado.PesoFinal)
                         <span class="help-block">Ingrese el peso final.</span>
                     </div>
                 </div>
@@ -71,9 +70,9 @@
                     <div class="col-md-9 col-xs-12">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                            @Html.TextBoxFor(model => model.observacion, new { id = "inputDifPeso", @class = "form-control", @Value = "0" })
+                            @Html.TextBoxFor(model => model.CompraGanado.DifPeso, new { id = "inputDifPeso", @class = "form-control"})
                         </div>
-                        @Html.ValidationMessageFor(model => model.observacion)
+                        @Html.ValidationMessageFor(model => model.CompraGanado.DifPeso)
                         <span class="help-block">Diferencia de Peso (kg.).</span>
                     </div>
                 </div>
@@ -85,9 +84,9 @@
                     <div class="col-md-9 col-xs-12">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                            @Html.TextBoxFor(model => model.observacion, new { id = "inputMermaObtenida", @class = "form-control", @Value = "0", disabled = "disabled" })
+                            @Html.TextBoxFor(model => model.CompraGanado.Merma, new { id = "inputMermaObtenida", @class = "form-control", @Value = "0", disabled = "disabled" })
                         </div>
-                        @Html.ValidationMessageFor(model => model.observacion)
+                        @Html.ValidationMessageFor(model => model.CompraGanado.Merma)
                         <span class="help-block">Merma Obtenida.</span>
                     </div>
                 </div>
@@ -99,9 +98,9 @@
                     <div class="col-md-9 col-xs-12">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                            @Html.TextBoxFor(model => model.observacion, new { id = "inputMermaObtenida", @class = "form-control", @Value = "0", disabled = "disabled" })
+                            @Html.TextBoxFor(model => model.CompraGanado.PesoPagado, new { id = "inputMermaObtenida", @class = "form-control", @Value = "0", disabled = "disabled" })
                         </div>
-                        @Html.ValidationMessageFor(model => model.observacion)
+                        @Html.ValidationMessageFor(model => model.CompraGanado.PesoPagado)
                         <span class="help-block">Rango establecido.</span>
                     </div>
                 </div>
@@ -113,9 +112,9 @@
                     <div class="col-md-9 col-xs-12">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                            @Html.TextBoxFor(model => model.observacion, new { id = "inputPrecioSugeridoPorPeso", @class = "form-control", @Value = "0", disabled = "disabled" })
+                            @Html.TextBoxFor(model => model.CompraGanado.PesoPagado, new { id = "inputPrecioSugeridoPorPeso", @class = "form-control", @Value = "0", disabled = "disabled" })
                         </div>
-                        @Html.ValidationMessageFor(model => model.observacion)
+                        @Html.ValidationMessageFor(model => model.CompraGanado.PesoPagado)
                         <span class="help-block">Precio sugerido.</span>
                     </div>
                 </div>
@@ -128,9 +127,9 @@
                     <div class="col-md-9 col-xs-12">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                            @Html.TextBoxFor(model => model.observacion, new { id = "inputPrecioPagadoPorKilo", @class = "form-control", @Value = "0", disabled = "disabled" })
+                            @Html.TextBoxFor(model => model.CompraGanado.PrecioKilo, new { id = "inputPrecioPagadoPorKilo", @class = "form-control", disabled = "disabled" })
                         </div>
-                        @Html.ValidationMessageFor(model => model.observacion)
+                        @Html.ValidationMessageFor(model => model.CompraGanado.PrecioKilo)
                         <span class="help-block">Precio pagado por kilo.</span>
                     </div>
                 </div>
@@ -145,4 +144,4 @@
         </form>
         <!--TERMINA CUERPO MODAL-->
     </div>
-</div>
+</div> 
