@@ -43,7 +43,7 @@ namespace CreativaSL.Web.Ganados.Models
                 object[] parametros =
                 {
                     datos.Opcion, datos.IDChofer, datos.Nombre, datos.ApPaterno, datos.ApMaterno,datos.Licencia,datos.numLicencia,datos.vigencia,
-                    datos.Ife,datos.TipoSangre,datos.IDGenero,datos.NumSeguroSocial,datos.AvisoAccidente,datos.TelefonoAccidente,datos.Telefono,datos.Movil,
+                    datos.Ife,datos.idgruposanguineo,datos.IDGenero,datos.NumSeguroSocial,datos.AvisoAccidente,datos.TelefonoAccidente,datos.Telefono,datos.Movil,
                     datos.FechaNacimiento,datos.FechaIngreso,datos.Usuario
                 };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "EM_spCSLDB_abc_Chofer", parametros);
@@ -107,7 +107,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.numLicencia = dr["numLicencia"].ToString();
                     datos.vigencia = dr.GetDateTime(dr.GetOrdinal("vigencia"));
                     datos.Ife= dr["ife"].ToString();
-                    datos.TipoSangre = dr["tipoSangre"].ToString();
+                    datos.idgruposanguineo = Convert.ToInt32(dr["id_grupoSanguineo"].ToString());
                     datos.IDGenero = Convert.ToInt32(dr["id_genero"].ToString());
                     datos.NumSeguroSocial= dr["numSeguroSocial"].ToString();
                     datos.AvisoAccidente= dr["avisoAccidente"].ToString();
@@ -138,6 +138,29 @@ namespace CreativaSL.Web.Ganados.Models
                     item = new CatGeneroModels();
                     item.IDGenero = !dr.IsDBNull(dr.GetOrdinal("IDGenero")) ? dr.GetInt32(dr.GetOrdinal("IDGenero")) : 0;
                     item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<CatGrupoSanguineoModels> ObteneComboCatGrupoSanguineo(CatChoferModels Datos)
+        {
+            try
+            {
+                List<CatGrupoSanguineoModels> lista = new List<CatGrupoSanguineoModels>();
+                CatGrupoSanguineoModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Combo_get_CatGrupoSanguineo");
+                // lista.Add(new CatGeneroModels { IDGenero = string.Empty, NombreSucursal = " - Seleccione -" });
+                while (dr.Read())
+                {
+                    item = new CatGrupoSanguineoModels();
+                    item.IDGrupoSanguineo = !dr.IsDBNull(dr.GetOrdinal("id_grupoSanguineo")) ? dr.GetInt32(dr.GetOrdinal("id_grupoSanguineo")) : 0;
+                    item.descripcion = !dr.IsDBNull(dr.GetOrdinal("TipoSanguineo")) ? dr.GetString(dr.GetOrdinal("TipoSanguineo")) : string.Empty;
                     lista.Add(item);
                 }
                 return lista;
