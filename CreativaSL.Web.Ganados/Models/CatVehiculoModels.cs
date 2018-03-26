@@ -69,12 +69,12 @@ namespace CreativaSL.Web.Ganados.Models
             set { _tarjetaCirculacion = value; }
         }
 
-        
+        private DateTime _fechaIngreso;
         [Required(ErrorMessage = "La Fecha de ingreso es obligatorio")]
         [Display(Name = "Fecha de ingreso")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
-        private DateTime _fechaIngreso;
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        
         public DateTime fechaIngreso
         {
             get { return _fechaIngreso; }

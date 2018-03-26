@@ -28,7 +28,7 @@
                 @Html.HiddenFor(model => model.id_usuario)
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">TABLA DE PERMISOS @Model.nombre</h3>
+                        <h3 class="panel-title">TABLA DE PERMISOS</h3>
                     </div>
                     <div class="panel-body">
                      
@@ -42,9 +42,122 @@
                             </thead>
                             <tbody>
                                 @{
-                                    int contAlumno = 0, ContP = 0;
-                                    string cadenaContAlumno = "", CadenaContP = "", contenedorceldas = "";
-                                    string asistenciaContAlumno = "", PermisosContP = "", Clase = "";
+                                  
+                                    @helper DibujarMenu(CreativaSL.Web.Ganados.Models.MenuModels Item)
+                                    {
+    
+                                            if (Item.ParentMenuID == 0)
+                                            {
+                                                if (Item.ListaMenu.Count == 0)
+                                                {
+                                                    <tr class="info">
+                                                        <td style="display:none"><input type="hidden" name="@Html.Raw(Item.IDPermiso)" value="@Html.Raw(Item.IDPermiso)"></td>
+                                                        <td>@Item.NombreMenu.ToString()</td>
+
+                                                        @if (Item.ver)
+                                                        {
+                                                            <td><input class="form-control validAsistencia maincheck " type="checkbox" id="P-@Html.Raw(Item.IDPermiso)"  name="P-@Html.Raw(Item.IDPermiso)" value="@Html.Raw(Item.ver)" checked /></td>
+                                                        }
+                                                        else
+
+                                                        {
+                                                            <td><input class="form-control validAsistencia maincheck " type="checkbox" id="P-@Html.Raw(Item.IDPermiso)"  name="P-@Html.Raw(Item.IDPermiso)" value="@Html.Raw(Item.ver)" /></td>
+
+                                                        }
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr class="info">
+                                                        <td style="display:none"><input type="hidden" name="@Html.Raw(Item.IDPermiso)" value="@Html.Raw(Item.IDPermiso)"></td>
+                                                        <td>@Item.NombreMenu.ToString()</td>
+
+                                                        @if (Item.ver)
+                                                        {
+                                                            <td><input class="form-control validAsistencia maincheck " type="checkbox" id="H-@Html.Raw(Item.IDPermiso)"  name="H-@Html.Raw(Item.IDPermiso)" value="@Html.Raw(Item.ver)" checked /></td>
+                                                        }
+                                                        else
+
+                                                        {
+                                                            <td><input class="form-control validAsistencia maincheck " type="checkbox" id="H-@Html.Raw(Item.IDPermiso)"  name="H-@Html.Raw(Item.IDPermiso)" value="@Html.Raw(Item.ver)" /></td>
+
+                                                        }
+                                                    </tr>
+                                                    foreach (var SubMenu in Item.ListaMenu)
+                                                    {
+
+                                                      @DibujarMenu(SubMenu);
+
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (Item.ListaMenu.Count == 0)
+                                                {
+
+                                                <tr class="warning ">
+                                                    <td style="display:none"><input type="hidden" name="@Html.Raw(Item.IDPermiso)" value="@Html.Raw(Item.IDPermiso)"></td>
+                                                    <td>@Item.NombreMenu</td>
+
+                                                    @if (Item.ver)
+                                                    {
+                                                        <td>
+                                                            <input class="form-control validAsistencia  submaincheck" type="checkbox" id="H-@Html.Raw(Item.IDPermiso)" name="H-@Html.Raw(Item.IDPermiso)" value="@Html.Raw(Item.ver)" checked />
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>
+                                                            <input class="form-control validAsistencia submaincheck" type="checkbox" id="H-@Html.Raw(Item.IDPermiso)" name="H-@Html.Raw(Item.IDPermiso)" value="@Html.Raw(Item.ver)" />
+                                                        </td>
+                                                    }
+                                                </tr>
+      
+
+                                                }
+                                                else
+                                                 {   
+                                                        <tr class="success ">
+                                                            <td style="display:none"><input type="hidden" name="@Html.Raw(Item.IDPermiso)" value="@Html.Raw(Item.IDPermiso)"></td>
+                                                            <td>@Item.NombreMenu</td>
+
+                                                            @if (Item.ver)
+                                                            {
+                                                                <td>
+                                                                    <input class="form-control validAsistencia submaincheck" type="checkbox" id="N-@Html.Raw(Item.IDPermiso)" name="N-@Html.Raw(Item.IDPermiso)" value="@Html.Raw(Item.ver)" checked />
+                                                                </td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>
+                                                                    <input class="form-control validAsistencia  submaincheck" type="checkbox" id="N-@Html.Raw(Item.IDPermiso)" name="N-@Html.Raw(Item.IDPermiso)" value="@Html.Raw(Item.ver)" />
+                                                                </td>
+                                                            }
+                                                        </tr>
+                                                        foreach (var SubMenu in Item.ListaMenu)
+                                                        {
+                                                            @DibujarMenu(SubMenu);
+                                                        }
+                                                }
+                                            }
+                                        }
+                                    foreach (var item in Model.listaMenu)
+                                    {
+                                       
+                                        @DibujarMenu(item);
+
+                                    }
+                                    int total = 0;
+
+                                    <input id="Total" name="Total" type="text" value="@total" style="display:none" />
+                                }
+                            </tbody>
+                            @*<tbody>
+                                @{
+                                    int contAlumno = 0, ContP = 0,contnieto=0;
+                                    string cadenaContAlumno = "", CadenaContP = "", contenedorceldas = "",NietoCont="";
+                                    string asistenciaContAlumno = "", PermisosContP = "", Clase = "", PermisosNieto="";
 
                                     foreach (var Lista in Model.listaMenu)
                                     {
@@ -82,13 +195,13 @@
                                                 @if (Item.ver)
                                                 {
                                                     <td>
-                                                        <input class="form-control validAsistencia @Clase submaincheck" type="checkbox" id="@Html.Raw(PermisosContP)" name="@Html.Raw(PermisosContP)" value="@Html.Raw(Lista.ver)" checked />
+                                                        <input class="form-control validAsistencia @Clase submaincheck" type="checkbox" id="@Html.Raw(PermisosContP)" name="@Html.Raw(PermisosContP)" value="@Html.Raw(Lista.ver)" checked data-cont="@contAlumno"/>
                                                     </td>
                                                 }
                                                 else
                                                 {
                                                     <td>
-                                                        <input class="form-control validAsistencia @Clase submaincheck" type="checkbox" id="@Html.Raw(PermisosContP)" name="@Html.Raw(PermisosContP)" value="@Html.Raw(Lista.ver)" />
+                                                        <input class="form-control validAsistencia @Clase submaincheck" type="checkbox" id="@Html.Raw(PermisosContP)" name="@Html.Raw(PermisosContP)" value="@Html.Raw(Lista.ver)"  data-cont="@contAlumno"/>
                                                     </td>
                                                 }
                                             </tr>
@@ -96,20 +209,23 @@
                                             {
                                                 foreach (var Item2 in Item.ListaMenu)
                                                 {
+                                                    contnieto++;
+                                                    NietoCont = "ID-N" +contnieto;
+                                                    PermisosNieto = "PermisoN" +contnieto;
                                                     <tr class=" active @contenedorceldas">
-                                                        <td style="display:none"><input type="hidden" name="@Html.Raw(CadenaContP)" value="@Html.Raw(Item.IDPermiso)"></td>
+                                                        <td style="display:none"><input type="hidden" name="@Html.Raw(NietoCont)" value="@Html.Raw(Item.IDPermiso)"></td>
                                                         <td>@Item2.NombreMenu</td>
 
                                                         @if (Item2.ver)
                                                         {
                                                             <td>
-                                                                <input class="form-control validAsistencia @Clase submaincheck" type="checkbox" id="@Html.Raw(PermisosContP)" name="@Html.Raw(PermisosContP)" value="@Html.Raw(Lista.ver)" checked />
+                                                                <input class="form-control validAsistencia @Clase " type="checkbox" id="@Html.Raw(PermisosNieto)" name="@Html.Raw(PermisosNieto)" value="@Html.Raw(Lista.ver)" checked />
                                                             </td>
                                                         }
                                                         else
                                                         {
                                                             <td>
-                                                                <input class="form-control validAsistencia @Clase submaincheck" type="checkbox" id="@Html.Raw(PermisosContP)" name="@Html.Raw(PermisosContP)" value="@Html.Raw(Lista.ver)" />
+                                                                <input class="form-control validAsistencia @Clase " type="checkbox" id="@Html.Raw(PermisosNieto)" name="@Html.Raw(PermisosNieto)" value="@Html.Raw(Lista.ver)" />
                                                             </td>
                                                         }
                                                     </tr>
@@ -123,7 +239,7 @@
                                     <input id="Total" name="Total" type="text" value="@total" style="display:none" />
                                 }
                               
-                            </tbody>
+                            </tbody>*@
                         </table>
                         <div class="panel-footer">
                             <input type="submit" value="Guardar" class="btn btn-primary pull-right">
@@ -151,9 +267,7 @@
 
     <script>
     jQuery(document).ready(function () {
-        $('#Licencia').change(function () {
-            $('#licencia-cont').toggle(1000);
-        });
+        
         Mensaje(message, typemessage);
     });
     $(document).ready(function () {
@@ -164,41 +278,37 @@
             });
         });
         var contador = 0;
+        var contadorP = 0;
         var cont = 0;
         $(".maincheck").each(function () {
             var c = $(this).attr('data-cont');
             cont = c - 1;
-
             if ($(this).is(':checked')) {
                 $('.clase' + cont).removeAttr('disabled');
-
-
-            }
+             }
             else {
                 $('.clase' + cont).attr('disabled', 'disabled');
 
                 $('.clase' + cont).prop("checked", false);
             }
-
+            //ACCION PARA CADA UNO DE LOS ELEMENTOS PADRES
             contador++;
             $('#Permiso' + contador).change(function () {;
                 var c = $(this).attr('data-cont');
                 cont = c - 1;
-                
                 if ($(this).is(':checked')) {
-
                     $('.clase' + cont).removeAttr('disabled');
-                    $('.clase' + cont).prop("checked", true);
-                  
-                    
+                    $('.clase' + cont).prop("checked", true);         
                 }
                 else {
                     $('.clase' + cont).attr('disabled', 'disabled');
-                    $('.tr' + cont).css("display", "block");
+                  
                     $('.clase' + cont).prop("checked", false);
                 }
-
-
+            });
+            //acceso a los elementos hijos
+            $(".submaincheck").each(function () {
+              
 
             });
 
