@@ -25,20 +25,32 @@
             ignore: "",
             rules: {
                 IDSucursal: { required: true },
-                
+                NombreRazonSocial: { required: true, texto: true, maxlength: 300 },
                 IDRegimenFiscal: { required: true },
-                RFC: { required: true },
+                RFC: { required: true, rfc: true },
+                Direccion: { direccion: true, maxlength: 300 },
+                FechaIngreso: { required: true },
+                NombreResponsable: { nombre: true, maxlength: 300}, //{ nombre: true, maxlenght: 300 },
+                Celular: { telefono: true },
+                Telefono: { telefono: true },
+                CorreoElectronico: { required: true, email: true }
+                
             },
             messages: {
-                IDSucursal: { required: "Seleccione una sucursal" },
-                
-                IDRegimenFiscal: { required: "Seleccione un régimen fiscal" },
-                RFC: { required: "Ingrese un RFC válido" }
+                IDSucursal: { required: "Seleccione una sucursal." },
+                NombreRazonSocial: { required: "Ingrese el nombre o Razón social.", texto: "Ingrese un nombre o razón social válido.", maxlength: "El campo nombre o razón social admite máximo 300 caracteres." },
+                IDRegimenFiscal: { required: "Seleccione un régimen fiscal." },
+                RFC: { required: "Ingrese el RFC del cliente.", rfc: "Ingrese un RFC válido." },
+                Direccion: { direccion: "Ingrese un dirección válida.", maxlength: "El campo domicilio fiscal admite máximo 300 caracteres." },
+                FechaIngreso: { required: "Ingrese la fecha de inicio de relación." },
+                NombreResponsable: { nombre: "Ingrese un nombre de contacto válido.", maxlength: "El campo nombre de contacto admite máximo 300 caracteres." }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
+                Celular: { telefono: "Ingrese un número de celular válido." },
+                Telefono: { telefono: "Ingrese un número de teléfono válido." },
+                CorreoElectronico: { required: "Ingrese el correo electrónico del cliente.", email: "Ingrese un correo electrónico válido." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
                 errorHandler1.show();
-                console.log(validator);
                 //$("#validation_summary").text(validator.showErrors());
             },
             highlight: function (element) {
@@ -66,10 +78,48 @@
         });
     };
 
+    var runDatePicker = function ()
+    {
+        $('#FechaIngreso').datepicker({
+            format: 'dd/mm/yyyy'
+        });
+    };
+
+    var runCombos = function () {
+        $('input').on('ifChanged', function (event) {
+            $("#IDRegimenFiscal option").remove();
+            var esPersonaFisica = $(this).prop('checked');
+            getDatosRegimen(esPersonaFisica);            
+        });
+        function getDatosRegimen(esPersonaFisica) {
+
+            $.ajax({
+                url: "/Admin/CatCliente/ObtenerRegimenFiscalXBoolEsPersonaFisica",
+                data: { band: esPersonaFisica },
+                async: false,
+                dataType: "json",
+                type: "POST",
+                error: function () {
+                    Mensaje("Ocurrió un error al cargar el combo", "1");
+                },
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $("#IDRegimenFiscal").append('<option value="' + result[i].Clave + '">' + result[i].Descripcion + '</option>');
+                    }
+                    $('#IDRegimenFiscal.select').selectpicker('refresh');
+                }
+            });
+
+            
+        }
+    };
+
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
+            runDatePicker();
+            runCombos();
         }
     };
 }();

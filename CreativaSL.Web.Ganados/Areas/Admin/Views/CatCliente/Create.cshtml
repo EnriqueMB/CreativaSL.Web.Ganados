@@ -16,108 +16,155 @@
         <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
             <h3></h3>
         </div>
+
+
         <div class="col-md-12">
-            @*<form class="form-horizontal">*@
-            @using (Html.BeginForm("Create", "CatCliente", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("Create", "CatCliente", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
+                @*@Html.ValidationSummary(true)*@
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                <div id="validation_summary" class="field_error "></div> //JS
+                <div class="panel panel-default tabs">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="active"><a href="#tab-first" role="tab" data-toggle="tab">Datos generales</a></li>
+                        <li><a href="#tab-second" role="tab" data-toggle="tab">Datos de contacto</a></li>
+                    </ul>
+                    <div class="panel-body tab-content">
+                        <div class="tab-pane active" id="tab-first">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
 
-                @Html.HiddenFor(model => model.IDCliente)
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Información</strong> Cliente</h3>
-                        <ul class="panel-controls">
-                            @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
-                        </ul>
-                    </div>
-                    <div class="panel-body">
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <label class="col-md-3 col-xs-12 control-label">Sucursales</label>
-                                <div class="col-md-9 col-xs-12">
-                                    @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaCmbSucursal, "IDSucursal", "NombreSucursal"), new { id = "ListSucursal2", @class = "form-control select" })
-                                    @Html.ValidationMessageFor(model => model.IDSucursal)
-                                    <span class="help-block">Seleccione la sucursal</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="col-md-3 col-xs-12 control-label">Regimen Fiscal</label>
-                                <div class="col-md-9 col-xs-12">
-                                    @Html.DropDownListFor(model => model.IDRegimenFiscal, new SelectList(Model.ListaRegimenCMB, "Clave", "Descripcion"), new { id = "ListRegimen2", @class = "form-control select" })
-                                    @Html.ValidationMessageFor(model => model.ListaRegimenCMB)
-                                    <span class="help-block">Seleccione el regimen fisca</span>
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label"><span>* </span> Sucursal </label>
+                                        <div class="col-md-6 col-xs-12">
+                                            @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaCmbSucursal, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
+                                            @Html.ValidationMessageFor(model => model.IDSucursal)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label"><span>* </span> Razón Social</label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.NombreRazonSocial, new { id = "NombreRazonSocial", @class = "form-control", placeholder = "Ingrese la razón social" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.NombreRazonSocial)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label">¿Es persona Física?</label>
+                                        <div class="col-md-6 col-xs-12">
+                                            @Html.CheckBoxFor(model => model.EsPersonaFisica, new { @class = "icheckbox" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label"><span>* </span> Régimen Fiscal</label>
+                                        <div class="col-md-6 col-xs-12">
+                                            @Html.DropDownListFor(model => model.IDRegimenFiscal, new SelectList(Model.ListaRegimenCMB, "Clave", "Descripcion"), new { id = "IDRegimenFiscal", @class = "form-control select", data_live_search = "true" })
+                                            @Html.ValidationMessageFor(model => model.IDRegimenFiscal)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label"><span>* </span> RFC</label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.RFC, new { id = "RFC", @class = "form-control", placeholder = "Capture el RFC del cliente" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.RFC)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label">Domicilio Fiscal</label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.Direccion, new { id = "Direccion", @class = "form-control", placeholder = "Dirección del cliente" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Direccion)
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label">Fecha de inicio de relación</label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                                @Html.TextBoxFor(model => model.FechaIngreso, "{0:dd/MM/yyyy}", new { id = "FechaIngreso", @class = "form-control datepicker", @readonly = "readonly" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.FechaIngreso)
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group" style="display:none" id="VER">
-                            <div class="col-md-3">
-                                <label class="col-md-3 col-xs-12 control-label">Fisica</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group" id="IDF">
-                                        
+                        <div class="tab-pane" id="tab-second">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label">Nombre de la persona de contacto</label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.NombreResponsable, new { id = "NombreResponsable", @class = "form-control", placeholder = "Ingrese el nombre del contacto" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.NombreResponsable)
+                                        </div>
                                     </div>
-                                </div>   
-                            </div>
-                            <div class="col-md-3">
-                                <label class="col-md-3 col-xs-12 control-label">Moral</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group" id="IDM">
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label">Celular </label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.Celular, new { id = "Celular", @class = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Celular)
+                                        </div>
                                     </div>
-                                </div> 
-                            </div>
-                            <div class="col-md-3">
-                                <label class="col-md-5 col-xs-12 control-label">Fecha Inicio Vigencia</label>
-                                <div class="col-md-7 col-xs-12">
-                                    <div class="input-group" id="IDFI">
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label">Teléfono </label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.Telefono, new { id = "Telefono", @class = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Telefono)
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="col-md-5 col-xs-12 control-label">Fecha Fin Vigencia</label>
-                                <div class="col-md-7 col-xs-12">
-                                    <div class="input-group" id="IDFF">
+
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label"><span>* </span> E-mail</label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.CorreoElectronico, new { id = "CorreoElectronico", @class = "form-control", placeholder = "Ingrese el correo electrónico de contacto del cliente" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.CorreoElectronico)
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-4">
-                                <label class="col-md-3 control-label">Razón Social</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.NombreRazonSocial, new { id = "RazonSocial", @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.NombreRazonSocial)
-                                    <span class="help-block">Ingrese la razón social</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="col-md-3 control-label">RFC</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.RFC, new { id = "RFC", @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.RFC)
-                                    <span class="help-block">Ingrese el Registro Federal de Contribuyentes</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="col-md-3 control-label">Es Persona Fisica?</label>
-                                <div class="col-md-9">
-                                    @Html.CheckBoxFor(model => model.EsPersonaFisica)
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="panel-footer">
-                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
                         <a href="@Url.Action("Index","CatCliente")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                        <button form="form-dg" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
                     </div>
                 </div>
-                @*</form>*@
             }
         </div>
     </div>
@@ -125,75 +172,21 @@
         var message = '@message';
         var typemessage = '@typemessage';
     </script>
-<script>
-
-        $(document).ready(function () {
-            $("#ListRegimen").change(function () {
-                if ($(this).val() == "") {
-                    $("#VER").css("display", "none");
-                }
-                else {
-                    getDatosRegimen($("#ListRegimen").val());
-                }
-            });
-        });
-        function getDatosRegimen(id) {
-            $.ajax({
-                url: "/Admin/CatCliente/ObtenerDatosRegimen",
-                data: { id: id },
-                dataType: "json",
-                type: "POST",
-                error: function () {
-                    $("#ListRegimen").html('');
-                },
-                success: function (gradoEscolar) {
-                    var items = "";
-                    var items1 = "";
-                    var items2 = "";
-                    var items3 = "";
-                    for (var i = 0; i < gradoEscolar.length; i++) {
-                        if (gradoEscolar[i].Fisica == true) {
-                            items += "<span class='input-group-addon'><span class='fa fa-pencil'></span></span><input class='form-control' type='text' value='SI' disabled='true'/>";
-                        }
-                        else {
-                            items += "<span class='input-group-addon'><span class='fa fa-pencil'></span></span><input class='form-control' type='text' value='NO' disabled='true'/>";
-                        }
-                        if (gradoEscolar[i].Moral == true) {
-                            items1 += "<span class='input-group-addon'><span class='fa fa-pencil'></span></span><input class='form-control' type='text' value='SI' disabled='true'/>";
-                        }
-                        else {
-                            items1 += "<span class='input-group-addon'><span class='fa fa-pencil'></span></span><input class='form-control' type='text' value='NO' disabled='true'/>";
-                        }
-                        items2 += "<span class='input-group-addon'><span class='fa fa-calendar'></span></span><input class='form-control' type='text' disabled='true' value=" + gradoEscolar[i].FechaInicio + ">";
-                        items3 += "<span class='input-group-addon'><span class='fa fa-calendar'></span></span><input class='form-control' type='text' disabled='true' value=" + gradoEscolar[i].FechaFin + ">";
-                    }
-                    $("#IDF").html(items);
-                    $("#IDM").html(items1);
-                    $("#IDFI").html(items2);
-                    $("#IDFF").html(items3);
-                    $("#VER").css("display", "block");
-                }
-            });
-        }
-</script>
 }
 @section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-    <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/validationengine/languages/jquery.validationEngine-en.js")"></script>
-    <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/validationengine/jquery.validationEngine.js")"></script>
-
-    <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
-
     <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/maskedinput/jquery.maskedinput.min.js")"></script>
-
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/clientes.js")"></script>
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
+        Clientes.init();
     });
     </script>
 }

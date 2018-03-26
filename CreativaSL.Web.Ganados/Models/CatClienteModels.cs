@@ -93,8 +93,7 @@ namespace CreativaSL.Web.Ganados.Models
         private string _RFC;
         /// <summary>
         /// Registro Federal de Contribuyente del cliente
-        /// </summary>
-        [StringLength(13, ErrorMessage = "El número de caracteres del {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 12)]
+        /// </summary>        
         [Required(ErrorMessage = "Debe ingresar el RFC")]
         [Display(Name = "rfc")]
         [RFC(ErrorMessage = "Ingrese un RFC válido")]
@@ -137,6 +136,7 @@ namespace CreativaSL.Web.Ganados.Models
         /// </summary
         [Display(Name = "Nombre del contacto")]
         [Nombre(ErrorMessage = "Ingrese un nombre de contacto válido")]
+        [StringLength(300, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         public string NombreResponsable
         {
             get { return _NombreResponsable; }
