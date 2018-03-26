@@ -48,6 +48,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Chofer.ListaGeneroCMB = ChoferDatos.ObteneComboCatGenero(Chofer);
                 var list = new SelectList(Chofer.ListaGeneroCMB, "IDGenero", "Descripcion");
                 ViewData["cmbGenero"] = list;
+
+                Chofer.listaGrupoSanguineo = ChoferDatos.ObteneComboCatGrupoSanguineo(Chofer);
+                var listaGrupoSanguineo = new SelectList(Chofer.listaGrupoSanguineo, "IDGrupoSanguineo", "descripcion");
+                
                 Chofer.Licencia = Convert.ToBoolean("true");
                 return View(Chofer);
             }
@@ -62,39 +66,85 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatChofer/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        //public ActionResult Create(FormCollection collection)
+        //{
+        //    try
+        //        {
+        //        CatChoferModels Chofer = new CatChoferModels();
+        //        CatChofer_Datos ChoferDatos = new CatChofer_Datos();
+
+
+        //        Chofer.Conexion = Conexion;
+        //        Chofer.Licencia = collection["Licencia"].StartsWith("true");
+        //        Chofer.numLicencia = collection["numLicencia"];
+
+
+        //        //string fec = collection["vigencia"];
+        //        //string fec2 = collection["FechaNacimiento"];
+        //        //string fec3 = collection["FechaIngreso"];
+        //        //DateTime Fecha = DateTime.Now;
+
+
+        //        Chofer.Nombre = collection["nombre"];
+        //        Chofer.ApPaterno = collection["ApPaterno"];
+        //        Chofer.ApMaterno = collection["ApMaterno"];
+        //        Chofer.Ife = collection["Ife"];
+        //        Chofer.TipoSangre = collection["TipoSangre"];
+        //        Chofer.IDGenero = 0;
+        //        Chofer.NumSeguroSocial = collection["NumSeguroSocial"];
+        //        Chofer.AvisoAccidente = collection["AvisoAccidente"];
+        //        Chofer.TelefonoAccidente = collection["TelefonoAccidente"];
+        //        Chofer.Telefono = collection["Telefono"];
+        //        Chofer.Movil = collection["Movil"];
+        //        Chofer.FechaNacimiento = DateTime.ParseExact(collection["FechaNacimiento"], "yyyy/MM/dd", CultureInfo.InvariantCulture);
+        //        Chofer.FechaIngreso = DateTime.ParseExact(collection["FechaIngreso"], "yyyy/MM/dd", CultureInfo.InvariantCulture);
+        //        Chofer.vigencia = DateTime.ParseExact(collection["vigencia"], "yyyy/MM/dd", CultureInfo.InvariantCulture);
+        //        Chofer.Usuario = User.Identity.Name;
+        //        Chofer.Opcion = 1;
+        //        Chofer = ChoferDatos.AbcCatChofer(Chofer);
+
+        //        //Si abc fue completado correctamente
+        //        if (Chofer.Completado == true)
+        //        {
+        //            TempData["typemessage"] = "1";
+        //            TempData["message"] = "El registro se guardo correctamente.";
+        //            return RedirectToAction("Index");
+        //        }
+        //        else
+        //        {
+        //            Chofer.Licencia = true;
+        //            TempData["typemessage"] = "2";
+        //            TempData["message"] = "Ocurrió un error al guardar el registro.";
+        //            return View(Chofer);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        CatChoferModels Chofer = new CatChoferModels();
+        //        Chofer.TablaDatos = new DataTable();
+        //        TempData["typemessage"] = "2";
+        //        TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
+        //        return View(Chofer);
+        //    }
+        //}
+        public ActionResult Create(CatChoferModels Chofer)
         {
             try
-                {
-                CatChoferModels Chofer = new CatChoferModels();
+            {
+                
                 CatChofer_Datos ChoferDatos = new CatChofer_Datos();
+                Chofer.IDChofer = "-";
 
-                
                 Chofer.Conexion = Conexion;
-                Chofer.Licencia = collection["Licencia"].StartsWith("true");
-                Chofer.numLicencia = collection["numLicencia"];
-              
-                
+               
+
                 //string fec = collection["vigencia"];
                 //string fec2 = collection["FechaNacimiento"];
                 //string fec3 = collection["FechaIngreso"];
                 //DateTime Fecha = DateTime.Now;
 
-             
-                Chofer.Nombre = collection["nombre"];
-                Chofer.ApPaterno = collection["ApPaterno"];
-                Chofer.ApMaterno = collection["ApMaterno"];
-                Chofer.Ife = collection["Ife"];
-                Chofer.TipoSangre = collection["TipoSangre"];
-                Chofer.IDGenero = 0;
-                Chofer.NumSeguroSocial = collection["NumSeguroSocial"];
-                Chofer.AvisoAccidente = collection["AvisoAccidente"];
-                Chofer.TelefonoAccidente = collection["TelefonoAccidente"];
-                Chofer.Telefono = collection["Telefono"];
-                Chofer.Movil = collection["Movil"];
-                Chofer.FechaNacimiento = DateTime.ParseExact(collection["FechaNacimiento"], "yyyy/MM/dd", CultureInfo.InvariantCulture);
-                Chofer.FechaIngreso = DateTime.ParseExact(collection["FechaIngreso"], "yyyy/MM/dd", CultureInfo.InvariantCulture);
-                Chofer.vigencia = DateTime.ParseExact(collection["vigencia"], "yyyy/MM/dd", CultureInfo.InvariantCulture);
+
+               
                 Chofer.Usuario = User.Identity.Name;
                 Chofer.Opcion = 1;
                 Chofer = ChoferDatos.AbcCatChofer(Chofer);
@@ -116,14 +166,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                CatChoferModels Chofer = new CatChoferModels();
+                
                 Chofer.TablaDatos = new DataTable();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
                 return View(Chofer);
             }
         }
-
         // GET: Admin/CatChofer/Edit/5
         //======================== EDITAR ===========================
         //Obtiene el detalle del registro del chofer para ser editado
@@ -139,6 +188,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Chofer = ChoferDatos.ObtenerDetalleCatChofer(Chofer);
                 Chofer.ListaGeneroCMB = ChoferDatos.ObteneComboCatGenero(Chofer);
                 var list = new SelectList(Chofer.ListaGeneroCMB, "IDGenero", "Descripcion");
+
+
+                Chofer.listaGrupoSanguineo = ChoferDatos.ObteneComboCatGrupoSanguineo(Chofer);
+                var listaGrupoSanguineo = new SelectList(Chofer.listaGrupoSanguineo, "IDGrupoSanguineo", "descripcion");
                 ViewData["cmbGenero"] = list;
                 return View(Chofer);
             }
@@ -155,33 +208,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         // POST: Admin/CatChofer/Edit/5
         //Obtiene los datos del registro del chofer para ser editado
         [HttpPost]
-        public ActionResult Edit(string id, FormCollection collection)
+        public ActionResult Edit(string id, CatChoferModels Chofer)
         {
             try
             {
-                CatChoferModels Chofer = new CatChoferModels();
+              
                 CatChofer_Datos ChoferDatos = new CatChofer_Datos();
                 Chofer.Conexion = Conexion;
                 Chofer.IDChofer = id;
-                Chofer.Nombre = collection["nombre"];
-                Chofer.ApPaterno = collection["ApPaterno"];
-                Chofer.ApMaterno = collection["ApMaterno"];
-                Chofer.Licencia = collection["Licencia"].StartsWith("true");
-                Chofer.numLicencia = collection["numLicencia"];
-                //Chofer.vigencia = DateTime.ParseExact(collection["vigencia"], "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                DateTime Fecha = DateTime.Now;
-                DateTime.TryParse(collection["vigencia"], out Fecha);
-                Chofer.vigencia = Fecha;
-                Chofer.Ife = collection["Ife"];
-                Chofer.TipoSangre = collection["TipoSangre"];
-                Chofer.IDGenero = 0;
-                Chofer.NumSeguroSocial = collection["NumSeguroSocial"];
-                Chofer.AvisoAccidente = collection["AvisoAccidente"];
-                Chofer.TelefonoAccidente = collection["TelefonoAccidente"];
-                Chofer.Telefono = collection["Telefono"];
-                Chofer.Movil = collection["Movil"];
-                Chofer.FechaNacimiento = DateTime.ParseExact(collection["FechaNacimiento"], "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                Chofer.FechaIngreso = DateTime.ParseExact(collection["FechaIngreso"], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+               
                 Chofer.Usuario = User.Identity.Name;
                 Chofer.Opcion = 2;
                 Chofer = ChoferDatos.AbcCatChofer(Chofer);
@@ -202,8 +237,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                CatChoferModels Chofer = new CatChoferModels();
-                Chofer.TablaDatos = new DataTable();
+              
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
                 return View(Chofer);

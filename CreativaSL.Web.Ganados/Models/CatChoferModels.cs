@@ -19,6 +19,8 @@ namespace CreativaSL.Web.Ganados.Models
             _ApPaterno = string.Empty;
             _ApMaterno = string.Empty;
             _Licencia = true;
+            _listaGrupoSanguineo = new List<CatGrupoSanguineoModels>();
+            _idgruposanguineo = 0;
             _Estatus = false;
             _ListaChoferes = new List<CatChoferModels>();
             _Ife = string.Empty;
@@ -239,7 +241,7 @@ namespace CreativaSL.Web.Ganados.Models
         [Required(ErrorMessage = "La Fecha de nacimiento es obligatorio")]
         [Display(Name = "Fecha de nacimiento")]
       
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime FechaNacimiento
         {
             get { return _FechaNacimiento; }
@@ -250,12 +252,27 @@ namespace CreativaSL.Web.Ganados.Models
         [Required(ErrorMessage = "La Fecha de ingreso es obligatorio")]
         [Display(Name = "Fecha de ingreso")]
      
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime FechaIngreso
         {
             get { return _FechaIngreso; }
             set { _FechaIngreso = value; }
         }
+        private List<CatGrupoSanguineoModels> _listaGrupoSanguineo;
+
+        public List<CatGrupoSanguineoModels> listaGrupoSanguineo
+        {
+            get { return _listaGrupoSanguineo; }
+            set { _listaGrupoSanguineo = value; }
+        }
+        private int _idgruposanguineo;
+
+        public int idgruposanguineo
+        {
+            get { return _idgruposanguineo; }
+            set { _idgruposanguineo = value; }
+        }
+
         private List<CatGeneroModels> _ListaGeneroCMB;
 
         public List<CatGeneroModels> ListaGeneroCMB

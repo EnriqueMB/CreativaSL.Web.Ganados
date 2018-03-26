@@ -39,7 +39,7 @@
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.DropDownListFor(model => model.listaSucursal, ViewData["cmbSucursal"] as SelectList, new { id = "ListSucursal", @class = "form-control" })
+                                        @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.listaSucursal, "IDSucursal", "NombreSucursal"), new { id = "ListSucursal", @class = "form-control" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.listaSucursal)
                                     <span class="help-block">Seleccione el tipo de vehículo</span>
@@ -50,7 +50,7 @@
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.DropDownListFor(model => model.listaTipoVehiculos, ViewData["cmbTipoVehiculo"] as SelectList, new { id = "ListTipoVehiculo", @class = "form-control" })
+                                        @Html.DropDownListFor(model => model.IDTipoVehiculo, new SelectList(Model.listaTipoVehiculos, "IDTipoVehiculo", "Descripcion"), new { id = "ListTipoVehiculo", @class = "form-control" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.listaTipoVehiculos)
                                     <span class="help-block">Seleccione el tipo de vehículo</span>
@@ -61,7 +61,7 @@
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.DropDownListFor(model => model.listaMarcas, ViewData["cmbMarcas"] as SelectList, new { id = "ListMarcas", @class = "form-control" })
+                                        @Html.DropDownListFor(model => model.IDMarca, new SelectList(Model.listaMarcas, "IDMarca", "Descripcion"), new { id = "ListMarcas", @class = "form-control" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.listaMarcas)
                                     <span class="help-block">Seleccione la marca </span>
@@ -105,9 +105,9 @@
                                 <label class="col-md-12 control-label text-center">Fecha de ingreso</label>
                                 <div class="col-md-12 col-xs-12">
                                     
-                                    <div class="input-group " >
+                                    <div class="input-group date" id="dp-2"  data-date-format="dd/mm/yyyy" >
                                         <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                        @Html.TextBoxFor(model => model.fechaIngreso, "{0:dd/MM/yyyy}", new { id = "fechaIngreso ", @class = "form-control ",@type="date" })
+                                        @Html.TextBoxFor(model => model.fechaIngreso, "{0:yyyy-MM-dd}", new { id = "fechaIngreso ", @class = "form-control", @type="date", @style="line-height:18px" })
                                         @*2018-08-13*@ 
                                     </div>
                                     @Html.ValidationMessageFor(model => model.fechaIngreso)
