@@ -127,7 +127,7 @@
                         <div class="col-md-6">
                             <label class="col-md-12 col-xs-12 control-label text-center">Genero</label>
                             <div class="col-md-12 col-xs-12">
-                                @Html.DropDownListFor(model => model.ListaGeneroCMB, ViewData["cmbGenero"] as SelectList, new { id = "ListGenero", @class = "form-control select", data_live_search = "true" })
+                                @Html.DropDownListFor(model => model.IDGenero, new SelectList(Model.ListaGeneroCMB, "IDGenero", "Descripcion"), new { id = "ListGenero", @class = "form-control select", data_live_search = "true" })
                                 @Html.ValidationMessageFor(model => model.ListaGeneroCMB)
                                 <span class="help-block">Seleccione la sucursal</span>
                             </div>

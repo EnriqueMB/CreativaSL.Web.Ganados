@@ -9,6 +9,7 @@ using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
 using System.IO;
 using System.Net;
+using Newtonsoft.Json;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -61,11 +62,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         public ActionResult Edit(string IDCompra)
         {
             Compra = new CompraModels();
-            _Compra_Datos CompraDatos = new _Compra_Datos();
+            CompraDatos = new _Compra_Datos();
+            //Asigno valores para los querys
             Compra.Conexion = Conexion;
             Compra.IDCompra = IDCompra;
             Compra.Sucursal.IDSucursal = SucursalDefault;
-            //Compra = CompraDatos.GetCompra(Compra);
+            //Obtengo los datos de la compra
+            Compra = CompraDatos.GetCompra(Compra);
+            Compra.ListaFierros = CompraDatos.GetListadoFierros(Compra);
             Compra.ListaProveedores = CompraDatos.GetListadoProveedores(Compra);
             Compra.ListaLugares = CompraDatos.GetListadoLugares(Compra);
             Compra.ListaChoferes = CompraDatos.GetListadoChoferes(Compra);
@@ -106,8 +110,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return View("Create", Compra);
         }
         [HttpPost]
-        public JsonResult SaveImages()
+        public ContentResult SaveImageFierro(string IDCompra)
         {
+            string jsString = "{}";
             try
             {
                 foreach (string file in Request.Files)
@@ -115,119 +120,69 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     var fileContent = Request.Files[file];
                     if (fileContent != null && fileContent.ContentLength > 0)
                     {
-                        // get a stream
+                        //Obtengo el stream
                         var stream = fileContent.InputStream;
-
+                        //Genero un array de bytes
                         byte[] fileData = null;
                         using (var binaryReader = new BinaryReader(stream))
                         {
                             fileData = binaryReader.ReadBytes(fileContent.ContentLength);
                         }
-                        string base64 = Convert.ToBase64String(fileData);
+                        //Realizo la convercion a base 64
+                        string Base64 = Convert.ToBase64String(fileData);
+                        //Ya tengo la imagen ahora la guardo en la bd
+                        HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                        FormsAuthenticationTicket Ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                        Compra = new CompraModels();
+                        CompraDatos = new _Compra_Datos();
+
+                        Compra.IDCompra = IDCompra;
+                        Compra.Conexion = Conexion;
+                        Compra.Fierro.ImgFierro = Base64;
+                        Compra.Fierro.NombreFierro = Request.Files[file].FileName;
+                        Compra.IDUsuario = Ticket.Name;
+                        Compra = CompraDatos.SaveImageFierro(Compra);
+
+                        jsString = "{ \"initialPreview\":[\"<img class='file-preview-image' style='width: auto; height: auto; max-width: 100 %; max-height: 100%; ' src='data: image/png; base64, " + Base64 + "' />\"],\"initialPreviewConfig\":[{\"caption\":\"" + Compra.Fierro.NombreFierro + "\",\"size\":" + fileContent.ContentLength + ",\"width\":\"50px\",\"url\":\"DeleteImageFierro\",\"key\":\"" + Compra.Fierro.IDFierro + "\"}]}";
+
+                        return Content(jsString, "application/json");
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json("Upload failed");
+                jsString = "{\"Mensaje de error\": \"" + ex + "\"}";
+                return Content(jsString, "application/json");
             }
-
-            return Json("{ id: 100, value: '100 Details'}");
+            return Content(jsString, "application/json");
         }
-
-
-
-        /*VERIFICAR ESTOS*/
-        // GET: Admin/Compra/Fierros/5
-        public ActionResult Fierros(string id)
+        [HttpPost]
+        public ContentResult DeleteImageFierro(string key)
         {
-            Compra = new CompraModels();
-            CompraDatos = new _Compra_Datos();
-            Compra.Conexion = Conexion;
-            Compra.IDCompra = id;
-            Compra = CompraDatos.GetFierros(Compra);
-
-            return View(Compra);
-        }
-        // GET: Admin/Compra/Flete/5
-        public ActionResult Flete(string id)
-        {
-            Compra = new CompraModels();
-            CompraDatos = new _Compra_Datos();
-            Compra.Conexion = Conexion;
-            Compra.IDCompra = id;
-            Compra = CompraDatos.GetFlete(Compra);
-            //Compra.ListaChoferes = CompraDatos.GetChoferes(Compra);
-            //Compra.ListaVehiculos = CompraDatos.GetVehiculos(Compra);
-
-
-            /*Relleno el combobox de lugares INICIO*/
-            //Compra = CompraDatos.ObtenerLugares(Compra, 1);
-            CompraModels CompraLugar = new CompraModels();
-            Compra.Lugar = new CatLugarModels
+            string jsString;
+            try
             {
-                listaLugares = new List<CatLugarModels>()
-            };
+                HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                FormsAuthenticationTicket Ticket = FormsAuthentication.Decrypt(authCookie.Value);
 
-
-            foreach (System.Data.DataRow Lugar in Compra.TablaLugares.Rows)
-            {
-                CompraLugar.Lugar = new CatLugarModels
-                {
-                    id_lugar = Lugar["id_lugar"].ToString() + " | " + Lugar["gpsLatitud"].ToString() + " | " + Lugar["gpsLongitud"].ToString(),
-                    descripcion = Lugar["descripcion"].ToString()
-                };
-
-                Compra.Lugar.listaLugares.Add(CompraLugar.Lugar);
+                Compra = new CompraModels();
+                CompraDatos = new _Compra_Datos();
+                Compra.Conexion = Conexion;
+                Compra.Sucursal.IDSucursal = SucursalDefault;
+                Compra.Fierro.IDFierro = key;
+                Compra.IDUsuario = Ticket.Name;
+                Compra = CompraDatos.DeleteImageFierro(Compra);
+                jsString = "{\"Mensaje\": \"" + Compra.Mensaje + "\"}";
             }
-            var ListLugaresInicio = new SelectList(Compra.Lugar.listaLugares, "id_lugar", "descripcion");
-            ViewData["cmbLugarInicio"] = ListLugaresInicio;
-
-            /*Relleno el combobox de lugares FINAL*/
-            Compra = new CompraModels
+            catch (Exception ex)
             {
-                Conexion = Conexion
-            };
-            //Compra = CompraDatos.ObtenerLugares(Compra, 0);
-            Compra.Lugar = new CatLugarModels
-            {
-                listaLugares = new List<CatLugarModels>()
-            };
-
-            foreach (System.Data.DataRow Lugar in Compra.TablaLugares.Rows)
-            {
-                CompraLugar.Lugar = new CatLugarModels
-                {
-                    id_lugar = Lugar["id_lugar"].ToString() + " | " + Lugar["gpsLatitud"].ToString() + " | " + Lugar["gpsLongitud"].ToString(),
-                    descripcion = Lugar["descripcion"].ToString()
-                };
-
-                Compra.Lugar.listaLugares.Add(CompraLugar.Lugar);
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                jsString = "{\"Mensaje de error\": \"" + ex + "\"}";
             }
-            var ListLugaresFinal = new SelectList(Compra.Lugar.listaLugares, "id_lugar", "descripcion");
-            ViewData["cmbLugarFinal"] = ListLugaresFinal;
-
-
-
-            return View(Compra);
+            return Content(jsString, "application/json");
         }
-        public ActionResult Ganado(string id)
-        {
-            Compra = new CompraModels();
-            return View(Compra);
-        }
-        public ActionResult OtrosMovimientos(string id)
-        {
-            Compra = new CompraModels();
-            return View(Compra);
-        }
-        public ActionResult Pagos(string id)
-        {
-            Compra = new CompraModels();
-            return View(Compra);
-        }
-
 
         // GET: Admin/Compra/Details/5
         public ActionResult Details(int id)
@@ -236,7 +191,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
             return View();
         }
-        
+
 
         // GET: Admin/Compra/Delete/5
         public ActionResult Delete(int id)
@@ -293,22 +248,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
 
-        /*ACTION DELETE*/
-        /*FIERROS*/
-        [HttpPost]
-        public JsonResult EliminarFierro(string id_fierro)
-        {
-
-            return Json("a");
-        }
 
         #region MODALES
         #region Ganado
         [HttpGet]
-        public ActionResult NuevoGanado()
+        public ActionResult ModalGanado(string idGanado)
         {
-            Compra = new CompraModels();   
-            return PartialView("ModalGanado", Compra.Ganado);
+            Compra = new CompraModels();
+            CompraDatos = new _Compra_Datos();
+            Compra.Ganado.id_Ganados = idGanado;
+            Compra = CompraDatos.GetCompraGanadoXIDGanado(Compra);
+            return PartialView("ModalGanado", Compra);
         }
         #endregion
         #region Inventario
