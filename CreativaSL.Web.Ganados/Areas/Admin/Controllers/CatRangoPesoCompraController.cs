@@ -71,11 +71,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Rango.Opcion = 1;
                 Rango.Usuario = User.Identity.Name;
                 Rango.EsMacho = collection["EsMacho"].StartsWith("true");
-                decimal PesoMin = 0, PesoMax = 0;
-                decimal.TryParse(collection["PesoMinimo"], out PesoMin);
-                decimal.TryParse(collection["PesoMaximo"], out PesoMax);
+                decimal PesoMin = 0, PesoMax = 0, Precio = 0;
+                decimal.TryParse(collection["PesoMinimo"].Replace('.', ','), out PesoMin);
+                decimal.TryParse(collection["PesoMaximo"].Replace('.', ','), out PesoMax);
+                decimal.TryParse(collection["Precio"].Replace('.', ','), out Precio);
                 Rango.PesoMinimo = PesoMin;
                 Rango.PesoMaximo = PesoMax;
+                Rango.Precio = Precio;
                 Rango = RangoDatos.AbcCatRangoPesoCompra(Rango);
                 if (Rango.Completado == true)
                 {
@@ -135,11 +137,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 int.TryParse(collection["IDRango"], out Id);
                 Rango.IDRango = Id;
                 Rango.EsMacho = collection["EsMacho"].StartsWith("true");
-                decimal PesoMin = 0, PesoMax = 0;
-                decimal.TryParse(collection["PesoMinimo"], out PesoMin);
-                decimal.TryParse(collection["PesoMaximo"], out PesoMax);
+                decimal PesoMin = 0, PesoMax = 0, Precio = 0;
+                decimal.TryParse(collection["PesoMinimo"].Replace('.', ','), out PesoMin);
+                decimal.TryParse(collection["PesoMaximo"].Replace('.', ','), out PesoMax);
+                decimal.TryParse(collection["Precio"].Replace('.', ','), out Precio);
                 Rango.PesoMinimo = PesoMin;
                 Rango.PesoMaximo = PesoMax;
+                Rango.Precio = Precio;
                 Rango = RangoDatos.AbcCatRangoPesoCompra(Rango);
                 if (Rango.Completado == true)
                 {

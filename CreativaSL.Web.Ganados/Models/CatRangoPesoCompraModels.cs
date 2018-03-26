@@ -11,6 +11,11 @@ namespace CreativaSL.Web.Ganados.Models
         public CatRangoPesoCompraModels()
         {
             _ListaRangoPeso = new List<CatRangoPesoCompraModels>();
+            IDRango = 0;
+            _EsMacho = true;
+            PesoMinimo = 0;
+            Precio = 0;
+            PesoMaximo = 0;
         }
         private int _IDRango;
 
@@ -29,25 +34,38 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private decimal _PesoMinimo;
-        [Required(ErrorMessage = "El pesos minimo es obligatorio")]
+        [Required(ErrorMessage = "El peso minimo es obligatorio")]
         [Display(Name = "peso minimo")]
+        [Range(1, int.MaxValue, ErrorMessage = "Introduzca un número mayor a 0")]
         [StringLength(20, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        [RegularExpression(@"^[0-9]+([.])?([0-9]+)?$", ErrorMessage = "Solo números y decimales")]
+        [RegularExpression(@"^-?(?!0)(?:\d+|\d{1,3}(?:\.\d{3})+)$", ErrorMessage = "Solo números enteros")]
         public decimal PesoMinimo
         {
             get { return _PesoMinimo; }
             set { _PesoMinimo = value; }
         }
-        
+
         private decimal _PesoMaximo;
-        [Required(ErrorMessage = "El pesos maximo es obligatorio")]
+        [Required(ErrorMessage = "El peso maximo es obligatorio")]
         [Display(Name = "peso maximo")]
+        [Range(1, int.MaxValue, ErrorMessage = "Introduzca un número mayor a 0")]
         [StringLength(20, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        [RegularExpression(@"^[0-9]+([.])?([0-9]+)?$", ErrorMessage = "Solo números y decimales")]
+        [RegularExpression(@"^-?(?!0)(?:\d+|\d{1,3}(?:\.\d{3})+)$", ErrorMessage = "Solo números enteros")]
         public decimal PesoMaximo
         {
             get { return _PesoMaximo; }
             set { _PesoMaximo = value; }
+        }
+
+        private decimal _Precio;
+        [Required(ErrorMessage = "El precio es obligatorio")]
+        [Display(Name = "precio")]
+        [Range(1, int.MaxValue, ErrorMessage = "Introduzca un número mayor a 0")]
+        [RegularExpression(@"^[0-9]+([.])?([0-9]+)?$", ErrorMessage = "Solo números y decimales")]
+        public decimal Precio
+        {
+            get { return _Precio; }
+            set { _Precio = value; }
         }
 
 
