@@ -92,7 +92,6 @@
             getDatosRegimen(esPersonaFisica);            
         });
         function getDatosRegimen(esPersonaFisica) {
-
             $.ajax({
                 url: "/Admin/CatCliente/ObtenerRegimenFiscalXBoolEsPersonaFisica",
                 data: { band: esPersonaFisica },
