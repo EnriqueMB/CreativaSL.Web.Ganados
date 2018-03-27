@@ -361,7 +361,7 @@
                                                 <div class="panel-heading">
                                                     <h3 class="panel-title"></h3>
                                                     <div class="panel-controls">
-                                                        <button id="btnGanado" data-id="0" class="btn btn-primary btn-lg">
+                                                        <button id="btnAddGanado" data-id="0" class="btn btn-primary btn-lg">
                                                             <i class="fa fa-plus"></i> Agregar nuevo ganado
                                                         </button>
                                                     </div>
@@ -443,14 +443,14 @@
                                         <div class="col-md-3">
                                             <div class="col-md-6 col-xs-12">
                                                 <div class="input-group">
-                                                    <button class="btn btn-primary btn-lg" onclick="NuevoPago()">
+                                                    <button id="btnAddPago" class="btn btn-primary btn-lg">
                                                         <i class="fa fa-plus"></i> Agregar pago
                                                     </button>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-xs-12">
                                                 <div class="input-group">
-                                                    <button class="btn btn-primary btn-lg" onclick="NuevoVale()">
+                                                    <button id="btnAddVale" class="btn btn-primary btn-lg" >
                                                         <i class="fa fa-plus"></i> Agregar vale
                                                     </button>
                                                 </div>
@@ -612,6 +612,16 @@
 
             </div>
         </div>
+        <div id="ModalPago" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
+            <div class="modal-dialog" id="ContenidoModalPago">
+
+            </div>
+        </div>
+        <div id="ModalVale" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
+            <div class="modal-dialog" id="ContenidoModalVale">
+
+            </div>
+        </div>
         <!--TERMINA SECCION DE MODALES-->
     </div>
     <script>
@@ -640,14 +650,25 @@
         jQuery(document).ready(function () {
             var directionsService
             var directionsDisplay;
-            var id = "@Model.IDCompra";
+            var idCompra = "@Model.IDCompra";
             var TableGanado;
+            var idProveedor;
+            var selectProveedor = document.getElementById("IDProveedor");
+            console.log(selectProveedor);
+
+            if (isUndefined(selectProveedor))
+                idProveedor = 0;
+            else
+                idProveedor = selectProveedor.options[selectProveedor.selectedIndex].value;
+                
+
 
             Mensaje(message, typemessage);
             InitMap();
             CalculateAndDisplayRoute();
-            LoadTableGanado(id);
-
+            LoadTableGanado(idCompra);
+            LoadTablePago(idCompra);
+            LoadTableVale(idProveedor);
             
         });
 
@@ -655,7 +676,7 @@
         $('#ImgFierros').fileinput({
             theme: 'fa',
             language: 'es',
-            uploadUrl: 'SaveImageFierro?IDCompra=@Model.IDCompra',
+            uploadUrl: 'SaveImageFierro?IDCompra=' + window.idCompra,
             overwriteInitial: false,
             previewFileIcon: '<i class="fa fa-file"></i>',
             allowedPreviewTypes: ['image'],

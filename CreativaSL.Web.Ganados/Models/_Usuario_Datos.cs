@@ -300,6 +300,7 @@ namespace CreativaSL.Web.Ganados.Models
                 SqlDataReader Dr = SqlHelper.ExecuteReader(Datos.conexion, "spCSLDB_get_Menu2", Datos.id_usuario, Datos.id_tipoUsuario);
                 List<MenuModels> ListaPrinc = new List<MenuModels>();
                 MenuModels Item;
+                int cont = 0;
                 while (Dr.Read())
                 {
                     Item = new MenuModels();
@@ -311,9 +312,45 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.ParentMenuID = !Dr.IsDBNull(Dr.GetOrdinal("ParentMenuID")) ? Dr.GetInt32(Dr.GetOrdinal("ParentMenuID")) : 0;
                     Item.NombreMenu = !Dr.IsDBNull(Dr.GetOrdinal("NombreMenu")) ? Dr.GetString(Dr.GetOrdinal("NombreMenu")) : string.Empty;
                     Item.ver = Dr.GetBoolean(Dr.GetOrdinal("ver"));
+                    Item.NumRow = cont;
+                    cont++;
                     ListaPrinc.Add(Item);
                 }
+                Datos.ListaMenuPermisos = ListaPrinc;
+                Datos.listaMenu = this.ObtenerListaSubMenus(0, ListaPrinc);
+                return Datos.listaMenu;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
+        public List<MenuModels> ObtenerListaPermisosUsuario(UsuarioModels Datos)
+        {
+            try
+            {
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Datos.conexion, "spCSLDB_get_MenuPermission", Datos.id_usuario, Datos.id_tipoUsuario);
+                List<MenuModels> ListaPrinc = new List<MenuModels>();
+                MenuModels Item;
+                int cont = 0;
+                while (Dr.Read())
+                {
+                    Item = new MenuModels();
+                    Item.ListaPermisoDetalle = new List<MenuModels>();
+                    Item.IDPermiso = !Dr.IsDBNull(Dr.GetOrdinal("IDPermiso")) ? Dr.GetString(Dr.GetOrdinal("IDPermiso")) : string.Empty;
+                    Item.UrlMenu = !Dr.IsDBNull(Dr.GetOrdinal("MenuURL")) ? Dr.GetString(Dr.GetOrdinal("MenuURL")) : string.Empty;
+                    Item.IconMenu = !Dr.IsDBNull(Dr.GetOrdinal("MenuIcon")) ? Dr.GetString(Dr.GetOrdinal("MenuIcon")) : string.Empty;
+                    Item.MenuID = !Dr.IsDBNull(Dr.GetOrdinal("MenuID")) ? Dr.GetInt32(Dr.GetOrdinal("MenuID")) : 0;
+                    Item.OrdenMenu = !Dr.IsDBNull(Dr.GetOrdinal("OrderNumber")) ? Dr.GetInt32(Dr.GetOrdinal("OrderNumber")) : 0;
+                    Item.ParentMenuID = !Dr.IsDBNull(Dr.GetOrdinal("ParentMenuID")) ? Dr.GetInt32(Dr.GetOrdinal("ParentMenuID")) : 0;
+                    Item.NombreMenu = !Dr.IsDBNull(Dr.GetOrdinal("NombreMenu")) ? Dr.GetString(Dr.GetOrdinal("NombreMenu")) : string.Empty;
+                    Item.ver = Dr.GetBoolean(Dr.GetOrdinal("ver"));
+                    Item.NumRow = cont;
+                    cont++;
+                    ListaPrinc.Add(Item);
+                }
+                Datos.ListaMenuPermisos = ListaPrinc;
                 Datos.listaMenu = this.ObtenerListaSubMenus(0, ListaPrinc);
                 return Datos.listaMenu;
             }

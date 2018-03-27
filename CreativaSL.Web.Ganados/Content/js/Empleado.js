@@ -1,11 +1,11 @@
-﻿var Clientes = function () {
+﻿var Empleado = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
         var form1 = $('#form-dg');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
-
+        
         $('#form-dg').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
@@ -24,29 +24,26 @@
             },
             ignore: "",
             rules: {
-                IDSucursal: { required: true },
-                NombreRazonSocial: { required: true, texto: true, maxlength: 300 },
-                IDRegimenFiscal: { required: true },
-                RFC: { required: true, rfc: true },
-                Direccion: { direccion: true, maxlength: 300 },
-                FechaIngreso: { required: true },
-                NombreResponsable: { nombre: true, maxlength: 300}, //{ nombre: true, maxlenght: 300 },
-                Celular: { telefono: true },
+                Nombre: { required: true, texto: true, maxlength: 70 },
+                ApellidoPat: { required: true, texto: true, maxlength: 50 },
+                IDSucursalActual: { required: true },
+                IDGrupoSanguineo: { CMBINT: true },
+                IDPuesto: { CMBINT: true },
+                IDCategoriaPuesto: { required: true},
                 Telefono: { telefono: true },
-                CorreoElectronico: { required: true, email: true }
-                
+                DirCalle: { direccion: true, maxlength: 90 },
+                DirColonia: { direccion: true, maxlength: 90 }
             },
             messages: {
-                IDSucursal: { required: "Seleccione una sucursal." },
-                NombreRazonSocial: { required: "Ingrese el nombre o Razón social.", texto: "Ingrese un nombre o razón social válido.", maxlength: "El campo nombre o razón social admite máximo 300 caracteres." },
-                IDRegimenFiscal: { required: "Seleccione un régimen fiscal." },
-                RFC: { required: "Ingrese el RFC del cliente.", rfc: "Ingrese un RFC válido." },
-                Direccion: { direccion: "Ingrese un dirección válida.", maxlength: "El campo domicilio fiscal admite máximo 300 caracteres." },
-                FechaIngreso: { required: "Ingrese la fecha de inicio de relación." },
-                NombreResponsable: { nombre: "Ingrese un nombre de contacto válido.", maxlength: "El campo nombre de contacto admite máximo 300 caracteres." }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
-                Celular: { telefono: "Ingrese un número de celular válido." },
+                Nombre: { required: "Ingrese el nombre del empleado.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 70 caracteres." },
+                ApellidoPat: { required: "Ingrese el apellido paterno.", texto: "Ingrese un apellido paterno válido.", maxlength: "El campo apellido paterno admite máximo 50 caracteres." },
+                IDSucursalActual: { required: "Seleccione una sucursal." },
+                IDGrupoSanguineo: { CMBINT: "Seleccione un grupo sanguineo." },
+                IDPuesto: { CMBINT: "Seleccione un puesto." },
+                IDCategoriaPuesto: { required: "Seleccione una categoria del puesto"},
                 Telefono: { telefono: "Ingrese un número de teléfono válido." },
-                CorreoElectronico: { required: "Ingrese el correo electrónico del cliente.", email: "Ingrese un correo electrónico válido." }
+                DirCalle: { direccion: "Ingrese una calle valida", maxlength: "El campo calle admite máximo 90 caracteres." },
+                DirColonia: { direccion: "Ingrese una colonia valida", maxlength: "El campo colonia admite máximo 50 caracteres." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -86,15 +83,15 @@
     };
 
     var runCombos = function () {
-        $('input').on('ifChanged', function (event) {
-            $("#IDRegimenFiscal option").remove();
-            var esPersonaFisica = $(this).prop('checked');
-            getDatosRegimen(esPersonaFisica);            
+        $("#IDPuesto").change(function () {
+            $("#IDCategoriaPuesto option").remove();
+            getDatosRegimen($("#IDPuesto").val());
         });
-        function getDatosRegimen(esPersonaFisica) {
+        function getDatosRegimen(IDPuesto) {
+
             $.ajax({
-                url: "/Admin/CatCliente/ObtenerRegimenFiscalXBoolEsPersonaFisica",
-                data: { band: esPersonaFisica },
+                url: "/Admin/CatEmpleado/ObtenerComboCategoriaPuesto",
+                data: { IDP: IDPuesto },
                 async: false,
                 dataType: "json",
                 type: "POST",
@@ -103,9 +100,9 @@
                 },
                 success: function (result) {
                     for (var i = 0; i < result.length; i++) {
-                        $("#IDRegimenFiscal").append('<option value="' + result[i].Clave + '">' + result[i].Descripcion + '</option>');
+                        $("#IDCategoriaPuesto").append('<option value="' + result[i].id_categoria + '">' + result[i].descripcion + '</option>');
                     }
-                    $('#IDRegimenFiscal.select').selectpicker('refresh');
+                    $('#IDCategoriaPuesto.select').selectpicker('refresh');
                 }
             });
 

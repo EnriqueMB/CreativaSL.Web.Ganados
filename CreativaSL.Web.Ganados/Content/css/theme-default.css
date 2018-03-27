@@ -2847,17 +2847,18 @@ blockquote.pull-right {
   position: relative;
 }
 .switch input {
+    display:none;
   position: absolute;
   opacity: 0;
   filter: alpha(opacity=0);
 }
-.switch input:checked + span:after {
+.switch input[type="checkbox"]:checked + input[type="hidden"] + span:after {
   left: 21px;
 }
-.switch input:checked + span {
+.switch input[type="checkbox"]:checked + input[type="hidden"] + span {
   background-color: #95b75d;
 }
-.switch input:disabled + span {
+.switch input[type="checkbox"]:disabled + input[type="hidden"] + span {
   background-color: #CCC;
 }
 .switch span {
@@ -2901,7 +2902,7 @@ blockquote.pull-right {
 .switch.switch-small {
   margin: 6px 0px 4px;
 }
-.switch.switch-small input:checked + span:after {
+.switch.switch-small input[type="checkbox"]:checked + input[type="hidden"] + span:after {
   left: 11px;
 }
 .switch.switch-small span {

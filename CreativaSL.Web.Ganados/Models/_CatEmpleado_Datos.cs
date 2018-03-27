@@ -28,6 +28,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.NombrePuesto = !dr.IsDBNull(dr.GetOrdinal("NombrePuesto")) ? dr.GetString(dr.GetOrdinal("NombrePuesto")) : string.Empty;
                     Item.NombreCategoriaP = !dr.IsDBNull(dr.GetOrdinal("CategoriaPuesto")) ? dr.GetString(dr.GetOrdinal("CategoriaPuesto")) : string.Empty;
                     Item.GrupoSanguineo = !dr.IsDBNull(dr.GetOrdinal("CategoriaPuesto")) ? dr.GetString(dr.GetOrdinal("CategoriaPuesto")) : string.Empty;
+                    Item.DirCalle = !dr.IsDBNull(dr.GetOrdinal("Direccion")) ? dr.GetString(dr.GetOrdinal("Direccion")) : string.Empty;
                     Lista.Add(Item);
                 }
                 return Lista;
@@ -51,7 +52,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.CodigoUsuario ?? string.Empty,
                     datos.Nombre ?? string.Empty,
                     datos.ApellidoPat ?? string.Empty,
-                    datos.ApellidoPat ?? string.Empty,
+                    datos.ApellidoMat ?? string.Empty,
                     datos.AltaNominal,
                     datos.IDPuesto,
                     datos.IDCategoriaPuesto ?? string.Empty,
@@ -59,6 +60,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.DirCalle ?? string.Empty,
                     datos.DirColonia ?? string.Empty,
                     datos.DirNumero ?? string.Empty,
+                    datos.Telefono ?? string.Empty,
                     datos.IDGrupoSanguineo,
                     datos.Usuario ?? string.Empty
                 };
@@ -103,6 +105,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.DirCalle = !dr.IsDBNull(dr.GetOrdinal("DirCalle")) ? dr.GetString(dr.GetOrdinal("DirCalle")) : string.Empty;
                     datos.DirColonia = !dr.IsDBNull(dr.GetOrdinal("DirColonia")) ? dr.GetString(dr.GetOrdinal("DirColonia")) : string.Empty;
                     datos.DirNumero = !dr.IsDBNull(dr.GetOrdinal("DirNumero")) ? dr.GetString(dr.GetOrdinal("DirNumero")) : string.Empty;
+                    datos.Telefono = !dr.IsDBNull(dr.GetOrdinal("Telefono")) ? dr.GetString(dr.GetOrdinal("Telefono")) : string.Empty;
                     datos.IDGrupoSanguineo = !dr.IsDBNull(dr.GetOrdinal("IDGrupoSanguineo")) ? dr.GetInt32(dr.GetOrdinal("IDGrupoSanguineo")) : 0;
                 }
                 return datos;
@@ -128,6 +131,78 @@ namespace CreativaSL.Web.Ganados.Models
                     item = new CatSucursalesModels();
                     item.IDSucursal = !dr.IsDBNull(dr.GetOrdinal("IDSucursal")) ? dr.GetString(dr.GetOrdinal("IDSucursal")) : string.Empty;
                     item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CatGrupoSanguineoModels> ObteneComboCatGrupoSanguineo(CatEmpleadoModels Datos)
+        {
+            try
+            {
+                List<CatGrupoSanguineoModels> lista = new List<CatGrupoSanguineoModels>();
+                CatGrupoSanguineoModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Combo_get_CatGrupoSanguineo");
+                // lista.Add(new CatGeneroModels { IDGenero = string.Empty, NombreSucursal = " - Seleccione -" });
+                while (dr.Read())
+                {
+                    item = new CatGrupoSanguineoModels();
+                    item.IDGrupoSanguineo = !dr.IsDBNull(dr.GetOrdinal("id_grupoSanguineo")) ? dr.GetInt32(dr.GetOrdinal("id_grupoSanguineo")) : 0;
+                    item.descripcion = !dr.IsDBNull(dr.GetOrdinal("TipoSanguineo")) ? dr.GetString(dr.GetOrdinal("TipoSanguineo")) : string.Empty;
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CatPuestoModels> obtenerComboCatPuesto(CatEmpleadoModels Datos)
+        {
+            try
+            {
+                List<CatPuestoModels> lista = new List<CatPuestoModels>();
+                CatPuestoModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Combo_get_CatPuestos");
+                while (dr.Read())
+                {
+                    item = new CatPuestoModels();
+                    item.IDPuesto = Convert.ToInt32(dr["IDPuesto"].ToString());
+                    item.Descripcion = dr["Descripcion"].ToString();
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public List<CatCategoriaPuestoModels> ObteneComboCatCategoriaPuesto(CatEmpleadoModels Datos)
+        {
+            try
+            {
+                List<CatCategoriaPuestoModels> lista = new List<CatCategoriaPuestoModels>();
+                CatCategoriaPuestoModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Combo_get_CatCategoriaPuesto", Datos.IDPuesto);
+                // lista.Add(new CatGeneroModels { IDGenero = string.Empty, NombreSucursal = " - Seleccione -" });
+                while (dr.Read())
+                {
+                    item = new CatCategoriaPuestoModels();
+                    item.id_categoria = !dr.IsDBNull(dr.GetOrdinal("IDCategoria")) ? dr.GetString(dr.GetOrdinal("IDCategoria")) : string.Empty;
+                    item.descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
                     lista.Add(item);
                 }
                 return lista;

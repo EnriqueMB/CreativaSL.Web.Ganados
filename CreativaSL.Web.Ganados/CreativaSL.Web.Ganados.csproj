@@ -424,6 +424,7 @@
     <Content Include="Content\img\themes\default.jpg" />
     <Content Include="Content\img\themes\light.jpg" />
     <Content Include="Content\js\actions.js" />
+    <Content Include="Content\js\Empleado.js" />
     <Content Include="Content\js\clientes.js" />
     <Content Include="Content\js\demo_charts_morris.js" />
     <Content Include="Content\js\demo_charts_nvd3.js" />
@@ -959,14 +960,10 @@
     <Content Include="Areas\Admin\Views\CatAlmacen\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatAlmacen\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatAlmacen\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\CatCliente\Create2.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalGanado.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalInventario.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalRenta.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\CatTipoProveedor\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\CatTipoProveedor\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\CatTipoProveedor\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -995,6 +992,7 @@
     <Compile Include="Areas\Admin\Controllers\CatCategoriaPuestoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatChoferController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatClienteController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatEmpleadoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatFierroController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatJaulaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatLugarController.cs" />
@@ -1020,6 +1018,7 @@
     </Compile>
     <Compile Include="Models\AlmacenEntradaModels.cs" />
     <Compile Include="Models\CatAlmacenModels.cs" />
+    <Compile Include="Models\CatBancoModels.cs" />
     <Compile Include="Models\CatCategoriaPuestoModels.cs" />
     <Compile Include="Models\CatChoferModels.cs" />
     <Compile Include="Models\CatClienteModels.cs" />
@@ -1068,6 +1067,7 @@
     <Compile Include="Models\Comun.cs" />
     <Compile Include="Models\ConciliacionAlmacenDetalleModel.cs" />
     <Compile Include="Models\ConciliacionAlmacenModels.cs" />
+    <Compile Include="Models\CuentaBancariaModels.cs" />
     <Compile Include="Models\DetallePagosCompraModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
     <Compile Include="Models\DocumentoPorPagarModels.cs" />
@@ -1106,6 +1106,7 @@
     <Compile Include="Models\UnidadesProductosAlmacenModels.cs" />
     <Compile Include="Models\UPPProvedorModels.cs" />
     <Compile Include="Models\UsuarioModels.cs" />
+    <Compile Include="Models\Validaciones\CombosIntAttribute.cs" />
     <Compile Include="Models\Validaciones\CorreoAttribute.cs" />
     <Compile Include="Models\Validaciones\DescripcionAttribute.cs" />
     <Compile Include="Models\Validaciones\DireccionAttribute.cs" />
@@ -1197,7 +1198,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Content\js\plugins\font\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

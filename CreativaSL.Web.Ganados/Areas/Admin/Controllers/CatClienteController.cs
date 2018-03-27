@@ -36,7 +36,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         // GET: Admin/CatClientes/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
             return View();
         }
@@ -106,7 +106,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 clienteID.ListaRegimenCMB = ClienteDatos.ObtenerComboRegimenFiscal(clienteID);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
-                return RedirectToAction("Index");
+                return View(clienteID);
             }
         }     
 
@@ -181,19 +181,27 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }            
         }
 
-        // GET: Admin/CatClientes/Delete/5
-        public ActionResult Delete(string id, string id2)
+        // GET: Admin/CatClientes/Cuentas/5
+        public ActionResult Cuentas(string id)
         {
             try
             {
-                return View();
+                CatClienteModels Cliente = new CatClienteModels();
+                CatCliente_Datos ClienteD = new CatCliente_Datos();
+                Cliente.Conexion = Conexion;
+                
+                return View(Cliente);
             }
             catch (Exception)
             {
-
-                throw;
+                CatClienteModels Cliente = new CatClienteModels();
+                Cliente.ListaClientes = new List<CatClienteModels>();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Cliente);
             }
         }
+
 
         // POST: Admin/CatClientes/Delete/5
         [HttpPost]
@@ -215,28 +223,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             catch
             {
                 return View();
-            }
-        }
-        // POST: Admin/CatClientes/ObtenerDatosRegimen/5
-        [HttpPost]
-        public ActionResult ObtenerDatosRegimen(string id)
-        {
-            try
-            {
-                CatClienteModels Cliente = new CatClienteModels();
-                CatCliente_Datos ClienteDatos = new CatCliente_Datos();
-
-                List<CFDI_RegimenFiscalModels> listaDatosRegimen = new List<CFDI_RegimenFiscalModels>();
-                Cliente.Conexion = Conexion;
-                Cliente.IDRegimenFiscal = id;
-                
-                listaDatosRegimen = ClienteDatos.ObtenerDatosRegimen(Cliente);
-                return Json(listaDatosRegimen, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                ex.Message.ToString();
-                return Json("", JsonRequestBehavior.AllowGet);
             }
         }
 

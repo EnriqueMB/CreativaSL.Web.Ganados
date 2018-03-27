@@ -234,7 +234,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 usuario.conexion = Conexion;
                 usuario.id_usuario = id;
                 usuario.id_tipoUsuario = 1;
-                usuario.listaMenu = UsuarioDatos.ObtenerAllPermisoUsuario(usuario);
+                usuario.listaMenu = UsuarioDatos.ObtenerListaPermisosUsuario(usuario);
                 if (usuario.ListaPermisos != null)
                 {
                     usuario.numeroMenu = usuario.ListaPermisos.Count;
@@ -255,7 +255,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Permisos(string id, FormCollection collection)
+        public ActionResult Permisos(string id, UsuarioModels userID, FormCollection collection)
         {
             try
             {
@@ -269,35 +269,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 usuario.TablaPermisos = new DataTable();
                 usuario.TablaPermisos.Columns.Add("IDPermiso", typeof(string));
                 usuario.TablaPermisos.Columns.Add("Ver", typeof(bool));
-                string IdPermiso = "";
-                string IDPermisos = "";
-                bool Ver = false;
-                bool Ver2 = false;
-                for (int AuxNumero = 1; AuxNumero <= usuario.numeroMenu; AuxNumero++)
+                foreach (MenuModels Item in userID.ListaMenuPermisos)
                 {
-                    try
-                    {
-                        IdPermiso = collection["idPermiso" + AuxNumero.ToString()];
-                        Ver = Convert.ToBoolean(collection["Permiso" + AuxNumero.ToString()] == null ? "False" : "True");
-                        if (!string.IsNullOrEmpty(IdPermiso))
-                        {
-                            usuario.TablaPermisos.Rows.Add(IdPermiso, Ver);
-                        }
-                        IDPermisos = collection["ID" + AuxNumero.ToString()];
-                        Ver2 = Convert.ToBoolean(collection["PermisoD" + AuxNumero.ToString()] == null ? "False" : "True");
-                        if (!string.IsNullOrEmpty(IDPermisos))
-                        {
-                            usuario.TablaPermisos.Rows.Add(IDPermisos, Ver2);
-                        }
-
-                    }
-                    catch (Exception)
-                    {
-                        if (IdPermiso != "")
-                        {
-                            usuario.TablaPermisos.Rows.Add(usuario, false);
-                        }
-                    }
+                    object[] data = { Item.IDPermiso, Item.ver };
+                    usuario.TablaPermisos.Rows.Add(data);
                 }
                 if (UsuarioDatos.GuardarPermisos(usuario) == 1)
                 {

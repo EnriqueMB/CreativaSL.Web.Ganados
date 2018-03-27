@@ -269,6 +269,14 @@ namespace CreativaSL.Web.Ganados.Models
             set { _listaMenu = value; }
         }
 
+        private List<MenuModels> _ListaMenuPermisos;
+
+        public List<MenuModels> ListaMenuPermisos
+        {
+            get { return _ListaMenuPermisos; }
+            set { _ListaMenuPermisos = value; }
+        }
+
         private string  _clvUser;
 
         public string  clvUser
