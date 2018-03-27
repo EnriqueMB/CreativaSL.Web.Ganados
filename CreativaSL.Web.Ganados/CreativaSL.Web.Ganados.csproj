@@ -963,6 +963,8 @@
     <Content Include="Areas\Admin\Views\Compra\ModalInventario.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalRenta.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpleado\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpleado\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
