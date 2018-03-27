@@ -1,0 +1,65 @@
+﻿@model CreativaSL.Web.Ganados.Models.CompraModels
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Pago</h4>
+    </div>
+    <div class="modal-body">
+        <!--INICIA CUERPO MODAL-->
+        <form class="form-horizontal">
+
+            <div class="form-group">
+
+                <label class="col-md-3 control-label" for="FormaPago">Forma de pago</label>
+                <div class="controls">
+                    <div class="col-md-9 col-xs-12">
+                        <div class="input-group">
+                            <select>
+                                <option></option>
+                            </select>
+                        </div>
+                       <span class="help-block">Forma de pago.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="selectPago">Forma de pago</label>
+                <div class="controls">
+
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="inputPago">Cantidad del pago</label>
+                <div class="controls">
+                    <input type="text" id="inputPago" placeholder="Introduzca pago">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="inputDescripcion">Descripción</label>
+                <div class="controls">
+                    <input type="text" id="inputDescripcion" placeholder="Descripción">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="inputPago">Fecha del pago</label>
+                <div class="controls">
+                    <input type="date" id="inputPago" placeholder="Fecha del pago">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-success green">Registrar pago</button>
+                    <button type="button" class="btn btn-secondary red" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </form>
+
+        <!--TERMINA CUERPO MODAL-->
+    </div>
+</div>

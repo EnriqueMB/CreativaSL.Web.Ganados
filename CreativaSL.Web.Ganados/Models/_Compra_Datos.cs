@@ -76,7 +76,6 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     Lugar = new CatLugarModels
                     {
-                        //!dr.IsDBNull(dr.GetOrdinal("NombreProveedor")) ? dr.GetString(dr.GetOrdinal("NombreProveedor")) : string.Empty,
                         id_lugar = !dr.IsDBNull(dr.GetOrdinal("id_lugar")) ? dr.GetString(dr.GetOrdinal("id_lugar")) : string.Empty,
                         descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty,
                         latitud = float.Parse(dr["gpsLatitud"].ToString()),
@@ -248,6 +247,30 @@ namespace CreativaSL.Web.Ganados.Models
             }
             return Compra.ListaFierros;
         }
+        /// <summary>
+        /// Obtiene un listado de todos las sucursales
+        /// </summary>
+        /// <param name="Compra"></param>
+        /// <returns></returns>
+        public List<CatSucursalesModels> GetListadoSucusales(CompraModels Compra)
+        {
+            SqlDataReader dr = null;
+            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_COMPRAS_GetListadoSucursales");
+
+            
+            while (dr.Read())
+            {
+                Compra.Sucursal = new CatSucursalesModels
+                {
+                    IDSucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty,
+                    NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("nombreSuc")) ? dr.GetString(dr.GetOrdinal("nombreSuc")) : string.Empty,
+                };
+
+                Compra.ListaSucursales.Add(Compra.Sucursal);
+            }
+            return Compra.ListaSucursales;
+        }
+
         #endregion
         #region Index
         /// <summary>
@@ -399,6 +422,7 @@ namespace CreativaSL.Web.Ganados.Models
                 while (dr.Read())
                 {
                     Compra.CompraGanado.IDCompra = !dr.IsDBNull(dr.GetOrdinal("id_compra")) ? dr.GetString(dr.GetOrdinal("id_compra")) : string.Empty;
+                    Compra.Ganado.numArete = !dr.IsDBNull(dr.GetOrdinal("numArete")) ? dr.GetString(dr.GetOrdinal("numArete")) : string.Empty;
                     Compra.CompraGanado.Merma = !dr.IsDBNull(dr.GetOrdinal("merma")) ? dr.GetDecimal(dr.GetOrdinal("merma")) : 0;
                     Compra.CompraGanado.PesoFinal = !dr.IsDBNull(dr.GetOrdinal("pesoFinal")) ? dr.GetDecimal(dr.GetOrdinal("pesoFinal")) : 0;
                     Compra.CompraGanado.PesoInicial = !dr.IsDBNull(dr.GetOrdinal("pesoInicial")) ? dr.GetDecimal(dr.GetOrdinal("pesoInicial")) : 0;
@@ -483,31 +507,5 @@ namespace CreativaSL.Web.Ganados.Models
             }
             return Compra;
         }
-
-        /**/
-
-        
-
-
-        public IEnumerable<Dictionary<string, object>> Serialize(SqlDataReader reader)
-        {
-            var results = new List<Dictionary<string, object>>();
-            var cols = new List<string>();
-            for (var i = 0; i < reader.FieldCount; i++)
-                cols.Add(reader.GetName(i));
-
-            while (reader.Read())
-                results.Add(SerializeRow(cols, reader));
-
-            return results;
-        }
-        private Dictionary<string, object> SerializeRow(IEnumerable<string> cols, SqlDataReader reader)
-        {
-            var result = new Dictionary<string, object>();
-            foreach (var col in cols)
-                result.Add(col, reader[col]);
-            return result;
-        }
-    /**/
     }
 }
