@@ -4,6 +4,9 @@ using System.Data;
 using Microsoft.ApplicationBlocks.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Text;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -317,16 +320,14 @@ namespace CreativaSL.Web.Ganados.Models
             return Compra;
         }
         #endregion
-
-
+        
         #region Edit
 
         #endregion
         #region Delete
 
         #endregion
-
-
+        
         /// <summary>
         /// Obteniene los datos de la tabla Compra, por medio del id de la compra
         /// </summary>
@@ -403,6 +404,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.CompraGanado.PesoInicial = !dr.IsDBNull(dr.GetOrdinal("pesoInicial")) ? dr.GetDecimal(dr.GetOrdinal("pesoInicial")) : 0;
                     Compra.CompraGanado.PesoPagado = !dr.IsDBNull(dr.GetOrdinal("PesoPagado")) ? dr.GetDecimal(dr.GetOrdinal("PesoPagado")) : 0;
                     Compra.CompraGanado.PrecioKilo = !dr.IsDBNull(dr.GetOrdinal("precioKilo")) ? dr.GetDecimal(dr.GetOrdinal("precioKilo")) : 0;
+                    Compra.CompraGanado.DiferenciaPeso = !dr.IsDBNull(dr.GetOrdinal("DiferenciaPeso")) ? dr.GetDecimal(dr.GetOrdinal("DiferenciaPeso")) : 0;
                 }
                 return Compra;
             }
@@ -412,7 +414,26 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public string GetGanadoXGanadoDetalle(CompraModels Compra)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Compra.IDCompra
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_COMPRAS_GetGanadoXGanadoDetalle", parametros);
 
+                SqlDataReaderExtension ext = new SqlDataReaderExtension();
+                return  ext.ToJson(ref dr);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
 
         public CompraModels DeleteImageFierro(CompraModels Compra)
         {
@@ -462,5 +483,31 @@ namespace CreativaSL.Web.Ganados.Models
             }
             return Compra;
         }
+
+        /**/
+
+        
+
+
+        public IEnumerable<Dictionary<string, object>> Serialize(SqlDataReader reader)
+        {
+            var results = new List<Dictionary<string, object>>();
+            var cols = new List<string>();
+            for (var i = 0; i < reader.FieldCount; i++)
+                cols.Add(reader.GetName(i));
+
+            while (reader.Read())
+                results.Add(SerializeRow(cols, reader));
+
+            return results;
+        }
+        private Dictionary<string, object> SerializeRow(IEnumerable<string> cols, SqlDataReader reader)
+        {
+            var result = new Dictionary<string, object>();
+            foreach (var col in cols)
+                result.Add(col, reader[col]);
+            return result;
+        }
+    /**/
     }
 }

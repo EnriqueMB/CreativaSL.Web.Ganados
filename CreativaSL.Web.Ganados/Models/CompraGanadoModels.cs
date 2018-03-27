@@ -10,19 +10,20 @@ namespace CreativaSL.Web.Ganados.Models
         public CompraGanadosModels()
         {
             IDCompra = string.Empty;
-            DifPeso = 0;
             IDGanados = string.Empty;
+            DiferenciaPeso = 0;
             Merma = 0;
             PesoInicial = 0;
             PesoFinal = 0;
             PesoPagado = 0;
             PrecioKilo = 0;
             Repeso = true;
+            TotalPagado = 0;
         }
-
+        public decimal TotalPagado { get; set; }
         public bool Repeso { get; set; }
+        public decimal DiferenciaPeso { get; set; }
 
-        private decimal _DifPeso;
         private string _IDCompra;
         private string _IDGanados;
         private decimal _Merma;
@@ -31,15 +32,6 @@ namespace CreativaSL.Web.Ganados.Models
         private decimal _PesoPagado;
         private decimal _PrecioKilo;
 
-        public decimal DifPeso
-        {
-            get
-            {
-                _DifPeso = PesoInicial - PesoFinal;
-                return _DifPeso;
-            }
-            set { _DifPeso = value; }
-        }
         public string IDCompra
         {
             get { return _IDCompra; }

@@ -1092,6 +1092,7 @@
     <Compile Include="Models\ResumenGastosModels.cs" />
     <Compile Include="Models\SalidaAlmacenDetalle.cs" />
     <Compile Include="Models\SalidaAlmacenDetalleModels.cs" />
+    <Compile Include="Models\SqlDataReaderExtension.cs" />
     <Compile Include="Models\TelefonosContactoSucursalModels.cs" />
     <Compile Include="Models\TipoUsuarioModels.cs" />
     <Compile Include="Models\TrayectoModels.cs" />

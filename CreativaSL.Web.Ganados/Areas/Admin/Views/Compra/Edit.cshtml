@@ -368,7 +368,7 @@
                                                 </div>
                                                 <div class="panel-body">
                                                     <div class="table-responsive">
-                                                        <table class="table datatable">
+                                                        <table id="GanadoXCompraGanado" class="table">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Número de arete</th>
@@ -377,52 +377,14 @@
                                                                     <th>Peso final - Repeso (kg.)</th>
                                                                     <th>Diferencia de peso(kg.)</th>
                                                                     <th>Merma obtenida (%)</th>
-                                                                    <th>Clasificación</th>
                                                                     <th>Precio por kilo ($)</th>
                                                                     <th>Peso pagado ($)</th>
+                                                                    <th>Total ($)</th>
                                                                     <th>Acción</th>
-
-                                                                </tr>
+                                                               </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-
-                                                                    <td style="text-align:center;">
-                                                                        <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                                            <a title="Editar" id="RowGanado" data-id="A004C8A0-CDF9-4FCC-B2ED-8E99CB777B0C" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                                            <a title="Eliminar" id="delete" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
-                                                                        </div>
-                                                                        <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                                            <div class="btn-group">
-                                                                                <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                                                    <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                                                </a>
-                                                                                <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                                                    <li>
-                                                                                        <a role="menuitem" tabindex="-1">
-                                                                                            <i class="fa fa-edit"></i> Editar
-                                                                                        </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                        <a role="menuitem" tabindex="-1" id="delete">
-                                                                                            <i class="fa fa-trash-o"></i> Eliminar
-                                                                                        </a>
-                                                                                    </li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-
-                                                                </tr>
+                                                                
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -682,7 +644,34 @@
             Mensaje(message, typemessage);
             initMap();
             calculateAndDisplayRoute();
-            InitModales();
+            //InitModales();
+            @*LoadTableGanadoXCompraGanado("@Model.IDCompra");*@
+            var id = "@Model.IDCompra";
+
+            var table = $('#GanadoXCompraGanado').dataTable({
+                "ajax": {
+                    "data": {
+                        "IDCompra": id
+                    },
+                    "url": "TableJsonGanado",
+                    "type": "POST",
+                    "datatype": "json",
+                    "dataSrc": "data"
+                },
+                "columns": [
+                    { "data": "numArete" },
+                    { "data": "genero" },
+                    { "data": "pesoInicial" },
+                    { "data": "pesoFinal" },
+                    { "data": "diferenciaPeso" },
+                    { "data": "merma" },
+                    { "data": "pesoPagado" },
+                    { "data": "precioKilo" },
+                    { "data": "totalPagado" },
+                    { "data": "totalPagado" }
+                ]
+            });
+
         });
 
         // INICIA Funciones para googleMaps

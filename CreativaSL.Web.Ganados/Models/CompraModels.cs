@@ -91,6 +91,7 @@ namespace CreativaSL.Web.Ganados.Models
         public List<GanadosModels> ListaGanados { get; set; }
         public List<CatLugarModels> ListaLugares { get; set; }
         public List<CatJaulaModels> ListaJaulas { get; set; }
+        public List<CompraGanadosModels> ListaCompraGanado { get; set; }
 
         public DataTable TablaLugares { set; get; }
         private CultureInfo CultureInfo = new CultureInfo("es-MX");
@@ -122,6 +123,7 @@ namespace CreativaSL.Web.Ganados.Models
             ListaVehiculos = new List<CatVehiculoModels>();
             ListaLugares = new List<CatLugarModels>();
             ListaProveedores = new List<CatProveedorModels>();
+            ListaCompraGanado = new List<CompraGanadosModels>();
 
             //Valores predeterminados de los atributos
             IDCompra = string.Empty;

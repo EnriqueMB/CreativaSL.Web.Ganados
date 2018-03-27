@@ -5,7 +5,7 @@
 
 function ModalGanado() {
     var id = this.dataset.id;
-    console.log(id);
+   
     $.ajax({
         url: 'ModalGanado',
         data: { idGanado: id },
@@ -16,13 +16,14 @@ function ModalGanado() {
     })
 }
 
-
-
-
-
-
-
-
-
-
-
+function LoadTableGanadoXCompraGanado(id) {
+    console.log(id);
+    $.ajax({
+        type: "POST",
+        url: "TableJsonGanado",
+        data: { IDCompra: id },
+        success: function (data) {
+            console.log(data);
+        }
+    })
+}
