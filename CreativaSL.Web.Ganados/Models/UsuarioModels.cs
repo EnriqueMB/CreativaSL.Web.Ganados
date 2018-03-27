@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.Models.Validaciones;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
@@ -131,7 +132,8 @@ namespace CreativaSL.Web.Ganados.Models
         private string _email;
         [Required(ErrorMessage = "El Correo es obligatorio")]
         [Display(Name = "Correo")]
-        [RegularExpression(@"^[_A-Za-z0-9-.\\+]+(\\.[_A-Za-z0-9-.]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", ErrorMessage = "Correo no Valido")]
+        [Correo(ErrorMessage = "Correo no Valido")]
+
         [StringLength(300, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         [Remote("CheckEmailAvailability", "Account", AdditionalFields = "id_usuario", ErrorMessage = "Este email esta ocupado")]
         public string email
@@ -392,8 +394,8 @@ namespace CreativaSL.Web.Ganados.Models
         private string _email2;
         [Required(ErrorMessage = "El Correo es obligatorio")]
         [Display(Name = "Correo")]
-        [RegularExpression(@"^[_A-Za-z0-9-.\\+]+(\\.[_A-Za-z0-9-.]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", ErrorMessage = "Correo no Valido")]
-        [StringLength(300, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
+       [StringLength(300, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
+        [Correo(ErrorMessage = "Correo no Valido")]
         public string email2
         {
             get { return _email2; }

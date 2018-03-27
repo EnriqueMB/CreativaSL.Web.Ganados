@@ -48,6 +48,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Chofer.ListaGeneroCMB = ChoferDatos.ObteneComboCatGenero(Chofer);
                 var list = new SelectList(Chofer.ListaGeneroCMB, "IDGenero", "Descripcion");
                 ViewData["cmbGenero"] = list;
+
+                Chofer.listaGrupoSanguineo = ChoferDatos.ObteneComboCatGrupoSanguineo(Chofer);
+                var listaGrupoSanguineo = new SelectList(Chofer.listaGrupoSanguineo, "IDGrupoSanguineo", "descripcion");
+                
                 Chofer.Licencia = Convert.ToBoolean("true");
                 return View(Chofer);
             }
@@ -184,6 +188,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Chofer = ChoferDatos.ObtenerDetalleCatChofer(Chofer);
                 Chofer.ListaGeneroCMB = ChoferDatos.ObteneComboCatGenero(Chofer);
                 var list = new SelectList(Chofer.ListaGeneroCMB, "IDGenero", "Descripcion");
+
+
+                Chofer.listaGrupoSanguineo = ChoferDatos.ObteneComboCatGrupoSanguineo(Chofer);
+                var listaGrupoSanguineo = new SelectList(Chofer.listaGrupoSanguineo, "IDGrupoSanguineo", "descripcion");
                 ViewData["cmbGenero"] = list;
                 return View(Chofer);
             }

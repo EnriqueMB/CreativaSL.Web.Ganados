@@ -27,7 +27,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+                UsuarioModels usuario = new UsuarioModels();
+               
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(usuario);
             }
             
         }
@@ -52,7 +56,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
             catch (Exception ex){
-                throw ex;
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
             }
            
         }
@@ -107,15 +113,26 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         // GET: Admin/CatUsuarios/Edit/5
         public ActionResult Edit(string id)
         {
-            UsuarioModels usuario = new UsuarioModels();
-            _Usuario_Datos UsuarioDatos = new _Usuario_Datos();
-            usuario.conexion = Conexion;
-            usuario.id_usuario = id;
-            usuario.tablaTipoUsuariosCmb = UsuarioDatos.ObtenerComboTipoUsuario(usuario);
-            var listUsuarios = new SelectList(usuario.tablaTipoUsuariosCmb, "id_tipoUsuario", "tipoUsuario");
-            ViewData["cmbUsuarios"] = listUsuarios;
-            usuario = UsuarioDatos.ObtenerDetalleUsuarioxID(usuario);
-            return View(usuario);
+            
+            try
+            {
+                UsuarioModels usuario = new UsuarioModels();
+                _Usuario_Datos UsuarioDatos = new _Usuario_Datos();
+                usuario.conexion = Conexion;
+                usuario.id_usuario = id;
+                usuario.tablaTipoUsuariosCmb = UsuarioDatos.ObtenerComboTipoUsuario(usuario);
+                var listUsuarios = new SelectList(usuario.tablaTipoUsuariosCmb, "id_tipoUsuario", "tipoUsuario");
+                ViewData["cmbUsuarios"] = listUsuarios;
+                usuario = UsuarioDatos.ObtenerDetalleUsuarioxID(usuario);
+                return View(usuario);
+            }
+            catch (Exception)
+            {
+                UsuarioModels usuario = new UsuarioModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(usuario);
+            }
         }
 
         // POST: Admin/CatUsuarios/Edit/5
