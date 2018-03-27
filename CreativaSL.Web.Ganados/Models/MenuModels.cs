@@ -132,5 +132,13 @@ namespace CreativaSL.Web.Ganados.Models
             set { _ParentMenuID = value; }
         }
 
+        private int _NumRow;
+
+        public int NumRow
+        {
+            get { return _NumRow; }
+            set { _NumRow = value; }
+        }
+
     }
 }
