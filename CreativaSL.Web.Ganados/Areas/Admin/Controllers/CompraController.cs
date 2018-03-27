@@ -87,8 +87,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             Compra.Conexion = Conexion;
             Compra.IDCompra = IDCompra;
             Compra.Mensaje = CompraDatos.GetGanadoXGanadoDetalle(Compra);
-            Compra.Mensaje = "{\"data\": [{    \"id_ganado\": \"A004C8A0-CDF9-4FCC-B2ED-8E99CB777B0C\",    \"numArete\": \"07579621\",    \"genero\": \"MACHO \",    \"pesoInicial\": 300,    \"pesoFinal\": 297,    \"diferenciaPeso\": 3,    \"merma\": 1.5,    \"pesoPagado\": 300,    \"precioKilo\": 35.5,    \"totalPagado\": 10650  },        {    \"id_ganado\": \"A004C8A0-CDF9-4FCC-B2ED-8E99CB777B0C\",    \"numArete\": \"07579621\",    \"genero\": \"MACHO \",    \"pesoInicial\": 300,    \"pesoFinal\": 297,    \"diferenciaPeso\": 3,    \"merma\": 1.5,    \"pesoPagado\": 300,    \"precioKilo\": 35.5,    \"totalPagado\": 10650  }    ]}";
-            // return Json(Compra.Mensaje, JsonRequestBehavior.AllowGet);      
+            //Compra.Mensaje = "{\"data\": [{    \"id_ganado\": \"A004C8A0-CDF9-4FCC-B2ED-8E99CB777B0C\",    \"numArete\": \"07579621\",    \"genero\": \"MACHO \",    \"pesoInicial\": 300,    \"pesoFinal\": 297,    \"diferenciaPeso\": 3,    \"merma\": 1.5,    \"pesoPagado\": 300,    \"precioKilo\": 35.5,    \"totalPagado\": 10650  },        {    \"id_ganado\": \"A004C8A0-CDF9-4FCC-B2ED-8E99CB777B0C\",    \"numArete\": \"07579621\",    \"genero\": \"MACHO \",    \"pesoInicial\": 300,    \"pesoFinal\": 297,    \"diferenciaPeso\": 3,    \"merma\": 1.5,    \"pesoPagado\": 300,    \"precioKilo\": 35.5,    \"totalPagado\": 10650  }    ]}";
+            //return Json(Compra.Mensaje, JsonRequestBehavior.AllowGet);      
             return Content(Compra.Mensaje, "application/json");
         }
 
