@@ -84,15 +84,17 @@ namespace CreativaSL.Web.Ganados.Models
         public CatFierroModels Fierro { get; set; }
         public CompraGanadosModels CompraGanado { get; set; }
 
-        public List<CatProveedorModels> ListaProveedores { get; set; }
-        public List<CatFierroModels> ListaFierros { get; set; }
+        
         public List<CatChoferModels> ListaChoferes { get; set; }
-        public List<CatVehiculoModels> ListaVehiculos { get; set; }
+        public List<CompraGanadosModels> ListaCompraGanado { get; set; }
+        public List<CatFierroModels> ListaFierros { get; set; }
         public List<GanadosModels> ListaGanados { get; set; }
-        public List<CatLugarModels> ListaLugares { get; set; }
         public List<CatJaulaModels> ListaJaulas { get; set; }
+        public List<CatLugarModels> ListaLugares { get; set; }
+        public List<CatProveedorModels> ListaProveedores { get; set; }
+        public List<CatSucursalesModels> ListaSucursales { get; set; }
+        public List<CatVehiculoModels> ListaVehiculos { get; set; }
 
-        public DataTable TablaLugares { set; get; }
         private CultureInfo CultureInfo = new CultureInfo("es-MX");
         #endregion
 
@@ -116,12 +118,15 @@ namespace CreativaSL.Web.Ganados.Models
 
             //Inicializamos las listas
             ListaChoferes = new List<CatChoferModels>();
+            ListaCompraGanado = new List<CompraGanadosModels>();
             ListaFierros = new List<CatFierroModels>();
             ListaGanados = new List<GanadosModels>();
             ListaJaulas = new List<CatJaulaModels>();
-            ListaVehiculos = new List<CatVehiculoModels>();
             ListaLugares = new List<CatLugarModels>();
             ListaProveedores = new List<CatProveedorModels>();
+            ListaSucursales = new List<CatSucursalesModels>();
+            ListaVehiculos = new List<CatVehiculoModels>();
+
 
             //Valores predeterminados de los atributos
             IDCompra = string.Empty;

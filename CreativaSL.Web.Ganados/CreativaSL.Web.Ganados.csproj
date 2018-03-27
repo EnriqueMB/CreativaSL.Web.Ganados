@@ -959,13 +959,10 @@
     <Content Include="Areas\Admin\Views\CatAlmacen\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatAlmacen\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatAlmacen\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\CatCliente\Create2.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalGanado.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalInventario.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalRenta.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\CatEmpleado\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\CatEmpleado\Create.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1019,6 +1016,7 @@
     </Compile>
     <Compile Include="Models\AlmacenEntradaModels.cs" />
     <Compile Include="Models\CatAlmacenModels.cs" />
+    <Compile Include="Models\CatBancoModels.cs" />
     <Compile Include="Models\CatCategoriaPuestoModels.cs" />
     <Compile Include="Models\CatChoferModels.cs" />
     <Compile Include="Models\CatClienteModels.cs" />
@@ -1067,6 +1065,7 @@
     <Compile Include="Models\Comun.cs" />
     <Compile Include="Models\ConciliacionAlmacenDetalleModel.cs" />
     <Compile Include="Models\ConciliacionAlmacenModels.cs" />
+    <Compile Include="Models\CuentaBancariaModels.cs" />
     <Compile Include="Models\DetallePagosCompraModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
     <Compile Include="Models\DocumentoPorPagarModels.cs" />
@@ -1098,6 +1097,7 @@
     <Compile Include="Models\ResumenGastosModels.cs" />
     <Compile Include="Models\SalidaAlmacenDetalle.cs" />
     <Compile Include="Models\SalidaAlmacenDetalleModels.cs" />
+    <Compile Include="Models\SqlDataReaderExtension.cs" />
     <Compile Include="Models\TelefonosContactoSucursalModels.cs" />
     <Compile Include="Models\TipoUsuarioModels.cs" />
     <Compile Include="Models\TrayectoModels.cs" />
@@ -1195,6 +1195,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

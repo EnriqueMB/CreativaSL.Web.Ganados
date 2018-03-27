@@ -63,6 +63,7 @@
                                     }
                                     <td>@Cliente.NombreRegimenFiscal</td>
                                     <td style="text-align:center;">
+                                        <a title="Datos bancarios" class="btn btn-green" href="@Url.Action("Cuentas", "CatCliente", new { id = Cliente.IDCliente })"><i class="fa fa-money"></i></a>
                                         <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatCliente", new { id = Cliente.IDCliente })"><i class="fa fa-edit"></i></a>
                                         <a title="Eliminar" class="btn delete btn-danger deleteRow" id="delete-@Cliente.IDCliente" data-hrefa="@Url.Action("Delete", "CatCliente", new { id = Cliente.IDCliente, id2 = Cliente.IDSucursal })" onClick="delete_row('@Cliente.IDCliente');"><i class="fa fa-trash-o"></i></a>
                                     </td>

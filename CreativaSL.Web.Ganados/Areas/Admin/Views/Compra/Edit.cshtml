@@ -361,14 +361,14 @@
                                                 <div class="panel-heading">
                                                     <h3 class="panel-title"></h3>
                                                     <div class="panel-controls">
-                                                        <button id="btnGanado" data-id="0" class="btn btn-primary btn-lg">
+                                                        <button id="btnAddGanado" data-id="0" class="btn btn-primary btn-lg">
                                                             <i class="fa fa-plus"></i> Agregar nuevo ganado
                                                         </button>
                                                     </div>
                                                 </div>
                                                 <div class="panel-body">
                                                     <div class="table-responsive">
-                                                        <table class="table datatable">
+                                                        <table id="GanadoXCompraGanado" class="table">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Número de arete</th>
@@ -377,52 +377,14 @@
                                                                     <th>Peso final - Repeso (kg.)</th>
                                                                     <th>Diferencia de peso(kg.)</th>
                                                                     <th>Merma obtenida (%)</th>
-                                                                    <th>Clasificación</th>
                                                                     <th>Precio por kilo ($)</th>
                                                                     <th>Peso pagado ($)</th>
+                                                                    <th>Total ($)</th>
                                                                     <th>Acción</th>
-
-                                                                </tr>
+                                                               </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-
-                                                                    <td style="text-align:center;">
-                                                                        <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                                            <a title="Editar" id="RowGanado" data-id="A004C8A0-CDF9-4FCC-B2ED-8E99CB777B0C" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                                            <a title="Eliminar" id="delete" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
-                                                                        </div>
-                                                                        <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                                            <div class="btn-group">
-                                                                                <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                                                    <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                                                </a>
-                                                                                <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                                                    <li>
-                                                                                        <a role="menuitem" tabindex="-1">
-                                                                                            <i class="fa fa-edit"></i> Editar
-                                                                                        </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                        <a role="menuitem" tabindex="-1" id="delete">
-                                                                                            <i class="fa fa-trash-o"></i> Eliminar
-                                                                                        </a>
-                                                                                    </li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-
-                                                                </tr>
+                                                                
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -481,14 +443,14 @@
                                         <div class="col-md-3">
                                             <div class="col-md-6 col-xs-12">
                                                 <div class="input-group">
-                                                    <button class="btn btn-primary btn-lg" onclick="NuevoPago()">
+                                                    <button id="btnAddPago" class="btn btn-primary btn-lg">
                                                         <i class="fa fa-plus"></i> Agregar pago
                                                     </button>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-xs-12">
                                                 <div class="input-group">
-                                                    <button class="btn btn-primary btn-lg" onclick="NuevoVale()">
+                                                    <button id="btnAddVale" class="btn btn-primary btn-lg" >
                                                         <i class="fa fa-plus"></i> Agregar vale
                                                     </button>
                                                 </div>
@@ -650,6 +612,16 @@
 
             </div>
         </div>
+        <div id="ModalPago" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
+            <div class="modal-dialog" id="ContenidoModalPago">
+
+            </div>
+        </div>
+        <div id="ModalVale" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
+            <div class="modal-dialog" id="ContenidoModalVale">
+
+            </div>
+        </div>
         <!--TERMINA SECCION DE MODALES-->
     </div>
     <script>
@@ -678,62 +650,33 @@
         jQuery(document).ready(function () {
             var directionsService
             var directionsDisplay;
+            var idCompra = "@Model.IDCompra";
+            var TableGanado;
+            var idProveedor;
+            var selectProveedor = document.getElementById("IDProveedor");
+            console.log(selectProveedor);
+
+            if (isUndefined(selectProveedor))
+                idProveedor = 0;
+            else
+                idProveedor = selectProveedor.options[selectProveedor.selectedIndex].value;
+                
+
 
             Mensaje(message, typemessage);
-            initMap();
-            calculateAndDisplayRoute();
-            InitModales();
+            InitMap();
+            CalculateAndDisplayRoute();
+            LoadTableGanado(idCompra);
+            LoadTablePago(idCompra);
+            LoadTableVale(idProveedor);
+            
         });
 
-        // INICIA Funciones para googleMaps
-        function initMap() {
-            this.directionsDisplay = new google.maps.DirectionsRenderer;
-            this.directionsService = new google.maps.DirectionsService;
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 10,
-                center: { lat: 17.6063149, lng: -93.204288 }
-            });
-            this.directionsDisplay.setMap(map);
-
-            var onChangeHandler = function () {
-                calculateAndDisplayRoute(this.directionsService, this.directionsDisplay);
-            };
-            document.getElementById("Trayecto.id_lugarOrigen").addEventListener('change', onChangeHandler);
-            document.getElementById("Trayecto.id_lugarDestino").addEventListener('change', onChangeHandler);
-        }
-        function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-
-            var selectIndexInicio = document.getElementById('Trayecto.id_lugarOrigen').selectedIndex;
-            var optionInicio = document.getElementById('Trayecto.id_lugarOrigen').options.item(selectIndexInicio);
-            var latitudInicia = optionInicio.dataset.latitud.replace(",", ".");
-            var longInicial = optionInicio.dataset.longitud.replace(",", ".");
-
-            var selectIndexFinal = document.getElementById('Trayecto.id_lugarDestino').selectedIndex;
-            var optionFinal = document.getElementById('Trayecto.id_lugarDestino').options.item(selectIndexFinal);
-            var latitudFinal = optionFinal.dataset.latitud.replace(",", ".");
-            var longFinal = optionFinal.dataset.longitud.replace(",", ".");
-
-            var inicio = new google.maps.LatLng(latitudInicia, longInicial);
-            var final = new google.maps.LatLng(latitudFinal, longFinal);
-
-            this.directionsService.route({
-                origin: inicio,
-                destination: final,
-                travelMode: 'DRIVING'
-            }, function (response, status) {
-                if (status === 'OK') {
-                    this.directionsDisplay.setDirections(response);
-                } else {
-                    window.alert('Directions request failed due to ' + status);
-                }
-            });
-        }
-        // TERMINA Funciones para googleMaps
 
         $('#ImgFierros').fileinput({
             theme: 'fa',
             language: 'es',
-            uploadUrl: 'SaveImageFierro?IDCompra=@Model.IDCompra',
+            uploadUrl: 'SaveImageFierro?IDCompra=' + window.idCompra,
             overwriteInitial: false,
             previewFileIcon: '<i class="fa fa-file"></i>',
             allowedPreviewTypes: ['image'],

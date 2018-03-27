@@ -18,6 +18,7 @@ namespace CreativaSL.Web.Ganados.Models
             Usuario = string.Empty;
             numArete = string.Empty;
             ranchoCliente = false;
+            genero = string.Empty;
         }
 
         private string _id_Ganados;
@@ -36,11 +37,8 @@ namespace CreativaSL.Web.Ganados.Models
         }
         private string _id_estatus_Ganados;
 
-        public string id_estatus_Ganados
-        {
-            get { return _id_estatus_Ganados; }
-            set { _id_estatus_Ganados = value; }
-        }
+        public string  genero { get; set; }
+
         private int _id_tipoGanadosPorPeso;
 
         public int id_tipoGanadosPorPeso

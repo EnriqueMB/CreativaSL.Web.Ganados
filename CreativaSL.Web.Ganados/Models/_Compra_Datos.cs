@@ -4,6 +4,9 @@ using System.Data;
 using Microsoft.ApplicationBlocks.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Text;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -73,7 +76,6 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     Lugar = new CatLugarModels
                     {
-                        //!dr.IsDBNull(dr.GetOrdinal("NombreProveedor")) ? dr.GetString(dr.GetOrdinal("NombreProveedor")) : string.Empty,
                         id_lugar = !dr.IsDBNull(dr.GetOrdinal("id_lugar")) ? dr.GetString(dr.GetOrdinal("id_lugar")) : string.Empty,
                         descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty,
                         latitud = float.Parse(dr["gpsLatitud"].ToString()),
@@ -245,6 +247,30 @@ namespace CreativaSL.Web.Ganados.Models
             }
             return Compra.ListaFierros;
         }
+        /// <summary>
+        /// Obtiene un listado de todos las sucursales
+        /// </summary>
+        /// <param name="Compra"></param>
+        /// <returns></returns>
+        public List<CatSucursalesModels> GetListadoSucusales(CompraModels Compra)
+        {
+            SqlDataReader dr = null;
+            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_COMPRAS_GetListadoSucursales");
+
+            
+            while (dr.Read())
+            {
+                Compra.Sucursal = new CatSucursalesModels
+                {
+                    IDSucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty,
+                    NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("nombreSuc")) ? dr.GetString(dr.GetOrdinal("nombreSuc")) : string.Empty,
+                };
+
+                Compra.ListaSucursales.Add(Compra.Sucursal);
+            }
+            return Compra.ListaSucursales;
+        }
+
         #endregion
         #region Index
         /// <summary>
@@ -317,16 +343,14 @@ namespace CreativaSL.Web.Ganados.Models
             return Compra;
         }
         #endregion
-
-
+        
         #region Edit
 
         #endregion
         #region Delete
 
         #endregion
-
-
+        
         /// <summary>
         /// Obteniene los datos de la tabla Compra, por medio del id de la compra
         /// </summary>
@@ -398,11 +422,13 @@ namespace CreativaSL.Web.Ganados.Models
                 while (dr.Read())
                 {
                     Compra.CompraGanado.IDCompra = !dr.IsDBNull(dr.GetOrdinal("id_compra")) ? dr.GetString(dr.GetOrdinal("id_compra")) : string.Empty;
+                    Compra.Ganado.numArete = !dr.IsDBNull(dr.GetOrdinal("numArete")) ? dr.GetString(dr.GetOrdinal("numArete")) : string.Empty;
                     Compra.CompraGanado.Merma = !dr.IsDBNull(dr.GetOrdinal("merma")) ? dr.GetDecimal(dr.GetOrdinal("merma")) : 0;
                     Compra.CompraGanado.PesoFinal = !dr.IsDBNull(dr.GetOrdinal("pesoFinal")) ? dr.GetDecimal(dr.GetOrdinal("pesoFinal")) : 0;
                     Compra.CompraGanado.PesoInicial = !dr.IsDBNull(dr.GetOrdinal("pesoInicial")) ? dr.GetDecimal(dr.GetOrdinal("pesoInicial")) : 0;
                     Compra.CompraGanado.PesoPagado = !dr.IsDBNull(dr.GetOrdinal("PesoPagado")) ? dr.GetDecimal(dr.GetOrdinal("PesoPagado")) : 0;
                     Compra.CompraGanado.PrecioKilo = !dr.IsDBNull(dr.GetOrdinal("precioKilo")) ? dr.GetDecimal(dr.GetOrdinal("precioKilo")) : 0;
+                    Compra.CompraGanado.DiferenciaPeso = !dr.IsDBNull(dr.GetOrdinal("DiferenciaPeso")) ? dr.GetDecimal(dr.GetOrdinal("DiferenciaPeso")) : 0;
                 }
                 return Compra;
             }
@@ -412,7 +438,26 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public string GetGanadoXGanadoDetalle(CompraModels Compra)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Compra.IDCompra
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_COMPRAS_GetGanadoXGanadoDetalle", parametros);
 
+                SqlDataReaderExtension ext = new SqlDataReaderExtension();
+                return  ext.ToJson(ref dr);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
 
         public CompraModels DeleteImageFierro(CompraModels Compra)
         {

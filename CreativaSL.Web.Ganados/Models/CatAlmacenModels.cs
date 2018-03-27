@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.Models.Validaciones;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -64,7 +65,7 @@ namespace CreativaSL.Web.Ganados.Models
         /// [Required(ErrorMessage = "La matricula es obligatoria")]
         [Display(Name = "Clave")]
         [StringLength(20, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s\-]*$", ErrorMessage = "Solo Letras, Números y '-'")]
+        [Texto(ErrorMessage = "Solo Letras y número")]
         public string ClaveAlmacen
         {
             get { return _ClaveAlmacen; }

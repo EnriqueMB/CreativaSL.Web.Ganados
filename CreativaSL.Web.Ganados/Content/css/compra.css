@@ -37,3 +37,7 @@
     input[type="date"], input[type="time"], input[type="datetime-local"], input[type="month"] {
     line-height: 18px !important;
 }
+
+.form-control[disabled], .form-control[readonly] {
+    color: #000 !important; 
+}
