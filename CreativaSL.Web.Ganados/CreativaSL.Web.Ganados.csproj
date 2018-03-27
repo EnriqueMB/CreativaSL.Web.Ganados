@@ -376,6 +376,7 @@
     <Content Include="Content\img\filetree\txt.png" />
     <Content Include="Content\img\filetree\xls.png" />
     <Content Include="Content\img\filetree\zip.png" />
+    <Content Include="Content\img\GrupoOcampo.png" />
     <Content Include="Content\img\icheck\grey%402x.png" />
     <Content Include="Content\img\icheck\grey.png" />
     <Content Include="Content\img\icons\csv.png" />
@@ -963,6 +964,9 @@
     <Content Include="Areas\Admin\Views\Compra\ModalInventario.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalRenta.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatTipoProveedor\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatTipoProveedor\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatTipoProveedor\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -999,6 +1003,7 @@
     <Compile Include="Areas\Admin\Controllers\CatProveedorController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatPuestosController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatRangoPesoCompraController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatTipoProveedorController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatTipoVehiculoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatUsuariosController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatVehiculoController.cs" />
@@ -1125,6 +1130,7 @@
     <Compile Include="Models\_CatProveedor_Datos.cs" />
     <Compile Include="Models\_CatPuestos_Datos.cs" />
     <Compile Include="Models\_CatRangoPesoCompra_Datos.cs" />
+    <Compile Include="Models\_CatTipoProveedor_Datos.cs" />
     <Compile Include="Models\_CatTipoVehiculos_Datos.cs" />
     <Compile Include="Models\_CatVehiculo_Datos.cs" />
     <Compile Include="Models\_Compra_Datos.cs" />

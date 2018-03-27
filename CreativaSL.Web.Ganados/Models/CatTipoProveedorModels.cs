@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.Models.Validaciones;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -16,12 +18,22 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _Descripcion;
-
+        [Required(ErrorMessage = "La Tipo de proveedor es obligatorio")]
+        [Display(Name = "Tipo de proveedor")]
+        [Texto(ErrorMessage = "Solo letras")]
         public string Descripcion
         {
             get { return _Descripcion; }
             set { _Descripcion = value; }
         }
+        private List<CatTipoProveedorModels> _listaTipoProveedores;
+
+        public List<CatTipoProveedorModels> listaTipoProveedores
+        {
+            get { return _listaTipoProveedores; }
+            set { _listaTipoProveedores = value; }
+        }
+
 
         #region Datos De Control
         public string Conexion { get; set; }
