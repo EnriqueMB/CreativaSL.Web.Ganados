@@ -106,7 +106,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 clienteID.ListaRegimenCMB = ClienteDatos.ObtenerComboRegimenFiscal(clienteID);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
-                return RedirectToAction("Index");
+                return View(clienteID);
             }
         }     
 

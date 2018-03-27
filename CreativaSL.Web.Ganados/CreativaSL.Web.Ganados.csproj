@@ -423,6 +423,7 @@
     <Content Include="Content\img\themes\default.jpg" />
     <Content Include="Content\img\themes\light.jpg" />
     <Content Include="Content\js\actions.js" />
+    <Content Include="Content\js\Empleado.js" />
     <Content Include="Content\js\clientes.js" />
     <Content Include="Content\js\demo_charts_morris.js" />
     <Content Include="Content\js\demo_charts_nvd3.js" />
@@ -963,6 +964,8 @@
     <Content Include="Areas\Admin\Views\Compra\ModalInventario.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalRenta.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpleado\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpleado\Create.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -991,6 +994,7 @@
     <Compile Include="Areas\Admin\Controllers\CatCategoriaPuestoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatChoferController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatClienteController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatEmpleadoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatFierroController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatJaulaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatLugarController.cs" />
@@ -1100,6 +1104,7 @@
     <Compile Include="Models\UnidadesProductosAlmacenModels.cs" />
     <Compile Include="Models\UPPProvedorModels.cs" />
     <Compile Include="Models\UsuarioModels.cs" />
+    <Compile Include="Models\Validaciones\CombosIntAttribute.cs" />
     <Compile Include="Models\Validaciones\CorreoAttribute.cs" />
     <Compile Include="Models\Validaciones\DescripcionAttribute.cs" />
     <Compile Include="Models\Validaciones\DireccionAttribute.cs" />
