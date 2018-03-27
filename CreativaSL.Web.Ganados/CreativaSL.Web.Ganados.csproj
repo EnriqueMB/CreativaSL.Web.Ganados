@@ -1020,9 +1020,11 @@
     <Compile Include="Models\CatClienteModels.cs" />
     <Compile Include="Models\CatConceptoDetalleDocumentosModels.cs" />
     <Compile Include="Models\CatConceptoNominaModels.cs" />
+    <Compile Include="Models\CatEmpleadoModels.cs" />
     <Compile Include="Models\CatEstadoModels.cs" />
     <Compile Include="Models\CatFierroModels.cs" />
     <Compile Include="Models\CatGeneroModels.cs" />
+    <Compile Include="Models\CatGrupoSanguineoModels.cs" />
     <Compile Include="Models\CatJaulaModels.cs" />
     <Compile Include="Models\CatLugarModels.cs" />
     <Compile Include="Models\CatMarcaVehiculoModels.cs" />
@@ -1114,6 +1116,7 @@
     <Compile Include="Models\_CatCategoriaPuesto_Datos.cs" />
     <Compile Include="Models\_CatChofer_Datos.cs" />
     <Compile Include="Models\_CatCliente_Datos.cs" />
+    <Compile Include="Models\_CatEmpleado_Datos.cs" />
     <Compile Include="Models\_CatFierro_Datos.cs" />
     <Compile Include="Models\_CatJaula_Datos.cs" />
     <Compile Include="Models\_CatLugar_Datos.cs" />

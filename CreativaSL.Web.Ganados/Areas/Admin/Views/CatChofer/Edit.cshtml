@@ -92,7 +92,7 @@
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group ">
                                         <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                        @Html.TextBoxFor(model => model.vigencia, "{0:yyyy/MM/dd}", new { id = "vigencia", @class = "form-control ", @type = "date", @style = "line-height: 18px;" })
+                                        @Html.TextBoxFor(model => model.vigencia, "{0:yyyy-MM-dd}", new { id = "vigencia", @class = "form-control ", @type = "date", @style = "line-height: 18px;" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.vigencia)
                                     <span class="help-block">Ingrese la fecha de vigencia</span>
@@ -112,14 +112,14 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="col-md-12 control-label text-center">Tipo Sangre</label>
+                                <label class="col-md-12 control-label text-center">Número Seguro Social</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.TipoSangre, new { id = "TipoSangre", @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.NumSeguroSocial, new { id = "NumSeguroSocial", @class = "form-control" })
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.TipoSangre)
-                                    <span class="help-block">Ingrese el tipo sangre</span>
+                                    @Html.ValidationMessageFor(model => model.NumSeguroSocial)
+                                    <span class="help-block">Ingrese el número de seguro social</span>
                                 </div>
                             </div>
                         </div>
@@ -133,14 +133,11 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="col-md-12 control-label text-center">Número Seguro Social</label>
+                                <label class="col-md-12 col-xs-12 control-label text-center">Grupo Sanguineo</label>
                                 <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.NumSeguroSocial, new { id = "NumSeguroSocial", @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.NumSeguroSocial)
-                                    <span class="help-block">Ingrese el número de seguro social</span>
+                                    @Html.DropDownListFor(model => model.idgruposanguineo, new SelectList(Model.listaGrupoSanguineo, "IDGrupoSanguineo", "descripcion"), new { id = "ListGrupoSanguineo", @class = "form-control select", data_live_search = "true" })
+                                    @Html.ValidationMessageFor(model => model.ListaGeneroCMB)
+                                    <span class="help-block">Seleccione la sucursal</span>
                                 </div>
                             </div>
                         </div>
@@ -161,7 +158,7 @@
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.TelefonoAccidente, new { id = "TelefonoAccidente", @class = "mask_phone form-control" })
+                                        @Html.TextBoxFor(model => model.TelefonoAccidente, new { id = "TelefonoAccidente", @class = " form-control" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.TelefonoAccidente)
                                     <span class="help-block">Ingrese el número teléfono </span>
@@ -174,7 +171,7 @@
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-phone-square"></span></span>
-                                        @Html.TextBoxFor(model => model.Telefono, new { id = "Telefono", @class = "mask_phone form-control" })
+                                        @Html.TextBoxFor(model => model.Telefono, new { id = "Telefono", @class = " form-control" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Telefono)
                                     <span class="help-block">Ingrese el teléfono de casa</span>
@@ -185,7 +182,7 @@
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-mobile"></span></span>
-                                        @Html.TextBoxFor(model => model.Movil, new { id = "Movil", @class = "mask_phone form-control" })
+                                        @Html.TextBoxFor(model => model.Movil, new { id = "Movil", @class = " form-control" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Movil)
                                     <span class="help-block">Ingrese el teléfono Movil</span>
@@ -197,7 +194,7 @@
                                 <label class="col-md-12 control-label text-center">Fecha Nacimiento</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group date">
-                                        @Html.TextBoxFor(model => model.FechaNacimiento, "{0:yyyy/MM/dd}", new { id = "FechaNacimiento", @class = "form-control ", @type = "date", @style = "line-height: 18px;" })
+                                        @Html.TextBoxFor(model => model.FechaNacimiento, "{0:yyyy-MM-dd}", new { id = "FechaNacimiento", @class = "form-control ", @type = "date", @style = "line-height: 18px;" })
                                         <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.FechaNacimiento)
@@ -208,7 +205,7 @@
                                 <label class="col-md-12 control-label text-center">Fecha Ingreso</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group ">
-                                        @Html.TextBoxFor(model => model.FechaIngreso, "{0:yyyy/MM/dd}", new { id = "FechaIngreso", @class = "form-control ", @type = "date", @style = "line-height: 18px;" })
+                                        @Html.TextBoxFor(model => model.FechaIngreso, "{0:yyyy-MM-dd}", new { id = "FechaIngreso", @class = "form-control ", @type = "date", @style = "line-height: 18px;" })
                                         <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.FechaIngreso)
@@ -249,6 +246,7 @@
         Mensaje(message, typemessage);
 
         $('#ListGenero').val('@Model.IDGenero');
+        $('#ListGrupoSanguineo').val('@Model.idgruposanguineo');
 
     });
 
