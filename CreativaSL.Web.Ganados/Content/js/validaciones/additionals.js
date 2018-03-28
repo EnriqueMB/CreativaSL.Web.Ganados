@@ -29,9 +29,15 @@ $.validator.addMethod("telefono", function (value, element) {
 $.validator.addMethod("texto", function (value, element) {
     return this.optional(element) || /^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\(\)\-\,\.\;\:\s]*$/i.test(value);
 }, "invalid text");
-
+$.validator.addMethod("placa", function (value, element) {
+    return this.optional(element) || /^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\-\s]*$/i.test(value);
+}, "invalid text");
+$.validator.addMethod("tarjetaCirculacion", function (value, element) {
+    return this.optional(element) || /^[A-Za-záéíóúñÁÉÍÓÚÑ]*$/i.test(value);
+}, "invalid text");
 $.validator.addMethod("CMBINT", function (value, element) {
     if ((value === '0') || (value === '-1')) {
+     
         return false;
     }
     else {

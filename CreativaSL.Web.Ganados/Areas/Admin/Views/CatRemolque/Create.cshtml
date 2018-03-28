@@ -22,7 +22,7 @@
         <div class="col-md-12">
             @*<form class="form-horizontal">*@
             @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("Create", "CatRemolque", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+            @using (Html.BeginForm("Create", "CatRemolque", FormMethod.Post, new {id="form-remolque", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
@@ -40,7 +40,7 @@
                             <div class="col-md-6">
                                 <label class="col-md-12 col-xs-12 control-label text-center">Sucursales</label>
                                 <div class="col-md-12 col-xs-12">
-                                    @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.listaSucursales, "IDSucursal", "NombreSucursal"), new { id = "ListSucursal", @class = "form-control select" })
+                                    @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.listaSucursales, "IDSucursal", "NombreSucursal"), new { id = "ListSucursal", @class = "form-control " })
                                     @Html.ValidationMessageFor(model => model.listaSucursales)
                                     <span class="help-block">Seleccione la sucursal</span>
                                 </div>
@@ -64,7 +64,7 @@
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.color, new { id = "remolque", @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.color, new { id = "color", @class = "form-control" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.color)
                                     <span class="help-block">Ingrese el color del remolque</span>
@@ -104,10 +104,14 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/Remolques.js")"></script>
 
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
+        Remolque.init();
     });
     </script>
 }

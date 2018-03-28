@@ -19,7 +19,8 @@
         </div>
         <div class="col-md-12">
             @*<form class="form-horizontal">*@
-            @using (Html.BeginForm("Edit", "CatVehiculo", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("Edit", "CatVehiculo", FormMethod.Post, new { id = "form-vehiculo", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
@@ -95,7 +96,7 @@
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.tarjetaCirculacion, new { id = "tarjeta de circulacion", @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.tarjetaCirculacion, new { id = "tarjetaCirculacion", @class = "form-control" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.tarjetaCirculacion)
                                     <span class="help-block">Ingrese la tarjeta de Circulacion</span>
@@ -199,6 +200,9 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/Vehiculo.js")"></script>
 
     <script>
     jQuery(document).ready(function () {
@@ -207,7 +211,8 @@
         $('#ListSucursal').val('@Model.IDSucursal');
         $('#ListTipoVehiculo').val('@Model.IDTipoVehiculo');
         $('#ListMarcas').val('@Model.IDMarca');
-      
+        Vehiculo.init();
+       
     });
     </script>
 }
