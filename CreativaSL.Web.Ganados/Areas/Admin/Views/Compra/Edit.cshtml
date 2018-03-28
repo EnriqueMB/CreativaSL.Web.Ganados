@@ -596,29 +596,29 @@
         <!--TERMINA TABS-->
         <!--INICIA SECCION DE MODALES-->
         <div id="ModalGanado" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog" id="ContenidoModalGanado">
+            <div class="modal-dialog modal-lg" id="ContenidoModalGanado">
 
             </div>
         </div>
 
         <div id="ModalRenta" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog" id="ContenidoModalRenta">
+            <div class="modal-dialog modal-lg" id="ContenidoModalRenta">
 
             </div>
         </div>
 
         <div id="ModalInventario" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog" id="ContenidoModalInventario">
+            <div class="modal-dialog modal-lg" id="ContenidoModalInventario">
 
             </div>
         </div>
         <div id="ModalPago" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog" id="ContenidoModalPago">
+            <div class="modal-dialog modal-lg" id="ContenidoModalPago">
 
             </div>
         </div>
         <div id="ModalVale" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog" id="ContenidoModalVale">
+            <div class="modal-dialog modal-lg" id="ContenidoModalVale">
 
             </div>
         </div>
@@ -653,8 +653,9 @@
             var idCompra = "@Model.IDCompra";
             var TableGanado;
             var idProveedor;
+            var RangoPrecioJson = @Html.Raw(Json.Encode(Model.Mensaje));
+            console.log(RangoPrecioJson);
             var selectProveedor = document.getElementById("IDProveedor");
-            console.log(selectProveedor);
 
             if (isUndefined(selectProveedor))
                 idProveedor = 0;
@@ -669,9 +670,11 @@
             LoadTableGanado(idCompra);
             LoadTablePago(idCompra);
             LoadTableVale(idProveedor);
-            
-        });
 
+           
+
+        });
+        
 
         $('#ImgFierros').fileinput({
             theme: 'fa',

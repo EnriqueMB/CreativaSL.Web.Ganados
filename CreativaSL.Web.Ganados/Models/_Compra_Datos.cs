@@ -459,6 +459,23 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public string GetRangoPeso(CompraModels Compra)
+        {
+            try
+            {
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_COMPRAS_GetRangoPeso");
+
+                SqlDataReaderExtension ext = new SqlDataReaderExtension();
+                return ext.ToJson(ref dr);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
         public CompraModels DeleteImageFierro(CompraModels Compra)
         {
             try

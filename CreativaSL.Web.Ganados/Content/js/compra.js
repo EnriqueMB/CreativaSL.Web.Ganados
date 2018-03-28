@@ -96,25 +96,46 @@ function ModalGanado(idGanado) {
    
     $.ajax({
         url: 'ModalGanado',
-        type:"POST",
+        type: "POST",
         data: { idGanado: idGanado },
         success: function (data) {
             $('#ContenidoModalGanado').html(data);
             $('#ModalGanado').modal({ backdrop: 'static', keyboard: false });
-            window.TableGanado.row.add({
-                "id_ganado": "A004C8A0-CDF9-4FCC-B2ED-8E99CB777B1C",
-                "numArete": "2332",
-                "genero": "Hembra",
-                "pesoInicial": "345.43",
-                "pesoFinal": "1232",
-                "diferenciaPeso": "5421",
-                "merma": "2",
-                "pesoPagado": "23",
-                "precioKilo": "2212",
-                "totalPagado": "23322"
-            }).draw();
+            //window.TableGanado.row.add({
+            //    "id_ganado": "A004C8A0-CDF9-4FCC-B2ED-8E99CB777B1C",
+            //    "numArete": "2332",
+            //    "genero": "Hembra",
+            //    "pesoInicial": "345.43",
+            //    "pesoFinal": "1232",
+            //    "diferenciaPeso": "5421",
+            //    "merma": "2",
+            //    "pesoPagado": "23",
+            //    "precioKilo": "2212",
+            //    "totalPagado": "23322"
+            //}).draw();
+
+            $('#Ganado_Repeso').change(function () {
+                $('.Esconder').toggle(1000);
+            });
+
+            $("input").keyup(function () {
+                var value = $(this).val();
+                $("p").text(value);
+            }).keyup();
+
+
+
+            for (var i in json) {
+                for (var j in json[i]) {
+                    if (json[i][j].hasOwnProperty('check')) {
+                        json[i][j].check = true;
+                    }
+                }
+            }
+
+
         }
-    })
+    });
 }
 
 function ModalVale(id) {
