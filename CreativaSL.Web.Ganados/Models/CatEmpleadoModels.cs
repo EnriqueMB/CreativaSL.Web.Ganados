@@ -158,7 +158,6 @@ namespace CreativaSL.Web.Ganados.Models
         /// </summary>
         [Required(ErrorMessage = "Seleccione una categoria puesto")]
         [Display(Name = "Categoria Puesto")]
-        [CombosInt(ErrorMessage = "Selecciones una categoria puesto valido")]
         public string IDCategoriaPuesto
         {
             get { return _IDCategoriaPuesto; }
