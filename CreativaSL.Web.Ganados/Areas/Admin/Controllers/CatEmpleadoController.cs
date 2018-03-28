@@ -194,12 +194,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/CatEmpleado/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
         // POST: Admin/CatEmpleado/Delete/5
         [HttpPost]
         public ActionResult Delete(string id, FormCollection collection)
