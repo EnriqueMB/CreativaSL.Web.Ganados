@@ -76,6 +76,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             Compra.ListaChoferes = CompraDatos.GetListadoChoferes(Compra);
             Compra.ListaVehiculos = CompraDatos.GetListadoVehiculos(Compra);
             Compra.ListaJaulas = CompraDatos.GetListadoJaulas(Compra);
+            Compra.Mensaje = CompraDatos.GetRangoPeso(Compra);
 
             return View(Compra);
         }

@@ -27,7 +27,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
                     Item.NombrePuesto = !dr.IsDBNull(dr.GetOrdinal("NombrePuesto")) ? dr.GetString(dr.GetOrdinal("NombrePuesto")) : string.Empty;
                     Item.NombreCategoriaP = !dr.IsDBNull(dr.GetOrdinal("CategoriaPuesto")) ? dr.GetString(dr.GetOrdinal("CategoriaPuesto")) : string.Empty;
-                    Item.GrupoSanguineo = !dr.IsDBNull(dr.GetOrdinal("CategoriaPuesto")) ? dr.GetString(dr.GetOrdinal("CategoriaPuesto")) : string.Empty;
+                    Item.GrupoSanguineo = !dr.IsDBNull(dr.GetOrdinal("GrupoSanguineo")) ? dr.GetString(dr.GetOrdinal("GrupoSanguineo")) : string.Empty;
                     Item.DirCalle = !dr.IsDBNull(dr.GetOrdinal("Direccion")) ? dr.GetString(dr.GetOrdinal("Direccion")) : string.Empty;
                     Lista.Add(Item);
                 }
@@ -111,6 +111,32 @@ namespace CreativaSL.Web.Ganados.Models
                 return datos;
             }
 
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CatEmpleadoModels EliminarEmpleado(CatEmpleadoModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.IDEmpleado, datos.Usuario
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_del_CatEmpleado", parametros);
+                datos.IDEmpleado = aux.ToString();
+                if (!string.IsNullOrEmpty(datos.IDEmpleado))
+                {
+                    datos.Completado = true;
+                }
+                else
+                {
+                    datos.Completado = false;
+                }
+                return datos;
+            }
             catch (Exception ex)
             {
                 throw ex;

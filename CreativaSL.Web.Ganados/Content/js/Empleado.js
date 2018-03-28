@@ -83,12 +83,17 @@
     };
 
     var runCombos = function () {
-        $("#IDPuesto").change(function () {
+       
+        $('#IDPuesto').on('change', function (event) {
             $("#IDCategoriaPuesto option").remove();
             getDatosRegimen($("#IDPuesto").val());
         });
+       // $("#IDPuesto").trigger('change');
+        //$("#IDPuesto").change(function () {
+        //    $("#IDCategoriaPuesto option").remove();
+        //    getDatosRegimen($("#IDPuesto").val());
+        //});
         function getDatosRegimen(IDPuesto) {
-
             $.ajax({
                 url: "/Admin/CatEmpleado/ObtenerComboCategoriaPuesto",
                 data: { IDP: IDPuesto },
@@ -105,8 +110,6 @@
                     $('#IDCategoriaPuesto.select').selectpicker('refresh');
                 }
             });
-
-            
         }
     };
 

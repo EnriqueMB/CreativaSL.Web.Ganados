@@ -58,7 +58,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CatEmpleadoModels Empleado = new CatEmpleadoModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return View(Empleado);
+                return RedirectToAction("Index");
             }
         }
 
@@ -101,7 +101,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     DatosEmpleado.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(DatosEmpleado);
                     return View(DatosEmpleado);
                 }
-                
             }
             catch
             {
@@ -117,42 +116,99 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         // GET: Admin/CatEmpleado/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        public ActionResult Edit(string id)
         {
-            return View();
+            try
+            {
+                CatEmpleadoModels Empleado = new CatEmpleadoModels();
+                CatEmpleado_Datos EmleadoDatos = new CatEmpleado_Datos();
+                Empleado.Conexion = Conexion;
+                Empleado.IDEmpleado = id;
+                Empleado = EmleadoDatos.ObtenerDetalleCatEmpleado(Empleado);
+                Empleado.ListaCmbGrupoSanguineo = EmleadoDatos.ObteneComboCatGrupoSanguineo(Empleado);
+                Empleado.ListaCmbSucursal = EmleadoDatos.ObteneComboCatSucursal(Empleado);
+                Empleado.ListaCmbPuesto = EmleadoDatos.obtenerComboCatPuesto(Empleado);
+                Empleado.ListaCmbCategoriaPuesto = EmleadoDatos.ObteneComboCatCategoriaPuesto(Empleado);
+                return View(Empleado);
+            }
+            catch (Exception)
+            {
+                CatEmpleadoModels Empleado = new CatEmpleadoModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
         }
 
         // POST: Admin/CatEmpleado/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(string id, CatEmpleadoModels DatosEmpleado)
         {
+            CatEmpleado_Datos EmpleadoDatos = new CatEmpleado_Datos();
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    DatosEmpleado.Conexion = Conexion;
+                    DatosEmpleado.Usuario = User.Identity.Name;
+                    DatosEmpleado.Opcion = 2;
+                    DatosEmpleado = EmpleadoDatos.AbcCatEmpleado(DatosEmpleado);
+                    if (DatosEmpleado.Completado)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardaron correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        DatosEmpleado.ListaCmbGrupoSanguineo = EmpleadoDatos.ObteneComboCatGrupoSanguineo(DatosEmpleado);
+                        DatosEmpleado.ListaCmbSucursal = EmpleadoDatos.ObteneComboCatSucursal(DatosEmpleado);
+                        DatosEmpleado.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(DatosEmpleado);
+                        DatosEmpleado.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(DatosEmpleado);
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        return View(DatosEmpleado);
+                    }
+                }
+                else
+                {
+                    DatosEmpleado.Conexion = Conexion;
+                    DatosEmpleado.ListaCmbGrupoSanguineo = EmpleadoDatos.ObteneComboCatGrupoSanguineo(DatosEmpleado);
+                    DatosEmpleado.ListaCmbSucursal = EmpleadoDatos.ObteneComboCatSucursal(DatosEmpleado);
+                    DatosEmpleado.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(DatosEmpleado);
+                    DatosEmpleado.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(DatosEmpleado);
+                    return View(DatosEmpleado);
+                }
             }
             catch
             {
-                return View();
+                DatosEmpleado.Conexion = Conexion;
+                DatosEmpleado.ListaCmbGrupoSanguineo = EmpleadoDatos.ObteneComboCatGrupoSanguineo(DatosEmpleado);
+                DatosEmpleado.ListaCmbSucursal = EmpleadoDatos.ObteneComboCatSucursal(DatosEmpleado);
+                DatosEmpleado.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(DatosEmpleado);
+                DatosEmpleado.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(DatosEmpleado);
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(DatosEmpleado);
             }
-        }
-
-        // GET: Admin/CatEmpleado/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
         }
 
         // POST: Admin/CatEmpleado/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(string id, FormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                CatEmpleadoModels Empleado = new CatEmpleadoModels();
+                CatEmpleado_Datos EmpleadoDatos = new CatEmpleado_Datos();
+                Empleado.Conexion = Conexion;
+                Empleado.Usuario = User.Identity.Name;
+                Empleado.IDEmpleado = id;
+                EmpleadoDatos.EliminarEmpleado(Empleado);
+                TempData["typemessage"] = "1";
+                TempData["message"] = "El registro se ha eliminado correctamente";
+                return Json("");
             }
             catch
             {
