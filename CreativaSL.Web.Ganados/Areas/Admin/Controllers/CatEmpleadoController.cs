@@ -202,13 +202,19 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatEmpleado/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(string id, FormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                CatEmpleadoModels Empleado = new CatEmpleadoModels();
+                CatEmpleado_Datos EmpleadoDatos = new CatEmpleado_Datos();
+                Empleado.Conexion = Conexion;
+                Empleado.Usuario = User.Identity.Name;
+                Empleado.IDEmpleado = id;
+                EmpleadoDatos.EliminarEmpleado(Empleado);
+                TempData["typemessage"] = "1";
+                TempData["message"] = "El registro se ha eliminado correctamente";
+                return Json("");
             }
             catch
             {

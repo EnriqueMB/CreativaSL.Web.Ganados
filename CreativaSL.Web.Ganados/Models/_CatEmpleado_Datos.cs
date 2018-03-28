@@ -117,6 +117,32 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public CatEmpleadoModels EliminarEmpleado(CatEmpleadoModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.IDEmpleado, datos.Usuario
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_del_CatEmpleado", parametros);
+                datos.IDEmpleado = aux.ToString();
+                if (!string.IsNullOrEmpty(datos.IDEmpleado))
+                {
+                    datos.Completado = true;
+                }
+                else
+                {
+                    datos.Completado = false;
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<CatSucursalesModels> ObteneComboCatSucursal(CatEmpleadoModels Datos)
         {
             try
