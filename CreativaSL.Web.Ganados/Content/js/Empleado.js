@@ -88,7 +88,7 @@
             $("#IDCategoriaPuesto option").remove();
             getDatosRegimen($("#IDPuesto").val());
         });
-        $("#IDPuesto").trigger('change');
+       // $("#IDPuesto").trigger('change');
         //$("#IDPuesto").change(function () {
         //    $("#IDCategoriaPuesto option").remove();
         //    getDatosRegimen($("#IDPuesto").val());

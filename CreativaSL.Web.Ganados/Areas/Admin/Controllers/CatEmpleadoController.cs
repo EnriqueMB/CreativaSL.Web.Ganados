@@ -125,11 +125,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CatEmpleado_Datos EmleadoDatos = new CatEmpleado_Datos();
                 Empleado.Conexion = Conexion;
                 Empleado.IDEmpleado = id;
+                Empleado = EmleadoDatos.ObtenerDetalleCatEmpleado(Empleado);
                 Empleado.ListaCmbGrupoSanguineo = EmleadoDatos.ObteneComboCatGrupoSanguineo(Empleado);
                 Empleado.ListaCmbSucursal = EmleadoDatos.ObteneComboCatSucursal(Empleado);
                 Empleado.ListaCmbPuesto = EmleadoDatos.obtenerComboCatPuesto(Empleado);
                 Empleado.ListaCmbCategoriaPuesto = EmleadoDatos.ObteneComboCatCategoriaPuesto(Empleado);
-                Empleado = EmleadoDatos.ObtenerDetalleCatEmpleado(Empleado);
                 return View(Empleado);
             }
             catch (Exception)
