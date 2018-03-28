@@ -971,6 +971,8 @@
     <Content Include="Areas\Admin\Views\CatTipoProveedor\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalPago.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalVale.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpleado\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -984,7 +986,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <None Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AuthConfig.cs" />
