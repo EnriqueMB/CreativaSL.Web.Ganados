@@ -969,14 +969,14 @@
     <Content Include="Areas\Admin\Views\CatTipoProveedor\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatTipoProveedor\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatTipoProveedor\Index.cshtml" />
-	 <Content Include="Areas\Admin\Views\CatRemolque\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatRemolque\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatRemolque\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatRemolque\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalPago.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalVale.cshtml" />
-	<Content Include="Areas\Admin\Views\CatCliente\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\Details.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1040,7 +1040,7 @@
     <Compile Include="Models\CatConceptoDetalleDocumentosModels.cs" />
     <Compile Include="Models\CatConceptoNominaModels.cs" />
     <Compile Include="Models\CatEmpleadoModels.cs" />
-    <Compile Include="Models\CatEmpresa.cs" />
+    <Compile Include="Models\CatEmpresaModels.cs" />
     <Compile Include="Models\CatEstadoModels.cs" />
     <Compile Include="Models\CatFierroModels.cs" />
     <Compile Include="Models\CatGeneroModels.cs" />
