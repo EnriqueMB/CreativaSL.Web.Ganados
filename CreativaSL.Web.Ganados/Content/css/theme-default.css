@@ -1080,7 +1080,7 @@ body.page-container-boxed .page-container {
  
 }
 .profile .profile-image img {
-  width: 100px;
+  width:80px;
   border: 3px solid #FFF;
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;

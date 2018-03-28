@@ -125,11 +125,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CatEmpleado_Datos EmleadoDatos = new CatEmpleado_Datos();
                 Empleado.Conexion = Conexion;
                 Empleado.IDEmpleado = id;
+                Empleado = EmleadoDatos.ObtenerDetalleCatEmpleado(Empleado);
                 Empleado.ListaCmbGrupoSanguineo = EmleadoDatos.ObteneComboCatGrupoSanguineo(Empleado);
                 Empleado.ListaCmbSucursal = EmleadoDatos.ObteneComboCatSucursal(Empleado);
                 Empleado.ListaCmbPuesto = EmleadoDatos.obtenerComboCatPuesto(Empleado);
                 Empleado.ListaCmbCategoriaPuesto = EmleadoDatos.ObteneComboCatCategoriaPuesto(Empleado);
-                Empleado = EmleadoDatos.ObtenerDetalleCatEmpleado(Empleado);
                 return View(Empleado);
             }
             catch (Exception)
@@ -192,12 +192,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
                 return View(DatosEmpleado);
             }
-        }
-
-        // GET: Admin/CatEmpleado/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
         }
 
         // POST: Admin/CatEmpleado/Delete/5

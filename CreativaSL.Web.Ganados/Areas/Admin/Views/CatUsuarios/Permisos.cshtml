@@ -122,7 +122,7 @@ else
             Mensaje(message, typemessage);
             $('.switch').on('change.bootstrapSwitch', function (e) {
                 var menuID = $(e.target).data('menuid');
-                $('form').find('input[type="checkbox"][data-parentID="' + menuID + '"]').each(function() {
+                $('form').find('input[type="checkbox"][data-parentID="' + menuID + '"]').each(function () {
                     $(this).prop('checked', e.target.checked).change()
                 });
             });

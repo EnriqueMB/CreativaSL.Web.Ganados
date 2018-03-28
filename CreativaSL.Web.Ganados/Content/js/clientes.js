@@ -86,6 +86,7 @@
     };
 
     var runCombos = function () {
+
         $('input').on('ifChanged', function (event) {
             $("#IDRegimenFiscal option").remove();
             var esPersonaFisica = $(this).prop('checked');
@@ -105,7 +106,7 @@
                     for (var i = 0; i < result.length; i++) {
                         $("#IDRegimenFiscal").append('<option value="' + result[i].Clave + '">' + result[i].Descripcion + '</option>');
                     }
-                    $('#IDRegimenFiscal.select').selectpicker('refresh');
+                    //$('#IDRegimenFiscal.select').selectpicker('refresh');
                 }
             });
 
