@@ -45,8 +45,8 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    datos.Opcion, datos.IDVehiculo, datos.IDSucursal,datos.IDTipoVehiculo,datos.IDMarca,datos.EsPropio,datos.Capacidad,datos.Modelo,datos.Color,datos.Placas,datos.Remolque,datos.NoSerie,datos.Estatus,
-                    datos.colorRemolque,datos.placaRemolque,datos.tarjetaCirculacion,datos.fechaIngreso,datos.Usuario
+                    datos.Opcion, datos.IDVehiculo, datos.IDSucursal,datos.IDTipoVehiculo,datos.IDMarca,datos.EsPropio,datos.Capacidad,datos.Modelo,datos.Color,datos.Placas,datos.NoSerie,
+                    datos.Estatus,datos.tarjetaCirculacion,datos.fechaIngreso,datos.Usuario
                 };
                 object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatVehiculo", parametros);
                 datos.IDVehiculo = Resultado.ToString();
@@ -112,11 +112,10 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Modelo = !dr.IsDBNull(dr.GetOrdinal("modelo")) ? dr.GetString(dr.GetOrdinal("modelo")) : string.Empty;
                     datos.Color = !dr.IsDBNull(dr.GetOrdinal("color")) ? dr.GetString(dr.GetOrdinal("color")) : string.Empty;
                     datos.Placas = !dr.IsDBNull(dr.GetOrdinal("placas")) ? dr.GetString(dr.GetOrdinal("placas")) : string.Empty;
-                    datos.Remolque = !dr.IsDBNull(dr.GetOrdinal("remolque")) ? dr.GetString(dr.GetOrdinal("remolque")) : string.Empty;
+                   
                     datos.NoSerie = !dr.IsDBNull(dr.GetOrdinal("noSerie")) ? dr.GetString(dr.GetOrdinal("noSerie")) : string.Empty;
                     datos.Estatus = !dr.IsDBNull(dr.GetOrdinal("estatus")) ? dr.GetBoolean(dr.GetOrdinal("estatus")) : false;
-                    datos.colorRemolque = !dr.IsDBNull(dr.GetOrdinal("colorRemolque")) ? dr.GetString(dr.GetOrdinal("colorRemolque")) : string.Empty;
-                    datos.placaRemolque = !dr.IsDBNull(dr.GetOrdinal("placaRemolque")) ? dr.GetString(dr.GetOrdinal("placaRemolque")) : string.Empty;
+                   
                     datos.tarjetaCirculacion = !dr.IsDBNull(dr.GetOrdinal("tarjetaCirculacion")) ? dr.GetString(dr.GetOrdinal("tarjetaCirculacion")) : string.Empty;
                     datos.fechaIngreso = !dr.IsDBNull(dr.GetOrdinal("fechaIngreso")) ? dr.GetDateTime(dr.GetOrdinal("fechaIngreso")) : DateTime.Now;
                    

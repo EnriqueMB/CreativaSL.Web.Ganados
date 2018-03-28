@@ -138,17 +138,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-6">
-                                <label class="col-md-12 control-label text-center">Remolque</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.Remolque, new { id = "Remolque", @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Remolque)
-                                    <span class="help-block">Ingrese el Remolque del vehículo</span>
-                                </div>
-                            </div>
+                          
                             <div class="col-md-6">
                                 <label class="col-md-12 control-label text-center">Número de serie</label>
                                 <div class="col-md-12 col-xs-12">
@@ -160,31 +150,18 @@
                                     <span class="help-block">Ingrese Color del vehículo</span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
                             <div class="col-md-6">
-                                <label class="col-md-12 control-label text-center">Placa de Remolque</label>
+                                <label class="col-md-12 control-label text-center">Propio</label>
                                 <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.placaRemolque, new { id = "placaRemolque", @class = "form-control" })
+                                    <div class="input-group text-center" style="margin: auto;padding: 5px;">
+
+                                        @Html.CheckBoxFor(model => model.EsPropio)
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.placaRemolque)
-                                    <span class="help-block">Ingrese la Placa de Remolque</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="col-md-12 control-label text-center">Color de Remolque</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                        @Html.TextBoxFor(model => model.colorRemolque, new { id = "colorRemolque", @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.colorRemolque)
-                                    <span class="help-block">Ingrese Color de Remolque</span>
+
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="form-group">
                             @*<div class="col-md-6">
                                 <label class="col-md-4 control-label"> ¿Disponible? (Estatus)</label>
@@ -197,16 +174,7 @@
 
                                 </div>
                             </div>*@
-                            <div class="col-md-6">
-                                <label class="col-md-12 control-label text-center">Propio</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group text-center" style="margin: auto;padding: 5px;">
-                                        
-                                        @Html.CheckBoxFor(model => model.EsPropio)
-                                    </div>
-
-                                </div>
-                            </div>
+                          
                         </div>
                     </div>
                     <div class="panel-footer">

@@ -269,9 +269,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 usuario.TablaPermisos = new DataTable();
                 usuario.TablaPermisos.Columns.Add("IDPermiso", typeof(string));
                 usuario.TablaPermisos.Columns.Add("Ver", typeof(bool));
+                usuario.TablaPermisos.Columns.Add("MenuID",typeof(int));
                 foreach (MenuModels Item in userID.ListaMenuPermisos)
                 {
-                    object[] data = { Item.IDPermiso, Item.ver };
+                    object[] data = { Item.IDPermiso, Item.ver,Item.MenuID };
                     usuario.TablaPermisos.Rows.Add(data);
                 }
                 if (UsuarioDatos.GuardarPermisos(usuario) == 1)
