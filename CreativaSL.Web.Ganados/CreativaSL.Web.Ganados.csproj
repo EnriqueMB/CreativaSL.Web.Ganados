@@ -971,7 +971,6 @@
     <Content Include="Areas\Admin\Views\CatTipoProveedor\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalPago.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalVale.cshtml" />
-    <Content Include="Areas\Admin\Views\CatEmpleado\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1001,6 +1000,7 @@
     <Compile Include="Areas\Admin\Controllers\CatChoferController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatClienteController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatEmpleadoController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatEmpresaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatFierroController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatJaulaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatLugarController.cs" />
@@ -1033,6 +1033,7 @@
     <Compile Include="Models\CatConceptoDetalleDocumentosModels.cs" />
     <Compile Include="Models\CatConceptoNominaModels.cs" />
     <Compile Include="Models\CatEmpleadoModels.cs" />
+    <Compile Include="Models\CatEmpresa.cs" />
     <Compile Include="Models\CatEstadoModels.cs" />
     <Compile Include="Models\CatFierroModels.cs" />
     <Compile Include="Models\CatGeneroModels.cs" />
