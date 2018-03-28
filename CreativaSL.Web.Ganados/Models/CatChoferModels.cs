@@ -58,7 +58,7 @@ namespace CreativaSL.Web.Ganados.Models
         private string _numLicencia;
         [Display(Name = "número licencia")]
         [StringLength(20, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s]*$", ErrorMessage = "Solo Letras y número")]
+        [Correo(ErrorMessage = "Solo Letras y número")]
         public string numLicencia
         {
             get { return _numLicencia; }

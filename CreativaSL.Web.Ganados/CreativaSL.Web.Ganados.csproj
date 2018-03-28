@@ -969,6 +969,7 @@
     <Content Include="Areas\Admin\Views\CatTipoProveedor\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatTipoProveedor\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatTipoProveedor\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\Details.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1120,6 +1121,7 @@
     <Compile Include="Models\Validaciones\RFCAttribute.cs" />
     <Compile Include="Models\Validaciones\TarjetaCreditoAttribute.cs" />
     <Compile Include="Models\Validaciones\TelefonoAttribute.cs" />
+    <Compile Include="Models\Validaciones\TestAttribute.cs" />
     <Compile Include="Models\Validaciones\TextoAttribute.cs" />
     <Compile Include="Models\VentaGanadoModels.cs" />
     <Compile Include="Models\VentaModels.cs" />
