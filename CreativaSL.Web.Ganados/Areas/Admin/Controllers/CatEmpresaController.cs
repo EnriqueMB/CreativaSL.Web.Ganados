@@ -1,17 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using CreativaSL.Web.Ganados.Models;
+using System.Configuration;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     public class CatEmpresaController : Controller
     {
+        private CatEmpresaModels Empresa;
+        private _CatEmpresa_Datos EmpresaDatos;
+        private string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
+
         // GET: Admin/CatEmpresa
         public ActionResult Index()
         {
-            return View();
+            Empresa = new CatEmpresaModels
+            {
+                Conexion = Conexion
+            };
+            EmpresaDatos = new _CatEmpresa_Datos();
+            Empresa.ListaEmpresas = EmpresaDatos.GetListadoEmpresas(Empresa);
+            return View(Empresa);
         }
 
         // GET: Admin/CatEmpresa/Details/5
