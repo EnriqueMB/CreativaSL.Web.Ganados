@@ -17,7 +17,7 @@ namespace CreativaSL.Web.Ganados.Models
             Conexion = string.Empty;
             Usuario = string.Empty;
             numArete = string.Empty;
-            ranchoCliente = false;
+            Repeso = true;
             genero = string.Empty;
         }
 
@@ -60,12 +60,12 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _numArete; }
             set { _numArete = value; }
         }
-        private bool _ranchoCliente;
+        private bool _repeso;
 
-        public bool ranchoCliente
+        public bool Repeso
         {
-            get { return _ranchoCliente; }
-            set { _ranchoCliente = value; }
+            get { return _repeso; }
+            set { _repeso = value; }
         }
         #region Datos De Control
         public string Conexion { get; set; }
