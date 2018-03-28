@@ -10,12 +10,12 @@
         <form class="form-horizontal">
             <div class="form-group">
                 <div class="col-md-6">
-                    <label class="col-md-3 control-label" for="numArete">Número de arete</label>
+                    <label class="col-md-2 control-label" for="numArete">Número de arete</label>
                     <div class="controls">
-                        <div class="col-md-9 col-xs-12">
+                        <div class="col-md-10 col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                @Html.TextBoxFor(model => model.Ganado.numArete, new { id = "numArete", @class = "form-control", disabled = "disabled" })
+                                @Html.TextBoxFor(model => model.Ganado.numArete, new { @class = "form-control" })
                             </div>
                             @Html.ValidationMessageFor(model => model.Ganado.numArete)
                             <span class="help-block">Número de arete.</span>
@@ -23,9 +23,9 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <label class="col-md-3 control-label" for="selectGenero">Género</label>
+                    <label class="col-md-2 control-label" for="selectGenero">Género</label>
                     <div class="controls">
-                        <div class="col-md-9 col-xs-12">
+                        <div class="col-md-10 col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                 <select class="form-control">
@@ -39,13 +39,13 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-md-5">
-                    <label class="col-md-3 control-label" for="PesoInicial">Peso inicial</label>
+                <div class="col-md-6">
+                    <label class="col-md-2 control-label" for="PesoInicial">Peso inicial</label>
                     <div class="controls">
                         <div class="col-md-9 col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                @Html.TextBoxFor(model => model.CompraGanado.PesoInicial, new { id = "PesoInicial", @class = "form-control" })
+                                @Html.TextBoxFor(model => model.CompraGanado.PesoInicial, new { @class = "form-control" })
                             </div>
                             @Html.ValidationMessageFor(model => model.CompraGanado.PesoInicial)
                             <span class="help-block">Ingrese el peso inicial.</span>
@@ -57,36 +57,36 @@
                     <div class="controls">
                         <div class="col-md-12 col-xs-12">
                             <div class="input-group">
-                                <label class="check">@Html.CheckBoxFor(modal => modal.Ganado.Repeso, new { @class= "icheckbox" }) checked="checked" /> ¿Repeso?</label>
-                                <span class="help-block">En caso que no lo hallan pesado en Grupo Ocampo</span>
+                                <label class="check">@Html.CheckBoxFor(modal => modal.Ganado.Repeso, new { @class = "" }) ¿Repeso?</label>
                             </div>
                         </div>
                     </div>
                 </div>
-                
 
-                <div id="pFinal" class="col-md-5">
-                    <label class="col-md-3 control-label" for="PesoFinal">Peso final</label>
-                    <div class="controls">
-                        <div class="col-md-9 col-xs-12">
-                            <div class="input-group">
-                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                @Html.TextBoxFor(model => model.CompraGanado.PesoFinal, new { id = "PesoFinal", @class = "form-control" })
+                <div class="col-md-4">
+                    <div class="Esconder">
+                        <label class="col-md-3 control-label" for="PesoFinal">Peso final</label>
+                        <div class="controls">
+                            <div class="col-md-9 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.CompraGanado.PesoFinal, new { @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.CompraGanado.PesoFinal)
+                                <span class="help-block">Ingrese el peso final.</span>
                             </div>
-                            @Html.ValidationMessageFor(model => model.CompraGanado.PesoFinal)
-                            <span class="help-block">Ingrese el peso final.</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-5">
+            <div class="form-group Esconder">
+                <div class="col-md-4">
                     <label class="col-md-3 control-label" for="DiferenciaPeso">Diferencia de peso</label>
                     <div class="controls">
                         <div class="col-md-9 col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                @Html.TextBoxFor(model => model.CompraGanado.DiferenciaPeso, new { id = "DiferenciaPeso", @class = "form-control" })
+                                @Html.TextBoxFor(model => model.CompraGanado.DiferenciaPeso, new { @class = "form-control" })
                             </div>
                             @Html.ValidationMessageFor(model => model.CompraGanado.PesoInicial)
                             <span class="help-block">Ingrese el peso inicial.</span>
@@ -94,128 +94,100 @@
                     </div>
                 </div>
 
-                <div class="col-md-2">
-                    <div class="controls">
-                        <div class="col-md-12 col-xs-12">
-                            <div class="input-group">
-                                <label class="check">@Html.CheckBoxFor(modal => modal.Ganado.Repeso, new { @class = "icheckbox" }) checked="checked" /> ¿Repeso?</label>
-                                <span class="help-block">En caso que no lo hallan pesado en Grupo Ocampo</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div id="pFinal" class="col-md-5">
-                    <label class="col-md-3 control-label" for="selectGenero">Peso final</label>
+                <div class="col-md-4">
+                    <label class="col-md-3 control-label" for="selectGenero">Merma permitida</label>
                     <div class="controls">
                         <div class="col-md-9 col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                @Html.TextBoxFor(model => model.CompraGanado.PesoFinal, new { id = "inputPesoFinal", @class = "form-control" })
+                                @Html.TextBoxFor(model => model.Sucursal.MermaPredeterminada, new { @class = "form-control" })
                             </div>
-                            @Html.ValidationMessageFor(model => model.CompraGanado.PesoFinal)
-                            <span class="help-block">Ingrese el peso final.</span>
+                            @Html.ValidationMessageFor(model => model.Sucursal.MermaPredeterminada)
+                            <span class="help-block">Merma permitida.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="col-md-3 control-label" for="selectGenero">Merma generada</label>
+                    <div class="controls">
+                        <div class="col-md-9 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                @Html.TextBoxFor(model => model.CompraGanado.Merma, new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CompraGanado.Merma)
+                            <span class="help-block">Merma obtenida.</span>
                         </div>
                     </div>
                 </div>
             </div>
-           
-            
-            
-            
-            
-            
-            
-             <div class="form-group">
+
+            <div class="form-group">
                 <div class="col-md-6">
-                    <label class="col-md-3 control-label" for="DifPeso">Dif. de peso </label>
+                    <label class="col-md-2 control-label" for="DiferenciaPeso">Peso pagado</label>
                     <div class="controls">
-                        <div class="col-md-9 col-xs-12">
+                        <div class="col-md-10 col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                @Html.TextBoxFor(model => model.Ganado.numArete, new { id = "NumArete", @class = "form-control", disabled = "disabled" })
+                                @Html.TextBoxFor(model => model.CompraGanado.PesoPagado, new { @class = "form-control" })
                             </div>
-                            @Html.ValidationMessageFor(model => model.Ganado.numArete)
-                            <span class="help-block">Número de arete.</span>
+                            @Html.ValidationMessageFor(model => model.CompraGanado.PesoPagado)
+                            <span class="help-block">Ingrese el peso inicial.</span>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-6">
-                    <label class="col-md-3 control-label" for="selectGenero">Género</label>
+                    <label class="col-md-2 control-label" for="selectGenero">Peso sugerido</label>
                     <div class="controls">
-                        <div class="col-md-9 col-xs-12">
+                        <div class="col-md-10 col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                <select class="form-control">
-                                    <option value="MACHO" selected>MACHO</option>
-                                    <option value="HEMBRA">HEMBRA</option>
-                                </select>
+                                @Html.TextBoxFor(model => model.CompraGanado.PesoSugerido, new { @class = "form-control" })
                             </div>
-                            <span class="help-block">Seleccione el género del ganado.</span>
+                            @Html.ValidationMessageFor(model => model.CompraGanado.PesoSugerido)
+                            <span class="help-block">Merma obtenida.</span>
                         </div>
-                    </div>
-                </div>
-            </div>
-            
-            
-            
-             <div class="form-group">
-                <label class="col-md-3 control-label" for="inputDifPeso">Diferencia de Peso (kg.)</label>
-                <div class="controls">
-                    <div class="col-md-9 col-xs-12">
-                        <div class="input-group">
-                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                            @Html.TextBoxFor(model => model.CompraGanado.DiferenciaPeso, new { id = "inputDifPeso", @class = "form-control"})
-                        </div>
-                        @Html.ValidationMessageFor(model => model.CompraGanado.DiferenciaPeso)
-                        <span class="help-block">Diferencia de Peso (kg.).</span>
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-md-3 control-label" for="inputMermaObtenida">Merma obtenida</label>
-                <div class="controls">
-                    <div class="col-md-9 col-xs-12">
-                        <div class="input-group">
-                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                            @Html.TextBoxFor(model => model.CompraGanado.Merma, new { id = "inputMermaObtenida", @class = "form-control", @Value = "0", disabled = "disabled" })
+                <div class="col-md-6">
+                    <label class="col-md-2 control-label" for="DiferenciaPeso">Precio por kilo</label>
+                    <div class="controls">
+                        <div class="col-md-10 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                @Html.TextBoxFor(model => model.CompraGanado.PrecioKilo, new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CompraGanado.PrecioKilo)
+                            <span class="help-block">Precio por kilo.</span>
                         </div>
-                        @Html.ValidationMessageFor(model => model.CompraGanado.Merma)
-                        <span class="help-block">Merma Obtenida.</span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="col-md-2 control-label" for="selectGenero">Precio sugerido</label>
+                    <div class="controls">
+                        <div class="col-md-10 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                @Html.TextBoxFor(model => model.CompraGanado.PrecioSugeridoXkilo, new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CompraGanado.PrecioSugeridoXkilo)
+                            <span class="help-block">Precio sugerido por kilo.</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-md-3 control-label" for="inputPrecioSugeridoPorPeso">Precio sugerido por kilo</label>
-                <div class="controls">
-                    <div class="col-md-9 col-xs-12">
-                        <div class="input-group">
-                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                            @Html.TextBoxFor(model => model.CompraGanado.PesoPagado, new { id = "inputPrecioSugeridoPorPeso", @class = "form-control", @Value = "0", disabled = "disabled" })
-                        </div>
-                        @Html.ValidationMessageFor(model => model.CompraGanado.PesoPagado)
-                        <span class="help-block">Precio sugerido.</span>
-                    </div>
-                </div>
-            </div>
 
-            <div class="form-group">
-                <label class="col-md-3 control-label" for="inputPrecioPagadoPorKilo">Precio pagado por kilo</label>
-                <div class="controls">
 
-                    <div class="col-md-9 col-xs-12">
-                        <div class="input-group">
-                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                            @Html.TextBoxFor(model => model.CompraGanado.PrecioKilo, new { id = "inputPrecioPagadoPorKilo", @class = "form-control", disabled = "disabled" })
-                        </div>
-                        @Html.ValidationMessageFor(model => model.CompraGanado.PrecioKilo)
-                        <span class="help-block">Precio pagado por kilo.</span>
-                    </div>
-                </div>
-            </div>
+
+
+
 
             <div class="form-group modal-footer">
                 <div class="controls">
