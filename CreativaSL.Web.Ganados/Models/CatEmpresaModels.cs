@@ -1,8 +1,10 @@
 ﻿using CreativaSL.Web.Ganados.Models.Validaciones;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -10,7 +12,6 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CatEmpresaModels
     {
-        [Required]
         public string IDEmpresa { get; set; }
 
         [Required]
@@ -24,7 +25,8 @@ namespace CreativaSL.Web.Ganados.Models
         public string DireccionFiscal { get; set; }
 
         [Required]
-        [RFCAttribute]
+        [DisplayName("RFC")]
+        [RFC(ErrorMessage = "Ingrese un RFC válido")]
         [StringLength(15, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 10)]
         public string RFC { get; set; }
 
@@ -40,8 +42,9 @@ namespace CreativaSL.Web.Ganados.Models
         [StringLength(50, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 5)]
         public string Email { get; set; }
 
-        [Required]
+        
         [DisplayName("logo de la empresa")]
+        public HttpPostedFileBase LogoEmpresaHttp { get; set; }
         public string LogoEmpresa { get; set; }
 
         [DisplayName("horario de atención")]
@@ -52,12 +55,16 @@ namespace CreativaSL.Web.Ganados.Models
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 10)]
         public string Representante { get; set; }
 
-        [Required]
+        
         [DisplayName("logo del RFC")]
+        public HttpPostedFileBase LogoRFCHttp { get; set; }
         public string LogoRFC { get; set; }
 
         public string Conexion { get; set; }
         public List<CatEmpresaModels> ListaEmpresas { get; set; }
+        public string IDUsuario { get; set; }
+        public string MensajeJson { get; set; }
+        public bool Error { get; set; }
 
         public CatEmpresaModels()
         {
@@ -74,6 +81,35 @@ namespace CreativaSL.Web.Ganados.Models
             LogoRFC = string.Empty;
             ListaEmpresas = new List<CatEmpresaModels>();
             Conexion = string.Empty;
+            IDUsuario = string.Empty;
+            Error = true;
+            MensajeJson = "Ha ocurrido un error";
+        }
+
+        public string ImageToBase64(HttpPostedFileBase Image)
+        {
+            var fileContent = Image;
+            string Base64 = null;
+            if (fileContent != null && fileContent.ContentLength > 0)
+            {
+                //Obtengo el stream
+                var stream = fileContent.InputStream;
+                //Genero un array de bytes
+                byte[] fileData = null;
+                using (var binaryReader = new BinaryReader(stream))
+                {
+                    fileData = binaryReader.ReadBytes(fileContent.ContentLength);
+                }
+                //Realizo la convercion a base 64
+                Base64 = Convert.ToBase64String(fileData);
+            }
+            return Base64;
+        }
+        public string GenerarMensajeJson()
+        {
+            string MsjPrederterminado = "{\"Mensaje\" : \"" + MensajeJson + "\" , \"Error\": \" " + Error + "\"}";
+            JObject json = JObject.Parse(MsjPrederterminado);
+            return json.ToString();
         }
     }
 }

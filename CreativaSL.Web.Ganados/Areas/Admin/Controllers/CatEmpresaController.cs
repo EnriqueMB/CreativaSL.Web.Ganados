@@ -1,6 +1,10 @@
 ﻿using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Models;
 using System.Configuration;
+using System.IO;
+using System;
+using System.Net;
+using System.Web;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -28,70 +32,59 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return View();
         }
 
-        // GET: Admin/CatEmpresa/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Admin/CatEmpresa/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         // GET: Admin/CatEmpresa/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Admin/CatEmpresa/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(string id)
         {
             try
             {
-                // TODO: Add update logic here
+                Empresa = new CatEmpresaModels
+                {
+                    Conexion = Conexion,
+                    IDEmpresa = id
+                };
+                EmpresaDatos = new _CatEmpresa_Datos();
+                Empresa = EmpresaDatos.GetEmpresaXID(Empresa);
 
-                return RedirectToAction("Index");
+                return View(Empresa);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+
+                throw ex;
             }
         }
-
-        // GET: Admin/CatEmpresa/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Admin/CatEmpresa/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Edit(CatEmpresaModels Empresa)
         {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    EmpresaDatos = new _CatEmpresa_Datos();
+                    Empresa.LogoRFC = Empresa.ImageToBase64(Empresa.LogoRFCHttp);
+                    Empresa.LogoEmpresa = Empresa.ImageToBase64(Empresa.LogoEmpresaHttp);
+                    Empresa.Conexion = Conexion;
+                    Empresa = EmpresaDatos.UpdateEmpresaXID(Empresa);
+                    return Json(new { success = true, responseText = Empresa.MensajeJson, error = Empresa.Error }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    Empresa.MensajeJson = "Verifique su formulario.";
+                    return Content(Empresa.GenerarMensajeJson(), "application/json");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                Empresa.MensajeJson = ex.ToString();
+                return Content(Empresa.GenerarMensajeJson(), "application/json");
             }
+        }
+
+        public ContentResult SaveEmpresa(CatEmpresaModels Empresa)
+        {
+                return Content(Empresa.GenerarMensajeJson(), "application/json");
+
         }
     }
 }

@@ -44,7 +44,7 @@
                                     <th>Representante</th>
                                     <th>Número Telefónico</th>
                                     <th>Email</th>
-                                    <th>Horario Atención</th>
+                                    <th>Horario de Atención</th>
                                     <th>Acción</th>
                                 </tr>
                             </thead>
@@ -58,6 +58,8 @@
                                         <td>@Empresa.RFC</td>
                                         <td>@Empresa.Representante</td>
                                         <td>@(Empresa.NumTelefonico1 + " y " + Empresa.NumTelefonico2 )</td>
+                                        <td>@Empresa.Email</td>
+                                        <td>@Empresa.HorarioAtencion</td>
                                         <td style="text-align:center;">
                                             <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatEmpresa", new { id = Empresa.IDEmpresa })"><i class="fa fa-edit"></i></a>
                                         </td>
