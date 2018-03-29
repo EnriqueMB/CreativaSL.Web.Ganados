@@ -83,7 +83,7 @@ namespace CreativaSL.Web.Ganados.Models
        
         [Display(Name = "Placas")]
         [StringLength(10, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9]*$", ErrorMessage = "Solo Letras y números")]
+        [Placas(ErrorMessage = "Solo Letras, números y guiones ")]
         public string placa
         {
             get { return _placa; }

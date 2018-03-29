@@ -33,6 +33,7 @@
                 Telefono: { telefono: true },
                 DirCalle: { direccion: true, maxlength: 90 },
                 DirColonia: { direccion: true, maxlength: 90 }
+
             },
             messages: {
                 Nombre: { required: "Ingrese el nombre del empleado.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 70 caracteres." },

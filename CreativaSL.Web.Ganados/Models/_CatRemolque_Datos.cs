@@ -100,6 +100,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.placa = dr["placa"].ToString();
                     item.color = dr["color"].ToString();
                     item.nombreSucursal = dr["nombreSuc"].ToString();
+                    item.capacidad = dr["capacidad"].ToString();
                     item.Estatus = Convert.ToBoolean(dr["estatus"].ToString());
                    
                     lista.Add(item);
