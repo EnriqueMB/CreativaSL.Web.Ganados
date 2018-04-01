@@ -1,4 +1,5 @@
 ﻿@model CreativaSL.Web.Ganados.Models.CatEmpresaModels
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -34,39 +35,41 @@
                         </ul>
                     </div>
                     <div class="panel-body">
-                        <table class="table datatable">
-                            <thead>
-                                <tr>
-                                    <th>Logo</th>
-                                    <th>Razón Fiscal</th>
-                                    <th>Dirección Fiscal</th>
-                                    <th>RFC</th>
-                                    <th>Representante</th>
-                                    <th>Número Telefónico</th>
-                                    <th>Email</th>
-                                    <th>Horario de Atención</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var Empresa in Model.ListaEmpresas)
-                                {
+                        <div class="table-responsive">
+                            <table id="tblIndexEmpresa" class="table">
+                                <thead>
                                     <tr>
-                                        <td>'<img class="" src="data:image/png;base64, @Empresa.LogoEmpresa" />'</td>
-                                        <td>@Empresa.RazonFiscal</td>
-                                        <td>@Empresa.DireccionFiscal</td>
-                                        <td>@Empresa.RFC</td>
-                                        <td>@Empresa.Representante</td>
-                                        <td>@(Empresa.NumTelefonico1 + " y " + Empresa.NumTelefonico2 )</td>
-                                        <td>@Empresa.Email</td>
-                                        <td>@Empresa.HorarioAtencion</td>
-                                        <td style="text-align:center;">
-                                            <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatEmpresa", new { id = Empresa.IDEmpresa })"><i class="fa fa-edit"></i></a>
-                                        </td>
+                                        <th>Logo</th>
+                                        <th>Razón Fiscal</th>
+                                        <th>Dirección Fiscal</th>
+                                        <th>RFC</th>
+                                        <th>Representante</th>
+                                        <th>Número Telefónico</th>
+                                        <th>Email</th>
+                                        <th>Horario de Atención</th>
+                                        <th>Acción</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach (var Empresa in Model.ListaEmpresas)
+            {
+                        <tr>
+                            <td><img class="" style="width: 100px; height: 100px; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Empresa.LogoEmpresa" /></td>
+                            <td>@Empresa.RazonFiscal</td>
+                            <td>@Empresa.DireccionFiscal</td>
+                            <td>@Empresa.RFC</td>
+                            <td>@Empresa.Representante</td>
+                            <td>@(Empresa.NumTelefonico1 + " y " + Empresa.NumTelefonico2 )</td>
+                            <td>@Empresa.Email</td>
+                            <td>@Empresa.HorarioAtencion</td>
+                            <td style="text-align:center;">
+                                <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatEmpresa", new { id = Empresa.IDEmpresa })"><i class="fa fa-edit"></i></a>
+                            </td>
+                        </tr>
+}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <!-- END DEFAULT DATATABLE -->
@@ -74,7 +77,7 @@
         </div>
     </div>
     <!-- PAGE CONTENT WRAPPER -->
-    
+
     <script>
     var message = '@message';
     var typemessage = '@typemessage';
@@ -88,7 +91,29 @@
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
+
+        $("#tblIndexEmpresa").dataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+            "columns": [
+                { "width": "10%" },
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            ],
+            responsive: true
         });
+        $(".tblIndexEmpresa").on('page.dt', function () {
+            onresize(100);
+        });
+
+    });
     </script>
 }
 

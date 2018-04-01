@@ -11,6 +11,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/validator.css")" rel="stylesheet" />
 }
 @section featured{
 
@@ -25,154 +26,231 @@
         <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
             <h3></h3>
         </div>
-        <div class="col-md-12">
-            @using (Html.BeginForm( new { id="frmEditEmpresa", @class = "form-horizontal", autocomplete = "off", @enctype = "multipart/form-data" }))
-            {
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
+        <!--INICIA TABS-->
+        <div class="panel panel-default tabs">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active" role="presentation"><a href="#generales" aria-controls="generales" role="tab" data-toggle="tab">Generales</a></li>
+                <li role="presentation"><a href="#cuentasBancos" aria-controls="cuentasBancos" role="tab" data-toggle="tab">Cuentas de bancos</a></li>
+            </ul>
 
-                @Html.HiddenFor(model => model.IDEmpresa)
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Información</strong> Empresa</h3>
-                        <ul class="panel-controls">
-                        </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="generales">
+                    <div class="col-md-12">
+                        @using (Html.BeginForm("SaveEmpresa", "CatEmpresa", FormMethod.Post, new { id = "frmEditEmpresa", @class = "form-horizontal", autocomplete = "off", @enctype = "multipart/form-data" }))
+    {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+
+                    @Html.HiddenFor(model => model.IDEmpresa)
+                    @Html.HiddenFor(model => model.ImagBDEmpresa)
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><strong>Información</strong> Empresa</h3>
+                            <ul class="panel-controls"></ul>
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.ValidationSummary(false, "Errores: ")
+                                </div>
+                              
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <label class="col-md-3 control-label">Nombre Razón Social</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.RazonFiscal, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.RazonFiscal)
+                                        <span class="help-block">Ingrese el nombre de razón fiscal</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="col-md-3 control-label">R.F.C.</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.RFC, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.RFC)
+                                        <span class="help-block">Ingrese el R.F.C.</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <label class="col-md-3 control-label">Representante</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Representante, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Representante)
+                                        <span class="help-block">Ingrese el nombre del representante de la empresa</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="col-md-3 control-label">Horario de atención</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.HorarioAtencion, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.HorarioAtencion)
+                                        <span class="help-block">Ingrese el horario de atención</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <label class="col-md-3 control-label">Dirección fiscal</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.DireccionFiscal, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.DireccionFiscal)
+                                        <span class="help-block">Ingrese la dirección fiscal</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="col-md-3 control-label">Correo electrónico</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Email)
+                                        <span class="help-block">Ingrese el correo electrónico</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <label class="col-md-3 control-label text-center">Teléfono núm. 1</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.NumTelefonico1, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.NumTelefonico1)
+                                        <span class="help-block">Ingrese el número teléfono 1 </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="col-md-3 control-label text-center">Teléfono núm. 2</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.NumTelefonico2, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.NumTelefonico2)
+                                        <span class="help-block">Ingrese el número teléfono 2</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <label class="col-md-3 control-label">Ingrese logo de la empresa</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.LogoEmpresaHttp, new { id = "fileLogoEmpresa", name = "fileLogoEmpresa[]", @type = "file", @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.LogoEmpresaHttp, "", new { @class = "text-danger" })
+                                        <span class="help-block">Ingrese por lo menos 1 imagen.</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="col-md-3 control-label">Ingrese imagen del RFC</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.LogoRFCHttp, new { id = "fileLogoRFC", name = "fileLogoRFC[]", @type = "file", @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.LogoRFCHttp)
+                                        <span class="help-block">Ingrese por lo menos 1 imagen.</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="panel-footer">
+                            <input type="submit" id="btnAjax" value="Guardar" class="btn btn-primary pull-right">
+                            <a href="@Url.Action("Index","CatEmpresa")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                        </div>
                     </div>
-                    <div class="panel-body">
-
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <label class="col-md-3 control-label">Nombre Razón Social</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.RazonFiscal, new { @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.RazonFiscal)
-                                    <span class="help-block">Ingrese el nombre de razón fiscal</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="col-md-3 control-label">RFC</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.RFC, new {@class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.RFC)
-                                    <span class="help-block">Ingrese el RFC</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <label class="col-md-3 control-label">Representante</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.Representante, new { @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Representante)
-                                    <span class="help-block">Ingrese el nombre del representante de la empresa</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="col-md-3 control-label">Horario de atención</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.HorarioAtencion, new { @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.HorarioAtencion)
-                                    <span class="help-block">Ingrese el horario de atención</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <label class="col-md-3 control-label">Dirección fiscal</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.DireccionFiscal, new { @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.DireccionFiscal)
-                                    <span class="help-block">Ingrese la dirección fiscal</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="col-md-3 control-label">Correo electrónico</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Email)
-                                    <span class="help-block">Ingrese el correo electrónico</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <label class="col-md-3 control-label text-center">Teléfono núm. 1</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.NumTelefonico1, new { @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.NumTelefonico1)
-                                    <span class="help-block">Ingrese el número teléfono 1 </span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="col-md-3 control-label text-center">Teléfono núm. 2</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.NumTelefonico2, new { @class = "mask_phone form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.NumTelefonico2)
-                                    <span class="help-block">Ingrese el número teléfono 2</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <label class="col-md-3 control-label">Ingrese logo de la empresa</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.LogoEmpresaHttp, new { id = "fileLogoEmpresa", name = "fileLogoEmpresa[]", @type = "file", @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.LogoEmpresaHttp)
-                                    <span class="help-block">Ingrese por lo menos 1 imagen.</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="col-md-3 control-label">Ingrese imagen del RFC</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.LogoRFCHttp, new { id = "fileLogoRFC", name = "fileLogoRFC[]", @type = "file", @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.LogoRFCHttp)
-                                    <span class="help-block">Ingrese por lo menos 1 imagen.</span>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="panel-footer">
-                        <input type="button" id="btnAjax" value="Guardar" class="btn btn-primary pull-right">
-                        <a href="@Url.Action("Index","CatEmpresa")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+}
                     </div>
                 </div>
-                @*</form>*@
-            }
+                <div role="tabpanel" class="tab-pane" id="cuentasBancos">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Información de las <strong>Cuentas bancarias</strong></h3>
+                                <ul class="panel-controls">
+                                    <li><a href="#" class="btn btn-default btnCrear" id="btnCrearCuentaBancaria"><span class="fa fa-plus"></span> Nueva cuenta</a></li>
+                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="TblCuentasBancarias" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Imagen del Banco</th>
+                                                <th>Nombre del banco</th>
+                                                <th>Titular de la cuenta</th>
+                                                <th>Número de tarjeta</th>
+                                                <th>Número de cuenta</th>
+                                                <th>Clabe interbancaria</th>
+                                                <th>Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--TERMINA TABS-->
+        <!--INICIA SECCION MODALES-->
+        <div id="ModalCuentasBancaria" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
+            <div class="modal-dialog modal-lg" id="ContenidoModalCuentasBancaria">
+
+            </div>
+        </div>
+        <!--TERMINA SECCION MODALES-->
+    </div>
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres eliminar esta cuenta bancaria?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script>
@@ -181,10 +259,13 @@
     </script>
 }
 @section script{
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
-    <script src="@Url.Content("~/Content/js/plugins/uploadFiles/fa/theme.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")" type="text/javascript"></script>
 
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
@@ -195,57 +276,42 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <!--FUNCIONES DE EMPRESA JS-->
     <script type="text/javascript" src="@Url.Content("~/Content/js/empresa.js")"></script>
+    <!--DATATABLE JS-->
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
 
+    <script>
+        $.validator.unobtrusive.adapters.addSingleVal("validateimg", "imgserver");
+        $.validator.addMethod("validateimg", function (value, element, exclude) {
+            console.log(value);
+            console.log(exclude);
+            if (value == '' && exclude == false) {
+                console.log("entro if false");
+                return true;
+            }
+            else {
+                console.log("entro if true");
+                return false;
+            }
+
+            //if (value) {
+            //    //for (var i = 0; i < exclude.length; i++) {
+            //    //    if (jQuery.inArray(exclude[i], value) != -1) {
+            //    //        return false;
+            //    //    }
+            //    //}
+            //}
+            return true;
+        }); 
+    </script>
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
+            var logoRFC = "@Model.LogoRFC";
+            var logoEmpresa = "@Model.LogoEmpresa";
+            var IDEmpresa = "@Model.IDEmpresa";
+
+            Empresa.init(logoRFC, logoEmpresa, IDEmpresa);
         });
-
-        $('#fileLogoEmpresa').fileinput({
-            theme: 'fa',
-            language: 'es',
-            minFileCount: 1,
-            showUpload: false,
-            showRemove: false,
-            showClose: false,
-
-            layoutTemplates: { actionDelete: '' }, // disable thumbnail deletion
-            required: true,
-            validateInitialCount: true,
-            overwriteInitial: false,
-            initialPreviewAsData: false,
-
-            allowedFileExtensions: ['png'],
-            initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.LogoEmpresa" />'
-            ],
-            initialPreviewConfig: [
-           { caption: 'Logo de la empresa'}
-        ],
-        })
-        $('#fileLogoRFC').fileinput({
-            theme: 'fa',
-            language: 'es',
-            minFileCount: 1,
-            showUpload: false,
-            showRemove: false,
-            showClose: false,
-
-            layoutTemplates: { actionDelete: '' }, // disable thumbnail deletion
-            required: true,
-            validateInitialCount: true,
-            overwriteInitial: false,
-            initialPreviewAsData: false,
-
-            allowedFileExtensions: ['png'],
-            initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.LogoRFC" />'
-            ],
-            initialPreviewConfig: [
-                { caption: 'Imagen del R.F.C.'}
-            ]
-        })
-
     </script>
 }
 

@@ -15,7 +15,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 CatEmpresaModels ItemEmpresa;
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Empresa.Conexion, "spCSLDB_EMPRESA_GetListadoEmpresas");
+                dr = SqlHelper.ExecuteReader(Empresa.Conexion, "spCSLDB_EMPRESA_get_CatEmpresas");
                 while (dr.Read())
                 {
                     ItemEmpresa = new CatEmpresaModels
@@ -31,7 +31,8 @@ namespace CreativaSL.Web.Ganados.Models
                         Email = !dr.IsDBNull(dr.GetOrdinal("email")) ? dr.GetString(dr.GetOrdinal("email")) : string.Empty,
                         HorarioAtencion = !dr.IsDBNull(dr.GetOrdinal("horarioAtencion")) ? dr.GetString(dr.GetOrdinal("horarioAtencion")) : string.Empty
                     };
-                    
+                    ItemEmpresa.LogoEmpresa = ItemEmpresa.ValidarStringImage(ItemEmpresa.LogoEmpresa);
+
                     Empresa.ListaEmpresas.Add(ItemEmpresa);
                 }
                 return Empresa.ListaEmpresas;
@@ -52,7 +53,7 @@ namespace CreativaSL.Web.Ganados.Models
                 };
 
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Empresa.Conexion, "spCSLDB_EMPRESA_GetEmpresasXID", parametros);
+                dr = SqlHelper.ExecuteReader(Empresa.Conexion, "spCSLDB_EMPRESA_Get_CatEmpresasXID", parametros);
                 while (dr.Read())
                 {
                     Empresa.LogoEmpresa = !dr.IsDBNull(dr.GetOrdinal("logoEmpresa")) ? dr.GetString(dr.GetOrdinal("logoEmpresa")) : string.Empty;
@@ -65,7 +66,15 @@ namespace CreativaSL.Web.Ganados.Models
                     Empresa.NumTelefonico2 = !dr.IsDBNull(dr.GetOrdinal("numTelefonico2")) ? dr.GetString(dr.GetOrdinal("numTelefonico2")) : string.Empty;
                     Empresa.Email = !dr.IsDBNull(dr.GetOrdinal("email")) ? dr.GetString(dr.GetOrdinal("email")) : string.Empty;
                     Empresa.HorarioAtencion = !dr.IsDBNull(dr.GetOrdinal("horarioAtencion")) ? dr.GetString(dr.GetOrdinal("horarioAtencion")) : string.Empty;
-               }
+                    Empresa.LogoEmpresaHttp = null;
+
+                    //No hay img en BD
+                    Empresa.ImagBDEmpresa = (string.IsNullOrWhiteSpace(Empresa.LogoEmpresa)) ? false : true;
+
+
+                    Empresa.LogoEmpresa = Empresa.ValidarStringImage(Empresa.LogoEmpresa);
+                    Empresa.LogoRFC = Empresa.ValidarStringImage(Empresa.LogoRFC);
+                }
                 return Empresa;
             }
             catch (Exception ex)
@@ -94,12 +103,146 @@ namespace CreativaSL.Web.Ganados.Models
                     Empresa.IDUsuario//,@id_usuario CHAR(36)
                 };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Empresa.Conexion, "spCSLDB_EMPRESA_UpdateEmpresaXID", parametros);
-                
+                dr = SqlHelper.ExecuteReader(Empresa.Conexion, "spCSLDB_EMPRESA_a_CatEmpresaXID", parametros);
+
                 while (dr.Read())
                 {
-                    Empresa.MensajeJson = !dr.IsDBNull(dr.GetOrdinal("Mensaje")) ? dr.GetString(dr.GetOrdinal("Mensaje")) : string.Empty;
-                    Empresa.Error       = !dr.IsDBNull(dr.GetOrdinal("Error")) ? dr.GetBoolean(dr.GetOrdinal("Error")) : true;
+                    Empresa.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Empresa.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                return Empresa;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string GetCuentasBancarias(CatEmpresaModels Empresa)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Empresa.IDEmpresa
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Empresa.Conexion, "spCSLDB_EMPRESA_get_CuentasBancarias", parametros);
+                string jsonDr = Auxiliar.DatasetToJson(dr);
+                return jsonDr;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CatEmpresaModels GetDatosBancariosXID(CatEmpresaModels Empresa)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Empresa.CuentaBancaria.IDDatosBancarios
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Empresa.Conexion, "spCSLDB_EMPRESA_get_CuentaBancariaXID", parametros);
+
+                while (dr.Read())
+                {
+                    Empresa.Banco.IDBanco = !dr.IsDBNull(dr.GetOrdinal("id_banco")) ? dr.GetInt32(dr.GetOrdinal("id_banco")) : 0;
+                    Empresa.Banco.Imagen = !dr.IsDBNull(dr.GetOrdinal("ImgBanco")) ? dr.GetString(dr.GetOrdinal("ImgBanco")) : string.Empty;
+                    Empresa.Banco.Imagen = Empresa.ValidarStringImage(Empresa.Banco.Imagen);
+                    Empresa.Banco.Descripcion = !dr.IsDBNull(dr.GetOrdinal("NomBanco")) ? dr.GetString(dr.GetOrdinal("NomBanco")) : string.Empty;
+                    Empresa.CuentaBancaria.Titular = !dr.IsDBNull(dr.GetOrdinal("Titular")) ? dr.GetString(dr.GetOrdinal("Titular")) : string.Empty;
+                    Empresa.CuentaBancaria.NumTarjeta = !dr.IsDBNull(dr.GetOrdinal("NumTarjeta")) ? dr.GetString(dr.GetOrdinal("NumTarjeta")) : string.Empty;
+                    Empresa.CuentaBancaria.NumCuenta = !dr.IsDBNull(dr.GetOrdinal("NumCuenta")) ? dr.GetString(dr.GetOrdinal("NumCuenta")) : string.Empty;
+                    Empresa.CuentaBancaria.Clabe = !dr.IsDBNull(dr.GetOrdinal("ClabeInter")) ? dr.GetString(dr.GetOrdinal("ClabeInter")) : string.Empty;
+                }
+                return Empresa;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CatBancoModels> GetListaBancos(CatEmpresaModels Empresa)
+        {
+            try
+            {
+                CatBancoModels Banco;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Empresa.Conexion, "spCSLDB_EMPRESA_get_CatBancos");
+
+                while (dr.Read())
+                {
+                    Banco = new CatBancoModels
+                    {
+                        IDBanco = !dr.IsDBNull(dr.GetOrdinal("id_banco")) ? dr.GetInt32(dr.GetOrdinal("id_banco")) : 0,
+                        Imagen = !dr.IsDBNull(dr.GetOrdinal("ImgBanco")) ? dr.GetString(dr.GetOrdinal("ImgBanco")) : string.Empty,
+                        Descripcion = !dr.IsDBNull(dr.GetOrdinal("NomBanco")) ? dr.GetString(dr.GetOrdinal("NomBanco")) : string.Empty
+                    };
+                    Banco.Imagen = Empresa.ValidarStringImage(Empresa.Banco.Imagen);
+                    Empresa.ListaBancos.Add(Banco);
+                }
+                return Empresa.ListaBancos;
+            }                
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CatEmpresaModels InsertUpdateCuentaBancaria(CatEmpresaModels Empresa)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Empresa.CuentaBancaria.IDDatosBancarios,
+                    Empresa.CuentaBancaria.IDCliente,
+                    Empresa.Banco.IDBanco,
+                    Empresa.CuentaBancaria.Titular,
+                    Empresa.CuentaBancaria.NumTarjeta,
+                    Empresa.CuentaBancaria.NumCuenta,
+                    Empresa.CuentaBancaria.Clabe,
+                    Empresa.IDUsuario
+                };
+                SqlDataReader dr = null;
+
+                dr = SqlHelper.ExecuteReader(Empresa.Conexion, "spCSLDB_EMPRESA_ac_CuentaBancaria", parametros);
+
+                while (dr.Read())
+                {
+                    Empresa.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Empresa.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                return Empresa;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CatEmpresaModels DeleteCuentaBancaria(CatEmpresaModels Empresa)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Empresa.CuentaBancaria.IDDatosBancarios,
+                    Empresa.IDUsuario
+                };
+                SqlDataReader dr = null;
+
+                dr = SqlHelper.ExecuteReader(Empresa.Conexion, "spCSLDB_EMPRESA_del_CuentaBancaria", parametros);
+
+                while (dr.Read())
+                {
+                    Empresa.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Empresa.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                 }
                 return Empresa;
             }

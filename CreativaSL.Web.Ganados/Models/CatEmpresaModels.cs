@@ -16,7 +16,7 @@ namespace CreativaSL.Web.Ganados.Models
 
         [Required]
         [DisplayName("razón fiscal")]
-        [StringLength(150, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 10)]
+        [StringLength(150, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 5)]
         public string RazonFiscal { get; set; }
 
         [Required]
@@ -25,27 +25,24 @@ namespace CreativaSL.Web.Ganados.Models
         public string DireccionFiscal { get; set; }
 
         [Required]
-        [DisplayName("RFC")]
+        [DisplayName("R.F.C.")]
         [RFC(ErrorMessage = "Ingrese un RFC válido")]
         [StringLength(15, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 10)]
         public string RFC { get; set; }
 
         [Required]
         [DisplayName("número telefonico 1")]
+        [StringLength(15, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 7)]
         public string NumTelefonico1 { get; set; }
 
-        [DisplayName("número telefonico 2")]
+        //[DisplayName("número telefonico 2")]
+        //[StringLength(15)]
         public string NumTelefonico2 { get; set; }
 
         [DataType(DataType.EmailAddress)]
         [EmailAddress]
         [StringLength(50, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 5)]
         public string Email { get; set; }
-
-        
-        [DisplayName("logo de la empresa")]
-        public HttpPostedFileBase LogoEmpresaHttp { get; set; }
-        public string LogoEmpresa { get; set; }
 
         [DisplayName("horario de atención")]
         [StringLength(150, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 5)]
@@ -55,20 +52,35 @@ namespace CreativaSL.Web.Ganados.Models
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 10)]
         public string Representante { get; set; }
 
-        
+        //IMAGENES
         [DisplayName("logo del RFC")]
         public HttpPostedFileBase LogoRFCHttp { get; set; }
         public string LogoRFC { get; set; }
 
+
+        [InputFile]
+        [DisplayName("logo de la empresa")]
+        public HttpPostedFileBase LogoEmpresaHttp { get; set; }
+        public string LogoEmpresa { get; set; }
+
+        public bool ImagBDEmpresa { get; set; }
+        //
+
         public string Conexion { get; set; }
-        public List<CatEmpresaModels> ListaEmpresas { get; set; }
         public string IDUsuario { get; set; }
-        public string MensajeJson { get; set; }
-        public bool Error { get; set; }
+
+        public RespuestaAjax  RespuestaAjax { get; set; }
+        public CatBancoModels Banco { get; set; }
+        public CuentaBancariaModels CuentaBancaria { get; set; }
+
+        public List<CatEmpresaModels> ListaEmpresas { get; set; }
+        public List<CatBancoModels> ListaBancos;
+
+        public string TablaCuentasBancarias { get; set; }
 
         public CatEmpresaModels()
         {
-            IDEmpresa = string.Empty;
+            IDEmpresa = "0";
             RazonFiscal = string.Empty;
             DireccionFiscal = string.Empty;
             RFC = string.Empty;
@@ -82,34 +94,21 @@ namespace CreativaSL.Web.Ganados.Models
             ListaEmpresas = new List<CatEmpresaModels>();
             Conexion = string.Empty;
             IDUsuario = string.Empty;
-            Error = true;
-            MensajeJson = "Ha ocurrido un error";
+            RespuestaAjax = new RespuestaAjax();
+            Banco = new CatBancoModels();
+            ListaBancos = new List<CatBancoModels>();
+            TablaCuentasBancarias = string.Empty;
+            CuentaBancaria = new CuentaBancariaModels();
+
+            ImagBDEmpresa = false;
         }
 
-        public string ImageToBase64(HttpPostedFileBase Image)
+        public string ValidarStringImage(string validar)
         {
-            var fileContent = Image;
-            string Base64 = null;
-            if (fileContent != null && fileContent.ContentLength > 0)
-            {
-                //Obtengo el stream
-                var stream = fileContent.InputStream;
-                //Genero un array de bytes
-                byte[] fileData = null;
-                using (var binaryReader = new BinaryReader(stream))
-                {
-                    fileData = binaryReader.ReadBytes(fileContent.ContentLength);
-                }
-                //Realizo la convercion a base 64
-                Base64 = Convert.ToBase64String(fileData);
-            }
-            return Base64;
-        }
-        public string GenerarMensajeJson()
-        {
-            string MsjPrederterminado = "{\"Mensaje\" : \"" + MensajeJson + "\" , \"Error\": \" " + Error + "\"}";
-            JObject json = JObject.Parse(MsjPrederterminado);
-            return json.ToString();
+            if (string.IsNullOrEmpty(validar) || string.IsNullOrWhiteSpace(validar))
+                validar = Auxiliar.SetDefaultImage();
+                    
+            return validar;
         }
     }
 }

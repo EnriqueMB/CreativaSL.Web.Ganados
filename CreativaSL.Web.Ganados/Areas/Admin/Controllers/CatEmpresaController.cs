@@ -1,13 +1,16 @@
-﻿using System.Web.Mvc;
-using CreativaSL.Web.Ganados.Models;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
-using System.IO;
-using System;
+using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Mvc;
+using CreativaSL.Web.Ganados.Filters;
+using CreativaSL.Web.Ganados.Models;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
+    [Autorizado]
     public class CatEmpresaController : Controller
     {
         private CatEmpresaModels Empresa;
@@ -17,22 +20,25 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         // GET: Admin/CatEmpresa
         public ActionResult Index()
         {
-            Empresa = new CatEmpresaModels
+            try
             {
-                Conexion = Conexion
-            };
-            EmpresaDatos = new _CatEmpresa_Datos();
-            Empresa.ListaEmpresas = EmpresaDatos.GetListadoEmpresas(Empresa);
-            return View(Empresa);
+                Empresa = new CatEmpresaModels
+                {
+                    Conexion = Conexion
+                };
+                EmpresaDatos = new _CatEmpresa_Datos();
+                Empresa.ListaEmpresas = EmpresaDatos.GetListadoEmpresas(Empresa);
+                return View(Empresa);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + ex.ToString();
+                return View(Empresa);
+            }
         }
 
-        // GET: Admin/CatEmpresa/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Admin/CatEmpresa/Edit/5
+        [HttpGet]
         public ActionResult Edit(string id)
         {
             try
@@ -49,42 +55,142 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + ex.ToString();
+                return View(Empresa);
             }
         }
+
         [HttpPost]
-        public ActionResult Edit(CatEmpresaModels Empresa)
+        public ActionResult SaveEmpresa(CatEmpresaModels Empresa)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     EmpresaDatos = new _CatEmpresa_Datos();
-                    Empresa.LogoRFC = Empresa.ImageToBase64(Empresa.LogoRFCHttp);
-                    Empresa.LogoEmpresa = Empresa.ImageToBase64(Empresa.LogoEmpresaHttp);
+                    Empresa.LogoRFC = Auxiliar.ImageToBase64(Empresa.LogoRFCHttp);
+                    Empresa.LogoEmpresa = Auxiliar.ImageToBase64(Empresa.LogoEmpresaHttp);
                     Empresa.Conexion = Conexion;
                     Empresa = EmpresaDatos.UpdateEmpresaXID(Empresa);
-                    return Json(new { success = true, responseText = Empresa.MensajeJson, error = Empresa.Error }, JsonRequestBehavior.AllowGet);
+                    
+                    return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
                 }
                 else
                 {
-                    Empresa.MensajeJson = "Verifique su formulario.";
-                    return Content(Empresa.GenerarMensajeJson(), "application/json");
+                    Empresa.RespuestaAjax.Mensaje = "Verifique su formulario.";
+                    Empresa.RespuestaAjax.Success = false;
+
+                    return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
                 }
             }
             catch (Exception ex)
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                Empresa.MensajeJson = ex.ToString();
-                return Content(Empresa.GenerarMensajeJson(), "application/json");
+                //Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                Empresa.RespuestaAjax.Mensaje = ex.ToString();
+                Empresa.RespuestaAjax.Success = false;
+                return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
             }
         }
 
-        public ContentResult SaveEmpresa(CatEmpresaModels Empresa)
+        [HttpPost]
+        public ActionResult LoadTableCuentasBancarias(string IDEmpresa)
         {
-                return Content(Empresa.GenerarMensajeJson(), "application/json");
+            try
+            {
+                Empresa = new CatEmpresaModels
+                {
+                    Conexion = Conexion,
+                    IDEmpresa = IDEmpresa
+                };
+                EmpresaDatos = new _CatEmpresa_Datos();
+                Empresa.TablaCuentasBancarias = EmpresaDatos.GetCuentasBancarias(Empresa);
 
+                return Content(Empresa.TablaCuentasBancarias, "application/json");
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                Empresa.RespuestaAjax.Mensaje = ex.ToString();
+                Empresa.RespuestaAjax.Success = false;
+                return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        
+        [HttpPost]
+        public ActionResult ModalCuentaBancaria(string IDCuentaBancaria, string IDCliente)
+        {
+            Empresa = new CatEmpresaModels();
+            EmpresaDatos = new _CatEmpresa_Datos();
+            Empresa.CuentaBancaria.IDDatosBancarios = IDCuentaBancaria;
+            Empresa.CuentaBancaria.IDCliente = IDCliente;
+            Empresa.Conexion = Conexion;
+            Empresa = EmpresaDatos.GetDatosBancariosXID(Empresa);
+            Empresa.ListaBancos = EmpresaDatos.GetListaBancos(Empresa);
+
+            return PartialView("ModalCuentaBancaria", Empresa);
+        }
+
+        [HttpPost]
+        public ActionResult InsertUpdateCuentaBancaria(CatEmpresaModels Empresa)
+        {
+            try
+            {
+                //Deshabilitamos las validaciones de Empresa y dejamos los de Empresa.CuentaBancaria}
+                ModelState.Remove("RazonFiscal");
+                ModelState.Remove("DireccionFiscal");
+                ModelState.Remove("RFC");
+                ModelState.Remove("NumTelefonico1");
+                ModelState.Remove("Email");
+                ModelState.Remove("HorarioAtencion");
+                ModelState.Remove("Representante");
+                ModelState.Remove("LogoEmpresa");
+                ModelState.Remove("LogoRFC");
+
+                if (ModelState.IsValid)
+                {
+                    Empresa.Conexion = Conexion;
+                    EmpresaDatos = new _CatEmpresa_Datos();
+                    Empresa.IDUsuario = User.Identity.Name;
+                    Empresa = EmpresaDatos.InsertUpdateCuentaBancaria(Empresa);
+
+                    return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
+                }
+                else
+                {
+                    Empresa.RespuestaAjax.Mensaje = "Verifique su formulario.";
+                    Empresa.RespuestaAjax.Success = false;
+                    return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
+                }
+            }
+            catch (Exception ex)
+            {
+                Empresa.RespuestaAjax.Mensaje = ex.ToString();
+                Empresa.RespuestaAjax.Success = false;
+                return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DeleteCuentaBancaria(string id)
+        {
+            try
+            {
+                Empresa = new CatEmpresaModels();
+                Empresa.CuentaBancaria.IDDatosBancarios = id;
+                Empresa.IDUsuario = User.Identity.Name;
+                Empresa.Conexion = Conexion;
+                EmpresaDatos = new _CatEmpresa_Datos();
+                Empresa = EmpresaDatos.DeleteCuentaBancaria(Empresa);
+
+                return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
+            }
+            catch (Exception ex)
+            {
+                Empresa.RespuestaAjax.Mensaje = ex.ToString();
+                Empresa.RespuestaAjax.Success = false;
+                return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
+            }
         }
     }
 }
