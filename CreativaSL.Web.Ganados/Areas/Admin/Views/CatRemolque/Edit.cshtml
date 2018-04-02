@@ -19,7 +19,8 @@
         </div>
         <div class="col-md-12">
             @*<form class="form-horizontal">*@
-            @using (Html.BeginForm("Edit", "CatRemolque", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("Edit", "CatRemolque", FormMethod.Post, new { id = "form-remolque", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
@@ -101,12 +102,15 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/Remolques.js")"></script>
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
     });
     $('#ListSucursal').val('@Model.IDSucursal');
+        Remolque.init();
     </script>
 }
 

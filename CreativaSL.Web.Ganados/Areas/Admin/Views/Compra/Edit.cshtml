@@ -50,7 +50,6 @@
                         @using (Html.BeginForm("SaveCompra", "Compra", FormMethod.Post, new { id = "frmCreateCompra", @class = "form-horizontal", autocomplete = "off" }))
                         {
                             @Html.AntiForgeryToken()
-                            @Html.ValidationSummary(true)
 
                             <div class="panel panel-default">
                                 <div class="panel-heading">
@@ -60,9 +59,21 @@
                                 <div class="panel-body">
 
                                     <div class="form-group">
-                                        <div class="col-md-12">
-                                            <label class="col-md-1 control-label">Nombre del proveedor</label>
-                                            <div class="col-md-11 col-xs-12">
+                                        <div class="col-md-6">
+                                            <label class="col-md-2 control-label">Nombre del proveedor</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.Proveedor.NombreRazonSocial, new { @class = "form-control"})
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Proveedor.IDProveedor)
+                                                <span class="help-block">Seleccione un proveedor</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="col-md-2 control-label">Nombre de proveedores activos</label>
+                                            <div class="col-md-10 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                                     @Html.DropDownListFor(model => model.IDProveedor, new SelectList(Model.ListaProveedores, "IDProveedor", "NombreRazonSocial"), new { @class = "form-control" })
@@ -79,7 +90,7 @@
                                             <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.GanadosPactadoMachos, new { id = "GanadoPactadoMachos", @class = "form-control", data_notice = "Cantidad pactada MACHOS." })
+                                                    @Html.TextBoxFor(model => model.GanadosPactadoMachos, new { id = "GanadoPactadoMachos", @class = "form-control" })
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.GanadosPactadoMachos)
                                                 <span class="help-block">Ingrese una cantidad de ganado "Machos"</span>
@@ -90,7 +101,7 @@
                                             <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.GanadosPactadoHembras, new { id = "GanadoPactadoHembras", @class = "form-control", data_notice = "Cantidad pactada HEMBRAS." })
+                                                    @Html.TextBoxFor(model => model.GanadosPactadoHembras, new { id = "GanadoPactadoHembras", @class = "form-control" })
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.GanadosPactadoHembras)
                                                 <span class="help-block">Ingrese una cantidad de ganado "Hembras"</span>

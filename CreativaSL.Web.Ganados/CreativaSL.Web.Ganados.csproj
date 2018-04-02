@@ -334,6 +334,7 @@
     <Content Include="Content\css\theme-brown.css" />
     <Content Include="Content\css\theme-default.css" />
     <Content Include="Content\css\theme-white.css" />
+    <Content Include="Content\css\validator.css" />
     <Content Include="Content\favicon.ico" />
     <Content Include="Content\img\backgrounds\wall_1.jpg" />
     <Content Include="Content\img\bg-dot.png" />
@@ -433,6 +434,7 @@
     <Content Include="Content\js\demo_dashboard.js" />
     <Content Include="Content\js\demo_icons.js" />
     <Content Include="Content\js\demo_maps.js" />
+    <Content Include="Content\js\empresa.js" />
     <Content Include="Content\js\mensajeDeError.js" />
     <Content Include="Content\js\demo_tables.js" />
     <Content Include="Content\js\demo_tasks.js" />
@@ -852,8 +854,10 @@
     <Content Include="Content\js\plugins\validationengine\languages\jquery.validationEngine-zh_CN.js" />
     <Content Include="Content\js\plugins\validationengine\languages\jquery.validationEngine-zh_TW.js" />
     <Content Include="Content\js\portlet.js" />
+    <Content Include="Content\js\Remolques.js" />
     <Content Include="Content\js\settings.js" />
     <Content Include="Content\js\validaciones\additionals.js" />
+    <Content Include="Content\js\Vehiculo.js" />
     <Content Include="Content\Ocampo.ico" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -974,10 +978,12 @@
     <Content Include="Areas\Admin\Views\CatRemolque\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatRemolque\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\CatEmpresa\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalPago.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalVale.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\ModalCuentaBancaria.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1033,6 +1039,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AlmacenEntradaModels.cs" />
+    <Compile Include="Models\Auxiliar.cs" />
     <Compile Include="Models\CatAlmacenModels.cs" />
     <Compile Include="Models\CatBancoModels.cs" />
     <Compile Include="Models\CatCategoriaPuestoModels.cs" />
@@ -1112,7 +1119,7 @@
     <Compile Include="Models\ProveedorLugarModels.cs" />
     <Compile Include="Models\RangoPrecioProveedorModels.cs" />
     <Compile Include="Models\RecepcionModels.cs" />
-    <Compile Include="Models\ResponseModel.cs" />
+    <Compile Include="Models\RespuestaAjax.cs" />
     <Compile Include="Models\ResumenGastosAjustesModels.cs" />
     <Compile Include="Models\ResumenGastosModels.cs" />
     <Compile Include="Models\SalidaAlmacenDetalle.cs" />
@@ -1129,7 +1136,9 @@
     <Compile Include="Models\Validaciones\DescripcionAttribute.cs" />
     <Compile Include="Models\Validaciones\DireccionAttribute.cs" />
     <Compile Include="Models\Validaciones\IFEAttribute.cs" />
+    <Compile Include="Models\Validaciones\InputFile.cs" />
     <Compile Include="Models\Validaciones\NombreAttribute.cs" />
+    <Compile Include="Models\Validaciones\PlacasAttribute.cs" />
     <Compile Include="Models\Validaciones\RFCAttribute.cs" />
     <Compile Include="Models\Validaciones\TarjetaCreditoAttribute.cs" />
     <Compile Include="Models\Validaciones\TelefonoAttribute.cs" />
