@@ -56,44 +56,8 @@
         ModalGanado(0);
     });
 }
-
-function LoadTablePago(idCompra) {
-    $("#btnAddPago").on("click", function () {
-        ModalPago(0);
-    });
-}
-function LoadTableVale(idProveedor) {
-    $("#btnAddVale").on("click", function () {
-        ModalVale(0);
-    });
-}
-function ModalVale(idProveedor) {
-
-    $.ajax({
-        url: 'ModalPago',
-        data: { idProveedor: idProveedor },
-        success: function (data) {
-            $('#ContenidoModalVale').html(data);
-            $('#ModalVale').modal({ backdrop: 'static', keyboard: false });
-
-        }
-    })
-}
-function ModalPago(idCompra) {
-
-    $.ajax({
-        url: "ModalPago",
-        type: "POST",
-        data: { idCompra: idCompra },
-        success: function (data) {
-            $("#ContenidoModalPago").html(data);
-            $("#ModalPago").modal({ backdrop: "static", keyboard: false });
-           
-        }
-    })
-}
 function ModalGanado(idGanado) {
-   
+
     $.ajax({
         url: 'ModalGanado',
         type: "POST",
@@ -138,29 +102,61 @@ function ModalGanado(idGanado) {
     });
 }
 
-function ModalVale(id) {
+function LoadTableMovimientos(idCompra) {
+    $("#btnAddPago").on("click", function () {
+        ModalPago(0);
+    });
+    $("#btnAddCobro").on("click", function () {
+        ModalCobro(0);
+    });
+}
+function ModalCobro(idDocCobrar) {
 
     $.ajax({
-        url: 'ModalGanado',
-        data: { idGanado: id },
+        url: "ModalCobro/",
+        type: "POST",
+        data: { idDocCobrar: idDocCobrar },
         success: function (data) {
-            $('#ContenidoModalGanado').html(data);
-            $('#ModalGanado').modal({ backdrop: 'static', keyboard: false });
-            window.TableGanado.row.add({
-                "id_ganado": "A004C8A0-CDF9-4FCC-B2ED-8E99CB777B1C",
-                "numArete": "2332",
-                "genero": "Hembra",
-                "pesoInicial": "345.43",
-                "pesoFinal": "1232",
-                "diferenciaPeso": "5421",
-                "merma": "2",
-                "pesoPagado": "23",
-                "precioKilo": "2212",
-                "totalPagado": "23322"
-            }).draw();
+            $("#ContenidoModalCobro").html(data);
+            $("#ModalCobro").modal({ backdrop: "static", keyboard: false });
+
         }
     })
 }
+function ModalPago(idCompra) {
+
+    $.ajax({
+        url: "ModalPago",
+        type: "POST",
+        data: { idCompra: idCompra },
+        success: function (data) {
+            $("#ContenidoModalPago").html(data);
+            $("#ModalPago").modal({ backdrop: "static", keyboard: false });
+
+        }
+    })
+}
+function LoadTableEvento(idCompra) {
+    $("#btnAddEvento").on("click", function () {
+        ModalEvento(0);
+    });
+}
+
+function ModalEvento(idCompra) {
+
+    $.ajax({
+        url: "ModalEvento/",
+        type: "POST",
+        data: { idCompra: idCompra },
+        success: function (data) {
+            $("#ContenidoModalPago").html(data);
+            $("#ModalPago").modal({ backdrop: "static", keyboard: false });
+
+        }
+    })
+}
+
+
 
 
 function isUndefined(value) {
