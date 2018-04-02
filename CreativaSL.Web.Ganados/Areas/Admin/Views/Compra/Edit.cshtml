@@ -61,33 +61,33 @@
 
                                     <div class="form-group">
                                         <div class="col-md-6">
-                                            <label class="col-md-2 control-label">Nombre del proveedor</label>
+                                            <label class="col-md-2 control-label">Proveedor seleccionado</label>
                                             <div class="col-md-10 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                                     @Html.TextBoxFor(model => model.Proveedor.NombreRazonSocial, new { @class = "form-control"})
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.Proveedor.IDProveedor)
-                                                <span class="help-block">Seleccione un proveedor</span>
+                                                <span class="help-block">Proveedor que realiza la compra.</span>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label class="col-md-2 control-label">Nombre de proveedores activos</label>
+                                            <label class="col-md-2 control-label">Proveedores activos</label>
                                             <div class="col-md-10 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                                     @Html.DropDownListFor(model => model.IDProveedor, new SelectList(Model.ListaProveedores, "IDProveedor", "NombreRazonSocial"), new { @class = "form-control" })
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.IDProveedor)
-                                                <span class="help-block">Seleccione un proveedor</span>
+                                                <span class="help-block">¿Desea cambiar de proveedor?</span>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <div class="col-md-4">
-                                            <label class="col-md-3 control-label">Ganado pactado machos</label>
+                                            <label class="col-md-3 control-label">Sucursal</label>
                                             <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
@@ -97,15 +97,26 @@
                                                 <span class="help-block">Ingrese una cantidad de ganado "Machos"</span>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <label class="col-md-3 control-label">Ganado pactado hembras</label>
+                                        <div class="col-md-2">
+                                            <label class="col-md-3 control-label">Ganado machos</label>
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.GanadosPactadoMachos, new { id = "GanadoPactadoMachos", @class = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.GanadosPactadoMachos)
+                                                <span class="help-block">Cantidad pactada machos</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="col-md-3 control-label">Ganado hembras</label>
                                             <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                                     @Html.TextBoxFor(model => model.GanadosPactadoHembras, new { id = "GanadoPactadoHembras", @class = "form-control" })
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.GanadosPactadoHembras)
-                                                <span class="help-block">Ingrese una cantidad de ganado "Hembras"</span>
+                                                <span class="help-block">Cantidad pactada hembras</span>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -120,39 +131,107 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    
                                     <div class="form-group">
-                                        <div class="col-md-4">
-                                            <label class="col-md-3 control-label">Choferes</label>
-                                            <div class="col-md-9 col-xs-12">
+                                        <div class="col-md-6">
+                                            <label class="col-md-2 control-label">Chofer asignado</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.Proveedor.NombreRazonSocial, new { @class = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Chofer.Nombre)
+                                                <span class="help-block">Chofer asignado para la compra.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="col-md-2 control-label">Choferes activos</label>
+                                            <div class="col-md-10 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                                     @Html.DropDownListFor(model => model.Flete.id_chofer, new SelectList(Model.ListaChoferes, "IDChofer", "Nombre"), new { @class = "form-control" })
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.Flete.id_chofer)
-                                                <span class="help-block">Seleccione un chofer.</span>
+                                                @Html.ValidationMessageFor(model => model.IDProveedor)
+                                                <span class="help-block">¿Desea cambiar de chofer?</span>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <label class="col-md-3 control-label">Vehículos</label>
-                                            <div class="col-md-9 col-xs-12">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <label class="col-md-2 control-label">Vehículo asignado</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.Vehiculo.nombreMarca, new { @class = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Vehiculo.nombreMarca)
+                                                <span class="help-block">Vehículo asignado para la compra.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="col-md-2 control-label">Vehículos activos</label>
+                                            <div class="col-md-10 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                                     @Html.DropDownListFor(model => model.Flete.id_vehiculo, new SelectList(Model.ListaVehiculos, "IDVehiculo", "nombreMarca", "Modelo", 1), new { @class = "form-control" })
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.Flete.id_vehiculo)
-                                                <span class="help-block">Seleccion un vehículo.</span>
+                                                @Html.ValidationMessageFor(model => model.IDProveedor)
+                                                <span class="help-block">¿Desea cambiar de vehículo?</span>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <label class="col-md-3 control-label">Jaulas</label>
-                                            <div class="col-md-9 col-xs-12">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <label class="col-md-2 control-label">Jaula asignada</label>
+                                            <div class="col-md-10 col-xs-12">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.Jaula.Matricula, new { @class = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Jaula.Matricula)
+                                                <span class="help-block">Jaula asignada para la compra.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="col-md-2 control-label">Jaulas activas</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                                     @Html.DropDownListFor(model => model.Flete.id_jaula, new SelectList(Model.ListaJaulas, "IDJaula", "Matricula"), new { @class = "form-control" })
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.Flete.id_jaula)
-                                                <span class="help-block">Seleccione una jaula.</span>
+                                                <span class="help-block">¿Desea cambiar de jaula?</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <label class="col-md-2 control-label">Remolque asignado</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.Jaula.Matricula, new { @class = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Jaula.Matricula)
+                                                <span class="help-block">Remolque asignado para la compra.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="col-md-2 control-label">Remolques activos</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.DropDownListFor(model => model.Flete.id_jaula, new SelectList(Model.ListaJaulas, "IDJaula", "Matricula"), new { @class = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Flete.id_jaula)
+                                                <span class="help-block">¿Desea cambiar de remolque?</span>
                                             </div>
                                         </div>
                                     </div>
@@ -559,7 +638,7 @@
                     </div>
                     <div id="recepcion" class="tab-pane" role="tabpanel">
                         <div class="col-md-12">
-                        @using (Html.BeginForm("SaveCompra", "Compra", FormMethod.Post, new { id = "frmCreateCompra", @class = "form-horizontal", autocomplete = "off" }))
+                        @using (Html.BeginForm("Recepcion", "Compra", FormMethod.Post, new { id = "frmRecepcionCompra", @class = "form-horizontal", autocomplete = "off" }))
                         {
                             @Html.AntiForgeryToken()
                             <div class="panel panel-default">
@@ -656,8 +735,12 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
+                                <div class="panel-footer">
+                                    <input type="submit" value="Finalizar compra" class="btn btn-primary pull-right">
+                                    <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                                </div>
+                            </div>
                         }
                         </div>
                     </div>

@@ -36,7 +36,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table class="table datatable">
+                            <table id="tblIndexCompra" class="table">
                                 <thead>
                                     <tr>
                                         <th rowspan="2">Nombre cliente</th>
@@ -82,8 +82,8 @@
 
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" href="@Url.Action("Edit", "Compra", new { IDCompra = Compra["id_compra"].ToString() })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" id="delete-@Compra["id_compra"].ToString()" data-hrefa="@Url.Action("Delete", "Compra", new { IDCompra = Compra["id_compra"].ToString()  })" onClick="delete_row('@Compra["id_compra"].ToString() ');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Editar" href="@Url.Action("Edit", "Compra", new { IDCompra = Compra["id_compra"].ToString() })" class="btn btn-yellow tooltips btn-xs" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" id="delete-@Compra["id_compra"].ToString()" data-hrefa="@Url.Action("Delete", "Compra", new { IDCompra = Compra["id_compra"].ToString()  })" onClick="delete_row('@Compra["id_compra"].ToString() ');" class="btn btn-danger tooltips btn-xs" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -149,4 +149,33 @@
             Mensaje(message, typemessage);
         });
     </script>
+    <script>
+        $("#tblIndexCompra").dataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+            "columns": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                { "width": "6%" }
+            ],
+            responsive: true
+        });
+        $(".tblIndexEmpresa").on('page.dt', function () {
+            onresize(100);
+        });
+    </script>
+
 }
