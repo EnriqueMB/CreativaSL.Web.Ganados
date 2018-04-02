@@ -23,7 +23,9 @@
             @using (Html.BeginForm("Edit", "CatVehiculo", FormMethod.Post, new { id = "form-vehiculo", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
+                @*@Html.ValidationSummary(true)*@
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                                                                                                                            <div id="validation_summary" class="field_error "></div> //JS
 
                 @Html.HiddenFor(model => model.IDVehiculo)
                 <div class="panel panel-default">
@@ -40,29 +42,33 @@
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.listaSucursal, "IDSucursal", "NombreSucursal"), new { id = "ListSucursal", @class = "form-control" })
+                                        @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.listaSucursal, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.listaSucursal)
                                     <span class="help-block">Seleccione el tipo de vehículo</span>
                                 </div>
                             </div>
+
+
                             <div class="col-md-4">
                                 <label class="col-md-12 control-label text-center">Tipo de Vehículo</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.DropDownListFor(model => model.IDTipoVehiculo, new SelectList(Model.listaTipoVehiculos, "IDTipoVehiculo", "Descripcion"), new { id = "ListTipoVehiculo", @class = "form-control" })
+                                        @Html.DropDownListFor(model => model.IDTipoVehiculo, new SelectList(Model.listaTipoVehiculos, "IDTipoVehiculo", "Descripcion"), new { id = "IDTipoVehiculo", @class = "form-control select ", data_live_search = "true" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.listaTipoVehiculos)
                                     <span class="help-block">Seleccione el tipo de vehículo</span>
                                 </div>
                             </div>
+
+
                             <div class="col-md-4">
                                 <label class="col-md-12 control-label text-center">Marca</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.DropDownListFor(model => model.IDMarca, new SelectList(Model.listaMarcas, "IDMarca", "Descripcion"), new { id = "ListMarcas", @class = "form-control" })
+                                        @Html.DropDownListFor(model => model.IDMarca, new SelectList(Model.listaMarcas, "IDMarca", "Descripcion"), new { id = "IDMarca", @class = "form-control select", data_live_search = "true" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.listaMarcas)
                                     <span class="help-block">Seleccione la marca </span>
@@ -105,14 +111,12 @@
                             <div class="col-md-6">
                                 <label class="col-md-12 control-label text-center">Fecha de ingreso</label>
                                 <div class="col-md-12 col-xs-12">
-                                    
-                                    <div class="input-group date" id="dp-2"  data-date-format="dd/mm/yyyy" >
+                                    <div class="input-group ">
                                         <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                        @Html.TextBoxFor(model => model.fechaIngreso, "{0:yyyy-MM-dd}", new { id = "fechaIngreso ", @class = "form-control", @type="date", @style="line-height:18px" })
-                                        @*2018-08-13*@ 
+                                        @Html.TextBoxFor(model => model.fechaIngreso, "{0:yyyy-MM-dd}", new { id = "fechaIngreso", @class = "form-control ", @type = "date", @style = "line-height: 18px;" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.fechaIngreso)
-                                    <span class="help-block">Ingrese la fecha de vigencia</span>
+                                    <span class="help-block">Ingrese la fecha de ingreso</span>
                                 </div>
                             </div>
                         </div>
@@ -141,7 +145,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                           
+
                             <div class="col-md-6">
                                 <label class="col-md-12 control-label text-center">Número de serie</label>
                                 <div class="col-md-12 col-xs-12">
@@ -153,8 +157,18 @@
                                     <span class="help-block">Ingrese Color del vehículo</span>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <label class="col-md-12 control-label text-center">Propio</label>
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="input-group text-center" style="margin: auto;padding: 5px;">
+
+                                        @Html.CheckBoxFor(model => model.EsPropio)
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
-                        
+
                         <div class="form-group">
                             @*<div class="col-md-6">
                                     <label class="col-md-4 control-label"> ¿Disponible? (Estatus)</label>
@@ -167,16 +181,7 @@
 
                                     </div>
                                 </div>*@
-                            <div class="col-md-6">
-                                <label class="col-md-12 control-label text-center">Propio</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group text-center" style="margin: auto;padding: 5px;">
 
-                                        @Html.CheckBoxFor(model => model.EsPropio)
-                                    </div>
-
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="panel-footer">
@@ -200,37 +205,16 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/Vehiculo.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/Vehiculo.js")"></script>
+
 
     <script>
     jQuery(document).ready(function () {
-     
+
         Mensaje(message, typemessage);
-        $('#ListSucursal').val('@Model.IDSucursal');
-        $('#ListTipoVehiculo').val('@Model.IDTipoVehiculo');
-        $('#ListMarcas').val('@Model.IDMarca');
         Vehiculo.init();
-       
     });
     </script>
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -24,18 +24,16 @@
             },
             ignore: "",
             rules: {
-                 Nombre: { required: true ,texto: true, maxlength: 100 },
+                NombreProducto: { required: true, texto: true, maxlength: 100 },
                 Descripcion: { required: true, texto: true, maxlength: 150 },
                 Clave: { required: true, texto: true, maxlength: 20 },
                 Clave_cfdi: { required: true, texto: true, maxlength: 10 },
-                
-
-
+               
             },
             messages: {
 
             
-                Nombre: { required: "Ingrese el nobmre del producto.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 100 caracteres." },
+                NombreProducto: { required: "Ingrese el nobmre del producto.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 100 caracteres." },
                 Descripcion: { required: "Ingrese la descripción del producto.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 150 caracteres." },
                 Clave: { required: "Ingrese la clave del producto.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 20 caracteres." },
                 Clave_cfdi: { required: "Ingrese el clave cfdi del producto.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 10 caracteres." },
