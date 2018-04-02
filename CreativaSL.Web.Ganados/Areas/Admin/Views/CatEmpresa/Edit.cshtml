@@ -41,10 +41,12 @@
                         @using (Html.BeginForm("SaveEmpresa", "CatEmpresa", FormMethod.Post, new { id = "frmEditEmpresa", @class = "form-horizontal", autocomplete = "off", @enctype = "multipart/form-data" }))
     {
                     @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true)
 
                     @Html.HiddenFor(model => model.IDEmpresa)
                     @Html.HiddenFor(model => model.ImagBDEmpresa)
+                    @Html.HiddenFor(model => model.ImagBDRFC)
+                    @Html.HiddenFor(model => model.LogoEmpresa);
+                    @Html.HiddenFor(model => model.LogoRFC);
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title"><strong>Información</strong> Empresa</h3>
@@ -54,9 +56,9 @@
 
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    @Html.ValidationSummary(false, "Errores: ")
+                                    @Html.ValidationSummary(false, "Errores: ", new { @class = "text-danger" })
                                 </div>
-                              
+
                             </div>
 
                             <div class="form-group">
@@ -167,7 +169,7 @@
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                             @Html.TextBoxFor(model => model.LogoEmpresaHttp, new { id = "fileLogoEmpresa", name = "fileLogoEmpresa[]", @type = "file", @class = "form-control" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.LogoEmpresaHttp, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.LogoEmpresaHttp)
                                         <span class="help-block">Ingrese por lo menos 1 imagen.</span>
                                     </div>
                                 </div>
@@ -280,30 +282,6 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
 
     <script>
-        $.validator.unobtrusive.adapters.addSingleVal("validateimg", "imgserver");
-        $.validator.addMethod("validateimg", function (value, element, exclude) {
-            console.log(value);
-            console.log(exclude);
-            if (value == '' && exclude == false) {
-                console.log("entro if false");
-                return true;
-            }
-            else {
-                console.log("entro if true");
-                return false;
-            }
-
-            //if (value) {
-            //    //for (var i = 0; i < exclude.length; i++) {
-            //    //    if (jQuery.inArray(exclude[i], value) != -1) {
-            //    //        return false;
-            //    //    }
-            //    //}
-            //}
-            return true;
-        }); 
-    </script>
-    <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
             var logoRFC = "@Model.LogoRFC";
@@ -313,11 +291,59 @@
             Empresa.init(logoRFC, logoEmpresa, IDEmpresa);
         });
     </script>
+
+    @*<script>
+        $.validator.addMethod("validateimg", function (value, element) {
+
+            var imgServer = document.getElementById("ImagBDEmpresa").value;
+            var LogoEmpresaHttp = value.trim();
+
+            if (imgServer) {
+                if (LogoEmpresaHttp.length != 0) {
+                    //Checo la extension
+                    var arrayFile = LogoEmpresaHttp.split(".");
+                    var extFile = arrayFile[(arrayFile.length - 1)];
+
+                    if (extFile == "png") {
+                        //Solo png
+                        console.log("imagen en server y la imagen es ext png");
+                        return true;
+                    }
+                    else {
+                        console.log("imagen en server y la imagen no es ext png");
+                        return false;
+                    }
+                }
+                else {
+                    //Todo bien ya que hay imagen en el server
+                    console.log("imagen en el server, pero todo ok");
+                    return true;
+                }
+            }
+            else {
+                if (LogoEmpresaHttp.length != 0) {
+                    //Checo la extension
+                    var arrayFile = LogoEmpresaHttp.split(".");
+                    var extFile = arrayFile[(arrayFile.length - 1)];
+
+                    //Extension valida solo png
+                    if (extFile == "png") {
+                        console.log("No hay imagen en server y la imagen es ext png");
+                        return false;
+                    }
+                    else {
+                        console.log("No hay imagen en server y la imagen no es ext png");
+                        return true;
+                    }
+                }
+                else {
+                    //Error no hay imagen en el server
+                    console.log("SOLICITAR IMAGEN");
+                    return true;
+                }
+            }
+        });
+
+        $.validator.unobtrusive.adapters.addSingleVal("validateimg", "imgserver");
+    </script>*@
 }
-
-
-
-
-
-
-

@@ -68,9 +68,11 @@ namespace CreativaSL.Web.Ganados.Models
                     Empresa.HorarioAtencion = !dr.IsDBNull(dr.GetOrdinal("horarioAtencion")) ? dr.GetString(dr.GetOrdinal("horarioAtencion")) : string.Empty;
                     Empresa.LogoEmpresaHttp = null;
 
-                    //No hay img en BD
+                    //No hay imgEmpresa en BD
                     Empresa.ImagBDEmpresa = (string.IsNullOrWhiteSpace(Empresa.LogoEmpresa)) ? false : true;
 
+                    //No hay imgRFC en BD
+                    Empresa.ImagBDRFC = (string.IsNullOrWhiteSpace(Empresa.LogoRFC)) ? false : true;
 
                     Empresa.LogoEmpresa = Empresa.ValidarStringImage(Empresa.LogoEmpresa);
                     Empresa.LogoRFC = Empresa.ValidarStringImage(Empresa.LogoRFC);
@@ -100,7 +102,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Empresa.HorarioAtencion,//,@horarioAtencion NVARCHAR(150)
                     Empresa.Representante,//,@representante NVARCHAR(100)
                     Empresa.LogoRFC,//,@logoRFC NVARCHAR(MAX)
-                    Empresa.IDUsuario//,@id_usuario CHAR(36)
+                    Empresa.IDUsuario,//,@id_usuario CHAR(36)
+                    Empresa.ImagBDEmpresa
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Empresa.Conexion, "spCSLDB_EMPRESA_a_CatEmpresaXID", parametros);

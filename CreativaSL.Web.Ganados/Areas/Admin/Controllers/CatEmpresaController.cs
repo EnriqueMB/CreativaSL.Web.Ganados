@@ -69,8 +69,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 if (ModelState.IsValid)
                 {
                     EmpresaDatos = new _CatEmpresa_Datos();
-                    Empresa.LogoRFC = Auxiliar.ImageToBase64(Empresa.LogoRFCHttp);
-                    Empresa.LogoEmpresa = Auxiliar.ImageToBase64(Empresa.LogoEmpresaHttp);
+
+                    if(Empresa.LogoEmpresaHttp != null)
+                        Empresa.LogoEmpresa = Auxiliar.ImageToBase64(Empresa.LogoEmpresaHttp);
+
+                    if (Empresa.LogoRFCHttp != null)
+                        Empresa.LogoRFC = Auxiliar.ImageToBase64(Empresa.LogoRFCHttp);
+
                     Empresa.Conexion = Conexion;
                     Empresa = EmpresaDatos.UpdateEmpresaXID(Empresa);
                     

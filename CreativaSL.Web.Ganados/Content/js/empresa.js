@@ -179,6 +179,9 @@
             ModalCuentaBancaria(0, IDEmpresa);
         });
     }
+
+  
+
     //Funciones
     function ModalCuentaBancaria(IDCuentaBancaria, IDEmpresa) {
         $.ajax({

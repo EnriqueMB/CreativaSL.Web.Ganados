@@ -35,8 +35,8 @@ namespace CreativaSL.Web.Ganados.Models
         [StringLength(15, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 7)]
         public string NumTelefonico1 { get; set; }
 
-        //[DisplayName("número telefonico 2")]
-        //[StringLength(15)]
+        [DisplayName("número telefonico 2")]
+        [StringLength(15)]
         public string NumTelefonico2 { get; set; }
 
         [DataType(DataType.EmailAddress)]
@@ -53,18 +53,21 @@ namespace CreativaSL.Web.Ganados.Models
         public string Representante { get; set; }
 
         //IMAGENES
-        [DisplayName("logo del RFC")]
-        public HttpPostedFileBase LogoRFCHttp { get; set; }
-        public string LogoRFC { get; set; }
 
-
-        [InputFile]
+        [InputFile(1)]
         [DisplayName("logo de la empresa")]
         public HttpPostedFileBase LogoEmpresaHttp { get; set; }
         public string LogoEmpresa { get; set; }
 
+        [InputFile(2)]
+        [DisplayName("logo del RFC")]
+        public HttpPostedFileBase LogoRFCHttp { get; set; }
+        public string LogoRFC { get; set; }
+        
+
         public bool ImagBDEmpresa { get; set; }
-        //
+        public bool ImagBDRFC { get; set; }
+
 
         public string Conexion { get; set; }
         public string IDUsuario { get; set; }
@@ -101,6 +104,7 @@ namespace CreativaSL.Web.Ganados.Models
             CuentaBancaria = new CuentaBancariaModels();
 
             ImagBDEmpresa = false;
+            ImagBDRFC = false;
         }
 
         public string ValidarStringImage(string validar)

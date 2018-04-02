@@ -7,59 +7,162 @@
     </div>
     <div class="modal-body">
         <!--INICIA CUERPO MODAL-->
-        <form class="form-horizontal">
+        @using (Html.BeginForm("Edit", "CatCliente", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off" }))
+    {
 
-            <div class="form-group">
+        <div class="form-group">
+            <div class="col-md-12">
+                <label class="col-md-1 control-label" for="numArete">Tipo del pago:</label>
+                <div class="controls">
+                    <div class="col-md-11 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                            <select class="form-control">
+                                <option value="MACHO" selected>Pago a proveedor</option>
+                                <option value="HEMBRA">Autoridades</option>
+                                <option value="HEMBRA">Combustible</option>
+                                <option value="HEMBRA">Mecánicos y refacciones</option>
+                            </select>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Ganado.numArete)
+                        <span class="help-block">Tipo o clásificación del pago.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <label class="col-md-3 control-label" for="FormaPago">Forma de pago</label>
+        <div class="form-group">
+            <div class="col-md-12">
+                <label class="col-md-1 control-label" for="numArete">Forma de pago</label>
+                <div class="controls">
+                    <div class="col-md-11 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                            <select class="form-control">
+                                <option value="MACHO" selected>Efectivo</option>
+                                <option value="HEMBRA">Trans. bancaria</option>
+                                <option value="HEMBRA">Depósito</option>
+                                <option value="HEMBRA">...</option>
+                            </select>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Ganado.numArete)
+                        <span class="help-block">Número de arete.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group Esconder">
+            <div class="col-md-4">
+                <label class="col-md-3 control-label" for="DiferenciaPeso">Banco</label>
                 <div class="controls">
                     <div class="col-md-9 col-xs-12">
                         <div class="input-group">
-                            <select>
-                                <option></option>
+                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                            <select class="form-control">
+                                <option value="MACHO" selected>Santander</option>
+                                <option value="HEMBRA">BBVA</option>
+                                <option value="HEMBRA">Banamex</option>
+                                <option value="HEMBRA">...</option>
                             </select>
                         </div>
-                       <span class="help-block">Forma de pago.</span>
+                        @Html.ValidationMessageFor(model => model.CompraGanado.PesoInicial)
+                        <span class="help-block">Banco.</span>
                     </div>
                 </div>
             </div>
 
-            <div class="control-group">
-                <label class="control-label" for="selectPago">Forma de pago</label>
+            <div class="col-md-4">
+                <label class="col-md-3 control-label" for="selectGenero">Núm. Cuenta</label>
                 <div class="controls">
-
+                    <div class="col-md-9 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                            @Html.TextBoxFor(model => model.Sucursal.MermaPredeterminada, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Sucursal.MermaPredeterminada)
+                        <span class="help-block">Núm. cuenta</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="control-group">
-                <label class="control-label" for="inputPago">Cantidad del pago</label>
+            <div class="col-md-4">
+                <label class="col-md-3 control-label" for="selectGenero">Clabe</label>
                 <div class="controls">
-                    <input type="text" id="inputPago" placeholder="Introduzca pago">
+                    <div class="col-md-9 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                            @Html.TextBoxFor(model => model.CompraGanado.Merma, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.CompraGanado.Merma)
+                        <span class="help-block">Clabe interbancaria.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <label class="col-md-1 control-label" for="DiferenciaPeso">Cantidad:</label>
+                <div class="controls">
+                    <div class="col-md-11 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                            @Html.TextBoxFor(model => model.CompraGanado.PrecioKilo, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.CompraGanado.TotalPagado)
+                        <span class="help-block">Cantidad ($).</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="control-group">
-                <label class="control-label" for="inputDescripcion">Descripción</label>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <label class="col-md-1 control-label" for="DiferenciaPeso">Fecha de pago:</label>
                 <div class="controls">
-                    <input type="text" id="inputDescripcion" placeholder="Descripción">
+                    <div class="col-md-11 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                            @Html.TextBoxFor(model => model.CompraGanado.PrecioKilo, new { @class = "form-control", @type = "date" })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.CompraGanado.TotalPagado)
+                        <span class="help-block">Fecha realizada del pago.</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="control-group">
-                <label class="control-label" for="inputPago">Fecha del pago</label>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <label class="col-md-1 control-label" for="PesoInicial">Nota</label>
                 <div class="controls">
-                    <input type="date" id="inputPago" placeholder="Fecha del pago">
+                    <div class="col-md-11 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                            @Html.TextArea("Description", null, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.CompraGanado.PesoInicial)
+                        <span class="help-block">Nota u observación.</span>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <div class="control-group">
-                <div class="controls">
-                    <button type="submit" class="btn btn-success green">Registrar pago</button>
-                    <button type="button" class="btn btn-secondary red" data-dismiss="modal">Cancelar</button>
-                </div>
+
+        <div class="form-group modal-footer">
+            <div class="controls">
+                <button type="submit" class="btn btn-success green">Registrar pago</button>
+                <button type="button" class="btn btn-secondary red" data-dismiss="modal">Cancelar</button>
             </div>
-        </form>
+        </div>
 
+}
         <!--TERMINA CUERPO MODAL-->
     </div>
 </div>
