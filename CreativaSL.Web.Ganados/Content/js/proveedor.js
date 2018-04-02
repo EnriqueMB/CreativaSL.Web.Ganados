@@ -1,11 +1,20 @@
-﻿var Clientes = function () {
+﻿var Proveedor = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
         var form1 = $('#form-dg');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
-
+        $.validator.addMethod("validarImagen2", function () {
+            if (document.getElementById("ImgManifestacionFierros").value === '') {
+                if ((document.getElementById("ImgManifestacionFierros").value === ''))
+                    return false;
+                else
+                    return true;
+            }
+            else
+                return true;
+        }, 'Debe seleccionar una imagen.');
         $('#form-dg').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
@@ -30,11 +39,13 @@
                 RFC: { required: true, rfc: true },
                 Direccion: { direccion: true, maxlength: 300 },
                 FechaIngreso: { required: true },
-                NombreResponsable: { nombre: true, maxlength: 300}, //{ nombre: true, maxlenght: 300 },
-                Celular: { telefono: true },
-                Telefono: { telefono: true },
-                CorreoElectronico: { required: true, email: true }
-                
+                IDTipoProveedor: { CMBINT: true }, //{ nombre: true, maxlenght: 300 },
+                Tolerancia: { number: true },
+                telefonoCelular: { telefono: true },
+                telefonoCasa: { telefono: true },
+                correo: { required: true, email: true },
+                ImgINEE: { validarImagen: true },
+                ImgManifestacionFierros: { validarImagen2: true }
             },
             messages: {
                 IDSucursal: { required: "Seleccione una sucursal." },
@@ -43,10 +54,14 @@
                 RFC: { required: "Ingrese el RFC del cliente.", rfc: "Ingrese un RFC válido." },
                 Direccion: { direccion: "Ingrese un dirección válida.", maxlength: "El campo domicilio fiscal admite máximo 300 caracteres." },
                 FechaIngreso: { required: "Ingrese la fecha de inicio de relación." },
-                NombreResponsable: { nombre: "Ingrese un nombre de contacto válido.", maxlength: "El campo nombre de contacto admite máximo 300 caracteres." }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
-                Celular: { telefono: "Ingrese un número de celular válido." },
-                Telefono: { telefono: "Ingrese un número de teléfono válido." },
-                CorreoElectronico: { required: "Ingrese el correo electrónico del cliente.", email: "Ingrese un correo electrónico válido." }
+                IDTipoProveedor: { CMBINT: "Seleccione un tipo proveedor válido." }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
+                Tolerancia: { number: "Ingrese un número de tolerancia válido." },
+                telefonoCelular: { telefono: "Ingrese un número de teléfono celular válido." },
+                telefonoCasa: { telefono: "Ingrese un número de teléfono válido." },
+                correo: { required: "Ingrese el correo electrónico del proveedor.", email: "Ingrese un correo electrónico válido." },
+                ImgINEE: { validarImagen: "Seleccione una imagén válida del ine" },
+                ImgManifestacionFierros: { validarImagen2: "Seleccione una imagén válida de manifestación de fierro" }
+
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -85,33 +100,43 @@
         });
     };
 
+    var rumImagenes = function ()
+    {
+        $('#ImgINEE').fileinput({
+            theme: 'fa',
+            language: 'es',
+            minFileCount: 1,
+            uploadUrl: "#",
+            showUpload: false,
+            showUploadedThumbs: false,
+            overwriteInitial: false,
+            allowedFileExtensions: ['png'],
+            required: true
+        })
+        $('#ImgManifestacionFierros').fileinput({
+            theme: 'fa',
+            language: 'es',
+            minFileCount: 1,
+            uploadUrl: "#",
+            overwriteInitial: false,
+            showUpload: false,
+            showUploadedThumbs: false,
+            allowedFileExtensions: ['png'],
+            required: true
+        })
+    };
+
     var runCombos = function () {
 
         $('input').on('ifChanged', function (event) {
-            $("#IDRegimenFiscal option").remove();
             var esPersonaFisica = $(this).prop('checked');
-            getDatosRegimen(esPersonaFisica);            
+            if (esPersonaFisica == true) {
+                $('#Genero').css('display', 'block')
+            }
+            else {
+                $('#Genero').css('display', 'none')
+            }
         });
-        function getDatosRegimen(esPersonaFisica) {
-            $.ajax({
-                url: "/Admin/CatCliente/ObtenerRegimenFiscalXBoolEsPersonaFisica",
-                data: { band: esPersonaFisica },
-                async: false,
-                dataType: "json",
-                type: "POST",
-                error: function () {
-                    Mensaje("Ocurrió un error al cargar el combo", "1");
-                },
-                success: function (result) {
-                    for (var i = 0; i < result.length; i++) {
-                        $("#IDRegimenFiscal").append('<option value="' + result[i].Clave + '">' + result[i].Descripcion + '</option>');
-                    }
-                    $('#IDRegimenFiscal.select').selectpicker('refresh');
-                }
-            });
-
-            
-        }
     };
 
     return {
@@ -119,6 +144,7 @@
         init: function () {
             runValidator1();
             runDatePicker();
+            rumImagenes();
             runCombos();
         }
     };

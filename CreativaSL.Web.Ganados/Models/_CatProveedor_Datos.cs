@@ -15,8 +15,26 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                   datos.Opcion, datos.IDProveedor, datos.IDTipoProveedor, datos.IDSucursal, datos.NombreRazonSocial, datos.RFC, datos.ImgINE, datos.ImgManifestacionFierro,
-                    datos.BandINE, datos.BandMF,datos.direccion,datos.telefonoCelular,datos.telefonoCasa,datos.correo,datos.sexo, datos.Usuario
+                   datos.Opcion,
+                    datos.IDProveedor ?? string.Empty,
+                    datos.IDTipoProveedor,
+                    datos.IDSucursal ?? string.Empty,
+                    datos.NombreRazonSocial ?? string.Empty,
+                    datos.RFC ?? string.Empty,
+                    datos.ImgINE ?? string.Empty,
+                    datos.ImgManifestacionFierro ?? string.Empty,
+                    datos.BandINE,
+                    datos.BandMF,
+                    datos.Direccion ?? string.Empty,
+                    datos.telefonoCelular ?? string.Empty,
+                    datos.telefonoCasa ?? string.Empty,
+                    datos.correo ?? string.Empty,
+                    datos.sexo,
+                    datos.FechaIngreso != null ? datos.FechaIngreso : DateTime.Today,
+                    datos.EsEmpresa,
+                    datos.Tolerancia,
+                    datos.Observaciones ?? string.Empty,
+                    datos.Usuario ?? string.Empty
                     };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatProveedor", parametros);
                 datos.IDProveedor = aux.ToString();
@@ -77,11 +95,15 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.RFC = dr["rfc"].ToString();
                     datos.ImgINE = dr["imgINE"].ToString();
                     datos.ImgManifestacionFierro = dr["imgManifestacionFierro"].ToString();
-                    datos.direccion = dr["direccion"].ToString();
+                    datos.Direccion = dr["direccion"].ToString();
                     datos.correo = dr["correo"].ToString();
                     datos.telefonoCasa = dr["telefonoCasa"].ToString();
                     datos.telefonoCelular = dr["telefonoCelular"].ToString();
                     datos.sexo = Convert.ToInt32(dr["sexo"].ToString());
+                    datos.FechaIngreso = !dr.IsDBNull(dr.GetOrdinal("FechaIngreso")) ? dr.GetDateTime(dr.GetOrdinal("FechaIngreso")) : DateTime.Now;
+                    datos.EsEmpresa = !dr.IsDBNull(dr.GetOrdinal("esEmpresa")) ? dr.GetBoolean(dr.GetOrdinal("esEmpresa")) : false;
+                    datos.Tolerancia = !dr.IsDBNull(dr.GetOrdinal("tolerancia")) ? dr.GetInt32(dr.GetOrdinal("tolerancia")) : 0;
+                    datos.Observaciones = !dr.IsDBNull(dr.GetOrdinal("observaciones")) ? dr.GetString(dr.GetOrdinal("observaciones")) : string.Empty;
                 }
                 return datos;
             }
@@ -125,6 +147,7 @@ namespace CreativaSL.Web.Ganados.Models
                 List<CatSucursalesModels> lista = new List<CatSucursalesModels>();
                 CatSucursalesModels item;
                 SqlDataReader dr = null;
+                lista.Add(new CatSucursalesModels { IDSucursal = string.Empty, NombreSucursal = " - Seleccione -" });
                 dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_get_ComboSucursales");
                 while (dr.Read())
                 {
