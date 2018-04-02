@@ -44,3 +44,14 @@ $.validator.addMethod("CMBINT", function (value, element) {
         return true;
     }
 }, 'Seleccione un valor del combo.');
+
+$.validator.addMethod("validarImagen", function () {
+    if (document.getElementById("ImgINEE").value === '') {
+        if ((document.getElementById("ImgINEE").value === ''))
+            return false;
+        else
+            return true;
+    }
+    else
+        return true;
+}, 'Debe seleccionar una imagen.');
