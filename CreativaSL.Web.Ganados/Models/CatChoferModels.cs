@@ -25,7 +25,7 @@ namespace CreativaSL.Web.Ganados.Models
             _Estatus = false;
             _ListaChoferes = new List<CatChoferModels>();
             _Ife = string.Empty;
-            _TipoSangre = string.Empty;
+           
             _IDGenero = 0;
             _NumSeguroSocial = string.Empty;
             _AvisoAccidente = string.Empty;
@@ -58,7 +58,7 @@ namespace CreativaSL.Web.Ganados.Models
         private string _numLicencia;
         [Display(Name = "número licencia")]
         [StringLength(20, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        [Correo(ErrorMessage = "Solo Letras y número")]
+        [Texto(ErrorMessage = "Solo Letras y número")]
         public string numLicencia
         {
             get { return _numLicencia; }
@@ -173,16 +173,7 @@ namespace CreativaSL.Web.Ganados.Models
             set { _Ife = value; }
         }
 
-        private string _TipoSangre;
-        [Required(ErrorMessage = "El tipo de sangre es obligatorio")]
-        [Display(Name = "tipo de sangre")]
-        [StringLength(15, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
        
-        public string TipoSangre
-        {
-            get { return _TipoSangre; }
-            set { _TipoSangre = value; }
-        }
 
         private int _IDGenero;
 
@@ -193,7 +184,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _NumSeguroSocial;
-        [Required(ErrorMessage = "El número de seguro social es obligatorio")]
+       
         [Display(Name = "número de seguro social")]
         [StringLength(30, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         [Texto( ErrorMessage = "Solo Letras y número")]
