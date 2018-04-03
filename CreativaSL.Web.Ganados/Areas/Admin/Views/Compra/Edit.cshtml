@@ -60,21 +60,33 @@
                                 <div class="panel-body">
 
                                     <div class="form-group">
-                                        <div class="col-md-6">
-                                            <label class="col-md-2 control-label">Proveedor seleccionado</label>
-                                            <div class="col-md-10 col-xs-12">
+                                        <div class="col-md-4">
+                                            <label class="col-md-3 control-label">Sucursal</label>
+                                            <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Proveedor.NombreRazonSocial, new { @class = "form-control"})
+                                                    @Html.TextBoxFor(model => model.Sucursal.NombreSucursal, new { @class = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Sucursal.NombreSucursal)
+                                                <span class="help-block">Sucursal de la compra.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="col-md-3 control-label">Prov. seleccionado</label>
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.Proveedor.NombreRazonSocial, new { @class = "form-control" })
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.Proveedor.IDProveedor)
                                                 <span class="help-block">Proveedor que realiza la compra.</span>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
-                                            <label class="col-md-2 control-label">Proveedores activos</label>
-                                            <div class="col-md-10 col-xs-12">
+                                        <div class="col-md-4">
+                                            <label class="col-md-3 control-label">Prov. activos</label>
+                                            <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                                     @Html.DropDownListFor(model => model.IDProveedor, new SelectList(Model.ListaProveedores, "IDProveedor", "NombreRazonSocial"), new { @class = "form-control" })
@@ -87,17 +99,6 @@
 
                                     <div class="form-group">
                                         <div class="col-md-4">
-                                            <label class="col-md-3 control-label">Sucursal</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.GanadosPactadoMachos, new { id = "GanadoPactadoMachos", @class = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.GanadosPactadoMachos)
-                                                <span class="help-block">Ingrese una cantidad de ganado "Machos"</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
                                             <label class="col-md-3 control-label">Ganado machos</label>
                                             <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">
@@ -108,7 +109,7 @@
                                                 <span class="help-block">Cantidad pactada machos</span>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-4">
                                             <label class="col-md-3 control-label">Ganado hembras</label>
                                             <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">
@@ -794,14 +795,12 @@
     <script src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-timepicker.min.js")"></script>
 
     <script>
+
         jQuery(document).ready(function () {
-            var directionsService
-            var directionsDisplay;
+
             var idCompra = "@Model.IDCompra";
-            var TableGanado;
             var idProveedor;
             var RangoPrecioJson = @Html.Raw(Json.Encode(Model.Mensaje));
-            console.log(RangoPrecioJson);
             var selectProveedor = document.getElementById("IDProveedor");
 
             if (isUndefined(selectProveedor))
@@ -812,19 +811,17 @@
 
 
             Mensaje(message, typemessage);
-            InitMap();
-            CalculateAndDisplayRoute();
-            LoadTableGanado(idCompra);
-            LoadTableMovimientos(idCompra);
-            LoadTableEvento(idCompra);
 
-        });
-        
+            Compra.init(idCompra);
 
-        $('#ImgFierros').fileinput({
+
+            $('#ImgFierros').fileinput({
             theme: 'fa',
             language: 'es',
-            uploadUrl: 'SaveImageFierro?IDCompra=' + window.idCompra,
+            uploadUrl: 'SaveImageFierro?IDCompra=' + idCompra,
+            showRemove: false,
+            showClose: false,
+            showCancel: false,
             overwriteInitial: false,
             previewFileIcon: '<i class="fa fa-file"></i>',
             allowedPreviewTypes: ['image'],
@@ -842,48 +839,49 @@
                     </text>
                 }
             }
-        ],
-        initialPreviewConfig: [
-            @for (var i = 0 ;  i < Model.ListaFierros.Count; i++)
-            {
-                <text>
-                { caption: '@Model.ListaFierros[i].NombreFierro', url: "DeleteImageFierro", key: '@Model.ListaFierros[i].IDFierro' }
-                </text>
-
-                if ((i + 1) != Model.ListaFierros.Count)
+            ],
+            initialPreviewConfig: [
+                @for (var i = 0 ;  i < Model.ListaFierros.Count; i++)
                 {
                     <text>
-                    ,
+                    { caption: '@Model.ListaFierros[i].NombreFierro', url: "DeleteImageFierro", key: '@Model.ListaFierros[i].IDFierro' }
                     </text>
-                }
-            }
-        ],
-        uploadExtraData: function (previewId, index) {
-            return { key: index };
-        },
-        }).on('filebeforedelete', function () {
-            return new Promise(function (resolve, reject) {
-                $.confirm({
-                    title: 'Confirmación!',
-                    content: '¿Está imagen ya ha sido guardada, desea borrarla?',
-                    type: 'red',
-                    buttons: {
-                        ok: {
-                            btnClass: 'btn-primary text-white',
-                            keys: ['enter'],
-                            action: function () {
-                                resolve();
-                            }
-                        },
-                        cancel: function () {
-                            $.alert('Se detuvo el borrado del archivo.');
-                        }
-                    }
-                });
-            });
-            }).on('filedeleted', function (event, key, jqXHR, data) {
-                console.log(data);
-            });
 
+                    if ((i + 1) != Model.ListaFierros.Count)
+                    {
+                        <text>
+                        ,
+                        </text>
+                    }
+                }
+            ],
+            uploadExtraData: function (previewId, index) {
+                return { key: index };
+            },
+            }).on('filebeforedelete', function () {
+                return new Promise(function (resolve, reject) {
+                    $.confirm({
+                        title: 'Confirmación!',
+                        content: '¿Está imagen ya ha sido guardada, desea borrarla?',
+                        type: 'red',
+                        buttons: {
+                            ok: {
+                                btnClass: 'btn-primary text-white',
+                                keys: ['enter'],
+                                action: function () {
+                                    resolve();
+                                }
+                            },
+                            cancel: function () {
+                                $.alert('Se detuvo el borrado del archivo.');
+                            }
+                        }
+                    });
+                });
+                }).on('filedeleted', function (event, key, jqXHR, data) {
+                
+                });
+
+            });
     </script>
 }
