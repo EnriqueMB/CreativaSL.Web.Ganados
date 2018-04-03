@@ -425,9 +425,9 @@
     <Content Include="Content\img\themes\default.jpg" />
     <Content Include="Content\img\themes\light.jpg" />
     <Content Include="Content\js\actions.js" />
-	<Content Include="Content\js\Chofer.js" />
+    <Content Include="Content\js\Chofer.js" />
     <Content Include="Content\js\proveedor.js" />
-	<Content Include="Content\js\cuentasClientes.js" />
+    <Content Include="Content\js\cuentasClientes.js" />
     <Content Include="Content\js\Empleado.js" />
     <Content Include="Content\js\clientes.js" />
     <Content Include="Content\js\demo_charts_morris.js" />
@@ -983,6 +983,13 @@
     <Content Include="Areas\Admin\Views\CatEmpleado\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalPago.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\ModalCuentaBancaria.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\ModalEvento.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\AgregarCuenta.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\Cuentas.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\EditarCuenta.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
