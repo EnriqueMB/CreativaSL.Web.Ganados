@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class CuentaBancariaModels
+    public class CuentaBancariaProveedorModels
     {
-        public CuentaBancariaModels()
+        public CuentaBancariaProveedorModels()
         {
             _IDDatosBancarios = string.Empty;
             _IDBanco = 0;
@@ -19,29 +18,31 @@ namespace CreativaSL.Web.Ganados.Models
             _Clabe = string.Empty;
             Usuario = string.Empty;
             Conexion = string.Empty;
+            _IDProveedor = string.Empty;
+            _ListaCmbBancos = new List<CatBancoModels>();
         }
-        
+
+        private string _IDProveedor;
+        /// <summary>
+        /// Identificador del Proveedor al que pertenecen los datos bancarios
+        /// </summary>
+        public string IDProveedor
+        {
+            get { return _IDProveedor; }
+            set { _IDProveedor = value; }
+        }
+
 
         private string _IDDatosBancarios;
         /// <summary>
-        /// Identificador de los datos bancarios del cliente
+        /// Identificador de los datos bancarios del Proveedor
         /// </summary>
         public string IDDatosBancarios
         {
             get { return _IDDatosBancarios; }
             set { _IDDatosBancarios = value; }
         }
-
-        private string _IDCliente;
-        /// <summary>
-        /// Identificador del cliente al que pertenecen los datos bancarios
-        /// </summary>
-        public string IDCliente
-        {
-            get { return _IDCliente; }
-            set { _IDCliente = value; }
-        }
-
+        
         private int _IDBanco;
         /// <summary>
         /// Identificador del banco de la cuenta bancaria
@@ -100,7 +101,24 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _Clabe; }
             set { _Clabe = value; }
         }
-        
+
+        private List<CuentaBancariaProveedorModels> _ListaCuentaBancaria;
+
+        public List<CuentaBancariaProveedorModels> ListaCuentaBancaria
+        {
+            get { return _ListaCuentaBancaria; }
+            set { _ListaCuentaBancaria = value; }
+        }
+
+        private List<CatBancoModels> _ListaCmbBancos;
+
+        public List<CatBancoModels> ListaCmbBancos
+        {
+            get { return _ListaCmbBancos; }
+            set { _ListaCmbBancos = value; }
+        }
+
+
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }

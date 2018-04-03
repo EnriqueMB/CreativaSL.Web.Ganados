@@ -31,6 +31,7 @@ namespace CreativaSL.Web.Ganados.Models
             _Tolerancia = 0;
             _Observaciones = string.Empty;
             _Direccion = string.Empty;
+            _ListaGeneroCMB = new List<CatGeneroModels>();
         }
         private string _telefonoCasa;
 
@@ -57,16 +58,13 @@ namespace CreativaSL.Web.Ganados.Models
             set { _correo = value; }
         }
         private int _sexo;
-        [Required(ErrorMessage = "La marca es obligatorio")]
-        [Display(Name = "Marca")]
-        [RegularExpression(@"^[1-9][0-9]*$", ErrorMessage = "Seleccione una marca")]
+
         public int sexo
         {
             get { return _sexo; }
             set { _sexo = value; }
         }
         private string _Direccion;
-        [Required(ErrorMessage = "La dirección es obligatorio")]
         [Display(Name = "Dirección")]
         [Direccion(ErrorMessage = "Ingrese un datos válido para {0}")]
         public string Direccion
@@ -194,9 +192,11 @@ namespace CreativaSL.Web.Ganados.Models
             set { _ImgManifestacionFierros = value; }
         }
 
+        [Display(Name = "Imagen INE")]
         public HttpPostedFileBase[] ImgINEE2 { get; set; }
 
         private HttpPostedFileBase[] _ImgManifestacionFierros2;
+        [Display(Name = "Manifestación Fierro")]
         public HttpPostedFileBase[] ImgManifestacionFierros2
         {
             get { return _ImgManifestacionFierros2; }

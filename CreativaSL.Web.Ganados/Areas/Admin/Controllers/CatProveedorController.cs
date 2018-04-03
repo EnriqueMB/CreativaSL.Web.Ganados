@@ -71,42 +71,134 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
             try
             {
-                HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                if (!string.IsNullOrEmpty(bannerImage.FileName))
+                if (ModelState.IsValid)
                 {
+                    HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
                     if (bannerImage != null && bannerImage.ContentLength > 0)
                     {
-
                         Stream s = bannerImage.InputStream;
                         Bitmap img = new Bitmap(s);
                         Proveedor.ImgINE = img.ToBase64String(ImageFormat.Png);
-
                     }
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Cargar imagen INE");
-                }
-                HttpPostedFileBase bannerImage2 = Request.Files[1] as HttpPostedFileBase;
-                if (!string.IsNullOrEmpty(bannerImage.FileName))
-                {
+                    HttpPostedFileBase bannerImage2 = Request.Files[1] as HttpPostedFileBase;
                     if (bannerImage2 != null && bannerImage2.ContentLength > 0)
                     {
-
                         Stream s = bannerImage2.InputStream;
                         Bitmap img = new Bitmap(s);
                         Proveedor.ImgManifestacionFierro = img.ToBase64String(ImageFormat.Png);
-
+                    }
+                    Proveedor.Conexion = Conexion;
+                    Proveedor.Usuario = User.Identity.Name;
+                    Proveedor.Opcion = 1;
+                    Proveedor = ProveedorDatos.AcCatProveedor(Proveedor);
+                    if (Proveedor.Completado)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardaron correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
+                        Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
+                        Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        return View(Proveedor);
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Cargar imagen manifestación fierro");
+                    Proveedor.Conexion = Conexion;
+                    Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
+                    Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
+                    Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                    return View(Proveedor);
                 }
+            }
+            catch (Exception ex)
+            {
+                Proveedor.Conexion = Conexion;
+                Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
+                Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
+                Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(Proveedor);
+            }
+        }
 
+        // GET: Admin/CatProveedor/Edit/5
+        public ActionResult Edit(string id)
+        {
+            try
+            {
+                CatProveedorModels Proveedor = new CatProveedorModels();
+                _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
+                Proveedor.IDProveedor = id;
+                Proveedor.Conexion = Conexion;
 
+                Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
+                var listaSucursal = new SelectList(Proveedor.listaSucursal, "IDSucursal", "NombreSucursal");
+                ViewData["cmbSucursal"] = listaSucursal;
+
+                Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
+                var listaTipoProveedores = new SelectList(Proveedor.listaTipoProveedor, "IDTipoProveedor", "Descripcion");
+                ViewData["cmbTipoProveedor"] = listaTipoProveedores;
+
+                Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                var list = new SelectList(Proveedor.ListaGeneroCMB, "IDGenero", "Descripcion");
+                ViewData["cmbGenero"] = list;
+
+                Proveedor = ProveedorDatos.ObtenerDetalleCatProveedor(Proveedor);
+                return View(Proveedor);
+            }
+            catch (Exception ex)
+            {
+                CatProveedorModels Proveedor = new CatProveedorModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Proveedor);
+            }
+        }
+
+        // POST: Admin/CatProveedor/Edit/5
+        [HttpPost]
+        public ActionResult Edit(string id, CatProveedorModels Proveedor)
+        {
+            _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
+            try
+            {
                 if (ModelState.IsValid)
                 {
+                    HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                    if (!string.IsNullOrEmpty(bannerImage.FileName))
+                    {
+                        if (bannerImage != null && bannerImage.ContentLength > 0)
+                        {
+                            Stream s = bannerImage.InputStream;
+                            Bitmap img = new Bitmap(s);
+                            Proveedor.ImgINE = img.ToBase64String(ImageFormat.Png);
+                        }
+                    }
+                    else
+                    {
+                        Proveedor.BandINE = true;
+                    }
+                    HttpPostedFileBase bannerImage2 = Request.Files[1] as HttpPostedFileBase;
+                    if (!string.IsNullOrEmpty(bannerImage2.FileName))
+                    {
+                        if (bannerImage2 != null && bannerImage2.ContentLength > 0)
+                        {
+                            Stream s = bannerImage2.InputStream;
+                            Bitmap img = new Bitmap(s);
+                            Proveedor.ImgManifestacionFierro = img.ToBase64String(ImageFormat.Png);
+                        }
+                    }
+                    else
+                    {
+                        Proveedor.BandMF = true;
+                    }
                     Proveedor.Conexion = Conexion;
                     Proveedor.Usuario = User.Identity.Name;
                     Proveedor.Opcion = 2;
@@ -151,7 +243,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             //    CatProveedorModels Proveedor = new CatProveedorModels();
             //    _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
             //    Proveedor.Conexion = Conexion;
-            //    Proveedor.Opcion = 1;
+            //    Proveedor.IDProveedor = id;
+            //    Proveedor.Opcion = 2;
             //    Proveedor.Usuario = User.Identity.Name;
             //    Proveedor.NombreRazonSocial = collection["NombreRazonSocial"];
             //    Proveedor.RFC = collection["RFC"];
@@ -163,18 +256,32 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             //    Proveedor.correo = collection["correo"];
             //    Proveedor.sexo = Convert.ToInt32(collection["ListaGeneroCMB"]);
             //    HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-            //    if (bannerImage != null && bannerImage.ContentLength > 0)
+            //    if (!string.IsNullOrEmpty(bannerImage.FileName))
             //    {
-            //        Stream s = bannerImage.InputStream;
-            //        Bitmap img = new Bitmap(s);
-            //        Proveedor.ImgINE = img.ToBase64String(ImageFormat.Png);
+            //        if (bannerImage != null && bannerImage.ContentLength > 0)
+            //        {
+            //            Stream s = bannerImage.InputStream;
+            //            Bitmap img = new Bitmap(s);
+            //            Proveedor.ImgINE = img.ToBase64String(ImageFormat.Png);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        Proveedor.BandINE = true;
             //    }
             //    HttpPostedFileBase bannerImage2 = Request.Files[1] as HttpPostedFileBase;
-            //    if (bannerImage2 != null && bannerImage2.ContentLength > 0)
+            //    if (!string.IsNullOrEmpty(bannerImage2.FileName))
             //    {
-            //        Stream s = bannerImage2.InputStream;
-            //        Bitmap img = new Bitmap(s);
-            //        Proveedor.ImgManifestacionFierro = img.ToBase64String(ImageFormat.Png);
+            //        if (bannerImage2 != null && bannerImage2.ContentLength > 0)
+            //        {
+            //            Stream s = bannerImage2.InputStream;
+            //            Bitmap img = new Bitmap(s);
+            //            Proveedor.ImgManifestacionFierro = img.ToBase64String(ImageFormat.Png);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        Proveedor.BandMF = true;
             //    }
             //    Proveedor = ProveedorDatos.AcCatProveedor(Proveedor);
             //    if (Proveedor.Completado == true)
@@ -196,111 +303,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             //    TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
             //    return RedirectToAction("Index");
             //}
-        }
-
-        // GET: Admin/CatProveedor/Edit/5
-        public ActionResult Edit(string id)
-        {
-            try
-            {
-                CatProveedorModels Proveedor = new CatProveedorModels();
-                _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
-                Proveedor.IDProveedor = id;
-                Proveedor.Conexion = Conexion;
-
-                Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
-                var listaSucursal = new SelectList(Proveedor.listaSucursal, "IDSucursal", "NombreSucursal");
-                ViewData["cmbSucursal"] = listaSucursal;
-
-                Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
-                var listaTipoProveedores = new SelectList(Proveedor.listaTipoProveedor, "IDTipoProveedor", "Descripcion");
-                ViewData["cmbTipoProveedor"] = listaTipoProveedores;
-
-                Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
-                var list = new SelectList(Proveedor.ListaGeneroCMB, "IDGenero", "Descripcion");
-                ViewData["cmbGenero"] = list;
-
-                Proveedor = ProveedorDatos.ObtenerDetalleCatProveedor(Proveedor);
-                return View(Proveedor);
-            }
-            catch (Exception ex)
-            {
-                CatProveedorModels Proveedor = new CatProveedorModels();
-                TempData["typemessage"] = "2";
-                TempData["message"] = "No se puede cargar la vista";
-                return View(Proveedor);
-            }
-        }
-
-        // POST: Admin/CatProveedor/Edit/5
-        [HttpPost]
-        public ActionResult Edit(string id, FormCollection collection)
-        {
-            try
-            {
-                CatProveedorModels Proveedor = new CatProveedorModels();
-                _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
-                Proveedor.Conexion = Conexion;
-                Proveedor.IDProveedor = id;
-                Proveedor.Opcion = 2;
-                Proveedor.Usuario = User.Identity.Name;
-                Proveedor.NombreRazonSocial = collection["NombreRazonSocial"];
-                Proveedor.RFC = collection["RFC"];
-                Proveedor.IDSucursal = collection["listaSucursal"];
-                Proveedor.IDTipoProveedor = Convert.ToInt32(collection["listaTipoProveedor"]);
-                Proveedor.Direccion = collection["direccion"];
-                Proveedor.telefonoCelular = collection["telefonoCelular"];
-                Proveedor.telefonoCasa = collection["telefonoCasa"];
-                Proveedor.correo = collection["correo"];
-                Proveedor.sexo = Convert.ToInt32(collection["ListaGeneroCMB"]);
-                HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                if (!string.IsNullOrEmpty(bannerImage.FileName))
-                {
-                    if (bannerImage != null && bannerImage.ContentLength > 0)
-                    {
-                        Stream s = bannerImage.InputStream;
-                        Bitmap img = new Bitmap(s);
-                        Proveedor.ImgINE = img.ToBase64String(ImageFormat.Png);
-                    }
-                }
-                else
-                {
-                    Proveedor.BandINE = true;
-                }
-                HttpPostedFileBase bannerImage2 = Request.Files[1] as HttpPostedFileBase;
-                if (!string.IsNullOrEmpty(bannerImage2.FileName))
-                {
-                    if (bannerImage2 != null && bannerImage2.ContentLength > 0)
-                    {
-                        Stream s = bannerImage2.InputStream;
-                        Bitmap img = new Bitmap(s);
-                        Proveedor.ImgManifestacionFierro = img.ToBase64String(ImageFormat.Png);
-                    }
-                }
-                else
-                {
-                    Proveedor.BandMF = true;
-                }
-                Proveedor = ProveedorDatos.AcCatProveedor(Proveedor);
-                if (Proveedor.Completado == true)
-                {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "Los datos se guardarón correctamente.";
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                    return RedirectToAction("Create");
-                }
-            }
-            catch (Exception ex)
-            {
-                TempData["typemessage"] = "2";
-                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
-                return RedirectToAction("Index");
-            }
         }
 
         // GET: Admin/CatProveedor/Delete/5
@@ -337,6 +339,48 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
             }
         }
-        
+
+        // GET: Admin/CatProveedor/Cuentas/5
+        [HttpGet]
+        public ActionResult Cuentas(string id)
+        {
+            try
+            {
+                CuentaBancariaProveedorModels Cuenta = new CuentaBancariaProveedorModels();
+                _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
+                Cuenta.Conexion = Conexion;
+                Cuenta.IDProveedor = id;
+                Cuenta.ListaCuentaBancaria = ProveedorDatos.ObtenerCuentasBancarias(Cuenta);
+                return View(Cuenta);
+            }
+            catch (Exception)
+            {
+                CuentaBancariaProveedorModels Cuenta = new CuentaBancariaProveedorModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Cuenta);
+            }
+        }
+
+        //GET: Admin/CatProveedor/CreateCuenta/3
+        [HttpGet]
+        public ActionResult CreateCuenta(string id)
+        {
+            try
+            {
+                CuentaBancariaProveedorModels Cuenta = new CuentaBancariaProveedorModels();
+                _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
+                Cuenta.IDProveedor = id;
+                Cuenta.Conexion = Conexion;
+                return View(Cuenta);
+            }
+            catch (Exception)
+            {
+                CuentaBancariaProveedorModels Cuenta = new CuentaBancariaProveedorModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Cuenta);
+            }
+        }
     }
 }
