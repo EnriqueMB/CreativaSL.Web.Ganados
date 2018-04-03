@@ -1100,6 +1100,7 @@
     <Compile Include="Models\EntradaAlmacenDetalleModels.cs" />
     <Compile Include="Models\EntradaAlmacenModels.cs" />
     <Compile Include="Models\EntregaCombistibleModels.cs" />
+    <Compile Include="Models\ErrorModelState.cs" />
     <Compile Include="Models\EstadoModels.cs" />
     <Compile Include="Models\EventoEnvioDetalleModels.cs" />
     <Compile Include="Models\EventoEnvioModels.cs" />
