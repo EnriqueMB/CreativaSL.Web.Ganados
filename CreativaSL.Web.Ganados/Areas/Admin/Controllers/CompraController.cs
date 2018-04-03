@@ -76,7 +76,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             Compra.ListaChoferes = CompraDatos.GetListadoChoferes(Compra);
             Compra.ListaVehiculos = CompraDatos.GetListadoVehiculos(Compra);
             Compra.ListaJaulas = CompraDatos.GetListadoJaulas(Compra);
-            Compra.Mensaje = CompraDatos.GetRangoPeso(Compra);
+            //Compra.Mensaje = CompraDatos.GetRangoPeso(Compra);
 
             return View(Compra);
         }
@@ -250,32 +250,28 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return PartialView("ModalPago", Compra);
         }
         #endregion
-        #region Inventario
-        [HttpGet]
-        public ActionResult Inventario()
+        #region Cobro
+        [HttpPost]
+        public ActionResult ModalCobro(string idDocCobrar)
         {
             Compra = new CompraModels();
-            return PartialView("ModalInventario", Compra.Ganado);
+            CompraDatos = new _Compra_Datos();
+            Compra.Ganado.id_Ganados = idDocCobrar;
+            Compra.Conexion = Conexion;
+
+            return PartialView("ModalCobro", Compra);
         }
         #endregion
-        #region Renta
-        [HttpGet]
-        public ActionResult Renta(string opcion)
+        #region Evento
+        [HttpPost]
+        public ActionResult ModalEvento(string IDCompra)
         {
-            //Aquí será la consulta a mostrar y así poder desplegar el modal con los datos correspondientes
-            switch (opcion)
-            {
-                case "Vehiculo":
-                    break;
-                case "Remolque":
-                    break;
-                case "Jaula":
-                    break;
-                default:
-                    break;
-            }
             Compra = new CompraModels();
-            return PartialView("ModalRenta", Compra.Ganado);
+            CompraDatos = new _Compra_Datos();
+            Compra.Ganado.id_Ganados = IDCompra;
+            Compra.Conexion = Conexion;
+
+            return PartialView("ModalEvento", Compra);
         }
         #endregion
         #endregion

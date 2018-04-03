@@ -29,8 +29,13 @@ $.validator.addMethod("telefono", function (value, element) {
 $.validator.addMethod("texto", function (value, element) {
     return this.optional(element) || /^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\(\)\-\,\.\;\:\s]*$/i.test(value);
 }, "invalid text");
-
-$.validator.addMethod("cuenta", function (value, element) {    
+$.validator.addMethod("placa", function (value, element) {
+    return this.optional(element) || /^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\-\s]*$/i.test(value);
+}, "invalid text");
+$.validator.addMethod("tarjetaCirculacion", function (value, element) {
+    return this.optional(element) || /^[A-Za-záéíóúñÁÉÍÓÚÑ]*$/i.test(value);
+}, "invalid text");
+$.validator.addMethod("cuenta", function (value, element) {
     return this.optional(element) || /^[0-9]{13}$/i.test(value);
 }, "invalid bank account");
 
@@ -40,9 +45,21 @@ $.validator.addMethod("clabe", function (value, element) {
 
 $.validator.addMethod("CMBINT", function (value, element) {
     if ((value === '0') || (value === '-1')) {
+     
         return false;
     }
     else {
         return true;
     }
 }, 'Seleccione un valor del combo.');
+
+$.validator.addMethod("validarImagen", function () {
+    if (document.getElementById("ImgINEE").value === '') {
+        if ((document.getElementById("ImgINEE").value === ''))
+            return false;
+        else
+            return true;
+    }
+    else
+        return true;
+}, 'Debe seleccionar una imagen.');

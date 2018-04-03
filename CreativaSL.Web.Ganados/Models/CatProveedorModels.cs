@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.Models.Validaciones;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -25,7 +26,11 @@ namespace CreativaSL.Web.Ganados.Models
             Opcion = 0;
             Completado = false;
             Usuario = string.Empty;
-
+            _FechaIngreso = DateTime.Now;
+            _EsEmpresa = false;
+            _Tolerancia = 0;
+            _Observaciones = string.Empty;
+            _Direccion = string.Empty;
         }
         private string _telefonoCasa;
 
@@ -60,12 +65,14 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _sexo; }
             set { _sexo = value; }
         }
-        private string _direccion;
-
-        public string direccion
+        private string _Direccion;
+        [Required(ErrorMessage = "La dirección es obligatorio")]
+        [Display(Name = "Dirección")]
+        [Direccion(ErrorMessage = "Ingrese un datos válido para {0}")]
+        public string Direccion
         {
-            get { return _direccion; }
-            set { _direccion = value; }
+            get { return _Direccion; }
+            set { _Direccion = value; }
         }
         /// <summary>
         /// LISTA DE GENERO DE PERSONA
@@ -82,10 +89,7 @@ namespace CreativaSL.Web.Ganados.Models
         /// </summary>
         /// 
         private List<CatTipoProveedorModels> _listaTipoProveedor;
-        [Required(ErrorMessage = "El tipo de proveedor es obligatorio")]
-        [Display(Name = "Municipio")]
 
-        [RegularExpression(@"^[1-9][0-9]*$", ErrorMessage = "Seleccione un municipio")]
         public List<CatTipoProveedorModels> listaTipoProveedor
         {
             get { return _listaTipoProveedor; }
@@ -96,8 +100,7 @@ namespace CreativaSL.Web.Ganados.Models
         /// </summary>
         /// 
         private List<CatSucursalesModels> _listaSucursal;
-        [Required(ErrorMessage = "La sucursal es obligatoria")]
-        [Display(Name = "Sucursal")]
+
         public List<CatSucursalesModels> listaSucursal
         {
             get { return _listaSucursal; }
@@ -218,9 +221,9 @@ namespace CreativaSL.Web.Ganados.Models
 
 
         private string _ImgINE;
-        [Required(ErrorMessage = "La Imagen es obligatorio")]
-        [Display(Name = "Imagen")]
-        [FileExtensions(Extensions = "png,jpg,jpeg", ErrorMessage = "Solo imagenes")]
+        //[Required(ErrorMessage = "La Imagen es obligatorio")]
+        //[Display(Name = "Imagen")]
+        //[FileExtensions(Extensions = "png,jpg,jpeg", ErrorMessage = "Solo imagenes")]
         public string ImgINE
         {
             get { return _ImgINE; }
@@ -228,9 +231,9 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _ImgManifestacionFierro;
-        [Required(ErrorMessage = "La Imagen es obligatorio")]
-        [Display(Name = "Imagen")]
-        [FileExtensions(Extensions = "png,jpg,jpeg", ErrorMessage = "Solo imagenes")]
+        //[Required(ErrorMessage = "La Imagen es obligatorio")]
+        //[Display(Name = "Imagen")]
+        //[FileExtensions(Extensions = "png,jpg,jpeg", ErrorMessage = "Solo imagenes")]
         public string ImgManifestacionFierro
         {
             get { return _ImgManifestacionFierro; }
@@ -251,6 +254,38 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _BandMF; }
             set { _BandMF = value; }
+        }
+
+        private DateTime _FechaIngreso;
+
+        public DateTime FechaIngreso
+        {
+            get { return _FechaIngreso; }
+            set { _FechaIngreso = value; }
+        }
+
+        private bool _EsEmpresa;
+
+        public bool EsEmpresa
+        {
+            get { return _EsEmpresa; }
+            set { _EsEmpresa = value; }
+        }
+
+        private int _Tolerancia;
+
+        public int Tolerancia
+        {
+            get { return _Tolerancia; }
+            set { _Tolerancia = value; }
+        }
+
+        private string _Observaciones;
+
+        public string Observaciones
+        {
+            get { return _Observaciones; }
+            set { _Observaciones = value; }
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using CreativaSL.Web.Ganados.Models;
+using CreativaSL.Web.Ganados.Models.Validaciones;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -24,12 +25,11 @@ namespace CreativaSL.Web.Ganados.Models
             _Modelo = string.Empty;
             _Color = string.Empty;
             _Placas = string.Empty;
-            _Remolque = string.Empty;
+           
             _NoSerie = string.Empty;
             _Estatus = true;
             _fechaIngreso = DateTime.Now;
-            _colorRemolque = string.Empty;
-            _placaRemolque = string.Empty;
+            
             _tarjetaCirculacion = string.Empty;
             //datos de control
             Conexion = string.Empty;
@@ -38,31 +38,12 @@ namespace CreativaSL.Web.Ganados.Models
             Completado = false;
             Usuario = string.Empty;
         }
-        private string _colorRemolque;
-       // [Required(ErrorMessage = "El color es obligatorio")]
-        [Display(Name = "Color")]
-        [StringLength(30, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ\s]*$", ErrorMessage = "Solo Letras")]
-        public string colorRemolque
-        {
-            get { return _colorRemolque; }
-            set { _colorRemolque = value; }
-        }
-        private string _placaRemolque;
-        //[Required(ErrorMessage = "Las placas es obligatorio")]
-        [Display(Name = "Placas")]
-        [StringLength(10, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s\-]*$", ErrorMessage = "Solo Letras y números")]
-        public string placaRemolque
-        {
-            get { return _placaRemolque; }
-            set { _placaRemolque = value; }
-        }
+       
         private string _tarjetaCirculacion;
         [Required(ErrorMessage = "La tarjeta de Circulacion es obligatoria")]
         [Display(Name = "Tarjeta Circulación")]
         [StringLength(10, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9]*$", ErrorMessage = "Solo Letras y números")]
+        [Texto( ErrorMessage = "Solo Letras y números")]
         public string tarjetaCirculacion
         {
             get { return _tarjetaCirculacion; }
@@ -94,7 +75,7 @@ namespace CreativaSL.Web.Ganados.Models
         private List<CatMarcaVehiculoModels> _listaMarcas;
         [Required(ErrorMessage = "La marca es obligatorio")]
         [Display(Name = "Marca")]
-        [RegularExpression(@"^[1-9][0-9]*$", ErrorMessage = "Seleccione una marca")]
+        
         public List<CatMarcaVehiculoModels> listaMarcas
         {
             get { return _listaMarcas; }
@@ -103,7 +84,7 @@ namespace CreativaSL.Web.Ganados.Models
         private List<CatTipoVehiculoModels> _listaTipoVehiculos;
         [Required(ErrorMessage = "El tipo de Vehículo es obligatorio")]
         [Display(Name = "tipo de Vehículo")]
-        [RegularExpression(@"^[1-9][0-9]*$", ErrorMessage = "Seleccione una marca")]
+       
         public List<CatTipoVehiculoModels> listaTipoVehiculos
         {
             get { return _listaTipoVehiculos; }
@@ -193,7 +174,7 @@ namespace CreativaSL.Web.Ganados.Models
         [Required(ErrorMessage = "El modelo es obligatorio")]
         [Display(Name = "Modelo")]
         [StringLength(10, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s]*$", ErrorMessage = "Solo Letras y números")]
+        [Texto(ErrorMessage = "Solo Letras, números y guiones ")]
         public string Modelo
         {
             get { return _Modelo; }
@@ -204,7 +185,7 @@ namespace CreativaSL.Web.Ganados.Models
         [Required(ErrorMessage = "El color es obligatorio")]
         [Display(Name = "Color")]
         [StringLength(30, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ\s]*$", ErrorMessage = "Solo Letras y números")]
+        [Texto(ErrorMessage = "Solo Letras, números y guiones ")]
         public string Color
         {
             get { return _Color; }
@@ -215,23 +196,14 @@ namespace CreativaSL.Web.Ganados.Models
         [Required(ErrorMessage = "Las placas es obligatorio")]
         [Display(Name = "Placas")]
         [StringLength(10, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s\-]*$", ErrorMessage = "Solo Letras y números")]
+        [Placas(ErrorMessage = "Solo Letras, números y guiones ")]
         public string Placas
         {
             get { return _Placas; }
             set { _Placas = value; }
         }
 
-        private string _Remolque;
-
-
-        [StringLength(30, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        public string Remolque
-        {
-            get { return _Remolque; }
-            set { _Remolque = value; }
-        }
-
+      
         private string _NoSerie;
         //[Required(ErrorMessage = "Número de serie es obligatorio")]
         [Display(Name = "Número de serie")]

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.Models.Validaciones;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Web;
 namespace CreativaSL.Web.Ganados.Models
 {
     public class CatTipoVehiculoModels
-        
+
     {
         public CatTipoVehiculoModels() {
             _listaTipoVehiculos = new List<CatTipoVehiculoModels>();
@@ -40,7 +41,7 @@ namespace CreativaSL.Web.Ganados.Models
         [Required(ErrorMessage = "El tipo de vehículo es obligatorio")]
         [Display(Name = " tipo de vehículo")]
         [StringLength(80, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\(\)\-\,\.\;\:\s]*$", ErrorMessage = "Solo Letras y números")]
+        [Texto( ErrorMessage = "Solo Letras y números")]
         public string Descripcion
         {
             get { return _Descripcion; }

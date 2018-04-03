@@ -19,10 +19,12 @@
         </div>
         <div class="col-md-12">
             @*<form class="form-horizontal">*@
-            @using (Html.BeginForm("Edit", "CatChofer", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("Edit", "CatChofer", FormMethod.Post, new { id = "form-chofer", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                  <div id="validation_summary" class="field_error "></div> //JS
 
                 @Html.HiddenFor(model => model.IDChofer)
                 <div class="panel panel-default">
@@ -33,27 +35,35 @@
                         </ul>
                     </div>
                     <div class="panel-body">
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <label class="col-md-12 control-label text-center">Nombre Chofer</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.Nombre, new { id = "Nombre", @class = "form-control" })
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label class="col-md-12 control-label text-center">Nombre Chofer</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Nombre, new { id = "Nombre", @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Nombre)
+                                        <span class="help-block">Ingrese el nombre del chofer</span>
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.Nombre)
-                                    <span class="help-block">Ingrese el nombre del chofer</span>
                                 </div>
+
                             </div>
-                            <div class="col-md-6">
-                                <label class="col-md-12 control-label text-center">Apellido Parterno</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.ApPaterno, new { id = "ApPaterno", @class = "form-control" })
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label class="col-md-12 control-label text-center">Apellido Parterno</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.ApPaterno, new { id = "ApPaterno", @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.ApPaterno)
+                                        <span class="help-block">Ingrese el apellido paterno</span>
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.ApPaterno)
-                                    <span class="help-block">Ingrese el apellido paterno</span>
                                 </div>
                             </div>
                         </div>
@@ -99,8 +109,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-md-6">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 <label class="col-md-12 control-label text-center">IFE</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
@@ -111,7 +122,9 @@
                                     <span class="help-block">Ingrese el número del IFE</span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 <label class="col-md-12 control-label text-center">Número Seguro Social</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
@@ -123,26 +136,28 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-md-6">
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 <label class="col-md-12 col-xs-12 control-label text-center">Genero</label>
                                 <div class="col-md-12 col-xs-12">
-                                    @Html.DropDownListFor(model => model.IDGenero, new SelectList(Model.ListaGeneroCMB, "IDGenero", "Descripcion"), new { id = "ListGenero", @class = "form-control select", data_live_search = "true" })
-                                    @Html.ValidationMessageFor(model => model.ListaGeneroCMB)
-                                    <span class="help-block">Seleccione la sucursal</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="col-md-12 col-xs-12 control-label text-center">Grupo Sanguineo</label>
-                                <div class="col-md-12 col-xs-12">
-                                    @Html.DropDownListFor(model => model.idgruposanguineo, new SelectList(Model.listaGrupoSanguineo, "IDGrupoSanguineo", "descripcion"), new { id = "ListGrupoSanguineo", @class = "form-control select", data_live_search = "true" })
+                                    @Html.DropDownListFor(model => model.IDGenero, new SelectList(Model.ListaGeneroCMB, "IDGenero", "Descripcion"), new { id = "IDGenero", @class = "form-control select", data_live_search = "true" })
                                     @Html.ValidationMessageFor(model => model.ListaGeneroCMB)
                                     <span class="help-block">Seleccione la sucursal</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-md-6">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-12 col-xs-12 control-label text-center">Grupo Sanguineo</label>
+                                <div class="col-md-12 col-xs-12">
+                                    @Html.DropDownListFor(model => model.idgruposanguineo, new SelectList(Model.listaGrupoSanguineo, "IDGrupoSanguineo", "descripcion"), new { id = "idgruposanguineo", @class = "form-control select", data_live_search = "true" })
+                                    @Html.ValidationMessageFor(model => model.ListaGeneroCMB)
+                                    <span class="help-block">Seleccione la sucursal</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 <label class="col-md-12 control-label text-center">Aquí avisar en caso de accidente</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
@@ -153,7 +168,9 @@
                                     <span class="help-block">Ingrese el nombre</span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 <label class="col-md-12 control-label text-center">Teléfono</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
@@ -189,8 +206,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-md-6">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 <label class="col-md-12 control-label text-center">Fecha Nacimiento</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group date">
@@ -201,7 +219,9 @@
                                     <span class="help-block">Ingrese la fecha de nacimiento</span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 <label class="col-md-12 control-label text-center">Fecha Ingreso</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group ">
@@ -213,6 +233,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                     <div class="panel-footer">
                         <input type="submit" value="Guardar" class="btn btn-primary pull-right">
@@ -236,7 +257,9 @@
     <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/maskedinput/jquery.maskedinput.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
+   <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/Chofer.js")"></script>
 
     <script>
     jQuery(document).ready(function () {
@@ -245,9 +268,9 @@
         });
         Mensaje(message, typemessage);
 
-        $('#ListGenero').val('@Model.IDGenero');
-        $('#ListGrupoSanguineo').val('@Model.idgruposanguineo');
+       
 
+        Chofer.init();
     });
 
     jQuery.validator.methods["date"] = function (value, element) { return true; }

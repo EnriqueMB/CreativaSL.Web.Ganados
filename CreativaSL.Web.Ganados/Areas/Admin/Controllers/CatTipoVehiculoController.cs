@@ -59,27 +59,34 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatTipoVehiculo/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CatTipoVehiculoModels TipoVehiculo)
         {
+            _CatTipoVehiculos_Datos TipoVehiculoDatos = new _CatTipoVehiculos_Datos();
             try
             {
-                CatTipoVehiculoModels TipoVehiculo = new CatTipoVehiculoModels();
-                _CatTipoVehiculos_Datos TipoVehiculoDatos = new _CatTipoVehiculos_Datos();
-                TipoVehiculo.Conexion = Conexion;
-                TipoVehiculo.Usuario = User.Identity.Name;
-                TipoVehiculo.Opcion = 1;
-                TipoVehiculo.Descripcion = collection["Descripcion"];
-                TipoVehiculo = TipoVehiculoDatos.AcCatTipoVehiculo(TipoVehiculo);
-                if (TipoVehiculo.Completado == true)
+
+                if (ModelState.IsValid)
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "Los datos se guardarón correctamente.";
-                    return RedirectToAction("Index");
+                    TipoVehiculo.Conexion = Conexion;
+                    TipoVehiculo.Usuario = User.Identity.Name;
+                    TipoVehiculo.Opcion = 1;
+
+                    TipoVehiculo = TipoVehiculoDatos.AcCatTipoVehiculo(TipoVehiculo);
+                    if (TipoVehiculo.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardarón correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        return View(TipoVehiculo);
+                    }
                 }
                 else
                 {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                     return View(TipoVehiculo);
                 }
             }
