@@ -37,7 +37,7 @@
                 NombreRazonSocial: { required: true, texto: true, maxlength: 300 },
                 IDRegimenFiscal: { required: true },
                 RFC: { required: true, rfc: true },
-                Direccion: { direccion: true, maxlength: 300 },
+                Direccion: {direccion: true, maxlength: 300 },
                 FechaIngreso: { required: true },
                 IDTipoProveedor: { CMBINT: true }, //{ nombre: true, maxlenght: 300 },
                 Tolerancia: { number: true },
@@ -100,35 +100,21 @@
         });
     };
 
-    var rumImagenes = function ()
+    var runImagenes = function ()
     {
-        $('#ImgINEE').fileinput({
-            theme: 'fa',
-            language: 'es',
-            minFileCount: 1,
-            uploadUrl: "#",
-            showUpload: false,
-            showUploadedThumbs: false,
-            overwriteInitial: false,
-            allowedFileExtensions: ['png'],
-            required: true
-        })
-        $('#ImgManifestacionFierros').fileinput({
-            theme: 'fa',
-            language: 'es',
-            minFileCount: 1,
-            uploadUrl: "#",
-            overwriteInitial: false,
-            showUpload: false,
-            showUploadedThumbs: false,
-            allowedFileExtensions: ['png'],
-            required: true
-        })
+        
     };
 
     var runCombos = function () {
-
+        var isChecked = $("#EsEmpresa").prop("checked");
+        if (isChecked == true) {
+            $('#Genero').css('display', 'block')
+        }
+        else {
+            $('#Genero').css('display', 'none')
+        }
         $('input').on('ifChanged', function (event) {
+            console.log("Entre")
             var esPersonaFisica = $(this).prop('checked');
             if (esPersonaFisica == true) {
                 $('#Genero').css('display', 'block')
@@ -144,7 +130,7 @@
         init: function () {
             runValidator1();
             runDatePicker();
-            rumImagenes();
+            runImagenes();
             runCombos();
         }
     };
