@@ -299,7 +299,7 @@
                                     <div class="col-md-11 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextArea("Description", null, new { @class = "form-control" })
+                                            @Html.TextArea("Description", null, new { @class = "form-control texArea", @rows="10" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.CompraGanado.PesoInicial)
                                         <span class="help-block">Nota u observación.</span>
