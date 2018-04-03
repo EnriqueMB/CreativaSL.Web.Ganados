@@ -41,3 +41,7 @@
 .form-control[disabled], .form-control[readonly] {
     color: #000 !important; 
 }
+
+.btn{
+    display: table-cell !important;
+}

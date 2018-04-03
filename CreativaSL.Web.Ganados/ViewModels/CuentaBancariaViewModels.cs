@@ -1,25 +1,35 @@
-﻿using CreativaSL.Web.Ganados.ViewModels;
+﻿using CreativaSL.Web.Ganados.Models;
+using CreativaSL.Web.Ganados.Models.Validaciones;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace CreativaSL.Web.Ganados.Models
+namespace CreativaSL.Web.Ganados.ViewModels
 {
-    public class CuentaBancariaModels
+    public class CuentaBancariaViewModels
     {
-        public CuentaBancariaModels()
+        public CuentaBancariaViewModels()
         {
             _IDDatosBancarios = string.Empty;
-            _Cliente = new CatClienteModels();
-            _Banco = new CatBancoModels();
+            _IDCliente = string.Empty;
+            _IDBanco = 0;
             _Titular = string.Empty;
             _NumTarjeta = string.Empty;
             _NumCuenta = string.Empty;
             _Clabe = string.Empty;
         }
-        
+
+        private string _IDCliente;
+        /// <summary>
+        /// Identificador del cliente al que pertenece la cuenta
+        /// </summary>
+        public string IDCliente
+        {
+            get { return _IDCliente; }
+            set { _IDCliente = value; }
+        }
         private string _IDDatosBancarios;
         /// <summary>
         /// Identificador de los datos bancarios del cliente
@@ -30,30 +40,26 @@ namespace CreativaSL.Web.Ganados.Models
             set { _IDDatosBancarios = value; }
         }
 
-        private CatClienteModels _Cliente;
+        private int _IDBanco;
         /// <summary>
-        /// Datos del cliente al que pertenece la cuenta bancaria
+        /// Identificador del banco de la cuenta bancaria
         /// </summary>
-        public CatClienteModels Cliente
+        [Display( Name = "Banco")]
+        [CombosInt(ErrorMessage ="Seleccione un banco")]
+        [Required(ErrorMessage = "Seleccione un banco")]
+        public int IDBanco
         {
-            get { return _Cliente; }
-            set { _Cliente = value; }
+            get { return _IDBanco; }
+            set { _IDBanco = value; }
         }
-        
-        private CatBancoModels _Banco;
-        /// <summary>
-        /// Datos del banco en el que se encuentra la cuenta bancaria
-        /// </summary>
-        public CatBancoModels Banco
-        {
-            get { return _Banco; }
-            set { _Banco = value; }
-        }
-        
+
         private string _Titular;
         /// <summary>
         /// Nombre de la persona titular de la cuenta bancaria
         /// </summary>
+        [Display(Name = "Titular de la cuenta")]
+        [Nombre(ErrorMessage ="Ingrese un nombre válido en {0}")]
+        [Required(ErrorMessage = "Ingrese el nombre del {0}")]
         public string Titular
         {
             get { return _Titular; }
@@ -64,6 +70,8 @@ namespace CreativaSL.Web.Ganados.Models
         /// <summary>
         /// Numero de tarjeta de la cuenta (No requerido)
         /// </summary>
+        [Display(Name ="Número de tarjeta")]
+        [TarjetaCredito(ErrorMessage ="Ingrese un número de tarjeta válido")]
         public string NumTarjeta
         {
             get { return _NumTarjeta; }
@@ -74,6 +82,8 @@ namespace CreativaSL.Web.Ganados.Models
         /// <summary>
         /// Número de cuenta
         /// </summary>
+        [Display(Name = "Número de cuenta")]
+        [NumeroCuenta(ErrorMessage ="Ingrese un número de cuenta válido ")]
         public string NumCuenta
         {
             get { return _NumCuenta; }
@@ -84,36 +94,24 @@ namespace CreativaSL.Web.Ganados.Models
         /// <summary>
         /// Clabe interbancaria utilizada para transacciones entre bancos
         /// </summary>
+        [Display(Name = "CLABE interbancaria")]
+        [ClabeInterbancaria(ErrorMessage = "Ingrese una CLABE interbancaria válida ")]
         public string Clabe
         {
             get { return _Clabe; }
             set { _Clabe = value; }
         }
-        
-        #region Datos De Control
-        public string Conexion { get; set; }
-        public int Resultado { get; set; }
-        public bool Completado { get; set; }
-        public string Usuario { get; set; }
-        public int Opcion { get; set; }
-        public bool NuevoRegistro { get; set; }
-        #endregion
 
-        public CuentaBancariaViewModels GetViewCB()
+        private List<CatBancoModels> _ListaBancos;
+        /// <summary>
+        /// Lista para llenar combo Bancos
+        /// </summary>
+        public List<CatBancoModels> ListaBancos
         {
-            try
-            {
-                return new CuentaBancariaViewModels
-                {   IDBanco = this._Banco.IDBanco,
-                    Titular = this._Titular,
-                    NumTarjeta = this._NumTarjeta,
-                    NumCuenta = this._NumCuenta,
-                    Clabe = this._Clabe };
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }            
+            get { return _ListaBancos; }
+            set { _ListaBancos = value; }
         }
+
+
     }
 }

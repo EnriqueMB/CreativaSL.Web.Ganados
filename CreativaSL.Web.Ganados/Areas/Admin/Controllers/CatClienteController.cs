@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Models;
 using System.Data;
+using CreativaSL.Web.Ganados.ViewModels;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -62,7 +63,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
         }
-                
+                 
         // POST: Admin/CatClientes/Create
         [HttpPost]
         public ActionResult Create(CatClienteModels clienteID)
@@ -182,30 +183,178 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         // GET: Admin/CatClientes/Cuentas/5
+        [HttpGet]
         public ActionResult Cuentas(string id)
         {
             try
-            {
-                CatClienteModels Cliente = new CatClienteModels();
+            {                
+                IEnumerable<CuentaBancariaModels> CuentasBanc = Enumerable.Empty<CuentaBancariaModels>();
+                CuentaBancariaModels Cuenta = new CuentaBancariaModels { Conexion = Conexion, Cliente = new CatClienteModels { IDCliente = id } };
                 CatCliente_Datos ClienteD = new CatCliente_Datos();
-                Cliente.Conexion = Conexion;
-                
-                return View(Cliente);
+                CuentasBanc = ClienteD.ObtenerCuentasXIDCliente(Cuenta);
+                ViewBag.ID = id;
+                return View(CuentasBanc);
             }
             catch (Exception)
             {
-                CatClienteModels Cliente = new CatClienteModels();
-                Cliente.ListaClientes = new List<CatClienteModels>();
+                IEnumerable<CuentaBancariaModels> CuentasBanc = Enumerable.Empty<CuentaBancariaModels>();
+                ViewBag.ID = id;
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return View(Cliente);
+                return View(CuentasBanc);
+            }
+        }
+
+        // GET: Admin/CatClientes/AgregarCuenta/5
+        [HttpGet]
+        public ActionResult AgregarCuenta(string id)
+        {
+            try
+            {
+                CuentaBancariaViewModels Model = new CuentaBancariaViewModels();
+                CatCliente_Datos ClientesDatos = new CatCliente_Datos();
+                Model.IDCliente = id;
+                Model.ListaBancos = ClientesDatos.ObtenerComboCatBancos(Conexion);
+                return View(Model);
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Cuentas", new { id = id });
+            }
+        }
+
+        // POST: Admin/CatClientes/AgregarCuenta
+        [HttpPost]
+        public ActionResult AgregarCuenta(CuentaBancariaViewModels cuentaID)
+        {
+            CatCliente_Datos ClienteDatos = new CatCliente_Datos();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    CuentaBancariaModels datosCuenta = new CuentaBancariaModels
+                    {
+                        Banco = new CatBancoModels { IDBanco = cuentaID.IDBanco },
+                        Cliente = new CatClienteModels {IDCliente = cuentaID.IDCliente },
+                        Titular = cuentaID.Titular,
+                        NumCuenta = cuentaID.NumCuenta,
+                        NumTarjeta = cuentaID.NumTarjeta,
+                        Clabe = cuentaID.Clabe,
+                        Conexion = Conexion,
+                        NuevoRegistro = true,
+                        Usuario = User.Identity.Name
+                    };
+                    ClienteDatos.ACDatosBancariosCliente(datosCuenta);
+                    if (datosCuenta.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardaron correctamente.";
+                        return RedirectToAction("Cuentas", new {id=cuentaID.IDCliente });
+                    }
+                    else
+                    {
+                        cuentaID.ListaBancos = ClienteDatos.ObtenerComboCatBancos(Conexion);
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                        return View(cuentaID);
+                    }
+                }
+                else
+                {
+                    cuentaID.ListaBancos = ClienteDatos.ObtenerComboCatBancos(Conexion);
+                    return View(cuentaID);
+                }
+            }
+            catch
+            {
+                cuentaID.ListaBancos = ClienteDatos.ObtenerComboCatBancos(Conexion);
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(cuentaID);
+            }
+        }
+
+        // GET: Admin/CatClientes/EditarCuenta/5
+        [HttpGet]
+        public ActionResult EditarCuenta(string id, string idC)
+        {
+            CatCliente_Datos ClienteDatos = new CatCliente_Datos();
+            try
+            {
+                CuentaBancariaModels Datos = new CuentaBancariaModels { Conexion = Conexion, IDDatosBancarios = id, Cliente = new CatClienteModels {IDCliente = idC } };
+                ClienteDatos.ObtenerDetalleDatosBancariosCliente(Datos);
+                CuentaBancariaViewModels ViewCuenta = Datos.GetViewCB();
+                ViewCuenta.IDCliente = idC;
+                ViewCuenta.IDDatosBancarios = id;
+                ViewCuenta.ListaBancos = ClienteDatos.ObtenerComboCatBancos(Conexion);
+                return View(ViewCuenta);
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Cuentas", new { id = idC });
+            }
+        }
+
+        // POST: Admin/CatClientes/EditarCuenta
+        [HttpPost]
+        public ActionResult EditarCuenta(CuentaBancariaViewModels cuentaID)
+        {
+            CatCliente_Datos ClienteDatos = new CatCliente_Datos();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    CuentaBancariaModels datosCuenta = new CuentaBancariaModels
+                    {
+                        IDDatosBancarios = cuentaID.IDDatosBancarios,
+                        Banco = new CatBancoModels { IDBanco = cuentaID.IDBanco },
+                        Cliente = new CatClienteModels { IDCliente = cuentaID.IDCliente },
+                        Titular = cuentaID.Titular,
+                        NumCuenta = cuentaID.NumCuenta,
+                        NumTarjeta = cuentaID.NumTarjeta,
+                        Clabe = cuentaID.Clabe,
+                        Conexion = Conexion,
+                        NuevoRegistro = false,
+                        Usuario = User.Identity.Name
+                    };
+                    ClienteDatos.ACDatosBancariosCliente(datosCuenta);
+                    if (datosCuenta.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardaron correctamente.";
+                        return RedirectToAction("Cuentas", new { id = cuentaID.IDCliente });
+                    }
+                    else
+                    {
+                        cuentaID.ListaBancos = ClienteDatos.ObtenerComboCatBancos(Conexion);
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                        return View(cuentaID);
+                    }
+                }
+                else
+                {
+                    cuentaID.ListaBancos = ClienteDatos.ObtenerComboCatBancos(Conexion);
+                    return View(cuentaID);
+                }
+            }
+            catch
+            {
+                cuentaID.ListaBancos = ClienteDatos.ObtenerComboCatBancos(Conexion);
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(cuentaID);
             }
         }
 
 
         // POST: Admin/CatClientes/Delete/5
         [HttpPost]
-        public ActionResult Delete(string id, string id2, FormCollection collection)
+        public ActionResult Delete(string id, string id2)
         {
             try
             {
@@ -225,6 +374,36 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
+
+
+        // POST: Admin/CatClientes/Delete/5
+        [HttpPost]
+        public ActionResult DeleteDatosBancarios(string IDCuenta, string IDCliente)
+        {
+            try
+            {
+                CuentaBancariaModels Datos = new CuentaBancariaModels
+                    {   Cliente = new CatClienteModels {IDCliente = IDCliente },
+                        IDDatosBancarios = IDCuenta,
+                        Conexion = Conexion,
+                        Usuario = User.Identity.Name};
+                CatCliente_Datos ClienteDatos = new CatCliente_Datos();
+                ClienteDatos.EliminarDatosBancarios(Datos);
+                if (Datos.Completado)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "El registro se ha eliminado correctamente";
+                    return Json("");
+                }
+                else
+                { return Json(""); }
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
 
         // POST: Admin/CatClientes/ObtenerRegimenFiscalXBoolEsPersonaFisica
         [HttpPost]

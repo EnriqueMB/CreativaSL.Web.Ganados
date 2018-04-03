@@ -64,29 +64,37 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Create(CatTipoProveedorModels TipoProveedor)
         {
+            _CatTipoProveedor_Datos TipoProveedorDatos = new _CatTipoProveedor_Datos();
             try
             {
-                // TODO: Add insert logic here
-                _CatTipoProveedor_Datos TipoProveedorDatos = new _CatTipoProveedor_Datos();
-                TipoProveedor.Conexion = Conexion;
-                TipoProveedor.IDTipoProveedor = 0;
-                TipoProveedor.Opcion = 1;
-                TipoProveedor.Usuario = User.Identity.Name;
-                TipoProveedor = TipoProveedorDatos.AcCatProveedor(TipoProveedor);
-                if (TipoProveedor.Completado == true)
+                if (ModelState.IsValid)
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se guardo correctamente.";
+                    // TODO: Add insert logic here
+
+                    TipoProveedor.Conexion = Conexion;
+                    TipoProveedor.IDTipoProveedor = 0;
+                    TipoProveedor.Opcion = 1;
+                    TipoProveedor.Usuario = User.Identity.Name;
+                    TipoProveedor = TipoProveedorDatos.AcCatProveedor(TipoProveedor);
+                    if (TipoProveedor.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "El registro se guardo correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        return View(TipoProveedor);
+                    }
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrió un error al guardar el registro.";
                     return View(TipoProveedor);
                 }
-                return RedirectToAction("Index");
             }
             catch
             {
@@ -121,28 +129,36 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
-                _CatTipoProveedor_Datos TipoProveedorDatos = new _CatTipoProveedor_Datos();
-                TipoProveedor.Conexion = Conexion;
-               
-                TipoProveedor.IDTipoProveedor = id;
-                TipoProveedor.Opcion = 2;
-                TipoProveedor.Usuario = User.Identity.Name;
-                TipoProveedor = TipoProveedorDatos.AcCatProveedor(TipoProveedor);
-                if (TipoProveedor.Completado == true)
+                if (ModelState.IsValid)
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se guardo correctamente.";
+                    // TODO: Add insert logic here
+                    _CatTipoProveedor_Datos TipoProveedorDatos = new _CatTipoProveedor_Datos();
+                    TipoProveedor.Conexion = Conexion;
+
+                    TipoProveedor.IDTipoProveedor = id;
+                    TipoProveedor.Opcion = 2;
+                    TipoProveedor.Usuario = User.Identity.Name;
+                    TipoProveedor = TipoProveedorDatos.AcCatProveedor(TipoProveedor);
+                    if (TipoProveedor.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "El registro se guardo correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        return View(TipoProveedor);
+                    }
+
                     return RedirectToAction("Index");
                 }
                 else
                 {
-
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrió un error al guardar el registro.";
                     return View(TipoProveedor);
                 }
-                return RedirectToAction("Index");
             }
             catch
             {

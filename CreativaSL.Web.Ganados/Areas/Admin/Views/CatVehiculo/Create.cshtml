@@ -23,7 +23,9 @@
             @using (Html.BeginForm("Create", "CatVehiculo", FormMethod.Post, new {id="form-vehiculo", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
+                @*@Html.ValidationSummary(true)*@
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                <div id="validation_summary" class="field_error "></div> //JS
 
                 @Html.HiddenFor(model => model.IDVehiculo)
                 <div class="panel panel-default">
@@ -40,29 +42,33 @@
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.DropDownListFor(model => model.IDSucursal,new  SelectList(Model.listaSucursal, "IDSucursal", "NombreSucursal"), new { id = "ListSucursal", @class = "form-control" })
+                                        @Html.DropDownListFor(model => model.IDSucursal,new  SelectList(Model.listaSucursal, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.listaSucursal)
                                     <span class="help-block">Seleccione el tipo de vehículo</span>
                                 </div>
                             </div>
+                            
+                        
                             <div class="col-md-4">
                                 <label class="col-md-12 control-label text-center">Tipo de Vehículo</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.DropDownListFor(model => model.IDTipoVehiculo, new SelectList(Model.listaTipoVehiculos, "IDTipoVehiculo", "Descripcion"), new { id = "ListTipoVehiculo", @class = "form-control" })
+                                        @Html.DropDownListFor(model => model.IDTipoVehiculo, new SelectList(Model.listaTipoVehiculos, "IDTipoVehiculo", "Descripcion"), new { id = "IDTipoVehiculo", @class = "form-control select ", data_live_search = "true" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.listaTipoVehiculos)
                                     <span class="help-block">Seleccione el tipo de vehículo</span>
                                 </div>
                             </div>
+                            
+                        
                             <div class="col-md-4">
                                 <label class="col-md-12 control-label text-center">Marca</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.DropDownListFor(model => model.IDMarca, new SelectList(Model.listaMarcas, "IDMarca", "Descripcion"), new { id = "ListMarcas", @class = "form-control" })
+                                        @Html.DropDownListFor(model => model.IDMarca, new SelectList(Model.listaMarcas, "IDMarca", "Descripcion"), new { id = "IDMarca", @class = "form-control select", data_live_search = "true" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.listaMarcas)
                                     <span class="help-block">Seleccione la marca </span>

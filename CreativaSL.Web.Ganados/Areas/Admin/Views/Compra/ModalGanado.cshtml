@@ -24,6 +24,7 @@
             <!-- Tab panes -->
             <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="general">
+                        <br />
                         <!--INICIA CUERPO MODAL-->
                         <div class="form-group">
                             <div class="col-md-6">
@@ -229,12 +230,12 @@
                         <!--TERMINA CUERPO MODAL-->
                     </div>
                     <div role="tabpanel" class="tab-pane" id="estado">
-
+                        <br />
                         <div class="form-group">
                             <div class="col-md-12">
-                                <label class="col-md-2 control-label" for="numArete">Estatus del ganado</label>
+                                <label class="col-md-1 control-label" for="numArete">Estado</label>
                                 <div class="controls">
-                                    <div class="col-md-10 col-xs-12">
+                                    <div class="col-md-11 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                             <select class="form-control">
@@ -245,47 +246,63 @@
                                             </select>
                                         </div>
                                         @Html.ValidationMessageFor(model => model.Ganado.numArete)
-                                        <span class="help-block">Número de arete.</span>
+                                        <span class="help-block">Estado del ganado.</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                         <div class="form-group">
-                            <div class="col-md-12">
-                                <label class="col-md-2 control-label" for="numArete">Incidente</label>
+                            <div class="col-md-5">
+                                <label class="col-md-2 control-label" for="numArete">Lugar</label>
                                 <div class="controls">
                                     <div class="col-md-10 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            <div class="col-md-2">
-                                                <div class="controls">
-                                                    <div class="col-md-12 col-xs-12">
-                                                        <div class="input-group">
-                                                            <label class="check">@Html.CheckBoxFor(modal => modal.Ganado.Repeso, new { @class = "" }) ¿Marcar como incidente?</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            @Html.TextBoxFor(model => model.Proveedor.NombreRazonSocial, new { @class = "form-control" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.Ganado.numArete)
-                                        <span class="help-block">Número de arete.</span>
+                                        <span class="help-block">Lugar de la detección.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="col-md-3 control-label" for="numArete">Fecha</label>
+                                <div class="controls">
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.CompraGanado.PrecioKilo, new { @class = "form-control", @type = "date" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Ganado.numArete)
+                                        <span class="help-block">Fecha de la detección.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-md-4 control-label" for="numArete">Hora</label>
+                                <div class="controls">
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.CompraGanado.PrecioKilo, new { @class = "form-control", @type = "time" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Ganado.numArete)
+                                        <span class="help-block">Hora de la detección.</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
                         <div class="form-group">
                             <div class="col-md-12">
-                                <label class="col-md-2 control-label" for="PesoInicial">Observación</label>
+                                <label class="col-md-1 control-label" for="PesoInicial">Nota</label>
                                 <div class="controls">
-                                    <div class="col-md-10 col-xs-12">
+                                    <div class="col-md-11 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextArea("Description", null, new { @class = "form-control" })
+                                            @Html.TextArea("Description", null, new { @class = "form-control texArea", @rows="10" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.CompraGanado.PesoInicial)
-                                        <span class="help-block">Ingrese el peso inicial.</span>
+                                        <span class="help-block">Nota u observación.</span>
                                     </div>
                                 </div>
                             </div>

@@ -1,12 +1,12 @@
-﻿var Vehiculo = function () {
+﻿var Chofer = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
-        var form1 = $('#form-vehiculo');
+        var form1 = $('#form-chofer');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
-
-        $('#form-vehiculo').validate({
+        
+        $('#form-chofer').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -15,7 +15,7 @@
                     error.insertAfter($(element).closest('.form-group').children('div').children().last());
                 } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
                     error.insertAfter($(element).closest('.form-group').children('div'));
-                } else if (element.attr("type") == "text") {
+                } else if (element.attr("type") == "text" ) {
                     error.insertAfter($(element).closest('.input-group').children('div'));
                 } else {
                     error.insertAfter(element);
@@ -24,29 +24,33 @@
             },
             ignore: "",
             rules: {
-                IDSucursal: { required: true },
-                IDTipoVehiculo: { CMBINT: true },
-                IDMarca: { CMBINT: true },
-                Placas: { required: true, texto: true, maxlength: 10 },
-                Modelo: { required: true, texto: true, maxlength: 30 },
-                tarjetaCirculacion: { required: true, texto: true, maxlength: 30 },
-                fechaIngreso: { required: true },
-                Capacidad: { required: true, texto: true, maxlength: 30 },
-                Color: { required: true, texto: true, maxlength: 30 },
-                NoSerie: { required: true, texto: true, maxlength: 30 },
+               
+                //ListSucursal: { required: true },
+                Nombre: { required: true, texto: true, maxlength: 80 },
+                ApPaterno: { required: true, texto: true, maxlength: 70 },
+                Ife: { required: true, ife: true, maxlength: 13 },
+                NumSeguroSocial: { texto: true, maxlength: 30 },
+                IDGenero: { CMBINT: true },
+                idgruposanguineo: { CMBINT: true },
+                FechaNacimiento: { required: true },
+                FechaIngreso: { required: true },
+                AvisoAccidente: { required: true },
+                TelefonoAccidente: { required: true, telefono :true},
+
             },
             messages: {
                 
-                IDSucursal: { required: "Seleccione una sucursal." },
-                IDTipoVehiculo: { CMBINT: "Seleccione un tipo de vehículo." },
-                IDMarca: { CMBINT: "Seleccione una marca de vehículo." },
-                Placas: { required: "Ingrese la placa del vehículo.", placa: "Ingrese un formato valido (letras, números y guión(-)", maxlength: "El campo nombre admite máximo 10 caracteres." },
-                Modelo: { required: "Ingrese el modelo del vehículo.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
-                tarjetaCirculacion: { required: "Ingrese la tarjeta de circulación.", tarjetaCirculacion: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
-                fechaIngreso: { required: " " },
-                Capacidad: { required: "Ingrese la capacidad del vehículo.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
-                Color: { required: "Ingrese el color del vehiculo.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
-                NoSerie: { required: "Ingrese el numero de serie del vehículo.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
+                //ListSucursal: { required: "Seleccione una sucursal." },
+                Nombre: { required: "Ingrese nombre del chofer.", placa: "Ingrese un formato valido (letras, números y guión(-)", maxlength: "El campo nombre admite máximo 80 caracteres." },
+                ApPaterno: { required: "Ingrese apellido paterno del chofer.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 70 caracteres." },
+                Ife: { required: "Ingrese el codigo de credencial de elector.", ife: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 13 caracteres." },
+                NumSeguroSocial: { required: "Ingrese el número de seguro social.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
+                IDGenero: { CMBINT: "Seleccione un género." },
+                idgruposanguineo: { CMBINT: "Seleccione un grupo sanguineo." },
+                FechaNacimiento: { required: "Seleccione una fecha." },
+                FechaIngreso: { required: "Seleccione una fecha." },
+                AvisoAccidente: { required: "Ingrese a quien avisar en caso de accidente." },
+                TelefonoAccidente: { required: "Ingrese teléfono en caso de accidente.", telefono:"Ingrese un número valido"},
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -78,12 +82,13 @@
         });
     };
 
-
+   
 
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
+            
         }
     };
 }();

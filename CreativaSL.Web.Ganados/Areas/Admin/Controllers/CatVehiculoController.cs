@@ -77,83 +77,42 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatVehiculo/Create
         [HttpPost]
-        //public ActionResult Create(FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        CatVehiculoModels Vehiculo = new CatVehiculoModels();
-        //        _CatVehiculo_Datos VehiculoDatos = new _CatVehiculo_Datos();
-        //        Vehiculo.Conexion = Conexion;
-        //        Vehiculo.Opcion = 1;
-
-        //        Vehiculo.Usuario = User.Identity.Name;
-        //        Vehiculo.IDMarca = Convert.ToInt32(collection["listaMarcas"]);
-        //        Vehiculo.IDTipoVehiculo = Convert.ToInt32(collection["listaTipoVehiculos"]);
-        //        Vehiculo.IDSucursal = collection["listaSucursal"];
-        //        Vehiculo.Placas = collection["Placas"];
-        //        Vehiculo.Modelo = collection["Modelo"];
-        //        Vehiculo.NoSerie = collection["NoSerie"];
-        //        Vehiculo.Remolque = collection["Remolque"];
-        //        Vehiculo.Color = collection["Color"];
-        //        Vehiculo.Capacidad = collection["Capacidad"];
-        //        //El formato de fecha viene en yyyy-mm-dd
-        //        string c = collection["fechaIngreso"];
-        //        string b = c.Replace("-", "/");
-        //        Vehiculo.fechaIngreso = DateTime.ParseExact(b, "yyyy/MM/dd", CultureInfo.InvariantCulture);
-        //        Vehiculo.placaRemolque = collection["placaRemolque"];
-        //        Vehiculo.colorRemolque = collection["colorRemolque"];
-        //        Vehiculo.tarjetaCirculacion = collection["tarjetaCirculacion"];
-        //        Vehiculo.EsPropio = collection["EsPropio"].StartsWith("true");
-        //        Vehiculo.Estatus = true;
-        //        Vehiculo = VehiculoDatos.AcCatVehiculo(Vehiculo);
-        //        if (Vehiculo.Completado == true)
-        //        {
-        //            TempData["typemessage"] = "1";
-        //            TempData["message"] = "El registro se guardo correctamente.";
-        //            return RedirectToAction("Index");
-        //        }
-        //        else
-        //        {
-        //            TempData["typemessage"] = "2";
-        //            TempData["message"] = "Ocurrió un error al guardar el registro.";
-        //            return View(Vehiculo);
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        CatVehiculoModels Vehiculo = new CatVehiculoModels();
-
-        //        TempData["typemessage"] = "2";
-        //        TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
-        //        return View(Vehiculo);
-        //    }
-        //}
+      
         public ActionResult Create(CatVehiculoModels Vehiculo)
         {
+            _CatVehiculo_Datos VehiculoDatos = new _CatVehiculo_Datos();
             try
             {
-                
-                _CatVehiculo_Datos VehiculoDatos = new _CatVehiculo_Datos();
-                Vehiculo.Conexion = Conexion;
-                Vehiculo.Opcion = 1;
-                Vehiculo.IDVehiculo = "0";
-              
-                Vehiculo.Estatus = true;
-                Vehiculo = VehiculoDatos.AcCatVehiculo(Vehiculo);
-                if (Vehiculo.Completado == true)
-                {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se guardo correctamente.";
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrió un error al guardar el registro.";
-                    return View(Vehiculo);
-                }
 
+                if (ModelState.IsValid)
+                {
+                    Vehiculo.Conexion = Conexion;
+                    Vehiculo.Opcion = 1;
+                    Vehiculo.IDVehiculo = "0";
+
+                    Vehiculo.Estatus = true;
+                    Vehiculo = VehiculoDatos.AcCatVehiculo(Vehiculo);
+                    if (Vehiculo.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "El registro se guardo correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        return View(Vehiculo);
+                    }
+                }
+                else {
+                    Vehiculo.Conexion = Conexion;
+                    Vehiculo.listaTipoVehiculos = VehiculoDatos.obtenerListaTipoVehiculo(Vehiculo);
+                    Vehiculo.listaSucursal = VehiculoDatos.obtenerListaSucursales(Vehiculo);
+                    Vehiculo.listaMarcas = VehiculoDatos.obtenerListaMarcas(Vehiculo);
+                    return View(Vehiculo);
+
+                }
             }
             catch (Exception ex)
             {
@@ -203,85 +162,48 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatVehiculo/Edit/5
         [HttpPost]
-        //public ActionResult Edit(string id, FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        CatVehiculoModels Vehiculo = new CatVehiculoModels();
-        //        _CatVehiculo_Datos VehiculoDatos = new _CatVehiculo_Datos();
-        //        Vehiculo.Conexion = Conexion;
-        //        Vehiculo.IDVehiculo = id;
-        //        Vehiculo.Opcion = 2;
-        //        Vehiculo.Usuario = User.Identity.Name;
-        //        Vehiculo.IDMarca = Convert.ToInt32(collection["listaMarcas"]);
-        //        Vehiculo.IDTipoVehiculo = Convert.ToInt32(collection["listaTipoVehiculos"]);
-        //        Vehiculo.IDSucursal = collection["listaSucursal"];
-        //        Vehiculo.Placas = collection["Placas"];
-        //        Vehiculo.Modelo = collection["Modelo"];
-        //        Vehiculo.NoSerie = collection["NoSerie"];
-        //        Vehiculo.Remolque = collection["Remolque"];
-        //        Vehiculo.Color = collection["Color"];
-        //        Vehiculo.Capacidad = collection["Capacidad"];
-        //        Vehiculo.EsPropio = collection["EsPropio"].StartsWith("true");
-        //        string c = collection["fechaIngreso"];
-        //        string b = c.Replace("-", "/");
-        //        Vehiculo.fechaIngreso = DateTime.ParseExact(b, "yyyy/MM/dd", CultureInfo.InvariantCulture);
-        //        Vehiculo.placaRemolque = collection["placaRemolque"];
-        //        Vehiculo.colorRemolque = collection["colorRemolque"];
-        //        Vehiculo.tarjetaCirculacion = collection["tarjetaCirculacion"];
-        //        Vehiculo.Estatus = true;
-        //        Vehiculo = VehiculoDatos.AcCatVehiculo(Vehiculo);
-        //        if (Vehiculo.Completado == true)
-        //        {
-        //            TempData["typemessage"] = "1";
-        //            TempData["message"] = "El registro se guardo correctamente.";
-
-        //        }
-        //        else
-        //        {
-        //            TempData["typemessage"] = "2";
-        //            TempData["message"] = "Ocurrió un error al guardar el registro.";
-        //        }
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        CatVehiculoModels Vehiculo = new CatVehiculoModels();
-
-        //        TempData["typemessage"] = "2";
-        //        TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
-        //        return View(Vehiculo);
-        //    }
-        //}
+       
         public ActionResult Edit(string id, CatVehiculoModels Vehiculo)
         {
+            _CatVehiculo_Datos VehiculoDatos = new _CatVehiculo_Datos();
             try
             {
-               
-                _CatVehiculo_Datos VehiculoDatos = new _CatVehiculo_Datos();
-                Vehiculo.Conexion = Conexion;
-                Vehiculo.IDVehiculo = id;
-                Vehiculo.Opcion = 2;
-                Vehiculo.Usuario = User.Identity.Name;
-             
-                Vehiculo.Estatus = true;
-                Vehiculo = VehiculoDatos.AcCatVehiculo(Vehiculo);
-                if (Vehiculo.Completado == true)
-                {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se guardo correctamente.";
 
+                if (ModelState.IsValid)
+                {
+                    Vehiculo.Conexion = Conexion;
+                    Vehiculo.Opcion = 2;
+                    Vehiculo.IDVehiculo = id;
+                    Vehiculo.IDVehiculo = "0";
+
+                    Vehiculo.Estatus = true;
+                    Vehiculo = VehiculoDatos.AcCatVehiculo(Vehiculo);
+                    if (Vehiculo.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "El registro se guardo correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        return View(Vehiculo);
+                    }
                 }
                 else
                 {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrió un error al guardar el registro.";
+                    Vehiculo.Conexion = Conexion;
+                    Vehiculo.listaTipoVehiculos = VehiculoDatos.obtenerListaTipoVehiculo(Vehiculo);
+                    Vehiculo.listaSucursal = VehiculoDatos.obtenerListaSucursales(Vehiculo);
+                    Vehiculo.listaMarcas = VehiculoDatos.obtenerListaMarcas(Vehiculo);
+                    return View(Vehiculo);
+
                 }
-                return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-               
+
 
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
