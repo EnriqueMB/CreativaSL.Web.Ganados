@@ -207,6 +207,127 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public List<CuentaBancariaModels> ObtenerCuentasXIDCliente(CuentaBancariaModels datos)
+        {
+            try
+            {
+                List<CuentaBancariaModels> Lista = new List<CuentaBancariaModels>();
+                SqlDataReader Dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_shared_get_CuentasBancXIDCliente", datos.Cliente.IDCliente);
+                CuentaBancariaModels Item;
+                while(Dr.Read())
+                {
+                    Item = new CuentaBancariaModels();
+                    Item.IDDatosBancarios = !Dr.IsDBNull(Dr.GetOrdinal("IDDatosBancarios")) ? Dr.GetString(Dr.GetOrdinal("IDDatosBancarios")) : string.Empty;
+                    Item.Banco.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Banco")) ? Dr.GetString(Dr.GetOrdinal("Banco")) : string.Empty;
+                    Item.Titular = !Dr.IsDBNull(Dr.GetOrdinal("Titular")) ? Dr.GetString(Dr.GetOrdinal("Titular")) : string.Empty;
+                    Item.NumTarjeta = !Dr.IsDBNull(Dr.GetOrdinal("NumTarjeta")) ? Dr.GetString(Dr.GetOrdinal("NumTarjeta")) : string.Empty;
+                    Item.NumCuenta = !Dr.IsDBNull(Dr.GetOrdinal("NumCuenta")) ? Dr.GetString(Dr.GetOrdinal("NumCuenta")) : string.Empty;
+                    Item.Clabe = !Dr.IsDBNull(Dr.GetOrdinal("Clabe")) ? Dr.GetString(Dr.GetOrdinal("Clabe")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                return Lista;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
 
+        public List<CatBancoModels> ObtenerComboCatBancos(string Conexion)
+        {
+            try
+            {
+                List<CatBancoModels> Lista = new List<CatBancoModels>();
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_combo_get_CatBancos");
+                CatBancoModels Item;
+                while(Dr.Read())
+                {
+                    Item = new CatBancoModels();
+                    Item.IDBanco = !Dr.IsDBNull(Dr.GetOrdinal("IDBanco")) ? Dr.GetInt32(Dr.GetOrdinal("IDBanco")) : -1;
+                    Item.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                return Lista;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void ACDatosBancariosCliente( CuentaBancariaModels datos)
+        {
+            try
+            {
+                object[] parametros = { datos.NuevoRegistro,
+                                        datos.IDDatosBancarios ?? string.Empty,
+                                        datos.Cliente.IDCliente ?? string.Empty,
+                                        datos.Banco.IDBanco,
+                                        datos.Titular ?? string.Empty,
+                                        datos.NumCuenta ?? string.Empty,
+                                        datos.NumTarjeta ?? string.Empty,
+                                        datos.Clabe ?? string.Empty,
+                                        datos.Usuario ?? string.Empty};
+                object result = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_catalogos_ac_DatosBancariosCliente", parametros);
+                if(result != null)
+                {
+                    if(!string.IsNullOrEmpty(result.ToString()))
+                    {
+                        datos.Completado = true;
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void ObtenerDetalleDatosBancariosCliente(CuentaBancariaModels datos)
+        {
+            try
+            {
+                SqlDataReader Dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_shared_get_DetalleCuentasBancXID", datos.IDDatosBancarios, datos.Cliente.IDCliente);
+                while (Dr.Read())
+                {
+                    datos.Banco.IDBanco = !Dr.IsDBNull(Dr.GetOrdinal("Banco")) ? Dr.GetInt32(Dr.GetOrdinal("Banco")) : -1;
+                    datos.Titular = !Dr.IsDBNull(Dr.GetOrdinal("Titular")) ? Dr.GetString(Dr.GetOrdinal("Titular")) : string.Empty;
+                    datos.NumTarjeta = !Dr.IsDBNull(Dr.GetOrdinal("NumTarjeta")) ? Dr.GetString(Dr.GetOrdinal("NumTarjeta")) : string.Empty;
+                    datos.NumCuenta = !Dr.IsDBNull(Dr.GetOrdinal("NumCuenta")) ? Dr.GetString(Dr.GetOrdinal("NumCuenta")) : string.Empty;
+                    datos.Clabe = !Dr.IsDBNull(Dr.GetOrdinal("Clabe")) ? Dr.GetString(Dr.GetOrdinal("Clabe")) : string.Empty;
+                    datos.Completado = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+                
+        public CuentaBancariaModels EliminarDatosBancarios(CuentaBancariaModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.IDDatosBancarios, datos.Usuario
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_shared_del_CuentaBancariaXID", parametros);
+                if(aux!= null)
+                {
+                    int Resultado = 0;
+                    int.TryParse(aux.ToString(), out Resultado);
+                    if(Resultado == 1)
+                    {
+                        datos.Completado = true;
+                    }
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
