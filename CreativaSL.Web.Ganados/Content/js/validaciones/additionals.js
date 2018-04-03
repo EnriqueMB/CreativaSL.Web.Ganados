@@ -35,6 +35,14 @@ $.validator.addMethod("placa", function (value, element) {
 $.validator.addMethod("tarjetaCirculacion", function (value, element) {
     return this.optional(element) || /^[A-Za-záéíóúñÁÉÍÓÚÑ]*$/i.test(value);
 }, "invalid text");
+$.validator.addMethod("cuenta", function (value, element) {
+    return this.optional(element) || /^[0-9]{13}$/i.test(value);
+}, "invalid bank account");
+
+$.validator.addMethod("clabe", function (value, element) {
+    return this.optional(element) || /^[0-9]{13}$/i.test(value);
+}, "invalid bank clabe ");
+
 $.validator.addMethod("CMBINT", function (value, element) {
     if ((value === '0') || (value === '-1')) {
      

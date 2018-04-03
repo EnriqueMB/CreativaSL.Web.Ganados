@@ -425,7 +425,9 @@
     <Content Include="Content\img\themes\default.jpg" />
     <Content Include="Content\img\themes\light.jpg" />
     <Content Include="Content\js\actions.js" />
+    <Content Include="Content\js\Chofer.js" />
     <Content Include="Content\js\proveedor.js" />
+    <Content Include="Content\js\cuentasClientes.js" />
     <Content Include="Content\js\Empleado.js" />
     <Content Include="Content\js\clientes.js" />
     <Content Include="Content\js\demo_charts_morris.js" />
@@ -981,10 +983,15 @@
     <Content Include="Areas\Admin\Views\CatEmpleado\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalPago.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\CatEmpresa\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\ModalCuentaBancaria.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalEvento.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\AgregarCuenta.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\Cuentas.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\EditarCuenta.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\Cuentas.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\CreateCuenta.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1094,6 +1101,7 @@
     <Compile Include="Models\ConciliacionAlmacenDetalleModel.cs" />
     <Compile Include="Models\ConciliacionAlmacenModels.cs" />
     <Compile Include="Models\CuentaBancariaModels.cs" />
+    <Compile Include="Models\CuentaBancariaProveedorModels.cs" />
     <Compile Include="Models\DetallePagosCompraModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
     <Compile Include="Models\DocumentoPorPagarModels.cs" />
@@ -1133,6 +1141,7 @@
     <Compile Include="Models\UnidadesProductosAlmacenModels.cs" />
     <Compile Include="Models\UPPProvedorModels.cs" />
     <Compile Include="Models\UsuarioModels.cs" />
+    <Compile Include="Models\Validaciones\ClabeInterbancariaAttribute.cs" />
     <Compile Include="Models\Validaciones\CombosIntAttribute.cs" />
     <Compile Include="Models\Validaciones\CorreoAttribute.cs" />
     <Compile Include="Models\Validaciones\DescripcionAttribute.cs" />
@@ -1140,6 +1149,7 @@
     <Compile Include="Models\Validaciones\IFEAttribute.cs" />
     <Compile Include="Models\Validaciones\InputFile.cs" />
     <Compile Include="Models\Validaciones\NombreAttribute.cs" />
+    <Compile Include="Models\Validaciones\NumeroCuentaAttribute.cs" />
     <Compile Include="Models\Validaciones\PlacasAttribute.cs" />
     <Compile Include="Models\Validaciones\RFCAttribute.cs" />
     <Compile Include="Models\Validaciones\TarjetaCreditoAttribute.cs" />
@@ -1171,6 +1181,7 @@
     <Compile Include="Models\_Menu_Datos.cs" />
     <Compile Include="Models\_Usuario_Datos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CuentaBancariaViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -1230,7 +1241,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

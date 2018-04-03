@@ -126,7 +126,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             Empresa = new CatEmpresaModels();
             EmpresaDatos = new _CatEmpresa_Datos();
             Empresa.CuentaBancaria.IDDatosBancarios = IDCuentaBancaria;
-            Empresa.CuentaBancaria.IDCliente = IDCliente;
+            Empresa.CuentaBancaria.Cliente.IDCliente = IDCliente;
             Empresa.Conexion = Conexion;
             Empresa = EmpresaDatos.GetDatosBancariosXID(Empresa);
             Empresa.ListaBancos = EmpresaDatos.GetListaBancos(Empresa);

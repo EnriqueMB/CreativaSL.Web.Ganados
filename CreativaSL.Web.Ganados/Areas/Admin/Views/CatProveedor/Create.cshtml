@@ -92,7 +92,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 col-xs-12 control-label">Fecha de inicio de relación</label>
+                                    <label class="col-md-2 col-xs-12 control-label"><span>* </span> Fecha de inicio de relación</label>
                                     <div class="col-md-6 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
@@ -159,7 +159,7 @@
                                </div>
 
                                <div class="form-group" style="display:none" id="Genero">
-                                   <label class="col-md-2 col-xs-12 control-label"><span>* </span> Genero</label>
+                                   <label class="col-md-2 col-xs-12 control-label">Genero</label>
                                    <div class="col-md-6 col-xs-12">
                                        @Html.DropDownListFor(model => model.sexo, new SelectList(Model.ListaGeneroCMB, "IDGenero", "Descripcion"), new { id = "sexo", @class = "form-control select", data_live_search = "true" })
                                        @Html.ValidationMessageFor(model => model.sexo)
@@ -245,6 +245,28 @@
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
             Proveedor.init();
+            $('#ImgINEE').fileinput({
+                theme: 'fa',
+                language: 'es',
+                minFileCount: 1,
+                uploadUrl: "#",
+                showUpload: false,
+                showUploadedThumbs: false,
+                overwriteInitial: false,
+                allowedFileExtensions: ['png'],
+                required: true
+            })
+            $('#ImgManifestacionFierros').fileinput({
+                theme: 'fa',
+                language: 'es',
+                minFileCount: 1,
+                uploadUrl: "#",
+                overwriteInitial: false,
+                showUpload: false,
+                showUploadedThumbs: false,
+                allowedFileExtensions: ['png'],
+                required: true
+            })
         });
     </script>
     }

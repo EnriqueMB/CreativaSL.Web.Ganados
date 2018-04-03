@@ -1,55 +1,67 @@
-﻿using CreativaSL.Web.Ganados.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class CuentaBancariaModels
+    public class CuentaBancariaProveedorModels
     {
-        public CuentaBancariaModels()
+        public CuentaBancariaProveedorModels()
         {
             _IDDatosBancarios = string.Empty;
-            _Cliente = new CatClienteModels();
+            _IDBanco = 0;
             _Banco = new CatBancoModels();
             _Titular = string.Empty;
             _NumTarjeta = string.Empty;
             _NumCuenta = string.Empty;
             _Clabe = string.Empty;
+            Usuario = string.Empty;
+            Conexion = string.Empty;
+            _IDProveedor = string.Empty;
+            _ListaCmbBancos = new List<CatBancoModels>();
         }
-        
+
+        private string _IDProveedor;
+        /// <summary>
+        /// Identificador del Proveedor al que pertenecen los datos bancarios
+        /// </summary>
+        public string IDProveedor
+        {
+            get { return _IDProveedor; }
+            set { _IDProveedor = value; }
+        }
+
+
         private string _IDDatosBancarios;
         /// <summary>
-        /// Identificador de los datos bancarios del cliente
+        /// Identificador de los datos bancarios del Proveedor
         /// </summary>
         public string IDDatosBancarios
         {
             get { return _IDDatosBancarios; }
             set { _IDDatosBancarios = value; }
         }
-
-        private CatClienteModels _Cliente;
-        /// <summary>
-        /// Datos del cliente al que pertenece la cuenta bancaria
-        /// </summary>
-        public CatClienteModels Cliente
-        {
-            get { return _Cliente; }
-            set { _Cliente = value; }
-        }
         
-        private CatBancoModels _Banco;
+        private int _IDBanco;
         /// <summary>
-        /// Datos del banco en el que se encuentra la cuenta bancaria
+        /// Identificador del banco de la cuenta bancaria
         /// </summary>
+        public int IDBanco
+        {
+            get { return _IDBanco; }
+            set { _IDBanco = value; }
+        }
+
+        private CatBancoModels _Banco;
+
         public CatBancoModels Banco
         {
             get { return _Banco; }
             set { _Banco = value; }
         }
-        
+
+
         private string _Titular;
         /// <summary>
         /// Nombre de la persona titular de la cuenta bancaria
@@ -89,31 +101,30 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _Clabe; }
             set { _Clabe = value; }
         }
-        
+
+        private List<CuentaBancariaProveedorModels> _ListaCuentaBancaria;
+
+        public List<CuentaBancariaProveedorModels> ListaCuentaBancaria
+        {
+            get { return _ListaCuentaBancaria; }
+            set { _ListaCuentaBancaria = value; }
+        }
+
+        private List<CatBancoModels> _ListaCmbBancos;
+
+        public List<CatBancoModels> ListaCmbBancos
+        {
+            get { return _ListaCmbBancos; }
+            set { _ListaCmbBancos = value; }
+        }
+
+
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }
         public bool Completado { get; set; }
         public string Usuario { get; set; }
         public int Opcion { get; set; }
-        public bool NuevoRegistro { get; set; }
         #endregion
-
-        public CuentaBancariaViewModels GetViewCB()
-        {
-            try
-            {
-                return new CuentaBancariaViewModels
-                {   IDBanco = this._Banco.IDBanco,
-                    Titular = this._Titular,
-                    NumTarjeta = this._NumTarjeta,
-                    NumCuenta = this._NumCuenta,
-                    Clabe = this._Clabe };
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }            
-        }
     }
 }

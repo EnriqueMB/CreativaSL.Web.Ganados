@@ -1,11 +1,9 @@
-﻿@model CreativaSL.Web.Ganados.Models.CatMarcaVehiculoModels
+﻿@model CreativaSL.Web.Ganados.Models.CuentaBancariaProveedorModels
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "CreateCuenta";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
-
 @section featured{
 
     @{
@@ -22,16 +20,15 @@
         <div class="col-md-12">
             @*<form class="form-horizontal">*@
             @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("Edit", "CatMarcaVehiculo", FormMethod.Post, new { id = "form-Tipovehiculo", @class = "form-horizontal", autocomplete = "off" }))
+            @using (Html.BeginForm("CreateCuenta", "CatProveedor", FormMethod.Post, new { id = "form-bg", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-                  <div id="validation_summary" class="field_error "></div> //JS
+                @Html.ValidationSummary(true)
 
-                @Html.HiddenFor(model => model.IDMarca)
+                @Html.HiddenFor(model => model.IDProveedor)
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Editar</strong> Marca Vehículo</h3>
+                        <h3 class="panel-title"><strong>Información</strong> Cuenta Bancarias</h3>
                         <ul class="panel-controls">
                             @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
                         </ul>
@@ -43,9 +40,9 @@
                                 <div class="col-md-8 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.Descripcion, new { id = "Descripcion", @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.NumCuenta, new { id = "Descripcion", @class = "form-control" })
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.Descripcion)
+                                    @Html.ValidationMessageFor(model => model.NumCuenta)
                                     <span class="help-block">Ingrese el nombre de la marca</span>
                                 </div>
                             </div>
@@ -53,7 +50,7 @@
                     </div>
                     <div class="panel-footer">
                         <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                        <a href="@Url.Action("Index","CatMarcaVehiculo")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                        <a href="@Url.Action("Cuentas","CatProveedor")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                     </div>
                 </div>
                 @*</form>*@
@@ -66,21 +63,20 @@
     </script>
 }
 @section script{
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/TipoVehiculo.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/TipoVehiculo.js")"></script>
 
     <script>
     jQuery(document).ready(function () {
-       
         Mensaje(message, typemessage);
         TipoVehiculo.init();
     });
     </script>
 }
+
