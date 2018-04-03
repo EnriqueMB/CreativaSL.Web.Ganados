@@ -241,7 +241,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public List<CatBancoModels> ObteneComboCatBancos(CatBancoModels Datos)
+        public List<CatBancoModels> ObteneComboCatBancos(CuentaBancariaProveedorModels Datos)
         {
             try
             {

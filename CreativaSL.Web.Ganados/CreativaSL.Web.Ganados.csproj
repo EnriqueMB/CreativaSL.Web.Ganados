@@ -986,11 +986,11 @@
     <Content Include="Areas\Admin\Views\CatEmpresa\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\ModalCuentaBancaria.cshtml" />
-	 <Content Include="Areas\Admin\Views\Compra\ModalEvento.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\ModalEvento.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\AgregarCuenta.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Cuentas.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\EditarCuenta.cshtml" />
-	    <Content Include="Areas\Admin\Views\CatProveedor\Cuentas.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\Cuentas.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\CreateCuenta.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1148,6 +1148,8 @@
     <Compile Include="Models\Validaciones\IFEAttribute.cs" />
     <Compile Include="Models\Validaciones\InputFile.cs" />
     <Compile Include="Models\Validaciones\NombreAttribute.cs" />
+    <Compile Include="Models\Validaciones\NumeroCuentaAttribute.cs" />
+    <Compile Include="Models\Validaciones\PlacasAttribute.cs" />
     <Compile Include="Models\Validaciones\RFCAttribute.cs" />
     <Compile Include="Models\Validaciones\TarjetaCreditoAttribute.cs" />
     <Compile Include="Models\Validaciones\TelefonoAttribute.cs" />

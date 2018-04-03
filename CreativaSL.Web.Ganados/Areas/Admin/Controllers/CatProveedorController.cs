@@ -372,6 +372,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
                 Cuenta.IDProveedor = id;
                 Cuenta.Conexion = Conexion;
+                Cuenta.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(Cuenta);
                 return View(Cuenta);
             }
             catch (Exception)
