@@ -7,8 +7,20 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CatTipoCombustibleModels
     {
+        public CatTipoCombustibleModels()
+        {
+            _IDTipoCombustible = 0;
+            _Descripcion = string.Empty;
+            Conexion = string.Empty;
+            Resultado = 0;
+            Completado = false;
+            Usuario = string.Empty;
+            Opcion = 0;
+        }
         private int _IDTipoCombustible;
-
+        /// <summary>
+        /// Identificador del tipo de combustible
+        /// </summary>
         public int IDTipoCombustible
         {
             get { return _IDTipoCombustible; }
@@ -16,7 +28,9 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _Descripcion;
-
+        /// <summary>
+        /// Texto descriptivo del tipo de combustible
+        /// </summary>
         public string Descripcion
         {
             get { return _Descripcion; }

@@ -1,5 +1,8 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.Models;
+using CreativaSL.Web.Ganados.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -8,6 +11,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     public class EntregaCombustibleController : Controller
     {
+        string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/EntregaCombustible
         public ActionResult Index()
         {
@@ -23,7 +27,22 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         // GET: Admin/EntregaCombustible/Create
         public ActionResult Create()
         {
-            return View();
+            try
+            {
+                EntregaCombustibleViewModels Entrega = new EntregaCombustibleViewModels();
+                _Combos_Datos Datos = new _Combos_Datos();
+                Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
+                Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, string.Empty);
+                Entrega.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
+                
+                return View(Entrega);
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
         }
 
         // POST: Admin/EntregaCombustible/Create

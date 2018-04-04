@@ -100,10 +100,14 @@
                             <div class="col-md-6">
                                 <label class="col-md-12 control-label text-center">Vigencia</label>
                                 <div class="col-md-12 col-xs-12">
-                                    <div class="input-group ">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                        @Html.TextBoxFor(model => model.vigencia, "{0:dd/MM/yyyy}", new { id = "vigencia", @class = "form-control datepicker", @readonly = "readonly" })
+                                    </div>
+                                    @*<div class="input-group ">
                                         <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
                                         @Html.TextBoxFor(model => model.vigencia, "{0:yyyy-MM-dd}", new { id = "vigencia", @class = "form-control ", @type = "date", @style = "line-height: 18px;" })
-                                    </div>
+                                    </div>*@
                                     @Html.ValidationMessageFor(model => model.vigencia)
                                     <span class="help-block">Ingrese la fecha de vigencia</span>
                                 </div>
@@ -212,7 +216,8 @@
                                 <label class="col-md-12 control-label text-center">Fecha Nacimiento</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group date">
-                                        @Html.TextBoxFor(model => model.FechaNacimiento, "{0:yyyy-MM-dd}", new { id = "FechaNacimiento", @class = "form-control ", @type = "date", @style = "line-height: 18px;" })
+                                        @Html.TextBoxFor(model => model.FechaNacimiento, "{0:dd/MM/yyyy}", new { id = "FechaNacimiento", @class = "form-control datepicker", @readonly = "readonly" })
+                                        @*@Html.TextBoxFor(model => model.FechaNacimiento, "{0:yyyy-MM-dd}", new { id = "FechaNacimiento", @class = "form-control ", @type = "date", @style = "line-height: 18px;" })*@
                                         <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.FechaNacimiento)
@@ -225,7 +230,8 @@
                                 <label class="col-md-12 control-label text-center">Fecha Ingreso</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group ">
-                                        @Html.TextBoxFor(model => model.FechaIngreso, "{0:yyyy-MM-dd}", new { id = "FechaIngreso", @class = "form-control ", @type = "date", @style = "line-height: 18px;" })
+                                        @Html.TextBoxFor(model => model.FechaIngreso, "{0:dd/MM/yyyy}", new { id = "FechaIngreso", @class = "form-control datepicker", @readonly = "readonly" })
+                                        @*@Html.TextBoxFor(model => model.FechaIngreso, "{0:yyyy-MM-dd}", new { id = "FechaIngreso", @class = "form-control ", @type = "date", @style = "line-height: 18px;" })*@
                                         <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.FechaIngreso)

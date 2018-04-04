@@ -1,12 +1,21 @@
-﻿var Vehiculo = function () {
+﻿var Bancos = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
-        var form1 = $('#form-vehiculo');
+        var form1 = $('#form-dg');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
-
-        $('#form-vehiculo').validate({
+        $.validator.addMethod("validarImagen", function () {
+            if (document.getElementById("Imagen").value === '') {
+                if ((document.getElementById("Imagen").value === ''))
+                    return false;
+                else
+                    return true;
+            }
+            else
+                return true;
+        }, 'Debe seleccionar una imagen.');
+        $('#form-dg').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -24,29 +33,13 @@
             },
             ignore: "",
             rules: {
-                IDSucursal: { required: true },
-                IDTipoVehiculo: { CMBINT: true },
-                IDMarca: { CMBINT: true },
-                Placas: { required: true, texto: true, maxlength: 10 },
-                Modelo: { required: true, texto: true, maxlength: 30 },
-                tarjetaCirculacion: { required: true, texto: true, maxlength: 30 },
-                fechaIngreso: { required: true },
-                Capacidad: { required: true, texto: true, maxlength: 30 },
-                Color: { required: true, texto: true, maxlength: 30 },
-                NoSerie: { required: true, texto: true, maxlength: 30 },
+                Descripcion: { required: true, texto: true, maxlength: 300 },
+                Imagen: { validarImagen: true }
             },
             messages: {
-                
-                IDSucursal: { required: "Seleccione una sucursal." },
-                IDTipoVehiculo: { CMBINT: "Seleccione un tipo de vehículo." },
-                IDMarca: { CMBINT: "Seleccione una marca de vehículo." },
-                Placas: { required: "Ingrese la placa del vehículo.", placa: "Ingrese un formato valido (letras, números y guión(-)", maxlength: "El campo nombre admite máximo 10 caracteres." },
-                Modelo: { required: "Ingrese el modelo del vehículo.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
-                tarjetaCirculacion: { required: "Ingrese la tarjeta de circulación.", tarjetaCirculacion: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
-                fechaIngreso: { required: " " },
-                Capacidad: { required: "Ingrese la capacidad del vehículo.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
-                Color: { required: "Ingrese el color del vehiculo.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
-                NoSerie: { required: "Ingrese el numero de serie del vehículo.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
+                Descripcion: { required: "Ingrese el nombre del banco.", texto: "Ingrese un nombre del banco.", maxlength: "El nombre del banco admite máximo 300 caracteres." },
+                Imagen: { validarImagen: "Seleccione una imagén válida de banco" }
+
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -78,18 +71,25 @@
         });
     };
 
-    var runDatePicker = function () {
-        $('#fechaIngreso').datepicker({
-            format: 'dd/mm/yyyy'
-        });
+    var rumImagenes = function () {
+        $('#Imagen').fileinput({
+            theme: 'fa',
+            language: 'es',
+            minFileCount: 1,
+            uploadUrl: "#",
+            showUpload: false,
+            showUploadedThumbs: false,
+            overwriteInitial: false,
+            allowedFileExtensions: ['png'],
+            required: true
+        })
     };
-
 
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
-            runDatePicker();
+            rumImagenes();
         }
     };
 }();

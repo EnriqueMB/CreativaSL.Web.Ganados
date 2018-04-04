@@ -1,32 +1,28 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace CreativaSL.Web.Ganados.Models
+namespace CreativaSL.Web.Ganados.ViewModels
 {
-    public class EntregaCombistibleModels
+    public class EntregaCombustibleViewModels
     {
-        public EntregaCombistibleModels()
+        public EntregaCombustibleViewModels()
         {
             _IDEntregaCombustible = string.Empty;
-            _Vehiculo = new CatVehiculoModels();
-            _TipoCombustible = new CatTipoCombustibleModels();
+            _IDSucursal = string.Empty;
+            _IDVehiculo = string.Empty;
+            _IDTipoCombustible = 0;
             _Fecha = DateTime.Today;
             _NoTicket = string.Empty;
             _KMInicial = 0;
             _KMFinal = 0;
             _Litros = 0;
-            _Precio = 0;
-            _Total = 0;
-            _Rendimento = 0;
+            _Total = 0;            
             _ImgTicket = string.Empty;
-            _Documento = new DocumentoPorPagarDetalleModels();
-            Conexion = string.Empty;
-            Resultado = 0;
-            Completado = false;
-            Usuario = string.Empty;
-            Opcion = 0;
+            _ListaVehiculos = new List<CatVehiculoModels>();
+            _ListaTipoCombustible = new List<CatTipoCombustibleModels>();
         }
 
         private string _IDEntregaCombustible;
@@ -39,24 +35,35 @@ namespace CreativaSL.Web.Ganados.Models
             set { _IDEntregaCombustible = value; }
         }
 
-        private CatVehiculoModels _Vehiculo;
+        private string _IDSucursal;
         /// <summary>
-        /// Objeto que contiene los datos del vehículo al que se le cargará combustible
+        /// Identificador de la sucursal a la que se cargará el documento por pagar
         /// </summary>
-        public CatVehiculoModels Vehiculo
+        public string IDSucursal
         {
-            get { return _Vehiculo; }
-            set { _Vehiculo = value; }
+            get { return _IDSucursal; }
+            set { _IDSucursal = value; }
+        }
+
+
+        private string _IDVehiculo;
+        /// <summary>
+        /// Identificador del vehículo
+        /// </summary>
+        public string IDVehiculo
+        {
+            get { return _IDVehiculo; }
+            set { _IDVehiculo = value; }
         }
         
-        private CatTipoCombustibleModels _TipoCombustible;
+        private int _IDTipoCombustible;
         /// <summary>
-        /// Objeto que contiene los datos del tipo de combustible a cargar
+        /// Identificador del tipo de combustible
         /// </summary>
-        public CatTipoCombustibleModels TipoCombustible
+        public int IDTipoCombustible
         {
-            get { return _TipoCombustible; }
-            set { _TipoCombustible = value; }
+            get { return _IDTipoCombustible; }
+            set { _IDTipoCombustible = value; }
         }
         
         private DateTime _Fecha;
@@ -108,17 +115,7 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _Litros; }
             set { _Litros = value; }
         }
-
-        private decimal _Precio;
-        /// <summary>
-        /// Precio por litro
-        /// </summary>
-        public decimal Precio
-        {
-            get { return _Precio; }
-            set { _Precio = value; }
-        }
-
+        
         private decimal _Total;
         /// <summary>
         /// Monto total
@@ -127,17 +124,7 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _Total; }
             set { _Total = value; }
-        }
-
-        private decimal _Rendimento;
-        /// <summary>
-        /// Rendimiento del combustible
-        /// </summary>
-        public decimal Rendimiento
-        {
-            get { return _Rendimento; }
-            set { _Rendimento = value; }
-        }
+        }        
 
         private string _ImgTicket;
         /// <summary>
@@ -148,24 +135,37 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _ImgTicket; }
             set { _ImgTicket = value; }
         }
-       
-        private DocumentoPorPagarDetalleModels _Documento;
+
+        private List<CatVehiculoModels> _ListaVehiculos;
         /// <summary>
-        /// Objeto que contiene los datos del documento por pagar generado por la compra de combustible
+        /// Lista para llenar combo de sucursales
         /// </summary>
-        public DocumentoPorPagarDetalleModels Documento
+        public List<CatVehiculoModels> ListaVehiculos
         {
-            get { return _Documento; }
-            set { _Documento = value; }
+            get { return _ListaVehiculos; }
+            set { _ListaVehiculos = value; }
+        }
+
+        private List<CatTipoCombustibleModels> _ListaTipoCombustible;
+        /// <summary>
+        /// Lista para llenar combo de tipo de combustible
+        /// </summary>
+        public List<CatTipoCombustibleModels> ListaTipoCombustible
+        {
+            get { return _ListaTipoCombustible; }
+            set { _ListaTipoCombustible = value; }
+        }
+
+        private List<CatSucursalesModels> _ListaSucursales;
+        /// <summary>
+        /// Lista para llenar combo de sucursales
+        /// </summary>
+        public List<CatSucursalesModels> ListaSucursales
+        {
+            get { return _ListaSucursales; }
+            set { _ListaSucursales = value; }
         }
 
 
-        #region Datos De Control
-        public string Conexion { get; set; }
-        public int Resultado { get; set; }
-        public bool Completado { get; set; }
-        public string Usuario { get; set; }
-        public int Opcion { get; set; }
-        #endregion
     }
 }
