@@ -425,6 +425,7 @@
     <Content Include="Content\img\themes\default.jpg" />
     <Content Include="Content\img\themes\light.jpg" />
     <Content Include="Content\js\actions.js" />
+    <Content Include="Content\js\Bancos.js" />
     <Content Include="Content\js\CategoriaPuestos.js" />
     <Content Include="Content\js\Chofer.js" />
     <Content Include="Content\js\CuentaProveedor.js" />
@@ -999,14 +1000,17 @@
     <Content Include="Areas\Admin\Views\CatProveedor\Cuentas.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\CreateCuenta.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\EditCuenta.cshtml" />
-	 <Content Include="Areas\Admin\Views\CatProductosAlmacen\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProductosAlmacen\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatProductosAlmacen\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatProductosAlmacen\Index.cshtml" />
     <Content Include="Areas\Admin\Views\EntregaCombustible\Index.cshtml" />
-	<Content Include="Areas\Admin\Views\CatUnidadMedida\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatUnidadMedida\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatUnidadMedida\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatUnidadMedida\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\EntregaCombustible\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatBanco\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatBanco\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatBanco\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1032,6 +1036,7 @@
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatAlmacenController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatBancoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatCategoriaPuestoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatChoferController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatClienteController.cs" />
@@ -1178,6 +1183,7 @@
     <Compile Include="Models\VentaGanadoModels.cs" />
     <Compile Include="Models\VentaModels.cs" />
     <Compile Include="Models\_CatAlmacen_Datos.cs" />
+    <Compile Include="Models\_CatBanco_Datos.cs" />
     <Compile Include="Models\_CatCategoriaPuesto_Datos.cs" />
     <Compile Include="Models\_CatChofer_Datos.cs" />
     <Compile Include="Models\_CatCliente_Datos.cs" />

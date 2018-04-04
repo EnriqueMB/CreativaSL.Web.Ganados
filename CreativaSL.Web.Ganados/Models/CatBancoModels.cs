@@ -15,6 +15,7 @@ namespace CreativaSL.Web.Ganados.Models
             _IDBanco = 0;
             _Descripcion = string.Empty;
             _Imagen = string.Empty;
+            _listaBancos = new List<CatBancoModels>();
         }
 
         private int _IDBanco;
@@ -41,6 +42,8 @@ namespace CreativaSL.Web.Ganados.Models
             set { _Descripcion = value; }
         }
 
+        public string NombreBanco { get; set; }
+
         private string _Imagen;
         /// <summary>
         /// Imagen en formato base64 del banco 
@@ -49,6 +52,20 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _Imagen; }
             set { _Imagen = value; }
+        }
+        private List<CatBancoModels> _listaBancos;
+
+        public List<CatBancoModels> listaBancos
+        {
+            get { return _listaBancos; }
+            set { _listaBancos = value; }
+        }
+        private bool _BandImg;
+
+        public bool BandImg
+        {
+            get { return _BandImg; }
+            set { _BandImg = value; }
         }
 
         #region Datos De Control
