@@ -863,6 +863,7 @@
     <Content Include="Content\js\Remolques.js" />
     <Content Include="Content\js\settings.js" />
     <Content Include="Content\js\TipoVehiculo.js" />
+    <Content Include="Content\js\UnidadMedida.js" />
     <Content Include="Content\js\Usuario.js" />
     <Content Include="Content\js\validaciones\additionals.js" />
     <Content Include="Content\js\Vehiculo.js" />
@@ -997,6 +998,9 @@
     <Content Include="Areas\Admin\Views\CatProveedor\Cuentas.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\CreateCuenta.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\EditCuenta.cshtml" />
+    <Content Include="Areas\Admin\Views\CatUnidadMedida\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatUnidadMedida\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatUnidadMedida\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1038,6 +1042,7 @@
     <Compile Include="Areas\Admin\Controllers\CatRemolqueController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatTipoProveedorController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatTipoVehiculoController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatUnidadMedidaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatUsuariosController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatVehiculoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompraAlmacenController.cs" />
@@ -1180,6 +1185,7 @@
     <Compile Include="Models\_CatRemolque_Datos.cs" />
     <Compile Include="Models\_CatTipoProveedor_Datos.cs" />
     <Compile Include="Models\_CatTipoVehiculos_Datos.cs" />
+    <Compile Include="Models\_CatUnidadMedida_Datos.cs" />
     <Compile Include="Models\_CatVehiculo_Datos.cs" />
     <Compile Include="Models\_Compra_Datos.cs" />
     <Compile Include="Models\_Login_Datos.cs" />
