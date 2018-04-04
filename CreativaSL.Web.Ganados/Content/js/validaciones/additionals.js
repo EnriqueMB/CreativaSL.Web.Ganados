@@ -35,6 +35,14 @@ $.validator.addMethod("placa", function (value, element) {
 $.validator.addMethod("tarjetaCirculacion", function (value, element) {
     return this.optional(element) || /^[A-Za-záéíóúñÁÉÍÓÚÑ]*$/i.test(value);
 }, "invalid text");
+$.validator.addMethod("cuenta", function (value, element) {
+    return this.optional(element) || /^[0-9]{13}$/i.test(value);
+}, "invalid bank account");
+
+$.validator.addMethod("clabe", function (value, element) {
+    return this.optional(element) || /^[0-9]{13}$/i.test(value);
+}, "invalid bank clabe ");
+
 $.validator.addMethod("CMBINT", function (value, element) {
     if ((value === '0') || (value === '-1')) {
      
@@ -45,7 +53,53 @@ $.validator.addMethod("CMBINT", function (value, element) {
     }
 }, 'Seleccione un valor del combo.');
 
+$.validator.addMethod("formatoPNG", function (value, element, params) {
+
+    //Checamos que tenga un archivo el input file
+    if (element.value.length == 0) {
+        return true;
+    }
+    //Si hay obtenemos la extensión
+    var arrayString = element.value.split(".");
+    var longitud = arrayString.length;
+    var extension = arrayString[longitud - 1];
+    console.log("Extension: " + extension);
+    if (extension != "png") {
+        return false;
+    }
+    else {
+        return true;
+    }
+}, 'Solo archivos con formato PNG.');
+
+
+$.validator.addMethod("validarImgEdit", function (value, element, params) {
+    
+    //Hay un elemento en el file input
+    console.log(element);
+    console.log(element.value.length);
+
+    if (element.value.length == 0 || element === undefined) {
+        return true;
+    }
+
+    //Bandera que me indica si hay o no imagen en el servidor
+    var imgBD = element.dataset.imgbd;
+    console.log("Value imgBD: "+ imgBD);
+    //Hay imagen en el servidor?
+    if (imgBD) {
+        return false
+    }
+    else {
+        return true;
+    }
+
+
+}, 'Debe seleccionar una imagen.');
+
+
 $.validator.addMethod("validarImagen", function () {
+
     if (document.getElementById("ImgINEE").value === '') {
         if ((document.getElementById("ImgINEE").value === ''))
             return false;
