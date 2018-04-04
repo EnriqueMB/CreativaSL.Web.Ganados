@@ -19,10 +19,12 @@
         </div>
         <div class="col-md-12">
             @*<form class="form-horizontal">*@
+            @{ Html.EnableClientValidation(false); }
             @using (Html.BeginForm("Edit", "CatCategoriaPuesto", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+              <div id="validation_summary" class="field_error"></div> //JS
 
                 @Html.HiddenFor(model => model.id_categoria)
                 <div class="panel panel-default">
@@ -50,10 +52,10 @@
                             <div class="col-md-4">
                                 <label class="col-md-12 control-label text-center">Puesto</label>
                                 <div class="col-md-12">
-                                    @Html.DropDownListFor(model => model.listaPuestos, ViewData["cmbCategoriaPuestos"] as SelectList, new { id = "ListPuestos", @class = "form-control " })
+                                    @Html.DropDownListFor(model => model.id_puesto, new SelectList(Model.listaPuestos, "IDPuesto", "Descripcion"), new { id = "id_puesto", @class = "form-control " })
 
                                 </div>
-                                @Html.ValidationMessageFor(model => model.listaPuestos)
+                                @Html.ValidationMessageFor(model => model.id_puesto)
                             </div>
                             <div class="col-md-4">
                                 <label class="col-md-12 control-label text-center">Sueldo Base</label>
@@ -108,8 +110,9 @@
     <script src="@Url.Content("~/Content/js/plugins/config.map.places.js")"></script>
     <script>
     jQuery(document).ready(function () {
-        $('#ListPuestos').val('@Model.id_puesto');
+        
         Mensaje(message, typemessage);
+        CategoriaPuestos.init();
     });
 
 

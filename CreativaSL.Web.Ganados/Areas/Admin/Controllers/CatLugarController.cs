@@ -79,48 +79,48 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatLugar/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CatLugarModels Lugar)
         {
+            _CatLugar_Datos LugarDatos = new _CatLugar_Datos();
             try
             {
-
-                CatLugarModels Lugar = new CatLugarModels();
-                _CatLugar_Datos LugarDatos = new _CatLugar_Datos();
-                Lugar.conexion = Conexion;
-                Lugar.opcion = 1;
-                Lugar.latitud = Convert.ToSingle(collection["lat"]);
-                Lugar.longitud = Convert.ToSingle(collection["lng"]);
-                Lugar.descripcion = collection["descripcion"];
-                Lugar.ejido = collection["ejido"];
-                Lugar.id_pais = collection["listaPaises"];
-                Lugar.id_estadoCodigo = collection["listaEstado"];
-                Lugar.id_municipio = Convert.ToInt32(collection["listaMunicipio"]);
-                Lugar.id_sucursal = collection["listaSucursal"];
-                Lugar.observaciones = collection["observaciones"];
-                Lugar.nombrePropietario = collection["nombrePropietario"];
-                Lugar.apellidoMaterno = collection["apellidoMaterno"];
-                Lugar.apellidoPaterno = collection["apellidoPaterno"];
-                Lugar.bascula = collection["bascula"].StartsWith("true");
-                Lugar.user = User.Identity.Name;
-                Lugar = LugarDatos.AbcCatLugar(Lugar);
-                if (Lugar.Completado == true)
+                if (ModelState.IsValid)
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se guardo correctamente.";
-                    return RedirectToAction("Index");
 
+
+                    Lugar.conexion = Conexion;
+                    Lugar.opcion = 1;
+
+                    Lugar.user = User.Identity.Name;
+                    Lugar = LugarDatos.AbcCatLugar(Lugar);
+                    if (Lugar.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "El registro se guardo correctamente.";
+                        return RedirectToAction("Index");
+
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        return View(Lugar);
+                    }
                 }
                 else
                 {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrió un error al guardar el registro.";
+                    Lugar.conexion = Conexion;
+                    Lugar.listaPaises = LugarDatos.obtenerListaPaises(Lugar);
+                    Lugar.listaEstado = LugarDatos.obtenerListaEstados(Lugar);
+                    Lugar.listaMunicipio = LugarDatos.obtenerListaMunicipios(Lugar);
+                    Lugar.listaSucursal = LugarDatos.obtenerListaSucursales(Lugar);
                     return View(Lugar);
                 }
                
             }
             catch(Exception ex)
             {
-                CatLugarModels Lugar = new CatLugarModels();
+                
                
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
@@ -169,47 +169,48 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatLugar/Edit/5
         [HttpPost]
-        public ActionResult Edit(string id, FormCollection collection)
+        public ActionResult Edit(string id, CatLugarModels Lugar)
         {
+            _CatLugar_Datos LugarDatos = new _CatLugar_Datos();
             try
             {
 
-                CatLugarModels Lugar = new CatLugarModels();
-                _CatLugar_Datos LugarDatos = new _CatLugar_Datos();
-                Lugar.conexion = Conexion;
-                Lugar.opcion = 2;
-                Lugar.id_lugar = id;
-                Lugar.latitud = Convert.ToSingle(collection["lat"]);
-                Lugar.longitud = Convert.ToSingle(collection["lng"]);
-                Lugar.descripcion = collection["descripcion"];
-                Lugar.ejido = collection["ejido"];
-                Lugar.id_pais = collection["listaPaises"];
-                Lugar.id_sucursal = collection["listaSucursal"];
-                Lugar.id_estadoCodigo = collection["listaEstado"];
-                Lugar.id_municipio = Convert.ToInt32(collection["listaMunicipio"]);
-                Lugar.observaciones = collection["observaciones"];
-                Lugar.nombrePropietario = collection["nombrePropietario"];
-                Lugar.apellidoMaterno = collection["apellidoMaterno"];
-                Lugar.apellidoPaterno = collection["apellidoPaterno"];
-                Lugar.bascula = collection["bascula"].StartsWith("true");
-                Lugar.user = User.Identity.Name;
-                Lugar = LugarDatos.AbcCatLugar(Lugar);
-                if (Lugar.Completado == true)
+                if (ModelState.IsValid)
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se editó correctamente.";
 
+                    Lugar.conexion = Conexion;
+                    Lugar.opcion = 2;
+                    Lugar.id_lugar = id;
+
+                    Lugar.user = User.Identity.Name;
+                    Lugar = LugarDatos.AbcCatLugar(Lugar);
+                    if (Lugar.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "El registro se editó correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        return View(Lugar);
+                    }
+                   
                 }
                 else
                 {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrió un error al guardar el registro.";
+                    Lugar.conexion = Conexion;
+                    Lugar.listaPaises = LugarDatos.obtenerListaPaises(Lugar);
+                    Lugar.listaEstado = LugarDatos.obtenerListaEstados(Lugar);
+                    Lugar.listaMunicipio = LugarDatos.obtenerListaMunicipios(Lugar);
+                    Lugar.listaSucursal = LugarDatos.obtenerListaSucursales(Lugar);
+                    return View(Lugar);
                 }
-                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                CatLugarModels Lugar = new CatLugarModels();
+               
 
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";

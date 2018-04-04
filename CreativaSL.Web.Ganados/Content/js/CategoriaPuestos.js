@@ -1,12 +1,12 @@
-﻿var Productos = function () {
+﻿var CategoriaPuestos = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
-        var form1 = $('#form-productos');
+        var form1 = $('#form-catPuesto');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
 
-        $('#form-productos').validate({
+        $('#form-catPuesto').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -24,20 +24,24 @@
             },
             ignore: "",
             rules: {
-                nombre: { required: true, texto: true, maxlength: 100 },
-                Descripcion: { required: true, texto: true, maxlength: 150 },
-                Clave: { required: true, texto: true, maxlength: 20 },
-                Clave_cfdi: { required: true, texto: true, maxlength: 10 },
+
+                //ListSucursal: { required: true },
+                descripcion: { required: true, texto: true, maxlength: 80 },
+              
+                id_puesto: { CMBINT: true },
+                sueldoBase: { required: true },
                
+
             },
             messages: {
 
-            
-                nombre: { required: "Ingrese el nobmre del producto.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 100 caracteres." },
-                Descripcion: { required: "Ingrese la descripción del producto.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 150 caracteres." },
-                Clave: { required: "Ingrese la clave del producto.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 20 caracteres." },
-                Clave_cfdi: { required: "Ingrese el clave cfdi del producto.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 10 caracteres." },
+                //ListSucursal: { required: "Seleccione una sucursal." },
+                descripcion: { required: "Ingrese nombre del chofer.", placa: "Ingrese un formato valido (letras, números y guión(-)", maxlength: "El campo nombre admite máximo 80 caracteres." },
                
+              
+                id_puesto: { CMBINT: "Seleccione un puesto." },
+                sueldoBase: { required: "Ingrese el sueldo del puesto."},
+                
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
