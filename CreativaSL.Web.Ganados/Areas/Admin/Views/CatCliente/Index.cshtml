@@ -35,42 +35,70 @@
                         </ul>
                     </div>
                     <div class="panel-body">
-                        <table class="table datatable">
-                            <thead>
-                                <tr>
-                                    <th>Razón Social</th>
-                                    <th>RFC</th>
-                                    <th>Sucursal</th>
-                                    <th>Es Persona</th>
-                                    <th>Régimen Fiscal</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                               @foreach (var Cliente in Model.ListaClientes)
-                               {
-                                <tr id="@Cliente.IDCliente">
-                                    <td>@Cliente.NombreRazonSocial</td>
-                                    <td>@Cliente.RFC</td>
-                                    <td>@Cliente.NombreSucursal</td>
-                                    @if (Cliente.EsPersonaFisica)
+                        <div class="table-responsive">
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Razón Social</th>
+                                        <th>RFC</th>
+                                        <th>Sucursal</th>
+                                        <th>Es Persona</th>
+                                        <th>Régimen Fiscal</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var Cliente in Model.ListaClientes)
                                     {
-                                        <td>SI</td>
+                                        <tr id="@Cliente.IDCliente">
+                                            <td>@Cliente.NombreRazonSocial</td>
+                                            <td>@Cliente.RFC</td>
+                                            <td>@Cliente.NombreSucursal</td>
+                                            @if (Cliente.EsPersonaFisica)
+                                            {
+                                                <td>SI</td>
+                                            }
+                                            else
+                                            {
+                                                <td>NO</td>
+                                            }
+                                            <td>@Cliente.NombreRegimenFiscal</td>
+                                            <td style="text-align:center;">
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    <a title="Datos bancarios" class="btn btn-green" href="@Url.Action("Cuentas", "CatCliente", new { id = Cliente.IDCliente })"><i class="fa fa-money"></i></a>
+                                                    <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatCliente", new { id = Cliente.IDCliente })"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" class="btn delete btn-danger deleteRow" id="delete-@Cliente.IDCliente" data-hrefa="@Url.Action("Delete", "CatCliente", new { id = Cliente.IDCliente, id2 = Cliente.IDSucursal })" onClick="delete_row('@Cliente.IDCliente');"><i class="fa fa-trash-o"></i></a>
+                                                </div>
+                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                        </a>
+                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Cuentas", "CatCliente", new { id = Cliente.IDCliente })">
+                                                                    <i class="fa fa-money"></i> Datos bancarios
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatCliente", new { id = Cliente.IDCliente })">
+                                                                    <i class="fa fa-edit"></i> Editar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" id="delete-@Cliente.IDCliente" data-hrefa="@Url.Action("Delete", "CatCliente", new { id = Cliente.IDCliente, id2 = Cliente.IDSucursal })" onClick="delete_row('@Cliente.IDCliente');">
+                                                                    <i class="fa fa-trash-o"></i> Eliminar
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     }
-                                    else
-                                    {
-                                        <td>NO</td>
-                                    }
-                                    <td>@Cliente.NombreRegimenFiscal</td>
-                                    <td style="text-align:center;">
-                                        <a title="Datos bancarios" class="btn btn-green" href="@Url.Action("Cuentas", "CatCliente", new { id = Cliente.IDCliente })"><i class="fa fa-money"></i></a>
-                                        <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatCliente", new { id = Cliente.IDCliente })"><i class="fa fa-edit"></i></a>
-                                        <a title="Eliminar" class="btn delete btn-danger deleteRow" id="delete-@Cliente.IDCliente" data-hrefa="@Url.Action("Delete", "CatCliente", new { id = Cliente.IDCliente, id2 = Cliente.IDSucursal })" onClick="delete_row('@Cliente.IDCliente');"><i class="fa fa-trash-o"></i></a>
-                                    </td>
-                                </tr>
-                               }
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <!-- END DEFAULT DATATABLE -->

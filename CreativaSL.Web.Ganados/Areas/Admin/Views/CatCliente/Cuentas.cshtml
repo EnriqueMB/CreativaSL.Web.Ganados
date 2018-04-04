@@ -34,34 +34,57 @@
                         </ul>
                     </div>
                     <div class="panel-body">
-                        <table class="table datatable">
-                            <thead>
-                                <tr>
-                                    <th>Banco</th>
-                                    <th>Titular</th>
-                                    <th>Número de cuenta</th>                                    
-                                    <th>Número de tarjeta</th>
-                                    <th>Cuenta clabe</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var Cuenta in Model)
-                                {
-                                    <tr id="@Cuenta.IDDatosBancarios">
-                                        <td>@Cuenta.Banco.Descripcion</td>
-                                        <td>@Cuenta.Titular</td>
-                                        <td>@Cuenta.NumCuenta</td>
-                                        <td>@Cuenta.NumTarjeta</td>                                        
-                                        <td>@Cuenta.Clabe</td>
-                                        <td style="text-align:center;">                                            
-                                            <a title="Editar" class="btn btn-yellow" href="@Url.Action("EditarCuenta", "CatCliente", new { id = Cuenta.IDDatosBancarios, idC = ViewBag.ID })"><i class="fa fa-edit"></i></a>
-                                            <a title="Eliminar" class="btn delete btn-danger deleteRow" id="delete-@Cuenta.IDDatosBancarios" data-hrefa="@Url.Action("DeleteDatosBancarios", "CatCliente", new { IDCuenta = Cuenta.IDDatosBancarios, IDCliente = ViewBag.ID})" onClick="delete_row('@Cuenta.IDDatosBancarios');"><i class="fa fa-trash-o"></i></a>
-                                        </td>
+                        <div class="table-responsive">
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Banco</th>
+                                        <th>Titular</th>
+                                        <th>Número de cuenta</th>
+                                        <th>Número de tarjeta</th>
+                                        <th>Cuenta clabe</th>
+                                        <th>Acción</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach (var Cuenta in Model)
+                                    {
+                                        <tr id="@Cuenta.IDDatosBancarios">
+                                            <td>@Cuenta.Banco.Descripcion</td>
+                                            <td>@Cuenta.Titular</td>
+                                            <td>@Cuenta.NumCuenta</td>
+                                            <td>@Cuenta.NumTarjeta</td>
+                                            <td>@Cuenta.Clabe</td>
+                                            <td style="text-align:center;">
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    <a title="Editar" class="btn btn-yellow" href="@Url.Action("EditarCuenta", "CatCliente", new { id = Cuenta.IDDatosBancarios, idC = ViewBag.ID })"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" class="btn delete btn-danger deleteRow" id="delete-@Cuenta.IDDatosBancarios" data-hrefa="@Url.Action("DeleteDatosBancarios", "CatCliente", new { IDCuenta = Cuenta.IDDatosBancarios, IDCliente = ViewBag.ID})" onClick="delete_row('@Cuenta.IDDatosBancarios');"><i class="fa fa-trash-o"></i></a>
+                                                </div>
+                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                        </a>
+                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("EditarCuenta", "CatCliente", new { id = Cuenta.IDDatosBancarios, idC = ViewBag.ID })">
+                                                                    <i class="fa fa-edit"></i> Editar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" id="delete-@Cuenta.IDDatosBancarios" data-hrefa="@Url.Action("DeleteDatosBancarios", "CatCliente", new { IDCuenta = Cuenta.IDDatosBancarios, IDCliente = ViewBag.ID})" onClick="delete_row('@Cuenta.IDDatosBancarios');">
+                                                                    <i class="fa fa-trash-o"></i> Eliminar
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <!-- END DEFAULT DATATABLE -->
