@@ -111,7 +111,6 @@ namespace CreativaSL.Web.Ganados.Models
                 CatSucursalesModels item;
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Combo_get_CatSucursal");
-                lista.Add(new CatSucursalesModels { IDSucursal = string.Empty, NombreSucursal=" - Seleccione -" });
                 while (dr.Read())
                 {
                     item = new CatSucursalesModels();

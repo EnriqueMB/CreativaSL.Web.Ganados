@@ -38,133 +38,155 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <div class="col-md-4">
-                                <label class="col-md-12 control-label text-center">Sucursal</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.DropDownListFor(model => model.IDSucursal,new  SelectList(Model.listaSucursal, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Sucursal</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.listaSucursal, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.listaSucursal)
+                                        <span class="help-block">Seleccione el tipo de vehículo</span>
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.listaSucursal)
-                                    <span class="help-block">Seleccione el tipo de vehículo</span>
                                 </div>
                             </div>
-                            
-                        
                             <div class="col-md-4">
-                                <label class="col-md-12 control-label text-center">Tipo de Vehículo</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.DropDownListFor(model => model.IDTipoVehiculo, new SelectList(Model.listaTipoVehiculos, "IDTipoVehiculo", "Descripcion"), new { id = "IDTipoVehiculo", @class = "form-control select ", data_live_search = "true" })
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Tipo de Vehículo</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.DropDownListFor(model => model.IDTipoVehiculo, new SelectList(Model.listaTipoVehiculos, "IDTipoVehiculo", "Descripcion"), new { id = "IDTipoVehiculo", @class = "form-control select ", data_live_search = "true" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.listaTipoVehiculos)
+                                        <span class="help-block">Seleccione el tipo de vehículo</span>
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.listaTipoVehiculos)
-                                    <span class="help-block">Seleccione el tipo de vehículo</span>
                                 </div>
                             </div>
-                            
-                        
                             <div class="col-md-4">
-                                <label class="col-md-12 control-label text-center">Marca</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.DropDownListFor(model => model.IDMarca, new SelectList(Model.listaMarcas, "IDMarca", "Descripcion"), new { id = "IDMarca", @class = "form-control select", data_live_search = "true" })
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Marca</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.DropDownListFor(model => model.IDMarca, new SelectList(Model.listaMarcas, "IDMarca", "Descripcion"), new { id = "IDMarca", @class = "form-control select", data_live_search = "true" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.listaMarcas)
+                                        <span class="help-block">Seleccione la marca </span>
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.listaMarcas)
-                                    <span class="help-block">Seleccione la marca </span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-6">
-                                <label class="col-md-12 control-label text-center">Placas</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.Placas, new { id = "Placas", @class = "form-control" })
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Placas</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Placas, new { id = "Placas", @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Placas)
+                                        <span class="help-block ">Ingrese la Placas del vehículo</span>
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.Placas)
-                                    <span class="help-block ">Ingrese la Placas del vehículo</span>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="col-md-12 control-label text-center">Modelo</label>
-                                <div class="col-md-12">
-                                    @Html.TextBoxFor(model => model.Modelo, new { id = "Modelo", @class = "form-control" })
-                                </div>
-                                @Html.ValidationMessageFor(model => model.Modelo)
-                                <span class="help-block ">Ingrese modelo del vehículo</span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <label class="col-md-12 control-label text-center">Tarjeta de Circulación</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.tarjetaCirculacion, new { id = "tarjetaCirculacion", @class = "form-control" })
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Modelo</label>
+                                    <div class="col-md-12">
+                                        @Html.TextBoxFor(model => model.Modelo, new { id = "Modelo", @class = "form-control" })
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.tarjetaCirculacion)
-                                    <span class="help-block">Ingrese la tarjeta de Circulacion</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="col-md-12 control-label text-center">Fecha de ingreso</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group "  >
-                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                        @Html.TextBoxFor(model => model.fechaIngreso, "{0:yyyy/MM/dd}", new { id = "fechaIngreso", @class = "form-control ", @type="date" ,@style= "line-height: 18px;" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.fechaIngreso)
-                                    <span class="help-block">Ingrese la fecha de ingreso</span>
+                                    @Html.ValidationMessageFor(model => model.Modelo)
+                                    <span class="help-block ">Ingrese modelo del vehículo</span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-6">
-                                <label class="col-md-12 control-label text-center">Capacidad</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.Capacidad, new { id = "Capacidad", @class = "form-control" })
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Tarjeta de Circulación</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.tarjetaCirculacion, new { id = "tarjetaCirculacion", @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.tarjetaCirculacion)
+                                        <span class="help-block">Ingrese la tarjeta de Circulacion</span>
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.Capacidad)
-                                    <span class="help-block">Ingrese la Capacidad del vehículo</span>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="col-md-12 control-label text-center">Color</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                        @Html.TextBoxFor(model => model.Color, new { id = "Color", @class = "form-control" })
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Fecha de ingreso</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                            @Html.TextBoxFor(model => model.fechaIngreso, "{0:dd/MM/yyyy}", new { id = "fechaIngreso", @class = "form-control datepicker", @readonly = "readonly" })
+                                        </div>
+                                        @*<div class="input-group "  >
+                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                        @Html.TextBoxFor(model => model.fechaIngreso, "{0:yyyy/MM/dd}", new { id = "fechaIngreso", @class = "form-control ", @type="date" ,@style= "line-height: 18px;" })
+                    </div>*@
+                                        @Html.ValidationMessageFor(model => model.fechaIngreso)
+                                        <span class="help-block">Ingrese la fecha de ingreso</span>
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.Color)
-                                    <span class="help-block">Ingrese Color del vehículo</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Capacidad</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Capacidad, new { id = "Capacidad", @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Capacidad)
+                                        <span class="help-block">Ingrese la Capacidad del vehículo</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Color</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                            @Html.TextBoxFor(model => model.Color, new { id = "Color", @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Color)
+                                        <span class="help-block">Ingrese Color del vehículo</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                           
                             <div class="col-md-6">
-                                <label class="col-md-12 control-label text-center">Número de serie</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                        @Html.TextBoxFor(model => model.NoSerie, new { id = "NoSerie", @class = "form-control" })
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Número de serie</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                            @Html.TextBoxFor(model => model.NoSerie, new { id = "NoSerie", @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.NoSerie)
+                                        <span class="help-block">Ingrese Color del vehículo</span>
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.NoSerie)
-                                    <span class="help-block">Ingrese Color del vehículo</span>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="col-md-12 control-label text-center">Propio</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group text-center" style="margin: auto;padding: 5px;">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Propio</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group text-center" style="margin: auto;padding: 5px;">
 
-                                        @Html.CheckBoxFor(model => model.EsPropio)
+                                            @Html.CheckBoxFor(model => model.EsPropio)
+                                        </div>
+
                                     </div>
-
                                 </div>
                             </div>
                         </div>

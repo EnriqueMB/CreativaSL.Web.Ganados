@@ -81,14 +81,24 @@
             }
         });
     };
-
+    var runDatePicker = function () {
+        $('#vigencia').datepicker({
+            format: 'dd/mm/yyyy'
+        });
+        $('#FechaNacimiento').datepicker({
+            format: 'dd/mm/yyyy'
+         });
+         $('#FechaIngreso').datepicker({
+             format: 'dd/mm/yyyy'
+         });
+    };
    
 
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
-            
+            runDatePicker();
         }
     };
 }();
