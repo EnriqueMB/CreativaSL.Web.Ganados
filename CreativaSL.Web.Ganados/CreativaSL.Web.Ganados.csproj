@@ -1173,6 +1173,7 @@
     <Compile Include="Models\_CatJaula_Datos.cs" />
     <Compile Include="Models\_CatLugar_Datos.cs" />
     <Compile Include="Models\_CatMarcaVehiculo_Datos.cs" />
+    <Compile Include="Models\_CatProductosAlmacen_Datos.cs" />
     <Compile Include="Models\_CatProductos_Datos.cs" />
     <Compile Include="Models\_CatProveedor_Datos.cs" />
     <Compile Include="Models\_CatPuestos_Datos.cs" />
