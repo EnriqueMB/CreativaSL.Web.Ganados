@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CreativaSL.Web.Ganados.Filters;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -15,8 +16,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         // GET: Admin/CatUsuarios
         public ActionResult Index()
         {
-            
-
             try
             {
                 UsuarioModels usuario = new UsuarioModels();
@@ -25,7 +24,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 usuario= UsuarioDatos.ObtenerUsuarios(usuario);
                 return View(usuario);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 UsuarioModels usuario = new UsuarioModels();
                
@@ -51,9 +50,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 _Usuario_Datos UsuarioDatos = new _Usuario_Datos();
                 usuario.conexion = Conexion;
                 usuario.tablaTipoUsuariosCmb = UsuarioDatos.ObtenerComboTipoUsuario(usuario);
-                var listUsuarios = new SelectList(usuario.tablaTipoUsuariosCmb, "id_tipoUsuario", "tipoUsuario");
-                ViewData["cmbUsuarios"]=listUsuarios;  
-                return View();
+                return View(usuario);
             }
             catch (Exception ex){
                 TempData["typemessage"] = "2";
@@ -65,48 +62,52 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatUsuarios/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(UsuarioModels usuario)
         {
+            _Usuario_Datos UsuarioDatos = new _Usuario_Datos();
             try
             {
-                UsuarioModels usuario = new UsuarioModels();
-                _Usuario_Datos UsuarioDatos = new _Usuario_Datos();
-                usuario.conexion = Conexion;
-                usuario.id_usuario = "";
-                usuario.id_tipoUsuario = Convert.ToInt32(collection["tablaTipoUsuariosCmb"]);
-                usuario.nombre = collection["nombre"];
-                usuario.apPat = collection["apPat"];
-                usuario.apMat = collection["apMat"];
-                usuario.email = collection["email"];
-                usuario.direccion = collection["direccion"];
-                usuario.cuenta = collection["cuenta"];
-                usuario.password = collection["password"];
-                usuario.telefono = collection["telefono"];
-                usuario.opcion = 1;
-                usuario.user= User.Identity.Name;
-                usuario = UsuarioDatos.AbcCatUsuarios(usuario);
-                if (usuario.Completado == true)
+                
+                if (ModelState.IsValid)
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "Los datos se guardaron correctamente.";
-                    return RedirectToAction("Index");
+                    usuario.conexion = Conexion;
+                    usuario.opcion = 1;
+                    usuario.user = User.Identity.Name;
+                    usuario = UsuarioDatos.AbcCatUsuarios(usuario);
+                    if (usuario.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardaron correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        usuario.tablaTipoUsuariosCmb = UsuarioDatos.ObtenerComboTipoUsuario(usuario);
+                        var listUsuarios = new SelectList(usuario.tablaTipoUsuariosCmb, "id_tipoUsuario", "tipoUsuario");
+                        ViewData["cmbUsuarios"] = listUsuarios;
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al intentar guardar.";
+                        return RedirectToAction("Create", "CatUsuarios");
+                    }
                 }
                 else
                 {
+                    usuario.conexion = Conexion;
                     usuario.tablaTipoUsuariosCmb = UsuarioDatos.ObtenerComboTipoUsuario(usuario);
                     var listUsuarios = new SelectList(usuario.tablaTipoUsuariosCmb, "id_tipoUsuario", "tipoUsuario");
                     ViewData["cmbUsuarios"] = listUsuarios;
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrió un error al intentar guardar.";
-                    return RedirectToAction("Create", "CatUsuarios");
-                }
-                
+                    return View(usuario);
+                } 
             }
             catch
             {
+                usuario.conexion = Conexion;
+                usuario.tablaTipoUsuariosCmb = UsuarioDatos.ObtenerComboTipoUsuario(usuario);
+                var listUsuarios = new SelectList(usuario.tablaTipoUsuariosCmb, "id_tipoUsuario", "tipoUsuario");
+                ViewData["cmbUsuarios"] = listUsuarios;
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrió un error el intentar guardar. Contacte a soporte técnico";
-                return View();
+                return View(usuario);
             }
         }
 
@@ -121,8 +122,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 usuario.conexion = Conexion;
                 usuario.id_usuario = id;
                 usuario.tablaTipoUsuariosCmb = UsuarioDatos.ObtenerComboTipoUsuario(usuario);
-                var listUsuarios = new SelectList(usuario.tablaTipoUsuariosCmb, "id_tipoUsuario", "tipoUsuario");
-                ViewData["cmbUsuarios"] = listUsuarios;
                 usuario = UsuarioDatos.ObtenerDetalleUsuarioxID(usuario);
                 return View(usuario);
             }
@@ -137,48 +136,54 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatUsuarios/Edit/5
         [HttpPost]
-        public ActionResult Edit(string id, FormCollection collection)
+        public ActionResult Edit(string id, UsuarioModels usuario)
         {
+            _Usuario_Datos UsuarioDatos = new _Usuario_Datos();
             try
             {
-                UsuarioModels usuario = new UsuarioModels();
-                _Usuario_Datos UsuarioDatos = new _Usuario_Datos();
-                usuario.conexion = Conexion;
-                usuario.id_usuario = id;
-                usuario.id_tipoUsuario = Convert.ToInt32(collection["tablaTipoUsuariosCmb"]);
-                usuario.nombre = collection["nombre"];
-                usuario.apPat = collection["apPat"];
-                usuario.apMat = collection["apMat"];
-                usuario.email = collection["email"];
-                usuario.direccion = collection["direccion"];
-               
-                usuario.telefono = collection["telefono"];
-                usuario.opcion = 2;
-                usuario.user = User.Identity.Name;
-                usuario = UsuarioDatos.AbcCatUsuarios(usuario);
-                if (usuario.Completado == true)
+                if (ModelState.IsValid)
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "Los datos se guardaron correctamente.";
-                    return RedirectToAction("Index");
+                    usuario.conexion = Conexion;
+                    usuario.opcion = 2;
+                    usuario.user = User.Identity.Name;
+                    usuario = UsuarioDatos.AbcCatUsuarios(usuario);
+                    if (usuario.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardaron correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        usuario.tablaTipoUsuariosCmb = UsuarioDatos.ObtenerComboTipoUsuario(usuario);
+                        var listUsuarios = new SelectList(usuario.tablaTipoUsuariosCmb, "id_tipoUsuario", "tipoUsuario");
+                        ViewData["cmbUsuarios"] = listUsuarios;
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al intentar guardar.";
+                        return RedirectToAction("Edit", "CatUsuarios");
+                    }
                 }
                 else
                 {
+                    usuario.conexion = Conexion;
                     usuario.tablaTipoUsuariosCmb = UsuarioDatos.ObtenerComboTipoUsuario(usuario);
                     var listUsuarios = new SelectList(usuario.tablaTipoUsuariosCmb, "id_tipoUsuario", "tipoUsuario");
                     ViewData["cmbUsuarios"] = listUsuarios;
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrió un error al intentar guardar.";
-                    return RedirectToAction("Edit", "CatUsuarios");
+                    return View(usuario);
                 }
+                
 
             }
             catch
             {
 
+                usuario.conexion = Conexion;
+                usuario.tablaTipoUsuariosCmb = UsuarioDatos.ObtenerComboTipoUsuario(usuario);
+                var listUsuarios = new SelectList(usuario.tablaTipoUsuariosCmb, "id_tipoUsuario", "tipoUsuario");
+                ViewData["cmbUsuarios"] = listUsuarios;
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrió un error el intentar guardar. Contacte a soporte técnico";
-                return View();
+                return View(usuario);
             }
         }
 
@@ -212,7 +217,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                   
                     TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrió un error al intentar guardar.";
+                    TempData["message"] = "Ocurrió un error al intentar eliminar.";
                     return View(usuario);
                 }
 
