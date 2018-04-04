@@ -10,13 +10,13 @@ if (Item.ParentMenuID == 0)
     if (Item.ListaMenu.Count == 0)
     {
                 <li class="">
-                    <a href="@Url.Action("Index", Item.UrlMenu)"><span class="fa fa-check"></span> <span class="xn-text">@Item.NombreMenu</span></a>
+                    <a href="@Url.Action("Index", Item.UrlMenu)"><span class="@Item.IconMenu"></span> <span class="xn-text">@Item.NombreMenu</span></a>
                 </li>
     }
     else
     {
                 <li class="xn-openable">
-                    <a><span class="fa fa-check"></span> <span class="xn-text">@Item.NombreMenu</span></a>
+                    <a><span class="@Item.IconMenu"></span> <span class="xn-text">@Item.NombreMenu</span></a>
                     <ul>
                         @foreach (var SubMenu in Item.ListaMenu)
                         {
@@ -30,12 +30,12 @@ else
 {
     if (Item.ListaMenu.Count == 0)
     {
-            <li><a href="@Url.Action("Index", Item.UrlMenu)"><span class="fa fa-align-justify"></span> @Item.NombreMenu</a></li>
+            <li><a href="@Url.Action("Index", Item.UrlMenu)"><span class="@Item.IconMenu"></span> @Item.NombreMenu</a></li>
     }
     else
     {
             <li class="xn-openable">
-                <a><span class="fa fa-check"></span>@Item.NombreMenu</a>
+                <a><span class="@Item.IconMenu"></span>@Item.NombreMenu</a>
                 <ul>
                     @foreach (var SubMenu in Item.ListaMenu)
                     {

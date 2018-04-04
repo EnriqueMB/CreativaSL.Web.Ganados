@@ -986,12 +986,13 @@
     <Content Include="Areas\Admin\Views\CatEmpresa\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\ModalCuentaBancaria.cshtml" />
-	 <Content Include="Areas\Admin\Views\Compra\ModalEvento.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\ModalEvento.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\AgregarCuenta.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Cuentas.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\EditarCuenta.cshtml" />
-	    <Content Include="Areas\Admin\Views\CatProveedor\Cuentas.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\Cuentas.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\CreateCuenta.cshtml" />
+    <Content Include="Areas\Admin\Views\EntregaCombustible\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1037,7 +1038,9 @@
     <Compile Include="Areas\Admin\Controllers\CatVehiculoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompraAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompraController.cs" />
+    <Compile Include="Areas\Admin\Controllers\EntregaCombustibleController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeAdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MantenimientoController.cs" />
     <Compile Include="Areas\Admin\Controllers\TablaController.cs" />
     <Compile Include="Areas\Admin\Controllers\TestController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
@@ -1240,6 +1243,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Mantenimiento\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
