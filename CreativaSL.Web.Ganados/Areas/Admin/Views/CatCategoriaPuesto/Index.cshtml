@@ -53,7 +53,7 @@
                                         <td>@categoria.puesto</td>
                                   
                                         <td>@categoria.descripcion</td>
-                                        <td>@categoria.sueldoBase</td>
+                                        <td>@categoria.sueldoBase.ToString("#.##")</td>
                                         <td style="text-align:center;">
                                             <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatCategoriaPuesto", new { id = categoria.id_categoria})"><i class="fa fa-edit"></i></a>
                                             <a title="Eliminar" class="btn delete btn-danger" id="delete-@categoria.id_categoria" data-hrefa="@Url.Action("Delete", "CatCategoriaPuesto", new { id = categoria.id_categoria, id2 = categoria.id_categoria })" onClick="delete_row('@categoria.id_categoria');"><i class="fa fa-trash-o"></i></a>

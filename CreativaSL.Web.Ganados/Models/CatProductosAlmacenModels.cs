@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.Models.Validaciones;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,6 +9,57 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CatProductosAlmacenModels
     {
+        public CatProductosAlmacenModels() {
+            _listaProductosAlmacen = new List<CatProductosAlmacenModels>();
+            _listaTipoCodigoProducto = new List<CatTipoCodigoProductoModels>();
+            _listaUnidadMedida = new List<CatUnidadMedidaModels>();
+            _Clave = string.Empty;
+            _Nombre = string.Empty;
+            _Descripcion = string.Empty;
+            _UltimoCosto = 0;
+            _Almacen = true;
+            _IDUnidadMedida = 0;
+            _IDTipoCodigo = 0;
+            _IDProductoAlmacen = string.Empty;
+            _Imagen = string.Empty;
+            //Datos control
+            Conexion = string.Empty;
+            Resultado = 0;
+            Opcion = 0;
+            Completado = false;
+            Usuario = string.Empty;
+        }
+        private List<CatProductosAlmacenModels> _listaProductosAlmacen;
+
+        public List<CatProductosAlmacenModels> listaPrdocutosAlmacen
+        {
+            get { return _listaProductosAlmacen; }
+            set { _listaProductosAlmacen = value; }
+        }
+
+        private List<CatTipoCodigoProductoModels> _listaTipoCodigoProducto;
+
+        public List<CatTipoCodigoProductoModels> listaTipoCodigoProducto
+        {
+            get { return _listaTipoCodigoProducto; }
+            set { _listaTipoCodigoProducto = value; }
+        }
+        private List<CatUnidadMedidaModels> _listaUnidadMedida;
+
+        public List<CatUnidadMedidaModels> listaUnidadMedida
+        {
+            get { return _listaUnidadMedida; }
+            set { _listaUnidadMedida = value; }
+        }
+        private bool _BandImg;
+
+        public bool BandImg
+        {
+            get { return _BandImg; }
+            set { _BandImg = value; }
+        }
+
+
         private string _IDProductoAlmacen;
 
         public string IDProductoAlmacen
@@ -24,7 +77,9 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _Clave;
-
+        [Required(ErrorMessage = "Ingrese una clave del producto")]
+        [Texto(ErrorMessage = "Ingrese una clave válida")]
+        [Display(Name = "Clave producto")]
         public string Clave
         {
             get { return _Clave; }
@@ -32,7 +87,9 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _Nombre;
-
+        [Required(ErrorMessage = "Ingrese un nombre del producto")]
+        [Texto(ErrorMessage = "Ingrese un nombre válida")]
+        [Display(Name = "Nombre producto")]
         public string Nombre
         {
             get { return _Nombre; }
@@ -40,7 +97,9 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _Descripcion;
-
+        [Required(ErrorMessage = "Ingrese una descripción del producto")]
+        [Texto(ErrorMessage="Ingrese una descripción válida")]
+        [Display(Name = "Descripción producto")]
         public string Descripcion
         {
             get { return _Descripcion; }
@@ -64,12 +123,22 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private int _IDUnidadMedida;
-
+        [Required(ErrorMessage = "Ingrese una unidad de médida")]
         public int IDUnidadMedida
         {
             get { return _IDUnidadMedida; }
             set { _IDUnidadMedida = value; }
         }
+        private HttpPostedFileBase[] _imagen2;
+        [Required(ErrorMessage = "Seleccione la imagen de productos")]
+        
+        [Display(Name = "Imagen producto")]
+        public HttpPostedFileBase[] imagen2
+        {
+            get { return _imagen2; }
+            set { _imagen2 = value; }
+        }
+
 
         private string _Imagen;
 
