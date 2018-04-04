@@ -10,6 +10,7 @@ namespace CreativaSL.Web.Ganados.Models
     public class CatProductosAlmacenModels
     {
         public CatProductosAlmacenModels() {
+            _listaProductosAlmacen = new List<CatProductosAlmacenModels>();
             _listaTipoCodigoProducto = new List<CatTipoCodigoProductoModels>();
             _listaUnidadMedida = new List<CatUnidadMedidaModels>();
             _Clave = string.Empty;
@@ -28,6 +29,14 @@ namespace CreativaSL.Web.Ganados.Models
             Completado = false;
             Usuario = string.Empty;
         }
+        private List<CatProductosAlmacenModels> _listaProductosAlmacen;
+
+        public List<CatProductosAlmacenModels> listaPrdocutosAlmacen
+        {
+            get { return _listaProductosAlmacen; }
+            set { _listaProductosAlmacen = value; }
+        }
+
         private List<CatTipoCodigoProductoModels> _listaTipoCodigoProducto;
 
         public List<CatTipoCodigoProductoModels> listaTipoCodigoProducto
@@ -42,6 +51,14 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _listaUnidadMedida; }
             set { _listaUnidadMedida = value; }
         }
+        private bool _BandImg;
+
+        public bool BandImg
+        {
+            get { return _BandImg; }
+            set { _BandImg = value; }
+        }
+
 
         private string _IDProductoAlmacen;
 
