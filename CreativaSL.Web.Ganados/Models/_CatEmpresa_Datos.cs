@@ -204,7 +204,7 @@ namespace CreativaSL.Web.Ganados.Models
                 object[] parametros =
                 {
                     Empresa.CuentaBancaria.IDDatosBancarios,
-                    Empresa.CuentaBancaria.Cliente.IDCliente,
+                    Empresa.IDEmpresa,
                     Empresa.Banco.IDBanco,
                     Empresa.CuentaBancaria.Titular,
                     Empresa.CuentaBancaria.NumTarjeta,

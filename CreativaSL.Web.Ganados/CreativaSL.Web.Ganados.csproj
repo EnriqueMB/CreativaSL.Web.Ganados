@@ -863,6 +863,7 @@
     <Content Include="Content\js\Remolques.js" />
     <Content Include="Content\js\settings.js" />
     <Content Include="Content\js\TipoVehiculo.js" />
+    <Content Include="Content\js\Usuario.js" />
     <Content Include="Content\js\validaciones\additionals.js" />
     <Content Include="Content\js\Vehiculo.js" />
     <Content Include="Content\Ocampo.ico" />

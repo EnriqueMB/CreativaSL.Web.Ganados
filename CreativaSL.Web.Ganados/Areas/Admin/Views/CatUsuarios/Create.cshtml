@@ -18,13 +18,13 @@
             <h3></h3>
         </div>
         <div class="col-md-12">
+            @{ Html.EnableClientValidation(false); }
             @*<form class="form-horizontal">*@
-            @using (Html.BeginForm("Create", "CatUsuarios", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+            @using (Html.BeginForm("Create", "CatUsuarios", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
-
-                @Html.HiddenFor(model => model.id_usuario)
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+              <div id="validation_summary" class="field_error "></div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"><strong>Información </strong> nuevo usuario</h3>
@@ -33,50 +33,61 @@
                         </ul>
                     </div>
                     <div class="panel-body">
-                        <div class="form-group">
+                        <div class="col-md-12">
                             <div class="col-md-6">
-                                <label class="col-md-3 control-label text-left">Nombre Usuario</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.nombre, new { id = "Nombre", @class = "form-control" })
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label text-left">Nombre Usuario</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.nombre, new { id = "Nombre", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.nombre)
+                                        </div>
+
+                                        <span class="help-block">Ingrese el nombre del chofer</span>
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.nombre)
-                                    <span class="help-block">Ingrese el nombre del chofer</span>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="col-md-3 control-label text-left">Apellido Parterno</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.apPat, new { id = "ApPaterno", @class = "form-control" })
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label text-left">Apellido Paterno</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.apPat, new { id = "apPat", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.apPat)
+                                        </div>
+
+                                        <span class="help-block">Ingrese el apellido paterno</span>
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.apPat)
-                                    <span class="help-block">Ingrese el apellido paterno</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="col-md-12">
                             <div class="col-md-6">
-                                <label class="col-md-3 control-label text-left">Apellido Materno</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.apMat, new { id = "ApMaterno", @class = "form-control" })
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label text-left">Apellido Materno</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.apMat, new { id = "apMat", @class = "form-control" })
+                                        </div>
+                                        <span class="help-block">Ingrese el apellido materno</span>
                                     </div>
-                                    <span class="help-block">Ingrese el apellido materno</span>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="col-md-3 control-label text-left">Correo</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.email, new { id = "correo", @class = "form-control",@type="email" })
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label text-left">Correo</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Correo, new { id = "Correo",@class = "form-control", @type = "email" })
+                                            @Html.ValidationMessageFor(model => model.Correo)
+                                        </div>
+
+                                        <span class="help-block">Ingrese el correo</span>
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.email)
-                                    <span class="help-block">Ingrese el correo</span>
                                 </div>
                             </div>
                             @*<div class="col-md-6">
@@ -86,64 +97,91 @@
                                 </div>
                             </div>*@
                         </div>
-                        <div class="form-group">
+                        <div class="col-md-12">
                             <div class="col-md-6">
-                                <label class="col-md-3 control-label text-left">Teléfono</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.telefono, new { id = "telefono", @class = "form-control" })
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label text-left">Teléfono</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.telefono, new { id = "telefono", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.telefono)
+                                        </div>
+
+                                        <span class="help-block">Ingrese el Teléfono</span>
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.telefono)
-                                    <span class="help-block">Ingrese el Teléfono</span>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="col-md-3 control-label text-left">Dirección</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.direccion, new { id = "direccion", @class = "form-control" })
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label text-left">Dirección</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.direccion, new { id = "direccion", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.direccion)
+                                        </div>
+                                        <span class="help-block">Ingrese la dirección</span>
                                     </div>
-                                   @Html.ValidationMessageFor(model => model.direccion)
-                                    <span class="help-block">Ingrese la dirección</span>
                                 </div>
                             </div>
-                           
                         </div>
-                        <div class="form-group">
-                            <div class="col-md-4">
-                                <label class="col-md-3 control-label text-left">Tipo de Usuario</label>
-                                <div class="col-md-9">
-                                    @Html.DropDownListFor(model => model.tablaTipoUsuariosCmb, ViewData["cmbUsuarios"] as SelectList, new { id = "ListTipo", @class = "form-control" })
-                                    
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        <label class="col-md-3 control-label text-left">Tipo de Usuario</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            @Html.DropDownListFor(model => model.id_tipoUsuario, new SelectList(Model.tablaTipoUsuariosCmb, "id_tipoUsuario", "tipoUsuario"), new { id = "id_tipoUsuario", @class = "form-control select", data_live_search = "true" })
+                                            @Html.ValidationMessageFor(model => model.id_tipoUsuario)
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label text-left">Usuario</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.cuenta, new { id = "cuenta", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.cuenta)
+                                        </div>
 
-                                </div>
-                                @Html.ValidationMessageFor(model => model.tablaTipoUsuariosCmb)
-                            </div>
-                            <div class="col-md-4">
-                                <label class="col-md-3 control-label text-left">Usuario</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.cuenta, new { id = "clvUser", @class = "form-control" })
+                                        <span class="help-block">Ingrese el nombre de usuario</span>
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.cuenta)
-                                    <span class="help-block">Ingrese el nombre de usuario</span>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <label class="col-md-3 control-label text-left">Contraseña</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.PasswordFor(model => model.password, new { id = "passUser", @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.password)
-                                    <span class="help-block">Ingrese su contraseña</span>
-                                </div>
-                            </div>
+                            
 
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label text-left">Contraseña</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.PasswordFor(model => model.Password, new { id = "Password", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Password)
+                                        </div>
+
+                                        <span class="help-block">Ingrese su contraseña</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label text-left">Confirmar Contraseña</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.PasswordFor(model => model.passUser, new { id = "passUser", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.passUser)
+                                        </div>
+
+                                        <span class="help-block">Ingrese su contraseña</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         
                     </div>
@@ -163,19 +201,19 @@
 }
 @section script{
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-
-    <script>
-    jQuery(document).ready(function () {
-        $('#Licencia').change(function () {
-            $('#licencia-cont').toggle(1000);
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/Usuario.js")"></script>
+<script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            Usuario.init();
         });
-        Mensaje(message, typemessage);
-    });
-    </script>
-}
+</script>
 
+    }

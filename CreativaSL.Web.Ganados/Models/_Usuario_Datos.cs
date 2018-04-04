@@ -75,9 +75,9 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.direccion = dr["direccion"].ToString();
                     //datos.codigoPostal = dr["codigoPostal"].ToString();
                     datos.telefono = dr["telefono"].ToString();
-                    datos.email = dr["correo"].ToString();
+                    datos.Correo = dr["correo"].ToString();
                     //datos.url_foto = dr["url_foto"].ToString();
-                    //datos.cuenta = dr["cuenta"].ToString();
+                    datos.cuenta = dr["clvUser"].ToString();
                     //datos.password = "dc89sd989sdd";
                 }
                 return datos;
@@ -121,8 +121,8 @@ namespace CreativaSL.Web.Ganados.Models
                 object[] parametros =
                 {
                     datos.opcion, datos.id_usuario, datos.id_tipoUsuario, datos.nombre, datos.apPat,
-                    datos.apMat, datos.fechaNac, datos.direccion, datos.codigoPostal, datos.telefono, datos.email,
-                    datos.url_foto, datos.cuenta, datos.password, datos.user
+                    datos.apMat, datos.fechaNac, datos.direccion, datos.codigoPostal, datos.telefono, datos.Correo,
+                    datos.url_foto, datos.cuenta, datos.Password, datos.user
                     };
                 object aux = SqlHelper.ExecuteScalar(datos.conexion, "spCSLDB_abc_CatUsuarios", parametros);
                 datos.id_usuario = aux.ToString();
@@ -172,7 +172,7 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                object aux = SqlHelper.ExecuteScalar(usuario.conexion, "spCSLDB_get_CheckEmail", usuario.email, usuario.id_usuario);
+                object aux = SqlHelper.ExecuteScalar(usuario.conexion, "spCSLDB_get_CheckEmail", usuario.Correo, usuario.id_usuario);
                 return aux.ToString().Equals("1") ? true : false;
             }
             catch (Exception ex)
@@ -191,7 +191,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     usuario.activo = dr["activo"].ToString().Equals("1") ? true : false;
                     usuario.cuenta = dr["clvUser"].ToString();
-                    usuario.password = dr["pass"].ToString();
+                    usuario.Password = dr["pass"].ToString();
                 }
                 return usuario;
             }

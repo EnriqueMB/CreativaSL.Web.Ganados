@@ -63,7 +63,7 @@ $.validator.addMethod("formatoPNG", function (value, element, params) {
     var arrayString = element.value.split(".");
     var longitud = arrayString.length;
     var extension = arrayString[longitud - 1];
-    console.log("Extension: " + extension);
+
     if (extension != "png") {
         return false;
     }
@@ -75,17 +75,14 @@ $.validator.addMethod("formatoPNG", function (value, element, params) {
 
 $.validator.addMethod("validarImgEdit", function (value, element, params) {
     
-    //Hay un elemento en el file input
-    console.log(element);
-    console.log(element.value.length);
-
+    //Hay un elemento en el file input?
     if (element.value.length == 0 || element === undefined) {
         return true;
     }
 
     //Bandera que me indica si hay o no imagen en el servidor
     var imgBD = element.dataset.imgbd;
-    console.log("Value imgBD: "+ imgBD);
+
     //Hay imagen en el servidor?
     if (imgBD) {
         return false
@@ -93,7 +90,6 @@ $.validator.addMethod("validarImgEdit", function (value, element, params) {
     else {
         return true;
     }
-
 
 }, 'Debe seleccionar una imagen.');
 

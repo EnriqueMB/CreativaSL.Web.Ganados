@@ -155,7 +155,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             UsuarioModels usuario = new UsuarioModels();
             _Usuario_Datos usuario_datos = new _Usuario_Datos();
             usuario.conexion = Conexion;
-            usuario.email = email;
+            usuario.Correo = email;
             usuario.id_usuario = id_usuario;
             return Json(usuario_datos.CheckEmail(usuario), JsonRequestBehavior.AllowGet);
         }
@@ -196,7 +196,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     , ConfigurationManager.AppSettings.Get("PasswordTxt")
                     , usuario.email2
                     , "Password reset grupo ocampo"
-                    , Comun.GenerarHtmlResetContraseña(usuario.cuenta, usuario.password)
+                    , Comun.GenerarHtmlResetContraseña(usuario.cuenta, usuario.Password)
                     , false
                     , ""
                     , Convert.ToBoolean(ConfigurationManager.AppSettings.Get("HtmlTxt"))
