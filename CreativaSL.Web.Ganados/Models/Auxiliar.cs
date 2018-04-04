@@ -1,14 +1,14 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Script.Serialization;
-using System.Web.Security;
-
+using System.Web.Mvc;
+using System.Collections.Generic;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -81,7 +81,16 @@ namespace CreativaSL.Web.Ganados.Models
                 return sw.ToString();
             }
         }
+        public static IEnumerable<ErrorModelState> AllErrors(this ModelStateDictionary modelState)
+        {
+            var result = from ms in modelState
+                         where ms.Value.Errors.Any()
+                         let fieldKey = ms.Key
+                         let errors = ms.Value.Errors
+                         from error in errors
+                         select new ErrorModelState(fieldKey, error.ErrorMessage);
 
+            return result;
+        }
     }
-
 }

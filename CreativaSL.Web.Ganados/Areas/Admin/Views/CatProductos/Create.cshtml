@@ -23,7 +23,8 @@
             @using (Html.BeginForm("Create", "CatProductos", FormMethod.Post, new {id="form-productos", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                <div id="validation_summary" class="field_error "></div> //JS
 
                 @Html.HiddenFor(model => model.IDProducto)
                 <div class="panel panel-default">
@@ -40,7 +41,7 @@
                                 <div class="col-md-8 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.nombre, new { id = "NombreProducto", @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.nombre, new { id = "nombre", @class = "form-control" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.nombre)
                                     <span class="help-block">Ingrese el nombre del producto</span>

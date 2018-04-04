@@ -1,38 +1,8 @@
 ﻿var Empresa = function () {
     var TblCuentasBancarias;
     "use strict"
-    var SaveEmpresa = function () {
-
-        $("#frmEditEmpresa").on("submit", function (e) {
-            e.preventDefault();
-            var data = $("form#frmEditEmpresa")[0];
-            var fileData = new FormData(data);
-
-            $.ajax({
-                type: 'POST',
-                data: fileData,
-                url: '/Admin/CatEmpresa/SaveEmpresa/',
-                contentType: false,
-                processData: false,
-                cache: false,
-                success: function (response) {
-                    if (response.Success)
-                        Mensaje(response.Mensaje, "1");
-                    else
-                        Mensaje(response.Mensaje, "2");
-                },
-                failure: function (response) {
-                    Mensaje(response.Mensaje, "2");
-                },
-                error: function (response) {
-                    Mensaje(response.Mensaje, "2");
-                }
-            });
-        });
-       
-    };
     var RunFileInput = function (LogoRFC, LogoEmpresa){
-        $('#fileLogoEmpresa').fileinput({
+        $('#LogoEmpresaHttp').fileinput({
             theme: 'fa',
             language: 'es',
             showRemove: false,
@@ -56,7 +26,7 @@
             allowedFileExtensions: ["png"],
             required: true
         })
-        $('#fileLogoRFC').fileinput({
+        $('#LogoRFCHttp').fileinput({
             theme: 'fa',
             language: 'es',
             showRemove: false,
@@ -179,10 +149,153 @@
             ModalCuentaBancaria(0, IDEmpresa);
         });
     }
-
-  
-
-    //Funciones
+    var Validaciones = function () { 
+        var form1 = $('#frmEditEmpresa');
+        var errorHandler1 = $('.errorHandler', form1);
+        var successHandler1 = $('.successHandler', form1);
+        $('#frmEditEmpresa').validate({ // initialize the plugin
+            //debug: true,
+            errorElement: "span", // contain the error msg in a span tag
+            errorClass: 'help-block color',
+            errorLabelContainer: $("#validation_summary"),
+            errorPlacement: function (error, element) { // render error placement for each input type
+                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
+                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
+                    error.insertAfter($(element).closest('.form-group').children('div'));
+                } else if (element.attr("type") == "text") {
+                    error.insertAfter($(element).closest('.input-group').children('div'));
+                } else {
+                    error.insertAfter(element);
+                    // for other inputs, just perform default behavior
+                }
+            },
+            ignore: "",
+            rules: {
+                RazonFiscal: {
+                    required: true,
+                    minlength: 5,
+                    maxlength: 150
+                },
+                DireccionFiscal: {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 150
+                },
+                RFC: {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 15,
+                    rfc:true
+                },
+                NumTelefonico1: {
+                    required: true,
+                    minlength: 7,
+                    maxlength: 15
+                },
+                NumTelefonico2: {
+                    maxlength: 15
+                },
+                Email: {
+                    required: true,
+                    email: true,
+                    minlength: 5,
+                    maxlength: 50
+                },
+                HorarioAtencion: {
+                    minlength: 5,
+                    maxlength: 150
+                },
+                Representante: {
+                    minlength: 10,
+                    maxlength: 100
+                },
+                LogoEmpresaHttp: {
+                    validarImgEdit: true,
+                    formatoPNG: true
+                },
+                LogoRFCHttp: {
+                    validarImgEdit: true,
+                    formatoPNG: true
+                }
+            },
+            messages: {
+                RazonFiscal: {
+                    required: "Razón Fiscal es un campo requerido",
+                    minlength: jQuery.validator.format("Razón Fisca mínimo de caracteres: {0}"),
+                    maxlength: jQuery.validator.format("Razón Fisca máximo de caracteres: {0}")
+                },
+                DireccionFiscal: {
+                    required: "Direccion Fiscal es un campo requerido",
+                    minlength: jQuery.validator.format("Direccion Fiscal, mínimo de caracteres: {0}"),
+                    maxlength: jQuery.validator.format("Direccion Fiscal, máximo de caracteres: {0}")
+                },
+                RFC: {
+                    required: "R.F.C. es un campo requerido",
+                    minlength: jQuery.validator.format("R.F.C., mínimo de caracteres: {0}"),
+                    maxlength: jQuery.validator.format("R.F.C., máximo de caracteres: {0}"),
+                    rfc:      "R.F.C. no válido"
+                },
+                NumTelefonico1: {
+                    required: "Núm. Telefónico 1 es un campo requerido",
+                    minlength: jQuery.validator.format("Núm. Telefónico 1, mínimo de caracteres: {0}"),
+                    maxlength: jQuery.validator.format("Núm. Telefónico 1, máximo de caracteres: {0}")
+                },
+                NumTelefonico2: {
+                    maxlength: jQuery.validator.format("Núm. Telefónico 2, máximo de caracteres: {0}")
+                },
+                Email: {
+                    required: "Email es un campo requerido",
+                    email: "Formato de correo no válido",
+                    minlength: jQuery.validator.format("Email, mínimo de caracteres: {0}"),
+                    maxlength: jQuery.validator.format("Email, máximo de caracteres: {0}")
+                },
+                HorarioAtencion: {
+                    minlength: jQuery.validator.format("Horario de Atención, Mínimo de caracteres: {0}"),
+                    maxlength: jQuery.validator.format("Horario de Atención, Máximo de caracteres: {0}")
+                },
+                Representante: {
+                    minlength: jQuery.validator.format("Representante, Mínimo de caracteres: {0}"),
+                    maxlength: jQuery.validator.format("Representante, Máximo de caracteres: {0}")
+                },
+                LogoEmpresaHttp: {
+                    validarImgEdit: "Debe de selecciona una imagen para el Logo de la Empresa",
+                    formatoPNG:     "El Logo de la Empresa debe ser formato: PNG"
+                },
+                LogoRFCHttp: {
+                    validarImgEdit: "Debe de selecciona una imagen para el R.F.C.",
+                    formatoPNG: "El Logo de la Empresa debe ser formato: PNG"
+                }
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                successHandler1.hide();
+                errorHandler1.show();
+                //$("#validation_summary").text(validator.showErrors());
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');
+                // display OK icon
+                $(element).closest('.controlError').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+                // add the Bootstrap error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element).closest('.controlError').removeClass('has-error');
+                // set error class to the control group
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                label.removeClass('color');
+                // mark the current input as valid and display OK icon
+                $(element).closest('.controlError').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler1.show();
+                errorHandler1.hide();
+                //SaveEmpresa();
+            }
+        });
+    }
+     //Funciones
     function ModalCuentaBancaria(IDCuentaBancaria, IDEmpresa) {
         $.ajax({
             url: '/Admin/CatEmpresa/ModalCuentaBancaria/',
@@ -226,10 +339,38 @@
         });
 
     }
+    function SaveEmpresa() {
+        var data = $("form#frmEditEmpresa")[0];
+        var fileData = new FormData(data);
+
+        $.ajax({
+            type: 'POST',
+            data: fileData,
+            url: '/Admin/CatEmpresa/SaveEmpresa/',
+            contentType: false,
+            processData: false,
+            cache: false,
+            success: function (response) {
+                if (response.Success)
+                    Mensaje(response.Mensaje, "1");
+                else
+                    Mensaje(response.Mensaje, "2");
+            },
+            failure: function (response) {
+                Mensaje(response.Mensaje, "2");
+            },
+            error: function (response) {
+                Mensaje(response.Mensaje, "2");
+
+            }
+        });
+
+
+    };
 
     return {
         init: function (LogoRFC, LogoEmpresa, IDEmpresa) {
-            SaveEmpresa();
+            Validaciones();
             RunFileInput(LogoRFC, LogoEmpresa);
             LoadTableCuentasBancarias(IDEmpresa);
             LoadModal(IDEmpresa);

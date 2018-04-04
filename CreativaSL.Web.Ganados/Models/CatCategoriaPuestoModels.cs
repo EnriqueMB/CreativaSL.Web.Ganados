@@ -32,10 +32,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private List<CatPuestoModels> _listaPuestos;
-        [Required(ErrorMessage = "El Puesto es obligatorio")]
-        [Display(Name = "Puesto")]
-
-        [RegularExpression(@"^[1-9][0-9]*$", ErrorMessage = "Seleccione un puesto")]
+    
         public List<CatPuestoModels> listaPuestos
         {
             get { return _listaPuestos; }

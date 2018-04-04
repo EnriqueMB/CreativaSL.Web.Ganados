@@ -425,8 +425,9 @@
     <Content Include="Content\img\themes\default.jpg" />
     <Content Include="Content\img\themes\light.jpg" />
     <Content Include="Content\js\actions.js" />
+    <Content Include="Content\js\CategoriaPuestos.js" />
     <Content Include="Content\js\Chofer.js" />
-    <Content Include="Content\js\cuentaProveedor.js" />
+	<Content Include="Content\js\Lugar.js" />
     <Content Include="Content\js\proveedor.js" />
     <Content Include="Content\js\cuentasClientes.js" />
     <Content Include="Content\js\Empleado.js" />
@@ -1110,6 +1111,7 @@
     <Compile Include="Models\EntradaAlmacenDetalleModels.cs" />
     <Compile Include="Models\EntradaAlmacenModels.cs" />
     <Compile Include="Models\EntregaCombistibleModels.cs" />
+    <Compile Include="Models\ErrorModelState.cs" />
     <Compile Include="Models\EstadoModels.cs" />
     <Compile Include="Models\EventoEnvioDetalleModels.cs" />
     <Compile Include="Models\EventoEnvioModels.cs" />
