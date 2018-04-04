@@ -1,12 +1,11 @@
-﻿@model CreativaSL.Web.Ganados.Models.CatProveedorModels
-
+﻿@model CreativaSL.Web.Ganados.Models.EntregaCombistibleModels
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
 @section featured{
-    @{        var message = TempData["message"] ?? string.Empty;
+    @{        
+        var message = TempData["message"] ?? string.Empty;
         var typemessage = TempData["typemessage"] ?? string.Empty;
     }
     <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
@@ -16,7 +15,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Proveedor </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Entregas de combustible </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -26,28 +25,65 @@
                 <!-- START DEFAULT DATATABLE -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"></h3>
-                        <ul class="panel-controls">
-                            <li><a href="@Url.Action("Create","CatProveedor")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Proveedor</a></li>
-                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                            <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
-                        </ul>
+                        @*<form class="form-horizontal">*@
+                            <h3 class="panel-title"></h3>
+                            @*<div class="col-md-3">
+                                <select class="form-control select" data-live-search="true" id="IDRegimenFiscal" name="IDRegimenFiscal">
+                                    <option selected="selected" value="">--Seleccione--</option>
+                                    <option value="601">Vehículo 001</option>
+                                    <option value="603">Vehículo 002</option>
+                                    <option value="607">Vehículo 003</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-control select" data-live-search="true" id="IDRegimenFiscal" name="IDRegimenFiscal">
+                                    <option selected="selected" value="">--Seleccione--</option>
+                                    <option value="601">Vehículo 001</option>
+                                    <option value="603">Vehículo 002</option>
+                                    <option value="607">Vehículo 003</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-control select" data-live-search="true" id="IDRegimenFiscal" name="IDRegimenFiscal">
+                                    <option selected="selected" value="">--Seleccione--</option>
+                                    <option value="601">Vehículo 001</option>
+                                    <option value="603">Vehículo 002</option>
+                                    <option value="607">Vehículo 003</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">*@
+                                <ul class="panel-controls">
+                                    @*<li><button class="btn btn-default btnCrear"><span class="fa fa-search"></span></button></li>*@
+                                    <li><a href="@Url.Action("Create","EntregaCombustible")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva entrega</a></li>
+                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
+                                </ul>
+                            @*</div>*@
+                        @*</form>*@
                     </div>
+                    
                     <div class="panel-body">
                         <div class="table-responsive">
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th>Razon Social</th>
-                                        <th>RFC</th>
-                                        <th>Tipo de Proveedor</th>
+                                        <th>Fecha</th>
+                                        <th>Vehículo</th>
+                                        <th>Gasto Total</th>
                                         <th>Sucursal</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var proveedor in Model.listaProveedores)
-                               {
+                                    <tr>
+                                        <td>03/04/2018</td>
+                                        <td>Tacoma 387-BHC-2</td>
+                                        <td>$ 3859.00</td>
+                                        <td>Matriz</td>
+                                        <td></td>
+                                    </tr>
+                                    @*@foreach (var proveedor in Model.listaProveedores)
+                                    {
                                         <tr id="@proveedor.IDProveedor">
                                             <td>@proveedor.NombreRazonSocial</td>
                                             <td>@proveedor.RFC</td>
@@ -85,7 +121,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                               }
+                                    }*@
                                 </tbody>
                             </table>
                         </div>
@@ -122,6 +158,7 @@
 {
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script>
     jQuery(document).ready(function () {
@@ -129,4 +166,8 @@
         });
     </script>
 }
+
+
+
+
 
