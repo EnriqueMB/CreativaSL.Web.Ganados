@@ -263,5 +263,84 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public void ACDatosBancariosProveedor(CuentaBancariaProveedorModels datos)
+        {
+            try
+            {
+                object[] parametros = { datos.Opcion,
+                                        datos.IDDatosBancarios ?? string.Empty,
+                                        datos.IDProveedor ?? string.Empty,
+                                        datos.IDBanco,
+                                        datos.Titular ?? string.Empty,
+                                        datos.NumCuenta ?? string.Empty,
+                                        datos.NumTarjeta ?? string.Empty,
+                                        datos.Clabe ?? string.Empty,
+                                        datos.Usuario ?? string.Empty};
+                object result = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogos_ac_DatosBancariosProveedor", parametros);
+                if (result != null)
+                {
+                    if (!string.IsNullOrEmpty(result.ToString()))
+                    {
+                        datos.Completado = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CuentaBancariaProveedorModels ObtenerDetalleCuentaBancaria(CuentaBancariaProveedorModels datos)
+        {
+            try
+            {
+                object[] parametros = { datos.IDDatosBancarios, datos.IDProveedor };
+                SqlDataReader Dr = null;
+                Dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_get_CatProveedorDatosBancoXID", parametros);
+                while (Dr.Read())
+                {
+                    datos.IDBanco = !Dr.IsDBNull(Dr.GetOrdinal("Banco")) ? Dr.GetInt32(Dr.GetOrdinal("Banco")) : -1;
+                    datos.Titular = !Dr.IsDBNull(Dr.GetOrdinal("Titular")) ? Dr.GetString(Dr.GetOrdinal("Titular")) : string.Empty;
+                    datos.NumTarjeta = !Dr.IsDBNull(Dr.GetOrdinal("NumTarjeta")) ? Dr.GetString(Dr.GetOrdinal("NumTarjeta")) : string.Empty;
+                    datos.NumCuenta = !Dr.IsDBNull(Dr.GetOrdinal("NumCuenta")) ? Dr.GetString(Dr.GetOrdinal("NumCuenta")) : string.Empty;
+                    datos.Clabe = !Dr.IsDBNull(Dr.GetOrdinal("Clabe")) ? Dr.GetString(Dr.GetOrdinal("Clabe")) : string.Empty;
+                    datos.Completado = true;
+                }
+                return datos;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CuentaBancariaProveedorModels EliminarDatosBancariosProveedor(CuentaBancariaProveedorModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.IDDatosBancarios, datos.Usuario
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_shared_del_CuentaBancariaXID", parametros);
+                if (aux != null)
+                {
+                    int Resultado = 0;
+                    int.TryParse(aux.ToString(), out Resultado);
+                    if (Resultado == 1)
+                    {
+                        datos.Completado = true;
+                    }
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

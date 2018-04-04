@@ -426,6 +426,7 @@
     <Content Include="Content\img\themes\light.jpg" />
     <Content Include="Content\js\actions.js" />
     <Content Include="Content\js\Chofer.js" />
+    <Content Include="Content\js\cuentaProveedor.js" />
     <Content Include="Content\js\proveedor.js" />
     <Content Include="Content\js\cuentasClientes.js" />
     <Content Include="Content\js\Empleado.js" />
@@ -992,6 +993,7 @@
     <Content Include="Areas\Admin\Views\CatCliente\EditarCuenta.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\Cuentas.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\CreateCuenta.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\EditCuenta.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
