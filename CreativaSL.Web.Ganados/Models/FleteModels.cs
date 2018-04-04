@@ -56,6 +56,8 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _precioFlete; }
             set { _precioFlete = value; }
         }
+
+        public string IDRemolque { get; set; }
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }
