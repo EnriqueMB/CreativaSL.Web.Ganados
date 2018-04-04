@@ -997,6 +997,9 @@
     <Content Include="Areas\Admin\Views\CatProveedor\Cuentas.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\CreateCuenta.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\EditCuenta.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProductosAlmacen\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProductosAlmacen\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProductosAlmacen\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1031,6 +1034,7 @@
     <Compile Include="Areas\Admin\Controllers\CatJaulaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatLugarController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatMarcaVehiculoController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatProductosAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatProductosController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatProveedorController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatPuestosController.cs" />
