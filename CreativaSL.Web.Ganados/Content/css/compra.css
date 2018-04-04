@@ -45,3 +45,6 @@
 .btn{
     display: table-cell !important;
 }
+.select {
+     z-index: inherit !important;
+}
