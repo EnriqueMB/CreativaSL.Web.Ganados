@@ -60,8 +60,8 @@
                                             <td>@Cuenta.Clabe</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" href="@Url.Action("EditCuenta", "CatProveedor", new { id = Cuenta.IDDatosBancarios})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" id="delete-@Cuenta.IDDatosBancarios" data-hrefa="@Url.Action("DeleteCuenta", "CatProveedor", new { id =  Cuenta.IDDatosBancarios })" onClick="delete_row('@Cuenta.IDDatosBancarios');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Editar" href="@Url.Action("EditCuenta", "CatProveedor", new { id = Cuenta.IDDatosBancarios, id2 = IDP})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" id="delete-@Cuenta.IDDatosBancarios" data-hrefa="@Url.Action("DeleteCuenta", "CatProveedor", new { id = Cuenta.IDDatosBancarios, id2 = IDP })" onClick="delete_row('@Cuenta.IDDatosBancarios');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -70,12 +70,12 @@
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("EditCuenta", "CatProveedor", new { id = Cuenta.IDDatosBancarios})">
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("EditCuenta", "CatProveedor", new { id = Cuenta.IDDatosBancarios, id2 = IDP})">
                                                                     <i class="fa fa-edit"></i> Editar
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@Cuenta.IDDatosBancarios" data-hrefa="@Url.Action("DeleteCuenta", "CatProveedor", new { id =  Cuenta.IDDatosBancarios })" onClick="delete_row('@Cuenta.IDDatosBancarios');">
+                                                                <a role="menuitem" tabindex="-1" id="delete-@Cuenta.IDDatosBancarios" data-hrefa="@Url.Action("DeleteCuenta", "CatProveedor", new { id =  Cuenta.IDDatosBancarios, id2 = IDP })" onClick="delete_row('@Cuenta.IDDatosBancarios');">
                                                                     <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>

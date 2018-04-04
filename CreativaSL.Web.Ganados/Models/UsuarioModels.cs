@@ -10,6 +10,26 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class UsuarioModels
     {
+        public UsuarioModels()
+        {
+            _id_usuario = string.Empty;
+            _id_tipoUsuario = -1;
+            _id_municipio = -1;
+            _id_estado = -1;
+            _nombreCompleto = string.Empty;
+            _nombre = string.Empty;
+            _apPat = string.Empty;
+            _apMat = string.Empty;
+            _fechaNac = DateTime.Today;
+            _fechaAntiguedad = DateTime.Today;
+            _direccion = string.Empty;
+            _codigoPostal = string.Empty;
+            _telefono = string.Empty;
+            _email = string.Empty;
+            _url_foto = string.Empty;
+            _cuenta = string.Empty;
+            _contraseña = string.Empty;
+        }
         private string _id_usuario;
         public string id_usuario
         {
@@ -95,6 +115,7 @@ namespace CreativaSL.Web.Ganados.Models
         [Display(Name = "Fecha de Nacimiento")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        
         public DateTime fechaAntiguedad
         {
             get { return _fechaAntiguedad; }
@@ -102,6 +123,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _direccion;
+        [Required(ErrorMessage = "La direccion es obligatorio")]
         [Display(Name = "Dirección")]
         [StringLength(1000, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\(\)\-\,\.\;\:\s]*$", ErrorMessage = "Solo Letras y números")]
@@ -122,7 +144,8 @@ namespace CreativaSL.Web.Ganados.Models
         private string _telefono;
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Telefono")]
-        [RegularExpression(@"^[0-9]*$", ErrorMessage = "Solo números")]    
+        [RegularExpression(@"^[0-9]*$", ErrorMessage = "Solo números")]
+        [Telefono(ErrorMessage = "Ingrese un número de celular válido")]
         public string telefono
         {
             get { return _telefono; }
@@ -136,7 +159,7 @@ namespace CreativaSL.Web.Ganados.Models
 
         [StringLength(300, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         [Remote("CheckEmailAvailability", "Account", AdditionalFields = "id_usuario", ErrorMessage = "Este email esta ocupado")]
-        public string email
+        public string Correo
         {
             get { return _email; }
             set { _email = value; }
@@ -194,7 +217,7 @@ namespace CreativaSL.Web.Ganados.Models
         [Display(Name = "Contraseña")]
         [DataType(DataType.Password)]
         [StringLength(32, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        public string password
+        public string Password
         {
             get { return _password; }
             set { _password = value; }

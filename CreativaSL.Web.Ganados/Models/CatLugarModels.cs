@@ -128,10 +128,7 @@ namespace CreativaSL.Web.Ganados.Models
             set { _listaEstado = value; }
         }
         private List<CatMunicipioModels> _listaMunicipio;
-        [Required(ErrorMessage = "El Municipio es obligatorio")]
-        [Display(Name = "Municipio")]
-
-        [RegularExpression(@"^[1-9][0-9]*$", ErrorMessage = "Seleccione un municipio")]
+        
         public List<CatMunicipioModels> listaMunicipio
         {
             get { return _listaMunicipio; }
@@ -177,7 +174,7 @@ namespace CreativaSL.Web.Ganados.Models
             set { _id_pais = value; }
         }
         private string _ejido;
-        [Required(ErrorMessage = "El Ejido es obligatorio")]
+       
         [Display(Name = "Pais")]
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         public string ejido

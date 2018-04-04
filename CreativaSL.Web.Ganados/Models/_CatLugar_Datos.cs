@@ -15,7 +15,12 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                   datos.opcion,datos.id_lugar,datos.descripcion,datos.latitud,datos.longitud,datos.ejido,datos.id_sucursal,datos.id_pais,datos.id_estadoCodigo,datos.id_municipio,datos.bascula,datos.nombrePropietario,datos.apellidoPaterno,datos.apellidoMaterno,datos.observaciones,datos.user
+                   datos.opcion,
+                    datos.id_lugar ?? String.Empty,datos.descripcion ?? string.Empty,
+                    datos.latitud,datos.longitud,datos.ejido ?? string.Empty,datos.id_sucursal ?? string.Empty,
+                    datos.id_pais ?? string.Empty,
+                    datos.id_estadoCodigo?? string.Empty,datos.id_municipio ,
+                    datos.bascula,datos.nombrePropietario ?? string.Empty,datos.apellidoPaterno ?? string.Empty,datos.apellidoMaterno ?? string.Empty,datos.observaciones ?? string.Empty,datos.user ?? string.Empty
                     };
                 object aux = SqlHelper.ExecuteScalar(datos.conexion, "spCSLDB_ac_CatLugar", parametros);
                 datos.id_lugar = aux.ToString();

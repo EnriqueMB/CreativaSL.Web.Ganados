@@ -16,6 +16,21 @@
 
 
 /* PREDEFINED CLASSES */
+td.center .dropdown-menu {
+  text-align: left;
+}
+.dropdown-menu.dropdown-dark {
+
+  border-radius: 0;
+  box-shadow: none;
+  list-style: none outside none;
+  max-width: 300px;
+  min-width: 166px;
+  padding: 0;
+  position: absolute;
+  text-shadow: none;
+  z-index: 1000;
+}
 .clearfix {
   zoom: 1;
 }

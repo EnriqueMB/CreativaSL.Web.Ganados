@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
@@ -85,19 +84,18 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     Empresa.RespuestaAjax.Mensaje = "Verifique su formulario.";
                     Empresa.RespuestaAjax.Success = false;
+                    Empresa.RespuestaAjax.Errores = ModelState.AllErrors();
 
                     return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
                 }
             }
             catch (Exception ex)
             {
-                //Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 Empresa.RespuestaAjax.Mensaje = ex.ToString();
                 Empresa.RespuestaAjax.Success = false;
                 return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
             }
         }
-
         [HttpPost]
         public ActionResult LoadTableCuentasBancarias(string IDEmpresa)
         {
@@ -128,7 +126,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             Empresa = new CatEmpresaModels();
             EmpresaDatos = new _CatEmpresa_Datos();
             Empresa.CuentaBancaria.IDDatosBancarios = IDCuentaBancaria;
-            Empresa.CuentaBancaria.Cliente.IDCliente = IDCliente;
+            Empresa.IDEmpresa = IDCliente;
             Empresa.Conexion = Conexion;
             Empresa = EmpresaDatos.GetDatosBancariosXID(Empresa);
             Empresa.ListaBancos = EmpresaDatos.GetListaBancos(Empresa);
@@ -151,6 +149,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 ModelState.Remove("Representante");
                 ModelState.Remove("LogoEmpresa");
                 ModelState.Remove("LogoRFC");
+                ModelState.Remove("LogoRFCHttp");
+                ModelState.Remove("LogoEmpresaHttp");
 
                 if (ModelState.IsValid)
                 {
@@ -163,8 +163,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
                 else
                 {
+                   
                     Empresa.RespuestaAjax.Mensaje = "Verifique su formulario.";
                     Empresa.RespuestaAjax.Success = false;
+                   
                     return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
                 }
             }

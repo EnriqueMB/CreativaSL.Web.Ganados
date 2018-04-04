@@ -13,7 +13,7 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                object[] parametros = { Datos.user, Datos.password };
+                object[] parametros = { Datos.user, Datos.Password };
                 DataSet Ds = SqlHelper.ExecuteDataset(Datos.conexion, "Login_sp", parametros);
                 if (Ds != null)
                 {
@@ -34,7 +34,7 @@ namespace CreativaSL.Web.Ganados.Models
                                 Datos.apPat = Dr["U_Apellidop"].ToString();
                                 Datos.apMat = Dr["U_Apellidom"].ToString();
                                 Datos.user = Dr["Cu_User"].ToString();
-                                Datos.password = Dr["Cu_Pass"].ToString();
+                                Datos.Password = Dr["Cu_Pass"].ToString();
                                 Datos.nombreCompleto = Datos.nombre.ToUpper() + " " + Datos.apPat.ToUpper();
                             }
                             List<UsuarioModels> ListaPrinc = new List<UsuarioModels>();

@@ -18,15 +18,17 @@
         </div>
         <div class="col-md-12">
             @*<form class="form-horizontal">*@
-            @using (Html.BeginForm("Create", "CatLugar", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("Create", "CatLugar", FormMethod.Post, new {id="form-lugar", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+               <div id="validation_summary" class="field_error "></div> //JS
 
                 @Html.HiddenFor(model => model.id_lugar)
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Información</strong> Chofer</h3>
+                        <h3 class="panel-title"><strong>Información</strong> Lugar</h3>
                         <ul class="panel-controls">
                             @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
                         </ul>
@@ -34,62 +36,69 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <div class="col-md-4">
-                                <label class="col-md-12 control-label text-center">Nombre del propietario</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.nombrePropietario, new { id = "NombrePropietario", @class = "form-control" })
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Nombre del propietario</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.nombrePropietario, new { id = "nombrePropietario", @class = "form-control" })
 
 
+                                        </div>
+                                        <span class="help-block text-center">Nombre del Propietario</span>
+                                        @Html.ValidationMessageFor(model => model.nombrePropietario)
                                     </div>
-                                    <span class="help-block text-center">Nombre del Propietario</span>
-                                    @Html.ValidationMessageFor(model => model.nombrePropietario)
+                                    </div>
                                 </div>
-                            </div>
                             <div class="col-md-4">
-                                <label class="col-md-12 control-label text-center">Apellido Paterno</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.apellidoPaterno, new { id = "apPat", @class = "form-control" })
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Apellido Paterno</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.apellidoPaterno, new { id = "apellidoPaterno", @class = "form-control" })
 
 
+                                        </div>
+                                        <span class="help-block text-center">Apellido Paterno</span>
+                                        @Html.ValidationMessageFor(model => model.apellidoPaterno)
                                     </div>
-                                    <span class="help-block text-center">Apellido Paterno</span>
-                                    @Html.ValidationMessageFor(model => model.apellidoPaterno)
+                                    </div>
                                 </div>
-                            </div>
                             <div class="col-md-4">
-                                <label class="col-md-12 control-label text-center">Apellido Materno</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.apellidoMaterno, new { id = "apMat", @class = "form-control" })
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Apellido Materno</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.apellidoMaterno, new { id = "apellidoMaterno", @class = "form-control" })
 
 
+                                        </div>
+                                        <span class="help-block text-center">Apellido Materno</span>
+                                        @Html.ValidationMessageFor(model => model.apellidoMaterno)
                                     </div>
-                                    <span class="help-block text-center">Apellido Materno</span>
-                                    @Html.ValidationMessageFor(model => model.apellidoMaterno)
+                                    </div>
                                 </div>
-                            </div>
 
 
                         </div>
 
                         <div class="form-group">
                             <div class="col-md-6">
-                                <label class="col-md-12 control-label text-center">Descripción del lugar</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.descripcion, new { id = "Nombre", @class = "form-control" })
-                                        
-                                        
-                                    </div>
-                                    <span class="help-block text-center">Descripción del lugar</span>
-                                    @Html.ValidationMessageFor(model => model.descripcion)
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Descripción del lugar</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.descripcion, new { id = "descripcion", @class = "form-control" })
+
+
+                                        </div>
+                                        <span class="help-block text-center">Descripción del lugar</span>
+                                        @Html.ValidationMessageFor(model => model.descripcion)
+                                    </div></div>
                                 </div>
-                            </div>
                             <div class="col-md-3">
                                 <label class="col-md-12 control-label text-center">Ejido del lugar</label>
                                 <div class="col-md-12 col-xs-12">
@@ -137,36 +146,44 @@
 
                         <div class="form-group">
                             <div class="col-md-3">
-                                <label class="col-md-3 col-xs-12 control-label">Sucursales</label>
-                                <div class="col-md-9 col-xs-12">
-                                    @Html.DropDownListFor(model => model.listaSucursal, ViewData["cmbSucursal"] as SelectList, new { id = "ListSucursal", @class = "form-control " })
-                                    @Html.ValidationMessageFor(model => model.listaSucursal)
-                                    <span class="help-block">Seleccione la sucursal</span>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Sucursales</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        @Html.DropDownListFor(model => model.id_sucursal, new SelectList(Model.listaSucursal, "IDSucursal", "NombreSucursal"), new { id = "id_sucursal", @class = "form-control " })
+                                        @Html.ValidationMessageFor(model => model.listaSucursal)
+                                        <span class="help-block">Seleccione la sucursal</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <label class="col-md-3 control-label">Paises</label>
-                                <div class="col-md-9">
-                                    @Html.DropDownListFor(model => model.listaPaises, ViewData["cmbPaises"] as SelectList, new { id = "ListPaises", @class = "form-control " })
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Paises</label>
+                                    <div class="col-md-9">
+                                        @Html.DropDownListFor(model => model.id_pais, new SelectList(Model.listaPaises, "id_pais", "descripcion"), new { id = "id_pais", @class = "form-control  " })
 
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.listaPaises)
                                 </div>
-                                @Html.ValidationMessageFor(model => model.listaPaises)
                             </div>
                             <div class="col-md-3">
-                                <label class="col-md-3 control-label">Estado</label>
-                                <div class="col-md-9">
-                                    @Html.DropDownListFor(model => model.listaEstado, ViewData["cmbEstados"] as SelectList, new { id = "ListEstado", @class = "form-control " })
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Estado</label>
+                                    <div class="col-md-9">
+                                        @Html.DropDownListFor(model => model.id_estadoCodigo, new SelectList(Model.listaEstado, "codigoEstado", "descripcion"), new { id = "id_estadoCodigo", @class = "form-control " })
 
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.listaEstado)
                                 </div>
-                                @Html.ValidationMessageFor(model => model.listaEstado)
                             </div>
                             <div class="col-md-3">
-                                <label class="col-md-3 control-label">Estado</label>
-                                <div class="col-md-9">
-                                   @Html.DropDownListFor(model => model.listaMunicipio, ViewData["cmbMunicipios"] as SelectList, new { id = "ListMunicipio", @class = "form-control " })
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Estado</label>
+                                    <div class="col-md-9">
+                                        @Html.DropDownListFor(model => model.id_municipio, new SelectList(Model.listaMunicipio, "id_municipio", "descripcion"), new { id = "id_municipio", @class = "form-control  " })
 
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.listaMunicipio)
                                 </div>
-                                @Html.ValidationMessageFor(model => model.listaMunicipio)
                             </div>
                         </div>
                         <br />
@@ -239,47 +256,50 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/Lugar.js")"></script>
   
     
 <script src="@Url.Content("~/Content/js/plugins/config.map.places.js")"></script>
     <script>
     jQuery(document).ready(function () {
-       
+       Lugar.init();
         Mensaje(message, typemessage);
     });
     jQuery(document).ready(function () {
         //LISTA DE ESTADOS CUANDO COMBO PAISES CAMBIA
-        $("#ListPaises").val('MEX');
-        getEstado( $("#ListPaises").val());
-        $("#ListPaises").change(function () {
+        $("#id_pais").val('MEX');
+        getEstado($("#id_pais").val());
+        $("#id_pais").change(function () {
 
-            var id = $("#ListPaises").val();
+            var id = $("#id_pais").val();
             getEstado(id);
-            var municipio = $("#ListMunicipio option:selected").text();
-            var estado = $("#ListEstado option:selected").text();
-            var pais = $("#ListPaises option:selected").text();
+            var municipio = $("#id_municipio option:selected").text();
+            var estado = $("#id_estadoCodigo option:selected").text();
+            var pais = $("#id_pais option:selected").text();
             var busqueda = pais;
 
             var geocoder = new google.maps.Geocoder();
             geocoder.geocode({ 'address': busqueda }, geocodeResult);
         });
-        $("#ListEstado").change(function () {
-            var id2 = $("#ListPaises").val();
-            var id = $("#ListEstado").val();
+        $("#id_estadoCodigo").change(function () {
+            var id2 = $("#id_pais").val();
+            var id = $("#id_estadoCodigo").val();
             getMunicipio(id2, id);
-            var municipio = $("#ListMunicipio option:selected").text();
-            var estado = $("#ListEstado option:selected").text();
-            var pais = $("#ListPaises option:selected").text();
+            var municipio = $("#id_municipio option:selected").text();
+            var estado = $("#id_estadoCodigo option:selected").text();
+            var pais = $("#id_pais option:selected").text();
             var busqueda = estado + ',' + pais;
             var geocoder = new google.maps.Geocoder();
             geocoder.geocode({ 'address': busqueda }, geocodeResult);
         });
 
-        $("#ListMunicipio").change(function () {
+        $("#id_municipio").change(function () {
 
-            var municipio = $("#ListMunicipio option:selected").text();
-            var estado = $("#ListEstado option:selected").text();
-            var pais = $("#ListPaises option:selected").text();
+            var municipio = $("#id_municipio option:selected").text();
+            var estado = $("#id_estadoCodigo option:selected").text();
+            var pais = $("#id_pais option:selected").text();
             var busqueda = municipio + ',' + estado + ',' + pais;
             var geocoder = new google.maps.Geocoder();
             geocoder.geocode({ 'address': busqueda }, geocodeResult);
@@ -292,7 +312,7 @@
                 dataType: "json",
                 type: "POST",
                 error: function () {
-                    $("#ListEstado").html('');
+                    $("#id_estadoCodigo").html('');
                 },
                 success: function (estado) {
 
@@ -301,12 +321,12 @@
                        
                         items += "<option value=\"" + estado[i].codigoEstado + "\">" + estado[i].descripcion + "</option>";
                     }
-                    $("#ListEstado").html(items);
+                    $("#id_estadoCodigo").html(items);
                    // getMunicipio($("#ListPaises").val(), $("#ListEstado").val());
                   
-                        var municipio = $("#ListMunicipio option:selected").text();
-                        var estado = $("#ListEstado option:selected").text();
-                        var pais = $("#ListPaises option:selected").text();
+                    var municipio = $("#id_municipio option:selected").text();
+                        var estado = $("#id_estadoCodigo option:selected").text();
+                        var pais = $("#id_pais option:selected").text();
                         var busqueda = pais;
                        
                         var geocoder = new google.maps.Geocoder();
@@ -329,18 +349,18 @@
                 dataType: "json",
                 type: "POST",
                 error: function () {
-                    $("#ListMunicipio").html('');
+                    $("#id_municipio").html('');
                 },
                 success: function (municipio) {
                     var items = "";
                     for (var i = 0; i < municipio.length; i++) {
                         items += "<option value=\"" + municipio[i].id_municipio + "\">" + municipio[i].descripcion + "</option>";
                     }
-                    $("#ListMunicipio").html(items);
+                    $("#id_municipio").html(items);
                    
-                        var municipio = $("#ListMunicipio option:selected").text();
-                        var estado = $("#ListEstado option:selected").text();
-                        var pais = $("#ListPaises option:selected").text();
+                    var municipio = $("#id_municipio option:selected").text();
+                        var estado = $("#id_estadoCodigo option:selected").text();
+                        var pais = $("#id_pais option:selected").text();
                         var busqueda =  estado + ',' + pais;
 
                         var geocoder = new google.maps.Geocoder();
