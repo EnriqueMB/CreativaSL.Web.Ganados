@@ -1,12 +1,12 @@
-﻿var Productos = function () {
+﻿var Lugar = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
-        var form1 = $('#form-productos');
+        var form1 = $('#form-lugar');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
 
-        $('#form-productos').validate({
+        $('#form-lugar').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -24,20 +24,34 @@
             },
             ignore: "",
             rules: {
-                nombre: { required: true, texto: true, maxlength: 100 },
-                Descripcion: { required: true, texto: true, maxlength: 150 },
-                Clave: { required: true, texto: true, maxlength: 20 },
-                Clave_cfdi: { required: true, texto: true, maxlength: 10 },
-               
+
+                //ListSucursal: { required: true },
+                nombrePropietario: { required: true, texto: true, maxlength: 120 },
+                apellidoPaterno: { required: true, texto: true, maxlength: 80 },
+                apellidoMaterno: { texto: true, maxlength: 80 },
+                descripcion: { required: true, texto: true, maxlength: 100 },
+                ejido: { texto: true, maxlength: 100 },
+                observaciones: { required: true, texto: true },
+                id_municipio: { CMBINT: true },
+                id_estadoCodigo: { required: true },
+                id_pais: { required: true },
+                id_sucursal: { required: true },
+
             },
             messages: {
 
-            
-                nombre: { required: "Ingrese el nobmre del producto.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 100 caracteres." },
-                Descripcion: { required: "Ingrese la descripción del producto.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 150 caracteres." },
-                Clave: { required: "Ingrese la clave del producto.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 20 caracteres." },
-                Clave_cfdi: { required: "Ingrese el clave cfdi del producto.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 10 caracteres." },
-               
+                //ListSucursal: { required: "Seleccione una sucursal." },
+            nombrePropietario: { required: "Ingrese nombre del propietario.",texto:"Ingrese un nombre valido", maxlength: "El campo nombre admite máximo 120 caracteres." },
+            apellidoPaterno: { required: "Ingrese apellido paterno del propietario.", texto: "Ingrese un nombre valido", maxlength: "El campo  admite máximo 80 caracteres." },
+            apellidoMaterno: { texto: "Ingrese un nombre valido", maxlength: "El campo  admite máximo 80 caracteres." },
+            descripcion: { required: "Ingrese descripción del lugar.", texto: "Ingrese un nombre valido", maxlength: "El campo  admite máximo 100 caracteres." },
+            ejido: { texto: "Ingrese un nombre de ejido valido", maxlength: "El campo  admite máximo 100 caracteres." },
+            observaciones: { required: "Ingrese las observaciones del lugar.", texto: "Ingrese las observaciones del lugar" },
+            id_municipio: { CMBINT: "Seleccione un municipio." },
+            id_estadoCodigo: { required: "Ingrese un estado válido." },
+            id_pais: { required: "Ingrese un pais válido." },
+            id_sucursal: { required: "Ingrese una sucursal válida." }
+
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

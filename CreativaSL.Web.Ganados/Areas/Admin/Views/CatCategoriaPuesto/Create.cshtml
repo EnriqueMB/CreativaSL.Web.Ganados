@@ -19,10 +19,12 @@
         </div>
         <div class="col-md-12">
             @*<form class="form-horizontal">*@
-            @using (Html.BeginForm("Create", "CatCategoriaPuesto", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("Create", "CatCategoriaPuesto", FormMethod.Post, new {id="form-catPuesto", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+            <div id="validation_summary" class="field_error"></div> //JS
 
                 @Html.HiddenFor(model => model.id_categoria)
                 <div class="panel panel-default">
@@ -33,41 +35,46 @@
                         </ul>
                     </div>
                     <div class="panel-body">
-                        <div class="form-group">
+                   
                             <div class="col-md-4">
-                                <label class="col-md-12 control-label text-center">Descripción del puesto</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.descripcion, new { id = "Nombre", @class = "form-control" })
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Descripción del puesto</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.descripcion, new { id = "descripcion", @class = "form-control" })
 
+
+                                        </div>
+                                        <span class="help-block text-center">Descripción del lugar</span>
+                                        @Html.ValidationMessageFor(model => model.descripcion)
+                                    </div>
+                                    </div>
+                                </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Puesto</label>
+                                    <div class="col-md-12">
+                                        @Html.DropDownListFor(model => model.id_puesto, new SelectList(Model.listaPuestos, "IDPuesto", "Descripcion"), new { id = "id_puesto", @class = "form-control " })
 
                                     </div>
-                                    <span class="help-block text-center">Descripción del lugar</span>
-                                    @Html.ValidationMessageFor(model => model.descripcion)
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="col-md-12 control-label text-center">Puesto</label>
-                                <div class="col-md-12">
-                                    @Html.DropDownListFor(model => model.listaPuestos, ViewData["cmbCategoriaPuestos"] as SelectList, new { id = "ListPaises", @class = "form-control " })
-
-                                </div>
-                                @Html.ValidationMessageFor(model => model.listaPuestos)
-                            </div>
-                            <div class="col-md-4">
-                                <label class="col-md-12 control-label text-center">Sueldo Base</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.sueldoBase, new { id = "sueldoBase", @class = "form-control" })
-
-
+                                    @Html.ValidationMessageFor(model => model.id_puesto)
                                     </div>
-                                    <span class="help-block text-center">Sueldo Base</span>
-                                    @Html.ValidationMessageFor(model => model.sueldoBase)
                                 </div>
-                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Sueldo Base</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.sueldoBase, new { id = "sueldoBase", @class = "form-control" })
+
+
+                                        </div>
+                                        <span class="help-block text-center">Sueldo Base</span>
+                                        @Html.ValidationMessageFor(model => model.sueldoBase)
+                                    </div>
+                                </div>
 
 
                         </div>
@@ -103,13 +110,16 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/CategoriaPuestos.js")"></script>
 
     <script src="@Url.Content("~/Content/js/plugins/config.map.places.js")"></script>
     <script>
     jQuery(document).ready(function () {
        
         Mensaje(message, typemessage);
+        CategoriaPuestos.init();
     });
     
 

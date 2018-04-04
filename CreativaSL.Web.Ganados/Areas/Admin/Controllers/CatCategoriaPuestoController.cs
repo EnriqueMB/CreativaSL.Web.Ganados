@@ -66,40 +66,46 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CategoriaPuesto/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CatCategoriaPuestoModels CategoriaPuestos)
         {
+            _CatCategoriaPuesto_Datos CategoriaPuestosDatos = new _CatCategoriaPuesto_Datos();
             try
             {
-
-                CatCategoriaPuestoModels CategoriaPuestos = new CatCategoriaPuestoModels();
-                _CatCategoriaPuesto_Datos CategoriaPuestosDatos = new _CatCategoriaPuesto_Datos();
-                CategoriaPuestos.Conexion = Conexion;
-                CategoriaPuestos.Opcion = 1;
-                CategoriaPuestos.id_puesto = Convert.ToInt32(collection["listaPuestos"]);
-                CategoriaPuestos.descripcion = collection["descripcion"];
-                CategoriaPuestos.sueldoBase = Convert.ToDecimal(collection["sueldoBase"]);
-
-                CategoriaPuestos.Usuario = User.Identity.Name;
-                CategoriaPuestos = CategoriaPuestosDatos.AcCatCategoriaPuestos(CategoriaPuestos);
-                if (CategoriaPuestos.Completado == true)
+                if (ModelState.IsValid)
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se guardo correctamente.";
-                    return RedirectToAction("Index");
 
+                    
+                    CategoriaPuestos.Conexion = Conexion;
+                    CategoriaPuestos.Opcion = 1;
+
+
+                    CategoriaPuestos.Usuario = User.Identity.Name;
+                    CategoriaPuestos = CategoriaPuestosDatos.AcCatCategoriaPuestos(CategoriaPuestos);
+                    if (CategoriaPuestos.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "El registro se guardo correctamente.";
+                        return RedirectToAction("Index");
+
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        return View(CategoriaPuestos);
+                    }
                 }
-                else
-                {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrió un error al guardar el registro.";
+                else {
+                    CategoriaPuestos.Conexion = Conexion;
+
+                    CategoriaPuestos.listaPuestos = CategoriaPuestosDatos.obtenerListaCategoriaPuesto(CategoriaPuestos);
                     return View(CategoriaPuestos);
                 }
 
             }
             catch (Exception ex)
             {
-                CatCategoriaPuestoModels CategoriaPuestos = new CatCategoriaPuestoModels();
-
+                
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
                 return View(CategoriaPuestos);
@@ -134,40 +140,44 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CategoriaPuesto/Edit/5
         [HttpPost]
-        public ActionResult Edit(string id, FormCollection collection)
+        public ActionResult Edit(string id, CatCategoriaPuestoModels CategoriaPuestos)
         {
+            _CatCategoriaPuesto_Datos CategoriaPuestosDatos = new _CatCategoriaPuesto_Datos();
             try
             {
-
-                CatCategoriaPuestoModels CategoriaPuestos = new CatCategoriaPuestoModels();
-                _CatCategoriaPuesto_Datos CategoriaPuestosDatos = new _CatCategoriaPuesto_Datos();
-                CategoriaPuestos.Conexion = Conexion;
-                CategoriaPuestos.Opcion = 2;
-                CategoriaPuestos.id_categoria = id;
-                CategoriaPuestos.id_puesto = Convert.ToInt32(collection["listaPuestos"]);
-                CategoriaPuestos.descripcion = collection["descripcion"];
-                CategoriaPuestos.sueldoBase = Convert.ToDecimal(collection["sueldoBase"]);
-
-                CategoriaPuestos.Usuario = User.Identity.Name;
-                CategoriaPuestos = CategoriaPuestosDatos.AcCatCategoriaPuestos(CategoriaPuestos);
-                if (CategoriaPuestos.Completado == true)
+                if (ModelState.IsValid)
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se guardo correctamente.";
-                    return RedirectToAction("Index");
 
+                    CategoriaPuestos.Conexion = Conexion;
+                    CategoriaPuestos.Opcion = 2;
+                    CategoriaPuestos.id_categoria = id;
+
+
+                    CategoriaPuestos.Usuario = User.Identity.Name;
+                    CategoriaPuestos = CategoriaPuestosDatos.AcCatCategoriaPuestos(CategoriaPuestos);
+                    if (CategoriaPuestos.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "El registro se guardo correctamente.";
+                        return RedirectToAction("Index");
+
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        return View(CategoriaPuestos);
+                    }
                 }
-                else
-                {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrió un error al guardar el registro.";
+                else {
+                    CategoriaPuestos.Conexion = Conexion;
+                    CategoriaPuestos.listaPuestos = CategoriaPuestosDatos.obtenerListaCategoriaPuesto(CategoriaPuestos);
                     return View(CategoriaPuestos);
                 }
-
             }
             catch (Exception ex)
             {
-                CatCategoriaPuestoModels CategoriaPuestos = new CatCategoriaPuestoModels();
+                
 
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";

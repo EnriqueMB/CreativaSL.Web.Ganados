@@ -1,12 +1,12 @@
-﻿var Productos = function () {
+﻿var Usuario = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
-        var form1 = $('#form-productos');
+        var form1 = $('#form-dg');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
 
-        $('#form-productos').validate({
+        $('#form-dg').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -24,20 +24,28 @@
             },
             ignore: "",
             rules: {
-                nombre: { required: true, texto: true, maxlength: 100 },
-                Descripcion: { required: true, texto: true, maxlength: 150 },
-                Clave: { required: true, texto: true, maxlength: 20 },
-                Clave_cfdi: { required: true, texto: true, maxlength: 10 },
-               
+                nombre: { required: true, texto: true, maxlength: 70 },
+                apPat: { required: true, texto: true, maxlength: 50 },
+                Correo: { required: true, email: true, maxlength: 300 },
+                direccion: { required: true, maxlength: 999 },
+                telefono: { required: true, telefono: true },
+                cuenta: { required: true, maxlength: 15 },
+                Password: { required: true, maxlength: 32},
+                passUser: { required: true, maxlength: 32,equalTo:"#Password"},
+                id_tipoUsuario: { CMBINT: true }
+
             },
             messages: {
+                nombre: { required: "Ingrese el nombre.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 70 caracteres." },
+                apPat: { required: "Ingrese el apellido paterno.", texto: "Ingrese un apellido paterno válido.", maxlength: "El campo apellido paterno admite máximo 50 caracteres." },
+                Correo: { required: "Ingrese el correo electrónico del usuario.", email: "Ingrese un correo electrónico válido.", maxlength: "El correo admite máximo 300 caracteres." },
+               direccion: { required: "Ingrese la dirección.", maxlength: "La dirección admite máximo 100 caracteres." },
+                telefono: { required: "Ingrese el telefono", telefono: "Ingrese un número de teléfono válido." },
+                cuenta: { required: "Ingrese el nombre de la cuenta.", maxlength: "La cuenta admite maximo 15 caracteres" },
+                Password: { required: "Escriba la contraseña  del usuario",maxlength: "La contraseña admite máximo 32 caracteres." },
+               passUser: { required: "Confirme la contraseña  del usuario", maxlength: "La contraseña admite máximo 32 caracteres.",equalTo:"Las contraseñas deben coincidir" },
+               id_tipoUsuario: { CMBINT: "Seleccione un tipo de usuario" }
 
-            
-                nombre: { required: "Ingrese el nobmre del producto.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 100 caracteres." },
-                Descripcion: { required: "Ingrese la descripción del producto.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 150 caracteres." },
-                Clave: { required: "Ingrese la clave del producto.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 20 caracteres." },
-                Clave_cfdi: { required: "Ingrese el clave cfdi del producto.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 10 caracteres." },
-               
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -68,14 +76,10 @@
             }
         });
     };
-
-
-
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
-
         }
     };
 }();
