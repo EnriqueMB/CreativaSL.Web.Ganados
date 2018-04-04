@@ -427,7 +427,8 @@
     <Content Include="Content\js\actions.js" />
     <Content Include="Content\js\CategoriaPuestos.js" />
     <Content Include="Content\js\Chofer.js" />
-	<Content Include="Content\js\Lugar.js" />
+    <Content Include="Content\js\CuentaProveedor.js" />
+    <Content Include="Content\js\Lugar.js" />
     <Content Include="Content\js\proveedor.js" />
     <Content Include="Content\js\cuentasClientes.js" />
     <Content Include="Content\js\Empleado.js" />
