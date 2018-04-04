@@ -19,7 +19,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         private string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         private CompraModels Compra;
         private _Compra_Datos CompraDatos;
-        //private string SucursalDefault = "892ABBA2-325F-4613-AE2B-E4AB34AADBED";
 
         // GET: Admin/Compra
         public ActionResult Index()
@@ -204,10 +203,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 //Obtengo al usuario actual
-                HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
                 CompraDatos = new _Compra_Datos();
-                Compra.IDUsuario = ticket.Name;
+                Compra.IDUsuario = User.Identity.Name;
                 Compra.Conexion = Conexion;
                 Compra = CompraDatos.SaveCompra(Compra);
 

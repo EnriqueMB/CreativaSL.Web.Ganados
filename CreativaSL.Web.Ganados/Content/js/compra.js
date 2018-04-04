@@ -25,9 +25,9 @@
         var successHandler1 = $('.successHandler', form1);
 
         $('#frmCreateCompra').validate({ // initialize the plugin
-            debug: true,
+            //debug: true,
             errorElement: "span", // contain the error msg in a span tag
-            errorClass: 'help-block color',
+            errorClass: 'text-danger',
             errorLabelContainer: $("#validation_summary"),
             errorPlacement: function (error, element) { // render error placement for each input type
                 if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
@@ -50,7 +50,62 @@
                     required: true
                 },
                 GanadosPactadoMachos: {
-                    email: true
+                    digits: true
+                },
+                GanadosPactadoHembras: {
+                    digits: true
+                },
+                FechaHoraProgramada: {
+                    required: true,
+                    fecha: true
+                },
+                "Flete.kmInicialVehiculo": {
+                    digits: true
+                },
+                GuiaTransito: {
+                    maxlength: 15
+                },
+                CertZoosanitario: {
+                    maxlength: 15
+                },
+                CertTuberculosis: {
+                    maxlength: 15
+                },
+                CertBrucelosis: {
+                    maxlength: 15
+                }
+            },
+            messages: {
+                IDProveedor: {
+                    required: "-Seleccione un Proveedor"
+                },
+                "Sucursal.IDSucursal": {
+                    required: "-Seleccione una Sucursal"
+                },
+                GanadosPactadoMachos: {
+                    digits: "-El campo: Ganados Pactado Machos, debe ser igual o mayo que 0 (solo números enteros)."
+                },
+                GanadosPactadoHembras: {
+                    digits: "-El campo: Ganados Pactado Hembras, debe ser igual o mayo que 0 (solo números enteros)."
+                },
+                FechaHoraProgramada: {
+                    required: "-Seleccione una Fecha para la compra a realizar",
+                    date: "-Debe ser una fecha con formado dd/mm/aaaa"
+                },
+                "Flete.kmInicialVehiculo": {
+                    digits: "-El campo: Kilómetraje Inicial, debe ser igual o mayo que 0 (solo números enteros)."
+                },
+                GuiaTransito: {
+                    maxlength: jQuery.validator.format("-El campo: Guía de Transito debe ser igual o menor que {0} carácteres.")
+                },
+                CertZoosanitario: {
+                    maxlength: jQuery.validator.format("-El campo: Cert. Zoosanitario debe ser igual o menor que {0} carácteres.")
+                },
+                CertTuberculosis: {
+                    maxlength: jQuery.validator.format("-El campo: Cert. Tuberculosis debe ser igual o menor que {0} carácteres.")
+                },
+                CertBrucelosis: {
+                    maxlength: jQuery.validator.format("-El campo: Cert. Brucelosis debe ser igual o menor que {0} carácteres.")
                 }
             },
             invalidHandler: function (event, validator) {
@@ -72,7 +127,7 @@
             submitHandler: function (form) {
                 successHandler1.show();
                 errorHandler1.hide();
-                //SaveEmpresa();
+                form.submit();
             }
         });
     };
@@ -190,9 +245,7 @@
             ModalEvento(0);
         });
     }
-    //var SaveCompra = function () {
 
-    //}
     //Funciones
     function CalculateAndDisplayRoute(directionsService, directionsDisplay) {
         var selectIndexInicio = document.getElementById('Trayecto.id_lugarOrigen').selectedIndex;
@@ -216,7 +269,7 @@
             if (status === 'OK') {
                 directionsDisplay.setDirections(response);
             } else {
-                window.alert('Directions request failed due to ' + status);
+                window.alert('No se pudo cargar la ubicación, verifique sus coordenas en el catálogo de Lugares, estatus: ' + status);
             }
         });
     }
@@ -296,12 +349,3 @@
         }
     };
 }();
-
-
-function isUndefined(value) {
-    // Obtain `undefined` value that's
-    // guaranteed to not have been re-assigned
-    var undefined = void (0);
-    return value === undefined;
-}
-
