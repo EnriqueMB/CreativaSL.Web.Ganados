@@ -100,6 +100,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     }
                     else
                     {
+                        
+                        Vehiculo.listaTipoVehiculos = VehiculoDatos.obtenerListaTipoVehiculo(Vehiculo);
+                        Vehiculo.listaSucursal = VehiculoDatos.obtenerListaSucursales(Vehiculo);
+                        Vehiculo.listaMarcas = VehiculoDatos.obtenerListaMarcas(Vehiculo);
                         TempData["typemessage"] = "2";
                         TempData["message"] = "Ocurrió un error al guardar el registro.";
                         return View(Vehiculo);
@@ -174,7 +178,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Vehiculo.Conexion = Conexion;
                     Vehiculo.Opcion = 2;
                     Vehiculo.IDVehiculo = id;
-                    Vehiculo.IDVehiculo = "0";
+               
 
                     Vehiculo.Estatus = true;
                     Vehiculo = VehiculoDatos.AcCatVehiculo(Vehiculo);

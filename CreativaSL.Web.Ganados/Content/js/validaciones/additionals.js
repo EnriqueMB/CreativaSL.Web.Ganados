@@ -94,14 +94,3 @@ $.validator.addMethod("validarImgEdit", function (value, element, params) {
 }, 'Debe seleccionar una imagen.');
 
 
-$.validator.addMethod("validarImagen", function () {
-
-    if (document.getElementById("ImgINEE").value === '') {
-        if ((document.getElementById("ImgINEE").value === ''))
-            return false;
-        else
-            return true;
-    }
-    else
-        return true;
-}, 'Debe seleccionar una imagen.');

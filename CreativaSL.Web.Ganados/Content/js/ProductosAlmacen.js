@@ -1,13 +1,14 @@
-﻿var Proveedor = function () {
+﻿var ProductosAlmacen = function () {
+   
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
-        var form1 = $('#form-dg');
+        var form1 = $('#form-pa');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
         $.validator.addMethod("validarImagen2", function () {
-            if (document.getElementById("ImgManifestacionFierros").value === '') {
-                if ((document.getElementById("ImgManifestacionFierros").value === ''))
+            if (document.getElementById("imagen2").value === '') {
+                if ((document.getElementById("imagen2").value === ''))
                     return false;
                 else
                     return true;
@@ -15,7 +16,8 @@
             else
                 return true;
         }, 'Debe seleccionar una imagen.');
-        $('#form-dg').validate({
+    
+        $('#form-pa').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -34,25 +36,24 @@
             ignore: "",
             rules: {
                 
-                IDTipoCodigo: { CMBINT: true }, //{ nombre: true, maxlenght: 300 },
+            IDTipoCodigo: {CMBINT: true }, //{ nombre: true, maxlenght: 300 },
                 IDUnidadMedida: { CMBINT: true },
                 Clave: { required: true, texto: true, maxlength: 20 },
-                Nombre: { required: true, texto: true, maxlength: 300 },
+                Nombre: { required: true, nombre: true, maxlength: 300 },
                 Descripcion: { required: true, descripcion: true },
                 UltimoCosto: { required: true },
-              
-                ImgINEE: { validarImagen: true },
+                imagen2: { validarImagen2: true },
                
             },
             messages: {
                 
-                IDTipoCodigo: { CMBINT: "Seleccione un tipo de código." }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
+                IDTipoCodigo: {  CMBINT: "Seleccione un tipo de código." }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
                 IDUnidadMedida: { CMBINT: "Seleccione una unidad de médida." },
                 Clave: { required: "Se necesita de una clave del producto", texto: "Ingrese un formato válido ", maxlength: "Solo se admite un máximo de 20 caracteres" },
-                Nombre: { required: "Se necesita de un nombre del producto", texto: "Ingrese un formato válido ", maxlength: "Solo se admite un máximo de 300 caracteres" },
+                Nombre: { required: "Se necesita de un nombre del producto", nombre: "Ingrese un formato válido ", maxlength: "Solo se admite un máximo de 300 caracteres" },
                 Descripcion:{ required: "Se necesita de una clave del producto", descripcion: "Ingrese un formato válido "},
                 UltimoCosto: { required: "Se necesita de un nombre del producto" },
-                ImgINEE: { validarImagen: "Seleccione una imagén válida del ine" },
+                imagen2: { validarImagen2: "Seleccione una imagén válida del ine" },
                
 
             },
@@ -86,43 +87,13 @@
         });
     };
 
-    var runDatePicker = function () {
-        $('#FechaIngreso').datepicker({
-            format: 'dd/mm/yyyy'
-        });
-    };
-
-    var runImagenes = function () {
-
-    };
-
-    var runCombos = function () {
-        var isChecked = $("#EsEmpresa").prop("checked");
-        if (isChecked == true) {
-            $('#Genero').css('display', 'block')
-        }
-        else {
-            $('#Genero').css('display', 'none')
-        }
-        $('input').on('ifChanged', function (event) {
-            console.log("Entre")
-            var esPersonaFisica = $(this).prop('checked');
-            if (esPersonaFisica == true) {
-                $('#Genero').css('display', 'block')
-            }
-            else {
-                $('#Genero').css('display', 'none')
-            }
-        });
-    };
+ 
 
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
-            runDatePicker();
-            runImagenes();
-            runCombos();
+          
         }
     };
 }();
