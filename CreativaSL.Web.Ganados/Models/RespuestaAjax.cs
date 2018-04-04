@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +12,8 @@ namespace CreativaSL.Web.Ganados.Models
         public string Mensaje { get; set; }
         public string Href { get; set; }
         public string Function { get; set; }
+        public IEnumerable<ErrorModelState> Errores { get; set; }
+        public IEnumerable Err { get; set; }
 
         public RespuestaAjax()
         {
@@ -18,6 +21,8 @@ namespace CreativaSL.Web.Ganados.Models
             Mensaje = string.Empty;
             Href = string.Empty;
             Function = string.Empty;
+            Errores = null;
+            Err = null;
         }
     }
 }

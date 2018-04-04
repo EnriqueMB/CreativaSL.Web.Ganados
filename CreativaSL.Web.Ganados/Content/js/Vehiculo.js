@@ -24,9 +24,9 @@
             },
             ignore: "",
             rules: {
-                ListSucursal: { required: true },
-                ListTipoVehiculo: { CMBINT: true },
-                ListMarcas: { CMBINT: true },
+                IDSucursal: { required: true },
+                IDTipoVehiculo: { CMBINT: true },
+                IDMarca: { CMBINT: true },
                 Placas: { required: true, texto: true, maxlength: 10 },
                 Modelo: { required: true, texto: true, maxlength: 30 },
                 tarjetaCirculacion: { required: true, texto: true, maxlength: 30 },
@@ -34,14 +34,12 @@
                 Capacidad: { required: true, texto: true, maxlength: 30 },
                 Color: { required: true, texto: true, maxlength: 30 },
                 NoSerie: { required: true, texto: true, maxlength: 30 },
-
-
             },
             messages: {
                 
-                ListSucursal: { required: "Seleccione una sucursal." },
-                ListTipoVehiculo: { CMBINT: "Seleccione un tipo de vehículo." },
-                ListMarcas: { CMBINT: "Seleccione una marca de vehículo." },
+                IDSucursal: { required: "Seleccione una sucursal." },
+                IDTipoVehiculo: { CMBINT: "Seleccione un tipo de vehículo." },
+                IDMarca: { CMBINT: "Seleccione una marca de vehículo." },
                 Placas: { required: "Ingrese la placa del vehículo.", placa: "Ingrese un formato valido (letras, números y guión(-)", maxlength: "El campo nombre admite máximo 10 caracteres." },
                 Modelo: { required: "Ingrese el modelo del vehículo.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
                 tarjetaCirculacion: { required: "Ingrese la tarjeta de circulación.", tarjetaCirculacion: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
@@ -86,7 +84,6 @@
         //main function to initiate template pages
         init: function () {
             runValidator1();
-
         }
     };
 }();

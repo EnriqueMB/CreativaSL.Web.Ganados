@@ -22,7 +22,8 @@
             @using (Html.BeginForm("Create", "CatTipoProveedor", FormMethod.Post, new { id = "form-Tipovehiculo", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                 <div id="validation_summary" class="field_error "></div> //JS
 
                 @Html.HiddenFor(model => model.IDTipoProveedor)
                 <div class="panel panel-default">
