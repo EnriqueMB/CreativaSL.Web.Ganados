@@ -10,10 +10,11 @@
         <!--INICIA CUERPO MODAL-->
         <form id="frmModalCuentaBancaria" class="form-horizontal">
             <div id="validation_summary_cuentaBancaria" class="field_error "></div>
+            <br />
             @Html.HiddenFor(model => model.CuentaBancaria.IDDatosBancarios)
             @Html.HiddenFor(model => model.IDEmpresa)
             <div class="form-group">
-                <div class="col-md-8">
+                <div class="controlError col-md-8">
                     <label class="col-md-3 control-label" for="titular">Titular</label>
                     <div class="controls">
                         <div class="col-md-9 col-xs-12">
@@ -26,12 +27,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="controlError col-md-4">
                     <label class="col-md-2 control-label" for="banco">Banco</label>
                     <div class="controls">
                         <div class="col-md-10 col-xs-12">
                             <div class="input-group">
-                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                <span class="input-group-addon"><span class="fa fa-building-o"></span></span>
                                 @Html.DropDownListFor(model => model.Banco.IDBanco, new SelectList(Model.ListaBancos, "IDBanco", "Descripcion"), new { @class = "form-control" })
                             </div>
                             @Html.ValidationMessageFor(model => model.Banco.IDBanco)
@@ -43,7 +44,7 @@
 
 
             <div class="form-group">
-                <div class="col-md-12">
+                <div class="controlError col-md-12">
                     <label class="col-md-2 control-label" for="NumCuenta">Núm. de cuenta</label>
                     <div class="controls">
                         <div class="col-md-10 col-xs-12">
@@ -59,12 +60,12 @@
             </div>
 
             <div class="form-group">
-                <div class="col-md-12">
+                <div class="controlError col-md-12">
                     <label class="col-md-2 control-label" for="NumTarjeta">Núm. de tarjeta</label>
                     <div class="controls">
                         <div class="col-md-10 col-xs-12">
                             <div class="input-group">
-                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                <span class="input-group-addon"><span class="fa fa-credit-card"></span></span>
                                 @Html.TextBoxFor(model => model.CuentaBancaria.NumTarjeta, new { @class = "form-control" })
                             </div>
                             @Html.ValidationMessageFor(model => model.CuentaBancaria.NumTarjeta)
@@ -75,7 +76,7 @@
             </div>
 
             <div class="form-group">
-                <div class="col-md-12">
+                <div class="controlError col-md-12">
                     <label class="col-md-2 control-label" for="NumClabeInter">Núm. de clabe interbancaria</label>
                     <div class="controls">
                         <div class="col-md-10 col-xs-12">
@@ -94,7 +95,7 @@
 
             <div class="form-group modal-footer">
                 <div class="controls">
-                    <button type="button" class="btn btn-success green" id="AC_CuentaBancaria">Guardar</button>
+                    <button type="submit" class="btn btn-success green" id="AC_CuentaBancaria">Guardar</button>
                     <button type="button" class="btn btn-secondary red" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>

@@ -5493,6 +5493,7 @@ div.datepicker thead tr:first-child th:hover {
 /* BOOTSTRAP SELECT */
 .bootstrap-select {
   width: 220px \0;
+   z-index: inherit !important;
 }
 .bootstrap-select > .btn {
   width: 100%;
