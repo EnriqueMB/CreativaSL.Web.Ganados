@@ -860,6 +860,7 @@
     <Content Include="Content\js\Productos.js" />
     <Content Include="Content\js\Remolques.js" />
     <Content Include="Content\js\settings.js" />
+    <Content Include="Content\js\TipoProveedor.js" />
     <Content Include="Content\js\TipoVehiculo.js" />
     <Content Include="Content\js\UnidadMedida.js" />
     <Content Include="Content\js\Usuario.js" />

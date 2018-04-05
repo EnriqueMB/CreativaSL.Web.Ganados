@@ -28,7 +28,7 @@
                 @Html.HiddenFor(model => model.IDTipoProveedor)
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Información</strong> Chofer</h3>
+                        <h3 class="panel-title"><strong>Información</strong> Tipo Proveedor</h3>
                         <ul class="panel-controls">
                             @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
                         </ul>
@@ -76,7 +76,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/TipoVehiculo.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/TipoProveedor.js")"></script>
 
     <script>
     jQuery(document).ready(function () {
@@ -86,7 +86,7 @@
         Mensaje(message, typemessage);
 
 
-        TipoVehiculo.init();
+        TipoProveedor.init();
 
     });
 
