@@ -425,6 +425,7 @@
     <Content Include="Content\js\CuentaProveedor.js" />
     <Content Include="Content\js\entregacombustible.js" />
     <Content Include="Content\js\Lugar.js" />
+    <Content Include="Content\js\MarcaVehiculo.js" />
     <Content Include="Content\js\ProductosAlmacen.js" />
     <Content Include="Content\js\proveedor.js" />
     <Content Include="Content\js\cuentasClientes.js" />
@@ -1008,7 +1009,7 @@
     <Content Include="Areas\Admin\Views\CatBanco\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Index.cshtml" />
-	 <Content Include="Areas\Admin\Views\CatConceptosNomina\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatConceptosNomina\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatConceptosNomina\Create.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
