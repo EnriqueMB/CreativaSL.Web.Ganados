@@ -57,7 +57,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.TelefonoAccidente ?? string.Empty,
                     datos.Telefono ?? string.Empty,
                     datos.Movil ?? string.Empty,
-                    datos.FechaNacimiento != null ? datos.FechaIngreso : DateTime.Today,
+                    datos.FechaNacimiento != null ? datos.FechaNacimiento : DateTime.Today,
                     datos.FechaIngreso != null ? datos.FechaIngreso : DateTime.Today,
                     datos.Usuario ?? string.Empty
                 };

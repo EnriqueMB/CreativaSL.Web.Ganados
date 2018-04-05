@@ -1,4 +1,4 @@
-﻿var TipoVehiculo = function () {
+﻿var MarcaVehiculo = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
@@ -24,16 +24,16 @@
             },
             ignore: "",
             rules: {
-               
-                Descripcion: { required: true, texto: true, maxlength:100 },
-               
+
+                Descripcion: { required: true, texto: true, maxlength: 100 },
+
 
             },
             messages: {
-                
-               
-                Descripcion: { required: "Ingrese el tipo del vehículo.", placa: "Ingrese un formato valido (letras, números y guión(-)", maxlength: "El campo nombre admite máximo 10 caracteres." },
-                
+
+
+                Descripcion: { required: "Ingrese la marca del vehículo.", placa: "Ingrese un formato valido (letras, números y guión(-)", maxlength: "El campo nombre admite máximo 10 caracteres." },
+
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
