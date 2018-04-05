@@ -45,8 +45,21 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    datos.Opcion, datos.IDVehiculo, datos.IDSucursal,datos.IDTipoVehiculo,datos.IDMarca,datos.EsPropio,datos.Capacidad,datos.Modelo,datos.Color,datos.Placas,datos.NoSerie,
-                    datos.Estatus,datos.tarjetaCirculacion,datos.fechaIngreso,datos.Usuario
+                    datos.Opcion,
+                    datos.IDVehiculo ?? string.Empty,
+                    datos.IDSucursal ?? string.Empty,
+                    datos.IDTipoVehiculo,
+                    datos.IDMarca,
+                    datos.EsPropio,
+                    datos.Capacidad ?? string.Empty,
+                    datos.Modelo ?? string.Empty,
+                    datos.Color ?? string.Empty,
+                    datos.Placas ?? string.Empty,
+                    datos.NoSerie ?? string.Empty,
+                    datos.Estatus,
+                    datos.tarjetaCirculacion ?? string.Empty,
+                    datos.fechaIngreso != null ? datos.fechaIngreso : DateTime.Today,
+                    datos.Usuario ?? string.Empty
                 };
                 object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatVehiculo", parametros);
                 datos.IDVehiculo = Resultado.ToString();

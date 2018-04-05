@@ -50,7 +50,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     item = new CatProductosAlmacenModels();
                     item.IDProductoAlmacen = dr["id_productoAlmacen"].ToString();
-                    item.Nombre = dr["[nombre]"].ToString();
+                    item.Nombre = dr["nombre"].ToString();
                     item.UltimoCosto = Convert.ToDecimal(dr["ultimoCosto"].ToString());
                     item.Clave = dr["clave"].ToString();
                    
@@ -70,11 +70,12 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros = { datos.IDProductoAlmacen };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_get_CatProveedorXID", parametros);
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_get_CatProductosAlmacenXID", parametros);
                 while (dr.Read())
                 {
                     datos.IDProductoAlmacen = dr["id_productoAlmacen"].ToString();
                     datos.IDTipoCodigo = Convert.ToInt32(dr["id_tipoCodigo"].ToString());
+                    datos.Nombre = dr["nombre"].ToString();
                     datos.Clave = dr["clave"].ToString();
                     datos.Descripcion = dr["descripcion"].ToString();
                     datos.UltimoCosto = Convert.ToDecimal(dr["ultimoCosto"].ToString());

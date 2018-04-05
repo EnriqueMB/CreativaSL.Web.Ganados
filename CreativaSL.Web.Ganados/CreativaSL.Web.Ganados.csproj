@@ -131,18 +131,12 @@
       <HintPath>..\packages\System.Data.Entity.Repository.2.0.0.1\lib\net45\System.Data.Entity.Repository.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Net.Http">
-      <HintPath>..\packages\Microsoft.Net.Http.2.0.20505.0\lib\net40\System.Net.Http.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Net.Http.WebRequest">
-      <HintPath>..\packages\Microsoft.Net.Http.2.0.20505.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -425,11 +419,14 @@
     <Content Include="Content\img\themes\default.jpg" />
     <Content Include="Content\img\themes\light.jpg" />
     <Content Include="Content\js\actions.js" />
+    <Content Include="Content\js\Bancos.js" />
     <Content Include="Content\js\CategoriaPuestos.js" />
     <Content Include="Content\js\Chofer.js" />
     <Content Include="Content\js\CuentaProveedor.js" />
     <Content Include="Content\js\entregacombustible.js" />
     <Content Include="Content\js\Lugar.js" />
+    <Content Include="Content\js\plugins\dualSelect\bootstrap-duallistbox.css" />
+    <Content Include="Content\js\plugins\dualSelect\jquery.bootstrap-duallistbox.js" />
     <Content Include="Content\js\ProductosAlmacen.js" />
     <Content Include="Content\js\proveedor.js" />
     <Content Include="Content\js\cuentasClientes.js" />
@@ -1008,6 +1005,13 @@
     <Content Include="Areas\Admin\Views\CatUnidadMedida\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatUnidadMedida\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\EntregaCombustible\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatBanco\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatBanco\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatBanco\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\Index.cshtml" />
+	 <Content Include="Areas\Admin\Views\CatConceptosNomina\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatConceptosNomina\Create.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1033,9 +1037,11 @@
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatAlmacenController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatBancoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatCategoriaPuestoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatChoferController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatClienteController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatConceptosNominaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatEmpleadoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatEmpresaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatFierroController.cs" />
@@ -1044,6 +1050,7 @@
     <Compile Include="Areas\Admin\Controllers\CatMarcaVehiculoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatProductosAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatProductosController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatProveedorAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatProveedorController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatPuestosController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatRangoPesoCompraController.cs" />
@@ -1060,6 +1067,7 @@
     <Compile Include="Areas\Admin\Controllers\MantenimientoController.cs" />
     <Compile Include="Areas\Admin\Controllers\TablaController.cs" />
     <Compile Include="Areas\Admin\Controllers\TestController.cs" />
+    <Compile Include="Areas\Admin\Controllers\VentaController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Filters\AutorizadoAttribute.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -1075,6 +1083,7 @@
     <Compile Include="Models\CatClienteModels.cs" />
     <Compile Include="Models\CatConceptoDetalleDocumentosModels.cs" />
     <Compile Include="Models\CatConceptoNominaModels.cs" />
+    <Compile Include="Models\CatConceptosNominaModels.cs" />
     <Compile Include="Models\CatEmpleadoModels.cs" />
     <Compile Include="Models\CatEmpresaModels.cs" />
     <Compile Include="Models\CatEstadoModels.cs" />
@@ -1089,7 +1098,7 @@
     <Compile Include="Models\CatProductosAlmacenModels.cs" />
     <Compile Include="Models\CatProductosModels.cs" />
     <Compile Include="Models\CatProveedorModels.cs" />
-    <Compile Include="Models\CatProveevorAlmacenModels.cs" />
+    <Compile Include="Models\CatProveedorAlmacenModels.cs" />
     <Compile Include="Models\CatPuestoModels.cs" />
     <Compile Include="Models\CatRangoPesoCompraModels.cs" />
     <Compile Include="Models\CatRemolqueModels.cs" />
@@ -1179,9 +1188,11 @@
     <Compile Include="Models\VentaGanadoModels.cs" />
     <Compile Include="Models\VentaModels.cs" />
     <Compile Include="Models\_CatAlmacen_Datos.cs" />
+    <Compile Include="Models\_CatBanco_Datos.cs" />
     <Compile Include="Models\_CatCategoriaPuesto_Datos.cs" />
     <Compile Include="Models\_CatChofer_Datos.cs" />
     <Compile Include="Models\_CatCliente_Datos.cs" />
+    <Compile Include="Models\_CatConceptoNomina_Datos.cs" />
     <Compile Include="Models\_CatEmpleado_Datos.cs" />
     <Compile Include="Models\_CatEmpresa_Datos.cs" />
     <Compile Include="Models\_CatFierro_Datos.cs" />
@@ -1190,6 +1201,7 @@
     <Compile Include="Models\_CatMarcaVehiculo_Datos.cs" />
     <Compile Include="Models\_CatProductosAlmacen_Datos.cs" />
     <Compile Include="Models\_CatProductos_Datos.cs" />
+    <Compile Include="Models\_CatProveedorAlmacen_Datos.cs" />
     <Compile Include="Models\_CatProveedor_Datos.cs" />
     <Compile Include="Models\_CatPuestos_Datos.cs" />
     <Compile Include="Models\_CatRangoPesoCompra_Datos.cs" />
@@ -1265,6 +1277,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\CatProveedorAlmacen\" />
     <Folder Include="Areas\Admin\Views\Mantenimiento\" />
   </ItemGroup>
   <PropertyGroup>

@@ -137,20 +137,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
                 Proveedor.IDProveedor = id;
                 Proveedor.Conexion = Conexion;
-
-                Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
-                var listaSucursal = new SelectList(Proveedor.listaSucursal, "IDSucursal", "NombreSucursal");
-                ViewData["cmbSucursal"] = listaSucursal;
-
-                Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
-                var listaTipoProveedores = new SelectList(Proveedor.listaTipoProveedor, "IDTipoProveedor", "Descripcion");
-                ViewData["cmbTipoProveedor"] = listaTipoProveedores;
-
-                Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
-                var list = new SelectList(Proveedor.ListaGeneroCMB, "IDGenero", "Descripcion");
-                ViewData["cmbGenero"] = list;
-
                 Proveedor = ProveedorDatos.ObtenerDetalleCatProveedor(Proveedor);
+                Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
+                Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
+                Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
                 return View(Proveedor);
             }
             catch (Exception ex)
@@ -359,6 +349,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception)
             {
+                IDCuentaBancoP.Conexion = Conexion;
                 IDCuentaBancoP.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(IDCuentaBancoP);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
@@ -427,6 +418,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception)
             {
+                IDCuentaBancoP.Conexion = Conexion;
                 IDCuentaBancoP.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(IDCuentaBancoP);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";

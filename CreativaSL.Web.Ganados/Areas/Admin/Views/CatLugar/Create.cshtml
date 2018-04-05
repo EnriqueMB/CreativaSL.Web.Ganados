@@ -149,7 +149,7 @@
                                 <div class="form-group">
                                     <label class="col-md-3 col-xs-12 control-label">Sucursales</label>
                                     <div class="col-md-9 col-xs-12">
-                                        @Html.DropDownListFor(model => model.id_sucursal, new SelectList(Model.listaSucursal, "IDSucursal", "NombreSucursal"), new { id = "id_sucursal", @class = "form-control " })
+                                        @Html.DropDownListFor(model => model.id_sucursal, new SelectList(Model.listaSucursal, "IDSucursal", "NombreSucursal"), new { id = "id_sucursal", @class = "form-control select", data_live_search="true" })
                                         @Html.ValidationMessageFor(model => model.listaSucursal)
                                         <span class="help-block">Seleccione la sucursal</span>
                                     </div>
@@ -159,7 +159,7 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Paises</label>
                                     <div class="col-md-9">
-                                        @Html.DropDownListFor(model => model.id_pais, new SelectList(Model.listaPaises, "id_pais", "descripcion"), new { id = "id_pais", @class = "form-control  " })
+                                        @Html.DropDownListFor(model => model.id_pais, new SelectList(Model.listaPaises, "id_pais", "descripcion"), new { id = "id_pais", @class = "form-control  select", data_live_search = "true" })
 
                                     </div>
                                     @Html.ValidationMessageFor(model => model.listaPaises)
@@ -169,7 +169,7 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Estado</label>
                                     <div class="col-md-9">
-                                        @Html.DropDownListFor(model => model.id_estadoCodigo, new SelectList(Model.listaEstado, "codigoEstado", "descripcion"), new { id = "id_estadoCodigo", @class = "form-control " })
+                                        @Html.DropDownListFor(model => model.id_estadoCodigo, new SelectList(Model.listaEstado, "codigoEstado", "descripcion"), new { id = "id_estadoCodigo", @class = "form-control select", data_live_search = "true" })
 
                                     </div>
                                     @Html.ValidationMessageFor(model => model.listaEstado)
@@ -179,7 +179,7 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Estado</label>
                                     <div class="col-md-9">
-                                        @Html.DropDownListFor(model => model.id_municipio, new SelectList(Model.listaMunicipio, "id_municipio", "descripcion"), new { id = "id_municipio", @class = "form-control  " })
+                                        @Html.DropDownListFor(model => model.id_municipio, new SelectList(Model.listaMunicipio, "id_municipio", "descripcion"), new { id = "id_municipio", @class = "form-control  select", data_live_search = "true" })
 
                                     </div>
                                     @Html.ValidationMessageFor(model => model.listaMunicipio)
@@ -333,7 +333,7 @@
                         
 
                         geocoder.geocode({ 'address': busqueda }, geocodeResult);
-
+                        $('#id_estadoCodigo.select').selectpicker('refresh');
                         auxbol = 0;
                     
                 }
@@ -365,7 +365,7 @@
 
                         var geocoder = new google.maps.Geocoder();
                         geocoder.geocode({ 'address': busqueda }, geocodeResult);
-                      
+                        $('#id_municipio.select').selectpicker('refresh');
                     
                 }
             });
