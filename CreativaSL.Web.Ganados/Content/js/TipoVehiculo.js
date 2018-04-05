@@ -71,7 +71,6 @@
         //main function to initiate template pages
         init: function () {
             runValidator1();
-
         }
     };
 }();
