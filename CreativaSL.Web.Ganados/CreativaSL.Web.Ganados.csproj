@@ -996,7 +996,7 @@
     <Content Include="Areas\Admin\Views\CatProveedor\Cuentas.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\CreateCuenta.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\EditCuenta.cshtml" />
-	 <Content Include="Areas\Admin\Views\CatProductosAlmacen\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProductosAlmacen\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatProductosAlmacen\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatProductosAlmacen\Index.cshtml" />
     <Content Include="Areas\Admin\Views\EntregaCombustible\Index.cshtml" />
@@ -1009,7 +1009,7 @@
     <Content Include="Areas\Admin\Views\CatBanco\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Index.cshtml" />
-	 <Content Include="Areas\Admin\Views\CatConceptosNomina\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatConceptosNomina\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatConceptosNomina\Create.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1086,6 +1086,7 @@
     <Compile Include="Models\CatEmpleadoModels.cs" />
     <Compile Include="Models\CatEmpresaModels.cs" />
     <Compile Include="Models\CatEstadoModels.cs" />
+    <Compile Include="Models\CatEstatusGanadoModels.cs" />
     <Compile Include="Models\CatFierroModels.cs" />
     <Compile Include="Models\CatGeneroModels.cs" />
     <Compile Include="Models\CatGrupoSanguineoModels.cs" />
@@ -1130,7 +1131,6 @@
     <Compile Include="Models\ConciliacionAlmacenModels.cs" />
     <Compile Include="Models\CuentaBancariaModels.cs" />
     <Compile Include="Models\CuentaBancariaProveedorModels.cs" />
-    <Compile Include="Models\DetallePagosCompraModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
     <Compile Include="Models\DocumentoPorPagarModels.cs" />
     <Compile Include="Models\EntradaAlmacenDetalleModels.cs" />
@@ -1145,6 +1145,7 @@
     <Compile Include="Models\FierroCompraModels.cs" />
     <Compile Include="Models\FleteModels.cs" />
     <Compile Include="Models\GanadoModels.cs" />
+    <Compile Include="Models\GeneroGanadoModels.cs" />
     <Compile Include="Models\IncidenteFleteModels.cs" />
     <Compile Include="Models\LicenciaChoferModels.cs" />
     <Compile Include="Models\MenuModels.cs" />
@@ -1162,7 +1163,6 @@
     <Compile Include="Models\ResumenGastosModels.cs" />
     <Compile Include="Models\SalidaAlmacenDetalle.cs" />
     <Compile Include="Models\SalidaAlmacenDetalleModels.cs" />
-    <Compile Include="Models\SqlDataReaderExtension.cs" />
     <Compile Include="Models\TelefonosContactoSucursalModels.cs" />
     <Compile Include="Models\TipoUsuarioModels.cs" />
     <Compile Include="Models\TrayectoModels.cs" />
