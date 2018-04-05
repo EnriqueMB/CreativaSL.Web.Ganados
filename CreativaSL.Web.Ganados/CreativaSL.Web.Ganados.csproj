@@ -424,6 +424,8 @@
     <Content Include="Content\js\Chofer.js" />
     <Content Include="Content\js\CuentaProveedor.js" />
     <Content Include="Content\js\Lugar.js" />
+    <Content Include="Content\js\plugins\dualSelect\bootstrap-duallistbox.css" />
+    <Content Include="Content\js\plugins\dualSelect\jquery.bootstrap-duallistbox.js" />
     <Content Include="Content\js\ProductosAlmacen.js" />
     <Content Include="Content\js\proveedor.js" />
     <Content Include="Content\js\cuentasClientes.js" />
@@ -1005,6 +1007,8 @@
     <Content Include="Areas\Admin\Views\CatBanco\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatBanco\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatBanco\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1058,6 +1062,7 @@
     <Compile Include="Areas\Admin\Controllers\MantenimientoController.cs" />
     <Compile Include="Areas\Admin\Controllers\TablaController.cs" />
     <Compile Include="Areas\Admin\Controllers\TestController.cs" />
+    <Compile Include="Areas\Admin\Controllers\VentaController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Filters\AutorizadoAttribute.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
