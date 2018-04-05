@@ -41,10 +41,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                CatBancoModels Banco = new CatBancoModels();
-                _CatBanco_Datos BancoDatos = new _CatBanco_Datos();
-                Banco.Conexion = Conexion;
-                return View(Banco);
+                //CatBancoModels Banco = new CatBancoModels();
+                //_CatBanco_Datos BancoDatos = new _CatBanco_Datos();
+                //Banco.Conexion = Conexion;
+                return View();
             }
             catch (Exception)
             {
