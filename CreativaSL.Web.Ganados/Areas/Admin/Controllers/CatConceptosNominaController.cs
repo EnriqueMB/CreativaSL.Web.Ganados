@@ -43,62 +43,145 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         // GET: Admin/CatConceptosNomina/Create
         public ActionResult Create()
         {
-            return View();
+            try
+            {
+                CatConceptosNominaModels catConceptos = new CatConceptosNominaModels();
+                catConceptos.Calculado = false;
+                catConceptos.SumaResta = false;
+                catConceptos.SoloLectura = false;
+                return View(catConceptos);
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
         }
 
         // POST: Admin/CatConceptosNomina/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CatConceptosNominaModels conceptos)
         {
             try
             {
-                // TODO: Add insert logic here
+                _CatConceptoNomina_Datos conceptoD = new _CatConceptoNomina_Datos();
+                if (ModelState.IsValid)
+                {
+                    conceptos.Conexion = Conexion;
+                    conceptos.Opcion = 1;
+                    conceptos.Usuario = User.Identity.Name;
+                    conceptos = conceptoD.AbcCatConceptosNomina(conceptos);
+                    if (conceptos.Completado==true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardaron correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
 
-                return RedirectToAction("Index");
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        return View(conceptos);
+                    }
+                }
+                else
+                {
+                    return View(conceptos);   
+                }
             }
             catch
             {
-                return View();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(conceptos);
             }
         }
 
         // GET: Admin/CatConceptosNomina/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            try
+            {
+                CatConceptosNominaModels conceptos = new CatConceptosNominaModels();
+                _CatConceptoNomina_Datos conceptosD = new _CatConceptoNomina_Datos();
+                conceptos.Conexion = Conexion;
+                conceptos.IDConceptoNomina = id;
+                conceptos = conceptosD.ObtenerDetalleConceptoNomina(conceptos);
+                return View(conceptos);
+            }
+            catch (Exception)
+            {
+                CatConceptosNominaModels conceptos = new CatConceptosNominaModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(conceptos);
+            }
         }
 
         // POST: Admin/CatConceptosNomina/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, CatConceptosNominaModels conceptos)
         {
             try
             {
-                // TODO: Add update logic here
+                _CatConceptoNomina_Datos conceptoD = new _CatConceptoNomina_Datos();
+                if (ModelState.IsValid)
+                {
+                    conceptos.Conexion = Conexion;
+                    conceptos.IDConceptoNomina = id;
+                    conceptos.Opcion = 2;
+                    conceptos.Usuario = User.Identity.Name;
+                    conceptos = conceptoD.AbcCatConceptosNomina(conceptos);
+                    if (conceptos.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardaron correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
 
-                return RedirectToAction("Index");
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        return View(conceptos);
+                    }
+                }
+                else
+                {
+                    return View(conceptos);
+                }
             }
             catch
             {
-                return View();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(conceptos);
             }
         }
 
-        // GET: Admin/CatConceptosNomina/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        //// GET: Admin/CatConceptosNomina/Delete/5
+        //public ActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
 
         // POST: Admin/CatConceptosNomina/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id)
         {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                CatConceptosNominaModels conceptos = new CatConceptosNominaModels();
+                _CatConceptoNomina_Datos conceptosD = new _CatConceptoNomina_Datos();
+                conceptos.Conexion = Conexion;
+                conceptos.IDConceptoNomina = id;
+                conceptos.Usuario = User.Identity.Name;
+                conceptosD.EliminarConcetoNomina(conceptos);
+                TempData["typemessage"] = "1";
+                TempData["message"] = "El registro se ha eliminado correctamente";
+                return Json("");
             }
             catch
             {

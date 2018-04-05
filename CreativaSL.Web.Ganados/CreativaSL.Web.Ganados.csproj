@@ -422,6 +422,7 @@
     <Content Include="Content\js\Bancos.js" />
     <Content Include="Content\js\CategoriaPuestos.js" />
     <Content Include="Content\js\Chofer.js" />
+    <Content Include="Content\js\ConceptosNomina.js" />
     <Content Include="Content\js\CuentaProveedor.js" />
     <Content Include="Content\js\entregacombustible.js" />
     <Content Include="Content\js\Lugar.js" />
@@ -859,6 +860,7 @@
     <Content Include="Content\js\plugins\validationengine\languages\jquery.validationEngine-zh_TW.js" />
     <Content Include="Content\js\portlet.js" />
     <Content Include="Content\js\Productos.js" />
+    <Content Include="Content\js\ProveedorAlmacen.js" />
     <Content Include="Content\js\Remolques.js" />
     <Content Include="Content\js\settings.js" />
     <Content Include="Content\js\TipoProveedor.js" />
@@ -1013,7 +1015,11 @@
     <Content Include="Areas\Admin\Views\Venta\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatConceptosNomina\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatConceptosNomina\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\CatProveedor\LugarProveedor.cshtml" />
+	 <Content Include="Areas\Admin\Views\CatProveedorAlmacen\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorAlmacen\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorAlmacen\Edit.cshtml" />
+	  <Content Include="Areas\Admin\Views\CatConceptosNomina\Edit.cshtml" />
+	  <Content Include="Areas\Admin\Views\CatProveedor\LugarProveedor.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\CreateLugar.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1280,7 +1286,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\CatProveedorAlmacen\" />
     <Folder Include="Areas\Admin\Views\Mantenimiento\" />
   </ItemGroup>
   <PropertyGroup>
