@@ -38,7 +38,33 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public ClienteLugarModels ObtenerLugares(ClienteLugarModels datos)
+        {
+            try
+            {
+                List<ClienteLugarModels> Lista = new List<ClienteLugarModels>();
+                ClienteLugarModels Item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_get_ClientesLugar",datos.IDCliente,datos.IDSucursal);
+                while (dr.Read())
+                {
+                    Item = new ClienteLugarModels();
+                    Item.IDClienteLugar = !dr.IsDBNull(dr.GetOrdinal("id_clienteLugar")) ? dr.GetString(dr.GetOrdinal("id_clienteLugar")) : string.Empty;
+                    Item.nombreCliente = !dr.IsDBNull(dr.GetOrdinal("nombreContacto")) ? dr.GetString(dr.GetOrdinal("nombreContacto")) : string.Empty;
+                    Item.descripcionLugar = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    Item.nombreLugar = !dr.IsDBNull(dr.GetOrdinal("nombrePropietario")) ? dr.GetString(dr.GetOrdinal("nombrePropietario")) : string.Empty;
+                    
+                    Lista.Add(Item);
+                }
+                datos.ListaClienteLugar = Lista;
+                return datos;
+            }
 
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public CatClienteModels AbcCatClientes(CatClienteModels datos)
         {
             try
@@ -102,7 +128,53 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-
+        public ClienteLugarModels EliminarLugarCliente(ClienteLugarModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.IDClienteLugar,  datos.Usuario
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_del_ClienteLugar", parametros);
+                datos.IDClienteLugar = aux.ToString();
+                if (!string.IsNullOrEmpty(datos.IDClienteLugar))
+                {
+                    datos.Completado = true;
+                }
+                else
+                {
+                    datos.Completado = false;
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<CatLugarModels> obtenerLugaresClientes(ClienteLugarModels Datos)
+        {
+            try
+            {
+                List<CatLugarModels> lista = new List<CatLugarModels>();
+                CatLugarModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Combo_get_CatLugarCliente", Datos.IDSucursal,Datos.IDCliente);
+                while (dr.Read())
+                {
+                    item = new CatLugarModels();
+                    item.id_lugar = !dr.IsDBNull(dr.GetOrdinal("IDLugar")) ? dr.GetString(dr.GetOrdinal("IDLugar")) : string.Empty;
+                    item.descripcion = !dr.IsDBNull(dr.GetOrdinal("NombreLugar")) ? dr.GetString(dr.GetOrdinal("NombreLugar")) : string.Empty;
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<CatSucursalesModels> ObteneComboCatSucursal(CatClienteModels Datos)
         {
             try
@@ -277,6 +349,33 @@ namespace CreativaSL.Web.Ganados.Models
                 }
             }
             catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ClienteLugarModels ACLugaresCliente(ClienteLugarModels datos)
+        {
+            try
+            {
+                object[] parametros = { datos.Opcion,
+                                        datos.IDClienteLugar ?? string.Empty,
+                                        datos.IDCliente ?? string.Empty,
+                                        datos.IDLugar ?? string.Empty,
+                                       
+                                        datos.Usuario ?? string.Empty};
+                object result = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_ClienteLugar", parametros);
+                datos.IDClienteLugar = result.ToString();
+                if (!string.IsNullOrEmpty(datos.IDCliente))
+                {
+                    datos.Completado = true;
+                }
+                else
+                {
+                    datos.Completado = false;
+                }
+                return datos;
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }

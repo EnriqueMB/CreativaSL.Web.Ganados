@@ -38,14 +38,14 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <div class="col-md-12">
-                                <label class="col-md-12 control-label text-center">Nombre Chófer</label>
+                                <label class="col-md-12 control-label text-center">Nombre Chofer</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                         @Html.TextBoxFor(model => model.Nombre, new { id = "Nombre", @class = "form-control" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Nombre)
-                                    <span class="help-block">Ingrese el nombre del chófer</span>
+                                    <span class="help-block">Ingrese el nombre del chofer</span>
                                 </div>
                             </div>
                             
@@ -55,7 +55,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <div class="col-md-12">
-                                <label class="col-md-12 control-label text-center">Apellido Paterno</label>
+                                <label class="col-md-12 control-label text-center">Apellido Parterno</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
@@ -79,8 +79,18 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="col-md-3 control-label text-center">Licencia</label>
-                            <div class="col-md-8 col-xs-12">
+                            <div class="form-group">
+                                <label class="col-md-12 control-label text-center">Sucursal</label>
+                                <div class="col-md-12 col-xs-12">
+                                    @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.listaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
+                                    @Html.ValidationMessageFor(model => model.IDSucursal)
+                                    <span class="help-block">Ingrese Sucursal</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-md-12 control-label text-center">Licencia</label>
+                            <div class="col-md-12 col-xs-12 text-center">
                                     @Html.CheckBoxFor(model => model.Licencia)
                             </div>
                         </div>

@@ -12,18 +12,18 @@ namespace CreativaSL.Web.Ganados.Models
 
         public CatConceptosNominaModels()
         {
-            _IDConceptoNomina = string.Empty;
+            _IDConceptoNomina = 0;
             _Calculado = false;
             _SumaResta = false;
             _SoloLectura = false;
             Conexion = string.Empty;
             Usuario = string.Empty;
         }
-        private string _IDConceptoNomina;
+        private int _IDConceptoNomina;
         /// <summary>
         /// EL identificador del Concepto
         /// </summary>
-        public string IDConceptoNomina
+        public int IDConceptoNomina
         {
             get { return _IDConceptoNomina; }
             set { _IDConceptoNomina = value; }

@@ -50,6 +50,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 ViewData["cmbGenero"] = list;
 
                 Chofer.listaGrupoSanguineo = ChoferDatos.ObteneComboCatGrupoSanguineo(Chofer);
+                Chofer.listaSucursales = ChoferDatos.ObteneComboCatSucursal(Chofer);
                 var listaGrupoSanguineo = new SelectList(Chofer.listaGrupoSanguineo, "IDGrupoSanguineo", "descripcion");
                 
                 Chofer.Licencia = Convert.ToBoolean("true");
@@ -100,6 +101,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 else {
                     Chofer.listaGrupoSanguineo = ChoferDatos.ObteneComboCatGrupoSanguineo(Chofer);
                     Chofer.ListaGeneroCMB = ChoferDatos.ObteneComboCatGenero(Chofer);
+                    Chofer.listaSucursales = ChoferDatos.ObteneComboCatSucursal(Chofer);
                     return View(Chofer);
                 }
             }
@@ -128,7 +130,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Chofer.ListaGeneroCMB = ChoferDatos.ObteneComboCatGenero(Chofer);
                 var list = new SelectList(Chofer.ListaGeneroCMB, "IDGenero", "Descripcion");
 
-
+                Chofer.listaSucursales = ChoferDatos.ObteneComboCatSucursal(Chofer);
                 Chofer.listaGrupoSanguineo = ChoferDatos.ObteneComboCatGrupoSanguineo(Chofer);
                 var listaGrupoSanguineo = new SelectList(Chofer.listaGrupoSanguineo, "IDGrupoSanguineo", "descripcion");
                 ViewData["cmbGenero"] = list;
@@ -179,6 +181,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Chofer.Conexion = Conexion;
                     Chofer.listaGrupoSanguineo = ChoferDatos.ObteneComboCatGrupoSanguineo(Chofer);
                     Chofer.ListaGeneroCMB = ChoferDatos.ObteneComboCatGenero(Chofer);
+                    Chofer.listaSucursales = ChoferDatos.ObteneComboCatSucursal(Chofer);
                     return View(Chofer);
                 }
             }

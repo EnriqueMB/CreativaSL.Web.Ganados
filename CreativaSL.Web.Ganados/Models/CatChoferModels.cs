@@ -25,7 +25,8 @@ namespace CreativaSL.Web.Ganados.Models
             _Estatus = false;
             _ListaChoferes = new List<CatChoferModels>();
             _Ife = string.Empty;
-           
+            _listaSucursales = new List<CatSucursalesModels>();
+            _IDSucursal = string.Empty;
             _IDGenero = 0;
             _NumSeguroSocial = string.Empty;
             _AvisoAccidente = string.Empty;
@@ -42,6 +43,21 @@ namespace CreativaSL.Web.Ganados.Models
             Usuario = string.Empty;
             Opcion = 0;
         }
+        private List<CatSucursalesModels> _listaSucursales;
+
+        public List<CatSucursalesModels> listaSucursales
+        {
+            get { return _listaSucursales; }
+            set { _listaSucursales = value; }
+        }
+        private string _IDSucursal;
+
+        public string IDSucursal
+        {
+            get { return _IDSucursal; }
+            set { _IDSucursal = value; }
+        }
+
         /// <summary>
         /// LICENCIA DEL CHOFER
         /// </summary>

@@ -9,6 +9,8 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class _CatProveedor_Datos
     {
+        #region Proveedor
+
         public CatProveedorModels AcCatProveedor(CatProveedorModels datos)
         {
             try
@@ -130,6 +132,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.RFC = dr["rfc"].ToString();
                     item.nombreProveedor = dr["tipoProveedor"].ToString();
                     item.nombreSucursal = dr["sucursal"].ToString();
+                    item.IDSucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty;
                     lista.Add(item);
                 }
                 return lista;
@@ -213,6 +216,9 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        #endregion
+
+        #region Cuentas Bancarias Por Provedor
 
         public List<CuentaBancariaProveedorModels> ObtenerCuentasBancarias(CuentaBancariaProveedorModels Datos)
         {
@@ -342,5 +348,110 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        #endregion
+
+        #region Lugar Por Proveedor
+
+        public List<ProveedorLugarModels> ObtenerLugaresProveedor(ProveedorLugarModels Datos)
+        {
+            try
+            {
+                List<ProveedorLugarModels> lista = new List<ProveedorLugarModels>();
+                ProveedorLugarModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Catalogo_get_CatProveedoresLugar", Datos.IDProveedor);
+                while (dr.Read())
+                {
+                    item = new ProveedorLugarModels();
+                    item.IDProveedorLugar = !dr.IsDBNull(dr.GetOrdinal("IDProveedorLugar")) ? dr.GetString(dr.GetOrdinal("IDProveedorLugar")) : string.Empty;
+                    item.NombreLugar = !dr.IsDBNull(dr.GetOrdinal("NombreLugar")) ? dr.GetString(dr.GetOrdinal("NombreLugar")) : string.Empty;
+                    item.Bascula = !dr.IsDBNull(dr.GetOrdinal("Bascula")) ? dr.GetBoolean(dr.GetOrdinal("Bascula")) : false;
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+       
+        public List<CatLugarModels> obtenerComboLugares(ProveedorLugarModels Datos)
+        {
+            try
+            {
+                List<CatLugarModels> lista = new List<CatLugarModels>();
+                CatLugarModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Combo_get_CatLugar", Datos.IDSucursal, Datos.IDProveedor);
+                while (dr.Read())
+                {
+                    item = new CatLugarModels();
+                    item.id_lugar = dr["IDLugar"].ToString();
+                    item.descripcion = dr["NombreLugar"].ToString();
+
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public void ACProveedorLugares(ProveedorLugarModels datos)
+        {
+            try
+            {
+                object[] parametros = { datos.IDProveedorLugar ?? string.Empty,
+                                        datos.IDProveedor ?? string.Empty,
+                                        datos.IDLugar ?? string.Empty,
+                                        datos.Usuario ?? string.Empty};
+                object result = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_ProveedorLugar", parametros);
+                if (result != null)
+                {
+                    if (!string.IsNullOrEmpty(result.ToString()))
+                    {
+                        datos.Completado = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public ProveedorLugarModels EliminarProveedorLugar(ProveedorLugarModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.IDProveedorLugar, datos.Usuario
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_del_ProveedorLugar", parametros);
+                if (aux != null)
+                {
+                    int Resultado = 0;
+                    int.TryParse(aux.ToString(), out Resultado);
+                    if (Resultado == 1)
+                    {
+                        datos.Completado = true;
+                    }
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        #endregion
+
     }
 }

@@ -338,7 +338,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
                         return View(IDCuentaBancoP);
                     }
-                    
                 }
                 else
                 {
@@ -441,6 +440,126 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 };
                 _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
                 ProveedorDatos.EliminarDatosBancariosProveedor(Datos);
+                if (Datos.Completado)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "El registro se ha eliminado correctamente";
+                    return Json("");
+                }
+                else
+                { return Json(""); }
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        //GET: Admin/CatProveedor/LugarProveedor/4
+        [HttpGet]
+        public ActionResult LugarProveedor(string id, string id2)
+        {
+            try
+            {
+                ProveedorLugarModels ProveedorL = new ProveedorLugarModels();
+                _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
+                ProveedorL.Conexion = Conexion;
+                ProveedorL.IDProveedor = id;
+                ProveedorL.IDSucursal = id2;
+                ProveedorL.ListaProveedorLugar = ProveedorDatos.ObtenerLugaresProveedor(ProveedorL);
+                return View(ProveedorL);
+            }
+            catch (Exception)
+            {
+                ProveedorLugarModels ProveedorL = new ProveedorLugarModels();
+                TempData["typrmessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
+        }
+
+        //GET:Admin/CatProveedor/CreateLugar/3
+        [HttpGet]
+        public ActionResult CreateLugar(string id, string id2)
+        {
+            try
+            {
+                ProveedorLugarModels ProveedorLugar = new ProveedorLugarModels();
+                _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
+                ProveedorLugar.Conexion = Conexion;
+                ProveedorLugar.IDProveedor = id;
+                ProveedorLugar.IDSucursal = id2;
+                ProveedorLugar.ListaLugares = ProveedorDatos.obtenerComboLugares(ProveedorLugar);
+                return View(ProveedorLugar);
+            }
+            catch (Exception)
+            {
+                ProveedorLugarModels Proveedor = new ProveedorLugarModels();
+                Proveedor.IDProveedor = id;
+                Proveedor.IDSucursal = id2;
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("LugarProveedor",  "CatProveedor",  new { id = Proveedor.IDProveedor, id2 = Proveedor.IDSucursal });
+            }
+        }
+
+        //POST: Admin/CatProvedor/CreateLugar/3
+        [HttpPost]
+        public ActionResult CreateLugar(ProveedorLugarModels Proveedor)
+        {
+            _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Proveedor.Conexion = Conexion;
+                    Proveedor.Usuario = User.Identity.Name;
+                    ProveedorDatos.ACProveedorLugares(Proveedor);
+                    if (Proveedor.Completado)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardaron correctamente.";
+                        return RedirectToAction("LugarProveedor", "CatProveedor", new { id = Proveedor.IDProveedor, id2 = Proveedor.IDSucursal });
+                    }
+                    else
+                    {
+                        Proveedor.ListaLugares = ProveedorDatos.obtenerComboLugares(Proveedor);
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                        return RedirectToAction("CreateLugar", "CatProveedor", new { id = Proveedor.IDProveedor, id2 = Proveedor.IDSucursal });
+                    }
+                }
+                else
+                {
+                    Proveedor.Conexion = Conexion;
+                    Proveedor.ListaLugares = ProveedorDatos.obtenerComboLugares(Proveedor);
+                    return RedirectToAction("CreateLugar", "CatProveedor", new { id = Proveedor.IDProveedor, id2 = Proveedor.IDSucursal });
+                }
+            }
+            catch (Exception)
+            {
+                Proveedor.Conexion = Conexion;
+                Proveedor.ListaLugares = ProveedorDatos.obtenerComboLugares(Proveedor);
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return RedirectToAction("CreateLugar", "CatProveedor", new { id = Proveedor.IDProveedor, id2 = Proveedor.IDSucursal });
+            }
+        }
+
+        // POST: Admin/CatClientes/Delete/5
+        [HttpPost]
+        public ActionResult DeleteLugar(string id)
+        {
+            try
+            {
+                ProveedorLugarModels Datos = new ProveedorLugarModels
+                {
+                    IDProveedorLugar = id,
+                    Conexion = Conexion,
+                    Usuario = User.Identity.Name
+                };
+                _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
+                ProveedorDatos.EliminarProveedorLugar(Datos);
                 if (Datos.Completado)
                 {
                     TempData["typemessage"] = "1";

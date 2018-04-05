@@ -1,12 +1,12 @@
-﻿var Chofer = function () {
+﻿var ClientesLugares = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
-        var form1 = $('#form-chofer');
+        var form1 = $('#form-dg');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
-        
-        $('#form-chofer').validate({
+
+        $('#form-dg').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -24,35 +24,13 @@
             },
             ignore: "",
             rules: {
-               
-                //ListSucursal: { required: true },
-                Nombre: { required: true, texto: true, maxlength: 80 },
-                ApPaterno: { required: true, texto: true, maxlength: 70 },
-                Ife: { required: true, ife: true, maxlength: 13 },
-                NumSeguroSocial: { texto: true, maxlength: 30 },
-                IDGenero: { CMBINT: true },
-                idgruposanguineo: { CMBINT: true },
-                IDSucursal: { required: true },
-                FechaNacimiento: { required: true },
-                FechaIngreso: { required: true },
-                AvisoAccidente: { required: true },
-                TelefonoAccidente: { required: true, telefono :true},
-
+                IDLugar: { required: true },
+                
+                
             },
             messages: {
-                
-                //ListSucursal: { required: "Seleccione una sucursal." },
-                Nombre: { required: "Ingrese nombre del chofer.", placa: "Ingrese un formato valido (letras, números y guión(-)", maxlength: "El campo nombre admite máximo 80 caracteres." },
-                ApPaterno: { required: "Ingrese apellido paterno del chofer.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 70 caracteres." },
-                Ife: { required: "Ingrese el codigo de credencial de elector.", ife: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 13 caracteres." },
-                NumSeguroSocial: { required: "Ingrese el número de seguro social.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
-                IDGenero: { CMBINT: "Seleccione un género." },
-                idgruposanguineo: { CMBINT: "Seleccione un grupo sanguineo." },
-                IDSucursal: { required: "Seleccione una sucursal." },
-                FechaNacimiento: { required: "Seleccione una fecha." },
-                FechaIngreso: { required: "Seleccione una fecha." },
-                AvisoAccidente: { required: "Ingrese a quien avisar en caso de accidente." },
-                TelefonoAccidente: { required: "Ingrese teléfono en caso de accidente.", telefono:"Ingrese un número valido"},
+                IDLugar: { required: "Seleccione un lugar." },
+               
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -83,24 +61,49 @@
             }
         });
     };
-    var runDatePicker = function () {
-        $('#vigencia').datepicker({
+
+    var runDatePicker = function ()
+    {
+        $('#FechaIngreso').datepicker({
             format: 'dd/mm/yyyy'
         });
-        $('#FechaNacimiento').datepicker({
-            format: 'dd/mm/yyyy'
-         });
-         $('#FechaIngreso').datepicker({
-             format: 'dd/mm/yyyy'
-         });
     };
-   
+
+    var runCombos = function () {
+
+        $('input').on('ifChanged', function (event) {
+            $("#IDRegimenFiscal option").remove();
+            var esPersonaFisica = $(this).prop('checked');
+            getDatosRegimen(esPersonaFisica);            
+        });
+        function getDatosRegimen(esPersonaFisica) {
+            $.ajax({
+                url: "/Admin/CatCliente/ObtenerRegimenFiscalXBoolEsPersonaFisica",
+                data: { band: esPersonaFisica },
+                async: false,
+                dataType: "json",
+                type: "POST",
+                error: function () {
+                    Mensaje("Ocurrió un error al cargar el combo", "1");
+                },
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $("#IDRegimenFiscal").append('<option value="' + result[i].Clave + '">' + result[i].Descripcion + '</option>');
+                    }
+                    $('#IDRegimenFiscal.select').selectpicker('refresh');
+                }
+            });
+
+            
+        }
+    };
 
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
             runDatePicker();
+            runCombos();
         }
     };
 }();
