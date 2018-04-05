@@ -104,5 +104,24 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
+
+        // POST: Admin/EntregaCombustible/ObtenerComboVehiculos
+        [HttpPost]
+        public ActionResult ObtenerComboVehiculos(string IDSucursal)
+        {
+            try
+            {
+                _Combos_Datos Datos = new _Combos_Datos();
+                List<CatVehiculoModels> Lista = Datos.ObtenerComboVehiculos(Conexion, IDSucursal);
+                return Json(Lista, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                ex.Message.ToString();
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
     }
 }

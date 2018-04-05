@@ -1,12 +1,12 @@
-﻿var TipoVehiculo = function () {
+﻿var ProveedorAlmacen = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
-        var form1 = $('#form-Tipovehiculo');
+        var form1 = $('#form-ProveedorAlmacen');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
 
-        $('#form-Tipovehiculo').validate({
+        $('#form-ProveedorAlmacen').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -24,16 +24,12 @@
             },
             ignore: "",
             rules: {
-               
-                Descripcion: { required: true, texto: true, maxlength:100 },
-               
-
+                Descripcion: { required: true, texto: true, maxlength: 100 },
+                RFC:{required: true, rfc: true}
             },
             messages: {
-                
-               
-                Descripcion: { required: "Ingrese el tipo del vehículo.", placa: "Ingrese un formato valido (letras, números y guión(-)", maxlength: "El campo nombre admite máximo 10 caracteres." },
-                
+                Descripcion: { required: "Ingrese el nombre del Proveedor.", texto: "Ingrese un formato válido", maxlength: "El campo nombre admite máximo 100 caracteres." },
+                RFC: { required: "Ingrese el RFC del proveedor.", rfc: "Ingrese un RFC válido." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -64,9 +60,6 @@
             }
         });
     };
-
-
-
     return {
         //main function to initiate template pages
         init: function () {

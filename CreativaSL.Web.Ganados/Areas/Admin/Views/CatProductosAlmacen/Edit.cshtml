@@ -50,10 +50,9 @@
                                 <div class="form-group">
                                     <label class="col-md-12 control-label text-center">Tipo Código</label>
                                     <div class="col-md-12 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        
                                             @Html.DropDownListFor(model => model.IDTipoCodigo, new SelectList(Model.listaTipoCodigoProducto, "IDTipoCodigo", "Descripcion"), new { id = "IDTipoCodigo", @class = "form-control select", data_live_search = "true" })
-                                        </div>
+                                        
                                         @Html.ValidationMessageFor(model => model.IDTipoCodigo)
                                         <span class="help-block">Seleccione el tipo de vehículo</span>
                                     </div>
@@ -65,10 +64,9 @@
                                 <div class="form-group">
                                     <label class="col-md-12 control-label text-center">Unidad de médida</label>
                                     <div class="col-md-12 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        
                                             @Html.DropDownListFor(model => model.IDUnidadMedida, new SelectList(Model.listaUnidadMedida, "IDUnidadMedida", "Descripcion"), new { id = "IDUnidadMedida", @class = "form-control select ", data_live_search = "true" })
-                                        </div>
+                                     
                                         @Html.ValidationMessageFor(model => model.IDUnidadMedida)
                                         <span class="help-block">Seleccione Unidad de médida</span>
                                     </div>
