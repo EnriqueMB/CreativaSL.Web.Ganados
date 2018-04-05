@@ -5241,7 +5241,7 @@ div.datepicker {
   -moz-box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.1);
-  z-index: 9999;
+  z-index: 9999 !important;
 }
 div.datepicker > div {
   display: none;
@@ -5557,7 +5557,7 @@ div.datepicker thead tr:first-child th:hover {
 }
 .bootstrap-select.form-control:not([class*="span"]) {
   width: 100%;
-  z-index:9999;
+  z-index:9999 !important;
 }
 .bootstrap-select.show-menu-arrow.open > .btn {
   z-index: 2051;
