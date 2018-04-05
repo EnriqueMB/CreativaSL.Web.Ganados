@@ -70,6 +70,7 @@ $.validator.addMethod("formatoPNG", function (value, element, params) {
         return true;
     }
 }, 'Solo archivos con formato PNG.');
+
 $.validator.addMethod("validarImgEdit", function (value, element, params) {
     //Bandera que me indica si hay o no imagen en el servidor
     var imgBD = element.dataset.imgbd;
@@ -90,7 +91,6 @@ $.validator.addMethod("validarImgEdit", function (value, element, params) {
 
 }, 'Debe seleccionar una imagen.');
 
-
 $.validator.addMethod("validarImagen", function () {
 
     if (document.getElementById("ImgINEE").value === '') {
@@ -102,3 +102,7 @@ $.validator.addMethod("validarImagen", function () {
     else
         return true;
 }, 'Debe seleccionar una imagen.');
+
+$.validator.addMethod("fecha", function (value, element) {
+    return this.optional(element) || /^([0-2][0-9]|3[0-1])(\/|-)(0[1-9]|1[0-2])\2(\d{4})$/i.test(value);
+}, "Formato de la fecha inválido debe ser: dd/mm/yyyy ");
