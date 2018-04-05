@@ -422,6 +422,8 @@
     <Content Include="Content\js\Bancos.js" />
     <Content Include="Content\js\CategoriaPuestos.js" />
     <Content Include="Content\js\Chofer.js" />
+    <Content Include="Content\js\ClienteLugar.js" />
+    <Content Include="Content\js\ConceptosNomina.js" />
     <Content Include="Content\js\CuentaProveedor.js" />
     <Content Include="Content\js\Lugar.js" />
     <Content Include="Content\js\ProductosAlmacen.js" />
@@ -1007,8 +1009,16 @@
     <Content Include="Areas\Admin\Views\CatBanco\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Index.cshtml" />
-	 <Content Include="Areas\Admin\Views\CatConceptosNomina\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatConceptosNomina\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatConceptosNomina\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorAlmacen\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorAlmacen\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorAlmacen\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatConceptosNomina\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\LugarProveedor.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\CreateLugar.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\Lugares.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\ClienteLugar.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1038,6 +1048,7 @@
     <Compile Include="Areas\Admin\Controllers\CatCategoriaPuestoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatChoferController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatClienteController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatConceptoDocumentoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatConceptosNominaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatEmpleadoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatEmpresaController.cs" />
@@ -1189,6 +1200,7 @@
     <Compile Include="Models\_CatCategoriaPuesto_Datos.cs" />
     <Compile Include="Models\_CatChofer_Datos.cs" />
     <Compile Include="Models\_CatCliente_Datos.cs" />
+    <Compile Include="Models\_CatConceptoDetalleDocumento_Datos.cs" />
     <Compile Include="Models\_CatConceptoNomina_Datos.cs" />
     <Compile Include="Models\_CatEmpleado_Datos.cs" />
     <Compile Include="Models\_CatEmpresa_Datos.cs" />

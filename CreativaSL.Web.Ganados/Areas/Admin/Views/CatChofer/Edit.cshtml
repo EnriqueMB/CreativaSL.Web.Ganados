@@ -29,46 +29,46 @@
                 @Html.HiddenFor(model => model.IDChofer)
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Información</strong> Chofer</h3>
+                        <h3 class="panel-title"><strong>Información</strong> Chófer</h3>
                         <ul class="panel-controls">
                             @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
                         </ul>
                     </div>
                     <div class="panel-body">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label class="col-md-12 control-label text-center">Nombre Chofer</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Nombre, new { id = "Nombre", @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Nombre)
+                                        <span class="help-block">Ingrese el nombre del chofer</span>
+                                    </div>
+                                </div>
+
+                                </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label class="col-md-12 control-label text-center">Apellido Parterno</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.ApPaterno, new { id = "ApPaterno", @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.ApPaterno)
+                                        <span class="help-block">Ingrese el apellido paterno</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <label class="col-md-12 control-label text-center">Nombre Chofer</label>
-                                        <div class="col-md-12 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.Nombre, new { id = "Nombre", @class = "form-control" })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Nombre)
-                                            <span class="help-block">Ingrese el nombre del chofer</span>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <label class="col-md-12 control-label text-center">Apellido Parterno</label>
-                                        <div class="col-md-12 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.ApPaterno, new { id = "ApPaterno", @class = "form-control" })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.ApPaterno)
-                                            <span class="help-block">Ingrese el apellido paterno</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label class="col-md-12 control-label text-center">Apellido Materno</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
@@ -155,21 +155,21 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="col-md-12 col-xs-12 control-label text-center">Genero</label>
+                                <label class="col-md-12 col-xs-12 control-label text-center">Género</label>
                                 <div class="col-md-12 col-xs-12">
                                     @Html.DropDownListFor(model => model.IDGenero, new SelectList(Model.ListaGeneroCMB, "IDGenero", "Descripcion"), new { id = "IDGenero", @class = "form-control select", data_live_search = "true" })
                                     @Html.ValidationMessageFor(model => model.ListaGeneroCMB)
-                                    <span class="help-block">Seleccione la sucursal</span>
+                                    <span class="help-block">Seleccione el género</span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="col-md-12 col-xs-12 control-label text-center">Grupo Sanguineo</label>
+                                <label class="col-md-12 col-xs-12 control-label text-center">Grupo Sanguíneo</label>
                                 <div class="col-md-12 col-xs-12">
                                     @Html.DropDownListFor(model => model.idgruposanguineo, new SelectList(Model.listaGrupoSanguineo, "IDGrupoSanguineo", "descripcion"), new { id = "idgruposanguineo", @class = "form-control select", data_live_search = "true" })
                                     @Html.ValidationMessageFor(model => model.ListaGeneroCMB)
-                                    <span class="help-block">Seleccione la sucursal</span>
+                                    <span class="help-block">Seleccione el grupo sanguíneo</span>
                                 </div>
                             </div>
                         </div>
@@ -182,7 +182,7 @@
                                         @Html.TextBoxFor(model => model.AvisoAccidente, new { id = "AvisoAccidente", @class = "form-control" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.AvisoAccidente)
-                                    <span class="help-block">Ingrese el nombre</span>
+                                    <span class="help-block">Ingrese el campo para avisar en caso de accidente</span>
                                 </div>
                             </div>
                         </div>
@@ -219,7 +219,7 @@
                                         @Html.TextBoxFor(model => model.Movil, new { id = "Movil", @class = " form-control" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Movil)
-                                    <span class="help-block">Ingrese el teléfono Movil</span>
+                                    <span class="help-block">Ingrese el teléfono móvil</span>
                                 </div>
                             </div>
                         </div>

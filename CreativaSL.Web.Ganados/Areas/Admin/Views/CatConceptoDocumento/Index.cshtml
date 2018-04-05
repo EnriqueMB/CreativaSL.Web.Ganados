@@ -1,13 +1,17 @@
-﻿@model CreativaSL.Web.Ganados.Models.CatProveedorModels
+﻿@model CreativaSL.Web.Ganados.Models.CatConceptoDetalleDocumentosModels
 
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-}
+                /**/
 
+                ViewBag.Title = "Index";
+                Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
 @section featured{
-    @{        var message = TempData["message"] ?? string.Empty;
-        var typemessage = TempData["typemessage"] ?? string.Empty;
+    @{
+                        /**/
+
+                        var message = TempData["message"] ?? string.Empty;
+                        var typemessage = TempData["typemessage"] ?? string.Empty;
     }
     <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
         <h3></h3>
@@ -16,7 +20,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Proveedor </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Conceptos Detalle Documento </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -28,7 +32,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("Create","CatProveedor")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Proveedor</a></li>
+                            <li><a href="@Url.Action("Create","CatConceptoDocumento")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Concepto</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
                         </ul>
@@ -38,27 +42,23 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th>Razón Social</th>
-                                        <th>RFC</th>
-                                        <th>Tipo de Proveedor</th>
-                                        <th>Sucursal</th>
+                                        <th>Descripción</th>
+                                        <th>Clave</th>
+                                        <th>Conciliación</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var proveedor in Model.listaProveedores)
-                               {
-                                        <tr id="@proveedor.IDProveedor">
-                                            <td>@proveedor.NombreRazonSocial</td>
-                                            <td>@proveedor.RFC</td>
-                                            <td>@proveedor.nombreProveedor</td>
-                                            <td>@proveedor.nombreSucursal</td>
+                                    @foreach (var concepto in Model.listaConceptosDetalles)
+                                    {
+                                        <tr id="@concepto.IDConceptosDocumento">
+                                            <td>@concepto.Descripcion</td>
+                                            <td>@concepto.Clave</td>
+                                            <td>@concepto.Concepto</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Lugar Proveedor" class="btn btn-primary" href="@Url.Action("LugarProveedor", "CatProveedor", new { id = proveedor.IDProveedor, id2 = proveedor.IDSucursal})"><i class="fa fa-map-marker"></i></a>
-                                                    <a title="Datos bancarios" class="btn btn-green" href="@Url.Action("Cuentas", "CatProveedor", new { id = proveedor.IDProveedor })"><i class="fa fa-money"></i></a>
-                                                    <a title="Editar" href="@Url.Action("Edit", "CatProveedor", new { id = proveedor.IDProveedor})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" id="delete-@proveedor.IDProveedor" data-hrefa="@Url.Action("Delete", "CatProveedor", new { id =  proveedor.IDProveedor })" onClick="delete_row('@proveedor.IDProveedor');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Editar" href="@Url.Action("Edit", "CatConceptoDocumento", new { id = concepto.IDConceptosDocumento})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" id="delete-@concepto.IDConceptosDocumento" data-hrefa="@Url.Action("Delete", "CatConceptoDocumento", new { id =  concepto.IDConceptosDocumento })" onClick="delete_row('@concepto.IDConceptosDocumento');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -67,22 +67,12 @@
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("LugarProveedor", "CatProveedor", new { id = proveedor.IDProveedor, id2 = proveedor.IDSucursal })">
-                                                                    <i class="fa fa-map-marker"></i> Lugar Proveedor
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Cuentas", "CatProveedor", new { id = proveedor.IDProveedor })">
-                                                                    <i class="fa fa-money"></i> Datos bancarios
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatProveedor", new { id = proveedor.IDProveedor})">
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatConceptoDocumento", new { id = concepto.IDConceptosDocumento})">
                                                                     <i class="fa fa-edit"></i> Editar
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@proveedor.IDProveedor" data-hrefa="@Url.Action("Delete", "CatProveedor", new { id =  proveedor.IDProveedor })" onClick="delete_row('@proveedor.IDProveedor');">
+                                                                <a role="menuitem" tabindex="-1" id="delete-@concepto.IDConceptosDocumento" data-hrefa="@Url.Action("Delete", "CatConceptoDocumento", new { id = concepto.IDConceptosDocumento })" onClick="delete_row('@concepto.IDConceptosDocumento');">
                                                                     <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>
@@ -91,7 +81,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                               }
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -135,4 +125,3 @@
         });
     </script>
 }
-
