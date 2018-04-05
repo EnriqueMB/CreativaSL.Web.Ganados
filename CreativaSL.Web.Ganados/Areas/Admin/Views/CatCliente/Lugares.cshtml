@@ -1,10 +1,9 @@
-﻿@model CreativaSL.Web.Ganados.Models.CuentaBancariaProveedorModels
+﻿@model CreativaSL.Web.Ganados.Models.ClienteLugarModels
 
 @{
-    ViewBag.Title = "Cuentas";
+    ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
 
 @section featured{
     @{
@@ -18,7 +17,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Datos Bancarios Proveedor</h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span>Lugares de Clientes </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -30,8 +29,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            @{ string IDP = Model.IDProveedor;}
-                            <li><a href="@Url.Action("CreateCuenta","CatProveedor", new { id = IDP })" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva Cuenta</a></li>
+                            <li><a href="@Url.Action("ClienteLugar","CatCliente", new { id = Model.IDCliente,id2 =Model.IDSucursal })" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Lugar del Cliente</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
                             <li><a href="@Url.Action("Index","CatCliente")" class=" btn btn-danger btnCrear"><span class="fa fa-arrow-left"></span> Regresar</a></li>
@@ -42,27 +40,29 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th>Titular</th>
-                                        <th>Banco</th>
-                                        <th>Núm. Tarjeta</th>
-                                        <th>Núm. Cuenta</th>
-                                        <th>Clabe Interbancaria</th>
+                                        <th>Razon Social Actual</th>
+                                        <th>Nombre del Cliente</th>
+                                        
+                                        <th>Descripción del lugar</th>
+                                      
+                                       
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var Cuenta in Model.ListaCuentaBancaria)
+                                    @foreach (var Cliente in Model.ListaClienteLugar)
                                     {
-                                        <tr id="@Cuenta.IDDatosBancarios">
-                                            <td>@Cuenta.Titular</td>
-                                            <td>@Cuenta.Banco.Descripcion</td>
-                                            <td>@Cuenta.NumTarjeta</td>
-                                            <td>@Cuenta.NumCuenta</td>
-                                            <td>@Cuenta.Clabe</td>
+                                        <tr id="@Cliente.IDClienteLugar">
+                                            <td>@Cliente.nombreCliente</td>
+                                            <td>@Cliente.nombreLugar</td>
+                                            <td>@Cliente.descripcionLugar</td>
+                                           
+                                          
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" href="@Url.Action("EditCuenta", "CatProveedor", new { id = Cuenta.IDDatosBancarios, id2 = IDP})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" id="delete-@Cuenta.IDDatosBancarios" data-hrefa="@Url.Action("DeleteCuenta", "CatProveedor", new { id = Cuenta.IDDatosBancarios, id2 = IDP })" onClick="delete_row('@Cuenta.IDDatosBancarios');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    
+                                                    @*<a title="Editar" class="btn btn-yellow" href="@Url.Action("EditLugar", "CatCliente", new { id = Cliente.IDClienteLugar })"><i class="fa fa-edit"></i></a>*@
+                                                    <a title="Eliminar" id="delete-@Cliente.IDClienteLugar" data-hrefa="@Url.Action("DeleteLugar", "CatCliente", new { id = Cliente.IDClienteLugar })" onClick="delete_row('@Cliente.IDClienteLugar');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -70,13 +70,14 @@
                                                             <i class="fa fa-cog"></i> <span class="caret"></span>
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("EditCuenta", "CatProveedor", new { id = Cuenta.IDDatosBancarios, id2 = IDP})">
+                                                            
+                                                            @*<li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("EditLugar", "CatCliente", new { id = Cliente.IDCliente })">
                                                                     <i class="fa fa-edit"></i> Editar
                                                                 </a>
-                                                            </li>
+                                                            </li>*@
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@Cuenta.IDDatosBancarios" data-hrefa="@Url.Action("DeleteCuenta", "CatProveedor", new { id =  Cuenta.IDDatosBancarios, id2 = IDP })" onClick="delete_row('@Cuenta.IDDatosBancarios');">
+                                                                <a role="menuitem" tabindex="-1" id="delete-@Cliente.IDCliente" data-hrefa="@Url.Action("DeleteLugar", "CatCliente", new { id = Cliente.IDCliente })" onClick="delete_row('@Cliente.IDCliente');">
                                                                     <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>
@@ -129,3 +130,11 @@
         });
     </script>
 }
+
+
+
+
+
+
+
+

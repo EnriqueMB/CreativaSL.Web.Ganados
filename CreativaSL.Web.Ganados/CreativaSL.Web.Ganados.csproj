@@ -422,6 +422,7 @@
     <Content Include="Content\js\Bancos.js" />
     <Content Include="Content\js\CategoriaPuestos.js" />
     <Content Include="Content\js\Chofer.js" />
+    <Content Include="Content\js\ClienteLugar.js" />
     <Content Include="Content\js\CuentaProveedor.js" />
     <Content Include="Content\js\entregacombustible.js" />
     <Content Include="Content\js\Lugar.js" />
@@ -1012,6 +1013,8 @@
     <Content Include="Areas\Admin\Views\Venta\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatConceptosNomina\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatConceptosNomina\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\Lugares.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\ClienteLugar.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
