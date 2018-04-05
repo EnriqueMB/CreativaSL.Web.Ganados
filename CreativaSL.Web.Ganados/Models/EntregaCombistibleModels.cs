@@ -7,32 +7,62 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class EntregaCombistibleModels
     {
-        private string _IDEntregaCombustible;
+        public EntregaCombistibleModels()
+        {
+            _IDEntregaCombustible = string.Empty;
+            _Vehiculo = new CatVehiculoModels();
+            _TipoCombustible = new CatTipoCombustibleModels();
+            _Fecha = DateTime.Today;
+            _NoTicket = string.Empty;
+            _KMInicial = 0;
+            _KMFinal = 0;
+            _Litros = 0;
+            _Precio = 0;
+            _Total = 0;
+            _Rendimento = 0;
+            _ImgTicket = string.Empty;
+            _Documento = new DocumentoPorPagarDetalleModels();
+            Conexion = string.Empty;
+            Resultado = 0;
+            Completado = false;
+            Usuario = string.Empty;
+            Opcion = 0;
+        }
 
+        private string _IDEntregaCombustible;
+        /// <summary>
+        /// Identificador de la entrega de combustible
+        /// </summary>
         public string IDEntregaCombustible
         {
             get { return _IDEntregaCombustible; }
             set { _IDEntregaCombustible = value; }
         }
 
-        private string _IDVehiculo;
-
-        public string IDVehiculo
+        private CatVehiculoModels _Vehiculo;
+        /// <summary>
+        /// Objeto que contiene los datos del vehículo al que se le cargará combustible
+        /// </summary>
+        public CatVehiculoModels Vehiculo
         {
-            get { return _IDVehiculo; }
-            set { _IDVehiculo = value; }
+            get { return _Vehiculo; }
+            set { _Vehiculo = value; }
         }
-
-        private int _IDTipoCombustible;
-
-        public int IDTipoCombustible
+        
+        private CatTipoCombustibleModels _TipoCombustible;
+        /// <summary>
+        /// Objeto que contiene los datos del tipo de combustible a cargar
+        /// </summary>
+        public CatTipoCombustibleModels TipoCombustible
         {
-            get { return _IDTipoCombustible; }
-            set { _IDTipoCombustible = value; }
+            get { return _TipoCombustible; }
+            set { _TipoCombustible = value; }
         }
-
+        
         private DateTime _Fecha;
-
+        /// <summary>
+        /// Fecha en que se realiza la carga de combustible
+        /// </summary>
         public DateTime Fecha
         {
             get { return _Fecha; }
@@ -40,7 +70,9 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _NoTicket;
-
+        /// <summary>
+        /// Número de ticket de compra de combustible
+        /// </summary>
         public string NoTicket
         {
             get { return _NoTicket; }
@@ -48,7 +80,9 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private int _KMInicial;
-
+        /// <summary>
+        /// Kilometraje inicial 
+        /// </summary>
         public int KMInicial
         {
             get { return _KMInicial; }
@@ -56,7 +90,9 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private int _KMFinal;
-
+        /// <summary>
+        /// Kilometraje final
+        /// </summary>
         public int KMFinal
         {
             get { return _KMFinal; }
@@ -64,7 +100,9 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private decimal _Litros;
-
+        /// <summary>
+        /// Cantidad de litros ingresados
+        /// </summary>
         public decimal Litros
         {
             get { return _Litros; }
@@ -72,7 +110,9 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private decimal _Precio;
-
+        /// <summary>
+        /// Precio por litro
+        /// </summary>
         public decimal Precio
         {
             get { return _Precio; }
@@ -80,7 +120,9 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private decimal _Total;
-
+        /// <summary>
+        /// Monto total
+        /// </summary>
         public decimal Total
         {
             get { return _Total; }
@@ -88,7 +130,9 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private decimal _Rendimento;
-
+        /// <summary>
+        /// Rendimiento del combustible
+        /// </summary>
         public decimal Rendimiento
         {
             get { return _Rendimento; }
@@ -96,20 +140,25 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _ImgTicket;
-
+        /// <summary>
+        /// Imagen del ticket de la carga de combustible
+        /// </summary>
         public string ImgTicket
         {
             get { return _ImgTicket; }
             set { _ImgTicket = value; }
         }
-
-        private string _IDDocumentoXPagar;
-
-        public string IDDocumentoXPagar
+       
+        private DocumentoPorPagarDetalleModels _Documento;
+        /// <summary>
+        /// Objeto que contiene los datos del documento por pagar generado por la compra de combustible
+        /// </summary>
+        public DocumentoPorPagarDetalleModels Documento
         {
-            get { return _IDDocumentoXPagar; }
-            set { _IDDocumentoXPagar = value; }
+            get { return _Documento; }
+            set { _Documento = value; }
         }
+
 
         #region Datos De Control
         public string Conexion { get; set; }

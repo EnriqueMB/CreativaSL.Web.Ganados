@@ -1,7 +1,6 @@
 ﻿var Compra = function () {
     var tableGanado;
     "use strict"
-
     var InitMap = function () {
         var directionsDisplay = new google.maps.DirectionsRenderer;
         var directionsService = new google.maps.DirectionsService;
@@ -17,8 +16,127 @@
         document.getElementById("Trayecto.id_lugarOrigen").addEventListener('change', onChangeHandler);
         document.getElementById("Trayecto.id_lugarDestino").addEventListener('change', onChangeHandler);
 
-       //Inicializo la función
-       CalculateAndDisplayRoute(directionsService, directionsDisplay);
+        //Inicializo la función
+        CalculateAndDisplayRoute(directionsService, directionsDisplay);
+    };
+    var LoadValidationCreate = function () {
+        var form1 = $('#frmCreateCompra');
+        var errorHandler1 = $('.errorHandler', form1);
+        var successHandler1 = $('.successHandler', form1);
+
+        $('#frmCreateCompra').validate({ // initialize the plugin
+            //debug: true,
+            errorElement: "span", // contain the error msg in a span tag
+            errorClass: 'text-danger',
+            errorLabelContainer: $("#validation_summary"),
+            errorPlacement: function (error, element) { // render error placement for each input type
+                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
+                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
+                    error.insertAfter($(element).closest('.form-group').children('div'));
+                } else if (element.attr("type") == "text") {
+                    error.insertAfter($(element).closest('.input-group').children('div'));
+                } else {
+                    error.insertAfter(element);
+                    // for other inputs, just perform default behavior
+                }
+            },
+            ignore: "",
+            rules: {
+                IDProveedor: {
+                    required: true
+                },
+                "Sucursal.IDSucursal": {
+                    required: true
+                },
+                GanadosPactadoMachos: {
+                    digits: true
+                },
+                GanadosPactadoHembras: {
+                    digits: true
+                },
+                FechaHoraProgramada: {
+                    required: true,
+                    fecha: true
+                },
+                "Flete.kmInicialVehiculo": {
+                    digits: true
+                },
+                GuiaTransito: {
+                    maxlength: 15
+                },
+                CertZoosanitario: {
+                    maxlength: 15
+                },
+                CertTuberculosis: {
+                    maxlength: 15
+                },
+                CertBrucelosis: {
+                    maxlength: 15
+                }
+            },
+            messages: {
+                IDProveedor: {
+                    required: "-Seleccione un Proveedor"
+                },
+                "Sucursal.IDSucursal": {
+                    required: "-Seleccione una Sucursal"
+                },
+                GanadosPactadoMachos: {
+                    digits: "-El campo: Ganados Pactado Machos, debe ser igual o mayo que 0 (solo números enteros)."
+                },
+                GanadosPactadoHembras: {
+                    digits: "-El campo: Ganados Pactado Hembras, debe ser igual o mayo que 0 (solo números enteros)."
+                },
+                FechaHoraProgramada: {
+                    required: "-Seleccione una Fecha para la compra a realizar",
+                    date: "-Debe ser una fecha con formado dd/mm/aaaa"
+                },
+                "Flete.kmInicialVehiculo": {
+                    digits: "-El campo: Kilómetraje Inicial, debe ser igual o mayo que 0 (solo números enteros)."
+                },
+                GuiaTransito: {
+                    maxlength: jQuery.validator.format("-El campo: Guía de Transito debe ser igual o menor que {0} carácteres.")
+                },
+                CertZoosanitario: {
+                    maxlength: jQuery.validator.format("-El campo: Cert. Zoosanitario debe ser igual o menor que {0} carácteres.")
+                },
+                CertTuberculosis: {
+                    maxlength: jQuery.validator.format("-El campo: Cert. Tuberculosis debe ser igual o menor que {0} carácteres.")
+                },
+                CertBrucelosis: {
+                    maxlength: jQuery.validator.format("-El campo: Cert. Brucelosis debe ser igual o menor que {0} carácteres.")
+                }
+            },
+            invalidHandler: function (event, validator) {
+                successHandler1.hide();
+                errorHandler1.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');
+                $(element).closest('.controlError').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.controlError').removeClass('has-error');
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                label.removeClass('color');
+                $(element).closest('.controlError').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler1.show();
+                errorHandler1.hide();
+                form.submit();
+            }
+        });
+    };
+    var LoadItems = function () {
+        $('#FechaHoraProgramada').datepicker({
+            format: 'dd/mm/yyyy',
+            language: 'es'
+        });
+
     };
     var LoadTableGanado = function (idCompra) {
 
@@ -113,7 +231,7 @@
         $("#btnAddGanado").on("click", function () {
             ModalGanado(0);
         });
-    }
+    };
     var LoadTableMovimientos = function(idCompra) {
         $("#btnAddPago").on("click", function () {
             ModalPago(0);
@@ -127,6 +245,7 @@
             ModalEvento(0);
         });
     }
+
     //Funciones
     function CalculateAndDisplayRoute(directionsService, directionsDisplay) {
         var selectIndexInicio = document.getElementById('Trayecto.id_lugarOrigen').selectedIndex;
@@ -150,7 +269,7 @@
             if (status === 'OK') {
                 directionsDisplay.setDirections(response);
             } else {
-                window.alert('Directions request failed due to ' + status);
+                window.alert('No se pudo cargar la ubicación, verifique sus coordenas en el catálogo de Lugares, estatus: ' + status);
             }
         });
     }
@@ -221,19 +340,12 @@
 
     return {
         init: function (idCompra) {
+            LoadItems();
             InitMap();
+            LoadValidationCreate();
             LoadTableGanado(idCompra);
             LoadTableMovimientos(idCompra);
             LoadTableEvento(idCompra);
         }
     };
 }();
-
-
-function isUndefined(value) {
-    // Obtain `undefined` value that's
-    // guaranteed to not have been re-assigned
-    var undefined = void (0);
-    return value === undefined;
-}
-

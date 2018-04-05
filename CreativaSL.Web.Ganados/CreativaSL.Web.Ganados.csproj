@@ -131,18 +131,12 @@
       <HintPath>..\packages\System.Data.Entity.Repository.2.0.0.1\lib\net45\System.Data.Entity.Repository.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Net.Http">
-      <HintPath>..\packages\Microsoft.Net.Http.2.0.20505.0\lib\net40\System.Net.Http.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Net.Http.WebRequest">
-      <HintPath>..\packages\Microsoft.Net.Http.2.0.20505.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -425,10 +419,14 @@
     <Content Include="Content\img\themes\default.jpg" />
     <Content Include="Content\img\themes\light.jpg" />
     <Content Include="Content\js\actions.js" />
+    <Content Include="Content\js\Bancos.js" />
     <Content Include="Content\js\CategoriaPuestos.js" />
     <Content Include="Content\js\Chofer.js" />
     <Content Include="Content\js\CuentaProveedor.js" />
     <Content Include="Content\js\Lugar.js" />
+    <Content Include="Content\js\plugins\dualSelect\bootstrap-duallistbox.css" />
+    <Content Include="Content\js\plugins\dualSelect\jquery.bootstrap-duallistbox.js" />
+    <Content Include="Content\js\ProductosAlmacen.js" />
     <Content Include="Content\js\proveedor.js" />
     <Content Include="Content\js\cuentasClientes.js" />
     <Content Include="Content\js\Empleado.js" />
@@ -863,6 +861,7 @@
     <Content Include="Content\js\Remolques.js" />
     <Content Include="Content\js\settings.js" />
     <Content Include="Content\js\TipoVehiculo.js" />
+    <Content Include="Content\js\UnidadMedida.js" />
     <Content Include="Content\js\Usuario.js" />
     <Content Include="Content\js\validaciones\additionals.js" />
     <Content Include="Content\js\Vehiculo.js" />
@@ -997,7 +996,20 @@
     <Content Include="Areas\Admin\Views\CatProveedor\Cuentas.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\CreateCuenta.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\EditCuenta.cshtml" />
-    <Content Include="Areas\Admin\Views\CatConceptosNomina\Index.cshtml" />
+	<Content Include="Areas\Admin\Views\CatProductosAlmacen\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProductosAlmacen\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProductosAlmacen\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\EntregaCombustible\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatUnidadMedida\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatUnidadMedida\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatUnidadMedida\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\EntregaCombustible\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatBanco\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatBanco\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatBanco\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\Index.cshtml" />
+	 <Content Include="Areas\Admin\Views\CatConceptosNomina\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatConceptosNomina\Create.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1024,6 +1036,7 @@
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatAlmacenController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatBancoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatCategoriaPuestoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatChoferController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatClienteController.cs" />
@@ -1034,6 +1047,7 @@
     <Compile Include="Areas\Admin\Controllers\CatJaulaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatLugarController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatMarcaVehiculoController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatProductosAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatProductosController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatProveedorController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatPuestosController.cs" />
@@ -1041,13 +1055,17 @@
     <Compile Include="Areas\Admin\Controllers\CatRemolqueController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatTipoProveedorController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatTipoVehiculoController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatUnidadMedidaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatUsuariosController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatVehiculoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompraAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompraController.cs" />
+    <Compile Include="Areas\Admin\Controllers\EntregaCombustibleController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeAdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MantenimientoController.cs" />
     <Compile Include="Areas\Admin\Controllers\TablaController.cs" />
     <Compile Include="Areas\Admin\Controllers\TestController.cs" />
+    <Compile Include="Areas\Admin\Controllers\VentaController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Filters\AutorizadoAttribute.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -1168,6 +1186,7 @@
     <Compile Include="Models\VentaGanadoModels.cs" />
     <Compile Include="Models\VentaModels.cs" />
     <Compile Include="Models\_CatAlmacen_Datos.cs" />
+    <Compile Include="Models\_CatBanco_Datos.cs" />
     <Compile Include="Models\_CatCategoriaPuesto_Datos.cs" />
     <Compile Include="Models\_CatChofer_Datos.cs" />
     <Compile Include="Models\_CatCliente_Datos.cs" />
@@ -1186,13 +1205,16 @@
     <Compile Include="Models\_CatRemolque_Datos.cs" />
     <Compile Include="Models\_CatTipoProveedor_Datos.cs" />
     <Compile Include="Models\_CatTipoVehiculos_Datos.cs" />
+    <Compile Include="Models\_CatUnidadMedida_Datos.cs" />
     <Compile Include="Models\_CatVehiculo_Datos.cs" />
+    <Compile Include="Models\_Combos_Datos.cs" />
     <Compile Include="Models\_Compra_Datos.cs" />
     <Compile Include="Models\_Login_Datos.cs" />
     <Compile Include="Models\_Menu_Datos.cs" />
     <Compile Include="Models\_Usuario_Datos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CuentaBancariaViewModels.cs" />
+    <Compile Include="ViewModels\EntregaCombustibleViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -1252,6 +1274,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Mantenimiento\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

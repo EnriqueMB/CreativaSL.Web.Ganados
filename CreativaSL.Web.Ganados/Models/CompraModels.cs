@@ -24,13 +24,17 @@ namespace CreativaSL.Web.Ganados.Models
         public int Opcion { get; set; }
         #endregion
 
+        //Para el index
         public DataTable TablaCompra { get; set; }
+
+
         [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Fecha de la compra")]
         public DateTime FechaHoraTerminada { get; set; }
+
         [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Fecha programada")]
         [Required(ErrorMessage = "Seleccione una fecha")]
         public DateTime FechaHoraProgramada { get; set; }
@@ -40,17 +44,31 @@ namespace CreativaSL.Web.Ganados.Models
         public string CertTuberculosis { get; set; }
         public string CertBrucelosis { get; set; }
 
-        [Range(0, 500)]
+        [RegularExpression("^[0-9]*$", 
+            ErrorMessage = "Solo número enteros positivos.")]
         [DisplayName("Ganado pactado machos")]
         public int GanadosPactadoMachos { get; set; }
-        [Range(0, 500)]
+
+        [RegularExpression("^[0-9]*$",
+            ErrorMessage = "Solo número enteros positivos.")]
         [DisplayName("Ganado pactado hembras")]
         public int GanadosPactadoHembras { get; set; }
+
+        [RegularExpression("^[0-9]*$",
+            ErrorMessage = "Solo número enteros positivos.")]
         public int GanadosPactadoTotal { get; set; }
 
+        [RegularExpression("^[0-9]*$",
+            ErrorMessage = "Solo número enteros positivos.")]
         public int GanadosCompradoMachos { get; set; }
+        [RegularExpression("^[0-9]*$",
+            ErrorMessage = "Solo número enteros positivos.")]
         public int GanadosCompradoHembras { get; set; }
+        [RegularExpression("^[0-9]*$",
+            ErrorMessage = "Solo número enteros positivos.")]
         public int GanadosCompradoTotal { get; set; }
+
+
 
         public decimal MontoTotal { get; set; }
         public decimal MontoPagado { get; set; }
@@ -83,8 +101,8 @@ namespace CreativaSL.Web.Ganados.Models
         public CatJaulaModels Jaula { get; set; }
         public CatFierroModels Fierro { get; set; }
         public CompraGanadosModels CompraGanado { get; set; }
+        public CatRemolqueModels Remolque { get; set; }
 
-        
         public List<CatChoferModels> ListaChoferes { get; set; }
         public List<CompraGanadosModels> ListaCompraGanado { get; set; }
         public List<CatFierroModels> ListaFierros { get; set; }
@@ -94,6 +112,7 @@ namespace CreativaSL.Web.Ganados.Models
         public List<CatProveedorModels> ListaProveedores { get; set; }
         public List<CatSucursalesModels> ListaSucursales { get; set; }
         public List<CatVehiculoModels> ListaVehiculos { get; set; }
+        public List<CatRemolqueModels> ListaRemolques { get; set; }
 
         private CultureInfo CultureInfo = new CultureInfo("es-MX");
         #endregion
@@ -113,6 +132,7 @@ namespace CreativaSL.Web.Ganados.Models
             Lugar = new CatLugarModels();
             Marca = new CatMarcaVehiculoModels();
             Sucursal = new CatSucursalesModels();
+            Remolque = new CatRemolqueModels();
             TipoVehiculo = new CatTipoVehiculoModels();
             Trayecto = new TrayectoModels();
 
@@ -124,6 +144,7 @@ namespace CreativaSL.Web.Ganados.Models
             ListaJaulas = new List<CatJaulaModels>();
             ListaLugares = new List<CatLugarModels>();
             ListaProveedores = new List<CatProveedorModels>();
+            ListaRemolques = new List<CatRemolqueModels>();
             ListaSucursales = new List<CatSucursalesModels>();
             ListaVehiculos = new List<CatVehiculoModels>();
 

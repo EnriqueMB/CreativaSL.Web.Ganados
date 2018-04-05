@@ -1,7 +1,10 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.Models.Validaciones;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Web;
+using System.Web.Mvc;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -16,11 +19,20 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _Descripcion;
-
+        [Required(ErrorMessage = "El nombre es obligatorio")]
+        [Display(Name = "Nombre")]
+        [StringLength(1000, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         public string Descripcion
         {
             get { return _Descripcion; }
             set { _Descripcion = value; }
+        }
+        private List<CatUnidadMedidaModels> _LUnidades;
+        
+        public List<CatUnidadMedidaModels> LUnidades
+        {
+            get { return _LUnidades; }
+            set { _LUnidades = value; }
         }
 
         #region Datos De Control

@@ -474,16 +474,16 @@ $(function() {
             
             if($(".plugin-date").length > 0){
                 
-                var days = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sabado'];
-                var months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-                        
+                var days = ["Domingo", "Lunes", "Martes", "Mi\u00e9rcoles", "Jueves", "Viernes", "Sabado"];
+                var months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
                 var now     = new Date();
                 var day     = days[now.getDay()];
                 var date    = now.getDate();
                 var month   = months[now.getMonth()];
-                var year    = now.getFullYear();
-                
-                $(".plugin-date").html(day+", "+month+" "+date+", "+year);
+                var year = now.getFullYear();
+                var fecha = day + ", " + month + " " + date + ", " + year;
+                $(".plugin-date").html(fecha);
             }
             
         }

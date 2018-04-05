@@ -5,8 +5,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-@section featured
-{
+@section featured{
     @{
         var message = TempData["message"] ?? string.Empty;
         var typemessage = TempData["typemessage"] ?? string.Empty;
@@ -37,7 +36,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table class="table datatable">
+                            <table id="tbl_RangoPesoCompra" class="table">
                                 <thead>
                                     <tr>
                                         <th>Género</th>
@@ -93,6 +92,7 @@
                             </table>
                         </div>
                     </div>
+                    <div class="panel-footer"></div>
                 </div>
                 <!-- END DEFAULT DATATABLE -->
             </div>
@@ -129,7 +129,13 @@
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
+        $('#tbl_RangoPesoCompra').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+                responsive: true
         });
+    });
     </script>
 }
 

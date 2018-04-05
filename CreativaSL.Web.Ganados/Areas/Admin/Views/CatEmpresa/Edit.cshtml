@@ -57,7 +57,7 @@
 
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    @Html.ValidationSummary(false, "Please fix the following errors:")
+                                    @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
                                     <div id="validation_summary" class="field_error "></div>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                                     <label class="col-md-3 control-label">R.F.C.</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <span class="input-group-addon"><span class="fa fa-file-text"></span></span>
                                             @Html.TextBoxFor(model => model.RFC, new { id = "RFC", @class = "form-control" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.RFC)
@@ -103,7 +103,7 @@
                                     <label class="col-md-3 control-label">Horario de atención</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                                             @Html.TextBoxFor(model => model.HorarioAtencion, new { id= "HorarioAtencion" , @class = "form-control" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.HorarioAtencion)
@@ -117,7 +117,7 @@
                                     <label class="col-md-3 control-label">Dirección fiscal</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <span class="input-group-addon"><span class="fa fa-home"></span></span>
                                             @Html.TextBoxFor(model => model.DireccionFiscal, new { id= "DireccionFiscal", @class = "form-control" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.DireccionFiscal)
@@ -142,7 +142,7 @@
                                     <label class="col-md-3 control-label text-center">Teléfono núm. 1</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <span class="input-group-addon"><span class="fa fa-phone-square"></span></span>
                                             @Html.TextBoxFor(model => model.NumTelefonico1, new { id= "NumTelefonico1", @class = "form-control" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.NumTelefonico1)
@@ -153,7 +153,7 @@
                                     <label class="col-md-3 control-label text-center">Teléfono núm. 2</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <span class="input-group-addon"><span class="fa fa-phone-square"></span></span>
                                             @Html.TextBoxFor(model => model.NumTelefonico2, new { id= "NumTelefonico2", @class = "form-control" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.NumTelefonico2)
@@ -167,7 +167,7 @@
                                     <label class="col-md-3 control-label">Ingrese logo de la empresa</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <span class="input-group-addon"><span class="fa fa-camera"></span></span>
                                             @Html.TextBoxFor(model => model.LogoEmpresaHttp, new { id = "LogoEmpresaHttp", name = "LogoEmpresaHttp[]", @type = "file", @class = "form-control", data_imgBD = Model.ImagBDEmpresa})
                                         </div>
                                         @Html.ValidationMessageFor(model => model.LogoEmpresaHttp)
@@ -178,7 +178,7 @@
                                     <label class="col-md-3 control-label">Ingrese imagen del RFC</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <span class="input-group-addon"><span class="fa fa-camera"></span></span>
                                             @Html.TextBoxFor(model => model.LogoRFCHttp, new { id = "LogoRFCHttp", name = "LogoRFCHttp[]", @type = "file", @class = "form-control", data_imgBD = Model.ImagBDRFC })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.LogoRFCHttp)

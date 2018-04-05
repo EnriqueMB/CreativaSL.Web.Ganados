@@ -777,6 +777,9 @@
 
 @section script
 {
+    <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+    <script src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
@@ -799,17 +802,6 @@
         jQuery(document).ready(function () {
 
             var idCompra = "@Model.IDCompra";
-            var idProveedor;
-            var RangoPrecioJson = @Html.Raw(Json.Encode(Model.Mensaje));
-            var selectProveedor = document.getElementById("IDProveedor");
-
-            if (isUndefined(selectProveedor))
-                idProveedor = 0;
-            else
-                idProveedor = selectProveedor.options[selectProveedor.selectedIndex].value;
-                
-
-
             Mensaje(message, typemessage);
 
             Compra.init(idCompra);

@@ -50,18 +50,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CatVehiculoModels Vehiculo = new CatVehiculoModels();
                 _CatVehiculo_Datos VehiculoDatos = new _CatVehiculo_Datos();
                 Vehiculo.Conexion = Conexion;
-
                 Vehiculo.listaTipoVehiculos = VehiculoDatos.obtenerListaTipoVehiculo(Vehiculo);
-                var List = new SelectList(Vehiculo.listaTipoVehiculos, "IDTipoVehiculo", "Descripcion");
-                ViewData["cmbTipoVehiculo"] = List;
-
                 Vehiculo.listaSucursal = VehiculoDatos.obtenerListaSucursales(Vehiculo);
-                var ListaSucursal = new SelectList(Vehiculo.listaSucursal, "IDSucursal", "NombreSucursal");
-                ViewData["cmbSucursal"] = ListaSucursal;
-
                 Vehiculo.listaMarcas = VehiculoDatos.obtenerListaMarcas(Vehiculo);
-                var ListaMarcas = new SelectList(Vehiculo.listaMarcas, "IDMarca", "Descripcion");
-                ViewData["cmbMarcas"] = ListaMarcas;
                 Vehiculo.Estatus = Convert.ToBoolean("true");
                 Vehiculo.EsPropio = Convert.ToBoolean("true");
                 return View(Vehiculo);
@@ -100,6 +91,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     }
                     else
                     {
+                        
+                        Vehiculo.listaTipoVehiculos = VehiculoDatos.obtenerListaTipoVehiculo(Vehiculo);
+                        Vehiculo.listaSucursal = VehiculoDatos.obtenerListaSucursales(Vehiculo);
+                        Vehiculo.listaMarcas = VehiculoDatos.obtenerListaMarcas(Vehiculo);
                         TempData["typemessage"] = "2";
                         TempData["message"] = "Ocurrió un error al guardar el registro.";
                         return View(Vehiculo);
@@ -116,8 +111,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                
-
+                Vehiculo.Conexion = Conexion;
+                Vehiculo.listaTipoVehiculos = VehiculoDatos.obtenerListaTipoVehiculo(Vehiculo);
+                Vehiculo.listaSucursal = VehiculoDatos.obtenerListaSucursales(Vehiculo);
+                Vehiculo.listaMarcas = VehiculoDatos.obtenerListaMarcas(Vehiculo);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
                 return View(Vehiculo);
@@ -134,29 +131,19 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CatVehiculoModels Vehiculo = new CatVehiculoModels();
                 _CatVehiculo_Datos VehiculoDatos = new _CatVehiculo_Datos();
                 Vehiculo.Conexion = Conexion;
-
-                Vehiculo.listaTipoVehiculos = VehiculoDatos.obtenerListaTipoVehiculo(Vehiculo);
-                var List = new SelectList(Vehiculo.listaTipoVehiculos, "IDTipoVehiculo", "Descripcion");
-                ViewData["cmbTipoVehiculo"] = List;
-
-                Vehiculo.listaSucursal = VehiculoDatos.obtenerListaSucursales(Vehiculo);
-                var ListaSucursal = new SelectList(Vehiculo.listaSucursal, "IDSucursal", "NombreSucursal");
-                ViewData["cmbSucursal"] = ListaSucursal;
-
-                Vehiculo.listaMarcas = VehiculoDatos.obtenerListaMarcas(Vehiculo);
-                var ListaMarcas = new SelectList(Vehiculo.listaMarcas, "IDMarca", "Descripcion");
-                ViewData["cmbMarcas"] = ListaMarcas;
                 Vehiculo.IDVehiculo = id;
                 Vehiculo = VehiculoDatos.ObtenerDetalleCatVehiculo(Vehiculo);
-
+                Vehiculo.listaTipoVehiculos = VehiculoDatos.obtenerListaTipoVehiculo(Vehiculo);
+                Vehiculo.listaSucursal = VehiculoDatos.obtenerListaSucursales(Vehiculo);
+                Vehiculo.listaMarcas = VehiculoDatos.obtenerListaMarcas(Vehiculo);
                 return View(Vehiculo);
             }
             catch (Exception ex)
             {
-                CatLugarModels Lugar = new CatLugarModels();
+                CatVehiculoModels Vehiculo = new CatVehiculoModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return View(Lugar);
+                return View(Vehiculo);
             }
         }
 
@@ -203,8 +190,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-
-
+                Vehiculo.Conexion = Conexion;
+                Vehiculo.listaTipoVehiculos = VehiculoDatos.obtenerListaTipoVehiculo(Vehiculo);
+                Vehiculo.listaSucursal = VehiculoDatos.obtenerListaSucursales(Vehiculo);
+                Vehiculo.listaMarcas = VehiculoDatos.obtenerListaMarcas(Vehiculo);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
                 return View(Vehiculo);
