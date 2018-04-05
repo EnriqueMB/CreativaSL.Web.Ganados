@@ -30,29 +30,52 @@
                         </div>
                         <div class="panel-body">
 
-                            <div class="form-group">
-                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Sucursal </label>
-                                <div class="col-md-6 col-xs-12">
-                                    @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
-                                    @Html.ValidationMessageFor(model => model.IDSucursal)
+                            <div class="row">
+
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 col-xs-12 control-label"><span>* </span> Sucursal </label>
+                                        <div class="col-md-8 col-xs-12">
+                                            @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
+                                            @Html.ValidationMessageFor(model => model.IDSucursal)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 col-xs-12 control-label"><span>* </span> Tipo de combustible </label>
+                                        <div class="col-md-8 col-xs-12">
+                                            @Html.DropDownListFor(model => model.IDTipoCombustible, new SelectList(Model.ListaTipoCombustible, "IDTipoCombustible", "Descripcion"), new { id = "IDTipoCombustible", @class = "form-control select", data_live_search = "true" })
+                                            @Html.ValidationMessageFor(model => model.IDTipoCombustible)
+                                        </div>
+                                    </div>
+
                                 </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 col-xs-12 control-label"><span>* </span> Vehículo </label>
+                                        <div class="col-md-8 col-xs-12">
+                                            @Html.DropDownListFor(model => model.IDVehiculo, new SelectList(Model.ListaVehiculos, "IDVehiculo", "Modelo"), new { id = "IDVehiculo", @class = "form-control select", data_live_search = "true" })
+                                            @Html.ValidationMessageFor(model => model.IDVehiculo)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 col-xs-12 control-label"> * Fecha de entrega</label>
+                                        <div class="col-md-8 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                                @Html.TextBoxFor(model => model.Fecha, "{0:dd/MM/yyyy}", new { id = "Fecha", @class = "form-control datepicker", @readonly = "readonly" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Fecha)
+                                        </div>
+                                    </div>
+
+                                </div>
+
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Vehículo </label>
-                                <div class="col-md-6 col-xs-12">
-                                    @Html.DropDownListFor(model => model.IDVehiculo, new SelectList(Model.ListaVehiculos, "IDVehiculo", "Modelo"), new { id = "IDVehiculo", @class = "form-control select", data_live_search = "true" })
-                                    @Html.ValidationMessageFor(model => model.IDVehiculo)
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Tipo de combustible </label>
-                                <div class="col-md-6 col-xs-12">
-                                    @Html.DropDownListFor(model => model.IDTipoCombustible, new SelectList(Model.ListaTipoCombustible, "IDTipoCombustible", "Descripcion"), new { id = "IDTipoCombustible", @class = "form-control select", data_live_search = "true" })
-                                    @Html.ValidationMessageFor(model => model.IDTipoCombustible)
-                                </div>
-                            </div>
 
                             @*<div class="form-group">
                                 <label class="col-md-2 col-xs-12 control-label"><span>* </span> Titular </label>
@@ -101,7 +124,7 @@
 
                         </div>
                         <div class="panel-footer">
-                            <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                            <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
                             <a href="@Url.Action("Index","EntregaCombustible")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                         </div>
                     </div>
@@ -114,15 +137,18 @@
     </script>
 }
 @section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/maskedinput/jquery.maskedinput.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/entregacombustible.js")"></script>
 
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
+            Combustible.init();
         });
     </script>
 }
