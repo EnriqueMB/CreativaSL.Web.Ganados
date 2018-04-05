@@ -1,12 +1,12 @@
-﻿var Chofer = function () {
+﻿var ProveedorAlmacen = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
-        var form1 = $('#form-chofer');
+        var form1 = $('#form-ProveedorAlmacen');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
-        
-        $('#form-chofer').validate({
+
+        $('#form-ProveedorAlmacen').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -15,7 +15,7 @@
                     error.insertAfter($(element).closest('.form-group').children('div').children().last());
                 } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
                     error.insertAfter($(element).closest('.form-group').children('div'));
-                } else if (element.attr("type") == "text" ) {
+                } else if (element.attr("type") == "text") {
                     error.insertAfter($(element).closest('.input-group').children('div'));
                 } else {
                     error.insertAfter(element);
@@ -24,35 +24,12 @@
             },
             ignore: "",
             rules: {
-               
-                //ListSucursal: { required: true },
-                Nombre: { required: true, texto: true, maxlength: 80 },
-                ApPaterno: { required: true, texto: true, maxlength: 70 },
-                Ife: { required: true, ife: true, maxlength: 13 },
-                NumSeguroSocial: { texto: true, maxlength: 30 },
-                IDGenero: { CMBINT: true },
-                idgruposanguineo: { CMBINT: true },
-                IDSucursal: { required: true },
-                FechaNacimiento: { required: true },
-                FechaIngreso: { required: true },
-                AvisoAccidente: { required: true },
-                TelefonoAccidente: { required: true, telefono :true},
-
+                Descripcion: { required: true, texto: true, maxlength: 100 },
+                RFC:{required: true, rfc: true}
             },
             messages: {
-                
-                //ListSucursal: { required: "Seleccione una sucursal." },
-                Nombre: { required: "Ingrese nombre del chofer.", placa: "Ingrese un formato valido (letras, números y guión(-)", maxlength: "El campo nombre admite máximo 80 caracteres." },
-                ApPaterno: { required: "Ingrese apellido paterno del chofer.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 70 caracteres." },
-                Ife: { required: "Ingrese el codigo de credencial de elector.", ife: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 13 caracteres." },
-                NumSeguroSocial: { required: "Ingrese el número de seguro social.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
-                IDGenero: { CMBINT: "Seleccione un género." },
-                idgruposanguineo: { CMBINT: "Seleccione un grupo sanguineo." },
-                IDSucursal: { required: "Seleccione una sucursal." },
-                FechaNacimiento: { required: "Seleccione una fecha." },
-                FechaIngreso: { required: "Seleccione una fecha." },
-                AvisoAccidente: { required: "Ingrese a quien avisar en caso de accidente." },
-                TelefonoAccidente: { required: "Ingrese teléfono en caso de accidente.", telefono:"Ingrese un número valido"},
+                Descripcion: { required: "Ingrese el nombre del Proveedor.", texto: "Ingrese un formato válido", maxlength: "El campo nombre admite máximo 100 caracteres." },
+                RFC: { required: "Ingrese el RFC del proveedor.", rfc: "Ingrese un RFC válido." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -83,24 +60,10 @@
             }
         });
     };
-    var runDatePicker = function () {
-        $('#vigencia').datepicker({
-            format: 'dd/mm/yyyy'
-        });
-        $('#FechaNacimiento').datepicker({
-            format: 'dd/mm/yyyy'
-         });
-         $('#FechaIngreso').datepicker({
-             format: 'dd/mm/yyyy'
-         });
-    };
-   
-
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
-            runDatePicker();
         }
     };
 }();

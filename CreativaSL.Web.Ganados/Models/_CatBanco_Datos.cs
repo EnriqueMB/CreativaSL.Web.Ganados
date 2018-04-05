@@ -29,7 +29,7 @@ namespace CreativaSL.Web.Ganados.Models
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
         public CatBancoModels DaCatBancos(CatBancoModels Datos)

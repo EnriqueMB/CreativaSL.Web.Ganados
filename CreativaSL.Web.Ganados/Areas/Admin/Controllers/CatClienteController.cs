@@ -425,5 +425,117 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
+        //ASIGNAR LUGARES AL CLIENTE
+        public ActionResult Lugares(string id,string id2)
+        {
+            try
+            {
+                ClienteLugarModels ClienteLugar = new ClienteLugarModels();
+
+                CatCliente_Datos ClienteD = new CatCliente_Datos();
+                ClienteLugar.IDCliente = id;
+                ClienteLugar.IDSucursal = id2;
+                ClienteLugar.Conexion = Conexion;
+                ClienteLugar = ClienteD.ObtenerLugares(ClienteLugar);
+                return View(ClienteLugar);
+            }
+            catch (Exception)
+            {
+                CatClienteModels Cliente = new CatClienteModels();
+                Cliente.ListaClientes = new List<CatClienteModels>();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Cliente);
+            }
+        }
+        [HttpGet]
+        public ActionResult ClienteLugar(string id, string id2)
+        {
+            CatCliente_Datos ClienteDatos = new CatCliente_Datos();
+            try
+            {
+                ClienteLugarModels ClienteLugar = new ClienteLugarModels();
+                ClienteLugar.IDCliente = id;
+                ClienteLugar.Conexion = Conexion;
+                ClienteLugar.IDSucursal = id2;
+                ClienteLugar.listaLugares = ClienteDatos.obtenerLugaresClientes(ClienteLugar);
+                return View(ClienteLugar);
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Lugares", new { id = id,id2=id2 });
+            }
+        }
+        [HttpPost]
+        public ActionResult ClienteLugar( ClienteLugarModels ClienteLugar)
+        {
+            CatCliente_Datos ClienteDatos = new CatCliente_Datos();
+            try
+            {
+                
+               
+                if (ModelState.IsValid)
+                {
+                   
+                    ClienteLugar.Conexion = Conexion;
+                   
+                    ClienteLugar.Opcion = 1;
+                    //ClienteLugar.listaLugares = ClienteDatos.obtenerLugaresClientes(ClienteLugar);
+
+                    ClienteDatos.ACLugaresCliente(ClienteLugar);
+                    if (ClienteLugar.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardaron correctamente.";
+                        return RedirectToAction("Lugares", new { id = ClienteLugar.IDCliente,id2=ClienteLugar.IDSucursal });
+                    }
+                    else
+                    {
+                        ClienteLugar.Conexion = Conexion;
+                        ClienteLugar.listaLugares = ClienteDatos.obtenerLugaresClientes(ClienteLugar);
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                        return RedirectToAction("ClienteLugar", new { id = ClienteLugar.IDCliente, id2 = ClienteLugar.IDSucursal });
+                    }
+                }
+                else
+                {
+                    ClienteLugar.Conexion = Conexion;
+                    ClienteLugar.listaLugares = ClienteDatos.obtenerLugaresClientes(ClienteLugar);
+                    return View(ClienteLugar);
+                }
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Lugares", new { id = ClienteLugar.IDCliente, id2 = ClienteLugar.IDSucursal });
+            }
+        }
+        [HttpPost]
+        public ActionResult DeleteLugar(string id)
+        {
+            try
+            {
+                ClienteLugarModels Cliente = new ClienteLugarModels();
+                CatCliente_Datos ClienteDatos = new CatCliente_Datos();
+                Cliente.Conexion = Conexion;
+                Cliente.Usuario = User.Identity.Name;
+                Cliente.IDClienteLugar = id;
+                //Cliente.IDSucursal = id2;
+             
+                ClienteDatos.EliminarLugarCliente(Cliente);
+                TempData["typemessage"] = "1";
+                TempData["message"] = "El registro se ha eliminado correctamente";
+                return Json("");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
     }
 }

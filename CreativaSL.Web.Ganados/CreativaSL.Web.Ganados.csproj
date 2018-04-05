@@ -422,12 +422,15 @@
     <Content Include="Content\js\Bancos.js" />
     <Content Include="Content\js\CategoriaPuestos.js" />
     <Content Include="Content\js\Chofer.js" />
-    <Content Include="Content\js\Concepto.js" />
+	<Content Include="Content\js\ClienteLugar.js" />
+    <Content Include="Content\js\ConceptosNomina.js" />
+	<Content Include="Content\js\Concepto.js" />
     <Content Include="Content\js\CuentaProveedor.js" />
     <Content Include="Content\js\entregacombustible.js" />
     <Content Include="Content\js\Lugar.js" />
     <Content Include="Content\js\MarcaVehiculo.js" />
     <Content Include="Content\js\ProductosAlmacen.js" />
+    <Content Include="Content\js\provedorlugar.js" />
     <Content Include="Content\js\proveedor.js" />
     <Content Include="Content\js\cuentasClientes.js" />
     <Content Include="Content\js\Empleado.js" />
@@ -859,6 +862,7 @@
     <Content Include="Content\js\plugins\validationengine\languages\jquery.validationEngine-zh_TW.js" />
     <Content Include="Content\js\portlet.js" />
     <Content Include="Content\js\Productos.js" />
+    <Content Include="Content\js\ProveedorAlmacen.js" />
     <Content Include="Content\js\Remolques.js" />
     <Content Include="Content\js\settings.js" />
     <Content Include="Content\js\TipoProveedor.js" />
@@ -1013,8 +1017,6 @@
     <Content Include="Areas\Admin\Views\Venta\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatConceptosNomina\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatConceptosNomina\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\CatConceptoDocumento\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\CatConceptoDocumento\Create.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1282,7 +1284,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\CatProveedorAlmacen\" />
     <Folder Include="Areas\Admin\Views\Mantenimiento\" />
   </ItemGroup>
   <PropertyGroup>

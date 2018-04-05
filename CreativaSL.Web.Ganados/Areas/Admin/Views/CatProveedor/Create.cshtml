@@ -159,7 +159,7 @@
                                </div>
 
                                <div class="form-group" style="display:none" id="Genero">
-                                   <label class="col-md-2 col-xs-12 control-label">Genero</label>
+                                   <label class="col-md-2 col-xs-12 control-label">Género</label>
                                    <div class="col-md-6 col-xs-12">
                                        @Html.DropDownListFor(model => model.sexo, new SelectList(Model.ListaGeneroCMB, "IDGenero", "Descripcion"), new { id = "sexo", @class = "form-control select", data_live_search = "true" })
                                        @Html.ValidationMessageFor(model => model.sexo)
