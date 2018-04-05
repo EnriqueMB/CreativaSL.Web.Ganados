@@ -28,52 +28,50 @@
         <div class="col-md-12">
             @{ Html.EnableClientValidation(false); }
             @using (Html.BeginForm("Create", "CatBanco", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off", @enctype = "multipart/form-data" }))
-            {
-                @Html.AntiForgeryToken()
-                @*@Html.ValidationSummary(true)*@
-                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-                <div id="validation_summary" class="field_error "></div> //JS
-                <div class="panel panel-default tabs">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="active"><a href="#tab-first" role="tab" data-toggle="tab">Datos generales</a></li>
-                    </ul>
-                    <div class="panel-body tab-content">
-                        
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="form-group">
-                                        <label class="col-md-2 col-xs-12 control-label"><span>* </span> Nombre banco</label>
-                                        <div class="col-md-6 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.Descripcion, new { id = "Descripcion", @class = "form-control", placeholder = "Ingrese el nombre del banco" })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Descripcion)
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-md-2 col-xs-12 control-label"><span>* </span> Ingrese la imagen del banco</label>
-                                        <div class="col-md-6 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.Imagen, new { id = "Imagen", @type = "file", @class = "form-control" })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Imagen)
-                                            <span class="help-block">Ingrese por lo menos 1 imagen.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        
-
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+        <div id="validation_summary" class="field_error "></div> //JS
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Nuevo</strong> Banco</h3>
                     </div>
-                    <div class="panel-footer">
-                        <a href="@Url.Action("Index","CatBanco")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                        <button form="form-dg" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
+                    <ul class="panel-controls">
+                        @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
+                    </ul>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Nombre banco</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.Descripcion, new { id = "Descripcion", @class = "form-control", placeholder = "Ingrese el nombre del banco" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Descripcion)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Ingrese la imagen del banco</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.Imagen, new { id = "Imagen", @type = "file", @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Imagen)
+                                <span class="help-block">Ingrese por lo menos 1 imagen.</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            }
+
+
+            <div class="panel-footer">
+                <a href="@Url.Action("Index","CatBanco")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                <button form="form-dg" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
+            </div>
+}
         </div>
     </div>
     <script>

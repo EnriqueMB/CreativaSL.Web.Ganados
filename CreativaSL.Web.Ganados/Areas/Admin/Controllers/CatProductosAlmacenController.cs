@@ -170,7 +170,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                         Producto.Conexion = Conexion;
                         Producto.Opcion = 2;
-                        Producto.IDProductoAlmacen = "0";
+                        
 
                         Producto.Almacen = true;
                         Producto = ProductoDatos.AcCatProductosAlmacen(Producto);

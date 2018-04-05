@@ -28,10 +28,18 @@ namespace CreativaSL.Web.Ganados.Models
             _ListaClientes = new List<CatClienteModels>();
             _ListaCmbSucursal = new List<CatSucursalesModels>();
             _ListaRegimenCMB = new List<CFDI_RegimenFiscalModels>();
+            _listaClienteLugares = new List<ClienteLugarModels>();
             Conexion = string.Empty;
             Usuario = string.Empty;
         }
-        
+        private List<ClienteLugarModels> _listaClienteLugares;
+
+        public List<ClienteLugarModels> listaClienteLugares
+        {
+            get { return _listaClienteLugares; }
+            set { _listaClienteLugares = value; }
+        }
+
         private string _IDCliente;
         /// <summary>
         /// El identificador de el cliente
