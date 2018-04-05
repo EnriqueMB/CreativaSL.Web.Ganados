@@ -2069,8 +2069,9 @@ ul.panel-controls > li > .dropdown-menu:before {
 .btn-yellow:active,
 .btn-yellow.active,
 .open > .dropdown-toggle.btn-yellow {
-  background-color: #ffb848;
-  border-color: #ffb848;
+     color:#f5f5f5;
+  background-color: #d89936;
+  border-color: #d89936;
 }
 
 .btn-green {
@@ -2083,8 +2084,9 @@ ul.panel-controls > li > .dropdown-menu:before {
 .btn-green:active,
 .btn-green.active,
 .open > .dropdown-toggle.btn-green {
-  background-color: #35aa47;
-  border-color: #35aa47;
+     color:#f5f5f5;
+  background-color: #238231;
+  border-color: #238231;
 }
 
 .btn-warning[disabled],
@@ -5239,6 +5241,7 @@ div.datepicker {
   -moz-box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
 }
 div.datepicker > div {
   display: none;
@@ -5508,6 +5511,7 @@ div.datepicker thead tr:first-child th:hover {
 /* BOOTSTRAP SELECT */
 .bootstrap-select {
   width: 220px \0;
+   z-index: inherit !important;
 }
 .bootstrap-select > .btn {
   width: 100%;

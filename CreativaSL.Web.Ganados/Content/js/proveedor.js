@@ -15,6 +15,17 @@
             else
                 return true;
         }, 'Debe seleccionar una imagen.');
+        $.validator.addMethod("validarImagen", function () {
+
+            if (document.getElementById("ImgINEE").value === '') {
+                if ((document.getElementById("ImgINEE").value === ''))
+                    return false;
+                else
+                    return true;
+            }
+            else
+                return true;
+        }, 'Debe seleccionar una imagen.');
         $('#form-dg').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',

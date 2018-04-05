@@ -52,7 +52,6 @@ $.validator.addMethod("CMBINT", function (value, element) {
         return true;
     }
 }, 'Seleccione un valor del combo.');
-
 $.validator.addMethod("formatoPNG", function (value, element, params) {
 
     //Checamos que tenga un archivo el input file
@@ -71,24 +70,22 @@ $.validator.addMethod("formatoPNG", function (value, element, params) {
         return true;
     }
 }, 'Solo archivos con formato PNG.');
-
-
 $.validator.addMethod("validarImgEdit", function (value, element, params) {
-    
-    //Hay un elemento en el file input?
-    if (element.value.length == 0 || element === undefined) {
-        return true;
-    }
-
     //Bandera que me indica si hay o no imagen en el servidor
     var imgBD = element.dataset.imgbd;
 
     //Hay imagen en el servidor?
     if (imgBD) {
-        return false
+        return true;
     }
     else {
-        return true;
+        //Hay un elemento en el file input?
+        if (element.value.length == 0 || element === undefined) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
 }, 'Debe seleccionar una imagen.');

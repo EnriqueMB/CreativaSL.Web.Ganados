@@ -129,6 +129,8 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.TelefonoAccidente = dr["telefonoAccidente"].ToString();
                     datos.Telefono = dr["telefono"].ToString();
                     datos.Movil = dr["movil"].ToString();
+                    datos.FechaIngreso = dr.GetDateTime(dr.GetOrdinal("fechaIngreso"));
+                    datos.FechaNacimiento = dr.GetDateTime(dr.GetOrdinal("fechaNacimiento"));
                 }
                 return datos;
             }

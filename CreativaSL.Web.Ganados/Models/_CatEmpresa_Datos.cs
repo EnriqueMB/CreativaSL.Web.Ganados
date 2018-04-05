@@ -206,10 +206,10 @@ namespace CreativaSL.Web.Ganados.Models
                     Empresa.CuentaBancaria.IDDatosBancarios,
                     Empresa.IDEmpresa,
                     Empresa.Banco.IDBanco,
-                    Empresa.CuentaBancaria.Titular,
-                    Empresa.CuentaBancaria.NumTarjeta,
-                    Empresa.CuentaBancaria.NumCuenta,
-                    Empresa.CuentaBancaria.Clabe,
+                    Empresa.CuentaBancaria.Titular ?? string.Empty,
+                    Empresa.CuentaBancaria.NumTarjeta ?? string.Empty,
+                    Empresa.CuentaBancaria.NumCuenta ?? string.Empty,
+                    Empresa.CuentaBancaria.Clabe ?? string.Empty,
                     Empresa.IDUsuario
                 };
                 SqlDataReader dr = null;

@@ -53,7 +53,7 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _IDSucursal; }
             set { _IDSucursal = value; }
         }
-        
+
         private string _NombreRazonSocial;
         /// <summary>
         /// Nombre o Razón social del cliente ante el SAT
