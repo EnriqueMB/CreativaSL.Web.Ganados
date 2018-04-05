@@ -422,6 +422,7 @@
     <Content Include="Content\js\Bancos.js" />
     <Content Include="Content\js\CategoriaPuestos.js" />
     <Content Include="Content\js\Chofer.js" />
+    <Content Include="Content\js\ConceptosNomina.js" />
     <Content Include="Content\js\CuentaProveedor.js" />
     <Content Include="Content\js\Lugar.js" />
     <Content Include="Content\js\plugins\dualSelect\bootstrap-duallistbox.css" />
@@ -996,7 +997,7 @@
     <Content Include="Areas\Admin\Views\CatProveedor\Cuentas.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\CreateCuenta.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\EditCuenta.cshtml" />
-	<Content Include="Areas\Admin\Views\CatProductosAlmacen\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProductosAlmacen\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatProductosAlmacen\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatProductosAlmacen\Index.cshtml" />
     <Content Include="Areas\Admin\Views\EntregaCombustible\Index.cshtml" />
@@ -1009,8 +1010,9 @@
     <Content Include="Areas\Admin\Views\CatBanco\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Index.cshtml" />
-	 <Content Include="Areas\Admin\Views\CatConceptosNomina\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatConceptosNomina\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatConceptosNomina\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatConceptosNomina\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
