@@ -7,6 +7,16 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CatConceptoDetalleDocumentosModels
     {
+        public CatConceptoDetalleDocumentosModels()
+        {
+            _IDConceptosDocumento = string.Empty;
+            _IDTipoConciliacion = 0;
+            _Clave = string.Empty;
+            _concepto = string.Empty;
+            _Descripcion = string.Empty;
+            _listaConceptosDetalle = new List<CatConceptoDetalleDocumentosModels>();
+            _listTipoConciliacion = new List<CatTipoConciliacionModels>();
+        }
         private string _IDConceptosDocumento;
 
         public string IDConceptosDocumento
@@ -30,6 +40,13 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _Clave; }
             set { _Clave = value; }
         }
+        private string _concepto;
+
+        public string Concepto
+        {
+            get { return _concepto; }
+            set { _concepto = value; }
+        }
 
         private string _Descripcion;
 
@@ -38,6 +55,22 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _Descripcion; }
             set { _Descripcion = value; }
         }
+        private List<CatConceptoDetalleDocumentosModels> _listaConceptosDetalle;
+
+        public List<CatConceptoDetalleDocumentosModels> listaConceptosDetalles
+        {
+            get { return _listaConceptosDetalle; }
+            set { _listaConceptosDetalle = value; }
+        }
+
+        private List<CatTipoConciliacionModels> _listTipoConciliacion;
+
+        public List<CatTipoConciliacionModels> listTipoConciliacion
+        {
+            get { return _listTipoConciliacion; }
+            set { _listTipoConciliacion = value; }
+        }
+
 
         #region Datos De Control
         public string Conexion { get; set; }

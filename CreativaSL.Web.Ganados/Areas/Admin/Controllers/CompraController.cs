@@ -75,7 +75,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             Compra.ListaChoferes = CompraDatos.GetListadoChoferes(Compra);
             Compra.ListaVehiculos = CompraDatos.GetListadoVehiculos(Compra);
             Compra.ListaJaulas = CompraDatos.GetListadoJaulas(Compra);
-            //Compra.Mensaje = CompraDatos.GetRangoPeso(Compra);
+            Compra.ListaRemolques = CompraDatos.GetListadoRemolques(Compra);
+
+            Compra.GetListaProveedor();
+            Compra.GetListaChoferes();
+            Compra.GetListadoVehiculos();
+            Compra.GetListadoJaulas();
+            Compra.GetListadoRemolque();
+            Compra.sRangoPeso = CompraDatos.GetRangoPeso(Compra);
 
             return View(Compra);
         }
@@ -198,7 +205,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         #endregion
         [HttpPost]
-        public ActionResult SaveCompra(CompraModels Compra)
+        public ActionResult CreateCompra(CompraModels Compra)
         {
             if (ModelState.IsValid)
             {
@@ -206,7 +213,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CompraDatos = new _Compra_Datos();
                 Compra.IDUsuario = User.Identity.Name;
                 Compra.Conexion = Conexion;
-                Compra = CompraDatos.SaveCompra(Compra);
+                Compra = CompraDatos.CreateCompra(Compra);
 
                 Compra.TipoResultado = 1;
                 Compra.Mensaje = "Compra creada satisfactoriamente.";
@@ -232,16 +239,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             Compra.Ganado.id_Ganados = idGanado;
             Compra.Conexion = Conexion;
             Compra = CompraDatos.GetCompraGanadoXIDGanado(Compra);
+            Compra.ListaEstatusGanado = CompraDatos.GetListadoEstatusGanado(Compra);
+            Compra.InicializarComboGeneroGanado();
             return PartialView("ModalGanado", Compra);
         }
         #endregion
         #region Pago
         [HttpPost]
-        public ActionResult ModalPago(string idCompra)
+        public ActionResult ModalPago(string idDocPagar)
         {
             Compra = new CompraModels();
             CompraDatos = new _Compra_Datos();
-            Compra.Ganado.id_Ganados = idCompra;
+            Compra.IDDocumentoXPagar = idDocPagar;
+            Compra.Conexion = Conexion;
+            Compra.ListaTipoClasificacion = CompraDatos.GetListadoTipoClasificacion(Compra);
+            Compra.ListaFormasPagos = CompraDatos.GetListadoFormaPago(Compra);
             Compra.Conexion = Conexion;
             
             return PartialView("ModalPago", Compra);

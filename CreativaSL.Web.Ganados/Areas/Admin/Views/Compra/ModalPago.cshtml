@@ -7,44 +7,34 @@
     </div>
     <div class="modal-body">
         <!--INICIA CUERPO MODAL-->
-        @using (Html.BeginForm("Edit", "CatCliente", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off" }))
+        @using (Html.BeginForm("SavePago", "Compra", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off" }))
     {
 
         <div class="form-group">
             <div class="col-md-6">
-                <label class="col-md-2 control-label" for="numArete">Tipo del pago:</label>
+                <label class="col-md-2 control-label" >Tipo del pago:</label>
                 <div class="controls">
                     <div class="col-md-10 col-xs-12">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                            <select class="form-control">
-                                <option value="MACHO" selected>Pago a proveedor</option>
-                                <option value="HEMBRA">Autoridades</option>
-                                <option value="HEMBRA">Combustible</option>
-                                <option value="HEMBRA">Mecánicos y refacciones</option>
-                            </select>
+                            @Html.DropDownListFor(model => model.TipoClasificacion.IDTipoClasificacionGasto, new SelectList(Model.ListaTipoClasificacion, "IDTipoClasificacionGasto", "Descripcion"), new { @class = "form-control" })
                         </div>
-                        @Html.ValidationMessageFor(model => model.Ganado.numArete)
+                        @Html.ValidationMessageFor(model => model.TipoClasificacion.IDTipoClasificacionGasto)
                         <span class="help-block">Tipo o clásificación del pago.</span>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-6">
-                <label class="col-md-2 control-label" for="numArete">Forma de cobro:</label>
+                <label class="col-md-2 control-label">Forma de pago:</label>
                 <div class="controls">
                     <div class="col-md-10 col-xs-12">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                            <select class="form-control">
-                                <option value="1" selected>Efectivo</option>
-                                <option value="2">Trans. bancaria</option>
-                                <option value="3">Depósito</option>
-                                <option value="4">Otros</option>
-                            </select>
+                            @Html.DropDownListFor(model => model.FormaPago.Clave, new SelectList(Model.ListaFormasPagos, "Clave", "Descripcion"), new { @class = "form-control" })
                         </div>
-                        @Html.ValidationMessageFor(model => model.Ganado.numArete)
-                        <span class="help-block">Forma de cobro.</span>
+                        @Html.ValidationMessageFor(model => model.FormaPago.Clave)
+                        <span class="help-block">Forma de pago.</span>
                     </div>
                 </div>
             </div>
@@ -52,16 +42,16 @@
 
         <div class="form-group">
             <div class="col-md-4">
-                <label class="col-md-3 control-label" for="DiferenciaPeso">Banco</label>
+                <label class="col-md-3 control-label">Banco</label>
                 <div class="controls">
                     <div class="col-md-9 col-xs-12">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                             <select class="form-control">
-                                <option value="MACHO" selected>Santander</option>
-                                <option value="HEMBRA">BBVA</option>
-                                <option value="HEMBRA">Banamex</option>
-                                <option value="HEMBRA">...</option>
+                                <option value="1" selected>Santander</option>
+                                <option value="2">BBVA</option>
+                                <option value="3">Banamex</option>
+                                <option value="4">...</option>
                             </select>
                         </div>
                         @Html.ValidationMessageFor(model => model.CompraGanado.PesoInicial)
@@ -71,7 +61,7 @@
             </div>
 
             <div class="col-md-4">
-                <label class="col-md-3 control-label" for="selectGenero">Núm. Cuenta</label>
+                <label class="col-md-3 control-label">Núm. Cuenta</label>
                 <div class="controls">
                     <div class="col-md-9 col-xs-12">
                         <div class="input-group">
@@ -85,7 +75,7 @@
             </div>
 
             <div class="col-md-4">
-                <label class="col-md-3 control-label" for="selectGenero">Clabe</label>
+                <label class="col-md-3 control-label">Clabe</label>
                 <div class="controls">
                     <div class="col-md-9 col-xs-12">
                         <div class="input-group">
@@ -101,7 +91,7 @@
 
         <div class="form-group">
             <div class="col-md-6">
-                <label class="col-md-2 control-label" for="numArete">Cantidad:</label>
+                <label class="col-md-2 control-label" >Cantidad:</label>
                 <div class="controls">
                     <div class="col-md-10 col-xs-12">
                         <div class="input-group">
@@ -115,7 +105,7 @@
             </div>
 
             <div class="col-md-6">
-                <label class="col-md-2 control-label" for="numArete">Fecha de cobro:</label>
+                <label class="col-md-2 control-label" >Fecha de pago:</label>
                 <div class="controls">
                     <div class="col-md-10 col-xs-12">
                         <div class="input-group">
@@ -123,7 +113,7 @@
                             @Html.TextBoxFor(model => model.CompraGanado.PrecioKilo, new { @class = "form-control", @type = "date" })
                         </div>
                         @Html.ValidationMessageFor(model => model.Ganado.numArete)
-                        <span class="help-block">Forma de cobro.</span>
+                        <span class="help-block">Forma de pago.</span>
                     </div>
                 </div>
             </div>
@@ -132,7 +122,7 @@
    
         <div class="form-group">
             <div class="col-md-12">
-                <label class="col-md-1 control-label" for="PesoInicial">Nota</label>
+                <label class="col-md-1 control-label" >Nota</label>
                 <div class="controls">
                     <div class="col-md-11 col-xs-12">
                         <div class="input-group">
@@ -149,7 +139,7 @@
 
         <div class="form-group modal-footer">
             <div class="controls">
-                <button type="submit" class="btn btn-success green">Registrar cobro</button>
+                <button type="button" class="btn btn-success green">Registrar pago</button>
                 <button type="button" class="btn btn-secondary red" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
