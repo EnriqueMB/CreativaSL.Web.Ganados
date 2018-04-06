@@ -9,7 +9,7 @@ namespace CreativaSL.Web.Ganados.Models
     {
         public CFDI_FormaPagoModels()
         {
-            _Clave = string.Empty;
+            _Clave = 0;
             _Descripcion = string.Empty;
             _PatronCuentaOrdenante = string.Empty;
             _PatronCuentaBeneficiario = string.Empty;
@@ -17,9 +17,9 @@ namespace CreativaSL.Web.Ganados.Models
             _FechaFinVigencia = DateTime.Now;
         }
 
-        private string _Clave;
+        private int _Clave;
 
-        public string Clave
+        public int Clave
         {
             get { return _Clave; }
             set { _Clave = value; }

@@ -284,26 +284,36 @@
                 
                 $('#Ganado_Repeso').change(function () {
                     $('.Esconder').toggle(1000);
+                    if ($('#Ganado_Repeso').is(":checked")) {
+                       // calcularCompraGanado(true);
+                        
+                    }
                 });
 
-                //$("input").keyup(function () {
-                //    var value = $(this).val();
-                //    $("p").text(value);
-                //}).keyup();
-
-                //for (var i in json) {
-                //    for (var j in json[i]) {
-                //        if (json[i][j].hasOwnProperty('check')) {
-                //            json[i][j].check = true;
-                //        }
-                //    }
-                //}
+                
             }
         });
     }
+    function calcularCompraGanado(checked) {
+       
+        if (!isNaN(pesoInicial)) {
+
+        }
+
+
+        //    $("input").keyup(function () {
+
+        //        var pesoInicial = document.getElementById("CompraGanado_PesoInicial").value;
+        //        var val = this.value;
+        //        pesoInicial.replace(/\D|\-/, '');
+ 
+        //}).keyup();
+    }
+
+
     function ModalCobro(idDocCobrar) {
         $.ajax({
-            url: "ModalCobro/",
+            url: "ModalCobro",
             type: "POST",
             data: { idDocCobrar: idDocCobrar },
             success: function (data) {
@@ -313,11 +323,11 @@
             }
         })
     }
-    function ModalPago(idCompra) {
+    function ModalPago(idDocPagar) {
         $.ajax({
             url: "ModalPago",
             type: "POST",
-            data: { idCompra: idCompra },
+            data: { idDocPagar: idDocPagar },
             success: function (data) {
                 $("#ContenidoModalPago").html(data);
                 $("#ModalPago").modal({ backdrop: "static", keyboard: false });

@@ -865,6 +865,7 @@
     <Content Include="Content\js\ProveedorAlmacen.js" />
     <Content Include="Content\js\Remolques.js" />
     <Content Include="Content\js\settings.js" />
+    <Content Include="Content\js\TipoProveedor.js" />
     <Content Include="Content\js\TipoVehiculo.js" />
     <Content Include="Content\js\UnidadMedida.js" />
     <Content Include="Content\js\Usuario.js" />
@@ -1102,6 +1103,7 @@
     <Compile Include="Models\CatEmpleadoModels.cs" />
     <Compile Include="Models\CatEmpresaModels.cs" />
     <Compile Include="Models\CatEstadoModels.cs" />
+    <Compile Include="Models\CatEstatusGanadoModels.cs" />
     <Compile Include="Models\CatFierroModels.cs" />
     <Compile Include="Models\CatGeneroModels.cs" />
     <Compile Include="Models\CatGrupoSanguineoModels.cs" />
@@ -1146,7 +1148,6 @@
     <Compile Include="Models\ConciliacionAlmacenModels.cs" />
     <Compile Include="Models\CuentaBancariaModels.cs" />
     <Compile Include="Models\CuentaBancariaProveedorModels.cs" />
-    <Compile Include="Models\DetallePagosCompraModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
     <Compile Include="Models\DocumentoPorPagarModels.cs" />
     <Compile Include="Models\EntradaAlmacenDetalleModels.cs" />
@@ -1161,6 +1162,7 @@
     <Compile Include="Models\FierroCompraModels.cs" />
     <Compile Include="Models\FleteModels.cs" />
     <Compile Include="Models\GanadoModels.cs" />
+    <Compile Include="Models\GeneroGanadoModels.cs" />
     <Compile Include="Models\IncidenteFleteModels.cs" />
     <Compile Include="Models\LicenciaChoferModels.cs" />
     <Compile Include="Models\MenuModels.cs" />
@@ -1178,7 +1180,6 @@
     <Compile Include="Models\ResumenGastosModels.cs" />
     <Compile Include="Models\SalidaAlmacenDetalle.cs" />
     <Compile Include="Models\SalidaAlmacenDetalleModels.cs" />
-    <Compile Include="Models\SqlDataReaderExtension.cs" />
     <Compile Include="Models\TelefonosContactoSucursalModels.cs" />
     <Compile Include="Models\TipoUsuarioModels.cs" />
     <Compile Include="Models\TrayectoModels.cs" />
