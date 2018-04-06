@@ -1,11 +1,12 @@
-﻿@model CreativaSL.Web.Ganados.Models.CatRemolqueModels
+﻿@model CreativaSL.Web.Ganados.Models.RangoPrecioProveedorModels
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "PrecioProveedor";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-@section featured
-{
+
+@section featured{
     @{
         var message = TempData["message"] ?? string.Empty;
         var typemessage = TempData["typemessage"] ?? string.Empty;
@@ -17,7 +18,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Remolques </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Precio por rango de peso proveedor</h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -29,9 +30,10 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("Create","CatRemolque")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Remolque</a></li>
+                            @{ string IDP = Model.IDProveedor;}
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
+                            <li><a href="@Url.Action("Index","CatProveedor")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span>Regresar</a></li>
                         </ul>
                     </div>
                     <div class="panel-body">
@@ -39,31 +41,46 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th>Sucursal</th>
-                                        <th>Placa</th>
-                                        <th>Capacidad</th>
-                                        <th>Disponibilidad</th>
+                                        <th>Género</th>
+                                        <th>Peso Minimo (Kg.)</th>
+                                        <th>Peso Maximo (Kg.)</th>
+                                        <th>Precio ($)</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var remolque in Model.listaRemolque)
+                                    @foreach (var Rango in Model.ListaRangoPrecioProveedor)
                                     {
-                                        <tr id="@remolque.IDRemolque">
-                                            <td>@remolque.nombreSucursal</td>
-                                            <td>@remolque.placa</td>
-                                            <td>@remolque.capacidad</td>
-                                            @if (remolque.Estatus)
+                                        <tr id="@Rango.IDRango">
+                                            @if (Rango.EsMacho)
                                             {
-                                                <td style="text-align:center"><div title="Disponible" style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:green"></div></td>
+                                                <td>MACHOS</td>
                                             }
                                             else
                                             {
-                                                <td style="text-align:center"><div title="Ocupada" style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:red"></div></td>
+                                                <td>HEMBRAS</td>
                                             }
+                                            <td>@Rango.PesoMinimo.ToString("0").Replace(',', '.')</td>
+                                            <td>@Rango.PesoMaximo.ToString("0").Replace(',', '.')</td>
+                                            <td>@Rango.Precio.ToString("0.00").Replace(',', '.')</td>
                                             <td style="text-align:center;">
-                                                <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatRemolque", new { id = remolque.IDRemolque})"><i class="fa fa-edit"></i></a>
-                                                <a title="Eliminar" class="btn delete btn-danger" id="delete-@remolque.IDRemolque" data-hrefa="@Url.Action("Delete", "CatRemolque", new { id = remolque.IDRemolque })" onClick="delete_row('@remolque.IDRemolque');"><i class="fa fa-trash-o"></i></a>
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    <a title="Editar" href="@Url.Action("EditPrecio", "CatProveedor", new { id = Rango.IDRango, id2 = IDP})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                </div>
+                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                        </a>
+                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("EditPrecio", "CatProveedor", new { id = Rango.IDRango, id2 = IDP})">
+                                                                    <i class="fa fa-edit"></i> Editar
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     }
@@ -110,8 +127,3 @@
         });
     </script>
 }
-
-
-
-
-

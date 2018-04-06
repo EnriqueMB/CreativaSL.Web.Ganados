@@ -89,7 +89,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         TempData["message"] = "Ocurrió un error al guardar el registro.";
                         return View(TipoProveedor);
                     }
-                    return RedirectToAction("Index");
+                   
                 }
                 else
                 {
@@ -114,7 +114,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TipoProveedor = TipoProveedorDatos.ObtenerDetalleCatProveedor(TipoProveedor);
                 return View(TipoProveedor);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 CatTipoProveedorModels TipoProveedor = new CatTipoProveedorModels();
                 TempData["typemessage"] = "2";
@@ -153,7 +153,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         return View(TipoProveedor);
                     }
 
-                    return RedirectToAction("Index");
+                   
                 }
                 else
                 {

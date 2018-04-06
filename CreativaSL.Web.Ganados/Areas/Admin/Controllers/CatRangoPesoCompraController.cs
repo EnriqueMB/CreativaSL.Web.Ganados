@@ -67,29 +67,36 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 CatRangoPesoCompraModels Rango = new CatRangoPesoCompraModels();
                 CatRangoPesoCompra_Datos RangoDatos = new CatRangoPesoCompra_Datos();
-                Rango.Conexion = Conexion;
-                Rango.Opcion = 1;
-                Rango.Usuario = User.Identity.Name;
-                Rango.EsMacho = collection["EsMacho"].StartsWith("true");
-                decimal PesoMin = 0, PesoMax = 0, Precio = 0;
-                decimal.TryParse(collection["PesoMinimo"].Replace('.', ','), out PesoMin);
-                decimal.TryParse(collection["PesoMaximo"].Replace('.', ','), out PesoMax);
-                decimal.TryParse(collection["Precio"].Replace('.', ','), out Precio);
-                Rango.PesoMinimo = PesoMin;
-                Rango.PesoMaximo = PesoMax;
-                Rango.Precio = Precio;
-                Rango = RangoDatos.AbcCatRangoPesoCompra(Rango);
-                if (Rango.Completado == true)
+                
+                    Rango.Conexion = Conexion;
+                    Rango.Opcion = 1;
+                    Rango.Usuario = User.Identity.Name;
+                    Rango.EsMacho = collection["EsMacho"].StartsWith("true");
+                    decimal PesoMin = 0, PesoMax = 0, Precio = 0;
+                    decimal.TryParse(collection["PesoMinimo"].Replace('.', ','), out PesoMin);
+                    decimal.TryParse(collection["PesoMaximo"].Replace('.', ','), out PesoMax);
+                    decimal.TryParse(collection["Precio"].Replace('.', ','), out Precio);
+                    Rango.PesoMinimo = PesoMin;
+                    Rango.PesoMaximo = PesoMax;
+                    Rango.Precio = Precio;
+                if (ModelState.IsValid)
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "Los datos se guardarón correctamente.";
-                    return RedirectToAction("Index");
+                    Rango = RangoDatos.AbcCatRangoPesoCompra(Rango);
+                    if (Rango.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardarón correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        return View(Rango);
+                    }
                 }
-                else
-                {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                    return View(Rango);
+                else {
+                     return View(Rango);
                 }
             }
             catch
@@ -144,17 +151,24 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Rango.PesoMinimo = PesoMin;
                 Rango.PesoMaximo = PesoMax;
                 Rango.Precio = Precio;
-                Rango = RangoDatos.AbcCatRangoPesoCompra(Rango);
-                if (Rango.Completado == true)
+                if (ModelState.IsValid)
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "Los datos se guardarón correctamente.";
-                    return RedirectToAction("Index");
+                    Rango = RangoDatos.AbcCatRangoPesoCompra(Rango);
+                    if (Rango.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardarón correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        return View(Rango);
+                    }
                 }
                 else
                 {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                     return View(Rango);
                 }
             }
