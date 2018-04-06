@@ -864,6 +864,7 @@
     <Content Include="Content\js\Productos.js" />
     <Content Include="Content\js\ProveedorAlmacen.js" />
     <Content Include="Content\js\Remolques.js" />
+    <Content Include="Content\js\rendimiento.js" />
     <Content Include="Content\js\settings.js" />
     <Content Include="Content\js\TipoProveedor.js" />
     <Content Include="Content\js\TipoServicio.js" />
@@ -1028,9 +1029,6 @@
     <Content Include="Areas\Admin\Views\CatCliente\ClienteLugar.cshtml" />
     <Content Include="Areas\Admin\Views\CatConceptoDocumento\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatConceptoDocumento\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\CatTipoServicio\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\CatTipoServicio\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\CatTipoServicio\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1236,12 +1234,14 @@
     <Compile Include="Models\_CatVehiculo_Datos.cs" />
     <Compile Include="Models\_Combos_Datos.cs" />
     <Compile Include="Models\_Compra_Datos.cs" />
+    <Compile Include="Models\_EntregaCombustible_Datos.cs" />
     <Compile Include="Models\_Login_Datos.cs" />
     <Compile Include="Models\_Menu_Datos.cs" />
     <Compile Include="Models\_Usuario_Datos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CuentaBancariaViewModels.cs" />
     <Compile Include="ViewModels\EntregaCombustibleViewModels.cs" />
+    <Compile Include="ViewModels\RendimientoCombustibleViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

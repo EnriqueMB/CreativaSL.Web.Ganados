@@ -15,7 +15,22 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         // GET: Admin/EntregaCombustible
         public ActionResult Index()
         {
-            return View();
+            try
+            {
+                EntregaCombistibleModels Entregas = new EntregaCombistibleModels();
+                _EntregaCombustible_Datos Datos = new _EntregaCombustible_Datos();
+                Entregas.Conexion = Conexion;
+                Entregas.ListaEntregas = Datos.ObtenerEntregasCombustible(Entregas);
+                return View(Entregas);
+            }
+            catch (Exception)
+            {
+                EntregaCombistibleModels Entregas = new EntregaCombistibleModels();
+                Entregas.ListaEntregas = new List<EntregaCombistibleModels>();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Entregas);
+            }
         }
 
         // GET: Admin/EntregaCombustible/Details/5
@@ -80,6 +95,27 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             catch
             {
                 return View();
+            }
+        }
+
+        // GET: Admin/EntregaCombustible/Rendimiento/5
+        public ActionResult Rendimiento(string id)
+        {
+            try
+            {
+                RendimientoCombustibleViewModels Rendimiento = new RendimientoCombustibleViewModels();
+                Rendimiento.Fecha = DateTime.Today.ToShortDateString();
+                Rendimiento.NoTicket = "2998389028e67492";
+                Rendimiento.Litros = 10;
+                Rendimiento.KMInicial = 12039;
+                Rendimiento.Rendimiento = 0;
+                return View(Rendimiento);
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
             }
         }
 
