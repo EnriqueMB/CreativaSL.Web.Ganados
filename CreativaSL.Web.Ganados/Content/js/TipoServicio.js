@@ -25,14 +25,14 @@
             ignore: "",
             rules: {
 
-                Descripcion: { required: true, texto: true, maxlength: 100 },
+                Descripcion: { required: true, texto: true, maxlength: 120 },
 
 
             },
             messages: {
 
 
-                Descripcion: { required: "Ingrese el tipo del vehículo.", placa: "Ingrese un formato valido (letras, números y guión(-)", maxlength: "El campo nombre admite máximo 10 caracteres." },
+                Descripcion: { required: "Ingrese el tipo de servicio.", placa: "Ingrese un formato valido (letras, números y guión(-)", maxlength: "El campo nombre admite máximo 120 caracteres." },
 
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
