@@ -26,10 +26,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-                CatMarcaVehiculoModels Marca = new CatMarcaVehiculoModels();
+                CatTipoVehiculoModels TipoVehiculo = new CatTipoVehiculoModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return View(Marca);
+                return View(TipoVehiculo);
             }
 
         }
