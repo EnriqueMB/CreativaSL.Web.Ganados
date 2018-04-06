@@ -38,7 +38,7 @@
                         <div class="form-group">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-md-12 col-xs-12 control-label text-center">Sucursales</label>
+                                    <label class="col-md-12 col-xs-12 control-label text-center">Sucursal</label>
                                     <div class="col-md-12 col-xs-12">
                                         @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.listaSucursales, "IDSucursal", "NombreSucursal"), new { id = "ListSucursal", @class = "form-control select" })
                                         @Html.ValidationMessageFor(model => model.listaSucursales)
