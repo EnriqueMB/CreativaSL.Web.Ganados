@@ -425,7 +425,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // POST: Admin/CatClientes/Delete/5
+        // POST: Admin/CatProvedor/Delete/5
         [HttpPost]
         public ActionResult DeleteCuenta(string id, string id2)
         {
@@ -546,7 +546,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // POST: Admin/CatClientes/Delete/5
+        // POST: Admin/CatProvedor/Delete/5
         [HttpPost]
         public ActionResult DeleteLugar(string id)
         {
@@ -574,5 +574,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
+
+
     }
 }
