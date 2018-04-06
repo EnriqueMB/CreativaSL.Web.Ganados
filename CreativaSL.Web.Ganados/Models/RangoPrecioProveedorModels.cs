@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.Models.Validaciones;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -61,7 +63,10 @@ namespace CreativaSL.Web.Ganados.Models
 
 
         private decimal _Precio;
-
+        [Required(ErrorMessage = "El precio es obligatorio")]
+        [Display(Name = "precio")]
+        [Range(1, int.MaxValue, ErrorMessage = "Introduzca un número mayor a 0")]
+        [Precio(ErrorMessage = "Ingrese un dato válido para precio")]
         public decimal Precio
         {
             get { return _Precio; }
