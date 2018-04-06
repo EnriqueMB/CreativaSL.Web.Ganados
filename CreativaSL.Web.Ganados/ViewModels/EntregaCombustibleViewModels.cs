@@ -19,10 +19,13 @@ namespace CreativaSL.Web.Ganados.ViewModels
             _KMInicial = 0;
             _KMFinal = 0;
             _Litros = 0;
-            _Total = 0;            
-            _ImgTicket = string.Empty;
+            _Total = 0;
+            _UrlImagen64 = string.Empty;
+            _ImgTicketBand = false;
+            //_ImgTicket = new HttpPostedFile
             _ListaVehiculos = new List<CatVehiculoModels>();
             _ListaTipoCombustible = new List<CatTipoCombustibleModels>();
+            _ListaSucursales = new List<CatSucursalesModels>();
         }
 
         private string _IDEntregaCombustible;
@@ -44,7 +47,6 @@ namespace CreativaSL.Web.Ganados.ViewModels
             get { return _IDSucursal; }
             set { _IDSucursal = value; }
         }
-
 
         private string _IDVehiculo;
         /// <summary>
@@ -124,17 +126,37 @@ namespace CreativaSL.Web.Ganados.ViewModels
         {
             get { return _Total; }
             set { _Total = value; }
-        }        
+        }
 
-        private string _ImgTicket;
+        private string _UrlImagen64;
+        /// <summary>
+        /// Imagen en Base 64
+        /// </summary>
+        public string UrlImagen64
+        {
+            get { return _UrlImagen64; }
+            set { _UrlImagen64 = value; }
+        }
+
+
+        private HttpPostedFile _ImgTicket;
         /// <summary>
         /// Imagen del ticket de la carga de combustible
         /// </summary>
-        public string ImgTicket
+        public HttpPostedFile ImgTicket
         {
             get { return _ImgTicket; }
             set { _ImgTicket = value; }
         }
+
+        private bool _ImgTicketBand;
+
+        public bool ImgTicketBand
+        {
+            get { return _ImgTicketBand; }
+            set { _ImgTicketBand = value; }
+        }
+
 
         private List<CatVehiculoModels> _ListaVehiculos;
         /// <summary>
