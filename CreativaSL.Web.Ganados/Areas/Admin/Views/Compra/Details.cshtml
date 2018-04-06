@@ -1,0 +1,457 @@
+﻿@model CreativaSL.Web.Ganados.Models.CompraModels
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section css
+{
+    <!--CSS GENERAL-->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
+}
+@section featured
+{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty; ;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <!--INICIA TABS-->
+        <div class="panel panel-default tabs">
+
+            <input type="hidden" value="" id="id_compra" />
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#details" aria-controls="details" role="tab" data-toggle="tab">Detalles</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="details">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">INFORMACION</h3>
+                                <ul class="panel-controls">
+                                    <li><a id="p1" class="exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h4>Datos del Proveedor</h4>
+                                        <dl class="dl-horizontal">
+                                            <dt>Nombre completo</dt>
+                                            <dd>CLETO MORALES TREJO</dd>
+                                            <dt>UPP</dt>
+                                            <dd>07-048-4834-002</dd>
+                                            <dt>Teléfono</dt>
+                                            <dd>96158895 - 91954874</dd>
+                                            <dt>R.F.C.</dt>
+                                            <dd>MTC701222GF3</dd>
+                                            <dt>Lugar de destino</dt>
+                                            <dd>RANCHO PLAYAS DEL ROSARIO</dd>
+                                            <dt>Vehículo asignado</dt>
+                                            <dd>INTERNATIONAL CON PLACA: DSE-13-60</dd>
+                                            <dt>Chofer asignado</dt>
+                                            <dd>GÓMEZ JUÁREZ ESTEBAN</dd>
+
+                                        </dl>
+
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <h4>Datos de la Empresa</h4>
+                                        <dl class="dl-horizontal">
+                                            <dt>Nombre de la empresa</dt>
+                                            <dd>GRUPO OCAMPO CHAPALA S.P.R. DE R.L. DE C.V.</dd>
+                                            <dt>Dirección</dt>
+                                            <dd>CALLE MANUEL ELIAS MORALES NUM. 100 COL NUEVO PROGRESO JUAREZ, CHIAPAS.</dd>
+                                            <dt>R.F.C.</dt>
+                                            <dd>GOC151030889</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer"></div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">GANADO</h3>
+                                <ul class="panel-controls">
+                                    <li><a id="p2" class="exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel panel-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Género</th>
+                                                <th>Cantidad</th>
+                                                <th>Total de kilos - origen</th>
+                                                <th>Total de kilos - destino</th>
+                                                <th>Merma promedio (%)</th>
+                                                <th>Precio por kilo ($)</th>
+                                                <th>Subtotal ($)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>MACHO</td>
+                                                <td>2</td>
+                                                <td>650</td>
+                                                <td>640</td>
+                                                <td>2.86</td>
+                                                <td>35</td>
+                                                <td>23100</td>
+                                            </tr>
+                                            <tr>
+                                                <td>HEMBRA</td>
+                                                <td>3</td>
+                                                <td>773</td>
+                                                <td>750</td>
+                                                <td>2.99</td>
+                                                <td>36</td>
+                                                <td>23480</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">GANADO MACHOS</h3>
+                                <ul class="panel-controls">
+                                    <li><a id="p2" class="exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel panel-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Número de arete</th>
+                                                <th>Género</th>
+                                                <th>Peso inicial (kg.)</th>
+                                                <th>Peso final - Repeso (kg.)</th>
+                                                <th>Diferencia de peso(kg.)</th>
+                                                <th>Merma obtenida (%)</th>
+                                                <th>Precio por kilo ($)</th>
+                                                <th>Peso pagado (kg.)</th>
+                                                <th>Subtotal ($)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>07579621</td>
+                                                <td>MACHO</td>
+                                                <td>300</td>
+                                                <td>300</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>35</td>
+                                                <td>300</td>
+                                                <td>10500</td>
+                                            </tr>
+                                            <tr>
+                                                <td>07579623</td>
+                                                <td>MACHO</td>
+                                                <td>350</td>
+                                                <td>340</td>
+                                                <td>10</td>
+                                                <td>2.86</td>
+                                                <td>36</td>
+                                                <td>350</td>
+                                                <td>12600</td>
+                                            </tr>
+                                            <tr style="font-weight:bold">
+                                                <td>TOTALES</td>
+                                                <td>2</td>
+                                                <td>650</td>
+                                                <td>640</td>
+                                                <td>10</td>
+                                                <td>2.86</td>
+                                                <td>35.5</td>
+                                                <td>650</td>
+                                                <td>23100</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                     
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">GANADO HEMBRAS</h3>
+                                <ul class="panel-controls">
+                                    <li><a id="p3" class="exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel panel-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Número de arete</th>
+                                                <th>Género</th>
+                                                <th>Peso inicial (kg.)</th>
+                                                <th>Peso final - Repeso (kg.)</th>
+                                                <th>Diferencia de peso(kg.)</th>
+                                                <th>Merma obtenida (%)</th>
+                                                <th>Precio por kilo ($)</th>
+                                                <th>Peso pagado (kg.)</th>
+                                                <th>Subtotal ($)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>07579622</td>
+                                                <td>HEMBRA</td>
+                                                <td>250</td>
+                                                <td>240</td>
+                                                <td>10</td>
+                                                <td>4</td>
+                                                <td>30</td>
+                                                <td>242</td>
+                                                <td>7260</td>
+                                            </tr>
+                                            <tr>
+                                                <td>07579623</td>
+                                                <td>HEMBRA</td>
+                                                <td>260</td>
+                                                <td>255</td>
+                                                <td>5</td>
+                                                <td>1.93</td>
+                                                <td>31</td>
+                                                <td>260</td>
+                                                <td>8060</td>
+                                            </tr>
+                                            <tr>
+                                                <td>07579625</td>
+                                                <td>HEMBRA</td>
+                                                <td>263</td>
+                                                <td>255</td>
+                                                <td>8</td>
+                                                <td>3.05</td>
+                                                <td>32</td>
+                                                <td>255</td>
+                                                <td>8160</td>
+                                            </tr>
+                                            <tr style="font-weight:bold">
+                                                <td>TOTALES</td>
+                                                <td>3</td>
+                                                <td>773</td>
+                                                <td>750</td>
+                                                <td>23</td>
+                                                <td>2.99</td>
+                                                <td>31</td>
+                                                <td>757</td>
+                                                <td>23480</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">PAGOS REALIZADOS DURANTE LA COMPRA</h3>
+                                <ul class="panel-controls">
+                                    <li><a id="p4" class="exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tipo de pago</th>
+                                                    <th>Forma de pago</th>
+                                                    <th>Banco</th>
+                                                    <th>Número: Cuenta / Tarjeta / Clabe</th>
+                                                    <th>Descripción</th>
+                                                    <th>Observación</th>
+                                                    <th>Fecha realizada</th>
+                                                    <th>Cantidad</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Efectivo</td>
+                                                    <td>Pago a proveedor</td>
+                                                    <td> - NO APLICA -</td>
+                                                    <td> - NO APLICA - </td>
+                                                    <td>Pago inicial y parcialidades</td>
+                                                    <td>Solo se tenía por el momento esta cantidad.</td>
+                                                    <td>06/04/2018</td>
+                                                    <td>20000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Transferencia</td>
+                                                    <td>Pago a proveedor</td>
+                                                    <td>Bancomer</td>
+                                                    <td>1597532648595456</td>
+                                                    <td>Pago en parcialidades o diferido</td>
+                                                    <td>Se realizó el pago en el transcurso de la tarde.</td>
+                                                    <td>06/04/2018</td>
+                                                    <td>26580</td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td><b>TOTAL</b></td>
+                                                    <td><b>46580</b></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">COBROS REALIZADOS DURANTE LA COMPRA</h3>
+                                <ul class="panel-controls">
+                                    <li><a id="p4" class="exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tipo de cobro</th>
+                                                    <th>Fecha realizada</th>
+                                                    <th>Cantidad</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Ganado vacuno</td>
+                                                    <td>06/04/2018</td>
+                                                    <td>46580</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Flete</td>
+                                                    <td>06/04/2018</td>
+                                                    <td>500</td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td><b>TOTAL</b></td>
+                                                    <td><b>46580</b></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                             
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--TERMINA TABS-->
+        </div>
+        <script>
+        var message     = '@message';
+        var typemessage = '@typemessage';
+        </script>
+}
+
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/compra.js")"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            /* PANELS */
+
+            $("#p1").on("click", function () {
+                panel_collapse1($(this).closest(".panel"));
+                $(this).closest(".dropdown").removeClass("open");
+                return false;
+            });
+            $("#p2").on("click", function () {
+                panel_collapse1($(this).closest(".panel"));
+                $(this).closest(".dropdown").removeClass("open");
+                return false;
+            });
+            $("#p3").on("click", function () {
+                panel_collapse1($(this).closest(".panel"));
+                $(this).closest(".dropdown").removeClass("open");
+                return false;
+            });
+            $("#p4").on("click", function () {
+                panel_collapse1($(this).closest(".panel"));
+                $(this).closest(".dropdown").removeClass("open");
+                return false;
+            });
+           
+            /* EOF PANELS */
+            /* PANEL FUNCTIONS */
+            function panel_collapse1(panel, action, callback) {
+
+                if (panel.hasClass("panel-toggled")) {
+                    panel.removeClass("panel-toggled");
+
+                    panel.find(".exsa .fa-angle-up").removeClass("fa-angle-up").addClass("fa-angle-down");
+
+                    if (action && action === "shown" && typeof callback === "function")
+                        callback();
+
+                    onload();
+
+                } else {
+                    panel.addClass("panel-toggled");
+
+                    panel.find(".exsa .fa-angle-down").removeClass("fa-angle-down").addClass("fa-angle-up");
+
+                    if (action && action === "hidden" && typeof callback === "function")
+                        callback();
+
+                    onload();
+
+                }
+            }
+            /* EOF PANEL FUNCTIONS */
+            Mensaje(message, typemessage);
+            //Compra.init();
+        });
+    </script>
+}

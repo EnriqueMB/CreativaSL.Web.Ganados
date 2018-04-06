@@ -1,287 +1,116 @@
-﻿@model CreativaSL.Web.Ganados.Models.VentaGanadosModels
+﻿@model CreativaSL.Web.Ganados.Models.CompraModels
 
 @{
-    ViewBag.Title = "Indx";
+    ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
 @section css
 {
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
-    <link href="~/Content/js/plugins/dualSelect/bootstrap-duallistbox.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
 }
 
 @section featured
 {
     @{
-        var message = "Prueba";
-        var typemessage = "0";
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
     }
-    <div class="row">
-        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
-            <h3></h3>
-        </div>
-        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
-            <h3></h3>
-        </div>
-        <!--INICIA TABS-->
-        <div class="panel panel-default tabs">
-
-            <input type="hidden" value="" id="id_compra" />
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#proveedor" aria-controls="proveedor" role="tab" data-toggle="tab">Proveedor</a></li>
-                <li role="presentation"><a class="pestaña" href="#fierros" aria-controls="fierros" role="tab" data-toggle="tab">Fierros</a></li>
-                <li role="presentation"><a class="pestaña" href="#ganados" aria-controls="ganados" role="tab" data-toggle="tab">Ganados</a></li>
-                <li role="presentation"><a class="pestaña" href="#movimientos" aria-controls="pagos" role="tab" data-toggle="tab">Movimientos</a></li>
-                <li role="presentation"><a class="pestaña" href="#eventos" aria-controls="eventos" role="tab" data-toggle="tab">Eventos durante el trayecto</a></li>
-                <li role="presentation"><a class="pestaña" href="#recepcion" aria-controls="recepcion" role="tab" data-toggle="tab">Recepción</a></li>
-            </ul>
-
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="proveedor">
-                    <div class="col-md-12">
-                        @using (Html.BeginForm("SaveCompra", "Compra", FormMethod.Post, new { id = "demoform", @class = "form-horizontal", autocomplete = "off" }))
-                        {
-                            @Html.AntiForgeryToken()
-
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><strong>Información</strong> Venta </h3>
-                                    <ul class="panel-controls"></ul>
-                                </div>
-                                <div class="panel-body">
-
-                                    <!---->
-
-                                    
-                                        <select multiple="multiple" size="10" name="duallistbox_demo1[]">
-                                            <option value="option1">Option 1</option>
-                                            <option value="option2">Option 2</option>
-                                            <option value="option3" selected="selected">Option 3</option>
-                                            <option value="option4">Option 4</option>
-                                            <option value="option5">Option 5</option>
-                                            <option value="option6" selected="selected">Option 6</option>
-                                            <option value="option7">Option 7</option>
-                                            <option value="option8">Option 8</option>
-                                            <option value="option9" selected="selected"> Option 9</option>
-                                            <option value="option0">Option 10</option>
-                                        </select>
-                                        <br>
-                                       
-
-                                    <!---->
-                                </div>
-
-                                <div class="panel-footer">
-                                    <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
-                                    <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                                </div>
-                            </div>
-                        }
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Compras </h2>
+    </div>
+    <!-- END PAGE TITLE -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                        <ul class="panel-controls">
+                            <li><a href="@Url.Action("Create","Venta")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> </a></li>
+                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                            <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
+                        </ul>
                     </div>
-                </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table id="tblIndexCompra" class="table">
+                                <thead>
+                                    <tr>
+                                        <th >Núm.de folio</th>
+                                        <th >Nombre cliente</th>
+                                        <th >Lugar</th>
+                                        <th >Ganado machos</th>
+                                        <th >Ganado hembras</th>
+                                        <th >Total kilos</th>
+                                        <th >Costo por kilo</th>
+                                        <th >Merma(%)</th>
+                                        <th >Estatus</th>
+                                        <th >Acción</th>
+                                    </tr>
 
-                <div role="tabpanel" class="tab-pane" id="fierros">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Información <strong>Fierros</strong>  </h3>
-                            <ul class="panel-controls"></ul>
-                        </div>
-                        <div class="panel-body">
-
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>1</th>
+                                        <th>Grupo Gusi</th>
+                                        <th>Tamaulipas</th>
+                                        <th>50</th>
+                                        <th>50</th>
+                                        <th>20000</th>
+                                        <th>36</th>
+                                        <th>Merma(%)</th>
+                                        <th>Estatus</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-                <div id="ganados" role="tabpanel" class="tab-pane">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Información del <strong>Ganado</strong></h3>
-                                <ul class="panel-controls"></ul>
-                            </div>
-                            <div class="panel-body">
-
-                            </div>
-                            <!---->
-                            <div class="page-content-wrap">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <!-- START DEFAULT DATATABLE -->
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <h3 class="panel-title"></h3>
-                                                <div class="panel-controls">
-                                                    <button id="btnAddGanado" data-id="0" class="btn btn-primary btn-lg">
-                                                        <i class="fa fa-plus"></i> Agregar nuevo ganado
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="panel-body">
-                                                <div class="table-responsive">
-                                                    <table id="GanadoXCompraGanado" class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Número de arete</th>
-                                                                <th>Género</th>
-                                                                <th>Peso inicial (kg.)</th>
-                                                                <th>Peso final - Repeso (kg.)</th>
-                                                                <th>Diferencia de peso(kg.)</th>
-                                                                <th>Merma obtenida (%)</th>
-                                                                <th>Precio por kilo ($)</th>
-                                                                <th>Peso pagado ($)</th>
-                                                                <th>Total ($)</th>
-                                                                <th>Acción</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody></tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- END DEFAULT DATATABLE -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="movimientos" class="tab-pane" role="tabpanel">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Información de <strong>Pagos realizados</strong></h3>
-                                <ul class="panel-controls"></ul>
-                            </div>
-                            <div class="panel-body">
-
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-                <div id="eventos" class="tab-pane" role="tabpanel">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Información de <strong>Eventos durante el trayecto</strong></h3>
-                                <ul class="panel-controls"></ul>
-                            </div>
-
-                            <div class="page-content-wrap">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <!-- START DEFAULT DATATABLE -->
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <h3 class="panel-title"></h3>
-                                                <ul class="panel-controls">
-                                                    <li><a id="btnAddEvento" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo movimiento</a></li>
-                                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                                                    <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
-                                                </ul>
-
-                                            </div>
-                                            <div class="panel-body">
-
-                                            </div>
-                                        </div>
-                                        <!-- END DEFAULT DATATABLE -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="recepcion" class="tab-pane" role="tabpanel">
-                    <div class="col-md-12">
-
-                        @Html.AntiForgeryToken()
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Información de <strong>Recepción de la compra</strong></h3>
-                                <ul class="panel-controls"></ul>
-                            </div>
-
-                            <div class="panel-body">
-
-
-                            </div>
-
-                            <div class="panel-footer">
-                                <input type="submit" value="Finalizar compra" class="btn btn-primary pull-right">
-                                <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-        <!--TERMINA TABS-->
-        <!--INICIA SECCION DE MODALES-->
-        <div id="ModalGanado" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog modal-lg" id="ContenidoModalGanado">
-
+                <!-- END DEFAULT DATATABLE -->
             </div>
         </div>
-        <div id="ModalPago" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog modal-lg" id="ContenidoModalPago">
-
+    </div>
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres eliminar esta fila?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="ModalCobro" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog modal-lg" id="ContenidoModalCobro">
-
-            </div>
-        </div>
-        <!--TERMINA SECCION DE MODALES-->
     </div>
     <script>
-        var message     = '@message';
-        var typemessage = '@typemessage';
+    var message = '@message';
+    var typemessage = '@typemessage';
     </script>
 }
-
 @section script
 {
-    <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
-    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
-    <script src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-
-    <!--FILEINPUT-->
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-
-    <!--DATEPICKER-->
-    <script src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-timepicker.min.js")"></script>
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
-    <script src="~/Content/js/plugins/dualSelect/jquery.bootstrap-duallistbox.js"></script>
     <script>
-
-        jQuery(document).ready(function () {
-
-            var idCompra = "";
-            Mensaje(message, typemessage);
+            jQuery(document).ready(function () {
+                Mensaje(message, typemessage);
+            });
     </script>
 
-    <script>
-        var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox();
-        $("#demoform").submit(function () {
-            alert($('[name="duallistbox_demo1[]"]').val());
-            return false;
-        });
-    </script>
+
 }
