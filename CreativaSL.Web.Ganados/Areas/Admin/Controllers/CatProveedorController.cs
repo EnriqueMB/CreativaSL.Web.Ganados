@@ -471,10 +471,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-                ProveedorLugarModels ProveedorL = new ProveedorLugarModels();
-                TempData["typrmessage"] = "2";
+                ProveedorLugarModels Proveedor = new ProveedorLugarModels();
+                TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return RedirectToAction("Index");
+                return View(Proveedor);
             }
         }
 
@@ -575,6 +575,26 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-
+        //GET: Admin/CatProveedor/PrecioProveedor/3
+        [HttpGet]
+        public ActionResult PrecioProveedor(string id)
+        {
+            try
+            {
+                RangoPrecioProveedorModels RangoProveedor = new RangoPrecioProveedorModels();
+                _CatProveedor_Datos ProveedorDato = new _CatProveedor_Datos();
+                RangoProveedor.Conexion = Conexion;
+                RangoProveedor.IDProveedor = id;
+                RangoProveedor.ListaRangoPrecioProveedor = ProveedorDato.ObtenerPrecioXRangoPesoProveedor(RangoProveedor);
+                return View(RangoProveedor);
+            }
+            catch (Exception)
+            {
+                RangoPrecioProveedorModels Proveedor = new RangoPrecioProveedorModels();
+                TempData["typrmessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Proveedor);
+            }
+        }
     }
 }

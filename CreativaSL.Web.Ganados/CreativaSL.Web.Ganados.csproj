@@ -1032,6 +1032,7 @@
     <Content Include="Areas\Admin\Views\CatTipoServicio\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatTipoServicio\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatTipoServicio\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\PrecioProveedor.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
