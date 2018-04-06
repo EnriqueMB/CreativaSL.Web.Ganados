@@ -14,6 +14,9 @@ namespace CreativaSL.Web.Ganados.Models
             _IDRango = 0;
             _Precio = 0;
             _ListaRangoPrecioProveedor = new List<RangoPrecioProveedorModels>();
+            _PesoMaximo = 0;
+            _PesoMinimo = 0;
+            _Precio = 0;
         }
 
         private string _IDProveedor;
@@ -31,6 +34,31 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _IDRango; }
             set { _IDRango = value; }
         }
+
+        private decimal _PesoMinimo;
+
+        public decimal PesoMinimo
+        {
+            get { return _PesoMinimo; }
+            set { _PesoMinimo = value; }
+        }
+
+        private decimal _PesoMaximo;
+
+        public decimal PesoMaximo
+        {
+            get { return _PesoMaximo; }
+            set { _PesoMaximo = value; }
+        }
+
+        private bool _EsMacho;
+
+        public bool EsMacho
+        {
+            get { return _EsMacho; }
+            set { _EsMacho = value; }
+        }
+
 
         private decimal _Precio;
 

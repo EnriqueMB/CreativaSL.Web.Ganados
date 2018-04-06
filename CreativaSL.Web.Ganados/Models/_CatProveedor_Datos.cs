@@ -453,5 +453,35 @@ namespace CreativaSL.Web.Ganados.Models
 
         #endregion
 
+        #region Precio Por Rango Peso Proveedor
+
+        public List<RangoPrecioProveedorModels> ObtenerPrecioXRangoPesoProveedor(RangoPrecioProveedorModels Datos)
+        {
+            try
+            {
+                List<RangoPrecioProveedorModels> lista = new List<RangoPrecioProveedorModels>();
+                RangoPrecioProveedorModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Catalogo_get_CatProveedoresXRangoPrecio", Datos.IDProveedor);
+                while (dr.Read())
+                {
+                    item = new RangoPrecioProveedorModels();
+                    item.IDRango = !dr.IsDBNull(dr.GetOrdinal("IDRango")) ? dr.GetInt16(dr.GetOrdinal("IDRango")) : 0;
+                    item.PesoMinimo = !dr.IsDBNull(dr.GetOrdinal("PesoMinimo")) ? dr.GetDecimal(dr.GetOrdinal("PesoMinimo")) : 0;
+                    item.PesoMaximo = !dr.IsDBNull(dr.GetOrdinal("PesoMaximo")) ? dr.GetDecimal(dr.GetOrdinal("PesoMaximo")) : 0;
+                    item.EsMacho = !dr.IsDBNull(dr.GetOrdinal("EsMacho")) ? dr.GetBoolean(dr.GetOrdinal("EsMacho")) : false;
+                    item.Precio = !dr.IsDBNull(dr.GetOrdinal("Precio")) ? dr.GetDecimal(dr.GetOrdinal("Precio")) : 0;
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        #endregion
+
     }
 }

@@ -1,9 +1,11 @@
-﻿@model IEnumerable<CreativaSL.Web.Ganados.Models.CuentaBancariaModels>
+﻿@model CreativaSL.Web.Ganados.Models.RangoPrecioProveedorModels
 
 @{
-    ViewBag.Title = "Cuentas";
+    ViewBag.Title = "PrecioProveedor";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+
+
 @section featured{
     @{
         var message = TempData["message"] ?? string.Empty;
@@ -16,7 +18,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Cuentas bancarias </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Precio por rango de peso proveedor</h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -28,10 +30,10 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("AgregarCuenta","CatCliente", new { id = ViewBag.ID })" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar cuenta</a></li>
+                            @{ string IDP = Model.IDProveedor;}
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
-                            <li><a href="@Url.Action("Index","CatCliente")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span>Regresar</a></li>
+                            <li><a href="@Url.Action("Index","CatProveedor")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span>Regresar</a></li>
                         </ul>
                     </div>
                     <div class="panel-body">
@@ -39,27 +41,31 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th>Banco</th>
-                                        <th>Titular</th>
-                                        <th>Número de cuenta</th>
-                                        <th>Número de tarjeta</th>
-                                        <th>Cuenta clabe</th>
+                                        <th>Género</th>
+                                        <th>Peso Minimo (Kg.)</th>
+                                        <th>Peso Maximo (Kg.)</th>
+                                        <th>Precio ($)</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var Cuenta in Model)
+                                    @foreach (var Rango in Model.ListaRangoPrecioProveedor)
                                     {
-                                        <tr id="@Cuenta.IDDatosBancarios">
-                                            <td>@Cuenta.Banco.Descripcion</td>
-                                            <td>@Cuenta.Titular</td>
-                                            <td>@Cuenta.NumCuenta</td>
-                                            <td>@Cuenta.NumTarjeta</td>
-                                            <td>@Cuenta.Clabe</td>
+                                        <tr id="@Rango.IDRango">
+                                            @if (Rango.EsMacho)
+                                            {
+                                                <td>MACHOS</td>
+                                            }
+                                            else
+                                            {
+                                                <td>HEMBRAS</td>
+                                            }
+                                            <td>@Rango.PesoMinimo.ToString("0").Replace(',', '.')</td>
+                                            <td>@Rango.PesoMaximo.ToString("0").Replace(',', '.')</td>
+                                            <td>@Rango.Precio.ToString("0.00").Replace(',', '.')</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" class="btn btn-yellow" href="@Url.Action("EditarCuenta", "CatCliente", new { id = Cuenta.IDDatosBancarios, idC = ViewBag.ID })"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" class="btn delete btn-danger deleteRow" id="delete-@Cuenta.IDDatosBancarios" data-hrefa="@Url.Action("DeleteDatosBancarios", "CatCliente", new { IDCuenta = Cuenta.IDDatosBancarios, IDCliente = ViewBag.ID})" onClick="delete_row('@Cuenta.IDDatosBancarios');"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Editar" href="@Url.Action("EditPrecio", "CatProveedor", new { id = Rango.IDRango, id2 = IDP})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -68,13 +74,8 @@
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("EditarCuenta", "CatCliente", new { id = Cuenta.IDDatosBancarios, idC = ViewBag.ID })">
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("EditPrecio", "CatProveedor", new { id = Rango.IDRango, id2 = IDP})">
                                                                     <i class="fa fa-edit"></i> Editar
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@Cuenta.IDDatosBancarios" data-hrefa="@Url.Action("DeleteDatosBancarios", "CatCliente", new { IDCuenta = Cuenta.IDDatosBancarios, IDCliente = ViewBag.ID})" onClick="delete_row('@Cuenta.IDDatosBancarios');">
-                                                                    <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -123,10 +124,6 @@
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
-    });
+        });
     </script>
 }
-
-
-
-
