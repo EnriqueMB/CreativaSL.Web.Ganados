@@ -17,7 +17,7 @@
 {
     @{
         var message = Model.Mensaje;
-        var typemessage = Model.Resultado;
+        var typemessage = Model.TipoResultado;
     }
     <div class="row">
         <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
@@ -60,39 +60,26 @@
                                 <div class="panel-body">
 
                                     <div class="form-group">
-                                        <div class="col-md-4">
-                                            <label class="col-md-3 control-label">Sucursal</label>
-                                            <div class="col-md-9 col-xs-12">
+                                        <div class="col-md-6">
+                                            <label class="col-md-2 control-label">Proveedor seleccionado</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.DropDownListFor(model => model.Proveedor.IDProveedor, new SelectList(Model.ListaProveedores, "IDProveedor", "NombreRazonSocial"), new { @class = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Proveedor.IDProveedor)
+                                                <span class="help-block">¿Desea cambiar de proveedor?</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="col-md-2 control-label">Sucursal</label>
+                                            <div class="col-md-10 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                                     @Html.TextBoxFor(model => model.Sucursal.NombreSucursal, new { @class = "form-control" })
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.Sucursal.NombreSucursal)
                                                 <span class="help-block">Sucursal de la compra.</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <label class="col-md-3 control-label">Prov. seleccionado</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Proveedor.NombreRazonSocial, new { @class = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.Proveedor.IDProveedor)
-                                                <span class="help-block">Proveedor que realiza la compra.</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <label class="col-md-3 control-label">Prov. activos</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.DropDownListFor(model => model.IDProveedor, new SelectList(Model.ListaProveedores, "IDProveedor", "NombreRazonSocial"), new { @class = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.IDProveedor)
-                                                <span class="help-block">¿Desea cambiar de proveedor?</span>
                                             </div>
                                         </div>
                                     </div>
@@ -135,51 +122,25 @@
                                     
                                     <div class="form-group">
                                         <div class="col-md-6">
-                                            <label class="col-md-2 control-label">Chofer asignado</label>
+                                            <label class="col-md-2 control-label">Chofer seleccionado</label>
                                             <div class="col-md-10 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Proveedor.NombreRazonSocial, new { @class = "form-control" })
+                                                    @Html.DropDownListFor(model => model.Chofer.IDChofer, new SelectList(Model.ListaChoferes, "IDChofer", "Nombre"), new { @class = "form-control" })
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.Chofer.Nombre)
-                                                <span class="help-block">Chofer asignado para la compra.</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label class="col-md-2 control-label">Choferes activos</label>
-                                            <div class="col-md-10 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.DropDownListFor(model => model.Flete.id_chofer, new SelectList(Model.ListaChoferes, "IDChofer", "Nombre"), new { @class = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.IDProveedor)
+                                                @Html.ValidationMessageFor(model => model.Chofer.IDChofer)
                                                 <span class="help-block">¿Desea cambiar de chofer?</span>
                                             </div>
                                         </div>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <div class="col-md-6">
-                                            <label class="col-md-2 control-label">Vehículo asignado</label>
+                                   
+                                       <div class="col-md-6">
+                                            <label class="col-md-2 control-label">Vehículo seleccionado</label>
                                             <div class="col-md-10 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Vehiculo.nombreMarca, new { @class = "form-control" })
+                                                    @Html.DropDownListFor(model => model.Vehiculo.IDVehiculo, new SelectList(Model.ListaVehiculos, "IDVehiculo", "nombreMarca", "Modelo", 1), new { @class = "form-control" })
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.Vehiculo.nombreMarca)
-                                                <span class="help-block">Vehículo asignado para la compra.</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label class="col-md-2 control-label">Vehículos activos</label>
-                                            <div class="col-md-10 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.DropDownListFor(model => model.Flete.id_vehiculo, new SelectList(Model.ListaVehiculos, "IDVehiculo", "nombreMarca", "Modelo", 1), new { @class = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.IDProveedor)
+                                                @Html.ValidationMessageFor(model => model.Vehiculo.IDVehiculo)
                                                 <span class="help-block">¿Desea cambiar de vehículo?</span>
                                             </div>
                                         </div>
@@ -187,51 +148,25 @@
 
                                     <div class="form-group">
                                         <div class="col-md-6">
-                                            <label class="col-md-2 control-label">Jaula asignada</label>
+                                            <label class="col-md-2 control-label">Jaula seleccionada</label>
                                             <div class="col-md-10 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Jaula.Matricula, new { @class = "form-control" })
+                                                    @Html.DropDownListFor(model => model.Jaula.IDJaula, new SelectList(Model.ListaJaulas, "IDJaula", "Matricula"), new { @class = "form-control" })
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.Jaula.Matricula)
-                                                <span class="help-block">Jaula asignada para la compra.</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label class="col-md-2 control-label">Jaulas activas</label>
-                                            <div class="col-md-10 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.DropDownListFor(model => model.Flete.id_jaula, new SelectList(Model.ListaJaulas, "IDJaula", "Matricula"), new { @class = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.Flete.id_jaula)
+                                                @Html.ValidationMessageFor(model => model.Jaula.IDJaula)
                                                 <span class="help-block">¿Desea cambiar de jaula?</span>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="form-group">
                                         <div class="col-md-6">
-                                            <label class="col-md-2 control-label">Remolque asignado</label>
+                                            <label class="col-md-2 control-label">Remolque seleccionado</label>
                                             <div class="col-md-10 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Jaula.Matricula, new { @class = "form-control" })
+                                                    @Html.DropDownListFor(model => model.Remolque.IDRemolque, new SelectList(Model.ListaRemolques, "IDRemolque", "placa"), new { @class = "form-control" })
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.Jaula.Matricula)
-                                                <span class="help-block">Remolque asignado para la compra.</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label class="col-md-2 control-label">Remolques activos</label>
-                                            <div class="col-md-10 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.DropDownListFor(model => model.Flete.id_jaula, new SelectList(Model.ListaJaulas, "IDJaula", "Matricula"), new { @class = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.Flete.id_jaula)
+                                                @Html.ValidationMessageFor(model => model.Remolque.IDRemolque)
                                                 <span class="help-block">¿Desea cambiar de remolque?</span>
                                             </div>
                                         </div>
@@ -802,6 +737,7 @@
         jQuery(document).ready(function () {
 
             var idCompra = "@Model.IDCompra";
+            var sRangoPeso = "@Model.sRangoPeso";
             Mensaje(message, typemessage);
 
             Compra.init(idCompra);
@@ -871,7 +807,7 @@
                     });
                 });
                 }).on('filedeleted', function (event, key, jqXHR, data) {
-                
+
                 });
 
             });

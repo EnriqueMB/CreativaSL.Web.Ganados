@@ -21,13 +21,14 @@ namespace CreativaSL.Web.Ganados.Models
             PrecioSugeridoXkilo = 0;
             Repeso = true;
             TotalPagado = 0;
+            TotalSugerido = 0;
         }
         public decimal TotalPagado { get; set; }
         public bool Repeso { get; set; }
         public decimal DiferenciaPeso { get; set; }
         public decimal PesoSugerido { get; set; }
         public decimal PrecioSugeridoXkilo { get; set; }
-
+        public decimal TotalSugerido { get; set; }
 
         private string _IDCompra;
         private string _IDGanados;

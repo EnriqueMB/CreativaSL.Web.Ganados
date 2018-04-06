@@ -70,6 +70,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     conceptos.Conexion = Conexion;
                     conceptos.Opcion = 1;
+                    conceptos.Calculado = false;
+                    conceptos.SoloLectura = false;
                     conceptos.Usuario = User.Identity.Name;
                     conceptos = conceptoD.AbcCatConceptosNomina(conceptos);
                     if (conceptos.Completado==true)

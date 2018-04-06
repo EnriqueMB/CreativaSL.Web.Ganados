@@ -40,7 +40,7 @@
                 <div role="tabpanel" class="tab-pane active" id="proveedor">
                     <div class="col-md-12">
                         @{ Html.EnableClientValidation(false); }
-                        @using (Html.BeginForm("SaveCompra", "Compra", FormMethod.Post, new { id = "frmCreateCompra", @class = "form-horizontal", autocomplete = "off" }))
+                        @using (Html.BeginForm("CreateCompra", "Compra", FormMethod.Post, new { id = "frmCreateCompra", @class = "form-horizontal", autocomplete = "off" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true)
