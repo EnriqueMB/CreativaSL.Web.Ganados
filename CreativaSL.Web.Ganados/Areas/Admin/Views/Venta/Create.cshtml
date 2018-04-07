@@ -8,7 +8,6 @@
 @section css
 {
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.5/css/select.bootstrap.min.css">
-    <link href="~/Content/js/plugins/dualSelect/bootstrap-duallistbox.css" rel="stylesheet" />
     <style>
         tr.group,
         tr.group:hover {
@@ -36,268 +35,435 @@
             <input type="hidden" value="" id="id_compra" />
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#proveedor" aria-controls="proveedor" role="tab" data-toggle="tab">Proveedor</a></li>
-                <li role="presentation"><a class="pestaña" href="#fierros" aria-controls="fierros" role="tab" data-toggle="tab">Fierros</a></li>
-                <li role="presentation"><a class="pestaña" href="#ganados" aria-controls="ganados" role="tab" data-toggle="tab">Ganados</a></li>
-                <li role="presentation"><a class="pestaña" href="#movimientos" aria-controls="pagos" role="tab" data-toggle="tab">Movimientos</a></li>
-                <li role="presentation"><a class="pestaña" href="#eventos" aria-controls="eventos" role="tab" data-toggle="tab">Eventos durante el trayecto</a></li>
-                <li role="presentation"><a class="pestaña" href="#recepcion" aria-controls="recepcion" role="tab" data-toggle="tab">Recepción</a></li>
+                <li role="presentation" class="active"><a href="#ganado"        aria-controls="ganado"      role="tab" data-toggle="tab">Selección de Ganado</a></li>
+                <li role="presentation"><a class="pestaña" href="#embarque"     aria-controls="embarque"    role="tab" data-toggle="tab">Información de Embarque</a></li>
+                <li role="presentation"><a class="pestaña" href="#flete"        aria-controls="flete"       role="tab" data-toggle="tab">Linea Fletera</a></li>
+                <li role="presentation"><a class="pestaña" href="#jaulaP"        aria-controls="jaula"       role="tab" data-toggle="tab">Jaula</a></li>
+                <li role="presentation"><a class="pestaña" href="#eventos"      aria-controls="eventos"     role="tab" data-toggle="tab">Eventos durante el trayecto</a></li>
+                <li role="presentation"><a class="pestaña" href="#recepcion"    aria-controls="recepcion"   role="tab" data-toggle="tab">Recepción en destino</a></li>
             </ul>
 
             <!-- Tab panes -->
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="proveedor">
+                <div role="tabpanel" class="tab-pane active" id="ganado">
                     <div class="col-md-12">
-                        @using (Html.BeginForm("SaveCompra", "Compra", FormMethod.Post, new { id = "demoform", @class = "form-horizontal", autocomplete = "off" }))
-                        {
-                            @Html.AntiForgeryToken()
-
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><strong>Información</strong> Con select  </h3>
-                                    <ul class="panel-controls"></ul>
-                                </div>
-                                <div class="panel-body">
-
-                                    <!---->
-
-
-                                    <select multiple="multiple" size="10" name="duallistbox_demo1[]">
-                                        <option value="option1">Option 1</option>
-                                        <option value="option2">Option 2</option>
-                                        <option value="option3" selected="selected">Option 3</option>
-                                        <option value="option4">Option 4</option>
-                                        <option value="option5">Option 5</option>
-                                        <option value="option6" selected="selected">Option 6</option>
-                                        <option value="option7">Option 7</option>
-                                        <option value="option8">Option 8</option>
-                                        <option value="option9" selected="selected"> Option 9</option>
-                                        <option value="option0">Option 10</option>
-                                    </select>
-                                    <br>
-
-
-                                    <!---->
-                                </div>
-
-                                <div class="panel-footer">
-                                    <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
-                                    <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                                </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Seleccione el <strong>Ganado</strong></h3>
+                                <ul class="panel-controls"></ul>
                             </div>
-                        }
+                            <div class="panel-body">
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Cbz. Machos</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <input id="cMachos" type="text" class="form-control" disabled="disabled" value="0" />
+                                                </div>
+                                                <span class="help-block">Cantidad de ganado machos</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Cbz. Hembras</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <input id="cHembras" type="text" class="form-control" disabled="disabled" value="0" />
+                                                </div>
+                                                <span class="help-block">Cantidad de ganado hembras</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Cbz. Total</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <input id="cTotal" type="text" class="form-control" disabled="disabled" value="0" />
+                                                </div>
+                                                <span class="help-block">Cantidad total de ganado</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Kg. Machos</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <input id="kgMachos" type="text" class="form-control" disabled="disabled" value="0" />
+                                                </div>
+                                                <span class="help-block">Cantidad de kilos ganado machos</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Kg. Hembras</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <input id="kgHembras" type="text" class="form-control" disabled="disabled" value="0" />
+                                                </div>
+                                                <span class="help-block">Cantidad de kilos ganado hembras</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Kg. Total</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <input id="kgTotal" type="text" class="form-control" disabled="disabled" value="0" />
+                                                </div>
+                                                <span class="help-block">Cantidad total de kilos ganado</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <div class="btn-group">
+                                            <center>
+                                                <button id="enviar" class="btn btn-default"><i class="fa fa-forward"></i></button>
+                                                <button id="regresar" class="btn btn-default"><i class="fa fa-backward"></i></button>
+                                            </center>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <table id="corral" class="display table " style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Comprado a</th>
+                                                    <th>Genero</th>
+                                                    <th>Peso</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>ROSY CELIS</td>
+                                                    <td>HEMBRA</td>
+                                                    <td>200</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>ROSY CELIS</td>
+                                                    <td>HEMBRA</td>
+                                                    <td>220</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>PEDRO RODRIGUEZ</td>
+                                                    <td>HEMBRA</td>
+                                                    <td>215</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>VICTOR MANUEL DIAZ</td>
+                                                    <td>MACHO</td>
+                                                    <td>300</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>CARLOS SALAZAR</td>
+                                                    <td>MACHO</td>
+                                                    <td>350</td>
+                                                </tr>
+
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Comprado a</th>
+                                                    <th>Genero</th>
+                                                    <th>Peso</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <table id="jaula" class="display table " style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Comprado a</th>
+                                                    <th>Genero</th>
+                                                    <th>Peso</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Comprado a</th>
+                                                    <th>Genero</th>
+                                                    <th>Peso</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <div role="tabpanel" class="tab-pane" id="fierros">
+                <div role="tabpanel" class="tab-pane" id="embarque">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Información <strong>Con 2 tablas</strong>  </h3>
+                            <h3 class="panel-title">Información del <strong>Embarque</strong>  </h3>
                             <ul class="panel-controls"></ul>
                         </div>
                         <div class="panel-body">
 
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <center><button id="enviar">Enviar >></button></center>
-                                    <center><button id="regresar"><< Regresar </button></center>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                               
-                                    <div class="col-md-6">
-
-                                        <table id="corral" class="display table " style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Position</th>
-                                                    <th>Office</th>
-                                                    <th>Age</th>
-                                                    <th>Salary</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Tiger Nixon</td>
-                                                    <td>System Architect</td>
-                                                    <td>MEXICO</td>
-                                                    <td>61</td>
-                                                    <td>$320,800</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Cedric Kelly</td>
-                                                    <td>Senior Javascript Developer</td>
-                                                    <td>USA</td>
-                                                    <td>22</td>
-                                                    <td>$433,060</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Sonya Frost</td>
-                                                    <td>Software Engineer</td>
-                                                    <td>CANADA</td>
-                                                    <td>23</td>
-                                                    <td>$103,600</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Quinn Flynn</td>
-                                                    <td>Support Lead</td>
-                                                    <td>MEXICO</td>
-                                                    <td>22</td>
-                                                    <td>$342,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Dai Rios</td>
-                                                    <td>Personnel Lead</td>
-                                                    <td>USA</td>
-                                                    <td>35</td>
-                                                    <td>$217,500</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Gavin Joyce</td>
-                                                    <td>Developer</td>
-                                                    <td>MEXICO</td>
-                                                    <td>42</td>
-                                                    <td>$92,575</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Martena Mccray</td>
-                                                    <td>Post-Sales support</td>
-                                                    <td>MEXICO</td>
-                                                    <td>46</td>
-                                                    <td>$324,050</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Jennifer Acosta</td>
-                                                    <td>Junior Javascript Developer</td>
-                                                    <td>Edinburgh</td>
-                                                    <td>43</td>
-                                                    <td>$75,650</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Shad Decker</td>
-                                                    <td>Regional Director</td>
-                                                    <td>Edinburgh</td>
-                                                    <td>51</td>
-                                                    <td>$183,000</td>
-                                                </tr>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Position</th>
-                                                    <th>Office</th>
-                                                    <th>Age</th>
-                                                    <th>Salary</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-
-                                    </div>
-
-                                    <div class="col-md-6">
-
-                                        <table id="jaula" class="display table " style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Position</th>
-                                                    <th>Office</th>
-                                                    <th>Age</th>
-                                                    <th>Salary</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Position</th>
-                                                    <th>Office</th>
-                                                    <th>Age</th>
-                                                    <th>Salary</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-
-                                    </div>
-                                </div>
-
-                            
-                           
                         </div>
                     </div>
                 </div>
-                <div id="ganados" role="tabpanel" class="tab-pane">
+                <div role="tabpanel" class="tab-pane" id="flete" >
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Información del <strong>Ganado</strong></h3>
+                                <h3 class="panel-title">Información de <strong>Linea Fletera</strong></h3>
                                 <ul class="panel-controls"></ul>
                             </div>
+
                             <div class="panel-body">
-                             
-                            </div>
-                            <!---->
-                           
-                        </div>
-                    </div>
-                </div>
-                <div id="movimientos" class="tab-pane" role="tabpanel">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Información de <strong>Pagos realizados</strong></h3>
-                                <ul class="panel-controls"></ul>
-                            </div>
-                            <div class="panel-body">
-                                <div class="page-content-wrap">
+                                <form class="form-horizontal">
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            <!-- START DEFAULT DATATABLE -->
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                    <h3 class="panel-title"></h3>
-                                                    <div class="panel-controls">
-                                                        <button id="btnAddGanado" data-id="0" class="btn btn-primary btn-lg">
-                                                            <i class="fa fa-plus"></i> Agregar nuevo ganado
-                                                        </button>
-                                                    </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Linea fletera</label>
+                                                <div class="col-md-9">
+                                                    <label class="radio-inline"><input type="radio" name="optradio">Ganadera Grupo Ocampo</label>
+                                                    <label class="radio-inline"><input type="radio" name="optradio">Transporte Fletero Ocampo</label>
+                                                    <label class="radio-inline"><input type="radio" name="optradio">Otro</label>
                                                 </div>
-                                                <div class="panel-body">
-                                                    <div class="table-responsive">
-                                                        <table id="GanadoXCompraGanado" class="table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Número de arete</th>
-                                                                    <th>Género</th>
-                                                                    <th>Peso inicial (kg.)</th>
-                                                                    <th>Peso final - Repeso (kg.)</th>
-                                                                    <th>Diferencia de peso(kg.)</th>
-                                                                    <th>Merma obtenida (%)</th>
-                                                                    <th>Precio por kilo ($)</th>
-                                                                    <th>Peso pagado ($)</th>
-                                                                    <th>Total ($)</th>
-                                                                    <th>Acción</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody></tbody>
-                                                        </table>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Nombre de la linea fletera</label>
+                                                <div class="col-md-9">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input type="text" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- END DEFAULT DATATABLE -->
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Nombre del chofer</label>
+                                                <div class="col-md-9">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">No. económico</label>
+                                                <div class="col-md-9">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">No. de placa de la unidad</label>
+                                                <div class="col-md-9">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Licencia vigente</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <label class="radio-inline"><input type="radio" name="optradio">SI</label>
+                                                        <label class="radio-inline"><input type="radio" name="optradio">NO</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Folio licencia</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
-                                </div>
+                                </form>
+                            </div>
+                            <div class="panel-footer">
+                                <input type="submit" value="Finalizar venta" class="btn btn-primary pull-right">
+                                <a class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                            </div>
+                        </div>
 
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="jaulaP" >
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Información de <strong>Jaula</strong></h3>
+                                <ul class="panel-controls"></ul>
                             </div>
 
-                        </div>
-                    </div>
+                            <div class="panel-body">
+                                <form class="form-horizontal">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="table-responsive">
+                                                <table style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <td><strong>Limpieza de la jaula</strong></td>
+                                                            <td colspan="2"><strong>Verificación de la estructura de la jaula en buenas condiciones</strong></td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                                                    <label class="form-check-label" for="defaultCheck1">
+                                                                        Completa 100%
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                                                    <label class="form-check-label" for="defaultCheck1">
+                                                                        Puertas interna
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                                                    <label class="form-check-label" for="defaultCheck1">
+                                                                        Llanta de refacción
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                                                    <label class="form-check-label" for="defaultCheck1">
+                                                                        Solo el piso
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                                                    <label class="form-check-label" for="defaultCheck1">
+                                                                        Focos
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                                                    <label class="form-check-label" for="defaultCheck1">
+                                                                        Llantas en buen estado
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                                                    <label class="form-check-label" for="defaultCheck1">
+                                                                        Sucia
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                                                    <label class="form-check-label" for="defaultCheck1">
+                                                                        Riesgos punzo cortantes
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                                                    <label class="form-check-label" for="defaultCheck1">
+                                                                        Piso antiadherente
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
 
+
+
+
+
+                                       
+                                    </div>
+                                    <div class="row" style="margin-top: 15px;">
+                                        <div class="col-md-12">
+                                            <div class="table-responsive">
+                                                <center>
+                                                    <table class="text-center" border="1">
+                                                        <tr>
+                                                            <td>Hielera</td>
+                                                            <td>Panza arriba</td>
+                                                            <td>Panza arriba</td>
+                                                            <td>Punta superior</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><input class="form-control" type="text" /></td>
+                                                            <td><input class="form-control" type="text" /></td>
+                                                            <td><input class="form-control" type="text" /></td>
+                                                            <td><input class="form-control" type="text" /></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Cola</td>
+                                                            <td>Panza abajo</td>
+                                                            <td>Panza abajo</td>
+                                                            <td>Punta inferior</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><input class="form-control" type="text" /></td>
+                                                            <td><input class="form-control" type="text" /></td>
+                                                            <td><input class="form-control" type="text" /></td>
+                                                            <td><input class="form-control" type="text" /></td>
+                                                        </tr>
+                                                    </table>
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="panel-footer">
+                                <input type="submit" value="Finalizar venta" class="btn btn-primary pull-right">
+                                <a class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
                 <div id="eventos" class="tab-pane" role="tabpanel">
                     <div class="col-md-12">
@@ -334,22 +500,108 @@
                 </div>
                 <div id="recepcion" class="tab-pane" role="tabpanel">
                     <div class="col-md-12">
-
-                        @Html.AntiForgeryToken()
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Información de <strong>Recepción de la compra</strong></h3>
+                                <h3 class="panel-title">Información de <strong>Recepción de la venta</strong></h3>
                                 <ul class="panel-controls"></ul>
                             </div>
 
                             <div class="panel-body">
-
-
+                                <form class="form-horizontal">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label">Recepcion de doc. de origen de embarque</label>
+                                                <div class="col-md-6">
+                                                    <label class="radio-inline"><input type="radio" name="optradio">SI</label>
+                                                    <label class="radio-inline"><input type="radio" name="optradio">NO</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label">Fecha de llegada de la unidad</label>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input type="text" class="form-control datepicker">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label">Nombre del recepcionista</label>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label">Cantidad total de kilos</label>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Valija sellada</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <label class="radio-inline"><input type="radio" name="optradio">SI</label>
+                                                        <label class="radio-inline"><input type="radio" name="optradio">NO</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Hora llegada de la unidad</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input type="text" class="form-control timepicker">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Hora de descargar</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input type="text" class="form-control timepicker">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Cantidad total de ganado</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top: 15px;">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Observaciones</label>
+                                                <div class="col-md-9">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <textarea class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-
                             <div class="panel-footer">
-                                <input type="submit" value="Finalizar compra" class="btn btn-primary pull-right">
-                                <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                                <input type="submit" value="Finalizar venta" class="btn btn-primary pull-right">
+                                <a class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                             </div>
                         </div>
 
@@ -403,8 +655,6 @@
     <!--DATEPICKER-->
     <script src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-timepicker.min.js")"></script>
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
-    <script src="~/Content/js/plugins/dualSelect/jquery.bootstrap-duallistbox.js"></script>
     <script>
 
         jQuery(document).ready(function () {
@@ -412,142 +662,113 @@
             var idCompra = "";
             Mensaje(message, typemessage);
 
+            var cGanadoM = 0, cGanadoH = 0, kGanadoM = 0, kGanadoH = 0;
+            var kgMachos = document.getElementById("kgMachos");
+            var kgHembras = document.getElementById("kgHembras");
+            var kgTotal = document.getElementById("kgTotal");
+            var cMachos = document.getElementById("cMachos");
+            var cHembras = document.getElementById("cHembras");
+            var cTotal = document.getElementById("cTotal");
+            
+            //Inicialiamos las tablas
             var tblCorral = $('#corral').DataTable({
                 fixedHeader: {
                     header: true,
                     footer: true,
                     select: true
-                },
-                "columnDefs":
-                [
-                    { "visible": false, "targets": 2 }
-                ],
-                "order": [[ 2, 'asc' ]],
-                "displayLength": 25,
-                "drawCallback": function ( settings ) {
-                    var api = this.api();
-                    var rows = api.rows( {page:'current'} ).nodes();
-                    var last=null;
- 
-                    api.column(2, {page:'current'} ).data().each( function ( group, i ) {
-                        if ( last !== group ) {
-                            $(rows).eq( i ).before(
-                                '<tr class="group"><td colspan="5">'+group+'</td></tr>'
-                            );
- 
-                            last = group;
-                        }
-                    });
                 }
             });
-
-            // Order by the grouping
-            $('#tblCorral tbody').on('click', 'tr.group.selected', function () {
-                console.log("click corral");
-                var currentOrder = tblCorral.order()[0];
-                if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
-                    tblCorral.order([2, 'desc']).draw();
-                }
-                else {
-                    tblCorral.order([2, 'asc']).draw();
-                }
-            });
-
-
             var tblJaula = $('#jaula').DataTable({
                 fixedHeader: {
                     header: true,
                     footer: true,
                     select: true
-                },
-                "columnDefs":
-                [
-                    { "visible": false, "targets": 2 }
-                ],
-                "order": [[2, 'asc']],
-                "displayLength": 25,
-                "drawCallback": function (settings) {
-                    var api = this.api();
-                    var rows = api.rows({ page: 'current' }).nodes();
-                    var last = null;
-
-                    api.column(2, { page: 'current' }).data().each(function (group, i) {
-                        if (last !== group) {
-                            $(rows).eq(i).before(
-                                '<tr class="group"><td colspan="5">' + group + '</td></tr>'
-                            );
-
-                            last = group;
-                        }
-                    });
-                }
-            });
-            // Order by the grouping
-
-            $('#tblJaula tbody').on('click', 'tr.group.selected', function () {
-                var currentOrder = tblJaula.order()[0];
-                if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
-                    tblJaula.order([2, 'desc']).draw();
-                }
-                else {
-                    tblJaulav.order([2, 'asc']).draw();
                 }
             });
 
+            //Seleccionar filas 
             $('#corral tbody').on('click', 'tr', function () {
                 $(this).toggleClass('selected');
             });
+            $('#jaula tbody').on('click', 'tr', function () {
+                $(this).toggleClass('selected');
+            });
 
+            //Pasar y regresar filas en las tablas
             $('#enviar').click(function () {
-                //alert(tblCorral.rows('.selected').data().length + ' row(s) selected');
+                cGanadoM = 0, cGanadoH = 0, kGanadoM = 0, kGanadoH = 0;
                 var rows = tblCorral.rows('.selected').data();
 
                 for (var i = 0; i < rows.length; i++) {
                     var d = rows[i];
                     
                         tblJaula.row.add([
-                            d[0],
-                            d[1],
-                            d[2],
-                            d[3],
-                            d[4]
-                        ]).draw();
-                    
+                            d[0], //Dueño
+                            d[1], //Genero
+                            d[2]  //Peso
+                    ]).draw();
+
+                    if (d[1] == "MACHO") {
+                        cGanadoM += 1;
+                        kGanadoM += parseInt(d[2]);
+                    }
+                    else {
+                        cGanadoH += 1;
+                        kGanadoH += parseInt(d[2]);
+                    }
                 }
+                sumarGenero(cGanadoM, cGanadoH);
+                sumarPesoGanado(kGanadoM, kGanadoH);
                 tblCorral.row('.selected').remove().draw(false);
             });
-       
-        //Regresar
-        $('#jaula tbody').on('click', 'tr', function () {
-            $(this).toggleClass('selected');
-        });
+            $('#regresar').click(function () {
+                cGanadoM = 0, cGanadoH = 0, kGanadoM = 0, kGanadoH = 0;
 
-        $('#regresar').click(function () {
-            //alert(tblCorral.rows('.selected').data().length + ' row(s) selected');
-            var rows = tblJaula.rows('.selected').data();
+                var rows = tblJaula.rows('.selected').data();
 
-            for (var i = 0; i < rows.length; i++) {
-                var d = rows[i];
+                for (var i = 0; i < rows.length; i++) {
+                    var d = rows[i];
                     
-                tblCorral.row.add([
-                    d[0],
-                    d[1],
-                    d[2],
-                    d[3],
-                    d[4]
-                ]).draw();
-                    
+                    tblCorral.row.add([
+                        d[0], //Dueño
+                        d[1], //Genero
+                        d[2]  //Peso
+                    ]).draw();
+                    if (d[1] == "MACHO") {
+                        cGanadoM += 1;
+                        kGanadoM += parseInt(d[2]);
+                    }
+                    else {
+                        cGanadoH += 1;
+                        kGanadoH += parseInt(d[2]);
+                    }
+                }
+                restarGenero(cGanadoM, cGanadoH);
+                restarPesoGanado(kGanadoM, kGanadoH);
+                tblJaula.row('.selected').remove().draw(false);
+            });
+
+            //Funciones para suma y resta de ganado - pesos
+            function sumarPesoGanado(kMachos, kHembras) {
+                kgMachos.value = parseInt(kgMachos.value) + parseInt(kMachos);
+                kgHembras.value = parseInt(kgHembras.value) + parseInt(kHembras);
+                kgTotal.value = parseInt(kgMachos.value) + parseInt(kgHembras.value);
             }
-            tblJaula.row('.selected').remove().draw(false);
-        });
+            function restarPesoGanado(kMachos, kHembras) {
+                kgMachos.value = parseInt(kgMachos.value) - parseInt(kMachos);
+                kgHembras.value = parseInt(kgHembras.value) - parseInt(kHembras);
+                kgTotal.value = parseInt(kgMachos.value) + parseInt(kgHembras.value);
+            }
+            function sumarGenero(cantMachos, cantHembras) {
+                cMachos.value = parseInt(cMachos.value) + parseInt(cantMachos);
+                cHembras.value = parseInt(cHembras.value) + parseInt(cantHembras);
+                cTotal.value = parseInt(cMachos.value) + parseInt(cHembras.value);
+            }
+            function restarGenero(cantMachos, cantHembras) {
+                cMachos.value = parseInt(cMachos.value) - parseInt(cantMachos);
+                cHembras.value = parseInt(cHembras.value) - parseInt(cantHembras);
+                cTotal.value = parseInt(cMachos.value) + parseInt(cHembras.value);
+            }
     });
-    </script>
-
-    <script>
-        var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox();
-        $("#demoform").submit(function () {
-            alert($('[name="duallistbox_demo1[]"]').val());
-            return false;
-        });
     </script>
 }
