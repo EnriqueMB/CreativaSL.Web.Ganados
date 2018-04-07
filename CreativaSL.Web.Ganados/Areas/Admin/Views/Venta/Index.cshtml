@@ -32,7 +32,7 @@
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#proveedor" aria-controls="proveedor" role="tab" data-toggle="tab">Proveedor</a></li>
                 <li role="presentation"><a class="pestaña" href="#fierros" aria-controls="fierros" role="tab" data-toggle="tab">Fierros</a></li>
-                <li role="presentation"><a class="pestaña" href="#ganados" aria-controls="ganados" role="tab" data-toggle="tab">Ganados</a></li>
+                <li role="presentation"><a class="pestaña" href="#embarque" aria-controls="embarque" role="tab" data-toggle="tab">Embarque</a></li>
                 <li role="presentation"><a class="pestaña" href="#movimientos" aria-controls="pagos" role="tab" data-toggle="tab">Movimientos</a></li>
                 <li role="presentation"><a class="pestaña" href="#eventos" aria-controls="eventos" role="tab" data-toggle="tab">Eventos durante el trayecto</a></li>
                 <li role="presentation"><a class="pestaña" href="#recepcion" aria-controls="recepcion" role="tab" data-toggle="tab">Recepción</a></li>
@@ -82,7 +82,6 @@
                         }
                     </div>
                 </div>
-
                 <div role="tabpanel" class="tab-pane" id="fierros">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -94,56 +93,148 @@
                         </div>
                     </div>
                 </div>
-                <div id="ganados" role="tabpanel" class="tab-pane">
+                <div id="embarque" role="tabpanel" class="tab-pane">
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Información del <strong>Ganado</strong></h3>
+                                <h3 class="panel-title">Información del <strong>Embarque</strong></h3>
                                 <ul class="panel-controls"></ul>
                             </div>
-                            <div class="panel-body">
-
-                            </div>
-                            <!---->
-                            <div class="page-content-wrap">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <!-- START DEFAULT DATATABLE -->
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <h3 class="panel-title"></h3>
-                                                <div class="panel-controls">
-                                                    <button id="btnAddGanado" data-id="0" class="btn btn-primary btn-lg">
-                                                        <i class="fa fa-plus"></i> Agregar nuevo ganado
-                                                    </button>
+                            <form class = "form-horizontal", autocomplete = "off">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <div class="controlError">
+                                                    <label class="col-md-2 control-label">Origen</label>
+                                                    <div class="col-md-10 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="fa fa-flag"></span></span>
+                                                            <select class="form-control">
+                                                                <option>SELECCIONE LUGAR DE ORIGEN</option>
+                                                                <option>RANCHO CHAPALA</option>
+                                                                <option>RANCHO LA GUADALUPE</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="panel-body">
-                                                <div class="table-responsive">
-                                                    <table id="GanadoXCompraGanado" class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Número de arete</th>
-                                                                <th>Género</th>
-                                                                <th>Peso inicial (kg.)</th>
-                                                                <th>Peso final - Repeso (kg.)</th>
-                                                                <th>Diferencia de peso(kg.)</th>
-                                                                <th>Merma obtenida (%)</th>
-                                                                <th>Precio por kilo ($)</th>
-                                                                <th>Peso pagado ($)</th>
-                                                                <th>Total ($)</th>
-                                                                <th>Acción</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody></tbody>
-                                                    </table>
+                                            <div class="form-group">
+                                                <div class="controlError">
+                                                    <label class="col-md-2 control-label">Nombre</label>
+                                                    <div class="col-md-10 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="fa fa-flag"></span></span>
+                                                            <input type="text" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="controlError">
+                                                    <label class="col-md-2 control-label">Cbz. Machos</label>
+                                                    <div class="col-md-10 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="fa fa-flag"></span></span>
+                                                            <input type="text" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="controlError">
+                                                    <label class="col-md-2 control-label">Cbz. Hembras</label>
+                                                    <div class="col-md-10 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="fa fa-flag"></span></span>
+                                                            <input type="text" class="form-control" />
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- END DEFAULT DATATABLE -->
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <div class="controlError">
+                                                    <label class="col-md-2 control-label">Destino</label>
+                                                    <div class="col-md-10 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="fa fa-flag-checkered"></span></span>
+                                                            <select class="form-control">
+                                                                <option>SELECCIONE LUGAR DE DESTINO</option>
+                                                                <option>T.M. S.L.P.</option>
+                                                                <option>RANCHO SAN JACINTO</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="controlError">
+                                                    <label class="col-md-2 control-label">Hora embarque</label>
+                                                    <div class="col-md-10 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                            <input type="text" class="form-control timepicker" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="controlError">
+                                                    <label class="col-md-2 control-label">Cbz. Hembras</label>
+                                                    <div class="col-md-10 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="fa fa-flag"></span></span>
+                                                            <input type="text" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <div class="controlError">
+                                                    <label class="col-md-2 control-label">Fecha</label>
+                                                    <div class="col-md-10 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                                            <input type="text" class="form-control datepicker" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="controlError">
+                                                    <label class="col-md-2 control-label">Hora salida</label>
+                                                    <div class="col-md-10 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                            <input type="text" class="form-control timepicker" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="controlError">
+                                                    <label class="col-md-2 control-label">Total cabezas</label>
+                                                    <div class="col-md-10 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="fa fa-flag"></span></span>
+                                                            <input type="text" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                </div>
-                            </div>
+
+
+                                       
+                                    </div>
+                            </form>
                         </div>
                     </div>
                 </div>
