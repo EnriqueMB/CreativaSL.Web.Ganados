@@ -91,9 +91,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     TempData["message"] = "Ocurrió un error al guardar el registro.";
                     return View(Almacen);
                 }
-
-
-
             }
             catch (Exception)
             {
@@ -158,9 +155,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     TempData["message"] = "Ocurrió un error al guardar el registro.";
                     return View(Almacen);
                 }
-
-
-
             }
             catch (Exception)
             {
@@ -194,8 +188,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["message"] = "El registro se ha eliminado correctamente";
                 return Json("");
                 // TODO: Add delete logic here
-
-
             }
             catch
             {

@@ -1,21 +1,19 @@
-﻿@model CreativaSL.Web.Ganados.Models.VentaGanadosModels
+﻿@model CreativaSL.Web.Ganados.Models.CompraModels
 
 @{
-    ViewBag.Title = "Indx";
+    ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
 @section css
 {
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
-    <link href="~/Content/js/plugins/dualSelect/bootstrap-duallistbox.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
 }
 
 @section featured
 {
     @{
-        var message = "Prueba";
-        var typemessage = "0";
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
     }
     <div class="row">
         <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
@@ -32,7 +30,7 @@
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#proveedor" aria-controls="proveedor" role="tab" data-toggle="tab">Proveedor</a></li>
                 <li role="presentation"><a class="pestaña" href="#fierros" aria-controls="fierros" role="tab" data-toggle="tab">Fierros</a></li>
-                <li role="presentation"><a class="pestaña" href="#embarque" aria-controls="embarque" role="tab" data-toggle="tab">Embarque</a></li>
+                <li role="presentation"><a class="pestaña" href="#ganados" aria-controls="ganados" role="tab" data-toggle="tab">Ganados</a></li>
                 <li role="presentation"><a class="pestaña" href="#movimientos" aria-controls="pagos" role="tab" data-toggle="tab">Movimientos</a></li>
                 <li role="presentation"><a class="pestaña" href="#eventos" aria-controls="eventos" role="tab" data-toggle="tab">Eventos durante el trayecto</a></li>
                 <li role="presentation"><a class="pestaña" href="#recepcion" aria-controls="recepcion" role="tab" data-toggle="tab">Recepción</a></li>
@@ -82,6 +80,7 @@
                         }
                     </div>
                 </div>
+
                 <div role="tabpanel" class="tab-pane" id="fierros">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -93,148 +92,56 @@
                         </div>
                     </div>
                 </div>
-                <div id="embarque" role="tabpanel" class="tab-pane">
+                <div id="ganados" role="tabpanel" class="tab-pane">
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Información del <strong>Embarque</strong></h3>
+                                <h3 class="panel-title">Información del <strong>Ganado</strong></h3>
                                 <ul class="panel-controls"></ul>
                             </div>
-                            <form class = "form-horizontal", autocomplete = "off">
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <div class="controlError">
-                                                    <label class="col-md-2 control-label">Origen</label>
-                                                    <div class="col-md-10 col-xs-12">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><span class="fa fa-flag"></span></span>
-                                                            <select class="form-control">
-                                                                <option>SELECCIONE LUGAR DE ORIGEN</option>
-                                                                <option>RANCHO CHAPALA</option>
-                                                                <option>RANCHO LA GUADALUPE</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="controlError">
-                                                    <label class="col-md-2 control-label">Nombre</label>
-                                                    <div class="col-md-10 col-xs-12">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><span class="fa fa-flag"></span></span>
-                                                            <input type="text" class="form-control" />
-                                                        </div>
-                                                    </div>
-                                                </div>
+                            <div class="panel-body">
 
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="controlError">
-                                                    <label class="col-md-2 control-label">Cbz. Machos</label>
-                                                    <div class="col-md-10 col-xs-12">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><span class="fa fa-flag"></span></span>
-                                                            <input type="text" class="form-control" />
-                                                        </div>
-                                                    </div>
+                            </div>
+                            <!---->
+                            <div class="page-content-wrap">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <!-- START DEFAULT DATATABLE -->
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title"></h3>
+                                                <div class="panel-controls">
+                                                    <button id="btnAddGanado" data-id="0" class="btn btn-primary btn-lg">
+                                                        <i class="fa fa-plus"></i> Agregar nuevo ganado
+                                                    </button>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="controlError">
-                                                    <label class="col-md-2 control-label">Cbz. Hembras</label>
-                                                    <div class="col-md-10 col-xs-12">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><span class="fa fa-flag"></span></span>
-                                                            <input type="text" class="form-control" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <div class="controlError">
-                                                    <label class="col-md-2 control-label">Destino</label>
-                                                    <div class="col-md-10 col-xs-12">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><span class="fa fa-flag-checkered"></span></span>
-                                                            <select class="form-control">
-                                                                <option>SELECCIONE LUGAR DE DESTINO</option>
-                                                                <option>T.M. S.L.P.</option>
-                                                                <option>RANCHO SAN JACINTO</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="controlError">
-                                                    <label class="col-md-2 control-label">Hora embarque</label>
-                                                    <div class="col-md-10 col-xs-12">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                                            <input type="text" class="form-control timepicker" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="controlError">
-                                                    <label class="col-md-2 control-label">Cbz. Hembras</label>
-                                                    <div class="col-md-10 col-xs-12">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><span class="fa fa-flag"></span></span>
-                                                            <input type="text" class="form-control" />
-                                                        </div>
-                                                    </div>
+                                            <div class="panel-body">
+                                                <div class="table-responsive">
+                                                    <table id="GanadoXCompraGanado" class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Número de arete</th>
+                                                                <th>Género</th>
+                                                                <th>Peso inicial (kg.)</th>
+                                                                <th>Peso final - Repeso (kg.)</th>
+                                                                <th>Diferencia de peso(kg.)</th>
+                                                                <th>Merma obtenida (%)</th>
+                                                                <th>Precio por kilo ($)</th>
+                                                                <th>Peso pagado ($)</th>
+                                                                <th>Total ($)</th>
+                                                                <th>Acción</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <div class="controlError">
-                                                    <label class="col-md-2 control-label">Fecha</label>
-                                                    <div class="col-md-10 col-xs-12">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                                            <input type="text" class="form-control datepicker" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="controlError">
-                                                    <label class="col-md-2 control-label">Hora salida</label>
-                                                    <div class="col-md-10 col-xs-12">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                                            <input type="text" class="form-control timepicker" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="controlError">
-                                                    <label class="col-md-2 control-label">Total cabezas</label>
-                                                    <div class="col-md-10 col-xs-12">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><span class="fa fa-flag"></span></span>
-                                                            <input type="text" class="form-control" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
+                                        <!-- END DEFAULT DATATABLE -->
                                     </div>
-
-
-                                       
-                                    </div>
-                            </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -314,65 +221,40 @@
             </div>
 
         </div>
-        <!--TERMINA TABS-->
-        <!--INICIA SECCION DE MODALES-->
-        <div id="ModalGanado" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog modal-lg" id="ContenidoModalGanado">
-
+    </div>
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres eliminar esta fila?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="ModalPago" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog modal-lg" id="ContenidoModalPago">
-
-            </div>
-        </div>
-        <div id="ModalCobro" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog modal-lg" id="ContenidoModalCobro">
-
-            </div>
-        </div>
-        <!--TERMINA SECCION DE MODALES-->
     </div>
     <script>
-        var message     = '@message';
-        var typemessage = '@typemessage';
+    var message = '@message';
+    var typemessage = '@typemessage';
     </script>
 }
-
 @section script
 {
-    <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
-    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
-    <script src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-
-    <!--FILEINPUT-->
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-
-    <!--DATEPICKER-->
-    <script src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-timepicker.min.js")"></script>
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
-    <script src="~/Content/js/plugins/dualSelect/jquery.bootstrap-duallistbox.js"></script>
     <script>
-
-        jQuery(document).ready(function () {
-
-            var idCompra = "";
-            Mensaje(message, typemessage);
+            jQuery(document).ready(function () {
+                Mensaje(message, typemessage);
+            });
     </script>
 
-    <script>
-        var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox();
-        $("#demoform").submit(function () {
-            alert($('[name="duallistbox_demo1[]"]').val());
-            return false;
-        });
-    </script>
+
 }

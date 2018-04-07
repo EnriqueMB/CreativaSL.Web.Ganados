@@ -79,6 +79,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
                 else
                 {
+                    Concepto.Conexion = Conexion;
+                    Concepto.listTipoConciliacion = ConceptoDatos.ObtenerComboTipoConciliacion(Concepto);
                     return View(Concepto);
                 }
             }

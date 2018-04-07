@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.Models.Validaciones;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace CreativaSL.Web.Ganados.Models
         [Display(Name = "peso minimo")]
         [Range(1, int.MaxValue, ErrorMessage = "Introduzca un número mayor a 0")]
         [StringLength(20, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        [RegularExpression(@"^-?(?!0)(?:\d+|\d{1,3}(?:\.\d{3})+)$", ErrorMessage = "Solo números enteros")]
+        [Peso(ErrorMessage = "Solo números enteros")]
         public decimal PesoMinimo
         {
             get { return _PesoMinimo; }
@@ -50,7 +51,7 @@ namespace CreativaSL.Web.Ganados.Models
         [Display(Name = "peso maximo")]
         [Range(1, int.MaxValue, ErrorMessage = "Introduzca un número mayor a 0")]
         [StringLength(20, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        [RegularExpression(@"^-?(?!0)(?:\d+|\d{1,3}(?:\.\d{3})+)$", ErrorMessage = "Solo números enteros")]
+        [Peso(ErrorMessage = "Solo números enteros")]
         public decimal PesoMaximo
         {
             get { return _PesoMaximo; }
@@ -61,7 +62,7 @@ namespace CreativaSL.Web.Ganados.Models
         [Required(ErrorMessage = "El precio es obligatorio")]
         [Display(Name = "precio")]
         [Range(1, int.MaxValue, ErrorMessage = "Introduzca un número mayor a 0")]
-        [RegularExpression(@"^[0-9]+([.])?([0-9]+)?$", ErrorMessage = "Solo números y decimales")]
+        [Precio(ErrorMessage = "Solo números y decimales")]
         public decimal Precio
         {
             get { return _Precio; }

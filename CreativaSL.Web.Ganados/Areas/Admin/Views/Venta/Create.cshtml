@@ -1,17 +1,22 @@
 ﻿@model CreativaSL.Web.Ganados.Models.VentaGanadosModels
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Indx";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 @section css
 {
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,700">
-    <link href="~/Content/js/plugins/react-dual-listbox-master/style.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.5/css/select.bootstrap.min.css">
+    <link href="~/Content/js/plugins/dualSelect/bootstrap-duallistbox.css" rel="stylesheet" />
+    <style>
+        tr.group,
+        tr.group:hover {
+            background-color: #ddd !important;
+        }
+    </style> 
 }
+
 @section featured
 {
     @{
@@ -43,61 +48,36 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="proveedor">
                     <div class="col-md-12">
-                        @using (Html.BeginForm("SaveCompra", "Compra", FormMethod.Post, new { id = "frmCreateCompra", @class = "form-horizontal", autocomplete = "off" }))
+                        @using (Html.BeginForm("SaveCompra", "Compra", FormMethod.Post, new { id = "demoform", @class = "form-horizontal", autocomplete = "off" }))
                         {
                             @Html.AntiForgeryToken()
 
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title"><strong>Información</strong> Compra </h3>
+                                    <h3 class="panel-title"><strong>Información</strong> Con select  </h3>
                                     <ul class="panel-controls"></ul>
                                 </div>
                                 <div class="panel-body">
 
-                                    <h1>Examples</h1>
-                                    <h2>Basic Examples</h2>
-                                    <p>
-                                        Below is your most basic example. It supports moving by double-clicking, pressing enter, or clicking the buttons
-                                        in the middle of the panel.
-                                    </p>
-                                    <div id="basic-example"></div>
-                                    <h3>Optgroup Example</h3>
-                                    <p>
-                                        React Dual Listbox also supports the use of <code>optgroup</code>:
-                                    </p>
-                                    <div id="optgroup-example"></div>
-                                    <h2>Advanced Options</h2>
-                                    <h3>Filter Example</h3>
-                                    <p>
-                                        To enable filtering, just pass in the <code>canFilter</code> property. You can optionally pass in
-                                        <code>filter</code> and <code>onFilterChange</code> to control the state yourself:
-                                    </p>
-                                    <div id="filter-example"></div>
-                                    <h3>Align Actions to Top Example</h3>
-                                    <p>
-                                        In addition to having the movement action aligned to the middle of the component, you can arrange them to the
-                                        top using the <code>alignActions</code> property:
-                                    </p>
-                                    <div id="align-top-example"></div>
-                                    <h3>Disabled Example</h3>
-                                    <p>
-                                        Simply pass in the <code>disabled</code> property to disable this control:
-                                    </p>
-                                    <div id="disabled-example"></div>
-                                    <h3>Preserve Select Order Example</h3>
-                                    <p>
-                                        In the example below, the order in which you move the items to the right matters. Compare this with the default
-                                        behavior, where the <strong>Moon</strong> is followed by <strong>Io</strong>.
-                                    </p>
-                                    <div id="preserve-select-order-example"></div>
-                                    <h3>Restrict Available Example</h3>
-                                    <p>
-                                        In the following example, we are restricting which options are available for selection. This may be useful if
-                                        you wish to categorize a large list of items.
-                                    </p>
-                                    <div id="restrict-available-example"></div>
+                                    <!---->
 
 
+                                    <select multiple="multiple" size="10" name="duallistbox_demo1[]">
+                                        <option value="option1">Option 1</option>
+                                        <option value="option2">Option 2</option>
+                                        <option value="option3" selected="selected">Option 3</option>
+                                        <option value="option4">Option 4</option>
+                                        <option value="option5">Option 5</option>
+                                        <option value="option6" selected="selected">Option 6</option>
+                                        <option value="option7">Option 7</option>
+                                        <option value="option8">Option 8</option>
+                                        <option value="option9" selected="selected"> Option 9</option>
+                                        <option value="option0">Option 10</option>
+                                    </select>
+                                    <br>
+
+
+                                    <!---->
                                 </div>
 
                                 <div class="panel-footer">
@@ -108,29 +88,171 @@
                         }
                     </div>
                 </div>
-               
-                    <div role="tabpanel" class="tab-pane" id="fierros">
+
+                <div role="tabpanel" class="tab-pane" id="fierros">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Información <strong>Con 2 tablas</strong>  </h3>
+                            <ul class="panel-controls"></ul>
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <center><button id="enviar">Enviar >></button></center>
+                                    <center><button id="regresar"><< Regresar </button></center>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                               
+                                    <div class="col-md-6">
+
+                                        <table id="corral" class="display table " style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Position</th>
+                                                    <th>Office</th>
+                                                    <th>Age</th>
+                                                    <th>Salary</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Tiger Nixon</td>
+                                                    <td>System Architect</td>
+                                                    <td>MEXICO</td>
+                                                    <td>61</td>
+                                                    <td>$320,800</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Cedric Kelly</td>
+                                                    <td>Senior Javascript Developer</td>
+                                                    <td>USA</td>
+                                                    <td>22</td>
+                                                    <td>$433,060</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Sonya Frost</td>
+                                                    <td>Software Engineer</td>
+                                                    <td>CANADA</td>
+                                                    <td>23</td>
+                                                    <td>$103,600</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Quinn Flynn</td>
+                                                    <td>Support Lead</td>
+                                                    <td>MEXICO</td>
+                                                    <td>22</td>
+                                                    <td>$342,000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Dai Rios</td>
+                                                    <td>Personnel Lead</td>
+                                                    <td>USA</td>
+                                                    <td>35</td>
+                                                    <td>$217,500</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Gavin Joyce</td>
+                                                    <td>Developer</td>
+                                                    <td>MEXICO</td>
+                                                    <td>42</td>
+                                                    <td>$92,575</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Martena Mccray</td>
+                                                    <td>Post-Sales support</td>
+                                                    <td>MEXICO</td>
+                                                    <td>46</td>
+                                                    <td>$324,050</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Jennifer Acosta</td>
+                                                    <td>Junior Javascript Developer</td>
+                                                    <td>Edinburgh</td>
+                                                    <td>43</td>
+                                                    <td>$75,650</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Shad Decker</td>
+                                                    <td>Regional Director</td>
+                                                    <td>Edinburgh</td>
+                                                    <td>51</td>
+                                                    <td>$183,000</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Position</th>
+                                                    <th>Office</th>
+                                                    <th>Age</th>
+                                                    <th>Salary</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+
+                                    </div>
+
+                                    <div class="col-md-6">
+
+                                        <table id="jaula" class="display table " style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Position</th>
+                                                    <th>Office</th>
+                                                    <th>Age</th>
+                                                    <th>Salary</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Position</th>
+                                                    <th>Office</th>
+                                                    <th>Age</th>
+                                                    <th>Salary</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+
+                                    </div>
+                                </div>
+
+                            
+                           
+                        </div>
+                    </div>
+                </div>
+                <div id="ganados" role="tabpanel" class="tab-pane">
+                    <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Información <strong>Fierros</strong>  </h3>
+                                <h3 class="panel-title">Información del <strong>Ganado</strong></h3>
                                 <ul class="panel-controls"></ul>
                             </div>
                             <div class="panel-body">
-                              
+                             
                             </div>
+                            <!---->
+                           
                         </div>
                     </div>
-                    <div id="ganados" role="tabpanel" class="tab-pane">
-                        <div class="col-md-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Información del <strong>Ganado</strong></h3>
-                                    <ul class="panel-controls"></ul>
-                                </div>
-                                <div class="panel-body">
-                                   
-                                </div>
-                                <!---->
+                </div>
+                <div id="movimientos" class="tab-pane" role="tabpanel">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Información de <strong>Pagos realizados</strong></h3>
+                                <ul class="panel-controls"></ul>
+                            </div>
+                            <div class="panel-body">
                                 <div class="page-content-wrap">
                                     <div class="row">
                                         <div class="col-md-12">
@@ -170,82 +292,69 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="movimientos" class="tab-pane" role="tabpanel">
-                        <div class="col-md-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Información de <strong>Pagos realizados</strong></h3>
-                                    <ul class="panel-controls"></ul>
-                                </div>
-                                <div class="panel-body">
-
-                                    
-                                </div>
 
                             </div>
+
                         </div>
-
                     </div>
-                    <div id="eventos" class="tab-pane" role="tabpanel">
-                        <div class="col-md-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Información de <strong>Eventos durante el trayecto</strong></h3>
-                                    <ul class="panel-controls"></ul>
-                                </div>
 
-                                <div class="page-content-wrap">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <!-- START DEFAULT DATATABLE -->
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                    <h3 class="panel-title"></h3>
-                                                    <ul class="panel-controls">
-                                                        <li><a id="btnAddEvento" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo movimiento</a></li>
-                                                        <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                                                        <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
-                                                    </ul>
+                </div>
+                <div id="eventos" class="tab-pane" role="tabpanel">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Información de <strong>Eventos durante el trayecto</strong></h3>
+                                <ul class="panel-controls"></ul>
+                            </div>
 
-                                                </div>
-                                                <div class="panel-body">
-                                             
-                                                </div>
+                            <div class="page-content-wrap">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <!-- START DEFAULT DATATABLE -->
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title"></h3>
+                                                <ul class="panel-controls">
+                                                    <li><a id="btnAddEvento" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo movimiento</a></li>
+                                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                                    <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
+                                                </ul>
+
                                             </div>
-                                            <!-- END DEFAULT DATATABLE -->
+                                            <div class="panel-body">
+
+                                            </div>
                                         </div>
+                                        <!-- END DEFAULT DATATABLE -->
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div id="recepcion" class="tab-pane" role="tabpanel">
-                        <div class="col-md-12">
-                           
-                                @Html.AntiForgeryToken()
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">Información de <strong>Recepción de la compra</strong></h3>
-                                        <ul class="panel-controls"></ul>
-                                    </div>
+                </div>
+                <div id="recepcion" class="tab-pane" role="tabpanel">
+                    <div class="col-md-12">
 
-                                    <div class="panel-body">
+                        @Html.AntiForgeryToken()
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Información de <strong>Recepción de la compra</strong></h3>
+                                <ul class="panel-controls"></ul>
+                            </div>
 
-                                
-                                    </div>
+                            <div class="panel-body">
 
-                                    <div class="panel-footer">
-                                        <input type="submit" value="Finalizar compra" class="btn btn-primary pull-right">
-                                        <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                                    </div>
-                                </div>
-                            
+
+                            </div>
+
+                            <div class="panel-footer">
+                                <input type="submit" value="Finalizar compra" class="btn btn-primary pull-right">
+                                <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                            </div>
                         </div>
+
                     </div>
-                
+                </div>
 
             </div>
 
@@ -294,8 +403,8 @@
     <!--DATEPICKER-->
     <script src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-timepicker.min.js")"></script>
 
-    <script src="~/Content/js/plugins/react-dual-listbox-master/index.js"></script>
-
+    <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
+    <script src="~/Content/js/plugins/dualSelect/jquery.bootstrap-duallistbox.js"></script>
     <script>
 
         jQuery(document).ready(function () {
@@ -303,9 +412,142 @@
             var idCompra = "";
             Mensaje(message, typemessage);
 
+            var tblCorral = $('#corral').DataTable({
+                fixedHeader: {
+                    header: true,
+                    footer: true,
+                    select: true
+                },
+                "columnDefs":
+                [
+                    { "visible": false, "targets": 2 }
+                ],
+                "order": [[ 2, 'asc' ]],
+                "displayLength": 25,
+                "drawCallback": function ( settings ) {
+                    var api = this.api();
+                    var rows = api.rows( {page:'current'} ).nodes();
+                    var last=null;
+ 
+                    api.column(2, {page:'current'} ).data().each( function ( group, i ) {
+                        if ( last !== group ) {
+                            $(rows).eq( i ).before(
+                                '<tr class="group"><td colspan="5">'+group+'</td></tr>'
+                            );
+ 
+                            last = group;
+                        }
+                    });
+                }
+            });
+
+            // Order by the grouping
+            $('#tblCorral tbody').on('click', 'tr.group.selected', function () {
+                console.log("click corral");
+                var currentOrder = tblCorral.order()[0];
+                if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
+                    tblCorral.order([2, 'desc']).draw();
+                }
+                else {
+                    tblCorral.order([2, 'asc']).draw();
+                }
+            });
+
+
+            var tblJaula = $('#jaula').DataTable({
+                fixedHeader: {
+                    header: true,
+                    footer: true,
+                    select: true
+                },
+                "columnDefs":
+                [
+                    { "visible": false, "targets": 2 }
+                ],
+                "order": [[2, 'asc']],
+                "displayLength": 25,
+                "drawCallback": function (settings) {
+                    var api = this.api();
+                    var rows = api.rows({ page: 'current' }).nodes();
+                    var last = null;
+
+                    api.column(2, { page: 'current' }).data().each(function (group, i) {
+                        if (last !== group) {
+                            $(rows).eq(i).before(
+                                '<tr class="group"><td colspan="5">' + group + '</td></tr>'
+                            );
+
+                            last = group;
+                        }
+                    });
+                }
+            });
+            // Order by the grouping
+
+            $('#tblJaula tbody').on('click', 'tr.group.selected', function () {
+                var currentOrder = tblJaula.order()[0];
+                if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
+                    tblJaula.order([2, 'desc']).draw();
+                }
+                else {
+                    tblJaulav.order([2, 'asc']).draw();
+                }
+            });
+
+            $('#corral tbody').on('click', 'tr', function () {
+                $(this).toggleClass('selected');
+            });
+
+            $('#enviar').click(function () {
+                //alert(tblCorral.rows('.selected').data().length + ' row(s) selected');
+                var rows = tblCorral.rows('.selected').data();
+
+                for (var i = 0; i < rows.length; i++) {
+                    var d = rows[i];
+                    
+                        tblJaula.row.add([
+                            d[0],
+                            d[1],
+                            d[2],
+                            d[3],
+                            d[4]
+                        ]).draw();
+                    
+                }
+                tblCorral.row('.selected').remove().draw(false);
+            });
        
+        //Regresar
+        $('#jaula tbody').on('click', 'tr', function () {
+            $(this).toggleClass('selected');
+        });
 
+        $('#regresar').click(function () {
+            //alert(tblCorral.rows('.selected').data().length + ' row(s) selected');
+            var rows = tblJaula.rows('.selected').data();
 
-      
+            for (var i = 0; i < rows.length; i++) {
+                var d = rows[i];
+                    
+                tblCorral.row.add([
+                    d[0],
+                    d[1],
+                    d[2],
+                    d[3],
+                    d[4]
+                ]).draw();
+                    
+            }
+            tblJaula.row('.selected').remove().draw(false);
+        });
+    });
+    </script>
+
+    <script>
+        var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox();
+        $("#demoform").submit(function () {
+            alert($('[name="duallistbox_demo1[]"]').val());
+            return false;
+        });
     </script>
 }

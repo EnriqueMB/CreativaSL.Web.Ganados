@@ -1,0 +1,131 @@
+﻿@model CreativaSL.Web.Ganados.ViewModels.RendimientoCombustibleViewModels
+@{
+    ViewBag.Title = "Rendimiento";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+
+        <div class="col-md-12">
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("Create", "EntregaCombustible", FormMethod.Post, new { @class = "form-horizontal", id = "form-ec", autocomplete = "off" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="field_error" id="validation_summary"></div>
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Entrega </strong> de combustible </h3>
+                        <ul class="panel-controls"></ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+
+                            @Html.HiddenFor(model => model.IDEntregaCombustible)
+                            @*@Html.HiddenFor(model => model.KMInicial)                            
+                            @Html.HiddenFor(model => model.Litros)*@
+
+                            <div class="form-group">
+                                <label class="col-md-2 col-xs-12 control-label"><span></span> No. de Ticket</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <label class="form-control">@Model.NoTicket</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 col-xs-12 control-label">Fecha de entrega</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                        <label class="form-control">@Model.Fecha</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 col-xs-12 control-label"><span></span> Litros </label>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <label class="form-control" id="Litros">@Model.Litros</label>
+                                        <span class="input-group-addon">L</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 col-xs-12 control-label"><span></span> Km. Inicial</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <label class="form-control" id="KMInicial">@Model.KMInicial</label>
+                                        <span class="input-group-addon">KM</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 col-xs-12 control-label"><span></span> Km. Final</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.KMFinal, new { id = "KMFinal", @class = "form-control", placeholder = "Ingrese el kilometraje final" })
+                                        <span class="input-group-addon">KM</span>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.KMFinal)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 col-xs-12 control-label"><span></span> Rendimiento</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <label class="form-control" id="Rend">@string.Format("{0:F3}", Model.Rendimiento)</label>
+                                        <span class="input-group-addon">KM/L</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("Index","EntregaCombustible")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+            var message = '@message';
+            var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/rendimiento.js")"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            Rendimiento.init();
+        });
+    </script>
+}

@@ -22,6 +22,7 @@ namespace CreativaSL.Web.Ganados.Models
             _Rendimento = 0;
             _ImgTicket = string.Empty;
             _Documento = new DocumentoPorPagarDetalleModels();
+            _ListaEntregas = new List<EntregaCombistibleModels>();
             Conexion = string.Empty;
             Resultado = 0;
             Completado = false;
@@ -38,6 +39,17 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _IDEntregaCombustible; }
             set { _IDEntregaCombustible = value; }
         }
+
+        private CatSucursalesModels _Sucursal;
+        /// <summary>
+        /// Objeto que contiene los datos de la sucursal a la que pertenece la Entrega
+        /// </summary>
+        public CatSucursalesModels Sucursal
+        {
+            get { return _Sucursal; }
+            set { _Sucursal = value; }
+        }
+
 
         private CatVehiculoModels _Vehiculo;
         /// <summary>
@@ -68,6 +80,15 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _Fecha; }
             set { _Fecha = value; }
         }
+        
+        /// <summary>
+        /// Fecha con formato corto 
+        /// </summary>
+        public string FechaFormat
+        {
+            get { return _Fecha.ToString("dd/MM/yyyy"); }            
+        }
+
 
         private string _NoTicket;
         /// <summary>
@@ -129,6 +150,11 @@ namespace CreativaSL.Web.Ganados.Models
             set { _Total = value; }
         }
 
+        public string ImporteFormato
+        {
+            get { return string.Format("{0:c}", _Total); }
+        }
+
         private decimal _Rendimento;
         /// <summary>
         /// Rendimiento del combustible
@@ -157,6 +183,40 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _Documento; }
             set { _Documento = value; }
+        }
+
+        private List<EntregaCombistibleModels> _ListaEntregas;
+        /// <summary>
+        /// Listado de entregas de combustible
+        /// </summary>
+        public List<EntregaCombistibleModels> ListaEntregas
+        {
+            get { return _ListaEntregas; }
+            set { _ListaEntregas = value; }
+        }
+
+        private bool _BandSucursal;
+
+        public bool BandSucursal
+        {
+            get { return _BandSucursal; }
+            set { _BandSucursal = value; }
+        }
+
+        private bool _BandVehiculo;
+
+        public bool BandVehiculo
+        {
+            get { return _BandVehiculo; }
+            set { _BandVehiculo = value; }
+        }
+
+        private bool _BandFecha;
+
+        public bool BandFecha
+        {
+            get { return _BandFecha; }
+            set { _BandFecha = value; }
         }
 
 

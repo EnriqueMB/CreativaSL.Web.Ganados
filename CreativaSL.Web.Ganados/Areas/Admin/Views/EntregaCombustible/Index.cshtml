@@ -25,43 +25,58 @@
                 <!-- START DEFAULT DATATABLE -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        @*<form class="form-horizontal">*@
-                            <h3 class="panel-title"></h3>
-                            @*<div class="col-md-3">
-                                <select class="form-control select" data-live-search="true" id="IDRegimenFiscal" name="IDRegimenFiscal">
-                                    <option selected="selected" value="">--Seleccione--</option>
-                                    <option value="601">Vehículo 001</option>
-                                    <option value="603">Vehículo 002</option>
-                                    <option value="607">Vehículo 003</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <select class="form-control select" data-live-search="true" id="IDRegimenFiscal" name="IDRegimenFiscal">
-                                    <option selected="selected" value="">--Seleccione--</option>
-                                    <option value="601">Vehículo 001</option>
-                                    <option value="603">Vehículo 002</option>
-                                    <option value="607">Vehículo 003</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <select class="form-control select" data-live-search="true" id="IDRegimenFiscal" name="IDRegimenFiscal">
-                                    <option selected="selected" value="">--Seleccione--</option>
-                                    <option value="601">Vehículo 001</option>
-                                    <option value="603">Vehículo 002</option>
-                                    <option value="607">Vehículo 003</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">*@
-                                <ul class="panel-controls">
-                                    @*<li><button class="btn btn-default btnCrear"><span class="fa fa-search"></span></button></li>*@
-                                    <li><a href="@Url.Action("Create","EntregaCombustible")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva entrega</a></li>
-                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                                    <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
-                                </ul>
-                            @*</div>*@
-                        @*</form>*@
-                    </div>
-                    
+                        <h3 class="panel-title"></h3>
+                        @using (Html.BeginForm("Index", "EntregaCombustible", FormMethod.Post, new { @class = "form-inline", id = "form-search", autocomplete = "off" }))
+                        {
+                            
+                                <div class="form-group">
+                                    <input type="checkbox" /><label class="control-label">Filtrar por Sucursal: </label>
+                                    @*<div class="col-md-8 col-xs-12">*@
+                                        <select class="form-control select" data-style="form-control" data-live-search="true" id="IDSucursal" name="IDSucursal">
+                                            <option selected="selected" value="">--Seleccione--</option>
+                                            <option value="601">Sucursal 001</option>
+                                            <option value="603">Sucursal 002</option>
+                                            <option value="607">Sucursal 003</option>
+                                        </select>
+                                    @*</div>*@
+                                </div>
+                                <div class="form-group">
+                                    <input type="checkbox" /><label class="control-label">Filtrar por Vehiculo: </label>
+                                    @*<div class="col-md-8 col-xs-12">*@
+                                        <select class="form-control select" data-live-search="true" data-style="form-control" id="IDVehiculo" name="IDVehiculo" placeholder ="Seleccione un vehiculo">
+                                            <option selected="selected" value="">--Seleccione--</option>
+                                            <option value="601">Vehículo 001</option>
+                                            <option value="603">Vehículo 002</option>
+                                            <option value="607">Vehículo 003</option>
+                                        </select>
+                                    @*</div>*@
+                                </div>
+                                <div class="form-group">
+                                    <input type="checkbox" /> <label class="control-label">Fecha de entrega: </label>
+                                    @*<div class="col-md-12 col-xs-12">*@
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                            @Html.TextBoxFor(model => model.Fecha, "{0:dd/MM/yyyy}", new { id = "Fecha", @class = "form-control datepicker", @readonly = "readonly" })
+                                        </div>
+                                    @*</div>*@
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-default btnCrear"><span class="fa fa-search"> </span> Filtrar</button>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <ul class="panel-controls">
+
+                                        <li><a href="@Url.Action("Create", "EntregaCombustible")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva entrega</a></li>
+                                        <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                        <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
+                                    </ul>
+                                    </div>
+                                    }
+                                </div>
+
                     <div class="panel-body">
                         <div class="table-responsive">
                             <table class="table datatable">
@@ -74,26 +89,20 @@
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>03/04/2018</td>
-                                        <td>Tacoma 387-BHC-2</td>
-                                        <td>$ 3859.00</td>
-                                        <td>Matriz</td>
-                                        <td></td>
-                                    </tr>
-                                    @*@foreach (var proveedor in Model.listaProveedores)
+                                <tbody>                                    
+                                    @foreach (var Item in Model.ListaEntregas)
                                     {
-                                        <tr id="@proveedor.IDProveedor">
-                                            <td>@proveedor.NombreRazonSocial</td>
-                                            <td>@proveedor.RFC</td>
-                                            <td>@proveedor.nombreProveedor</td>
-                                            <td>@proveedor.nombreSucursal</td>
+                                        <tr id="@Item.IDEntregaCombustible">
+                                            <td>@Item.FechaFormat</td>
+                                            <td>@Item.Vehiculo.Modelo</td>
+                                            <td>@Item.ImporteFormato</td>
+                                            <td>@Item.Sucursal.NombreSucursal</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Datos bancarios" class="btn btn-green" href="@Url.Action("Cuentas", "CatProveedor", new { id = proveedor.IDProveedor })"><i class="fa fa-money"></i></a>
-                                                    <a title="Editar" href="@Url.Action("Edit", "CatProveedor", new { id = proveedor.IDProveedor})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" id="delete-@proveedor.IDProveedor" data-hrefa="@Url.Action("Delete", "CatProveedor", new { id =  proveedor.IDProveedor })" onClick="delete_row('@proveedor.IDProveedor');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Rendimiento" class="btn btn-green" href="@Url.Action("Rendimiento", "EntregaCombustible", new { id = Item.IDEntregaCombustible })"><i class="fa fa-money"></i></a>
+                                                    <a title="Procesar" class="btn btn-primary" href="@Url.Action("Procesar", "EntregaCombustible", new { id = Item.IDEntregaCombustible })"><i class="fa fa-money"></i></a>
+                                                    <a title="Editar" href="@Url.Action("Edit", "EntregaCombustible", new { id = Item.IDEntregaCombustible})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" id="delete-@Item.IDEntregaCombustible" data-hrefa="@Url.Action("Delete", "EntregaCombustible", new { id =  Item.IDEntregaCombustible })" onClick="delete_row('@Item.IDEntregaCombustible');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -102,17 +111,22 @@
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Cuentas", "CatProveedor", new { id = proveedor.IDProveedor })">
-                                                                    <i class="fa fa-money"></i> Datos bancarios
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Rendimiento", "EntregaCombustible", new { id = Item.IDEntregaCombustible })">
+                                                                    <i class="fa fa-money"></i> Rendimiento
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatProveedor", new { id = proveedor.IDProveedor})">
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Procesar", "EntregaCombustible", new { id = Item.IDEntregaCombustible })">
+                                                                    <i class="fa fa-money"></i> Procesar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "EntregaCombustible", new { id = Item.IDEntregaCombustible })">
                                                                     <i class="fa fa-edit"></i> Editar
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@proveedor.IDProveedor" data-hrefa="@Url.Action("Delete", "CatProveedor", new { id =  proveedor.IDProveedor })" onClick="delete_row('@proveedor.IDProveedor');">
+                                                                <a role="menuitem" tabindex="-1" id="delete-@Item.IDEntregaCombustible" data-hrefa="@Url.Action("Delete", "EntregaCombustible", new { id =  Item.IDEntregaCombustible })" onClick="delete_row('@Item.IDEntregaCombustible');">
                                                                     <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>
@@ -121,7 +135,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                    }*@
+                                    }
                                 </tbody>
                             </table>
                         </div>
