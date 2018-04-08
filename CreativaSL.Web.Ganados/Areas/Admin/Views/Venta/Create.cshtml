@@ -9,10 +9,24 @@
 {
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.5/css/select.bootstrap.min.css">
     <style>
-        tr.group,
-        tr.group:hover {
-            background-color: #ddd !important;
-        }
+
+    table#tblJaulaCheck {
+        border: 1px solid black;
+    }
+
+    table#tblJaulaCheck thead {
+        border: 1px solid black;
+        text-align: center;
+    }
+
+    table#tblJaulaCheck td:nth-child(1) {
+        border-right: 1px solid black;
+    }
+
+    table#tblJaulaCheck tbody td {
+        padding: 10px 0 0 10px;
+    }
+       
     </style> 
 }
 
@@ -35,12 +49,13 @@
             <input type="hidden" value="" id="id_compra" />
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#ganado"        aria-controls="ganado"      role="tab" data-toggle="tab">Selección de Ganado</a></li>
-                <li role="presentation"><a class="pestaña" href="#embarque"     aria-controls="embarque"    role="tab" data-toggle="tab">Información de Embarque</a></li>
-                <li role="presentation"><a class="pestaña" href="#flete"        aria-controls="flete"       role="tab" data-toggle="tab">Linea Fletera</a></li>
-                <li role="presentation"><a class="pestaña" href="#jaulaP"        aria-controls="jaula"       role="tab" data-toggle="tab">Jaula</a></li>
-                <li role="presentation"><a class="pestaña" href="#eventos"      aria-controls="eventos"     role="tab" data-toggle="tab">Eventos durante el trayecto</a></li>
-                <li role="presentation"><a class="pestaña" href="#recepcion"    aria-controls="recepcion"   role="tab" data-toggle="tab">Recepción en destino</a></li>
+                <li role="presentation" class="active"><a href="#ganado" aria-controls="ganado" role="tab" data-toggle="tab">Ganado</a></li>
+                <li role="presentation"><a class="pestaña" href="#embarque" aria-controls="embarque" role="tab" data-toggle="tab">Embarque</a></li>
+                <li role="presentation"><a class="pestaña" href="#flete" aria-controls="flete" role="tab" data-toggle="tab">Flete</a></li>
+                <li role="presentation"><a class="pestaña" href="#jaulaP" aria-controls="jaula" role="tab" data-toggle="tab">Jaula</a></li>
+                <li role="presentation"><a class="pestaña" href="#documentos" aria-controls="documentos" role="tab" data-toggle="tab">Documentos</a></li>
+                <li role="presentation"><a class="pestaña" href="#eventos" aria-controls="eventos" role="tab" data-toggle="tab">Eventos</a></li>
+                <li role="presentation"><a class="pestaña" href="#recepcion" aria-controls="recepcion" role="tab" data-toggle="tab">Recepción</a></li>
             </ul>
 
             <!-- Tab panes -->
@@ -218,11 +233,85 @@
                             <ul class="panel-controls"></ul>
                         </div>
                         <div class="panel-body">
-
+                            <form class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Nombre</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Origen</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <select class="form-control">
+                                                        <option>Rancho Chapala</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Hora llegada</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <input type="text" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Hora embarque</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <input type="text" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Fecha</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <input type="text" class="form-control datepicker">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Destino</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <select class="form-control">
+                                                        <option>TM SLP</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Hora salida</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <input type="text" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane" id="flete" >
+                <div role="tabpanel" class="tab-pane" id="flete">
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -311,7 +400,7 @@
 
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane" id="jaulaP" >
+                <div role="tabpanel" class="tab-pane" id="jaulaP">
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -324,7 +413,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="table-responsive">
-                                                <table style="width:100%">
+                                                <table id="tblJaulaCheck" style="width:100%">
                                                     <thead>
                                                         <tr>
                                                             <td><strong>Limpieza de la jaula</strong></td>
@@ -414,12 +503,6 @@
                                                 </table>
                                             </div>
                                         </div>
-
-
-
-
-
-                                       
                                     </div>
                                     <div class="row" style="margin-top: 15px;">
                                         <div class="col-md-12">
@@ -465,6 +548,93 @@
 
                     </div>
                 </div>
+                <div id="documentos" class="tab-pane" role="tabpanel">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Información de <strong>Documentos de movilización</strong></h3>
+                                <ul class="panel-controls"></ul>
+                            </div>
+
+                            <div class="panel-body">
+                                <form class="form-horizontal">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Guía de transito</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Cert. Zoosanitario</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Cert. Tuberculosis</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Cert. Brucelosis</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Fleje</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Factura</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Valija sellada</label>
+                                                <div class="col-md-8">
+                                                    <label class="radio-inline"><input type="radio" name="optradio">SI</label>
+                                                    <label class="radio-inline"><input type="radio" name="optradio">NO</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="panel-footer">
+                                <input type="submit" value="Finalizar venta" class="btn btn-primary pull-right">
+                                <a class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
                 <div id="eventos" class="tab-pane" role="tabpanel">
                     <div class="col-md-12">
                         <div class="panel panel-default">
@@ -481,14 +651,105 @@
                                             <div class="panel-heading">
                                                 <h3 class="panel-title"></h3>
                                                 <ul class="panel-controls">
-                                                    <li><a id="btnAddEvento" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo movimiento</a></li>
+                                                    <li><a id="btnAddEvento" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Evento</a></li>
                                                     <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                                                     <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
                                                 </ul>
-
                                             </div>
                                             <div class="panel-body">
-
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Evento</th>
+                                                                <th>Genero</th>
+                                                                <th>Núm. arete</th>
+                                                                <th>Lugar</th>
+                                                                <th>Fecha y Hora</th>
+                                                                <th>Observación</th>
+                                                                <th>Acción</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Muerto</td>
+                                                                <td>MACHO</td>
+                                                                <td>07215485</td>
+                                                                <td>Juárez</td>
+                                                                <td>01-04-2018 18:04</td>
+                                                                <td>Murió sofocada</td>
+                                                                <td style="text-align:center;">
+                                                                    <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                                        <a title="Editar" href="#" class="btn btn-yellow tooltips btn-sm" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                                        <a title="Eliminar" id="delete-" data-hrefa="#" onClick="delete_row('');" class="btn btn-danger tooltips btn-sm" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                                    </div>
+                                                                    <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                                        <div class="btn-group">
+                                                                            <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                                <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                                            </a>
+                                                                            <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                                <li>
+                                                                                    <a role="menuitem" tabindex="-1" href="">
+                                                                                        <i class="fa fa-file-text"></i> Documentos
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a role="menuitem" tabindex="-1" href="">
+                                                                                        <i class="fa fa-edit"></i> Editar
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a role="menuitem" tabindex="-1" id="delete-" data-hrefa="" onClick="delete_row('');">
+                                                                                        <i class="fa fa-trash-o"></i> Eliminar
+                                                                                    </a>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Animal caído</td>
+                                                                <td>HEMBRA</td>
+                                                                <td>07215475</td>
+                                                                <td>Tabasco</td>
+                                                                <td>01-04-2018 17:52</td>
+                                                                <td>Al momento de desembarcar</td>
+                                                                <td style="text-align:center;">
+                                                                    <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                                        <a title="Editar" href="#" class="btn btn-yellow tooltips btn-sm" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                                        <a title="Eliminar" id="delete-" data-hrefa="#" onClick="delete_row('');" class="btn btn-danger tooltips btn-sm" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                                    </div>
+                                                                    <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                                        <div class="btn-group">
+                                                                            <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                                <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                                            </a>
+                                                                            <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                                <li>
+                                                                                    <a role="menuitem" tabindex="-1" href="">
+                                                                                        <i class="fa fa-file-text"></i> Documentos
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a role="menuitem" tabindex="-1" href="">
+                                                                                        <i class="fa fa-edit"></i> Editar
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a role="menuitem" tabindex="-1" id="delete-" data-hrefa="" onClick="delete_row('');">
+                                                                                        <i class="fa fa-trash-o"></i> Eliminar
+                                                                                    </a>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                         <!-- END DEFAULT DATATABLE -->
@@ -613,18 +874,8 @@
         </div>
         <!--TERMINA TABS-->
         <!--INICIA SECCION DE MODALES-->
-        <div id="ModalGanado" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog modal-lg" id="ContenidoModalGanado">
-
-            </div>
-        </div>
-        <div id="ModalPago" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog modal-lg" id="ContenidoModalPago">
-
-            </div>
-        </div>
-        <div id="ModalCobro" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog modal-lg" id="ContenidoModalCobro">
+        <div id="ModalEvento" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
+            <div class="modal-dialog modal-lg" id="ContenidoModalEvento">
 
             </div>
         </div>
@@ -645,130 +896,15 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
 
-    <!--FILEINPUT-->
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-
     <!--DATEPICKER-->
     <script src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-timepicker.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/venta.js")"></script>
 
     <script>
 
         jQuery(document).ready(function () {
-
-            var idCompra = "";
             Mensaje(message, typemessage);
-
-            var cGanadoM = 0, cGanadoH = 0, kGanadoM = 0, kGanadoH = 0;
-            var kgMachos = document.getElementById("kgMachos");
-            var kgHembras = document.getElementById("kgHembras");
-            var kgTotal = document.getElementById("kgTotal");
-            var cMachos = document.getElementById("cMachos");
-            var cHembras = document.getElementById("cHembras");
-            var cTotal = document.getElementById("cTotal");
-            
-            //Inicialiamos las tablas
-            var tblCorral = $('#corral').DataTable({
-                fixedHeader: {
-                    header: true,
-                    footer: true,
-                    select: true
-                }
-            });
-            var tblJaula = $('#jaula').DataTable({
-                fixedHeader: {
-                    header: true,
-                    footer: true,
-                    select: true
-                }
-            });
-
-            //Seleccionar filas 
-            $('#corral tbody').on('click', 'tr', function () {
-                $(this).toggleClass('selected');
-            });
-            $('#jaula tbody').on('click', 'tr', function () {
-                $(this).toggleClass('selected');
-            });
-
-            //Pasar y regresar filas en las tablas
-            $('#enviar').click(function () {
-                cGanadoM = 0, cGanadoH = 0, kGanadoM = 0, kGanadoH = 0;
-                var rows = tblCorral.rows('.selected').data();
-
-                for (var i = 0; i < rows.length; i++) {
-                    var d = rows[i];
-                    
-                        tblJaula.row.add([
-                            d[0], //Dueño
-                            d[1], //Genero
-                            d[2]  //Peso
-                    ]).draw();
-
-                    if (d[1] == "MACHO") {
-                        cGanadoM += 1;
-                        kGanadoM += parseInt(d[2]);
-                    }
-                    else {
-                        cGanadoH += 1;
-                        kGanadoH += parseInt(d[2]);
-                    }
-                }
-                sumarGenero(cGanadoM, cGanadoH);
-                sumarPesoGanado(kGanadoM, kGanadoH);
-                tblCorral.row('.selected').remove().draw(false);
-            });
-            $('#regresar').click(function () {
-                cGanadoM = 0, cGanadoH = 0, kGanadoM = 0, kGanadoH = 0;
-
-                var rows = tblJaula.rows('.selected').data();
-
-                for (var i = 0; i < rows.length; i++) {
-                    var d = rows[i];
-                    
-                    tblCorral.row.add([
-                        d[0], //Dueño
-                        d[1], //Genero
-                        d[2]  //Peso
-                    ]).draw();
-                    if (d[1] == "MACHO") {
-                        cGanadoM += 1;
-                        kGanadoM += parseInt(d[2]);
-                    }
-                    else {
-                        cGanadoH += 1;
-                        kGanadoH += parseInt(d[2]);
-                    }
-                }
-                restarGenero(cGanadoM, cGanadoH);
-                restarPesoGanado(kGanadoM, kGanadoH);
-                tblJaula.row('.selected').remove().draw(false);
-            });
-
-            //Funciones para suma y resta de ganado - pesos
-            function sumarPesoGanado(kMachos, kHembras) {
-                kgMachos.value = parseInt(kgMachos.value) + parseInt(kMachos);
-                kgHembras.value = parseInt(kgHembras.value) + parseInt(kHembras);
-                kgTotal.value = parseInt(kgMachos.value) + parseInt(kgHembras.value);
-            }
-            function restarPesoGanado(kMachos, kHembras) {
-                kgMachos.value = parseInt(kgMachos.value) - parseInt(kMachos);
-                kgHembras.value = parseInt(kgHembras.value) - parseInt(kHembras);
-                kgTotal.value = parseInt(kgMachos.value) + parseInt(kgHembras.value);
-            }
-            function sumarGenero(cantMachos, cantHembras) {
-                cMachos.value = parseInt(cMachos.value) + parseInt(cantMachos);
-                cHembras.value = parseInt(cHembras.value) + parseInt(cantHembras);
-                cTotal.value = parseInt(cMachos.value) + parseInt(cHembras.value);
-            }
-            function restarGenero(cantMachos, cantHembras) {
-                cMachos.value = parseInt(cMachos.value) - parseInt(cantMachos);
-                cHembras.value = parseInt(cHembras.value) - parseInt(cantHembras);
-                cTotal.value = parseInt(cMachos.value) + parseInt(cHembras.value);
-            }
-    });
+            Venta.init();
+        });
     </script>
 }
