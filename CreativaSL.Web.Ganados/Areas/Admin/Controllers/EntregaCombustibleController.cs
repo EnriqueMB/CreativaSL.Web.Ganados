@@ -3,6 +3,9 @@ using CreativaSL.Web.Ganados.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -62,17 +65,57 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/EntregaCombustible/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(EntregaCombustibleViewModels Entrega)
         {
+            _EntregaCombustible_Datos EntregaCombustibleDatos = new _EntregaCombustible_Datos();
+            _Combos_Datos Datos = new _Combos_Datos();
             try
             {
                 // TODO: Add insert logic here
+                if (ModelState.IsValid)
+                {
+                    HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                    if (bannerImage != null && bannerImage.ContentLength > 0)
+                    {
+                        Stream s = bannerImage.InputStream;
+                        Bitmap img = new Bitmap(s);
+                        Entrega.UrlImagen64 = img.ToBase64String(ImageFormat.Png);
+                    }
 
-                return RedirectToAction("Index");
+                    Entrega.Conexion = Conexion;
+                    Entrega.Opcion = 1;
+                    Entrega.IDEntregaCombustible = "0";
+
+
+                    //Entrega = EntregaCombustibleDatos.AcCatProductosAlmacen(Producto);
+                    if (Entrega.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "El registro se guardo correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        return View(Entrega);
+                    }
+                }
+                else
+                {
+                    Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
+                    Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, string.Empty);
+                    Entrega.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
+                    return View(Entrega);
+                }
+
+
             }
             catch
             {
-                return View();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
+                return View(Entrega);
             }
         }
 

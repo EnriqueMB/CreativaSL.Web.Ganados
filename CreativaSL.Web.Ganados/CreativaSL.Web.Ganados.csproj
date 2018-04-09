@@ -875,6 +875,7 @@
     <Content Include="Content\js\Usuario.js" />
     <Content Include="Content\js\validaciones\additionals.js" />
     <Content Include="Content\js\Vehiculo.js" />
+    <Content Include="Content\js\venta.js" />
     <Content Include="Content\Ocampo.ico" />
     <Content Include="Content\js\RangoCompra.js" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -1030,14 +1031,7 @@
     <Content Include="Areas\Admin\Views\CatProveedor\CreateLugar.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Lugares.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\ClienteLugar.cshtml" />
-    <Content Include="Areas\Admin\Views\CatConceptoDocumento\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\CatConceptoDocumento\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\CatTipoServicio\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\CatTipoServicio\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\CatTipoServicio\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\CatProveedor\PrecioProveedor.cshtml" />
-    <Content Include="Areas\Admin\Views\CatProveedor\EditPrecio.cshtml" />
-    <Content Include="Areas\Admin\Views\EntregaCombustible\Rendimiento.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\ModalEvento.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

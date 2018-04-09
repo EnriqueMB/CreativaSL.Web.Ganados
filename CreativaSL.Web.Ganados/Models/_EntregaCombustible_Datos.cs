@@ -24,7 +24,7 @@ namespace CreativaSL.Web.Ganados.Models
                 //SqlDataReader Dr = SqlHelper.ExecuteReader(Datos.Conexion, "", Parametros);
                 //while(Dr.Read())
                 //{
-
+                //spCSLDB_Catalogo_get_EntregaCombustible SP QUE LISTA LOS LA ENTREGA DE COMBUSTIBLE FALTA APLICAR FILTRO 
                 //}
                 return Lista;
             }

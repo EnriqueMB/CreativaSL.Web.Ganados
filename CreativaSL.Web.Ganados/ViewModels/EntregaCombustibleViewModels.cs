@@ -1,6 +1,7 @@
 ﻿using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -26,6 +27,11 @@ namespace CreativaSL.Web.Ganados.ViewModels
             _ListaVehiculos = new List<CatVehiculoModels>();
             _ListaTipoCombustible = new List<CatTipoCombustibleModels>();
             _ListaSucursales = new List<CatSucursalesModels>();
+            Conexion = string.Empty;
+            Resultado = 0;
+            Completado = false;
+            Usuario = string.Empty;
+            Opcion = 0;
         }
 
         private string _IDEntregaCombustible;
@@ -140,6 +146,9 @@ namespace CreativaSL.Web.Ganados.ViewModels
 
 
         private HttpPostedFile _ImgTicket;
+        [Required(ErrorMessage = "Seleccione la imagen de productos")]
+
+        [Display(Name = "Imagen Ticket")]
         /// <summary>
         /// Imagen del ticket de la carga de combustible
         /// </summary>
@@ -187,7 +196,21 @@ namespace CreativaSL.Web.Ganados.ViewModels
             get { return _ListaSucursales; }
             set { _ListaSucursales = value; }
         }
-
-
+        private bool _BandImg;
+        /// <summary>
+        /// BANDERA PARA ACTUALIZAR IMAGEN
+        /// </summary>
+        public bool BandImg
+        {
+            get { return _BandImg; }
+            set { _BandImg = value; }
+        }
+        #region Datos De Control
+        public string Conexion { get; set; }
+        public int Resultado { get; set; }
+        public bool Completado { get; set; }
+        public string Usuario { get; set; }
+        public int Opcion { get; set; }
+        #endregion
     }
 }
