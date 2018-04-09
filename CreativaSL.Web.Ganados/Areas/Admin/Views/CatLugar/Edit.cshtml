@@ -149,7 +149,7 @@
                         <div class="form-group">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="col-md-3 col-xs-12 control-label">Sucursales</label>
+                                    <label class="col-md-3 col-xs-12 control-label">Sucursal</label>
                                     <div class="col-md-9 col-xs-12">
                                         @Html.DropDownListFor(model => model.id_sucursal, new SelectList(Model.listaSucursal, "IDSucursal", "NombreSucursal"), new { id = "id_sucursal", @class = "form-control select", data_live_search = "true" })
                                         @Html.ValidationMessageFor(model => model.listaSucursal)

@@ -87,7 +87,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return View(Compra);
         }
         
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
 
 
@@ -225,7 +225,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra.Mensaje = "Ha ocurrido un error al momento de crear la compra, verifique sus datos.";
                 return View(Compra);
             }
-           
         }
         #endregion
 

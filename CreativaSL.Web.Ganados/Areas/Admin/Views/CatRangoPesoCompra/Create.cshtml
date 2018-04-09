@@ -19,11 +19,12 @@
         </div>
         <div class="col-md-12">
             @*<form class="form-horizontal">*@
-            @using (Html.BeginForm("Create", "CatRangoPesoCompra", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("Create", "CatRangoPesoCompra", FormMethod.Post, new {id="form-rc", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
-
+               @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+               <div id="validation_summary" class="field_error "></div> //JS
                 @Html.HiddenFor(model => model.IDRango)
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -35,39 +36,45 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <div class="col-md-3">
-                                <label class="col-md-3 control-label">Peso Minimo</label>
-                                <div class="col-md-8 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.PesoMinimo, new { id = "PesoMinimo", @class = "form-control" })
-                                        <span class="input-group-addon">Kg.</span>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Peso Minimo</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.PesoMinimo, new { id = "PesoMinimo", @class = "form-control" })
+                                            <span class="input-group-addon">Kg.</span>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.PesoMinimo)
+                                        <span class="help-block">Ingrese el peso minimo</span>
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.PesoMinimo)
-                                    <span class="help-block">Ingrese el peso minimo</span>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <label class="col-md-3 control-label">Peso Maximo</label>
-                                <div class="col-md-8 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.PesoMaximo, new { id = "PesoMaximo", @class = "form-control" })
-                                        <span class="input-group-addon">Kg.</span>
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.PesoMaximo)
-                                    <span class="help-block">Ingrese el peso Maximo</span>
-                                </div>
+                               <div class="form-group">
+                                   <label class="col-md-3 control-label">Peso Maximo</label>
+                                   <div class="col-md-8 col-xs-12">
+                                       <div class="input-group">
+                                           <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                           @Html.TextBoxFor(model => model.PesoMaximo, new { id = "PesoMaximo", @class = "form-control" })
+                                           <span class="input-group-addon">Kg.</span>
+                                       </div>
+                                       @Html.ValidationMessageFor(model => model.PesoMaximo)
+                                       <span class="help-block">Ingrese el peso Maximo</span>
+                                   </div>
+                               </div>
                             </div>
                             <div class="col-md-3">
-                                <label class="col-md-3 control-label">Precio</label>
-                                <div class="col-md-8 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.Precio, new { id = "Precio", @class = "form-control" })
-                                        <span class="input-group-addon">$</span>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Precio</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Precio, new { id = "Precio", @class = "form-control" })
+                                            <span class="input-group-addon">$</span>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Precio)
+                                        <span class="help-block">Ingrese el precio sugerido</span>
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.Precio)
-                                    <span class="help-block">Ingrese el precio sugerido</span>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -99,10 +106,14 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/RangoCompra.js")"></script>
 
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
+        RangoCompra.init();
     });
     </script>
 }

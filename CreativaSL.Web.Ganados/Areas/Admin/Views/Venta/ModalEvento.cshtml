@@ -1,0 +1,165 @@
+﻿
+<form class="form-horizontal" autocomplete="off">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Evento durante la compra</h4>
+        </div>
+
+        <div class="modal-body">
+            <!--INICIA CUERPO MODAL-->
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input type="hidden" id="idGanado" />
+                        <div class="col-md-12">
+                            <label class="col-md-3 control-label">Arete:</label>
+                            <div class="controls">
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="col-md-3 control-label">Lugar:</label>
+                            <div class="controls">
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="col-md-3 control-label">Descontar:</label>
+                            <div class="controls">
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <input id="descontar" type="checkbox" />
+                                        </span>
+                                        <input type="text" class="form-control " placeholder="¿Realmente desea realziar algún descuento?" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="col-md-3 control-label">Estatus:</label>
+                            <div class="controls">
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <select class="form-control">
+                                            <option>Saludable</option>
+                                            <option>Muerto</option>
+                                            <option>Animal caído</option>
+                                            <option>Enfermo</option>
+                                            <option>Rengo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="col-md-3 control-label">Fecha:</label>
+                            <div class="controls">
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <input id="fechaEvento" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12 esconder">
+                            <label class="col-md-3 control-label">¿A quién?:</label>
+                            <div class="controls">
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <select class="form-control">
+                                            <option>Nombre empleado 1</option>
+                                            <option>Nombre empleado 2</option>
+                                            <option>Nombre empleado 3</option>
+                                            <option>Nombre empleado 4</option>
+                                            <option>Nombre empleado 5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="col-md-3 control-label">Nota:</label>
+                            <div class="controls">
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="col-md-3 control-label">Hora:</label>
+                            <div class="controls">
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <input id="timeEvento" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12 esconder">
+                            <label class="col-md-3 control-label">Cantidad:</label>
+                            <div class="controls">
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <!--TERMINA CUERPO MODAL-->
+        </div>
+        <div class="modal-footer">
+            <div class="controls">
+                <button type="button" class="btn btn-success green">Guardar</button>
+                <button type="button" class="btn btn-secondary red" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+

@@ -140,9 +140,9 @@
                                         <div class="col-md-8 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.UrlImagen64, new { id = "UrlImagen64", @type = "file", @class = "form-control" })
+                                                @Html.TextBoxFor(model => model.ImgTicket, new { id = "ImgTicket", @type = "file", @class = "form-control" })
                                             </div>
-                                            @Html.ValidationMessageFor(model => model.UrlImagen64)
+                                            @Html.ValidationMessageFor(model => model.ImgTicket)
                                             <span class="help-block">Ingrese por lo menos 1 imagen.</span>
                                         </div>
                                     </div>
@@ -184,6 +184,17 @@
         jQuery(document).ready(function () {
             var band = @Model.ImgTicketBand.ToString().ToLower();
             var img = '@Model.UrlImagen64';
+            $('#ImgTicket').fileinput({
+                theme: 'fa',
+                language: 'es',
+                minFileCount: 1,
+                uploadUrl: "#",
+                showUpload: false,
+                showUploadedThumbs: false,
+                overwriteInitial: false,
+                allowedFileExtensions: ['png'],
+                required: true
+            })
             Mensaje(message, typemessage);
             Combustible.init(band, img);
         });

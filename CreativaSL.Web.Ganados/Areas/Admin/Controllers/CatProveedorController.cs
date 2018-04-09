@@ -24,7 +24,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CatProveedorModels Proveedor = new CatProveedorModels();
                 _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
                 Proveedor.Conexion = Conexion;
-                Proveedor.listaProveedores = ProveedorDatos.ObtenerCatProveedores(Proveedor); 
+                Proveedor.listaProveedores = ProveedorDatos.ObtenerCatProveedores(Proveedor);
                 return View(Proveedor);
             }
             catch (Exception ex)
@@ -250,7 +250,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Proveedor.IDProveedor = id;
                 Proveedor.Usuario = User.Identity.Name;
                 Proveedor = ProveedorDatos.EliminarProveedor(Proveedor);
-                
+
                 return Json("");
                 // TODO: Add delete logic here
 
@@ -425,7 +425,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // POST: Admin/CatClientes/Delete/5
+        // POST: Admin/CatProvedor/Delete/5
         [HttpPost]
         public ActionResult DeleteCuenta(string id, string id2)
         {
@@ -471,10 +471,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-                ProveedorLugarModels ProveedorL = new ProveedorLugarModels();
-                TempData["typrmessage"] = "2";
+                ProveedorLugarModels Proveedor = new ProveedorLugarModels();
+                TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return RedirectToAction("Index");
+                return View(Proveedor);
             }
         }
 
@@ -499,7 +499,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Proveedor.IDSucursal = id2;
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return RedirectToAction("LugarProveedor",  "CatProveedor",  new { id = Proveedor.IDProveedor, id2 = Proveedor.IDSucursal });
+                return RedirectToAction("LugarProveedor", "CatProveedor", new { id = Proveedor.IDProveedor, id2 = Proveedor.IDSucursal });
             }
         }
 
@@ -546,7 +546,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // POST: Admin/CatClientes/Delete/5
+        // POST: Admin/CatProvedor/Delete/5
         [HttpPost]
         public ActionResult DeleteLugar(string id)
         {
@@ -572,6 +572,105 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             catch
             {
                 return View();
+            }
+        }
+
+        //GET: Admin/CatProveedor/PrecioProveedor/3
+        [HttpGet]
+        public ActionResult PrecioProveedor(string id)
+        {
+            try
+            {
+                RangoPrecioProveedorModels RangoProveedor = new RangoPrecioProveedorModels();
+                _CatProveedor_Datos ProveedorDato = new _CatProveedor_Datos();
+                RangoProveedor.Conexion = Conexion;
+                RangoProveedor.IDProveedor = id;
+                RangoProveedor.ListaRangoPrecioProveedor = ProveedorDato.ObtenerPrecioXRangoPesoProveedor(RangoProveedor);
+                return View(RangoProveedor);
+            }
+            catch (Exception)
+            {
+                RangoPrecioProveedorModels Proveedor = new RangoPrecioProveedorModels();
+                TempData["typrmessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Proveedor);
+            }
+        }
+
+        //GET: Admin/CatProveedor/EditPrecio/3
+        [HttpGet]
+        public ActionResult EditPrecio(int id, string id2)
+        {
+            try
+            {
+                RangoPrecioProveedorModels RangoProveedor = new RangoPrecioProveedorModels();
+                _CatProveedor_Datos ProvedorDatos = new _CatProveedor_Datos();
+                RangoProveedor.Conexion = Conexion;
+                RangoProveedor.IDProveedor = id2;
+                RangoProveedor.IDRango = id;
+                RangoProveedor = ProvedorDatos.ObtenerDetallePrecioXProveedor(RangoProveedor);
+                return View(RangoProveedor);
+            }
+            catch (Exception)
+            {
+                RangoPrecioProveedorModels Proveedor = new RangoPrecioProveedorModels();
+                Proveedor.IDProveedor = id2;
+                TempData["typrmessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("PrecioProveedor", "CatProveedor", new { id = Proveedor.IDProveedor});
+            }
+        }
+
+        //POST: Admin/CatProveedor/EditPrecio/5
+        [HttpPost]
+        public ActionResult EditPrecio(RangoPrecioProveedorModels RangoPrecio)
+        {
+            _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    RangoPrecio.Conexion = Conexion;
+                    RangoPrecio.Usuario = User.Identity.Name;
+                    ProveedorDatos.ACPrecioPoRangoPesoProveedor(RangoPrecio);
+                    if (RangoPrecio.Completado)
+                    {
+                        if (RangoPrecio.Resultado == 1)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            return RedirectToAction("PrecioProveedor", "CatProveedor", new { id = RangoPrecio.IDProveedor });
+                        }
+                        else if (RangoPrecio.Resultado == 2)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos actualizado correctamente.";
+                            return RedirectToAction("PrecioProveedor", "CatProveedor", new { id = RangoPrecio.IDProveedor });
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                            return View(RangoPrecio);
+                        }
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                        return View(RangoPrecio);
+                    }
+                }
+                else
+                {
+                    return View(RangoPrecio);//return RedirectToAction("EditPrecio", "CatProveedor", new { id = RangoPrecio.IDRango, id2 = RangoPrecio.IDProveedor });
+                }
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(RangoPrecio);
             }
         }
     }
