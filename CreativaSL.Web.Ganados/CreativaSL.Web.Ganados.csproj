@@ -1037,6 +1037,10 @@
     <Content Include="Areas\Admin\Views\CatCliente\Lugares.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\ClienteLugar.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\ModalEvento.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\CreateSucursal.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\IndexSucursales.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\End.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1321,6 +1325,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Flete\" />
     <Folder Include="Areas\Admin\Views\Mantenimiento\" />
   </ItemGroup>
   <PropertyGroup>
