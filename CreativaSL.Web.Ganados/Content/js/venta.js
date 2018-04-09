@@ -1,40 +1,4 @@
 ﻿var Venta = function () {
-    function LoadItemsModal() {
-        $("#fechaEvento").datepicker({
-            format: 'dd/mm/yyyy',
-            language: 'es'
-        });
-
-        $('#timeEvento').timepicker();
-
-        $('#descontar').change(function () {
-            $('.esconder').toggle(1000);
-
-        });
-    }
-    function ModalEvento() {
-        $.ajax({
-            url: 'ModalEvento',
-            type: "POST",
-            data: {},
-            success: function (data) {
-                $('#ContenidoModalEvento').html(data);
-                $('#ModalEvento').modal({ backdrop: 'static', keyboard: false });
-
-                LoadItemsModal();
-
-
-            }
-        });
-    }
-    var initModal = function () {
-        //ModalEvento
-        $('#btnAddEvento').on('click', function () {
-            ModalEvento(0);
-        });
-
-    };
-    
     var cGanadoM = 0, cGanadoH = 0, kGanadoM = 0, kGanadoH = 0;
     var kgMachos = document.getElementById("kgMachos");
     var kgHembras = document.getElementById("kgHembras");
@@ -43,6 +7,7 @@
     var cHembras = document.getElementById("cHembras");
     var cTotal = document.getElementById("cTotal");
     var tblCorral, tblJaula;
+    var iGanadoSeleccionado = document.getElementById("iGanadoSeleccionado");
 
     var initDataTables = function () {
         tblCorral = $('#corral').DataTable({
@@ -50,14 +15,22 @@
                 header: true,
                 footer: true,
                 select: true
-            }
+            },
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+            responsive: true
         });
         tblJaula = $('#jaula').DataTable({
             fixedHeader: {
                 header: true,
                 footer: true,
                 select: true
-            }
+            },
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+            responsive: true
         });
     };
     var initFuncGanado = function () {
@@ -123,9 +96,44 @@
             tblJaula.row('.selected').remove().draw(false);
         });
     };
-    
+ 
+   
+    var initModal = function () {
+        //ModalEvento
+        $('#btnAddEvento').on('click', function () {
+            ModalEvento(0);
+        });
+
+    };
+    function LoadItemsModal() {
+        $("#fechaEvento").datepicker({
+            format: 'dd/mm/yyyy',
+            language: 'es'
+        });
+
+        $('#timeEvento').timepicker();
+
+        $('#descontar').change(function () {
+            $('.esconder').toggle(1000);
+
+        });
+    }
     //Funciones para los modales
-    
+    function ModalEvento() {
+        $.ajax({
+            url: 'ModalEvento',
+            type: "POST",
+            data: {},
+            success: function (data) {
+                $('#ContenidoModalEvento').html(data);
+                $('#ModalEvento').modal({ backdrop: 'static', keyboard: false });
+
+                LoadItemsModal();
+
+
+            }
+        });
+    }
     //Funciones para suma y resta de ganado - pesos
     function sumarPesoGanado(kMachos, kHembras) {
         kgMachos.value = parseInt(kgMachos.value) + parseInt(kMachos);

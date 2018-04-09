@@ -26,7 +26,14 @@
     table#tblJaulaCheck tbody td {
         padding: 10px 0 0 10px;
     }
+    .form-control[disabled],
+    .form-control[readonly] {
+        color: #000 !important;
+    }
        
+    table#tblJaulaP, input{
+        text-align: center;
+    }
     </style> 
 }
 
@@ -505,39 +512,63 @@
                                         </div>
                                     </div>
                                     <div class="row" style="margin-top: 15px;">
-                                        <div class="col-md-12">
-                                            <div class="table-responsive">
-                                                <center>
-                                                    <table class="text-center" border="1">
-                                                        <tr>
-                                                            <td>Hielera</td>
-                                                            <td>Panza arriba</td>
-                                                            <td>Panza arriba</td>
-                                                            <td>Punta superior</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><input class="form-control" type="text" /></td>
-                                                            <td><input class="form-control" type="text" /></td>
-                                                            <td><input class="form-control" type="text" /></td>
-                                                            <td><input class="form-control" type="text" /></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Cola</td>
-                                                            <td>Panza abajo</td>
-                                                            <td>Panza abajo</td>
-                                                            <td>Punta inferior</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><input class="form-control" type="text" /></td>
-                                                            <td><input class="form-control" type="text" /></td>
-                                                            <td><input class="form-control" type="text" /></td>
-                                                            <td><input class="form-control" type="text" /></td>
-                                                        </tr>
-                                                    </table>
-                                                </center>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Ganado seleccionado para la venta</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input id="iGanadoSeleccionado" type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">Ganado restante por acomodar en jaula </label>
+                                                <div class="col-md-7">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                        <div class="row" style="margin-top: 15px;">
+                                            <div class="col-md-12">
+                                                <div class="table-responsive">
+                                                    <center>
+                                                        <table id="tblJaulaP" border="1">
+                                                            <tr>
+                                                                <td>Hielera</td>
+                                                                <td>Panza arriba</td>
+                                                                <td>Panza arriba</td>
+                                                                <td>Punta superior</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><input class="form-control" type="text" /></td>
+                                                                <td><input class="form-control" type="text" /></td>
+                                                                <td><input class="form-control" type="text" /></td>
+                                                                <td><input class="form-control" type="text" /></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Cola</td>
+                                                                <td>Panza abajo</td>
+                                                                <td>Panza abajo</td>
+                                                                <td>Punta inferior</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><input class="form-control" type="text" /></td>
+                                                                <td><input class="form-control" type="text" /></td>
+                                                                <td><input class="form-control" type="text" /></td>
+                                                                <td><input class="form-control" type="text" /></td>
+                                                            </tr>
+                                                        </table>
+                                                    </center>
+                                                </div>
+                                            </div>
+                                        </div>
                                 </form>
                             </div>
                             <div class="panel-footer">
