@@ -68,6 +68,7 @@
                                         <td>@Empleado.GrupoSanguineo</td>
                                         <td style="text-align:center;">
                                             <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                <a title="Vacaciones" class="btn btn-blue" href="@Url.Action("Vacaciones", "CatEmpleado", new { id = Empleado.IDEmpleado })"><i class="fa fa-smile-o"></i></a>
                                                 @if (Empleado.AltaNominal)
                                                 {
                                                     <a title="Baja Nominal" class="btn btn-primary" id="baja-@Empleado.IDEmpleado" data-hrefa="@Url.Action("AltaBajaNomina", "CatEmpleado", new { id = Empleado.IDEmpleado, id2 = Empleado.AltaNominal})" onClick="baja_row('@Empleado.IDEmpleado');"><i class="fa fa-thumbs-down"></i></a>
@@ -85,6 +86,11 @@
                                                         <i class="fa fa-cog"></i> <span class="caret"></span>
                                                     </a>
                                                     <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Vacaciones", "CatEmpleado", new { id = Empleado.IDEmpleado })">
+                                                                <i class="fa fa-smile-o"></i> Vacaciones
+                                                            </a>
+                                                        </li>
                                                         @if (Empleado.AltaNominal)
                                                         {
                                                             <li>

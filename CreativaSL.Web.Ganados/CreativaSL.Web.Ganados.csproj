@@ -434,6 +434,7 @@
     <Content Include="Content\js\plugins\dualSelect\jquery.bootstrap-duallistbox.js" />
     <Content Include="Content\js\ProductosAlmacen.js" />
     <Content Include="Content\js\precioRangoProveedor.js" />
+    <Content Include="Content\js\nomina-vacaciones.js" />
     <Content Include="Content\js\provedorlugar.js" />
     <Content Include="Content\js\proveedor.js" />
     <Content Include="Content\js\cuentasClientes.js" />
@@ -1046,6 +1047,8 @@
     <Content Include="Content\js\plugins\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\js\plugins\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\js\plugins\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Areas\Admin\Views\CatEmpleado\Vacaciones.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpleado\CreateVacaciones.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1192,6 +1195,7 @@
     <Compile Include="Models\NominaDetalleConceptosModels.cs" />
     <Compile Include="Models\NominaDetalleModels.cs" />
     <Compile Include="Models\NominaModels.cs" />
+    <Compile Include="Models\NominaVacacionesModels.cs" />
     <Compile Include="Models\ProductorAlmacenSucursalModels.cs" />
     <Compile Include="Models\ProveedorLugarModels.cs" />
     <Compile Include="Models\RangoPrecioProveedorModels.cs" />

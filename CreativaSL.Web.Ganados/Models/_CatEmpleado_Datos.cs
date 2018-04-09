@@ -9,6 +9,9 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CatEmpleado_Datos
     {
+
+        #region CatEmpleado
+
         public List<CatEmpleadoModels> ObtenerCatEmpleado(CatEmpleadoModels datos)
         {
             try
@@ -143,32 +146,6 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public CatEmpleadoModels AltaBajaNominaEmpleado(CatEmpleadoModels datos)
-        {
-            try
-            {
-                object[] parametros =
-                {
-                    datos.IDEmpleado, datos.AltaNominal, datos.Usuario
-                };
-                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_AltaNomina_CatEmpleado", parametros);
-                datos.IDEmpleado = aux.ToString();
-                if (!string.IsNullOrEmpty(datos.IDEmpleado))
-                {
-                    datos.Completado = true;
-                }
-                else
-                {
-                    datos.Completado = false;
-                }
-                return datos;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
         public List<CatSucursalesModels> ObteneComboCatSucursal(CatEmpleadoModels Datos)
         {
             try
@@ -265,5 +242,114 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        #endregion
+
+        #region Empleado Nomina
+
+        public CatEmpleadoModels AltaBajaNominaEmpleado(CatEmpleadoModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.IDEmpleado, datos.AltaNominal, datos.Usuario
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_AltaNomina_CatEmpleado", parametros);
+                datos.IDEmpleado = aux.ToString();
+                if (!string.IsNullOrEmpty(datos.IDEmpleado))
+                {
+                    datos.Completado = true;
+                }
+                else
+                {
+                    datos.Completado = false;
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<NominaVacacionesModels> ObtenerVacacionesNomina(NominaVacacionesModels datos)
+        {
+            try
+            {
+                List<NominaVacacionesModels> Lista = new List<NominaVacacionesModels>();
+                NominaVacacionesModels Item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Nomina_get_Vacaciones", datos.IDEmpleado);
+                while (dr.Read())
+                {
+                    Item = new NominaVacacionesModels();
+                    Item.IDVacaciones = !dr.IsDBNull(dr.GetOrdinal("IDVacaciones")) ? dr.GetString(dr.GetOrdinal("IDVacaciones")) : string.Empty;
+                    Item.IDEmpleado = !dr.IsDBNull(dr.GetOrdinal("IDEmpleado")) ? dr.GetString(dr.GetOrdinal("IDEmpleado")) : string.Empty;
+                    Item.FechaInicio = !dr.IsDBNull(dr.GetOrdinal("FechaInicio")) ? dr.GetDateTime(dr.GetOrdinal("FechaInicio")) : DateTime.Today;
+                    Item.FechaFin = !dr.IsDBNull(dr.GetOrdinal("FechaFin")) ? dr.GetDateTime(dr.GetOrdinal("FechaFin")) : DateTime.Today;
+                    Lista.Add(Item);
+                }
+                return Lista;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public NominaVacacionesModels AVacacionesNomina(NominaVacacionesModels datos)
+        {
+            try
+            {
+                object[] parametros = {
+                    datos.Opcion,
+                    datos.IDVacaciones ?? string.Empty,
+                    datos.IDEmpleado ?? string.Empty,
+                    datos.FechaInicio != null ? datos.FechaInicio : DateTime.Today,
+                    datos.FechaFin != null ? datos.FechaFin : DateTime.Today,
+                    datos.Usuario ?? string.Empty
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Nomina_ac_Vacaciones", parametros);
+                if (aux != null)
+                {
+                    int Aux = 0;
+                    int.TryParse(aux.ToString(), out Aux);
+                    if (Aux == 1)
+                        datos.Completado = true;
+                    else
+                        datos.Resultado = Aux;
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public NominaVacacionesModels EliminarVacacionesEmpleado(NominaVacacionesModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                   datos.IDVacaciones, datos.IDEmpleado, datos.Usuario
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Nomina_del_Vacaciones", parametros);
+                datos.IDEmpleado = aux.ToString();
+                if (!string.IsNullOrEmpty(datos.IDEmpleado))
+                {
+                    datos.Completado = true;
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        #endregion
     }
 }
