@@ -168,13 +168,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     TempData["typemessage"] = "2";
                     TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                    return RedirectToAction("Create");
+                    return View(Banco);
                 }
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(Banco);
             }
                 
         }
@@ -202,8 +203,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     TempData["message"] = "El registro se ha eliminado correctamente";
                 }
                 return Json("");
-
-
             }
             catch
             {
