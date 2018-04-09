@@ -67,8 +67,53 @@
                                         <td>@Empleado.NombrePuesto</td>
                                         <td>@Empleado.GrupoSanguineo</td>
                                         <td style="text-align:center;">
-                                            <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatEmpleado", new { id = Empleado.IDEmpleado })"><i class="fa fa-edit"></i></a>
-                                            <a title="Eliminar" class="btn delete btn-danger deleteRow" id="delete-@Empleado.IDEmpleado" data-hrefa="@Url.Action("Delete", "CatEmpleado", new { id = Empleado.IDEmpleado,})" onClick="delete_row('@Empleado.IDEmpleado');"><i class="fa fa-trash-o"></i></a>
+                                            <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                @if (Empleado.AltaNominal)
+                                                {
+                                                    <a title="Baja Nominal" class="btn btn-primary" id="baja-@Empleado.IDEmpleado" data-hrefa="@Url.Action("AltaBajaNomina", "CatEmpleado", new { id = Empleado.IDEmpleado, id2 = Empleado.AltaNominal})" onClick="baja_row('@Empleado.IDEmpleado');"><i class="fa fa-thumbs-down"></i></a>
+                                                }
+                                                else
+                                                {
+                                                    <a title="Alta Nominal" class="btn btn-green" id="alta-@Empleado.IDEmpleado" data-hrefa="@Url.Action("AltaBajaNomina", "CatEmpleado", new { id = Empleado.IDEmpleado, id2 = Empleado.AltaNominal})" onClick="alta_row('@Empleado.IDEmpleado');"><i class="fa fa-thumbs-up"></i></a>
+                                                }
+                                                <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatEmpleado", new { id = Empleado.IDEmpleado })"><i class="fa fa-edit"></i></a>
+                                                <a title="Eliminar" class="btn delete btn-danger deleteRow" id="delete-@Empleado.IDEmpleado" data-hrefa="@Url.Action("Delete", "CatEmpleado", new { id = Empleado.IDEmpleado})" onClick="delete_row('@Empleado.IDEmpleado');"><i class="fa fa-trash-o"></i></a>
+                                            </div>
+                                            <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                <div class="btn-group">
+                                                    <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                        <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                    </a>
+                                                    <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                        @if (Empleado.AltaNominal)
+                                                        {
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" id="baja-@Empleado.IDEmpleado" data-hrefa="@Url.Action("AltaBajaNomina", "CatEmpleado", new { id = Empleado.IDEmpleado, id2 = Empleado.AltaNominal})" onClick="baja_row('@Empleado.IDEmpleado');">
+                                                                    <i class="fa fa-thumbs-down"></i> Baja Nomina
+                                                                </a>
+                                                            </li>
+                                                        }
+                                                        else
+                                                        {
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" id="alta-@Empleado.IDEmpleado" data-hrefa="@Url.Action("AltaBajaNomina", "CatEmpleado", new { id = Empleado.IDEmpleado, id2 = Empleado.AltaNominal})" onClick="alta_row('@Empleado.IDEmpleado');">
+                                                                    <i class="fa fa-thumbs-up"></i> Alta Nomina
+                                                                </a>
+                                                            </li>
+                                                        }
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatEmpleado", new { id = Empleado.IDEmpleado })">
+                                                                <i class="fa fa-edit"></i> Editar
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" id="delete-@Empleado.IDEmpleado" data-hrefa="@Url.Action("Delete", "CatEmpleado", new { id = Empleado.IDEmpleado})" onClick="delete_row('@Empleado.IDEmpleado');">
+                                                                <i class="fa fa-trash-o"></i> Eliminar
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 }
@@ -98,6 +143,40 @@
             </div>
         </div>
     </div>
+<div class="message-box animated fadeIn" data-sound="alert" id="mb-alta-row">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-times"></span> Alta <strong>Nomina</strong> ?</div>
+            <div class="mb-content">
+                <p>¿Seguro que quieres dar de alta nominal?</p>
+                <p>Presione "sí" si está seguro.</p>
+            </div>
+            <div class="mb-footer">
+                <div class="pull-right">
+                    <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                    <button class="btn btn-default btn-lg mb-control-close">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="message-box animated fadeIn" data-sound="alert" id="mb-baja-row">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-times"></span> Baja <strong>Nomina</strong> ?</div>
+            <div class="mb-content">
+                <p>¿Seguro que quieres dar de baja nominal?</p>
+                <p>Presione "sí" si está seguro.</p>
+            </div>
+            <div class="mb-footer">
+                <div class="pull-right">
+                    <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                    <button class="btn btn-default btn-lg mb-control-close">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <script>
     var message = '@message';
     var typemessage = '@typemessage';
@@ -105,9 +184,11 @@
 }
 @section script
 {
+<script type="text/javascript" src="@Url.Content("~/Content/js/alta_baja_nomina_empleado.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
