@@ -1031,6 +1031,7 @@
     <Content Include="Areas\Admin\Views\CatCliente\Lugares.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\ClienteLugar.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\ModalEvento.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\Details.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

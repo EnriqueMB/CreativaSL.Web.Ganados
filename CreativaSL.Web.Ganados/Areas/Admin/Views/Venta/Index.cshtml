@@ -6,7 +6,7 @@
 }
 @section css
 {
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
+
 }
 
 @section featured
@@ -15,211 +15,92 @@
         var message = TempData["message"] ?? string.Empty;
         var typemessage = TempData["typemessage"] ?? string.Empty;
     }
-    <div class="row">
-        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
-            <h3></h3>
-        </div>
-        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
-            <h3></h3>
-        </div>
-        <!--INICIA TABS-->
-        <div class="panel panel-default tabs">
-
-            <input type="hidden" value="" id="id_compra" />
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#proveedor" aria-controls="proveedor" role="tab" data-toggle="tab">Proveedor</a></li>
-                <li role="presentation"><a class="pestaña" href="#fierros" aria-controls="fierros" role="tab" data-toggle="tab">Fierros</a></li>
-                <li role="presentation"><a class="pestaña" href="#ganados" aria-controls="ganados" role="tab" data-toggle="tab">Ganados</a></li>
-                <li role="presentation"><a class="pestaña" href="#movimientos" aria-controls="pagos" role="tab" data-toggle="tab">Movimientos</a></li>
-                <li role="presentation"><a class="pestaña" href="#eventos" aria-controls="eventos" role="tab" data-toggle="tab">Eventos durante el trayecto</a></li>
-                <li role="presentation"><a class="pestaña" href="#recepcion" aria-controls="recepcion" role="tab" data-toggle="tab">Recepción</a></li>
-            </ul>
-
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="proveedor">
-                    <div class="col-md-12">
-                        @using (Html.BeginForm("SaveCompra", "Compra", FormMethod.Post, new { id = "demoform", @class = "form-horizontal", autocomplete = "off" }))
-                        {
-                            @Html.AntiForgeryToken()
-
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><strong>Información</strong> Venta </h3>
-                                    <ul class="panel-controls"></ul>
-                                </div>
-                                <div class="panel-body">
-
-                                    <!---->
-
-                                    
-                                        <select multiple="multiple" size="10" name="duallistbox_demo1[]">
-                                            <option value="option1">Option 1</option>
-                                            <option value="option2">Option 2</option>
-                                            <option value="option3" selected="selected">Option 3</option>
-                                            <option value="option4">Option 4</option>
-                                            <option value="option5">Option 5</option>
-                                            <option value="option6" selected="selected">Option 6</option>
-                                            <option value="option7">Option 7</option>
-                                            <option value="option8">Option 8</option>
-                                            <option value="option9" selected="selected"> Option 9</option>
-                                            <option value="option0">Option 10</option>
-                                        </select>
-                                        <br>
-                                       
-
-                                    <!---->
-                                </div>
-
-                                <div class="panel-footer">
-                                    <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
-                                    <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                                </div>
-                            </div>
-                        }
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Ventas </h2>
+    </div>
+    <!-- END PAGE TITLE -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                        <ul class="panel-controls">
+                            <li><a href="@Url.Action("Create","Venta")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva Venta</a></li>
+                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                            <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
+                        </ul>
                     </div>
-                </div>
-
-                <div role="tabpanel" class="tab-pane" id="fierros">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Información <strong>Fierros</strong>  </h3>
-                            <ul class="panel-controls"></ul>
-                        </div>
-                        <div class="panel-body">
-
-                        </div>
-                    </div>
-                </div>
-                <div id="ganados" role="tabpanel" class="tab-pane">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Información del <strong>Ganado</strong></h3>
-                                <ul class="panel-controls"></ul>
-                            </div>
-                            <div class="panel-body">
-
-                            </div>
-                            <!---->
-                            <div class="page-content-wrap">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <!-- START DEFAULT DATATABLE -->
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <h3 class="panel-title"></h3>
-                                                <div class="panel-controls">
-                                                    <button id="btnAddGanado" data-id="0" class="btn btn-primary btn-lg">
-                                                        <i class="fa fa-plus"></i> Agregar nuevo ganado
-                                                    </button>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table id="tblIndexCompra" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Folio</th>
+                                        <th>Fecha</th>
+                                        <th>Cliente</th>
+                                        <th>Lugar destino</th>
+                                        <th>Total ganado</th>
+                                        <th>Total ($)</th>
+                                        <th>Estatus</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>09/04/2018</td>
+                                        <td>Grupo Gusi</td>
+                                        <td>TM SLP</td>
+                                        <td>75</td>
+                                        <td>$1,253,524.00</td>
+                                        <td>Finalizado</td>
+                                        <td style="text-align:center;">
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    <a title="Documentos" href="" class="btn btn-green tooltips btn-sm" data-placement="top" data-original-title="Document"><i class="fa fa-file-text"></i></a>
+                                                    <a title="Editar" href="" class="btn btn-yellow tooltips btn-sm" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" id="delete-" data-hrefa="" onClick="delete_row('');" class="btn btn-danger tooltips btn-sm" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
-                                            </div>
-                                            <div class="panel-body">
-                                                <div class="table-responsive">
-                                                    <table id="GanadoXCompraGanado" class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Número de arete</th>
-                                                                <th>Género</th>
-                                                                <th>Peso inicial (kg.)</th>
-                                                                <th>Peso final - Repeso (kg.)</th>
-                                                                <th>Diferencia de peso(kg.)</th>
-                                                                <th>Merma obtenida (%)</th>
-                                                                <th>Precio por kilo ($)</th>
-                                                                <th>Peso pagado ($)</th>
-                                                                <th>Total ($)</th>
-                                                                <th>Acción</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody></tbody>
-                                                    </table>
+                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                        </a>
+                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="">
+                                                                    <i class="fa fa-file-text"></i> Documentos
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="">
+                                                                    <i class="fa fa-edit"></i> Editar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" id="delete-" data-hrefa="" onClick="delete_row('');">
+                                                                    <i class="fa fa-trash-o"></i> Eliminar
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <!-- END DEFAULT DATATABLE -->
-                                    </div>
-                                </div>
-                            </div>
+                                            </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-                <div id="movimientos" class="tab-pane" role="tabpanel">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Información de <strong>Pagos realizados</strong></h3>
-                                <ul class="panel-controls"></ul>
-                            </div>
-                            <div class="panel-body">
-
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-                <div id="eventos" class="tab-pane" role="tabpanel">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Información de <strong>Eventos durante el trayecto</strong></h3>
-                                <ul class="panel-controls"></ul>
-                            </div>
-
-                            <div class="page-content-wrap">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <!-- START DEFAULT DATATABLE -->
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <h3 class="panel-title"></h3>
-                                                <ul class="panel-controls">
-                                                    <li><a id="btnAddEvento" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo movimiento</a></li>
-                                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                                                    <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
-                                                </ul>
-
-                                            </div>
-                                            <div class="panel-body">
-
-                                            </div>
-                                        </div>
-                                        <!-- END DEFAULT DATATABLE -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="recepcion" class="tab-pane" role="tabpanel">
-                    <div class="col-md-12">
-
-                        @Html.AntiForgeryToken()
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Información de <strong>Recepción de la compra</strong></h3>
-                                <ul class="panel-controls"></ul>
-                            </div>
-
-                            <div class="panel-body">
-
-
-                            </div>
-
-                            <div class="panel-footer">
-                                <input type="submit" value="Finalizar compra" class="btn btn-primary pull-right">
-                                <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
+                <!-- END DEFAULT DATATABLE -->
             </div>
-
         </div>
     </div>
     <!-- PAGE CONTENT WRAPPER -->
@@ -255,6 +136,4 @@
                 Mensaje(message, typemessage);
             });
     </script>
-
-
 }
