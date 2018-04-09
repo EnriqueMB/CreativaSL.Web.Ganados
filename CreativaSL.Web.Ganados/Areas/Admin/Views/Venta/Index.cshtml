@@ -40,7 +40,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table id="tblIndexCompra" class="table">
+                            <table id="tblIndexCompra" class="table datatable">
                                 <thead>
                                     <tr>
                                         <th>Folio</th>
@@ -64,8 +64,9 @@
                                         <td>Finalizado</td>
                                         <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Documentos" href="" class="btn btn-green tooltips btn-sm" data-placement="top" data-original-title="Document"><i class="fa fa-file-text"></i></a>
-                                                    <a title="Editar" href="" class="btn btn-yellow tooltips btn-sm" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Documentos" href="@Url.Action("Document", "Venta")" class="btn btn-primary tooltips btn-sm" data-placement="top" data-original-title="Document"><i class="fa fa-file-text"></i></a>
+                                                    <a title="Finalizar venta" href="@Url.Action("End", "Venta")" class="btn btn-green tooltips btn-sm" data-placement="top" data-original-title="End"><i class="fa fa-thumbs-o-up"></i></a>
+                                                    <a title="Editar" href="@Url.Action("Edit", "Venta")" class="btn btn-yellow tooltips btn-sm" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                                                     <a title="Eliminar" id="delete-" data-hrefa="" onClick="delete_row('');" class="btn btn-danger tooltips btn-sm" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
@@ -75,12 +76,17 @@
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="">
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Document", "Venta")">
                                                                     <i class="fa fa-file-text"></i> Documentos
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="">
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("End", "Venta")">
+                                                                    <i class="fa fa-file-text"></i> Finalizar venta
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "Venta")">
                                                                     <i class="fa fa-edit"></i> Editar
                                                                 </a>
                                                             </li>

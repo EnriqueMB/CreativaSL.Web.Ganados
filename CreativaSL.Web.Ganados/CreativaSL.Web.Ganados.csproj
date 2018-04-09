@@ -1034,6 +1034,11 @@
     <Content Include="Areas\Admin\Views\CatCliente\Lugares.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\ClienteLugar.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\ModalEvento.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\End.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\IndexSucursales.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\CreateSucursal.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1087,6 +1092,7 @@
     <Compile Include="Areas\Admin\Controllers\CompraAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompraController.cs" />
     <Compile Include="Areas\Admin\Controllers\EntregaCombustibleController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FleteController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\MantenimientoController.cs" />
     <Compile Include="Areas\Admin\Controllers\TablaController.cs" />
@@ -1234,6 +1240,7 @@
     <Compile Include="Models\_CatPuestos_Datos.cs" />
     <Compile Include="Models\_CatRangoPesoCompra_Datos.cs" />
     <Compile Include="Models\_CatRemolque_Datos.cs" />
+    <Compile Include="Models\_CatSucursal_Datos.cs" />
     <Compile Include="Models\_CatTipoProveedor_Datos.cs" />
     <Compile Include="Models\_CatTipoServicio_Datos.cs" />
     <Compile Include="Models\_CatTipoVehiculos_Datos.cs" />
@@ -1308,6 +1315,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Flete\" />
     <Folder Include="Areas\Admin\Views\Mantenimiento\" />
   </ItemGroup>
   <PropertyGroup>
