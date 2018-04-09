@@ -86,6 +86,7 @@
 
                                                 <td style="text-align:center;">
                                                     <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                        <a title="Documentos" href="@Url.Action("Details", "Compra", new { IDCompra = Compra["id_compra"].ToString() })" class="btn btn-green tooltips btn-sm" data-placement="top" data-original-title="Document"><i class="fa fa-file-text"></i></a>
                                                         <a title="Editar" href="@Url.Action("Edit", "Compra", new { IDCompra = Compra["id_compra"].ToString() })" class="btn btn-yellow tooltips btn-sm" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                                                         <a title="Eliminar" id="delete-@Compra["id_compra"].ToString()" data-hrefa="@Url.Action("Delete", "Compra", new { IDCompra = Compra["id_compra"].ToString()  })" onClick="delete_row('@Compra["id_compra"].ToString() ');" class="btn btn-danger tooltips btn-sm" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                     </div>
@@ -95,6 +96,11 @@
                                                                 <i class="fa fa-cog"></i> <span class="caret"></span>
                                                             </a>
                                                             <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                <li>
+                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "Compra", new { IDCompra = Compra["id_compra"].ToString() })">
+                                                                        <i class="fa fa-file-text"></i> Documentos
+                                                                    </a>
+                                                                </li>
                                                                 <li>
                                                                     <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "Compra", new { IDCompra = Compra["id_compra"].ToString() })">
                                                                         <i class="fa fa-edit"></i> Editar

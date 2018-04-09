@@ -1,21 +1,19 @@
-﻿@model CreativaSL.Web.Ganados.Models.VentaGanadosModels
+﻿@model CreativaSL.Web.Ganados.Models.CompraModels
 
 @{
-    ViewBag.Title = "Indx";
+    ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
 @section css
 {
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
-    <link href="~/Content/js/plugins/dualSelect/bootstrap-duallistbox.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
 }
 
 @section featured
 {
     @{
-        var message = "Prueba";
-        var typemessage = "0";
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
     }
     <div class="row">
         <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
@@ -223,65 +221,40 @@
             </div>
 
         </div>
-        <!--TERMINA TABS-->
-        <!--INICIA SECCION DE MODALES-->
-        <div id="ModalGanado" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog modal-lg" id="ContenidoModalGanado">
-
+    </div>
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres eliminar esta fila?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="ModalPago" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog modal-lg" id="ContenidoModalPago">
-
-            </div>
-        </div>
-        <div id="ModalCobro" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog modal-lg" id="ContenidoModalCobro">
-
-            </div>
-        </div>
-        <!--TERMINA SECCION DE MODALES-->
     </div>
     <script>
-        var message     = '@message';
-        var typemessage = '@typemessage';
+    var message = '@message';
+    var typemessage = '@typemessage';
     </script>
 }
-
 @section script
 {
-    <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
-    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
-    <script src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-
-    <!--FILEINPUT-->
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-
-    <!--DATEPICKER-->
-    <script src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-timepicker.min.js")"></script>
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
-    <script src="~/Content/js/plugins/dualSelect/jquery.bootstrap-duallistbox.js"></script>
     <script>
-
-        jQuery(document).ready(function () {
-
-            var idCompra = "";
-            Mensaje(message, typemessage);
+            jQuery(document).ready(function () {
+                Mensaje(message, typemessage);
+            });
     </script>
 
-    <script>
-        var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox();
-        $("#demoform").submit(function () {
-            alert($('[name="duallistbox_demo1[]"]').val());
-            return false;
-        });
-    </script>
+
 }

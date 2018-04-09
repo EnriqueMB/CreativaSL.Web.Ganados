@@ -85,5 +85,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
+
+        #region Ganado
+        [HttpPost]
+        public ActionResult ModalEvento()
+        {
+            return PartialView("ModalEvento");
+        }
+        #endregion
     }
 }
