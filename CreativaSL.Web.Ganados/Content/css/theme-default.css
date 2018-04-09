@@ -2074,6 +2074,21 @@ ul.panel-controls > li > .dropdown-menu:before {
   border-color: #d89936;
 }
 
+.btn-blue {
+  color:#f5f5f5;
+  background-color: #1202f7;
+  border-color: #1202f7;
+}
+.btn-blue:hover,
+.btn-blue:focus,
+.btn-blue:active,
+.btn-blue.active,
+.open > .dropdown-toggle.btn-blue {
+     color:#f5f5f5;
+  background-color: #0a0187;
+  border-color: #0a0187;
+}
+
 .btn-green {
   color:#f5f5f5;
   background-color: #35aa47;
