@@ -426,6 +426,7 @@
     <Content Include="Content\js\Concepto.js" />
     <Content Include="Content\js\ConceptosNomina.js" />
     <Content Include="Content\js\CuentaProveedor.js" />
+    <Content Include="Content\js\alta_baja_nomina_empleado.js" />
     <Content Include="Content\js\entregacombustible.js" />
     <Content Include="Content\js\Lugar.js" />
     <Content Include="Content\js\MarcaVehiculo.js" />

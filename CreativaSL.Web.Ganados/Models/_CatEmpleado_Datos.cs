@@ -143,6 +143,32 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public CatEmpleadoModels AltaBajaNominaEmpleado(CatEmpleadoModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.IDEmpleado, datos.AltaNominal, datos.Usuario
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_AltaNomina_CatEmpleado", parametros);
+                datos.IDEmpleado = aux.ToString();
+                if (!string.IsNullOrEmpty(datos.IDEmpleado))
+                {
+                    datos.Completado = true;
+                }
+                else
+                {
+                    datos.Completado = false;
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<CatSucursalesModels> ObteneComboCatSucursal(CatEmpleadoModels Datos)
         {
             try

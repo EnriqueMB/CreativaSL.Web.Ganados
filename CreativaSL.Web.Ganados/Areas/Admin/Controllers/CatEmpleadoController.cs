@@ -74,6 +74,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     DatosEmpleado.Conexion = Conexion;
                     DatosEmpleado.Usuario = User.Identity.Name;
                     DatosEmpleado.Opcion = 1;
+                    DatosEmpleado.AltaNominal = false;
                     DatosEmpleado = EmpleadoDatos.AbcCatEmpleado(DatosEmpleado);
                     if (DatosEmpleado.Completado)
                     {
@@ -233,6 +234,39 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 ex.Message.ToString();
                 return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        // POST: Admin/CatEmpleado/AltaBajaNomina/5
+        [HttpPost]
+        public ActionResult AltaBajaNomina(string id, bool id2)
+        {
+            try
+            {
+                CatEmpleadoModels Empleado = new CatEmpleadoModels();
+                CatEmpleado_Datos EmpleadoDatos = new CatEmpleado_Datos();
+                Empleado.Conexion = Conexion;
+                Empleado.Usuario = User.Identity.Name;
+                Empleado.IDEmpleado = id;
+                Empleado.AltaNominal = id2;
+                EmpleadoDatos.AltaBajaNominaEmpleado(Empleado);
+                if (Empleado.AltaNominal)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "El Empleado fue dado de baja correctamente.";
+                    return Json("");
+                }
+                else
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "El Empleado fue dado de alta correctamente.";
+                    return Json("");
+                }
+               
+            }
+            catch
+            {
+                return View();
             }
         }
     }
