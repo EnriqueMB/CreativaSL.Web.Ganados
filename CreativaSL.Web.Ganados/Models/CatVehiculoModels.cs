@@ -31,12 +31,16 @@ namespace CreativaSL.Web.Ganados.Models
             _fechaIngreso = DateTime.Now;
             
             _tarjetaCirculacion = string.Empty;
+
+            _DateLastService = DateTime.MinValue;
+
             //datos de control
             Conexion = string.Empty;
             Resultado = 0;
             Opcion = 0;
             Completado = false;
             Usuario = string.Empty;
+
         }
        
         private string _tarjetaCirculacion;
@@ -221,6 +225,22 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _Estatus; }
             set { _Estatus = value; }
+        }
+
+        private DateTime _DateLastService;
+        /// <summary>
+        /// Fecha de último servicio
+        /// </summary>
+        public DateTime DateLastService
+        {
+            get { return _DateLastService; }
+            set { _DateLastService = value; }
+        }
+
+        //Fecha de último servicio con formato 
+        public string DateLastServiceFormat
+        {
+            get { return _DateLastService != DateTime.MinValue ? _DateLastService.ToShortDateString() : "Sin Datos"; }
         }
 
         #region Datos De Control

@@ -865,6 +865,7 @@
     <Content Include="Content\js\ProveedorAlmacen.js" />
     <Content Include="Content\js\Remolques.js" />
     <Content Include="Content\js\rendimiento.js" />
+    <Content Include="Content\js\serviciosMtto.js" />
     <Content Include="Content\js\settings.js" />
     <Content Include="Content\js\TipoProveedor.js" />
     <Content Include="Content\js\TipoVehiculo.js" />
@@ -1029,6 +1030,11 @@
     <Content Include="Areas\Admin\Views\CatConceptoDocumento\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatConceptoDocumento\Index.cshtml" />
     <Content Include="Areas\Admin\Views\EntregaCombustible\Rendimiento.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\Servicios.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\Test.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\Details.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1182,6 +1188,7 @@
     <Compile Include="Models\ResumenGastosModels.cs" />
     <Compile Include="Models\SalidaAlmacenDetalle.cs" />
     <Compile Include="Models\SalidaAlmacenDetalleModels.cs" />
+    <Compile Include="Models\ServiciosMantenimientoModels.cs" />
     <Compile Include="Models\TelefonosContactoSucursalModels.cs" />
     <Compile Include="Models\TipoUsuarioModels.cs" />
     <Compile Include="Models\TrayectoModels.cs" />
@@ -1234,11 +1241,13 @@
     <Compile Include="Models\_EntregaCombustible_Datos.cs" />
     <Compile Include="Models\_Login_Datos.cs" />
     <Compile Include="Models\_Menu_Datos.cs" />
+    <Compile Include="Models\_ServicioMantenimiento_Datos.cs" />
     <Compile Include="Models\_Usuario_Datos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CuentaBancariaViewModels.cs" />
     <Compile Include="ViewModels\EntregaCombustibleViewModels.cs" />
     <Compile Include="ViewModels\RendimientoCombustibleViewModels.cs" />
+    <Compile Include="ViewModels\ServiciosMantenimientoViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -1298,7 +1307,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\Mantenimiento\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
