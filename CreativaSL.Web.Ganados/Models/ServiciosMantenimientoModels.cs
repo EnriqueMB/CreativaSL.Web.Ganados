@@ -14,6 +14,7 @@ namespace CreativaSL.Web.Ganados.Models
             _ListaVehiculos = new List<CatVehiculoModels>();
         }
 
+
         private string _IDServicio;
 
         public string IDServicio
@@ -28,7 +29,7 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _Sucursal; }
             set { _Sucursal = value; }
-        }
+        } 
 
         private DateTime _Fecha;
 
@@ -38,6 +39,22 @@ namespace CreativaSL.Web.Ganados.Models
             set { _Fecha = value; }
         }
 
+        
+        public string FechaFormat
+        {
+            get { return _Fecha.ToShortDateString(); }
+        }
+
+
+        private string _ServiciosRealizados;
+
+        public string ServiciosRealizados
+        {
+            get { return _ServiciosRealizados; }
+            set { _ServiciosRealizados = value; }
+        }
+
+
         private decimal _ImporteTotal;
 
         public decimal ImporteTotal
@@ -45,6 +62,12 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _ImporteTotal; }
             set { _ImporteTotal = value; }
         }
+
+        public string ImporteTotalFormat
+        {
+            get { return string.Format("{0:c}", _ImporteTotal); }
+        }
+
 
         private List<CatVehiculoModels> _ListaVehiculos;
         /// <summary>

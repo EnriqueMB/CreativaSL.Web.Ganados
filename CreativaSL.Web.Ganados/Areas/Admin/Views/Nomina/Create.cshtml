@@ -1,0 +1,130 @@
+﻿@model CreativaSL.Web.Ganados.Models.NominaModels
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Empleado Nomina </h2>
+    </div>
+    <!-- END PAGE TITLE -->
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+
+                @{ Html.EnableClientValidation(false); }
+                @using (Html.BeginForm("Create", "Nomina", FormMethod.Post, new { @class = "form-inline", id = "form-search", autocomplete = "off" }))
+                {
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="col-md-12 col-xs-12 control-label"><span>* </span> Sucursal </label>
+                            <div class="col-md-12 col-xs-12">
+                                @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IDSucursal)
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- START DEFAULT DATATABLE -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"></h3>
+
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Seleccionar</th>
+                                                <th>Clave Empleado</th>
+                                                <th>Empleado</th>
+                                                <th>Puesto</th>
+                                                <th>Categoria</th>
+                                                <th>Sueldo Diario</th>
+                                                <th>Percepciones</th>
+                                                <th>Deducciones</th>
+                                                <th style="display:none"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="IDTabla">
+                                            @*@for (int i = 0; i < 20; i++)
+                                            {
+                                                <tr>
+                                                    <td><input checked="checked" id="ListaEmpleados_@i--AbrirCaja" name="ListaEmpleados[@i].AbrirCaja" type="checkbox" value="true" /><input name="ListaEmpleados[@i].AbrirCaja" type="hidden" value="false" /> </td>
+                                                    <td>Empleado 00-@i</td>
+                                                </tr>
+                                            }*@
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="panel-footer">
+                            <input type="submit" id="save" value="Guardar" class="btn btn-primary pull-right">
+                            <a href="@Url.Action("Index","Nomina")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                        </div>
+                    </div>
+                    <!-- END DEFAULT DATATABLE -->
+                }
+            </div>
+        </div>
+    </div>
+    <script>
+    var message = '@message';
+    var typemessage = '@typemessage';
+    </script>
+}
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/nomina-empleado.js")"></script>
+    <script>
+    jQuery(document).ready(function () {
+        Mensaje(message, typemessage);
+        NominaEmpleado.init();
+        $("form").on("submit", function (event) {
+            //event.preventDefault();
+            //console.log($(this).serialize());
+        });
+
+        //console.log($('input.form-control'));
+        //$('input.form-control').on('change', function () {
+        //    console.log("Cambio el valor");
+        //});
+
+        //$('#save').on('click', function (e) {
+        //    e.preventDefault();
+        //    var form = $('#form-search');
+        //    console.log(form.data);
+        //});
+
+
+    });
+    </script>
+}
+
+
+
+
+
+
+

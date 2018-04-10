@@ -16,7 +16,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Nomina </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Nómina </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -27,17 +27,61 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
-                        <ul class="panel-controls">
+                        @using (Html.BeginForm("Index", "Nomina", FormMethod.Post, new { @class = "form-inline", id = "form-search", autocomplete = "off" }))
+                        {
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @Html.CheckBoxFor(model => model.BandIDSucursal)<label class="control-label"> Filtrar por Sucursal: </label>
+                                    @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
+                                    @Html.ValidationMessageFor(model => model.IDSucursal)
+                                </div>
+                            </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.CheckBoxFor(model => model.BandBusqFechas)<label class="control-label"> Filtrar por periodo: </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                            @Html.TextBoxFor(model => model.FechaInicio, "{0:dd/MM/yyyy}", new { id = "FechaInicio", @class = "form-control datepicker", @readonly = "readonly", @title = "Fecha Inicio" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                                @Html.TextBoxFor(model => model.FechaFin, "{0:dd/MM/yyyy}", new { id = "FechaFin", @class = "form-control datepicker", @readonly = "readonly", @title = "Fecha Fin" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              
+                                <div class="col-md-3">
+                                    @Html.CheckBoxFor(model => model.BandBusqClave)<label class="control-label"> Filtrar por clave: </label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(model => model.ClaveNomina, new { id = "ClaveNomina", @class = "form-control", placeholder = "Capture la clave nómina" })
+                                        </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-default btnCrear"><span class="fa fa-search"> </span> Filtrar</button>
+                                    <ul class="panel-controls">
+
+                                        <li><a href="@Url.Action("Create", "Nomina")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva Nomina</a></li>
+                                        <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                        <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
+                                    </ul>
+                                </div>
+                        }
+                        @*<ul class="panel-controls">
                             <li><a href="@Url.Action("Create","Nomina")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva Nomina</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
-                        </ul>
+                        </ul>*@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
                             <table class="table datatable">
                                 <thead>
                                     <tr>
+                                        <th>Sucursal</th>
                                         <th>Clave Nomina</th>
                                         <th>Fecha Inico</th>
                                         <th>Fecha Fin</th>
@@ -48,6 +92,7 @@
                                     @foreach (var Nomina in Model.ListaNomina)
                                     {
                                         <tr id="@Nomina.IDNomina">
+                                            <td>@Nomina.NombreSucursal</td>
                                             <td>@Nomina.ClaveNomina</td>
                                             <td>@Nomina.FechaInicio</td>
                                             <td>@Nomina.FechaFin</td>
@@ -112,12 +157,17 @@
 }
 @section script
 {
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/nomina-busqueda.js")"></script>
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
+        nominaBusqueda.init();
         });
     </script>
 }

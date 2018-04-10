@@ -21,7 +21,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 NominaModels Nomina = new NominaModels();
                 Nomina_Datos NominaDatos = new Nomina_Datos();
+                _Combos_Datos Combos = new _Combos_Datos();
                 Nomina.Conexion = Conexion;
+                Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
                 Nomina.ListaNomina = NominaDatos.ObtenerListaNomina(Nomina);
                 return View(Nomina);
             }
@@ -34,6 +36,48 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
+        //POST: Admin/Nomina/3
+        [HttpPost]
+        public ActionResult Index(NominaModels Nomina)
+        {
+            try
+            {
+                Nomina_Datos NominaDatos = new Nomina_Datos();
+                _Combos_Datos Combos = new _Combos_Datos();
+                Nomina.Conexion = Conexion;
+                Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
+                Nomina.EsBusqueda = true;
+                if (!Nomina.BandBusqClave)
+                {
+                    Nomina.ClaveNomina = string.Empty;
+                }
+                if (!Nomina.BandIDSucursal)
+                {
+                    Nomina.IDSucursal = string.Empty;
+                }
+                if (!Nomina.BandBusqFechas)
+                {
+                    Nomina.FechaInicio = DateTime.Today;
+                    Nomina.FechaFin = DateTime.Today;
+                }
+                if (string.IsNullOrEmpty(Nomina.IDSucursal))
+                {
+                    Nomina.BandIDSucursal = false;
+                }
+                if (!Nomina.BandBusqClave && !Nomina.BandIDSucursal && !Nomina.BandBusqFechas)
+                {
+                    Nomina.EsBusqueda = false;
+                }
+                Nomina.ListaNomina = NominaDatos.ObtenerListaNomina(Nomina);
+                return View(Nomina);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         // GET: Admin/Nomina/Details/5
         public ActionResult Details(int id)
         {
@@ -43,17 +87,29 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         // GET: Admin/Nomina/Create
         public ActionResult Create()
         {
-            return View();
+            try
+            {
+                NominaModels Nomina = new NominaModels();
+                Nomina_Datos NominaDatos = new Nomina_Datos();
+                _Combos_Datos Combos = new _Combos_Datos();
+                Nomina.Conexion = Conexion;
+                Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
+                return View(Nomina);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // POST: Admin/Nomina/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(NominaModels Nomina)
         {
             try
             {
-                // TODO: Add insert logic here
-
+                
                 return RedirectToAction("Index");
             }
             catch
@@ -103,6 +159,26 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             catch
             {
                 return View();
+            }
+        }
+
+        // POST: Admin/Nomina/getDatostablaEmpleado/3
+        [HttpPost]
+        public ActionResult DatostablaEmpleado(string IDS)
+        {
+            try
+            {
+                NominaModels Nomina = new NominaModels();
+                Nomina_Datos NominaDatos = new Nomina_Datos();
+                Nomina.IDSucursal = IDS;
+                Nomina.Conexion = Conexion;
+                Nomina.ListaNomina = NominaDatos.ObtenerListaNominaEmpleado(Nomina);
+                return Json(Nomina.ListaNomina, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                ex.Message.ToString();
+                return Json("", JsonRequestBehavior.AllowGet);
             }
         }
     }

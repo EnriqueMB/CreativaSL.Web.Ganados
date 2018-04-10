@@ -10,13 +10,68 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class _EntregaCombustible_Datos
     {
+        public RendimientoCombustibleViewModels setRendimiento(RendimientoCombustibleViewModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.IDEntregaCombustible,
+                    datos.KMFinal,
+                    datos.Rendimiento,
+                    datos.Usuario
+                };
+                object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Mantenimiento_set_RendimientoEntregaCombustible", parametros);
+                datos.IDEntregaCombustible = Resultado.ToString();
+                if (!string.IsNullOrEmpty(datos.IDEntregaCombustible))
+                {
+                    datos.Completado = true;
+                }
+                else
+                {
+                    datos.Completado = false;
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public RendimientoCombustibleViewModels ObtenerDatosRendimiento(RendimientoCombustibleViewModels datos)
+        {
+            try
+            {
+                object[] parametros = { datos.IDEntregaCombustible };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Mantenimiento_get_EntregaCombustibleRendimientoXID", parametros);
+                while (dr.Read())
+                {
+                    datos.IDEntregaCombustible = dr["id_entregaCombustible"].ToString();
+                   
+                    datos.Fecha = Convert.ToDateTime(dr["fecha"].ToString());
+                    datos.NoTicket = dr["noTicket"].ToString();
+                    datos.KMInicial = Convert.ToInt32(dr["kmInicial"].ToString());
+                    datos.KMFinal = Convert.ToInt32(dr["kmFinal"].ToString());
+                    datos.Litros = Convert.ToDecimal(dr["litros"].ToString());
+                    datos.Rendimiento = Convert.ToDecimal(dr["rendimiento"].ToString());
+
+                }
+                return datos;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public EntregaCombustibleModels ObtenerDetalleEntregaCombustible(EntregaCombustibleModels datos)
         {
             try
             {
                 object[] parametros = { datos.IDEntregaCombustible };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_get_EntregaCombustibleXID", parametros);
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Mantenimiento_get_EntregaCombustibleXID", parametros);
                 while (dr.Read())
                 {
                     datos.IDEntregaCombustible = dr["id_entregaCombustible"].ToString();
@@ -47,7 +102,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     datos.IDEntregaCombustible, datos.Usuario
                 };
-                object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_del_EntregaCombustible", parametros);
+                object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Mantenimiento_del_EntregaCombustible", parametros);
                 if (Resultado != null)
                 {
                     if (!string.IsNullOrEmpty(datos.IDEntregaCombustible))
@@ -80,11 +135,12 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.NoTicket,
                     datos.KMInicial,
                     datos.Litros,
+                    datos.Precio,
                     datos.Total,
                     datos.UrlImagen64,datos.BandImg,
                     datos.Usuario
                 };
-                object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_EntregaCombustible", parametros);
+                object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Mantenimiento_ac_EntregaCombustible", parametros);
                 datos.IDEntregaCombustible = Resultado.ToString();
                 if (!string.IsNullOrEmpty(datos.IDEntregaCombustible))
                 {
@@ -111,7 +167,7 @@ namespace CreativaSL.Web.Ganados.Models
                
 
                 object[] Parametros = { Datos.IDSucursal, Datos.IDVehiculo, Datos.Fecha, Datos.BandIDSucursal, Datos.BandIDVehiuculo, Datos.BandFechaEntrega };
-                SqlDataReader dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Catalogo_get_EntregaCombustible", Parametros);
+                SqlDataReader dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Mantenimiento_get_EntregaCombustible", Parametros);
                  EntregaCombustibleModels Item;
                 while(dr.Read())
                 {

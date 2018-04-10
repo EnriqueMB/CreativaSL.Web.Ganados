@@ -10,7 +10,7 @@ namespace CreativaSL.Web.Ganados.ViewModels
         public RendimientoCombustibleViewModels()
         {
             _IDEntregaCombustible = string.Empty;
-            _Fecha = string.Empty;
+            _Fecha = DateTime.Now;
             _NoTicket = string.Empty;
             _KMInicial = 0;
             _KMFinal = 0;
@@ -29,11 +29,11 @@ namespace CreativaSL.Web.Ganados.ViewModels
         }
 
 
-        private string _Fecha;
+        private DateTime _Fecha;
         /// <summary>
         /// Fecha en que se realiza la carga de combustible
         /// </summary>
-        public string Fecha
+        public DateTime Fecha
         {
             get { return _Fecha; }
             set { _Fecha = value; }
@@ -86,6 +86,13 @@ namespace CreativaSL.Web.Ganados.ViewModels
             get { return _Rendimiento; }
             set { _Rendimiento = value; }
         }
+        #region Datos De Control
+        public string Conexion { get; set; }
+        public int Resultado { get; set; }
+        public bool Completado { get; set; }
+        public string Usuario { get; set; }
+        public int Opcion { get; set; }
+        #endregion
 
     }
 }

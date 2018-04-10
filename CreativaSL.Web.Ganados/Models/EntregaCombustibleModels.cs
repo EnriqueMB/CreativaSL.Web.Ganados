@@ -20,6 +20,7 @@ namespace CreativaSL.Web.Ganados.Models
             _KMInicial = 0;
             _KMFinal = 0;
             _Litros = 0;
+            _Precio = 0;
             _Total = 0;
             _UrlImagen64 = string.Empty;
             _ImgTicketBand = false;
@@ -38,6 +39,14 @@ namespace CreativaSL.Web.Ganados.Models
             Usuario = string.Empty;
             Opcion = 0;
         }
+        private decimal _Precio;
+
+        public decimal Precio
+        {
+            get { return _Precio; }
+            set { _Precio = value; }
+        }
+
         private bool _BandFechaEntrega;
 
         public bool BandFechaEntrega

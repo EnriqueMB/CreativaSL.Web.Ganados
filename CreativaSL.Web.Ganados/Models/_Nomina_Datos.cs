@@ -9,15 +9,24 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class Nomina_Datos
     {
-
         public List<NominaModels> ObtenerListaNomina(NominaModels Datos)
         {
             try
             {
                 List<NominaModels> Lista = new List<NominaModels>();
                 NominaModels Item;
+                object[] parametros = {
+                    Datos.EsBusqueda,
+                    Datos.BandBusqClave,
+                    Datos.BandIDSucursal,
+                    Datos.BandBusqFechas,
+                    Datos.ClaveNomina ?? string.Empty,
+                    Datos.FechaInicio != null ? Datos.FechaInicio : DateTime.Today,
+                    Datos.FechaFin != null ? Datos.FechaFin : DateTime.Today,
+                    Datos.IDSucursal ?? string.Empty
+                };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Nomina_get_ObtenerNominas");
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Nomina_get_ObtenerNominas", parametros);
                 while (dr.Read())
                 {
                     Item = new NominaModels();
@@ -25,6 +34,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.ClaveNomina = !dr.IsDBNull(dr.GetOrdinal("ClaveNomina")) ? dr.GetString(dr.GetOrdinal("ClaveNomina")) : string.Empty;
                     Item.FechaInicio = !dr.IsDBNull(dr.GetOrdinal("FechaInicio")) ? dr.GetDateTime(dr.GetOrdinal("FechaInicio")) : DateTime.Today;
                     Item.FechaFin = !dr.IsDBNull(dr.GetOrdinal("FechaFin")) ? dr.GetDateTime(dr.GetOrdinal("FechaFin")) : DateTime.Today;
+                    Item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
                     Lista.Add(Item);
                 }
                 return Lista;
@@ -44,7 +54,7 @@ namespace CreativaSL.Web.Ganados.Models
                 List<NominaModels> Lista = new List<NominaModels>();
                 NominaModels Item;
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Nomina_get_Empleados");
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Nomina_get_Empleados", Datos.IDSucursal);
                 while (dr.Read())
                 {
                     Item = new NominaModels();
