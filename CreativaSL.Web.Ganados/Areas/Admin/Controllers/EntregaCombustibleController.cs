@@ -132,8 +132,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                     Entrega.Conexion = Conexion;
                     Entrega.Opcion = 1;
+                    Entrega.Precio = Entrega.Total / Entrega.Litros;
                     Entrega.IDEntregaCombustible = "0";
-
+                    Entrega.Usuario = User.Identity.Name;
 
                     Entrega = EntregaCombustibleDatos.AcEntregaCombustible(Entrega);
                     if (Entrega.Completado == true)
@@ -161,6 +162,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch
             {
+                Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
+                Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Entrega.IDSucursal);
+                Entrega.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
                 return View(Entrega);
@@ -186,6 +190,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception)
             {
+
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return RedirectToAction("Index");
@@ -225,8 +230,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
 
                     Entrega.Conexion = Conexion;
+                    Entrega.Precio = Entrega.Total / Entrega.Litros;
                     Entrega.Opcion = 2;
-
+                    Entrega.Usuario = User.Identity.Name;
 
 
                     Entrega = EntregaCombustibleDatos.AcEntregaCombustible(Entrega);
@@ -256,6 +262,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch
             {
+                Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
+                Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Entrega.IDSucursal);
+                Entrega.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
                 return View(Entrega);
@@ -268,12 +277,47 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 RendimientoCombustibleViewModels Rendimiento = new RendimientoCombustibleViewModels();
-                Rendimiento.Fecha = DateTime.Today.ToShortDateString();
-                Rendimiento.NoTicket = "2998389028e67492";
-                Rendimiento.Litros = 10;
-                Rendimiento.KMInicial = 12039;
-                Rendimiento.Rendimiento = 0;
+                _EntregaCombustible_Datos EntregaCombustibleDatos = new _EntregaCombustible_Datos();
+                Rendimiento.IDEntregaCombustible = id;
+                Rendimiento.Conexion = Conexion;
+                Rendimiento = EntregaCombustibleDatos.ObtenerDatosRendimiento(Rendimiento);
                 return View(Rendimiento);
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
+        }
+        [HttpPost]
+        public ActionResult Rendimiento(FormCollection collection)
+        {
+            
+            try
+            {
+                RendimientoCombustibleViewModels Rendimiento = new RendimientoCombustibleViewModels();
+                _EntregaCombustible_Datos EntregaCombustibleDatos = new _EntregaCombustible_Datos();
+                Rendimiento.Usuario = User.Identity.Name;
+                Rendimiento.Conexion = Conexion;
+                Rendimiento.IDEntregaCombustible = collection["IDEntregaCombustible"];
+                Rendimiento.KMFinal = Convert.ToInt32(collection["KMFinal"]);
+                Rendimiento.Rendimiento= Convert.ToDecimal(collection["Rendimiento"]);
+                Rendimiento = EntregaCombustibleDatos.setRendimiento(Rendimiento);
+
+                if (Rendimiento.Completado == true)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "El registro se guardo correctamente.";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Ocurrió un error al guardar el registro.";
+                    return View(Rendimiento);
+                }
+               
             }
             catch (Exception)
             {
