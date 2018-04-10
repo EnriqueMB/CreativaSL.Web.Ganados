@@ -27,8 +27,22 @@ namespace CreativaSL.Web.Ganados.Models
             _Sueldo = 0;
             _Percepciones = 0;
             _Deducciones = 0;
+            _ListaSucursales = new List<CatSucursalesModels>();
+            _EsBusqueda = false;
+            _BandBusqFechas = false;
+            _BandIDSucursal = false;
+            _NombreSucursal = string.Empty;
+            _ListaEmpleados = new List<CatEmpleadoModels>();
         }
-
+        private bool _AbrirCaja;
+        /// <summary>
+        /// Ver si el Empleado Abre caja 
+        /// </summary>
+        public bool AbrirCaja
+        {
+            get { return _AbrirCaja; }
+            set { _AbrirCaja = value; }
+        }
         private string _IDNomina;
 
         public string IDNomina
@@ -69,6 +83,15 @@ namespace CreativaSL.Web.Ganados.Models
             set { _FechaFin = value; }
         }
 
+        private List<CatEmpleadoModels> _ListaEmpleados;
+
+        public List<CatEmpleadoModels> ListaEmpleados
+        {
+            get { return _ListaEmpleados; }
+            set { _ListaEmpleados = value; }
+        }
+
+
         private List<NominaModels> _ListaNomina;
 
         public List<NominaModels> ListaNomina
@@ -100,6 +123,39 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _BandBusqFechas; }
             set { _BandBusqFechas = value; }
         }
+        private bool _BandIDSucursal;
+
+        public bool BandIDSucursal
+        {
+            get { return _BandIDSucursal; }
+            set { _BandIDSucursal = value; }
+        }
+
+        private bool _BandBusqClave;
+
+        public bool BandBusqClave
+        {
+            get { return _BandBusqClave; }
+            set { _BandBusqClave = value; }
+        }
+
+        private List<CatSucursalesModels> _ListaSucursales;
+
+        public List<CatSucursalesModels> ListaSucursales
+        {
+            get { return _ListaSucursales; }
+            set { _ListaSucursales = value; }
+        }
+
+        private string _NombreSucursal;
+
+        public string NombreSucursal
+        {
+            get { return _NombreSucursal; }
+            set { _NombreSucursal = value; }
+        }
+
+
         #region Empleado para la nomina
         /// <summary>
         /// Para Listar los empleado que van a registrarse en la nomina
