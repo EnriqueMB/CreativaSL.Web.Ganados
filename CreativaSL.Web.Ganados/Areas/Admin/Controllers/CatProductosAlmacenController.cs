@@ -147,9 +147,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 // TODO: Add insert logic here
+                ModelState.Remove("Imagen2");
                 if (ModelState.IsValid)
                 {
-                    ModelState.Remove("Imagen2");
+                   
 
                     
                         HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
@@ -214,18 +215,32 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatProductosAlmacen/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(string id, FormCollection collection)
         {
             try
             {
+                CatProductosAlmacenModels Producto = new CatProductosAlmacenModels();
+                _CatProductosAlmacen_Datos ProductoDatos = new _CatProductosAlmacen_Datos();
+                Producto.Conexion = Conexion;
+                Producto.IDProductoAlmacen = id;
+                Producto.Usuario = User.Identity.Name;
+                Producto = ProductoDatos.EliminarProductoAlmancen(Producto);
+
+                return Json("");
                 // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
+
             }
             catch
             {
-                return View();
+                CatProductosModels Producto = new CatProductosModels();
+
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
+                return Json("");
+
             }
         }
+
     }
 }

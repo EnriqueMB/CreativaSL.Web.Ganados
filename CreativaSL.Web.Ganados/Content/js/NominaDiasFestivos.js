@@ -1,23 +1,12 @@
-﻿var ProductosAlmacen = function () {
-   
+﻿var NominaDiasFestivos = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
-        var form1 = $('#form-pa');
+        var form1 = $('#form-NominaDiasFestivos');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
-        $.validator.addMethod("validarImagen2", function () {
-            if (document.getElementById("imagen2").value === '') {
-                if ((document.getElementById("imagen2").value === ''))
-                    return false;
-                else
-                    return true;
-            }
-            else
-                return true;
-        }, 'Debe seleccionar una imagen.');
-    
-        $('#form-pa').validate({
+
+        $('#form-NominaDiasFestivos').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -35,27 +24,12 @@
             },
             ignore: "",
             rules: {
-                
-            IDTipoCodigo: {CMBINT: true }, //{ nombre: true, maxlenght: 300 },
-                IDUnidadMedida: { CMBINT: true },
-                Clave: { required: true, texto: true, maxlength: 20 },
-                Nombre: { required: true, nombre: true, maxlength: 300 },
-                Descripcion: { required: true, descripcion: true },
-                UltimoCosto: { required: true },
-                imagen2: { validarImagen2: true },
-               
+                Descripcion: { required: true, texto: true, maxlength: 100 },
+                fecha: { required: true },
             },
             messages: {
-                
-                IDTipoCodigo: {  CMBINT: "Seleccione un tipo de código." }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
-                IDUnidadMedida: { CMBINT: "Seleccione una unidad de médida." },
-                Clave: { required: "Se necesita de una clave del producto", texto: "Ingrese un formato válido ", maxlength: "Solo se admite un máximo de 20 caracteres" },
-                Nombre: { required: "Se necesita de un nombre del producto", nombre: "Ingrese un formato válido ", maxlength: "Solo se admite un máximo de 300 caracteres" },
-                Descripcion:{ required: "Se necesita de una clave del producto", descripcion: "Ingrese un formato válido "},
-                UltimoCosto: { required: "Se necesita de un nombre del producto" },
-                imagen2: { validarImagen2: "Seleccione una imagén válida " },
-               
-
+                Descripcion: { required: "Ingrese el nombre del Proveedor.", texto: "Ingrese un formato válido", maxlength: "El campo nombre admite máximo 100 caracteres." },
+                fecha: { required: "Seleccione la fecha del día festivo" }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -86,14 +60,10 @@
             }
         });
     };
-
- 
-
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
-          
         }
     };
 }();

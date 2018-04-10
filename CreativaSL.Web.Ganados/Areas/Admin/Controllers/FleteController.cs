@@ -1,52 +1,32 @@
-﻿using CreativaSL.Web.Ganados.Filters;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using CreativaSL.Web.Ganados.Models;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
-    [Autorizado]
-    public class NominaController : Controller
+    public class FleteController : Controller
     {
-        string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
-
-        // GET: Admin/Nomina
+        // GET: Admin/Flete
         public ActionResult Index()
         {
-            try
-            {
-                NominaModels Nomina = new NominaModels();
-                Nomina_Datos NominaDatos = new Nomina_Datos();
-                Nomina.Conexion = Conexion;
-                Nomina.ListaNomina = NominaDatos.ObtenerListaNomina(Nomina);
-                return View(Nomina);
-            }
-            catch (Exception)
-            {
-                NominaModels Nomina = new NominaModels();
-                TempData["typemessage"] = "2";
-                TempData["message"] = "No se puede cargar la vista";
-                return View(Nomina);
-            }
+            return View();
         }
 
-        // GET: Admin/Nomina/Details/5
+        // GET: Admin/Flete/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Admin/Nomina/Create
+        // GET: Admin/Flete/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Nomina/Create
+        // POST: Admin/Flete/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
@@ -62,13 +42,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/Nomina/Edit/5
+        // GET: Admin/Flete/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Admin/Nomina/Edit/5
+        // POST: Admin/Flete/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -84,13 +64,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/Nomina/Delete/5
+        // GET: Admin/Flete/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Admin/Nomina/Delete/5
+        // POST: Admin/Flete/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {

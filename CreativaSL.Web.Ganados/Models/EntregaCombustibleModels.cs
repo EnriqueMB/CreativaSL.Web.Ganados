@@ -1,15 +1,15 @@
-﻿using CreativaSL.Web.Ganados.Models;
+﻿using CreativaSL.Web.Ganados.Models.Validaciones;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace CreativaSL.Web.Ganados.ViewModels
+namespace CreativaSL.Web.Ganados.Models
 {
-    public class EntregaCombustibleViewModels
+    public class EntregaCombustibleModels
     {
-        public EntregaCombustibleViewModels()
+        public EntregaCombustibleModels()
         {
             _IDEntregaCombustible = string.Empty;
             _IDSucursal = string.Empty;
@@ -89,7 +89,7 @@ namespace CreativaSL.Web.Ganados.ViewModels
             get { return _IDVehiculo; }
             set { _IDVehiculo = value; }
         }
-        
+
         private int _IDTipoCombustible;
         /// <summary>
         /// Identificador del tipo de combustible
@@ -99,7 +99,7 @@ namespace CreativaSL.Web.Ganados.ViewModels
             get { return _IDTipoCombustible; }
             set { _IDTipoCombustible = value; }
         }
-        
+
         private DateTime _Fecha;
         /// <summary>
         /// Fecha en que se realiza la carga de combustible
@@ -149,7 +149,7 @@ namespace CreativaSL.Web.Ganados.ViewModels
             get { return _Litros; }
             set { _Litros = value; }
         }
-        
+
         private decimal _Total;
         /// <summary>
         /// Monto total
@@ -171,19 +171,19 @@ namespace CreativaSL.Web.Ganados.ViewModels
         }
 
 
-        private HttpPostedFile _ImgTicket;
+        private HttpPostedFileBase[] _ImgTicket;
         [Required(ErrorMessage = "Seleccione la imagen de productos")]
 
         [Display(Name = "Imagen Ticket")]
         /// <summary>
         /// Imagen del ticket de la carga de combustible
         /// </summary>
-        public HttpPostedFile ImgTicket
+        public HttpPostedFileBase[] ImgTicket
         {
             get { return _ImgTicket; }
             set { _ImgTicket = value; }
         }
-
+        public HttpPostedFileBase[] Img2 { get; set; }
         private bool _ImgTicketBand;
 
         public bool ImgTicketBand
@@ -192,9 +192,9 @@ namespace CreativaSL.Web.Ganados.ViewModels
             set { _ImgTicketBand = value; }
         }
 
-        private List<EntregaCombustibleViewModels> _listaEntregaCombustible;
+        private List<EntregaCombustibleModels> _listaEntregaCombustible;
 
-        public List<EntregaCombustibleViewModels> listaEntregaCombustible
+        public List<EntregaCombustibleModels> listaEntregaCombustible
         {
             get { return _listaEntregaCombustible; }
             set { _listaEntregaCombustible = value; }
@@ -260,29 +260,5 @@ namespace CreativaSL.Web.Ganados.ViewModels
         public string Usuario { get; set; }
         public int Opcion { get; set; }
         #endregion
-        public EntregaCombustibleViewModels GetViewCB()
-        {
-            try
-            {
-                return new EntregaCombustibleViewModels
-                {
-                    IDEntregaCombustible = this._IDEntregaCombustible,
-                    IDSucursal = this._IDSucursal,
-                    IDVehiculo = this._IDVehiculo,
-                    IDTipoCombustible = this._IDTipoCombustible,
-                    Fecha = this._Fecha,
-                    NoTicket = this._NoTicket,
-                   KMInicial= _KMInicial,
-                    KMFinal=this._KMFinal ,
-                    Litros=this._Litros,
-                    Total=this._Total,
-               UrlImagen64=this._UrlImagen64 
-            };
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
     }
 }

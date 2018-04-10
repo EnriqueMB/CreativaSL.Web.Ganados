@@ -430,6 +430,7 @@
     <Content Include="Content\js\entregacombustible.js" />
     <Content Include="Content\js\Lugar.js" />
     <Content Include="Content\js\MarcaVehiculo.js" />
+    <Content Include="Content\js\NominaDiasFestivos.js" />
     <Content Include="Content\js\plugins\dualSelect\bootstrap-duallistbox.css" />
     <Content Include="Content\js\plugins\dualSelect\jquery.bootstrap-duallistbox.js" />
     <Content Include="Content\js\ProductosAlmacen.js" />
@@ -872,6 +873,7 @@
     <Content Include="Content\js\rendimiento.js" />
     <Content Include="Content\js\serviciosMtto.js" />
     <Content Include="Content\js\settings.js" />
+    <Content Include="Content\js\sucursal.js" />
     <Content Include="Content\js\TipoProveedor.js" />
     <Content Include="Content\js\TipoServicio.js" />
     <Content Include="Content\js\TipoVehiculo.js" />
@@ -1036,18 +1038,35 @@
     <Content Include="Areas\Admin\Views\CatCliente\Lugares.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\ClienteLugar.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\ModalEvento.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\CreateSucursal.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\IndexSucursales.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\End.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatConceptoDocumento\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatConceptoDocumento\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatTipoServicio\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatTipoServicio\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatTipoServicio\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\CatConceptoDocumento\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\CatConceptoDocumento\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\Servicios.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\Test.cshtml" />
+    <Content Include="Areas\Admin\Views\Nomina\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\NominaDiasFestivos\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\NominaDiasFestivos\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\NominaDiasFestivos\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Details.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\EditPrecio.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\PrecioProveedor.cshtml" />
-    <Content Include="Areas\Admin\Views\EntregaCombustible\Rendimiento.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpleado\CreateVacaciones.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpleado\Vacaciones.cshtml" />
     <Content Include="Content\js\plugins\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\js\plugins\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\js\plugins\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Areas\Admin\Views\EntregaCombustible\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\EntregaCombustible\Rendimiento.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\EditSucursal.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Vacaciones.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\CreateVacaciones.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Index.cshtml" />
@@ -1109,9 +1128,11 @@
     <Compile Include="Areas\Admin\Controllers\CompraAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompraController.cs" />
     <Compile Include="Areas\Admin\Controllers\EntregaCombustibleController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FleteController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\MantenimientoController.cs" />
     <Compile Include="Areas\Admin\Controllers\NominaController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NominaDiasFestivosController.cs" />
     <Compile Include="Areas\Admin\Controllers\TablaController.cs" />
     <Compile Include="Areas\Admin\Controllers\TestController.cs" />
     <Compile Include="Areas\Admin\Controllers\VentaController.cs" />
@@ -1184,7 +1205,7 @@
     <Compile Include="Models\DocumentoPorPagarModels.cs" />
     <Compile Include="Models\EntradaAlmacenDetalleModels.cs" />
     <Compile Include="Models\EntradaAlmacenModels.cs" />
-    <Compile Include="Models\EntregaCombistibleModels.cs" />
+    <Compile Include="Models\EntregaCombustibleModels.cs" />
     <Compile Include="Models\ErrorModelState.cs" />
     <Compile Include="Models\EstadoModels.cs" />
     <Compile Include="Models\EventoEnvioDetalleModels.cs" />
@@ -1202,6 +1223,7 @@
     <Compile Include="Models\MunicipioModels.cs" />
     <Compile Include="Models\NominaDetalleConceptosModels.cs" />
     <Compile Include="Models\NominaDetalleModels.cs" />
+    <Compile Include="Models\NominaDiasFestivosModels.cs" />
     <Compile Include="Models\NominaModels.cs" />
     <Compile Include="Models\NominaVacacionesModels.cs" />
     <Compile Include="Models\ProductorAlmacenSucursalModels.cs" />
@@ -1259,6 +1281,7 @@
     <Compile Include="Models\_CatPuestos_Datos.cs" />
     <Compile Include="Models\_CatRangoPesoCompra_Datos.cs" />
     <Compile Include="Models\_CatRemolque_Datos.cs" />
+    <Compile Include="Models\_CatSucursal_Datos.cs" />
     <Compile Include="Models\_CatTipoProveedor_Datos.cs" />
     <Compile Include="Models\_CatTipoServicio_Datos.cs" />
     <Compile Include="Models\_CatTipoVehiculos_Datos.cs" />
@@ -1269,6 +1292,8 @@
     <Compile Include="Models\_EntregaCombustible_Datos.cs" />
     <Compile Include="Models\_Login_Datos.cs" />
     <Compile Include="Models\_Menu_Datos.cs" />
+    <Compile Include="Models\_NominaDiasFestivos_Datos.cs" />
+    <Compile Include="Models\_Nomina_Datos.cs" />
     <Compile Include="Models\_ServicioMantenimiento_Datos.cs" />
     <Compile Include="Models\_Usuario_Datos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1336,6 +1361,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Nomina\" />
+    <Folder Include="Areas\Admin\Views\Flete\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

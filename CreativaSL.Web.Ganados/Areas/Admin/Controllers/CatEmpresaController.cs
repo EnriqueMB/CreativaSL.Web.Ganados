@@ -13,7 +13,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     public class CatEmpresaController : Controller
     {
         private CatEmpresaModels Empresa;
+        private CatSucursalesModels Sucursal;
         private _CatEmpresa_Datos EmpresaDatos;
+        private _CatSucursal_Datos SucursalDatos;
         private string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
 
         // GET: Admin/CatEmpresa
@@ -69,7 +71,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     EmpresaDatos = new _CatEmpresa_Datos();
 
-                    if(Empresa.LogoEmpresaHttp != null)
+                    if (Empresa.LogoEmpresaHttp != null)
                         Empresa.LogoEmpresa = Auxiliar.ImageToBase64(Empresa.LogoEmpresaHttp);
 
                     if (Empresa.LogoRFCHttp != null)
@@ -77,7 +79,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                     Empresa.Conexion = Conexion;
                     Empresa = EmpresaDatos.UpdateEmpresaXID(Empresa);
-                    
+
                     return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
                 }
                 else
@@ -96,6 +98,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
             }
         }
+
         [HttpPost]
         public ActionResult LoadTableCuentasBancarias(string IDEmpresa)
         {
@@ -119,7 +122,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
             }
         }
-        
+
         [HttpPost]
         public ActionResult ModalCuentaBancaria(string IDCuentaBancaria, string IDCliente)
         {
@@ -163,10 +166,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
                 else
                 {
-                   
+
                     Empresa.RespuestaAjax.Mensaje = "Verifique su formulario.";
                     Empresa.RespuestaAjax.Success = false;
-                   
+
                     return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
                 }
             }
@@ -197,6 +200,144 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Empresa.RespuestaAjax.Mensaje = ex.ToString();
                 Empresa.RespuestaAjax.Success = false;
                 return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult IndexSucursales(string id, string nombreEmpresa)
+        {
+            try
+            {
+                Sucursal = new CatSucursalesModels
+                {
+                    Conexion = Conexion,
+                    NombreSucursalMatriz = nombreEmpresa,
+                    IDEmpresa = id
+                };
+                SucursalDatos = new _CatSucursal_Datos();
+
+                Sucursal.ListaSucursales = SucursalDatos.GetSucursalesXIDEmpresa(Sucursal);
+                return View(Sucursal);
+            }
+            catch (Exception)
+            {
+                CatSucursalesModels Sucursal = new CatSucursalesModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Sucursal);
+            }
+        }
+        [HttpGet]
+        public ActionResult CreateSucursal(string id, string nombreEmpresa)
+        {
+            try
+            {
+                Sucursal = new CatSucursalesModels
+                {
+                    IDEmpresa = id,
+                    NombreSucursalMatriz = nombreEmpresa
+                };
+                SucursalDatos = new _CatSucursal_Datos();
+                Sucursal.Conexion = Conexion;
+                return View(Sucursal);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista" + ex.ToString();
+                return View(Sucursal);
+            }
+        }
+        [HttpPost]
+        public ActionResult CreateSucursal(CatSucursalesModels Sucursal)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    SucursalDatos = new _CatSucursal_Datos();
+                    Sucursal.Conexion = Conexion;
+                    Sucursal.Usuario = User.Identity.Name;
+                    Sucursal = SucursalDatos.AC_Sucursal(Sucursal);
+
+                    if (Sucursal.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardaron correctamente.";
+                        return RedirectToAction("IndexSucursales", new { id = Sucursal.IDEmpresa, nombreEmpresa = Sucursal.NombreSucursalMatriz });
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        return View(Sucursal);
+                    }
+                }
+                return View(Sucursal);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Se ha generado el siguiente error: " + ex.ToString();
+                return View(Sucursal);
+            }
+        }
+        [HttpGet]
+        public ActionResult EditSucursal(string id, string nombreEmpresa)
+        {
+            {
+                try
+                {
+                    Sucursal = new CatSucursalesModels
+                    {
+                        IDSucursal = id,
+                        NombreSucursalMatriz = nombreEmpresa
+                    };
+                    SucursalDatos = new _CatSucursal_Datos();
+                    Sucursal.Conexion = Conexion;
+                    Sucursal = SucursalDatos.GetSucursalXIDSucursal(Sucursal);
+                    return View(Sucursal);
+                }
+                catch (Exception ex)
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista" + ex.ToString();
+                    return View(Sucursal);
+                }
+            }
+        }
+        [HttpPost]
+        public ActionResult EditSucursal(CatSucursalesModels Sucursal)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    SucursalDatos = new _CatSucursal_Datos();
+                    Sucursal.Conexion = Conexion;
+                    Sucursal.Usuario = User.Identity.Name;
+                    Sucursal = SucursalDatos.AC_Sucursal(Sucursal);
+
+                    if (Sucursal.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardaron correctamente.";
+                        return RedirectToAction("IndexSucursales", new { id = Sucursal.IDEmpresa, nombreEmpresa = Sucursal.NombreSucursalMatriz });
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        return View(Sucursal);
+                    }
+                }
+                return View(Sucursal);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Se ha generado el siguiente error: " + ex.ToString();
+                return View(Sucursal);
             }
         }
     }

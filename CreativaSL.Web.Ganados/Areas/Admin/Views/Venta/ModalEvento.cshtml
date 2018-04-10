@@ -3,7 +3,7 @@
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Evento durante la compra</h4>
+            <h4 class="modal-title">Evento durante la venta</h4>
         </div>
 
         <div class="modal-body">
@@ -30,23 +30,8 @@
                             <div class="controls">
                                 <div class="col-md-9 col-xs-12">
                                     <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></span>
                                         <input type="text" class="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <label class="col-md-3 control-label">Descontar:</label>
-                            <div class="controls">
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <input id="descontar" type="checkbox" />
-                                        </span>
-                                        <input type="text" class="form-control " placeholder="¿Realmente desea realziar algún descuento?" />
                                     </div>
                                 </div>
                             </div>
@@ -79,20 +64,54 @@
                             <div class="controls">
                                 <div class="col-md-9 col-xs-12">
                                     <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
                                         <input id="fechaEvento" type="text" class="form-control" />
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-4">
                     <div class="form-group">
-                        <div class="col-md-12 esconder">
-                            <label class="col-md-3 control-label">¿A quién?:</label>
+                        <div class="col-md-12">
+                            <label class="col-md-3 control-label">Hora:</label>
                             <div class="controls">
                                 <div class="col-md-9 col-xs-12">
                                     <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                        <input id="timeEvento" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="col-md-3 control-label">Descontar:</label>
+                            <div class="controls">
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <input id="descontar" type="checkbox" checked="checked"/>
+                                        </span>
+                                        <input type="text" class="form-control " placeholder="¿Realmente desea realziar algún descuento?" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row marginRow">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-md-12 esconder">
+                            <label class="col-md-2 control-label">¿A quién?:</label>
+                            <div class="controls">
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
                                         <select class="form-control">
                                             <option>Nombre empleado 1</option>
                                             <option>Nombre empleado 2</option>
@@ -106,38 +125,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <label class="col-md-3 control-label">Nota:</label>
-                            <div class="controls">
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        <input type="text" class="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <label class="col-md-3 control-label">Hora:</label>
-                            <div class="controls">
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        <input id="timeEvento" type="text" class="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-md-6">
                     <div class="form-group">
                         <div class="col-md-12 esconder">
-                            <label class="col-md-3 control-label">Cantidad:</label>
+                            <label class="col-md-2 control-label">Cantidad:</label>
                             <div class="controls">
-                                <div class="col-md-9 col-xs-12">
+                                <div class="col-md-10 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                         <input type="text" class="form-control" />
@@ -146,8 +139,21 @@
                             </div>
                         </div>
                     </div>
-
-
+                </div>
+            </div>
+            <div class="row marginRow">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="col-md-1 control-label">Nota:</label>
+                        <div class="controls">
+                            <div class="col-md-11 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-eye"></span></span>
+                                    <textarea class="form-control textArea" rows="5"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!--TERMINA CUERPO MODAL-->

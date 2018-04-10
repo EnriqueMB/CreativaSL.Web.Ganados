@@ -7,41 +7,170 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class NominaModels
     {
-        private string _id_nomina;
 
-        public string id_nomina
+        public NominaModels()
         {
-            get { return _id_nomina; }
-            set { _id_nomina = value; }
+            _IDNomina = string.Empty;
+            _IDSucursal = string.Empty;
+            _ClaveNomina = string.Empty;
+            _FechaInicio = DateTime.Today;
+            _FechaFin = DateTime.Today;
+            _ListaNomina = new List<NominaModels>();
+            Usuario = string.Empty;
+            Conexion = string.Empty;
+            _CountEmpleado = 0;
+            _EsBusqueda = false;
+            _BandBusqFechas = false;
+            _NombreEmpleado = string.Empty;
+            _Puesto = string.Empty;
+            _CatedoriaPuesto = string.Empty;
+            _Sueldo = 0;
+            _Percepciones = 0;
+            _Deducciones = 0;
         }
-        private string _id_sucursal;
 
-        public string id_sucursal
-        {
-            get { return _id_sucursal; }
-            set { _id_sucursal = value; }
-        }
-        private string _claveNomina;
+        private string _IDNomina;
 
-        public string claveNomina
+        public string IDNomina
         {
-            get { return _claveNomina; }
-            set { _claveNomina = value; }
+            get { return _IDNomina; }
+            set { _IDNomina = value; }
         }
-        private DateTime _fechaInicio;
 
-        public DateTime fechaInicio
-        {
-            get { return _fechaInicio; }
-            set { _fechaInicio = value; }
-        }
-        private DateTime _fechaFin;
+        private string _IDSucursal;
 
-        public DateTime fechaFin
+        public string IDSucursal
         {
-            get { return _fechaFin; }
-            set { _fechaFin = value; }
+            get { return _IDSucursal; }
+            set { _IDSucursal = value; }
         }
+
+        private string _ClaveNomina;
+
+        public string ClaveNomina
+        {
+            get { return _ClaveNomina; }
+            set { _ClaveNomina = value; }
+        }
+
+        private DateTime _FechaInicio;
+
+        public DateTime FechaInicio
+        {
+            get { return _FechaInicio; }
+            set { _FechaInicio = value; }
+        }
+
+        private DateTime _FechaFin;
+
+        public DateTime FechaFin
+        {
+            get { return _FechaFin; }
+            set { _FechaFin = value; }
+        }
+
+        private List<NominaModels> _ListaNomina;
+
+        public List<NominaModels> ListaNomina
+        {
+            get { return _ListaNomina; }
+            set { _ListaNomina = value; }
+        }
+
+        private int _CountEmpleado;
+
+        public int CountEmpleado
+        {
+            get { return _CountEmpleado; }
+            set { _CountEmpleado = value; }
+        }
+
+        private bool _EsBusqueda;
+
+        public bool EsBusqueda
+        {
+            get { return _EsBusqueda; }
+            set { _EsBusqueda = value; }
+        }
+
+        private bool _BandBusqFechas;
+
+        public bool BandBusqFechas
+        {
+            get { return _BandBusqFechas; }
+            set { _BandBusqFechas = value; }
+        }
+        #region Empleado para la nomina
+        /// <summary>
+        /// Para Listar los empleado que van a registrarse en la nomina
+        /// </summary>
+
+        private string _IDEmpleado;
+
+        public string IDEmpleado
+        {
+            get { return _IDEmpleado; }
+            set { _IDEmpleado = value; }
+        }
+
+        private string _CodigoUsuario;
+
+        public string CodigoUsuario
+        {
+            get { return _CodigoUsuario; }
+            set { _CodigoUsuario = value; }
+        }
+
+        private string _NombreEmpleado;
+
+        public string NombreEmpleado
+        {
+            get { return _NombreEmpleado; }
+            set { _NombreEmpleado = value; }
+        }
+
+        private string _Puesto;
+
+        public string Puesto
+        {
+            get { return _Puesto; }
+            set { _Puesto = value; }
+        }
+
+        private string _CatedoriaPuesto;
+
+        public string CategoriaPuesto
+        {
+            get { return _CatedoriaPuesto; }
+            set { _CatedoriaPuesto = value; }
+        }
+
+        private decimal _Sueldo;
+
+        public decimal Sueldo
+        {
+            get { return _Sueldo; }
+            set { _Sueldo = value; }
+        }
+
+        private decimal _Percepciones;
+
+        public decimal Percepciones
+        {
+            get { return _Percepciones; }
+            set { _Percepciones = value; }
+        }
+
+        private decimal _Deducciones;
+
+        public decimal Deducciones
+        {
+            get { return _Deducciones; }
+            set { _Deducciones = value; }
+        }
+        
+        #endregion
+
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }
