@@ -436,6 +436,8 @@
     <Content Include="Content\js\ProductosAlmacen.js" />
     <Content Include="Content\js\precioRangoProveedor.js" />
     <Content Include="Content\js\nomina-vacaciones.js" />
+    <Content Include="Content\js\nomina-busqueda.js" />
+    <Content Include="Content\js\nomina-empleado.js" />
     <Content Include="Content\js\provedorlugar.js" />
     <Content Include="Content\js\proveedor.js" />
     <Content Include="Content\js\cuentasClientes.js" />
@@ -1075,7 +1077,7 @@
     <Content Include="Areas\Admin\Views\Mantenimiento\Test.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosV.cshtml" />
-    <Content Include="Areas\Admin\Views\Mantenimiento\CreateV.cshtml" />
+    <Content Include="Areas\Admin\Views\Nomina\Create.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
