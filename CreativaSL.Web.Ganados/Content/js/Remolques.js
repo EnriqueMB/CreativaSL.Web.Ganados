@@ -24,8 +24,7 @@
             },
             ignore: "",
             rules: {
-               
-                ListSucursal: { required: true },
+                IDEmpresa: { required: true },
                 placa: { required: true, texto: true, maxlength: 10 },
                 color: { required: true, texto: true, maxlength: 30 },
                 capacidad: { required: true, texto: true, maxlength: 30 },
@@ -33,8 +32,7 @@
 
             },
             messages: {
-                
-                ListSucursal: { required: "Seleccione una sucursal." },
+                IDEmpresa: { required: "Seleccione una empresa" },
                 placa: { required: "Ingrese la placa del remolque.", placa: "Ingrese un formato valido (letras, números y guión(-)", maxlength: "El campo nombre admite máximo 10 caracteres." },
                 color: { required: "Ingrese el color del remolque.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
                 capacidad: { required: "Ingrese la capacidad del remolque.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." }
@@ -69,13 +67,37 @@
         });
     };
 
-   
+    var runEvents = function () {
+        $("#IDEmpresa").on("change", function () {
+            var IDEmpresa = $("#IDEmpresa").val();
+            GetSucursalesXIDEmpresa(IDEmpresa);
+        });
+    }
+    function GetSucursalesXIDEmpresa(IDEmpresa) {
+        $.ajax({
+            url: "/Admin/CatRemolque/ObtenerSucursalesXIDEmpresa/",
+            data: { IDEmpresa: IDEmpresa },
+            async: false,
+            dataType: "json",
+            type: "POST",
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "1");
+            },
+            success: function (result) {
+                $("#IDSucursal option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#IDSucursal").append('<option value="' + result[i].IDSucursal + '">' + result[i].NombreSucursal + '</option>');
+                }
+                $('#IDSucursal.select').selectpicker('refresh');
+            }
+        });
+    }
 
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
-            
+            runEvents();
         }
     };
 }();

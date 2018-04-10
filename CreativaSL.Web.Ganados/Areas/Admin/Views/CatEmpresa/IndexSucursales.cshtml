@@ -40,21 +40,21 @@
                                     <tr>
                                         <th>Nombre sucursal</th>
                                         <th>Dirección</th>
-                                        <th>Merma establecida</th>
+                                        <th>Merma establecida (%)</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var Sucursal in Model.ListaSucursales)
                                     {
-                                        <tr>
+                                        <tr id="@Sucursal.IDSucursal">
                                             <td>@Sucursal.NombreSucursal</td>
                                             <td>@Sucursal.Direccion</td>
                                             <td>@Sucursal.MermaPredeterminada.ToString("0")</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     <a title="Editar" class="btn btn-yellow" href="@Url.Action("EditSucursal", "CatEmpresa", new { id = Sucursal.IDSucursal,nombreEmpresa = Model.NombreSucursalMatriz })"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" class="btn delete btn-danger deleteRow" id="delete-@Sucursal.IDSucursal" data-hrefa="@Url.Action("DeleteSucursal", "CatEmpresa", new { id = Sucursal.IDSucursal })" onClick="delete_row('@Sucursal.IDSucursal');"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Eliminar" id="delete-@Sucursal.IDSucursal" data-hrefa="@Url.Action("DeleteSucursal", "CatEmpresa", new { id = Sucursal.IDSucursal })" onClick="delete_row('@Sucursal.IDSucursal');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -96,7 +96,7 @@
         <div class="mb-middle">
             <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
             <div class="mb-content">
-                <p>¿Seguro que quieres eliminar esta cuenta bancaria?</p>
+                <p>¿Seguro que quieres eliminar esta sucursal?</p>
                 <p>Presione "sí" si está seguro.</p>
             </div>
             <div class="mb-footer">

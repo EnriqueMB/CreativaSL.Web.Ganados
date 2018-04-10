@@ -18,33 +18,43 @@
             <h3></h3>
         </div>
         <div class="col-md-12">
-            @*<form class="form-horizontal">*@
-            @using (Html.BeginForm("Create", "CatJaula", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("Create", "CatJaula", FormMethod.Post, new {id="frmJaula", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                <div id="validation_summary" class="field_error "></div> //JS
 
                 @Html.HiddenFor(model => model.IDJaula)
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"><strong>Información</strong> Jaula</h3>
                         <ul class="panel-controls">
-                            @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
                         </ul>
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <div class="col-md-6">
-                                <label class="col-md-3 col-xs-12 control-label">Sucursal</label>
+                            <div class="col-md-6 classError">
+                                <label class="col-md-3 col-xs-12 control-label">Empresa</label>
                                 <div class="col-md-9 col-xs-12">
-                                    @Html.DropDownListFor(model => model.listaSucursales, ViewData["cmbSucursal"] as SelectList, new { id = "ListSucursal", @class = "form-control select" })
-                                    @Html.ValidationMessageFor(model => model.listaSucursales)
-                                    <span class="help-block">Seleccione la sucursal</span>
+                                    @Html.DropDownListFor(model => model.IDEmpresa, new SelectList(Model.ListaEmpresas, "IDEmpresa", "RazonFiscal"), new { @class = "form-control select", data_live_search = true, data_style = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.IDEmpresa)
+                                    <span class="help-block">Seleccione la empresa</span>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="col-md-4 control-label">Matricula</label>
-                                <div class="col-md-8 col-xs-12">
+                                <label class="col-md-3 col-xs-12 control-label">Sucursal</label>
+                                <div class="col-md-9 col-xs-12">
+                                    @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.listaSucursales, "IDSucursal", "NombreSucursal"), new { @class = "form-control select", data_live_search = true, data_style = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.IDSucursal)
+                                    <span class="help-block">Seleccione la sucursal</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 classError">
+                                <label class="col-md-3 control-label">Matricula</label>
+                                <div class="col-md-9 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                         @Html.TextBoxFor(model => model.Matricula, new { id = "Matricula", @class = "form-control" })
@@ -54,6 +64,7 @@
                                 </div>
                             </div>
                         </div>
+                       
                     </div>
                     <div class="panel-footer">
                         <input type="submit" value="Guardar" class="btn btn-primary pull-right">
@@ -76,11 +87,14 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/jaula.js")"></script>
 
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
+        Jaula.init();
     });
     </script>
 }

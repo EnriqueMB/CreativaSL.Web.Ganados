@@ -24,7 +24,7 @@
         </div>
        <div class="col-md-12">
            @{ Html.EnableClientValidation(false); }
-        @using (Html.BeginForm("CreateSucursal", "CatEmpresa", FormMethod.Post, new { id="frmCreateSucursal", @class = "form-horizontal", autocomplete = "off" }))
+        @using (Html.BeginForm("CreateSucursal", "CatEmpresa", FormMethod.Post, new { id="frmSucursal", @class = "form-horizontal", autocomplete = "off" }))
         {
             @Html.AntiForgeryToken()
 

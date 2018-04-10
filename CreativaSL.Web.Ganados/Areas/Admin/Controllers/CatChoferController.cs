@@ -54,6 +54,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 var listaGrupoSanguineo = new SelectList(Chofer.listaGrupoSanguineo, "IDGrupoSanguineo", "descripcion");
                 
                 Chofer.Licencia = Convert.ToBoolean("true");
+
+                Chofer.ListaEmpresas = ChoferDatos.ObteneComboCatEmpresa(Chofer);
+
                 return View(Chofer);
             }
             catch (Exception)
@@ -134,6 +137,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Chofer.listaGrupoSanguineo = ChoferDatos.ObteneComboCatGrupoSanguineo(Chofer);
                 var listaGrupoSanguineo = new SelectList(Chofer.listaGrupoSanguineo, "IDGrupoSanguineo", "descripcion");
                 ViewData["cmbGenero"] = list;
+
+                Chofer.ListaEmpresas = ChoferDatos.ObteneComboCatEmpresa(Chofer);
+
                 return View(Chofer);
             }
             catch (Exception)
@@ -225,6 +231,27 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
                 return Json("");
                
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ObtenerSucursalesXIDEmpresa(string IDEmpresa)
+        {
+            try
+            {
+                CatChoferModels Chofer = new CatChoferModels();
+                CatChofer_Datos ChoferDatos = new CatChofer_Datos();
+                Chofer.Conexion = Conexion;
+                Chofer.IDEmpresa = IDEmpresa;
+                Chofer.Usuario = User.Identity.Name;
+                Chofer.listaSucursales = ChoferDatos.ObtenerSucursalesXIDEmpresa(Chofer);
+                return Content(Chofer.listaSucursales.ToJSON(), "application/json");
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error. Por favor contacte a soporte técnico";
+                return Json("");
             }
         }
     }

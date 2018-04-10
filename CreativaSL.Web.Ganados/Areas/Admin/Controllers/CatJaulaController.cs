@@ -26,10 +26,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                CatLugarModels Lugar = new CatLugarModels();
+                CatJaulaModels Jaula = new CatJaulaModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return View(Lugar);
+                return View(Jaula);
             }
         }
 
@@ -50,33 +50,30 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 _CatJaula_Datos JaulaDatos = new _CatJaula_Datos();
                 Jaula.conexion = Conexion; 
                 Jaula.listaSucursales = JaulaDatos.obtenerListaSucursales(Jaula);
-                var listaSucursal = new SelectList(Jaula.listaSucursales, "IDSucursal", "NombreSucursal");
-                ViewData["cmbSucursal"] = listaSucursal;
                 //Jaula.Estatus = Convert.ToBoolean("true");
+
+                Jaula.ListaEmpresas = JaulaDatos.ObteneComboCatEmpresa(Jaula);
+
                 return View(Jaula);
             }
             catch (Exception ex)
             {
-                CatLugarModels Lugar = new CatLugarModels();
+                CatJaulaModels Jaula = new CatJaulaModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return View(Lugar);
+                return View(Jaula);
             }
         }
 
         // POST: Admin/CatJaula/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CatJaulaModels Jaula)
         {
             try
             {
-                CatJaulaModels Jaula = new CatJaulaModels();
                 _CatJaula_Datos JaulaDatos = new _CatJaula_Datos();
                 Jaula.conexion = Conexion;
                 Jaula.opcion = 1;
-                //Jaula.Estatus= collection["Estatus"].StartsWith("true");
-                Jaula.IDSucursal = collection["listaSucursales"];
-                Jaula.Matricula = collection["Matricula"];
                 Jaula.user = User.Identity.Name;
                 Jaula = JaulaDatos.AbcCatJaula(Jaula);
 
@@ -96,7 +93,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch
             {
-                CatJaulaModels Jaula = new CatJaulaModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico.";
                 return View(Jaula);
@@ -114,18 +110,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Jaula.conexion = Conexion;
                 Jaula.IDJaula = id;
                 Jaula.listaSucursales = JaulaDatos.obtenerListaSucursales(Jaula);
-                var listaSucursal = new SelectList(Jaula.listaSucursales, "IDSucursal", "NombreSucursal");
-                ViewData["cmbSucursal"] = listaSucursal;
 
                 Jaula = JaulaDatos.ObtenerDetalleCatJaula(Jaula);
+                Jaula.ListaEmpresas = JaulaDatos.ObteneComboCatEmpresa(Jaula);
                 return View(Jaula);
             }
             catch (Exception ex)
             {
-                CatLugarModels Lugar = new CatLugarModels();
+                CatJaulaModels Jaula = new CatJaulaModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return View(Lugar);
+                return View(Jaula);
             }
         }
 
@@ -141,8 +136,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Jaula.IDJaula = id;
                 Jaula.opcion = 2;
                 //Jaula.Estatus = collection["Estatus"].StartsWith("true");
-                Jaula.IDSucursal = collection["listaSucursales"];
+                Jaula.IDSucursal = collection["IDSucursal"];
                 Jaula.Matricula = collection["Matricula"];
+                Jaula.IDEmpresa = collection["IDEmpresa"];
                 Jaula.user = User.Identity.Name;
                 Jaula = JaulaDatos.AbcCatJaula(Jaula);
                 if (Jaula.Completado == true)
@@ -195,6 +191,26 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             catch
             {
                 return View();
+            }
+        }
+        [HttpPost]
+        public ActionResult ObtenerSucursalesXIDEmpresa(string IDEmpresa)
+        {
+            try
+            {
+                CatJaulaModels Jaula = new CatJaulaModels();
+                _CatJaula_Datos JaulaDatos = new _CatJaula_Datos();
+                Jaula.conexion = Conexion;
+                Jaula.IDEmpresa = IDEmpresa;
+                Jaula.user = User.Identity.Name;
+                Jaula.listaSucursales = JaulaDatos.ObtenerSucursalesXIDEmpresa(Jaula);
+                return Content(Jaula.listaSucursales.ToJSON(), "application/json");
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error. Por favor contacte a soporte técnico";
+                return Json("");
             }
         }
     }

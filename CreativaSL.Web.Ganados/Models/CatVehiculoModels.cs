@@ -40,9 +40,13 @@ namespace CreativaSL.Web.Ganados.Models
             Opcion = 0;
             Completado = false;
             Usuario = string.Empty;
-
+            ListaEmpresas = new List<CatEmpresaModels>();
+            IDEmpresa = string.Empty;
         }
-       
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Seleccione una empresa.")]
+        public string IDEmpresa { get; set; }
+        public List<CatEmpresaModels> ListaEmpresas { get; set; }
+
         private string _tarjetaCirculacion;
         [Required(ErrorMessage = "La tarjeta de Circulacion es obligatoria")]
         [Display(Name = "Tarjeta Circulación")]

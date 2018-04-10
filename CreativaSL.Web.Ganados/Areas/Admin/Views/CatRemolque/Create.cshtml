@@ -37,18 +37,28 @@
                         </ul>
                     </div>
                     <div class="panel-body">
-                        <div class="form-group">
+                        
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-md-12 col-xs-12 control-label text-center">Sucursal</label>
+                                    <label class="col-md-12 col-xs-12 control-label text-center">Empresa</label>
                                     <div class="col-md-12 col-xs-12">
-                                        @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.listaSucursales, "IDSucursal", "NombreSucursal"), new { id = "ListSucursal", @class = "form-control select", data_live_search = "true" })
-                                        @Html.ValidationMessageFor(model => model.listaSucursales)
+                                        @Html.DropDownListFor(model => model.IDEmpresa, new SelectList(Model.ListaEmpresas, "IDEmpresa", "RazonFiscal"), new { id = "IDEmpresa", @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.ListaEmpresas)
                                         <span class="help-block">Seleccione la sucursal</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 col-xs-12 control-label text-center">Sucursal</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.listaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true", data_style="form-control" })
+                                        @Html.ValidationMessageFor(model => model.listaSucursales)
+                                        <span class="help-block">Seleccione la sucursal</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="col-md-12 control-label text-center">Placa</label>
                                     <div class="col-md-12 col-xs-12">
@@ -61,9 +71,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-6">
+                      
+                        
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="col-md-12 control-label text-center">Color</label>
                                     <div class="col-md-12 col-xs-12">
@@ -76,7 +86,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="col-md-12 control-label text-center">Capacidad</label>
                                     <div class="col-md-12 col-xs-12 ">
@@ -89,7 +99,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                       
                     </div>
                     <div class="panel-footer">
                         <input type="submit" value="Guardar" class="btn btn-primary pull-right">
