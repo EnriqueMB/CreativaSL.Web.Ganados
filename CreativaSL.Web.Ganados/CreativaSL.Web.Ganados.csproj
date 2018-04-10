@@ -429,6 +429,7 @@
     <Content Include="Content\js\entregacombustible.js" />
     <Content Include="Content\js\Lugar.js" />
     <Content Include="Content\js\MarcaVehiculo.js" />
+    <Content Include="Content\js\NominaDiasFestivos.js" />
     <Content Include="Content\js\ProductosAlmacen.js" />
     <Content Include="Content\js\precioRangoProveedor.js" />
     <Content Include="Content\js\provedorlugar.js" />
@@ -1037,6 +1038,9 @@
     <Content Include="Areas\Admin\Views\CatProveedor\PrecioProveedor.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\EditPrecio.cshtml" />
     <Content Include="Areas\Admin\Views\EntregaCombustible\Rendimiento.cshtml" />
+    <Content Include="Areas\Admin\Views\NominaDiasFestivos\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\NominaDiasFestivos\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\NominaDiasFestivos\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1092,6 +1096,7 @@
     <Compile Include="Areas\Admin\Controllers\EntregaCombustibleController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\MantenimientoController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NominaDiasFestivosController.cs" />
     <Compile Include="Areas\Admin\Controllers\TablaController.cs" />
     <Compile Include="Areas\Admin\Controllers\TestController.cs" />
     <Compile Include="Areas\Admin\Controllers\VentaController.cs" />
@@ -1182,6 +1187,7 @@
     <Compile Include="Models\MunicipioModels.cs" />
     <Compile Include="Models\NominaDetalleConceptosModels.cs" />
     <Compile Include="Models\NominaDetalleModels.cs" />
+    <Compile Include="Models\NominaDiasFestivosModels.cs" />
     <Compile Include="Models\NominaModels.cs" />
     <Compile Include="Models\ProductorAlmacenSucursalModels.cs" />
     <Compile Include="Models\ProveedorLugarModels.cs" />
@@ -1247,6 +1253,7 @@
     <Compile Include="Models\_EntregaCombustible_Datos.cs" />
     <Compile Include="Models\_Login_Datos.cs" />
     <Compile Include="Models\_Menu_Datos.cs" />
+    <Compile Include="Models\_NominaDiasFestivos_Datos.cs" />
     <Compile Include="Models\_Usuario_Datos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CuentaBancariaViewModels.cs" />
