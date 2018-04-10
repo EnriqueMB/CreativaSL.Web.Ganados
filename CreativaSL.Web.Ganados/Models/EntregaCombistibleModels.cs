@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.Models.Validaciones;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -72,6 +74,9 @@ namespace CreativaSL.Web.Ganados.Models
         }
         
         private DateTime _Fecha;
+        [Display(Name = "Vigencia")]
+
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         /// <summary>
         /// Fecha en que se realiza la carga de combustible
         /// </summary>
@@ -91,6 +96,9 @@ namespace CreativaSL.Web.Ganados.Models
 
 
         private string _NoTicket;
+        [Display(Name = "número licencia")]
+        [StringLength(20, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
+        [Texto(ErrorMessage = "Solo Letras y números")]
         /// <summary>
         /// Número de ticket de compra de combustible
         /// </summary>
@@ -164,6 +172,15 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _Rendimento; }
             set { _Rendimento = value; }
         }
+        private HttpPostedFileBase[] _imagen2;
+        [Required(ErrorMessage = "Seleccione la imagen de productos")]
+
+        [Display(Name = "Imagen producto")]
+        public HttpPostedFileBase[] imagen2
+        {
+            get { return _imagen2; }
+            set { _imagen2 = value; }
+        }
 
         private string _ImgTicket;
         /// <summary>
@@ -210,7 +227,13 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _BandVehiculo; }
             set { _BandVehiculo = value; }
         }
+        private bool _BandImg;
 
+        public bool BandImg
+        {
+            get { return _BandImg; }
+            set { _BandImg = value; }
+        }
         private bool _BandFecha;
 
         public bool BandFecha

@@ -27,11 +27,13 @@
         </div>
         <div class="col-md-12">
             @*<form class="form-horizontal">*@
-            @using (Html.BeginForm("Edit", "CatBanco", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off", @enctype = "multipart/form-data" }))
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("Edit", "CatBanco", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off", @enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
-
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                <div id="validation_summary" class="field_error "></div> //JS
                 @Html.HiddenFor(model => model.IDBanco)
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -100,6 +102,7 @@
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
             Bancos.init();
+
             $('#ImagenEdt').fileinput({
             theme: 'fa',
             language: 'es',
@@ -118,7 +121,7 @@
             showClose: false,
             showUpload: false,
             layoutTemplates: { actionDelete: '' }
-        })
+            })
         });
 
 

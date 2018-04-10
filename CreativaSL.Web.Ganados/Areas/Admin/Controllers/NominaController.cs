@@ -6,27 +6,27 @@ using System.Web.Mvc;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
-    public class VentaController : Controller
+    public class NominaController : Controller
     {
-        // GET: Admin/Venta
+        // GET: Admin/Nomina
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: Admin/Venta/Details/5
+        // GET: Admin/Nomina/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Admin/Venta/Create
+        // GET: Admin/Nomina/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Venta/Create
+        // POST: Admin/Nomina/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
@@ -42,13 +42,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/Venta/Edit/5
+        // GET: Admin/Nomina/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Admin/Venta/Edit/5
+        // POST: Admin/Nomina/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -64,13 +64,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/Venta/Delete/5
+        // GET: Admin/Nomina/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Admin/Venta/Delete/5
+        // POST: Admin/Nomina/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
@@ -85,13 +85,5 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
-
-        #region Ganado
-        [HttpPost]
-        public ActionResult ModalEvento()
-        {
-            return PartialView("ModalEvento");
-        }
-        #endregion
     }
 }

@@ -26,10 +26,12 @@
             rules: {
                 NoTicket: { required: true },
                 IDSucursal: { required: true },
-                Litros: { required: true },
-                KMInicial: { required: true },
+                Litros: {CMBINT:true, required: true },
+                KMInicial: { CMBINT:true,required: true },
                 Total: { required: true },
-                ImgTicket: { validarImgEdit: true, formatoPNG: true }
+                ImgTicket: { validarImgEdit: true, formatoPNG: true },
+                IDVehiculo: { required: true },
+                IDTipoCombustible: { CMBINT: true },
                 //NombreRazonSocial: { required: true, texto: true, maxlength: 300 },
                 //IDRegimenFiscal: { required: true },
                 //RFC: { required: true, rfc: true },
@@ -44,10 +46,12 @@
             messages: {
                 NoTicket: { required: "Ingrese el número del ticket" },
                 IDSucursal: { required: "Seleccione una sucursal." },
-                Litros: { required: "Ingrese la cantidad en litros" },
-                KMInicial: { required: "Ingrese el Kilometraje inicial" },
+                Litros: {CMBINT:"Ingrese litros mayor que 0 ", required: "Ingrese la cantidad en litros" },
+                KMInicial: { CMBINT: "Ingrese Kilometraje inicial mayor que 0 ", required: "Ingrese el Kilometraje inicial" },
                 Total: { required: "Ingrese el importe total del ticket" },
-                ImgTicket: { validarImgEdit: "Seleccione una imagen para el ticket", formatoPNG: "El formato de la imagen debe ser png" }
+                ImgTicket: { validarImgEdit: "Seleccione una imagen para el ticket", formatoPNG: "El formato de la imagen debe ser png" },
+                IDVehiculo: { required: "Seleccione un vehículo" },
+                IDTipoCombustible: { CMBINT: "Seleccione un tipo de combustible" },
                 //NombreRazonSocial: { required: "Ingrese el nombre o Razón social.", texto: "Ingrese un nombre o razón social válido.", maxlength: "El campo nombre o razón social admite máximo 300 caracteres." },
                 //IDRegimenFiscal: { required: "Seleccione un régimen fiscal." },
                 //RFC: { required: "Ingrese el RFC del cliente.", rfc: "Ingrese un RFC válido." },

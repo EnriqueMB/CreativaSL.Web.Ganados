@@ -17,6 +17,7 @@ namespace CreativaSL.Web.Ganados.Models
             _nombreSucursal = string.Empty;
             _capacidad = string.Empty;
             _Estatus = true;
+            _DateLastService = DateTime.MinValue;
             //datos de control
             Conexion = string.Empty;
             Resultado = 0;
@@ -97,6 +98,25 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _color; }
             set { _color = value; }
+        }
+
+
+
+
+        private DateTime _DateLastService;
+        /// <summary>
+        /// Fecha de último servicio
+        /// </summary>
+        public DateTime DateLastService
+        {
+            get { return _DateLastService; }
+            set { _DateLastService = value; }
+        }
+
+        //Fecha de último servicio con formato 
+        public string DateLastServiceFormat
+        {
+            get { return _DateLastService != DateTime.MinValue ? _DateLastService.ToShortDateString() : "Sin Datos"; }
         }
         #region Datos De Control
         public string Conexion { get; set; }
