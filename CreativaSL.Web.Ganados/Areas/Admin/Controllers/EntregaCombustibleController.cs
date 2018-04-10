@@ -20,22 +20,70 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                EntregaCombistibleModels Entregas = new EntregaCombistibleModels();
+                EntregaCombustibleModels Entregas = new EntregaCombustibleModels();
                 _EntregaCombustible_Datos Datos = new _EntregaCombustible_Datos();
+                _Combos_Datos Combo = new _Combos_Datos();
+                Entregas.ListaSucursales = Combo.ObtenerComboSucursales(Conexion);
+                Entregas.ListaVehiculos = Combo.ObtenerComboVehiculosPrincp(Conexion);
+                Entregas.BandFechaEntrega = Convert.ToBoolean("false");
+                Entregas.BandIDSucursal = Convert.ToBoolean("false");
+                Entregas.BandIDVehiuculo = Convert.ToBoolean("false");
                 Entregas.Conexion = Conexion;
-                Entregas.ListaEntregas = Datos.ObtenerEntregasCombustible(Entregas);
+               Entregas.listaEntregaCombustible = Datos.ObtenerEntregasCombustible(Entregas);
                 return View(Entregas);
             }
             catch (Exception)
             {
-                EntregaCombistibleModels Entregas = new EntregaCombistibleModels();
-                Entregas.ListaEntregas = new List<EntregaCombistibleModels>();
+                EntregaCombustibleModels Entregas = new EntregaCombustibleModels();
+                _Combos_Datos Combo = new _Combos_Datos();
+                Entregas.ListaSucursales = Combo.ObtenerComboSucursales(Conexion);
+                Entregas.ListaVehiculos = Combo.ObtenerComboVehiculosPrincp(Conexion);
+                Entregas.listaEntregaCombustible = new List<EntregaCombustibleModels>();
+
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return View(Entregas);
             }
         }
 
+        [HttpPost]
+        public ActionResult Index(EntregaCombustibleModels Entrega)
+        {
+            try
+            {
+               
+                _EntregaCombustible_Datos Datos = new _EntregaCombustible_Datos();
+                _Combos_Datos Combo = new _Combos_Datos();
+                Entrega.ListaSucursales = Combo.ObtenerComboSucursales(Conexion);
+                Entrega.ListaVehiculos = Combo.ObtenerComboVehiculosPrincp(Conexion);
+                if (!Entrega.BandIDVehiuculo)
+                {
+                    Entrega.IDVehiculo = string.Empty ;
+                }
+                 if (!Entrega.BandIDSucursal) {
+                    Entrega.IDSucursal = string.Empty;
+                }
+                if (!Entrega.BandFechaEntrega) {
+                    Entrega.Fecha = DateTime.MinValue;
+                }
+               
+                Entrega.Conexion = Conexion;
+                Entrega.listaEntregaCombustible = Datos.ObtenerEntregasCombustible(Entrega);
+                return View(Entrega);
+            }
+            catch (Exception)
+            {
+                EntregaCombustibleModels Entregas = new EntregaCombustibleModels();
+                _Combos_Datos Combo = new _Combos_Datos();
+                Entregas.ListaSucursales = Combo.ObtenerComboSucursales(Conexion);
+                Entregas.ListaVehiculos = Combo.ObtenerComboVehiculosPrincp(Conexion);
+                Entregas.listaEntregaCombustible = new List<EntregaCombustibleModels>();
+
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Entregas);
+            }
+        }
         // GET: Admin/EntregaCombustible/Details/5
         public ActionResult Details(int id)
         {
@@ -47,7 +95,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                EntregaCombustibleViewModels Entrega = new EntregaCombustibleViewModels();
+                EntregaCombustibleModels Entrega = new EntregaCombustibleModels();
                 _Combos_Datos Datos = new _Combos_Datos();
                 Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
                 Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, string.Empty);
@@ -65,7 +113,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/EntregaCombustible/Create
         [HttpPost]
-        public ActionResult Create(EntregaCombustibleViewModels Entrega)
+        public ActionResult Create(EntregaCombustibleModels Entrega)
         {
             _EntregaCombustible_Datos EntregaCombustibleDatos = new _EntregaCombustible_Datos();
             _Combos_Datos Datos = new _Combos_Datos();
@@ -87,7 +135,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Entrega.IDEntregaCombustible = "0";
 
 
-                    //Entrega = EntregaCombustibleDatos.AcCatProductosAlmacen(Producto);
+                    Entrega = EntregaCombustibleDatos.AcEntregaCombustible(Entrega);
                     if (Entrega.Completado == true)
                     {
                         TempData["typemessage"] = "1";
@@ -120,24 +168,97 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         // GET: Admin/EntregaCombustible/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            return View();
+            try
+            {
+                EntregaCombustibleModels Entrega = new EntregaCombustibleModels();
+                _EntregaCombustible_Datos EntregaCombustibleDatos = new _EntregaCombustible_Datos();
+                _Combos_Datos Datos = new _Combos_Datos();
+               
+                Entrega.IDEntregaCombustible = id;
+                Entrega.Conexion = Conexion;
+                Entrega = EntregaCombustibleDatos.ObtenerDetalleEntregaCombustible(Entrega);
+                Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
+                Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Entrega.IDSucursal);
+                Entrega.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
+                return View(Entrega);
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
         }
 
         // POST: Admin/EntregaCombustible/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(EntregaCombustibleModels Entrega)
         {
+            _EntregaCombustible_Datos EntregaCombustibleDatos = new _EntregaCombustible_Datos();
+            _Combos_Datos Datos = new _Combos_Datos();
             try
             {
-                // TODO: Add update logic here
+                // TODO: Add insert logic here
+                ModelState.Remove("ImgTicket");
+                if (ModelState.IsValid)
+                {
+                    
 
-                return RedirectToAction("Index");
+
+                    HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                    if (!string.IsNullOrEmpty(bannerImage.FileName))
+                    {
+                        if (bannerImage != null && bannerImage.ContentLength > 0)
+                        {
+                            Stream s = bannerImage.InputStream;
+                            Bitmap img = new Bitmap(s);
+                            Entrega.UrlImagen64 = img.ToBase64String(ImageFormat.Png);
+                            
+                        }
+                    }
+                    else
+                    {
+                        Entrega.BandImg = true;
+                    }
+
+
+                    Entrega.Conexion = Conexion;
+                    Entrega.Opcion = 2;
+
+
+
+                    Entrega = EntregaCombustibleDatos.AcEntregaCombustible(Entrega);
+                    if (Entrega.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "El registro se guardo correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        return View(Entrega);
+                    }
+                }
+                else
+                {
+                    Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
+                    Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Entrega.IDSucursal);
+                    Entrega.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
+                    return View(Entrega);
+                }
+
+
+
             }
             catch
             {
-                return View();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
+                return View(Entrega);
             }
         }
 
@@ -170,17 +291,30 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/EntregaCombustible/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(string id, FormCollection collection)
         {
             try
             {
+                EntregaCombustibleModels Entrega = new EntregaCombustibleModels();
+                _EntregaCombustible_Datos EntregaCombustibleDatos = new _EntregaCombustible_Datos();
+                Entrega.Conexion = Conexion;
+                Entrega.IDEntregaCombustible = id;
+                Entrega.Usuario = User.Identity.Name;
+                Entrega = EntregaCombustibleDatos.EliminarEntregaCombustible(Entrega);
+
+                return Json("");
                 // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
+
             }
             catch
             {
-                return View();
+                CatProductosModels Producto = new CatProductosModels();
+
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
+                return Json("");
+
             }
         }
 

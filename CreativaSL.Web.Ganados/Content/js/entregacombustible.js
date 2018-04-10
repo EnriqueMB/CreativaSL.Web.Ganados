@@ -5,7 +5,17 @@
         var form1 = $('#form-ec');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
+        $.validator.addMethod("validarImagen", function () {
 
+            if (document.getElementById("ImgTicket").value === '') {
+                if ((document.getElementById("ImgTicket").value === ''))
+                    return false;
+                else
+                    return true;
+            }
+            else
+                return true;
+        }, 'Debe seleccionar una imagen.');
         $('#form-ec').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
@@ -29,9 +39,9 @@
                 Litros: {CMBINT:true, required: true },
                 KMInicial: { CMBINT:true,required: true },
                 Total: { required: true },
-                ImgTicket: { validarImgEdit: true, formatoPNG: true },
+                ImgTicket: { validarImagen: true, formatoPNG: true },
                 IDVehiculo: { required: true },
-                IDTipoCombustible: { CMBINT: true },
+                IDTipoCombustible: { CMBINT: true }
                 //NombreRazonSocial: { required: true, texto: true, maxlength: 300 },
                 //IDRegimenFiscal: { required: true },
                 //RFC: { required: true, rfc: true },
@@ -49,9 +59,9 @@
                 Litros: {CMBINT:"Ingrese litros mayor que 0 ", required: "Ingrese la cantidad en litros" },
                 KMInicial: { CMBINT: "Ingrese Kilometraje inicial mayor que 0 ", required: "Ingrese el Kilometraje inicial" },
                 Total: { required: "Ingrese el importe total del ticket" },
-                ImgTicket: { validarImgEdit: "Seleccione una imagen para el ticket", formatoPNG: "El formato de la imagen debe ser png" },
+                ImgTicket: { validarImagen:"Ingrese una imagen correcta", formatoPNG: "El formato de la imagen debe ser png" },
                 IDVehiculo: { required: "Seleccione un vehículo" },
-                IDTipoCombustible: { CMBINT: "Seleccione un tipo de combustible" },
+                IDTipoCombustible: { CMBINT: "Seleccione un tipo de combustible" }
                 //NombreRazonSocial: { required: "Ingrese el nombre o Razón social.", texto: "Ingrese un nombre o razón social válido.", maxlength: "El campo nombre o razón social admite máximo 300 caracteres." },
                 //IDRegimenFiscal: { required: "Seleccione un régimen fiscal." },
                 //RFC: { required: "Ingrese el RFC del cliente.", rfc: "Ingrese un RFC válido." },
@@ -133,18 +143,7 @@
     };
 
     var runFileInput = function () {
-        console.log("runFileinput");
-        $('#UrlImagen64').fileinput({
-            theme: 'fa',
-            language: 'es',
-            minFileCount: 1,
-            uploadUrl: "#",
-            showUpload: false,
-            showUploadedThumbs: false,
-            overwriteInitial: false,
-            allowedFileExtensions: ['png'],
-            required: true
-        })
+        
         //console.log(band);
         //if (!band)
         //{

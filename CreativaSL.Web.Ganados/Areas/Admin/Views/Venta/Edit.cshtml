@@ -9,35 +9,36 @@
 {
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.5/css/select.bootstrap.min.css">
     <style>
+        table#tblJaulaCheck {
+            border: 1px solid black;
+        }
 
-    table#tblJaulaCheck {
-        border: 1px solid black;
-    }
+            table#tblJaulaCheck thead {
+                border: 1px solid black;
+                text-align: center;
+            }
 
-    table#tblJaulaCheck thead {
-        border: 1px solid black;
-        text-align: center;
-    }
+            table#tblJaulaCheck td:nth-child(1) {
+                border-right: 1px solid black;
+            }
 
-    table#tblJaulaCheck td:nth-child(1) {
-        border-right: 1px solid black;
-    }
+            table#tblJaulaCheck tbody td {
+                padding: 10px 0 0 10px;
+            }
 
-    table#tblJaulaCheck tbody td {
-        padding: 10px 0 0 10px;
-    }
-    .form-control[disabled],
-    .form-control[readonly] {
-        color: #000 !important;
-    }
-       
-    table#tblJaulaP input, table#tblJaulaP{
-        text-align: center;
-    }
-    .marginRow{
-        margin-top: 15px !important;
-    }
-    </style> 
+        .form-control[disabled],
+        .form-control[readonly] {
+            color: #000 !important;
+        }
+
+        table#tblJaulaP input, table#tblJaulaP {
+            text-align: center;
+        }
+
+        .marginRow {
+            margin-top: 15px !important;
+        }
+    </style>
 }
 
 @section featured
@@ -64,7 +65,8 @@
                 <li role="presentation"><a class="pestaña" href="#flete" aria-controls="flete" role="tab" data-toggle="tab">Flete</a></li>
                 <li role="presentation"><a class="pestaña" href="#jaulaP" aria-controls="jaula" role="tab" data-toggle="tab">Jaula</a></li>
                 <li role="presentation"><a class="pestaña" href="#documentos" aria-controls="documentos" role="tab" data-toggle="tab">Documentos</a></li>
-                <li role="presentation"><a class="pestaña" href="#pagosCobros" aria-controls="documentos" role="tab" data-toggle="tab">Pagos y cobros</a></li>
+                <li role="presentation"><a class="pestaña" href="#eventos" aria-controls="eventos" role="tab" data-toggle="tab">Eventos</a></li>
+                <li role="presentation"><a class="pestaña" href="#recepcion" aria-controls="recepcion" role="tab" data-toggle="tab">Recepción</a></li>
             </ul>
 
             <!-- Tab panes -->
@@ -327,6 +329,7 @@
                                 <h3 class="panel-title">Información de <strong>Linea Fletera</strong></h3>
                                 <ul class="panel-controls"></ul>
                             </div>
+
                             <div class="panel-body">
                                 <form class="form-horizontal">
                                     <div class="row">
@@ -550,40 +553,40 @@
                                             </div>
                                         </div>
                                     </div>
-                                        <div class="row marginRow">
-                                            <div class="col-md-12">
-                                                <div class="table-responsive">
-                                                    <center>
-                                                        <table id="tblJaulaP" border="1">
-                                                            <tr>
-                                                                <td>Hielera</td>
-                                                                <td>Panza arriba</td>
-                                                                <td>Panza arriba</td>
-                                                                <td>Punta superior</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><input class="form-control" type="text" /></td>
-                                                                <td><input class="form-control" type="text" /></td>
-                                                                <td><input class="form-control" type="text" /></td>
-                                                                <td><input class="form-control" type="text" /></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Cola</td>
-                                                                <td>Panza abajo</td>
-                                                                <td>Panza abajo</td>
-                                                                <td>Punta inferior</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><input class="form-control" type="text" /></td>
-                                                                <td><input class="form-control" type="text" /></td>
-                                                                <td><input class="form-control" type="text" /></td>
-                                                                <td><input class="form-control" type="text" /></td>
-                                                            </tr>
-                                                        </table>
-                                                    </center>
-                                                </div>
+                                    <div class="row marginRow">
+                                        <div class="col-md-12">
+                                            <div class="table-responsive">
+                                                <center>
+                                                    <table id="tblJaulaP" border="1">
+                                                        <tr>
+                                                            <td>Hielera</td>
+                                                            <td>Panza arriba</td>
+                                                            <td>Panza arriba</td>
+                                                            <td>Punta superior</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><input class="form-control" type="text" /></td>
+                                                            <td><input class="form-control" type="text" /></td>
+                                                            <td><input class="form-control" type="text" /></td>
+                                                            <td><input class="form-control" type="text" /></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Cola</td>
+                                                            <td>Panza abajo</td>
+                                                            <td>Panza abajo</td>
+                                                            <td>Punta inferior</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><input class="form-control" type="text" /></td>
+                                                            <td><input class="form-control" type="text" /></td>
+                                                            <td><input class="form-control" type="text" /></td>
+                                                            <td><input class="form-control" type="text" /></td>
+                                                        </tr>
+                                                    </table>
+                                                </center>
                                             </div>
                                         </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -669,19 +672,15 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="panel-footer">
-                                <input type="button" value="Crear venta" class="btn btn-primary pull-right">
-                                <a href="@Url.Action("Index", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                            </div>
                         </div>
 
                     </div>
                 </div>
-                <div id="pagosCobros" class="tab-pane" role="tabpanel">
+                <div id="eventos" class="tab-pane" role="tabpanel">
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Información de <strong>Pagos y cobros de la venta</strong></h3>
+                                <h3 class="panel-title">Información de <strong>Eventos durante el trayecto</strong></h3>
                                 <ul class="panel-controls"></ul>
                             </div>
 
@@ -801,6 +800,116 @@
                         </div>
                     </div>
                 </div>
+                <div id="recepcion" class="tab-pane" role="tabpanel">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Información de <strong>Recepción de la venta</strong></h3>
+                                <ul class="panel-controls"></ul>
+                            </div>
+
+                            <div class="panel-body">
+                                <form class="form-horizontal">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label">Recepcion de doc. de origen de embarque</label>
+                                                <div class="col-md-6">
+                                                    <label class="radio-inline"><input type="radio" name="optradio">SI</label>
+                                                    <label class="radio-inline"><input type="radio" name="optradio">NO</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label">Fecha de llegada de la unidad</label>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                                        <input type="text" class="form-control datepicker">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label">Nombre del recepcionista</label>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label">Cantidad total de kilos</label>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Valija sellada</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <label class="radio-inline"><input type="radio" name="optradio">SI</label>
+                                                        <label class="radio-inline"><input type="radio" name="optradio">NO</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Hora llegada de la unidad</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                        <input type="text" class="form-control timepicker">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Hora de descargar</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                        <input type="text" class="form-control timepicker">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Cantidad total de ganado</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row marginRow">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Observaciones</label>
+                                                <div class="col-md-9">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-eye"></span></span>
+                                                        <textarea class="form-control texArea" rows="5"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="panel-footer">
+                                <input type="button" value="Editar venta" class="btn btn-primary pull-right">
+                                <a href="@Url.Action("Index", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
         </div>
