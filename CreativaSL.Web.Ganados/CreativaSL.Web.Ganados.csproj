@@ -1066,6 +1066,7 @@
     <Content Include="Content\js\plugins\fonts\fontawesome-webfont.woff2" />
     <Content Include="Areas\Admin\Views\EntregaCombustible\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\EntregaCombustible\Rendimiento.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\EditSucursal.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1351,6 +1352,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Flete\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
