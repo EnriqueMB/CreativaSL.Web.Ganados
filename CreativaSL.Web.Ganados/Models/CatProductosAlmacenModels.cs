@@ -139,7 +139,7 @@ namespace CreativaSL.Web.Ganados.Models
             set { _imagen2 = value; }
         }
 
-
+        public HttpPostedFileBase[] Img2 { get; set; }
         private string _Imagen;
 
         public string Imagen

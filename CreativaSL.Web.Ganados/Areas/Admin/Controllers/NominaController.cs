@@ -1,17 +1,37 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.Filters;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CreativaSL.Web.Ganados.Models;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
+    [Autorizado]
     public class NominaController : Controller
     {
+        string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
+
         // GET: Admin/Nomina
         public ActionResult Index()
         {
-            return View();
+            try
+            {
+                NominaModels Nomina = new NominaModels();
+                Nomina_Datos NominaDatos = new Nomina_Datos();
+                Nomina.Conexion = Conexion;
+                Nomina.ListaNomina = NominaDatos.ObtenerListaNomina(Nomina);
+                return View(Nomina);
+            }
+            catch (Exception)
+            {
+                NominaModels Nomina = new NominaModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Nomina);
+            }
         }
 
         // GET: Admin/Nomina/Details/5
