@@ -1059,6 +1059,7 @@
     <Content Include="Areas\Admin\Views\NominaDiasFestivos\Create.cshtml" />
     <Content Include="Areas\Admin\Views\NominaDiasFestivos\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\NominaDiasFestivos\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Nomina\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1275,6 +1276,7 @@
     <Compile Include="Models\_Login_Datos.cs" />
     <Compile Include="Models\_Menu_Datos.cs" />
     <Compile Include="Models\_NominaDiasFestivos_Datos.cs" />
+    <Compile Include="Models\_Nomina_Datos.cs" />
     <Compile Include="Models\_ServicioMantenimiento_Datos.cs" />
     <Compile Include="Models\_Usuario_Datos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1341,7 +1343,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\Nomina\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
