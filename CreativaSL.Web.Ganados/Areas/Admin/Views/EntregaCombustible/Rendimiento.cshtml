@@ -18,7 +18,7 @@
 
         <div class="col-md-12">
             @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("Create", "EntregaCombustible", FormMethod.Post, new { @class = "form-horizontal", id = "form-ec", autocomplete = "off" }))
+            @using (Html.BeginForm("Rendimiento", "EntregaCombustible", FormMethod.Post, new { @class = "form-horizontal", id = "form-ec", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
                 <div class="field_error" id="validation_summary"></div>
@@ -50,7 +50,7 @@
                                 <div class="col-md-6 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                        <label class="form-control">@Model.Fecha</label>
+                                        <label class="form-control">@Model.Fecha.ToShortDateString()</label>
                                     </div>
                                 </div>
                             </div>
@@ -94,15 +94,20 @@
                                 <div class="col-md-6 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        <label class="form-control" id="Rend">@string.Format("{0:F3}", Model.Rendimiento)</label>
+                                      
+                                        @Html.TextBoxFor(model => model.Rendimiento, new { id = "Rendimiento", @class = "form-control", placeholder = "Ingrese el kilometraje final" })
+                                       
                                         <span class="input-group-addon">KM/L</span>
+
                                     </div>
+                                    @*<input type="text"  name="rnd" id="Rendimiento"/>*@
+                                   
                                 </div>
                             </div>
 
                         </div>
 
-
+                       
                     </div>
                     <div class="panel-footer">
                         <input type="submit" value="Guardar" class="btn btn-primary pull-right">
@@ -124,6 +129,17 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/rendimiento.js")"></script>
     <script>
         jQuery(document).ready(function () {
+            //var rendimiento = (($('#KMInicial').text() - $('#KMFinal').val()) / $('#Litros').text());
+            //$('#Rend').text(rendimiento);
+            $('#KMFinal').keyup(function () {
+                var kmi = $('#KMInicial').text();
+                var kmf = $('#KMFinal').val();
+                var litros = $('#Litros').text();
+                var rendimiento = ((kmf-kmi)/litros);
+                $('#Rendimiento').val(rendimiento);
+               
+              
+            });
             Mensaje(message, typemessage);
             Rendimiento.init();
         });
