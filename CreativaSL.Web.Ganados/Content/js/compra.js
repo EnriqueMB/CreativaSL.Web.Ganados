@@ -83,17 +83,17 @@
                     required: "-Seleccione una Sucursal"
                 },
                 GanadosPactadoMachos: {
-                    digits: "-El campo: Ganados Pactado Machos, debe ser igual o mayo que 0 (solo números enteros)."
+                    digits: "-El campo: Ganados Pactado Machos, debe ser igual o mayor que 0 (solo números enteros)."
                 },
                 GanadosPactadoHembras: {
-                    digits: "-El campo: Ganados Pactado Hembras, debe ser igual o mayo que 0 (solo números enteros)."
+                    digits: "-El campo: Ganados Pactado Hembras, debe ser igual o mayor que 0 (solo números enteros)."
                 },
                 FechaHoraProgramada: {
                     required: "-Seleccione una Fecha para la compra a realizar",
                     date: "-Debe ser una fecha con formado dd/mm/aaaa"
                 },
                 "Flete.kmInicialVehiculo": {
-                    digits: "-El campo: Kilómetraje Inicial, debe ser igual o mayo que 0 (solo números enteros)."
+                    digits: "-El campo: Kilómetraje Inicial, debe ser igual o mayor que 0 (solo números enteros)."
                 },
                 GuiaTransito: {
                     maxlength: jQuery.validator.format("-El campo: Guía de Transito debe ser igual o menor que {0} carácteres.")

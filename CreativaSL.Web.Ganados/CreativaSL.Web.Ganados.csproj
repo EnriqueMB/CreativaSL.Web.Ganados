@@ -873,6 +873,7 @@
     <Content Include="Content\js\rendimiento.js" />
     <Content Include="Content\js\serviciosMtto.js" />
     <Content Include="Content\js\settings.js" />
+    <Content Include="Content\js\sucursal.js" />
     <Content Include="Content\js\TipoProveedor.js" />
     <Content Include="Content\js\TipoServicio.js" />
     <Content Include="Content\js\TipoVehiculo.js" />
@@ -1041,6 +1042,7 @@
     <Content Include="Areas\Admin\Views\CatEmpresa\IndexSucursales.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\End.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\EditSucursal.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

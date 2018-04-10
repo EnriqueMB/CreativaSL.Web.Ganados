@@ -257,6 +257,65 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     SucursalDatos = new _CatSucursal_Datos();
                     Sucursal.Conexion = Conexion;
+                    Sucursal.Usuario = User.Identity.Name;
+                    Sucursal = SucursalDatos.AC_Sucursal(Sucursal);
+
+                    if (Sucursal.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardaron correctamente.";
+                        return RedirectToAction("IndexSucursales", new { id = Sucursal.IDEmpresa, nombreEmpresa = Sucursal.NombreSucursalMatriz });
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        return View(Sucursal);
+                    }
+                }
+                return View(Sucursal);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Se ha generado el siguiente error: " + ex.ToString();
+                return View(Sucursal);
+            }
+        }
+        [HttpGet]
+        public ActionResult EditSucursal(string id, string nombreEmpresa)
+        {
+            {
+                try
+                {
+                    Sucursal = new CatSucursalesModels
+                    {
+                        IDSucursal = id,
+                        NombreSucursalMatriz = nombreEmpresa
+                    };
+                    SucursalDatos = new _CatSucursal_Datos();
+                    Sucursal.Conexion = Conexion;
+                    Sucursal = SucursalDatos.GetSucursalXIDSucursal(Sucursal);
+                    return View(Sucursal);
+                }
+                catch (Exception ex)
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista" + ex.ToString();
+                    return View(Sucursal);
+                }
+            }
+        }
+        [HttpPost]
+        public ActionResult EditSucursal(CatSucursalesModels Sucursal)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    SucursalDatos = new _CatSucursal_Datos();
+                    Sucursal.Conexion = Conexion;
+                    Sucursal.Usuario = User.Identity.Name;
                     Sucursal = SucursalDatos.AC_Sucursal(Sucursal);
 
                     if (Sucursal.Completado == true)

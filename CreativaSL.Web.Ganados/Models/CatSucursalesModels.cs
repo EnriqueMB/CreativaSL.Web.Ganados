@@ -32,10 +32,10 @@ namespace CreativaSL.Web.Ganados.Models
         [RegularExpression("^[0-9]*$",
             ErrorMessage = "Solo número enteros positivos.")]
         [DisplayName("Merma predeterminada")]
+        [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public decimal MermaPredeterminada { get; set; }
         public List<CatSucursalesModels> ListaSucursales { get; set; }
 
-        [Required]
         [StringLength(300, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 5)]
         public string NombreSucursalMatriz { get; set; }
         public string IDEmpresa { get; set; }

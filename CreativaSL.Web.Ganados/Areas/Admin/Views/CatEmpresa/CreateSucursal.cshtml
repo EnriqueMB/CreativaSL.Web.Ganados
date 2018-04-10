@@ -23,10 +23,10 @@
             <h3></h3>
         </div>
        <div class="col-md-12">
-        @using (Html.BeginForm("CreateSucursal", "CatEmpresa", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+           @{ Html.EnableClientValidation(false); }
+        @using (Html.BeginForm("CreateSucursal", "CatEmpresa", FormMethod.Post, new { id="frmCreateSucursal", @class = "form-horizontal", autocomplete = "off" }))
         {
             @Html.AntiForgeryToken()
-            @Html.ValidationSummary(false)
 
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -35,22 +35,28 @@
                     </ul>
                 </div>
                 <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
+                            <div id="validation_summary" class="field_error "></div>
+                        </div>
+                    </div>
                     @Html.HiddenFor(model => model.IDEmpresa)
 
                     <div class="form-group">
-                        <div class="col-md-12">
+                        <div class="col-md-12 controlError">
                             <label class="col-md-3 control-label">Nombre de la empresa</label>
                             <div class="col-md-8 col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.TextBoxFor(model => model.NombreSucursalMatriz, new { id = "NombreSucursalMatriz", @class = "form-control", placeholder = "Nombre de la empresa" })
+                                    @Html.TextBoxFor(model => model.NombreSucursalMatriz, new { id = "NombreSucursalMatriz", @class = "form-control", placeholder = "Nombre de la empresa", @readonly= "readonly" })
                                 </div>
                                 <span class="help-block"></span>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-md-12">
+                        <div class="col-md-12 controlError">
                             <label class="col-md-3 control-label">Nombre de la sucursal</label>
                             <div class="col-md-8 col-xs-12">
                                 <div class="input-group">
@@ -62,7 +68,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-md-12">
+                        <div class="col-md-12 controlError">
                             <label class="col-md-3 control-label">Dirección</label>
                             <div class="col-md-8 col-xs-12">
                                 <div class="input-group">
@@ -73,10 +79,22 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="col-md-12 controlError">
+                            <label class="col-md-3 control-label">Merma predeterminada</label>
+                            <div class="col-md-8 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.MermaPredeterminada, new { id = "MermaPredeterminada", @class = "form-control", placeholder = "Ingrese la merma predeterminada para esta sucursal. (%)" })
+                                </div>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-footer">
                     <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                    <a href="@Url.Action("IndexSucursales","CatEmpresa", new { id =  Model.IDEmpresa,nombreEmpresa = Model.NombreSucursalMatriz }))" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    <a href="@Url.Action("IndexSucursales","CatEmpresa", new { id =  Model.IDEmpresa,nombreEmpresa = Model.NombreSucursalMatriz })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                 </div>
             </div>
         }
@@ -97,10 +115,11 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
    <!--VALIDACIONES-->
     <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
-
+    <script type="text/javascript" src="@Url.Content("~/Content/js/sucursal.js")"></script>
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
+            Sucursal.init();
         });
     </script>
 }

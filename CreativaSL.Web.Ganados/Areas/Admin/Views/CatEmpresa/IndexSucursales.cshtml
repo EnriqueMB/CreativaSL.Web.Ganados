@@ -28,7 +28,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("CreateSucursal","CatEmpresa", new { id=Model.IDEmpresa ,nombreEmpresa = Model.NombreSucursalMatriz }))" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva Sucursal</a></li>
+                            <li><a href="@Url.Action("CreateSucursal","CatEmpresa", new { id=Model.IDEmpresa ,nombreEmpresa = Model.NombreSucursalMatriz })" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva Sucursal</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                         </ul>
@@ -50,10 +50,10 @@
                                         <tr>
                                             <td>@Sucursal.NombreSucursal</td>
                                             <td>@Sucursal.Direccion</td>
-                                            <td>@Sucursal.MermaPredeterminada</td>
+                                            <td>@Sucursal.MermaPredeterminada.ToString("0")</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" class="btn btn-yellow" href="@Url.Action("EditSucursal", "CatEmpresa", new { id = Sucursal.IDSucursal })"><i class="fa fa-edit"></i></a>
+                                                    <a title="Editar" class="btn btn-yellow" href="@Url.Action("EditSucursal", "CatEmpresa", new { id = Sucursal.IDSucursal,nombreEmpresa = Model.NombreSucursalMatriz })"><i class="fa fa-edit"></i></a>
                                                     <a title="Eliminar" class="btn delete btn-danger deleteRow" id="delete-@Sucursal.IDSucursal" data-hrefa="@Url.Action("DeleteSucursal", "CatEmpresa", new { id = Sucursal.IDSucursal })" onClick="delete_row('@Sucursal.IDSucursal');"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
@@ -63,7 +63,7 @@
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("EditSucursal", "CatEmpresa", new { id = Sucursal.IDSucursal })">
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("EditSucursal", "CatEmpresa", new { id = Sucursal.IDSucursal, nombreEmpresa = Model.NombreSucursalMatriz })">
                                                                     <i class="fa fa-edit"></i> Editar
                                                                 </a>
                                                             </li>
