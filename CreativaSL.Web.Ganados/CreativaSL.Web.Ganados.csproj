@@ -1041,6 +1041,28 @@
     <Content Include="Areas\Admin\Views\CatEmpresa\IndexSucursales.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\End.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatConceptoDocumento\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatConceptoDocumento\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatTipoServicio\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatTipoServicio\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatTipoServicio\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\Servicios.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\Test.cshtml" />
+    <Content Include="Areas\Admin\Views\Nomina\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\NominaDiasFestivos\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\NominaDiasFestivos\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\NominaDiasFestivos\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\EditPrecio.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\PrecioProveedor.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpleado\CreateVacaciones.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpleado\Vacaciones.cshtml" />
+    <Content Include="Content\js\plugins\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\js\plugins\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\js\plugins\fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1326,7 +1348,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\Nomina\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
