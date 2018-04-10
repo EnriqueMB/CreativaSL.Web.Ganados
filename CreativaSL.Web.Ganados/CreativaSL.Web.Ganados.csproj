@@ -1041,6 +1041,8 @@
     <Content Include="Areas\Admin\Views\CatEmpresa\IndexSucursales.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\End.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\EntregaCombustible\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\EntregaCombustible\Rendimiento.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

@@ -152,7 +152,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 else
                 {
                     Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
-                    Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, string.Empty);
+                    Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Entrega.IDSucursal);
                     Entrega.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
                     return View(Entrega);
                 }
