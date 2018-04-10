@@ -1,16 +1,12 @@
-﻿@model CreativaSL.Web.Ganados.Models.CompraModels
+﻿@model CreativaSL.Web.Ganados.Models.NominaVacacionesModels
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Vacaciones";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-@section css
-{
 
-}
 
-@section featured
-{
+@section featured{
     @{
         var message = TempData["message"] ?? string.Empty;
         var typemessage = TempData["typemessage"] ?? string.Empty;
@@ -22,9 +18,10 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Ventas </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Vacaciones Emplado</h2>
     </div>
     <!-- END PAGE TITLE -->
+    <!-- PAGE CONTENT WRAPPER -->
     <div class="page-content-wrap">
         <div class="row">
             <div class="col-md-12">
@@ -33,41 +30,32 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("Create","Venta")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva Venta</a></li>
+                            @{ string IDE = Model.IDEmpleado;}
+                            <li><a href="@Url.Action("CreateVacaciones","CatEmpleado", new { id = IDE })" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva Vacaciones</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
+                            <li><a href="@Url.Action("Index","CatEmpleado")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span>Regresar</a></li>
                         </ul>
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table id="tblIndexCompra" class="table datatable">
+                            <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th>Folio</th>
-                                        <th>Fecha</th>
-                                        <th>Cliente</th>
-                                        <th>Lugar destino</th>
-                                        <th>Total ganado</th>
-                                        <th>Total ($)</th>
-                                        <th>Estatus</th>
+                                        <th>Fecha Inicio Vacaciones</th>
+                                        <th>Fecha Fin Vacaciones</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>09/04/2018</td>
-                                        <td>Grupo Gusi</td>
-                                        <td>TM SLP</td>
-                                        <td>75</td>
-                                        <td>$1,253,524.00</td>
-                                        <td>Finalizado</td>
-                                        <td style="text-align:center;">
+                                    @foreach (var vacaciones in Model.ListaNominaVacaciones)
+                                    {
+                                        <tr id="@vacaciones.IDVacaciones">
+                                            <td>@vacaciones.FechaInicio.ToShortDateString()</td>
+                                            <td>@vacaciones.FechaFin.ToShortDateString()</td>
+                                            <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Documentos" href="@Url.Action("Document", "Venta")" class="btn btn-primary tooltips btn-sm" data-placement="top" data-original-title="Document"><i class="fa fa-file-text"></i></a>
-                                                    <a title="Finalizar venta" href="@Url.Action("End", "Venta")" class="btn btn-green tooltips btn-sm" data-placement="top" data-original-title="End"><i class="fa fa-thumbs-o-up"></i></a>
-                                                    <a title="Editar" href="@Url.Action("Edit", "Venta")" class="btn btn-yellow tooltips btn-sm" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" id="delete-" data-hrefa="" onClick="delete_row('');" class="btn btn-danger tooltips btn-sm" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Eliminar" id="delete-@vacaciones.IDVacaciones" data-hrefa="@Url.Action("DeleteVacaciones", "CatEmpleado", new { id = vacaciones.IDVacaciones, id2 = IDE })" onClick="delete_row('@vacaciones.IDVacaciones');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -76,22 +64,7 @@
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Document", "Venta")">
-                                                                    <i class="fa fa-file-text"></i> Documentos
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("End", "Venta")">
-                                                                    <i class="fa fa-file-text"></i> Finalizar venta
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "Venta")">
-                                                                    <i class="fa fa-edit"></i> Editar
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-" data-hrefa="" onClick="delete_row('');">
+                                                                <a role="menuitem" tabindex="-1" id="delete-@vacaciones.IDVacaciones" data-hrefa="@Url.Action("DeleteVacaciones", "CatEmpleado", new { id =  vacaciones.IDVacaciones, id2 = IDE })" onClick="delete_row('@vacaciones.IDVacaciones');">
                                                                     <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>
@@ -99,7 +72,8 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                    </tr>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -138,8 +112,8 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script>
-            jQuery(document).ready(function () {
-                Mensaje(message, typemessage);
-            });
+    jQuery(document).ready(function () {
+        Mensaje(message, typemessage);
+        });
     </script>
 }

@@ -1,0 +1,234 @@
+﻿@model CreativaSL.Web.Ganados.Models.ServiciosMantenimientoModels
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Servicios de mantenimiento </h2>
+    </div>
+    <!-- END PAGE TITLE -->
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="panel panel-default tabs">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="active"><a href="#tab-first" role="tab" data-toggle="tab">Vehículos</a></li>
+                        @*<li><a href="#tab-second" role="tab" data-toggle="tab">Jaulas</a></li>*@
+                        <li><a href="#tab-third" role="tab" data-toggle="tab">Remolques</a></li>
+                    </ul>
+                    <div class="panel-body tab-content">
+                        <div class="tab-pane active" id="tab-first">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    
+                                    <!-- START DEFAULT DATATABLE -->
+                                    <div class="panel panel-default">
+                                        
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table class="table datatable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Vehículo</th>
+                                                            <th>Fecha último servicio</th>
+                                                            <th>Servicios</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr id="IDVehiculo">
+                                                            <td>Chevrolet AVEO 2015 BHC-762-32</td>
+                                                            <td>08/01/2018</td>
+                                                            <td style="text-align:center;">
+                                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                                    <a title="Servicios" class="btn btn-green" href="@Url.Action("Servicios", "Mantenimiento", new { id = "IDVehiculo", tipo = 1 })"><i class="fa fa-cogs"></i></a>
+                                                                </div>
+                                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                                    <div class="btn-group">
+                                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                                        </a>
+                                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                            <li>
+                                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Servicios", "Mantenimiento", new { id = "IDVehiculo", tipo = 1 })">
+                                                                                    <i class="fa fa-cogs"></i> Rendimiento
+                                                                                </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END DEFAULT DATATABLE -->    
+
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="tab-pane" id="tab-second">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+
+                                    <!-- START DEFAULT DATATABLE -->
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table class="table datatable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Vehículo</th>
+                                                            <th>Fecha último servicio</th>
+                                                            <th>Servicios</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr id="IDVehiculo">
+                                                            <td>Chevrolet AVEO 2015 BHC-762-32</td>
+                                                            <td>08/01/2018</td>
+                                                            <td style="text-align:center;">
+                                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                                    <a title="Servicios" class="btn btn-green" href="@Url.Action("Servicios", "Mantenimiento", new { id = "IDVehiculo", tipo = 1 })"><i class="fa fa-cogs"></i></a>
+                                                                </div>
+                                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                                    <div class="btn-group">
+                                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                                        </a>
+                                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                            <li>
+                                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Servicios", "Mantenimiento", new { id = "IDVehiculo", tipo = 1 })">
+                                                                                    <i class="fa fa-cogs"></i> Rendimiento
+                                                                                </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END DEFAULT DATATABLE -->   
+
+                                </div>
+                            </div>
+                        </div>*@
+                        <div class="tab-pane" id="tab-third">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+
+                                    <!-- START DEFAULT DATATABLE -->
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table class="table datatable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Vehículo</th>
+                                                            <th>Fecha último servicio</th>
+                                                            <th>Servicios</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr id="IDVehiculo">
+                                                            <td>Chevrolet AVEO 2015 BHC-762-32</td>
+                                                            <td>08/01/2018</td>
+                                                            <td style="text-align:center;">
+                                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                                    <a title="Servicios" class="btn btn-green" href="@Url.Action("Servicios", "Mantenimiento", new { id = "IDRemolque", tipo = 2 })"><i class="fa fa-cogs"></i></a>
+                                                                </div>
+                                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                                    <div class="btn-group">
+                                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                                        </a>
+                                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                            <li>
+                                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Servicios", "Mantenimiento", new { id = "IDRemolque", tipo = 2 })">
+                                                                                    <i class="fa fa-cogs"></i> Rendimiento
+                                                                                </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END DEFAULT DATATABLE -->   
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-footer">
+                    </div>
+                </div>
+
+
+                
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres eliminar esta fila?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    var message = '@message';
+    var typemessage = '@typemessage';
+    </script>
+}
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script>
+    jQuery(document).ready(function () {
+        Mensaje(message, typemessage);
+        });
+    </script>
+}

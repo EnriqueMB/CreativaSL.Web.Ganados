@@ -426,11 +426,16 @@
     <Content Include="Content\js\Concepto.js" />
     <Content Include="Content\js\ConceptosNomina.js" />
     <Content Include="Content\js\CuentaProveedor.js" />
+    <Content Include="Content\js\alta_baja_nomina_empleado.js" />
     <Content Include="Content\js\entregacombustible.js" />
     <Content Include="Content\js\Lugar.js" />
     <Content Include="Content\js\MarcaVehiculo.js" />
+    <Content Include="Content\js\NominaDiasFestivos.js" />
+    <Content Include="Content\js\plugins\dualSelect\bootstrap-duallistbox.css" />
+    <Content Include="Content\js\plugins\dualSelect\jquery.bootstrap-duallistbox.js" />
     <Content Include="Content\js\ProductosAlmacen.js" />
     <Content Include="Content\js\precioRangoProveedor.js" />
+    <Content Include="Content\js\nomina-vacaciones.js" />
     <Content Include="Content\js\provedorlugar.js" />
     <Content Include="Content\js\proveedor.js" />
     <Content Include="Content\js\cuentasClientes.js" />
@@ -866,6 +871,7 @@
     <Content Include="Content\js\ProveedorAlmacen.js" />
     <Content Include="Content\js\Remolques.js" />
     <Content Include="Content\js\rendimiento.js" />
+    <Content Include="Content\js\serviciosMtto.js" />
     <Content Include="Content\js\settings.js" />
     <Content Include="Content\js\TipoProveedor.js" />
     <Content Include="Content\js\TipoServicio.js" />
@@ -1031,7 +1037,10 @@
     <Content Include="Areas\Admin\Views\CatCliente\Lugares.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\ClienteLugar.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\ModalEvento.cshtml" />
-    <Content Include="Areas\Admin\Views\EntregaCombustible\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\CreateSucursal.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\IndexSucursales.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\End.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1085,8 +1094,11 @@
     <Compile Include="Areas\Admin\Controllers\CompraAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompraController.cs" />
     <Compile Include="Areas\Admin\Controllers\EntregaCombustibleController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FleteController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\MantenimientoController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NominaController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NominaDiasFestivosController.cs" />
     <Compile Include="Areas\Admin\Controllers\TablaController.cs" />
     <Compile Include="Areas\Admin\Controllers\TestController.cs" />
     <Compile Include="Areas\Admin\Controllers\VentaController.cs" />
@@ -1177,7 +1189,9 @@
     <Compile Include="Models\MunicipioModels.cs" />
     <Compile Include="Models\NominaDetalleConceptosModels.cs" />
     <Compile Include="Models\NominaDetalleModels.cs" />
+    <Compile Include="Models\NominaDiasFestivosModels.cs" />
     <Compile Include="Models\NominaModels.cs" />
+    <Compile Include="Models\NominaVacacionesModels.cs" />
     <Compile Include="Models\ProductorAlmacenSucursalModels.cs" />
     <Compile Include="Models\ProveedorLugarModels.cs" />
     <Compile Include="Models\RangoPrecioProveedorModels.cs" />
@@ -1187,6 +1201,7 @@
     <Compile Include="Models\ResumenGastosModels.cs" />
     <Compile Include="Models\SalidaAlmacenDetalle.cs" />
     <Compile Include="Models\SalidaAlmacenDetalleModels.cs" />
+    <Compile Include="Models\ServiciosMantenimientoModels.cs" />
     <Compile Include="Models\TelefonosContactoSucursalModels.cs" />
     <Compile Include="Models\TipoUsuarioModels.cs" />
     <Compile Include="Models\TrayectoModels.cs" />
@@ -1232,6 +1247,7 @@
     <Compile Include="Models\_CatPuestos_Datos.cs" />
     <Compile Include="Models\_CatRangoPesoCompra_Datos.cs" />
     <Compile Include="Models\_CatRemolque_Datos.cs" />
+    <Compile Include="Models\_CatSucursal_Datos.cs" />
     <Compile Include="Models\_CatTipoProveedor_Datos.cs" />
     <Compile Include="Models\_CatTipoServicio_Datos.cs" />
     <Compile Include="Models\_CatTipoVehiculos_Datos.cs" />
@@ -1242,11 +1258,14 @@
     <Compile Include="Models\_EntregaCombustible_Datos.cs" />
     <Compile Include="Models\_Login_Datos.cs" />
     <Compile Include="Models\_Menu_Datos.cs" />
+    <Compile Include="Models\_NominaDiasFestivos_Datos.cs" />
+    <Compile Include="Models\_ServicioMantenimiento_Datos.cs" />
     <Compile Include="Models\_Usuario_Datos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CuentaBancariaViewModels.cs" />
     <Compile Include="ViewModels\EntregaCombustibleViewModels.cs" />
     <Compile Include="ViewModels\RendimientoCombustibleViewModels.cs" />
+    <Compile Include="ViewModels\ServiciosMantenimientoViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -1306,6 +1325,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Flete\" />
     <Folder Include="Areas\Admin\Views\Mantenimiento\" />
   </ItemGroup>
   <PropertyGroup>
