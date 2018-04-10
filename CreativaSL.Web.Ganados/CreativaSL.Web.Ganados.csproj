@@ -1055,6 +1055,7 @@
     <Content Include="Areas\Admin\Views\Mantenimiento\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Test.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosV.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1334,7 +1335,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\Mantenimiento\" />
     <Folder Include="Areas\Admin\Views\Nomina\" />
   </ItemGroup>
   <PropertyGroup>
