@@ -1031,6 +1031,7 @@
     <Content Include="Areas\Admin\Views\CatCliente\Lugares.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\ClienteLugar.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\ModalEvento.cshtml" />
+    <Content Include="Areas\Admin\Views\EntregaCombustible\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1158,7 +1159,7 @@
     <Compile Include="Models\DocumentoPorPagarModels.cs" />
     <Compile Include="Models\EntradaAlmacenDetalleModels.cs" />
     <Compile Include="Models\EntradaAlmacenModels.cs" />
-    <Compile Include="Models\EntregaCombistibleModels.cs" />
+    <Compile Include="Models\EntregaCombustibleModels.cs" />
     <Compile Include="Models\ErrorModelState.cs" />
     <Compile Include="Models\EstadoModels.cs" />
     <Compile Include="Models\EventoEnvioDetalleModels.cs" />
