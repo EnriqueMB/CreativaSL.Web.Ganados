@@ -28,11 +28,11 @@
         <div class="col-md-12">
             @{ Html.EnableClientValidation(false); }
             @using (Html.BeginForm("Create", "CatBanco", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off", @enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
-        @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-        <div id="validation_summary" class="field_error "></div> //JS
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                <div id="validation_summary" class="field_error "></div> //JS
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"><strong>Nuevo</strong> Banco</h3>
@@ -57,7 +57,7 @@
                             <div class="col-md-6 col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.TextBoxFor(model => model.Imagen, new { id = "Imagen", @type = "file", @class = "form-control" })
+                                    @Html.TextBoxFor(model => model.ImagenB, new { id = "Imagen", @type = "file", @class = "form-control" })
                                 </div>
                                 @Html.ValidationMessageFor(model => model.Imagen)
                                 <span class="help-block">Ingrese por lo menos 1 imagen.</span>
@@ -67,11 +67,11 @@
                 </div>
 
 
-            <div class="panel-footer">
-                <a href="@Url.Action("Index","CatBanco")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                <button form="form-dg" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
-            </div>
-}
+                <div class="panel-footer">
+                    <a href="@Url.Action("Index","CatBanco")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    <button form="form-dg" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
+                </div>
+            }
         </div>
     </div>
     <script>
@@ -93,9 +93,25 @@
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
             Bancos.init();
+
+            $('#Imagen').fileinput({
+                theme: 'fa',
+                language: 'es',
+                minFileCount: 1,
+                uploadUrl: "#",
+                showUpload: false,
+                showUploadedThumbs: false,
+                overwriteInitial: false,
+                allowedFileExtensions: ['png'],
+                required: true
+            })
         });
     </script>
 }
+
+
+
+
 
 
 

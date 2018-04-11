@@ -49,21 +49,44 @@
                                 </thead>
                                 <tbody>
                                     @foreach (var Empresa in Model.ListaEmpresas)
-            {
-                        <tr>
-                            <td><img class="" style="width: 100px; height: 100px; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Empresa.LogoEmpresa" /></td>
-                            <td>@Empresa.RazonFiscal</td>
-                            <td>@Empresa.DireccionFiscal</td>
-                            <td>@Empresa.RFC</td>
-                            <td>@Empresa.Representante</td>
-                            <td>@(Empresa.NumTelefonico1 + " y " + Empresa.NumTelefonico2 )</td>
-                            <td>@Empresa.Email</td>
-                            <td>@Empresa.HorarioAtencion</td>
-                            <td style="text-align:center;">
-                                <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatEmpresa", new { id = Empresa.IDEmpresa })"><i class="fa fa-edit"></i></a>
-                            </td>
-                        </tr>
-}
+                                    {
+                                    <tr>
+                                        <td><img class="" style="width: 100px; height: 100px; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Empresa.LogoEmpresa" /></td>
+                                        <td>@Empresa.RazonFiscal</td>
+                                        <td>@Empresa.DireccionFiscal</td>
+                                        <td>@Empresa.RFC</td>
+                                        <td>@Empresa.Representante</td>
+                                        <td>@(Empresa.NumTelefonico1 + " y " + Empresa.NumTelefonico2 )</td>
+                                        <td>@Empresa.Email</td>
+                                        <td>@Empresa.HorarioAtencion</td>
+
+                                        <td style="text-align:center;">
+                                            <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatEmpresa", new { id = Empresa.IDEmpresa })"><i class="fa fa-edit"></i></a>
+                                                <a title="Sucursales" class="btn btn-primary" href="@Url.Action("IndexSucursales", "CatEmpresa", new { id = Empresa.IDEmpresa, nombreEmpresa = Empresa.RazonFiscal })"><i class="fa fa-building-o"></i></a>
+                                            </div>
+                                            <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                <div class="btn-group">
+                                                    <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                        <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                    </a>
+                                                    <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatCliente", new { id = Empresa.IDEmpresa })">
+                                                                <i class="fa fa-edit"></i> Editar
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("IndexSucursales", "CatCliente", new { id = Empresa.IDEmpresa, nombreEmpresa = Empresa.RazonFiscal })">
+                                                                <i class="fa fa-edit"></i> Sucursal
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -102,7 +125,7 @@
                 null,
                 null,
                 null,
-                null
+                { "width": "10%" }
             ],
             responsive: true
         });

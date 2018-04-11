@@ -114,9 +114,14 @@
         $('#timeEvento').timepicker();
 
         $('#descontar').change(function () {
-            $('.esconder').toggle(1000);
-
+            if ($('#descontar').prop('checked')) {
+                $('.esconder').show(1000);
+            }
+            else{
+                $('.esconder').hide(1000);
+            }
         });
+
     }
     //Funciones para los modales
     function ModalEvento() {
@@ -149,11 +154,13 @@
         cMachos.value = parseInt(cMachos.value) + parseInt(cantMachos);
         cHembras.value = parseInt(cHembras.value) + parseInt(cantHembras);
         cTotal.value = parseInt(cMachos.value) + parseInt(cHembras.value);
+        iGanadoSeleccionado.value = cTotal.value;
     }
     function restarGenero(cantMachos, cantHembras) {
         cMachos.value = parseInt(cMachos.value) - parseInt(cantMachos);
         cHembras.value = parseInt(cHembras.value) - parseInt(cantHembras);
         cTotal.value = parseInt(cMachos.value) + parseInt(cHembras.value);
+        iGanadoSeleccionado.value = cTotal.value;
     }
 
     return {

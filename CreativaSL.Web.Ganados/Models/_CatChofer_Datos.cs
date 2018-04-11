@@ -60,7 +60,8 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Movil ?? string.Empty,
                     datos.FechaNacimiento != null ? datos.FechaNacimiento : DateTime.Today,
                     datos.FechaIngreso != null ? datos.FechaIngreso : DateTime.Today,
-                    datos.Usuario ?? string.Empty
+                    datos.Usuario ?? string.Empty,
+                    datos.IDEmpresa ?? string.Empty
                 };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "EM_spCSLDB_abc_Chofer", parametros);
                 datos.IDChofer = aux.ToString();
@@ -133,6 +134,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.FechaIngreso = dr.GetDateTime(dr.GetOrdinal("fechaIngreso"));
                     datos.IDSucursal = dr["id_sucursal"].ToString();
                     datos.FechaNacimiento = dr.GetDateTime(dr.GetOrdinal("fechaNacimiento"));
+                    datos.IDEmpresa = dr["id_empresa"].ToString();
                 }
                 return datos;
             }
@@ -206,6 +208,54 @@ namespace CreativaSL.Web.Ganados.Models
                     lista.Add(item);
                 }
                 return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<CatEmpresaModels> ObteneComboCatEmpresa(CatChoferModels Datos)
+        {
+            try
+            {
+                CatEmpresaModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Combo_get_CatEmpresa");
+                while (dr.Read())
+                {
+                    item = new CatEmpresaModels();
+                    item.IDEmpresa = !dr.IsDBNull(dr.GetOrdinal("IDEmpresa")) ? dr.GetString(dr.GetOrdinal("IDEmpresa")) : string.Empty;
+                    item.RazonFiscal = !dr.IsDBNull(dr.GetOrdinal("NombreEmpresa")) ? dr.GetString(dr.GetOrdinal("NombreEmpresa")) : string.Empty;
+                    Datos.ListaEmpresas.Add(item);
+                }
+                return Datos.ListaEmpresas;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CatSucursalesModels> ObtenerSucursalesXIDEmpresa(CatChoferModels Datos)
+        {
+            try
+            {
+                CatSucursalesModels item;
+                SqlDataReader dr = null;
+                object[] parametro =
+                {
+                    Datos.IDEmpresa
+                };
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Combo_get_SucursalesXIDEmpresa", parametro);
+                while (dr.Read())
+                {
+
+                    item = new CatSucursalesModels();
+                    item.IDSucursal = !dr.IsDBNull(dr.GetOrdinal("IDSucursal")) ? dr.GetString(dr.GetOrdinal("IDSucursal")) : string.Empty;
+                    item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
+                    Datos.listaSucursales.Add(item);
+                }
+                return Datos.listaSucursales;
             }
             catch (Exception ex)
             {

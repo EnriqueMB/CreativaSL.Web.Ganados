@@ -31,8 +31,11 @@
         color: #000 !important;
     }
        
-    table#tblJaulaP, input{
+    table#tblJaulaP input, table#tblJaulaP{
         text-align: center;
+    }
+    .marginRow{
+        margin-top: 15px !important;
     }
     </style> 
 }
@@ -40,8 +43,8 @@
 @section featured
 {
     @{
-        var message = "Prueba";
-        var typemessage = "0";
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
     }
     <div class="row">
         <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
@@ -61,8 +64,7 @@
                 <li role="presentation"><a class="pestaña" href="#flete" aria-controls="flete" role="tab" data-toggle="tab">Flete</a></li>
                 <li role="presentation"><a class="pestaña" href="#jaulaP" aria-controls="jaula" role="tab" data-toggle="tab">Jaula</a></li>
                 <li role="presentation"><a class="pestaña" href="#documentos" aria-controls="documentos" role="tab" data-toggle="tab">Documentos</a></li>
-                <li role="presentation"><a class="pestaña" href="#eventos" aria-controls="eventos" role="tab" data-toggle="tab">Eventos</a></li>
-                <li role="presentation"><a class="pestaña" href="#recepcion" aria-controls="recepcion" role="tab" data-toggle="tab">Recepción</a></li>
+                <li role="presentation"><a class="pestaña" href="#pagosCobros" aria-controls="documentos" role="tab" data-toggle="tab">Pagos y cobros</a></li>
             </ul>
 
             <!-- Tab panes -->
@@ -256,7 +258,7 @@
                                             <label class="col-md-3 control-label">Origen</label>
                                             <div class="col-md-9">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></span>
                                                     <select class="form-control">
                                                         <option>Rancho Chapala</option>
                                                     </select>
@@ -267,7 +269,7 @@
                                             <label class="col-md-3 control-label">Hora llegada</label>
                                             <div class="col-md-9">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                                                     <input type="text" class="form-control timepicker">
                                                 </div>
                                             </div>
@@ -276,7 +278,7 @@
                                             <label class="col-md-3 control-label">Hora embarque</label>
                                             <div class="col-md-9">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                                                     <input type="text" class="form-control timepicker">
                                                 </div>
                                             </div>
@@ -287,7 +289,7 @@
                                             <label class="col-md-3 control-label">Fecha</label>
                                             <div class="col-md-9">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
                                                     <input type="text" class="form-control datepicker">
                                                 </div>
                                             </div>
@@ -296,7 +298,7 @@
                                             <label class="col-md-3 control-label">Destino</label>
                                             <div class="col-md-9">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></span>
                                                     <select class="form-control">
                                                         <option>TM SLP</option>
                                                     </select>
@@ -307,7 +309,7 @@
                                             <label class="col-md-3 control-label">Hora salida</label>
                                             <div class="col-md-9">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                                                     <input type="text" class="form-control timepicker">
                                                 </div>
                                             </div>
@@ -325,7 +327,6 @@
                                 <h3 class="panel-title">Información de <strong>Linea Fletera</strong></h3>
                                 <ul class="panel-controls"></ul>
                             </div>
-
                             <div class="panel-body">
                                 <form class="form-horizontal">
                                     <div class="row">
@@ -342,7 +343,7 @@
                                                 <label class="col-md-3 control-label">Nombre de la linea fletera</label>
                                                 <div class="col-md-9">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <span class="input-group-addon"><span class="fa fa-building-o"></span></span>
                                                         <input type="text" class="form-control">
                                                     </div>
                                                 </div>
@@ -351,7 +352,7 @@
                                                 <label class="col-md-3 control-label">Nombre del chofer</label>
                                                 <div class="col-md-9">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
                                                         <input type="text" class="form-control">
                                                     </div>
                                                 </div>
@@ -360,7 +361,7 @@
                                                 <label class="col-md-3 control-label">No. económico</label>
                                                 <div class="col-md-9">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <span class="input-group-addon"><span class="fa fa-truck"></span></span>
                                                         <input type="text" class="form-control">
                                                     </div>
                                                 </div>
@@ -369,7 +370,7 @@
                                                 <label class="col-md-3 control-label">No. de placa de la unidad</label>
                                                 <div class="col-md-9">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <span class="input-group-addon"><span class="fa fa-truck"></span></span>
                                                         <input type="text" class="form-control">
                                                     </div>
                                                 </div>
@@ -394,14 +395,28 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Kilómetraje inicial</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-tachometer"></span></span>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Kilómetraje final</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-tachometer"></span></span>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                         </div>
                                     </div>
                                 </form>
-                            </div>
-                            <div class="panel-footer">
-                                <input type="submit" value="Finalizar venta" class="btn btn-primary pull-right">
-                                <a class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                             </div>
                         </div>
 
@@ -511,14 +526,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row" style="margin-top: 15px;">
+                                    <div class="row marginRow">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="col-md-4 control-label">Ganado seleccionado para la venta</label>
                                                 <div class="col-md-8">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input id="iGanadoSeleccionado" type="text" class="form-control">
+                                                        <input id="iGanadoSeleccionado" type="text" class="form-control" disabled="disabled">
                                                     </div>
                                                 </div>
                                             </div>
@@ -529,13 +544,13 @@
                                                 <div class="col-md-7">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" class="form-control" disabled="disabled">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                        <div class="row" style="margin-top: 15px;">
+                                        <div class="row marginRow">
                                             <div class="col-md-12">
                                                 <div class="table-responsive">
                                                     <center>
@@ -571,10 +586,6 @@
                                         </div>
                                 </form>
                             </div>
-                            <div class="panel-footer">
-                                <input type="submit" value="Finalizar venta" class="btn btn-primary pull-right">
-                                <a class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                            </div>
                         </div>
 
                     </div>
@@ -595,7 +606,7 @@
                                                 <label class="col-md-4 control-label">Guía de transito</label>
                                                 <div class="col-md-8">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <span class="input-group-addon"><span class="fa fa-file-text-o"></span></span>
                                                         <input type="text" class="form-control">
                                                     </div>
                                                 </div>
@@ -604,7 +615,7 @@
                                                 <label class="col-md-4 control-label">Cert. Zoosanitario</label>
                                                 <div class="col-md-8">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <span class="input-group-addon"><span class="fa fa-file-text-o"></span></span>
                                                         <input type="text" class="form-control">
                                                     </div>
                                                 </div>
@@ -613,7 +624,7 @@
                                                 <label class="col-md-4 control-label">Cert. Tuberculosis</label>
                                                 <div class="col-md-8">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <span class="input-group-addon"><span class="fa fa-file-text-o"></span></span>
                                                         <input type="text" class="form-control">
                                                     </div>
                                                 </div>
@@ -622,7 +633,7 @@
                                                 <label class="col-md-4 control-label">Cert. Brucelosis</label>
                                                 <div class="col-md-8">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <span class="input-group-addon"><span class="fa fa-file-text-o"></span></span>
                                                         <input type="text" class="form-control">
                                                     </div>
                                                 </div>
@@ -633,7 +644,7 @@
                                                 <label class="col-md-4 control-label">Fleje</label>
                                                 <div class="col-md-8">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <span class="input-group-addon"><span class="fa fa-file-text-o"></span></span>
                                                         <input type="text" class="form-control">
                                                     </div>
                                                 </div>
@@ -642,7 +653,7 @@
                                                 <label class="col-md-4 control-label">Factura</label>
                                                 <div class="col-md-8">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <span class="input-group-addon"><span class="fa fa-file-text-o"></span></span>
                                                         <input type="text" class="form-control">
                                                     </div>
                                                 </div>
@@ -659,18 +670,18 @@
                                 </form>
                             </div>
                             <div class="panel-footer">
-                                <input type="submit" value="Finalizar venta" class="btn btn-primary pull-right">
-                                <a class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                                <input type="button" value="Crear venta" class="btn btn-primary pull-right">
+                                <a href="@Url.Action("Index", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                             </div>
                         </div>
 
                     </div>
                 </div>
-                <div id="eventos" class="tab-pane" role="tabpanel">
+                <div id="pagosCobros" class="tab-pane" role="tabpanel">
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Información de <strong>Eventos durante el trayecto</strong></h3>
+                                <h3 class="panel-title">Información de <strong>Pagos y cobros de la venta</strong></h3>
                                 <ul class="panel-controls"></ul>
                             </div>
 
@@ -684,7 +695,7 @@
                                                 <ul class="panel-controls">
                                                     <li><a id="btnAddEvento" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Evento</a></li>
                                                     <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                                                    <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
+                                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                                                 </ul>
                                             </div>
                                             <div class="panel-body">
@@ -790,116 +801,6 @@
                         </div>
                     </div>
                 </div>
-                <div id="recepcion" class="tab-pane" role="tabpanel">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Información de <strong>Recepción de la venta</strong></h3>
-                                <ul class="panel-controls"></ul>
-                            </div>
-
-                            <div class="panel-body">
-                                <form class="form-horizontal">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="col-md-6 control-label">Recepcion de doc. de origen de embarque</label>
-                                                <div class="col-md-6">
-                                                    <label class="radio-inline"><input type="radio" name="optradio">SI</label>
-                                                    <label class="radio-inline"><input type="radio" name="optradio">NO</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-6 control-label">Fecha de llegada de la unidad</label>
-                                                <div class="col-md-6">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input type="text" class="form-control datepicker">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-6 control-label">Nombre del recepcionista</label>
-                                                <div class="col-md-6">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-6 control-label">Cantidad total de kilos</label>
-                                                <div class="col-md-6">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label">Valija sellada</label>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <label class="radio-inline"><input type="radio" name="optradio">SI</label>
-                                                        <label class="radio-inline"><input type="radio" name="optradio">NO</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label">Hora llegada de la unidad</label>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input type="text" class="form-control timepicker">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label">Hora de descargar</label>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input type="text" class="form-control timepicker">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label">Cantidad total de ganado</label>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row" style="margin-top: 15px;">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">Observaciones</label>
-                                                <div class="col-md-9">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <textarea class="form-control"></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="panel-footer">
-                                <input type="submit" value="Finalizar venta" class="btn btn-primary pull-right">
-                                <a class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
             </div>
 
         </div>

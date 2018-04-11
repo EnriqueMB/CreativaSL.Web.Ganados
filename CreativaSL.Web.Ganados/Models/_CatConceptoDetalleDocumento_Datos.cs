@@ -65,7 +65,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    Datos.Opcion, Datos.IDConceptosDocumento, Datos.IDTipoConciliacion, Datos.Descripcion, Datos.Clave, Datos.Usuario
+                    Datos.Opcion, Datos.IDConceptosDocumento, Datos.IDTipoConciliacion, Datos.Clave, Datos.Descripcion, Datos.Usuario
                 };
                 object Resultado = SqlHelper.ExecuteScalar(Datos.Conexion, "spCSLDB_Catalogo_ac_CatConceptoDetalleDocumento", parametros);
                 if (Resultado != null)
@@ -80,11 +80,57 @@ namespace CreativaSL.Web.Ganados.Models
                         Datos.Completado = false;
                     }
                 }
-                    return Datos;
+                return Datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public CatConceptoDetalleDocumentosModels ObternerCatConceptoDocumento(CatConceptoDetalleDocumentosModels Datos)
+        {
+            try
+            {
+                object[] parametros = { Datos.IDConceptosDocumento };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Catalogo_get_CatConceptosDetalleDocumentoXID", parametros);
+                while (dr.Read())
+                {
+                    Datos.IDConceptosDocumento = dr["id_conceptoDocumento"].ToString();
+                    Datos.IDTipoConciliacion = Convert.ToInt32(dr["id_tipoConciliacion"].ToString());
+                    Datos.Clave = dr["clave"].ToString();
+                    Datos.Descripcion = dr["descripcion"].ToString();
+                }
+                return Datos;
             }
             catch (Exception ex)
             {
 
+                throw ex;
+            }
+        }
+        public CatConceptoDetalleDocumentosModels EliminarCatConceptoDocumento(CatConceptoDetalleDocumentosModels Datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Datos.IDConceptosDocumento, Datos.Usuario
+                };
+                object Resultado = SqlHelper.ExecuteScalar(Datos.Conexion, "spCSLDB_Catalogo_del_CatConceptoDocumento", parametros);
+                Datos.IDConceptosDocumento = Resultado.ToString();
+                if (!string.IsNullOrEmpty(Datos.IDConceptosDocumento))
+                {
+                    Datos.Completado = true;
+                }
+                else
+                {
+                    Datos.Completado = false;
+                }
+                return Datos;
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
         }

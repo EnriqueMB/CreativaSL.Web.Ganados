@@ -6,7 +6,8 @@ $(function() {
             if ($(".datepicker").length > 0) {
                 $(".datepicker").datepicker({
                     format: 'dd/mm/yyyy',
-                    language: 'es'
+                    language: 'es',
+                    autoclose: true
                 });
                 $("#dp-2,#dp-3,#dp-4").datepicker(); // Sample
             }           
@@ -29,6 +30,7 @@ $(function() {
         var feDaterangepicker = function(){
             if($(".daterange").length > 0)
                $(".daterange").daterangepicker({format: 'YYYY-MM-DD',startDate: '2013-01-01',endDate: '2013-12-31'});
+
         }
         // END Daterangepicker
         
@@ -257,95 +259,95 @@ $(function() {
         }//End Knob
         
         // Start Smart Wizard
-        var uiSmartWizard = function(){
+        //var uiSmartWizard = function(){
             
-            if($(".wizard").length > 0){
+        //    if($(".wizard").length > 0){
                 
-                //Check count of steps in each wizard
-                $(".wizard > ul").each(function(){
-                    $(this).addClass("steps_"+$(this).children("li").length);
-                });//end
+        //        //Check count of steps in each wizard
+        //        $(".wizard > ul").each(function(){
+        //            $(this).addClass("steps_"+$(this).children("li").length);
+        //        });//end
                 
-                // This par of code used for example
-                if($("#wizard-validation").length > 0){
+        //        // This par of code used for example
+        //        if($("#wizard-validation").length > 0){
                     
-                    var validator = $("#wizard-validation").validate({
-                            rules: {
-                                login: {
-                                    required: true,
-                                    minlength: 2,
-                                    maxlength: 8
-                                },
-                                password: {
-                                    required: true,
-                                    minlength: 5,
-                                    maxlength: 10
-                                },
-                                repassword: {
-                                    required: true,
-                                    minlength: 5,
-                                    maxlength: 10,
-                                    equalTo: "#password"
-                                },
-                                email: {
-                                    required: true,
-                                    email: true
-                                },
-                                name: {
-                                    required: true,
-                                    maxlength: 10
-                                },
-                                adress: {
-                                    required: true
-                                }
-                            }
-                        });
+        //            var validator = $("#wizard-validation").validate({
+        //                    rules: {
+        //                        login: {
+        //                            required: true,
+        //                            minlength: 2,
+        //                            maxlength: 8
+        //                        },
+        //                        password: {
+        //                            required: true,
+        //                            minlength: 5,
+        //                            maxlength: 10
+        //                        },
+        //                        repassword: {
+        //                            required: true,
+        //                            minlength: 5,
+        //                            maxlength: 10,
+        //                            equalTo: "#password"
+        //                        },
+        //                        email: {
+        //                            required: true,
+        //                            email: true
+        //                        },
+        //                        name: {
+        //                            required: true,
+        //                            maxlength: 10
+        //                        },
+        //                        adress: {
+        //                            required: true
+        //                        }
+        //                    }
+        //                });
                         
-                }// End of example
+        //        }// End of example
                 
-                $(".wizard").smartWizard({                        
-                    // This part of code can be removed FROM
-                    onLeaveStep: function(obj){
-                        var wizard = obj.parents(".wizard");
+        //        $(".wizard").smartWizard({                        
+        //            // This part of code can be removed FROM
+        //            onLeaveStep: function(obj){
+        //                var wizard = obj.parents(".wizard");
 
-                        if(wizard.hasClass("wizard-validation")){
+        //                if(wizard.hasClass("wizard-validation")){
                             
-                            var valid = true;
+        //                    var valid = true;
                             
-                            $('input,textarea',$(obj.attr("href"))).each(function(i,v){
-                                valid = validator.element(v) && valid;
-                            });
+        //                    $('input,textarea',$(obj.attr("href"))).each(function(i,v){
+        //                        valid = validator.element(v) && valid;
+        //                    });
                                                         
-                            if(!valid){
-                                wizard.find(".stepContainer").removeAttr("style");
-                                validator.focusInvalid();                                
-                                return false;
-                            }         
+        //                    if(!valid){
+        //                        wizard.find(".stepContainer").removeAttr("style");
+        //                        validator.focusInvalid();                                
+        //                        return false;
+        //                    }         
                             
-                        }    
+        //                }    
                         
-                        return true;
-                    },// <-- TO
+        //                return true;
+        //            },// <-- TO
                     
-                    //This is important part of wizard init
-                    onShowStep: function(obj){                        
-                        var wizard = obj.parents(".wizard");
+        //            //This is important part of wizard init
+        //            onShowStep: function(obj){                        
+        //                var wizard = obj.parents(".wizard");
 
-                        if(wizard.hasClass("show-submit")){
+        //                if(wizard.hasClass("show-submit")){
                         
-                            var step_num = obj.attr('rel');
-                            var step_max = obj.parents(".anchor").find("li").length;
+        //                    var step_num = obj.attr('rel');
+        //                    var step_max = obj.parents(".anchor").find("li").length;
 
-                            if(step_num == step_max){                             
-                                obj.parents(".wizard").find(".actionBar .btn-primary").css("display","block");
-                            }                         
-                        }
-                        return true;                         
-                    }//End
-                });
-            }            
+        //                    if(step_num == step_max){                             
+        //                        obj.parents(".wizard").find(".actionBar .btn-primary").css("display","block");
+        //                    }                         
+        //                }
+        //                return true;                         
+        //            }//End
+        //        });
+        //    }            
             
-        }// End Smart Wizard
+        //}// End Smart Wizard
         
         //OWL Carousel
         var uiOwlCarousel = function(){
@@ -434,7 +436,7 @@ $(function() {
                 uiDatatable();
                 uiRangeSlider();
                 uiKnob();
-                uiSmartWizard();
+                //uiSmartWizard();
                 uiOwlCarousel();
                 uiSummernote();
                 uiScroller();

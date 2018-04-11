@@ -1,7 +1,8 @@
 ﻿var Compra = function () {
-    var tableGanado;
     "use strict"
-    var InitMap = function () {
+    var tableGanado;
+
+    var InitMap = function (option) {
         var directionsDisplay = new google.maps.DirectionsRenderer;
         var directionsService = new google.maps.DirectionsService;
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -16,8 +17,6 @@
         document.getElementById("Trayecto.id_lugarOrigen").addEventListener('change', onChangeHandler);
         document.getElementById("Trayecto.id_lugarDestino").addEventListener('change', onChangeHandler);
 
-        //Inicializo la función
-        CalculateAndDisplayRoute(directionsService, directionsDisplay);
     };
     var LoadValidationCreate = function () {
         var form1 = $('#frmCreateCompra');
@@ -46,66 +45,40 @@
                 IDProveedor: {
                     required: true
                 },
-                "Sucursal.IDSucursal": {
+                IDSucursal: {
                     required: true
                 },
                 GanadosPactadoMachos: {
+                    required: true,
                     digits: true
                 },
                 GanadosPactadoHembras: {
+                    required: true,
                     digits: true
                 },
                 FechaHoraProgramada: {
                     required: true,
                     fecha: true
                 },
-                "Flete.kmInicialVehiculo": {
-                    digits: true
-                },
-                GuiaTransito: {
-                    maxlength: 15
-                },
-                CertZoosanitario: {
-                    maxlength: 15
-                },
-                CertTuberculosis: {
-                    maxlength: 15
-                },
-                CertBrucelosis: {
-                    maxlength: 15
-                }
             },
             messages: {
                 IDProveedor: {
                     required: "-Seleccione un Proveedor"
                 },
-                "Sucursal.IDSucursal": {
+                IDSucursal: {
                     required: "-Seleccione una Sucursal"
                 },
                 GanadosPactadoMachos: {
-                    digits: "-El campo: Ganados Pactado Machos, debe ser igual o mayo que 0 (solo números enteros)."
+                    required: "-Seleccione una cantidad de ganado machos",
+                    digits: "-El campo: Ganados Pactado Machos, debe ser igual o mayor que 0 (solo números enteros)."
                 },
                 GanadosPactadoHembras: {
-                    digits: "-El campo: Ganados Pactado Hembras, debe ser igual o mayo que 0 (solo números enteros)."
+                    required: "-Seleccione una cantidad de ganado hembras",
+                    digits: "-El campo: Ganados Pactado Hembras, debe ser igual o mayor que 0 (solo números enteros)."
                 },
                 FechaHoraProgramada: {
                     required: "-Seleccione una Fecha para la compra a realizar",
                     date: "-Debe ser una fecha con formado dd/mm/aaaa"
-                },
-                "Flete.kmInicialVehiculo": {
-                    digits: "-El campo: Kilómetraje Inicial, debe ser igual o mayo que 0 (solo números enteros)."
-                },
-                GuiaTransito: {
-                    maxlength: jQuery.validator.format("-El campo: Guía de Transito debe ser igual o menor que {0} carácteres.")
-                },
-                CertZoosanitario: {
-                    maxlength: jQuery.validator.format("-El campo: Cert. Zoosanitario debe ser igual o menor que {0} carácteres.")
-                },
-                CertTuberculosis: {
-                    maxlength: jQuery.validator.format("-El campo: Cert. Tuberculosis debe ser igual o menor que {0} carácteres.")
-                },
-                CertBrucelosis: {
-                    maxlength: jQuery.validator.format("-El campo: Cert. Brucelosis debe ser igual o menor que {0} carácteres.")
                 }
             },
             invalidHandler: function (event, validator) {
@@ -131,6 +104,31 @@
             }
         });
     };
+    var RunEvents = function () {
+        $("#IDSucursal").on("change", function () {
+            var IDSucursal = $(this).val();
+            ProveedoresXIDSucursal(IDSucursal);
+        });
+    }
+    function ProveedoresXIDSucursal(IDSucursal) {
+        $.ajax({
+            url: '/Admin/Compra/ProveedoresXIDSucursal/',
+            type: "POST",
+            dataType: 'json',
+            data: { IDSucursal: IDSucursal },
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "1");
+            },
+            success: function (result) {
+
+                $("#IDProveedor option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#IDProveedor").append('<option value="' + result[i].IDProveedor + '">' + result[i].NombreRazonSocial + '</option>');
+                }
+                $('#IDProveedor.select').selectpicker('refresh');
+            }
+        });
+    }
     var LoadItems = function () {
         $('#FechaHoraProgramada').datepicker({
             format: 'dd/mm/yyyy',
@@ -349,9 +347,13 @@
     }
 
     return {
-        init: function (idCompra) {
+        init: function (option, idCompra) {
             LoadItems();
-            InitMap();
+            if(option == 2)
+                InitMap(option);
+
+            RunEvents();
+
             LoadValidationCreate();
             LoadTableGanado(idCompra);
             LoadTableMovimientos(idCompra);

@@ -30,6 +30,27 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public List<CatVehiculoModels> ObtenerComboVehiculosPrincp(string Conexion)
+        {
+            try
+            {
+                List<CatVehiculoModels> Lista = new List<CatVehiculoModels>();
+                CatVehiculoModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Combo_get_CatVehiculoEntregaCombustible");
+                while (Dr.Read())
+                {
+                    Item = new CatVehiculoModels();
+                    Item.IDVehiculo = !Dr.IsDBNull(Dr.GetOrdinal("id_vehiculo")) ? Dr.GetString(Dr.GetOrdinal("id_vehiculo")) : string.Empty;
+                    Item.Modelo = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public List<CatTipoCombustibleModels> ObtenerComboTiposCombustible(string Conexion)
         {

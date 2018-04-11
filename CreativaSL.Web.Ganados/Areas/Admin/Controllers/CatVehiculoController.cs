@@ -53,6 +53,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Vehiculo.listaTipoVehiculos = VehiculoDatos.obtenerListaTipoVehiculo(Vehiculo);
                 Vehiculo.listaSucursal = VehiculoDatos.obtenerListaSucursales(Vehiculo);
                 Vehiculo.listaMarcas = VehiculoDatos.obtenerListaMarcas(Vehiculo);
+                Vehiculo.ListaEmpresas = VehiculoDatos.obtenerListaEmpresas(Vehiculo);
+
                 Vehiculo.Estatus = Convert.ToBoolean("true");
                 Vehiculo.EsPropio = Convert.ToBoolean("true");
                 return View(Vehiculo);
@@ -136,6 +138,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Vehiculo.listaTipoVehiculos = VehiculoDatos.obtenerListaTipoVehiculo(Vehiculo);
                 Vehiculo.listaSucursal = VehiculoDatos.obtenerListaSucursales(Vehiculo);
                 Vehiculo.listaMarcas = VehiculoDatos.obtenerListaMarcas(Vehiculo);
+                Vehiculo.ListaEmpresas = VehiculoDatos.obtenerListaEmpresas(Vehiculo);
                 return View(Vehiculo);
             }
             catch (Exception ex)
@@ -149,7 +152,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatVehiculo/Edit/5
         [HttpPost]
-       
+
         public ActionResult Edit(string id, CatVehiculoModels Vehiculo)
         {
             _CatVehiculo_Datos VehiculoDatos = new _CatVehiculo_Datos();
@@ -161,7 +164,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Vehiculo.Conexion = Conexion;
                     Vehiculo.Opcion = 2;
                     Vehiculo.IDVehiculo = id;
-                    Vehiculo.IDVehiculo = "0";
+                    //Vehiculo.IDVehiculo = "0";
 
                     Vehiculo.Estatus = true;
                     Vehiculo = VehiculoDatos.AcCatVehiculo(Vehiculo);
@@ -184,6 +187,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Vehiculo.listaTipoVehiculos = VehiculoDatos.obtenerListaTipoVehiculo(Vehiculo);
                     Vehiculo.listaSucursal = VehiculoDatos.obtenerListaSucursales(Vehiculo);
                     Vehiculo.listaMarcas = VehiculoDatos.obtenerListaMarcas(Vehiculo);
+                    Vehiculo.ListaEmpresas = VehiculoDatos.obtenerListaEmpresas(Vehiculo);
                     return View(Vehiculo);
 
                 }
@@ -194,6 +198,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Vehiculo.listaTipoVehiculos = VehiculoDatos.obtenerListaTipoVehiculo(Vehiculo);
                 Vehiculo.listaSucursal = VehiculoDatos.obtenerListaSucursales(Vehiculo);
                 Vehiculo.listaMarcas = VehiculoDatos.obtenerListaMarcas(Vehiculo);
+                Vehiculo.ListaEmpresas = VehiculoDatos.obtenerListaEmpresas(Vehiculo);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
                 return View(Vehiculo);
@@ -226,6 +231,27 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             catch
             {
                 return View();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ObtenerSucursalesXIDEmpresa(string IDEmpresa)
+        {
+            try
+            {
+                CatVehiculoModels Vehiculo = new CatVehiculoModels();
+                _CatVehiculo_Datos VehiculoDatos = new _CatVehiculo_Datos();
+                Vehiculo.Conexion = Conexion;
+                Vehiculo.IDEmpresa = IDEmpresa;
+                Vehiculo.Usuario = User.Identity.Name;
+                Vehiculo.listaSucursal = VehiculoDatos.ObtenerSucursalesXIDEmpresa(Vehiculo);
+                return Content(Vehiculo.listaSucursal.ToJSON(), "application/json");
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error. Por favor contacte a soporte técnico";
+                return Json("");
             }
         }
     }

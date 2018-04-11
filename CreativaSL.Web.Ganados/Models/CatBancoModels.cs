@@ -42,7 +42,15 @@ namespace CreativaSL.Web.Ganados.Models
             set { _Descripcion = value; }
         }
 
-        public string NombreBanco { get; set; }
+        //public string NombreBanco { get; set; }
+
+        [Required(ErrorMessage = "Seleccione la imagen del Banco")]
+        [Display(Name = "Imagen Banco")]
+
+
+        public HttpPostedFileBase[] ImagenB { get; set; }
+        [Display(Name = "Imagen Banco")]
+        public HttpPostedFileBase[] ImagenEdt { get; set; }
 
         private string _Imagen;
         /// <summary>
@@ -53,6 +61,8 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _Imagen; }
             set { _Imagen = value; }
         }
+
+
         private List<CatBancoModels> _listaBancos;
 
         public List<CatBancoModels> listaBancos

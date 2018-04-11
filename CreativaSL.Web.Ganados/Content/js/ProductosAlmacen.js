@@ -53,7 +53,7 @@
                 Nombre: { required: "Se necesita de un nombre del producto", nombre: "Ingrese un formato válido ", maxlength: "Solo se admite un máximo de 300 caracteres" },
                 Descripcion:{ required: "Se necesita de una clave del producto", descripcion: "Ingrese un formato válido "},
                 UltimoCosto: { required: "Se necesita de un nombre del producto" },
-                imagen2: { validarImagen2: "Seleccione una imagén válida del ine" },
+                imagen2: { validarImagen2: "Seleccione una imagén válida " },
                
 
             },

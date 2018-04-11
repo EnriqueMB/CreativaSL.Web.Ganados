@@ -15,6 +15,7 @@
             else
                 return true;
         }, 'Debe seleccionar una imagen.');
+       
         $('#form-dg').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
@@ -72,17 +73,7 @@
     };
 
     var rumImagenes = function () {
-        $('#Imagen').fileinput({
-            theme: 'fa',
-            language: 'es',
-            minFileCount: 1,
-            uploadUrl: "#",
-            showUpload: false,
-            showUploadedThumbs: false,
-            overwriteInitial: false,
-            allowedFileExtensions: ['png'],
-            required: true
-        })
+        
     };
 
     return {

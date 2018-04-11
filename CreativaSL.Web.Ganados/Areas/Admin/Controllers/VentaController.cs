@@ -43,7 +43,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         // GET: Admin/Venta/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
             return View();
         }
@@ -86,7 +86,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        #region Ganado
+        // GET: Admin/Venta/Delete/5
+        public ActionResult End(int? id)
+        {
+            return View();
+        }
+        #region Modal evento
         [HttpPost]
         public ActionResult ModalEvento()
         {

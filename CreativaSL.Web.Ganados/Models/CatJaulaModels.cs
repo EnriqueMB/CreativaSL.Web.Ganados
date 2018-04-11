@@ -22,10 +22,16 @@ namespace CreativaSL.Web.Ganados.Models
             Completado = false;
             opcion = 0;
             resultado = string.Empty;
+            ListaEmpresas = new List<CatEmpresaModels>();
+            IDEmpresa = string.Empty;
         }
         /// <summary>
         /// LISTA DE JAULAS PARA INDEX
         /// </summary>
+
+        public List<CatEmpresaModels> ListaEmpresas { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Seleccione una empresa.")]
+        public string  IDEmpresa { get; set; }
 
         private List<CatJaulaModels> _listaJaulas;
 

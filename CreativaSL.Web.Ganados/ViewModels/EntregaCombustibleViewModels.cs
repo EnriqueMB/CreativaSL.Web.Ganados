@@ -23,6 +23,11 @@ namespace CreativaSL.Web.Ganados.ViewModels
             _Total = 0;
             _UrlImagen64 = string.Empty;
             _ImgTicketBand = false;
+            _BandFechaEntrega = false;
+            _BandIDSucursal = false;
+            _BandIDVehiculo = false;
+            _Sucursal = string.Empty;
+            _Vehiculo = string.Empty;
             //_ImgTicket = new HttpPostedFile
             _ListaVehiculos = new List<CatVehiculoModels>();
             _ListaTipoCombustible = new List<CatTipoCombustibleModels>();
@@ -32,6 +37,27 @@ namespace CreativaSL.Web.Ganados.ViewModels
             Completado = false;
             Usuario = string.Empty;
             Opcion = 0;
+        }
+        private bool _BandFechaEntrega;
+
+        public bool BandFechaEntrega
+        {
+            get { return _BandFechaEntrega; }
+            set { _BandFechaEntrega = value; }
+        }
+        private bool _BandIDSucursal;
+
+        public bool BandIDSucursal
+        {
+            get { return _BandIDSucursal; }
+            set { _BandIDSucursal = value; }
+        }
+        private bool _BandIDVehiculo;
+
+        public bool BandIDVehiuculo
+        {
+            get { return _BandIDVehiculo; }
+            set { _BandIDVehiculo = value; }
         }
 
         private string _IDEntregaCombustible;
@@ -166,6 +192,28 @@ namespace CreativaSL.Web.Ganados.ViewModels
             set { _ImgTicketBand = value; }
         }
 
+        private List<EntregaCombustibleViewModels> _listaEntregaCombustible;
+
+        public List<EntregaCombustibleViewModels> listaEntregaCombustible
+        {
+            get { return _listaEntregaCombustible; }
+            set { _listaEntregaCombustible = value; }
+        }
+        private string _Vehiculo;
+
+        public string Vehiculo
+        {
+            get { return _Vehiculo; }
+            set { _Vehiculo = value; }
+        }
+        private string _Sucursal;
+
+        public string Sucursal
+        {
+            get { return _Sucursal; }
+            set { _Sucursal = value; }
+        }
+
 
         private List<CatVehiculoModels> _ListaVehiculos;
         /// <summary>
@@ -212,5 +260,29 @@ namespace CreativaSL.Web.Ganados.ViewModels
         public string Usuario { get; set; }
         public int Opcion { get; set; }
         #endregion
+        public EntregaCombustibleViewModels GetViewCB()
+        {
+            try
+            {
+                return new EntregaCombustibleViewModels
+                {
+                    IDEntregaCombustible = this._IDEntregaCombustible,
+                    IDSucursal = this._IDSucursal,
+                    IDVehiculo = this._IDVehiculo,
+                    IDTipoCombustible = this._IDTipoCombustible,
+                    Fecha = this._Fecha,
+                    NoTicket = this._NoTicket,
+                   KMInicial= _KMInicial,
+                    KMFinal=this._KMFinal ,
+                    Litros=this._Litros,
+                    Total=this._Total,
+               UrlImagen64=this._UrlImagen64 
+            };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

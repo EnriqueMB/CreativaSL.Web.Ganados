@@ -7,6 +7,7 @@
         var successHandler1 = $('.successHandler', form1);
         
         $('#form-chofer').validate({
+            debug: true,
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -32,7 +33,7 @@
                 NumSeguroSocial: { texto: true, maxlength: 30 },
                 IDGenero: { CMBINT: true },
                 idgruposanguineo: { CMBINT: true },
-                IDSucursal: { required: true },
+                IDEmpresa: { required: true },
                 FechaNacimiento: { required: true },
                 FechaIngreso: { required: true },
                 AvisoAccidente: { required: true },
@@ -44,11 +45,11 @@
                 //ListSucursal: { required: "Seleccione una sucursal." },
                 Nombre: { required: "Ingrese nombre del chofer.", placa: "Ingrese un formato valido (letras, números y guión(-)", maxlength: "El campo nombre admite máximo 80 caracteres." },
                 ApPaterno: { required: "Ingrese apellido paterno del chofer.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 70 caracteres." },
-                Ife: { required: "Ingrese el codigo de credencial de elector.", ife: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 13 caracteres." },
+                Ife: { required: "Ingrese el codigo de credencial de elector.", ife: "Ingrese un nombre INE válido.", maxlength: "El campo nombre admite máximo 13 caracteres." },
                 NumSeguroSocial: { required: "Ingrese el número de seguro social.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
                 IDGenero: { CMBINT: "Seleccione un género." },
                 idgruposanguineo: { CMBINT: "Seleccione un grupo sanguineo." },
-                IDSucursal: { required: "Seleccione una sucursal." },
+                IDEmpresa: { required: "Seleccione una empresa." },
                 FechaNacimiento: { required: "Seleccione una fecha." },
                 FechaIngreso: { required: "Seleccione una fecha." },
                 AvisoAccidente: { required: "Ingrese a quien avisar en caso de accidente." },
@@ -62,24 +63,23 @@
             highlight: function (element) {
                 $(element).closest('.help-block').removeClass('valid');
                 // display OK icon
-                $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+                $(element).closest('.controlError').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
                 // add the Bootstrap error class to the control group
             },
             unhighlight: function (element) { // revert the change done by hightlight
-                $(element).closest('.form-group').removeClass('has-error');
+                $(element).closest('.controlError').removeClass('has-error');
                 // set error class to the control group
             },
             success: function (label, element) {
                 label.addClass('help-block valid');
                 label.removeClass('color');
                 // mark the current input as valid and display OK icon
-                $(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+                $(element).closest('.controlError').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
             },
             submitHandler: function (form) {
                 successHandler1.show();
                 errorHandler1.hide();
                 form.submit();
-                //this.submit();
             }
         });
     };
@@ -89,18 +89,42 @@
         });
         $('#FechaNacimiento').datepicker({
             format: 'dd/mm/yyyy'
-         });
-         $('#FechaIngreso').datepicker({
-             format: 'dd/mm/yyyy'
-         });
+        });
+        $('#FechaIngreso').datepicker({
+            format: 'dd/mm/yyyy'
+        });
     };
-   
-
+    var runEvents = function () {
+        $("#IDEmpresa").on("change", function () {
+            var IDEmpresa = $("#IDEmpresa").val();
+            GetSucursalesXIDEmpresa(IDEmpresa);
+        });
+    }
+    function GetSucursalesXIDEmpresa(IDEmpresa) {
+        $.ajax({
+            url: "/Admin/CatChofer/ObtenerSucursalesXIDEmpresa/",
+            data: { IDEmpresa: IDEmpresa },
+            async: false,
+            dataType: "json",
+            type: "POST",
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "1");
+            },
+            success: function (result) {
+                $("#IDSucursal option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#IDSucursal").append('<option value="' + result[i].IDSucursal + '">' + result[i].NombreSucursal + '</option>');
+                }
+                $('#IDSucursal.select').selectpicker('refresh');
+            }
+        });
+    }
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
             runDatePicker();
+            runEvents();
         }
     };
 }();

@@ -46,9 +46,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 CatEmpleadoModels Empleado = new CatEmpleadoModels();
                 CatEmpleado_Datos EmpleadoDatos = new CatEmpleado_Datos();
+                _Combos_Datos Combos = new _Combos_Datos();
                 Empleado.Conexion = Conexion;
                 Empleado.ListaCmbGrupoSanguineo = EmpleadoDatos.ObteneComboCatGrupoSanguineo(Empleado);
-                Empleado.ListaCmbSucursal = EmpleadoDatos.ObteneComboCatSucursal(Empleado);
+                Empleado.ListaCmbSucursal = Combos.ObtenerComboSucursales(Conexion);
                 Empleado.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(Empleado);
                 Empleado.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(Empleado);
                 return View(Empleado);
@@ -67,6 +68,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         public ActionResult Create(CatEmpleadoModels DatosEmpleado)
         {
             CatEmpleado_Datos EmpleadoDatos = new CatEmpleado_Datos();
+            _Combos_Datos Combos = new _Combos_Datos();
             try
             {
                 if (ModelState.IsValid)
@@ -85,7 +87,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     else
                     {
                         DatosEmpleado.ListaCmbGrupoSanguineo = EmpleadoDatos.ObteneComboCatGrupoSanguineo(DatosEmpleado);
-                        DatosEmpleado.ListaCmbSucursal = EmpleadoDatos.ObteneComboCatSucursal(DatosEmpleado);
+                        DatosEmpleado.ListaCmbSucursal = Combos.ObtenerComboSucursales(Conexion);
                         DatosEmpleado.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(DatosEmpleado);
                         DatosEmpleado.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(DatosEmpleado);
                         TempData["typemessage"] = "2";
@@ -97,7 +99,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     DatosEmpleado.Conexion = Conexion;
                     DatosEmpleado.ListaCmbGrupoSanguineo = EmpleadoDatos.ObteneComboCatGrupoSanguineo(DatosEmpleado);
-                    DatosEmpleado.ListaCmbSucursal = EmpleadoDatos.ObteneComboCatSucursal(DatosEmpleado);
+                    DatosEmpleado.ListaCmbSucursal = Combos.ObtenerComboSucursales(Conexion);
                     DatosEmpleado.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(DatosEmpleado);
                     DatosEmpleado.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(DatosEmpleado);
                     return View(DatosEmpleado);
@@ -107,7 +109,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 DatosEmpleado.Conexion = Conexion;
                 DatosEmpleado.ListaCmbGrupoSanguineo = EmpleadoDatos.ObteneComboCatGrupoSanguineo(DatosEmpleado);
-                DatosEmpleado.ListaCmbSucursal = EmpleadoDatos.ObteneComboCatSucursal(DatosEmpleado);
+                DatosEmpleado.ListaCmbSucursal = Combos.ObtenerComboSucursales(Conexion);
                 DatosEmpleado.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(DatosEmpleado);
                 DatosEmpleado.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(DatosEmpleado);
                 TempData["typemessage"] = "2";
@@ -124,11 +126,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 CatEmpleadoModels Empleado = new CatEmpleadoModels();
                 CatEmpleado_Datos EmleadoDatos = new CatEmpleado_Datos();
+                _Combos_Datos Combos = new _Combos_Datos();
                 Empleado.Conexion = Conexion;
                 Empleado.IDEmpleado = id;
                 Empleado = EmleadoDatos.ObtenerDetalleCatEmpleado(Empleado);
                 Empleado.ListaCmbGrupoSanguineo = EmleadoDatos.ObteneComboCatGrupoSanguineo(Empleado);
-                Empleado.ListaCmbSucursal = EmleadoDatos.ObteneComboCatSucursal(Empleado);
+                Empleado.ListaCmbSucursal = Combos.ObtenerComboSucursales(Conexion);
                 Empleado.ListaCmbPuesto = EmleadoDatos.obtenerComboCatPuesto(Empleado);
                 Empleado.ListaCmbCategoriaPuesto = EmleadoDatos.ObteneComboCatCategoriaPuesto(Empleado);
                 return View(Empleado);
@@ -147,6 +150,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         public ActionResult Edit(string id, CatEmpleadoModels DatosEmpleado)
         {
             CatEmpleado_Datos EmpleadoDatos = new CatEmpleado_Datos();
+            _Combos_Datos Combos = new _Combos_Datos();
             try
             {
                 if (ModelState.IsValid)
@@ -164,7 +168,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     else
                     {
                         DatosEmpleado.ListaCmbGrupoSanguineo = EmpleadoDatos.ObteneComboCatGrupoSanguineo(DatosEmpleado);
-                        DatosEmpleado.ListaCmbSucursal = EmpleadoDatos.ObteneComboCatSucursal(DatosEmpleado);
+                        DatosEmpleado.ListaCmbSucursal = Combos.ObtenerComboSucursales(Conexion);
                         DatosEmpleado.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(DatosEmpleado);
                         DatosEmpleado.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(DatosEmpleado);
                         TempData["typemessage"] = "2";
@@ -176,7 +180,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     DatosEmpleado.Conexion = Conexion;
                     DatosEmpleado.ListaCmbGrupoSanguineo = EmpleadoDatos.ObteneComboCatGrupoSanguineo(DatosEmpleado);
-                    DatosEmpleado.ListaCmbSucursal = EmpleadoDatos.ObteneComboCatSucursal(DatosEmpleado);
+                    DatosEmpleado.ListaCmbSucursal = Combos.ObtenerComboSucursales(Conexion);
                     DatosEmpleado.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(DatosEmpleado);
                     DatosEmpleado.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(DatosEmpleado);
                     return View(DatosEmpleado);
@@ -186,7 +190,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 DatosEmpleado.Conexion = Conexion;
                 DatosEmpleado.ListaCmbGrupoSanguineo = EmpleadoDatos.ObteneComboCatGrupoSanguineo(DatosEmpleado);
-                DatosEmpleado.ListaCmbSucursal = EmpleadoDatos.ObteneComboCatSucursal(DatosEmpleado);
+                DatosEmpleado.ListaCmbSucursal = Combos.ObtenerComboSucursales(Conexion);
                 DatosEmpleado.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(DatosEmpleado);
                 DatosEmpleado.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(DatosEmpleado);
                 TempData["typemessage"] = "2";
