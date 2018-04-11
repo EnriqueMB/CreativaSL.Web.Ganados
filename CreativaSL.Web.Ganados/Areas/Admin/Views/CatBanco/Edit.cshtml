@@ -12,8 +12,8 @@
 
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
 }
-@section featured{
 
+@section featured{
     @{
         var message = TempData["message"] ?? string.Empty;
         var typemessage = TempData["typemessage"] ?? string.Empty;
@@ -26,7 +26,6 @@
             <h3></h3>
         </div>
         <div class="col-md-12">
-            @*<form class="form-horizontal">*@
             @{ Html.EnableClientValidation(false); }
             @using (Html.BeginForm("Edit", "CatBanco", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off", @enctype = "multipart/form-data" }))
             {
@@ -34,58 +33,51 @@
                 @Html.ValidationSummary(true)
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
                 <div id="validation_summary" class="field_error "></div> //JS
-                @Html.HiddenFor(model => model.IDBanco)
+
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"><strong>Editar</strong> Banco</h3>
-                        <ul class="panel-controls">
-                            @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
-                        </ul>
                     </div>
+                    <ul class="panel-controls">
+                        @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
+                    </ul>
                     <div class="panel-body">
                         <div class="form-group">
-                            <div class="col-md-6">
-                                <label class="col-md-3 control-label">Nombre banco</label>
-                                <div class="col-md-8 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.Descripcion, new { id = "Descripcion", @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Descripcion)
-                                    <span class="help-block">Ingrese el nombre del banco</span>
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Nombre banco</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.Descripcion, new { id = "Descripcion", @class = "form-control", placeholder = "Ingrese el nombre del banco" })
                                 </div>
+                                @Html.ValidationMessageFor(model => model.Descripcion)
                             </div>
                         </div>
-
 
                         <div class="form-group">
-                            <div class="col-md-6">
-                                <label class="col-md-3 control-label">Ingrese imagen del banco</label>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.Imagen, new { id = "ImagenEdt", name = "file-es[]", @type = "file", @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Imagen)
-                                    <span class="help-block">Ingrese por lo menos 1 imagen.</span>
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Ingrese la imagen del banco</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.ImagenEdt, new { id = "Imagen", @type = "file", @class = "form-control" })
                                 </div>
+                                @*@Html.ValidationMessageFor(model => model.Imagen)*@
+                                <span class="help-block">Ingrese por lo menos 1 imagen.</span>
                             </div>
-
                         </div>
                     </div>
-                    <div class="panel-footer">
-                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                        <a href="@Url.Action("Index", "CatBanco")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                    </div>
                 </div>
-                @*</form>*@
+
+
+                <div class="panel-footer">
+                    <a href="@Url.Action("Index","CatBanco")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    <button form="form-dg" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
+                </div>
             }
         </div>
     </div>
     <script>
         var message = '@message';
         var typemessage = '@typemessage';
-
     </script>
 }
 @section script{
@@ -102,8 +94,9 @@
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
             Bancos.init();
+        });
 
-            $('#ImagenEdt').fileinput({
+        $('#Imagen').fileinput({
             theme: 'fa',
             language: 'es',
             maxFileCount: 1,
@@ -121,9 +114,8 @@
             showClose: false,
             showUpload: false,
             layoutTemplates: { actionDelete: '' }
-            })
-        });
-
+        })
 
     </script>
 }
+

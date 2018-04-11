@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Models;
+using System.Data;
+using CreativaSL.Web.Ganados.ViewModels;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -21,7 +23,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 NominaModels Nomina = new NominaModels();
                 Nomina_Datos NominaDatos = new Nomina_Datos();
+                _Combos_Datos Combos = new _Combos_Datos();
                 Nomina.Conexion = Conexion;
+                Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
                 Nomina.ListaNomina = NominaDatos.ObtenerListaNomina(Nomina);
                 return View(Nomina);
             }
@@ -34,75 +38,169 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/Nomina/Details/5
-        public ActionResult Details(int id)
+        //POST: Admin/Nomina/3
+        [HttpPost]
+        public ActionResult Index(NominaModels Nomina)
         {
-            return View();
+            try
+            {
+                Nomina_Datos NominaDatos = new Nomina_Datos();
+                _Combos_Datos Combos = new _Combos_Datos();
+                Nomina.Conexion = Conexion;
+                Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
+                Nomina.EsBusqueda = true;
+                if (!Nomina.BandBusqClave)
+                {
+                    Nomina.ClaveNomina = string.Empty;
+                }
+                if (!Nomina.BandIDSucursal)
+                {
+                    Nomina.IDSucursal = string.Empty;
+                }
+                if (!Nomina.BandBusqFechas)
+                {
+                    Nomina.FechaInicio = DateTime.Today;
+                    Nomina.FechaFin = DateTime.Today;
+                }
+                if (string.IsNullOrEmpty(Nomina.IDSucursal))
+                {
+                    Nomina.BandIDSucursal = false;
+                }
+                if (!Nomina.BandBusqClave && !Nomina.BandIDSucursal && !Nomina.BandBusqFechas)
+                {
+                    Nomina.EsBusqueda = false;
+                }
+                Nomina.ListaNomina = NominaDatos.ObtenerListaNomina(Nomina);
+                return View(Nomina);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // GET: Admin/Nomina/Create
         public ActionResult Create()
         {
-            return View();
+            try
+            {
+                NominaModels Nomina = new NominaModels();
+                Nomina_Datos NominaDatos = new Nomina_Datos();
+                _Combos_Datos Combos = new _Combos_Datos();
+                Nomina.Conexion = Conexion;
+                Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
+                return View(Nomina);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // POST: Admin/Nomina/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(NominaModels Nomina)
         {
+            Nomina_Datos NominaDatos = new Nomina_Datos();
+            _Combos_Datos Combos = new _Combos_Datos();
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    Nomina.Conexion = Conexion;
+                    Nomina.Usuario = User.Identity.Name;
+                    Nomina.TablaEmpladoNomina = new DataTable();
+                    Nomina.TablaEmpladoNomina.Columns.Add("IDEmpleado", typeof(string));
+                    foreach (EmpleadoNominaViewModels Item in Nomina.ListaEmpleados)
+                    {
+                        if (Item.AbrirCaja)
+                        {
+                            object[] data = { Item.IDEmpleado };
+                            Nomina.TablaEmpladoNomina.Rows.Add(data);
+                        }
+                    }
+                    Nomina.CountEmpleado = Nomina.TablaEmpladoNomina.Rows.Count;
+                    if (Nomina.CountEmpleado == 0)
+                    {
+                        Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
+                        ModelState.AddModelError("", "Tienes que seleccionar al menos un empleado para la nómina");
+                        return View(Nomina);
+                    }
+                    else
+                    {
+                        NominaDatos.ANomina(Nomina);
+                        if (Nomina.Completado)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los empleados fueron dados de alta correctamente en la nómina.";
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Los empleado no se guardaron correctamente. Intente más tarde.";
+                            return View(Nomina);
+                        }
+                    }
+                }
+                else
+                {
+                    Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
+                    return View(Nomina);
+                }
             }
             catch
             {
-                return View();
+                Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Los empleado no se guardaron correctamente. Contacte a soporte técnico.";
+                return View(Nomina);
             }
         }
 
-        // GET: Admin/Nomina/Edit/5
-        public ActionResult Edit(int id)
+        // GET: Admin/Nomina/Details/5
+        public ActionResult Detalle(string id, string id2)
         {
-            return View();
+            try
+            {
+                NominaModels Nomina = new NominaModels();
+                Nomina_Datos NominaDatos = new Nomina_Datos();
+                Nomina.Conexion = Conexion;
+                Nomina.IDNomina = id;
+                Nomina.IDSucursal = id2;
+                Nomina.ListaNomina = NominaDatos.ObtenerListaDetalleNomina(Nomina);
+                return View(Nomina);
+            }
+            catch (Exception)
+            {
+                NominaModels Nomina = new NominaModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Nomina);
+            }
         }
 
-        // POST: Admin/Nomina/Edit/5
+        // POST: Admin/Nomina/getDatostablaEmpleado/3
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult DatostablaEmpleado(string IDS)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                NominaModels Nomina = new NominaModels();
+                Nomina_Datos NominaDatos = new Nomina_Datos();
+                Nomina.IDSucursal = IDS;
+                Nomina.Conexion = Conexion;
+                Nomina.ListaNomina = NominaDatos.ObtenerListaNominaEmpleado(Nomina);
+                return Content(Nomina.ListaNomina.ToJSON(), "application/json");
+                //return Json(Nomina.ListaNomina, JsonRequestBehavior.AllowGet);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
-            }
-        }
-
-        // GET: Admin/Nomina/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Admin/Nomina/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
+                ex.Message.ToString();
+                return Json("", JsonRequestBehavior.AllowGet);
             }
         }
     }

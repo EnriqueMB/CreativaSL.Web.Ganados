@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
+using CreativaSL.Web.Ganados.ViewModels;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -27,8 +31,23 @@ namespace CreativaSL.Web.Ganados.Models
             _Sueldo = 0;
             _Percepciones = 0;
             _Deducciones = 0;
+            _ListaSucursales = new List<CatSucursalesModels>();
+            _EsBusqueda = false;
+            _BandBusqFechas = false;
+            _BandIDSucursal = false;
+            _NombreSucursal = string.Empty;
+            _ListaEmpleados = new List<EmpleadoNominaViewModels>();
+           // _TablaEmpleadoNomina = new DataTable();
         }
-
+        private bool _AbrirCaja;
+        /// <summary>
+        /// Ver si el Empleado Abre caja 
+        /// </summary>
+        public bool AbrirCaja
+        {
+            get { return _AbrirCaja; }
+            set { _AbrirCaja = value; }
+        }
         private string _IDNomina;
 
         public string IDNomina
@@ -38,7 +57,8 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _IDSucursal;
-
+        [Required(ErrorMessage = "Seleccione una sucursal")]
+        [Display(Name = "Sucursal")]
         public string IDSucursal
         {
             get { return _IDSucursal; }
@@ -54,7 +74,10 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private DateTime _FechaInicio;
-
+        [Required(ErrorMessage = "Debe seleccionar una fecha de inicio del periodo de nómina")]
+        [Display(Name = "Fecha de inicio")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime FechaInicio
         {
             get { return _FechaInicio; }
@@ -62,12 +85,24 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private DateTime _FechaFin;
-
+        [Required(ErrorMessage = "Debe seleccionar una fecha de fin del periodo de nómina")]
+        [Display(Name = "Fecha de fin")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime FechaFin
         {
             get { return _FechaFin; }
             set { _FechaFin = value; }
         }
+
+        private List<EmpleadoNominaViewModels> _ListaEmpleados;
+
+        public List<EmpleadoNominaViewModels> ListaEmpleados
+        {
+            get { return _ListaEmpleados; }
+            set { _ListaEmpleados = value; }
+        }
+
 
         private List<NominaModels> _ListaNomina;
 
@@ -100,6 +135,47 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _BandBusqFechas; }
             set { _BandBusqFechas = value; }
         }
+        private bool _BandIDSucursal;
+
+        public bool BandIDSucursal
+        {
+            get { return _BandIDSucursal; }
+            set { _BandIDSucursal = value; }
+        }
+
+        private bool _BandBusqClave;
+
+        public bool BandBusqClave
+        {
+            get { return _BandBusqClave; }
+            set { _BandBusqClave = value; }
+        }
+
+        private List<CatSucursalesModels> _ListaSucursales;
+
+        public List<CatSucursalesModels> ListaSucursales
+        {
+            get { return _ListaSucursales; }
+            set { _ListaSucursales = value; }
+        }
+
+        private string _NombreSucursal;
+
+        public string NombreSucursal
+        {
+            get { return _NombreSucursal; }
+            set { _NombreSucursal = value; }
+        }
+        
+        private DataTable _TablaEmpleadoNomina;
+       
+        public DataTable TablaEmpladoNomina
+        {
+            get { return _TablaEmpleadoNomina; }
+            set { _TablaEmpleadoNomina = value; }
+        }
+
+
         #region Empleado para la nomina
         /// <summary>
         /// Para Listar los empleado que van a registrarse en la nomina

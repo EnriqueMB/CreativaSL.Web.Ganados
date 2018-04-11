@@ -17,7 +17,8 @@ namespace CreativaSL.Web.Ganados.Models
         public string Conexion { get; set; }
         public string Usuario { get; set; }
         public string Mensaje { get; set; }
-        public int TipoResultado { get; set; }
+        public bool Completado { get; set; }
+        public RespuestaAjax RespuestaAjax { get; set; }
         #endregion
 
         public string sRangoPeso { get; set; }
@@ -143,6 +144,7 @@ namespace CreativaSL.Web.Ganados.Models
             Marca = new CatMarcaVehiculoModels();
             Proveedor = new CatProveedorModels();
             Remolque = new CatRemolqueModels();
+            RespuestaAjax = new RespuestaAjax();
             Sucursal = new CatSucursalesModels();
             Trayecto = new TrayectoModels();
             TipoVehiculo = new CatTipoVehiculoModels();
@@ -193,7 +195,7 @@ namespace CreativaSL.Web.Ganados.Models
             MontoPagado = 0;
             MontoPorPagar = 0;
             MontoTotal = 0;
-            TipoResultado = 0;
+            Completado = false;
             Mensaje = string.Empty;
             Usuario = string.Empty;
         }
@@ -320,9 +322,5 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         #endregion
-
-
-
-
     }
 }

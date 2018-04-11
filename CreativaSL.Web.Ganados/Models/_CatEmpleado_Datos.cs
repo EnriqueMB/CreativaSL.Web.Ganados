@@ -119,7 +119,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-
+        
         public CatEmpleadoModels EliminarEmpleado(CatEmpleadoModels datos)
         {
             try
@@ -246,17 +246,133 @@ namespace CreativaSL.Web.Ganados.Models
 
         #region Empleado Nomina
 
-        public CatEmpleadoModels AltaBajaNominaEmpleado(CatEmpleadoModels datos)
+        public CatEmpleadoAltaNominaModels GetNombreEmpleado(CatEmpleadoAltaNominaModels empleadoNomina)
+        {
+            try
+            {
+                object[] parametros = { empleadoNomina.IDEmpleado };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(empleadoNomina.Conexion, "spCSLDB_Catalogo_get_NombreEmpleadoXID", parametros);
+                while (dr.Read())
+                {
+                    empleadoNomina.IDEmpleado = !dr.IsDBNull(dr.GetOrdinal("IDEmpleado")) ? dr.GetString(dr.GetOrdinal("IDEmpleado")) : string.Empty;
+                    empleadoNomina.NombreCompleto = !dr.IsDBNull(dr.GetOrdinal("NombreCompleto")) ? dr.GetString(dr.GetOrdinal("NombreCompleto")) : string.Empty;
+                }
+                return empleadoNomina;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public CatEmpleadoAltaNominaModels GetEmpleadoAltaBaja(CatEmpleadoAltaNominaModels empleadoNomina)
+        {
+            try
+            {
+                object[] parametros = { empleadoNomina.IDEmpleado };
+                SqlDataReader dr = null;
+                object aux = SqlHelper.ExecuteScalar(empleadoNomina.Conexion, "spCSLDB_get_ALtaBajaEmpleado", parametros);
+                empleadoNomina.Resultado = Convert.ToInt32(aux);
+                if (empleadoNomina.Resultado.ToString() != string.Empty && empleadoNomina.Resultado==1)
+                {
+                    empleadoNomina.Baja = true;
+                }
+                else
+                {
+                    empleadoNomina.Baja = false;
+                }
+                return empleadoNomina;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public CatEmpleadoAltaNominaModels GetSueldoBaseCategoriaPuesto(CatEmpleadoAltaNominaModels empleadoNomina)
+        {
+            try
+            {
+                object[] parametros = { empleadoNomina.IDCategoriaPuesto };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(empleadoNomina.Conexion, "spCSLDB_Catalogo_get_SueldoBaseCategoriaXID", parametros);
+                while (dr.Read())
+                {
+                    empleadoNomina.sueldoBase = !dr.IsDBNull(dr.GetOrdinal("sueldoBase")) ? dr.GetDecimal(dr.GetOrdinal("sueldoBase")) : 0;
+                }
+                return empleadoNomina;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public List<CatMotivoBajaModels> ObteneComboCatMotivoBaja(CatEmpleadoBajaNominaModels Datos)
+        {
+            try
+            {
+                List<CatMotivoBajaModels> lista = new List<CatMotivoBajaModels>();
+                CatMotivoBajaModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Combo_get_CatMotivoBaja");
+                lista.Add(new CatMotivoBajaModels { IDMotivoBaja = 0, Descripcion = " - Seleccione -" });
+                while (dr.Read())
+                {
+                    item = new CatMotivoBajaModels();
+                    item.IDMotivoBaja = !dr.IsDBNull(dr.GetOrdinal("IDMotivoBaja")) ? dr.GetInt16(dr.GetOrdinal("IDMotivoBaja")) : 0;
+                    item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CatEmpleadoAltaNominaModels AltaNominaEmpleado(CatEmpleadoAltaNominaModels datos)
         {
             try
             {
                 object[] parametros =
                 {
-                    datos.IDEmpleado, datos.AltaNominal, datos.Usuario
+                    datos.IDEmpleado, datos.IDPuesto, datos.IDCategoriaPuesto, datos.sueldoBase, datos.Usuario
                 };
-                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_AltaNomina_CatEmpleado", parametros);
-                datos.IDEmpleado = aux.ToString();
-                if (!string.IsNullOrEmpty(datos.IDEmpleado))
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Nomina_set_AltaNominal", parametros);
+                datos.Resultado = Convert.ToInt32(aux);
+                if (datos.Resultado.ToString()!=string.Empty)
+                {
+                    datos.Completado = true;
+                }
+                else
+                {
+                    datos.Completado = false;
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CatEmpleadoBajaNominaModels BajaNominaEmpleado(CatEmpleadoBajaNominaModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.IDEmpleado,datos.IDMotivoBaja,datos.Comentarios,datos.Usuario
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Nomina_set_BajaNominal", parametros);
+                datos.Resultado = Convert.ToInt32(aux);
+                if (datos.Resultado.ToString() != string.Empty)
                 {
                     datos.Completado = true;
                 }

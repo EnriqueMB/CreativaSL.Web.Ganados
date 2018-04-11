@@ -49,6 +49,13 @@ namespace CreativaSL.Web.Ganados.ViewModels
             get { return _Fecha; }
             set { _Fecha = value; }
         }
+        private string _Observaciones;
+
+        public string Observaciones
+        {
+            get { return _Observaciones; }
+            set { _Observaciones = value; }
+        }
 
         private decimal _ImporteTotal;
         public decimal ImporteTotal

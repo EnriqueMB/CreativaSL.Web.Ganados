@@ -96,5 +96,30 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public CatSucursalesModels Del_Sucursal(CatSucursalesModels Sucursal)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Sucursal.IDSucursal,
+                    Sucursal.Usuario
+                };
+                SqlDataReader dr = null;
+
+                dr = SqlHelper.ExecuteReader(Sucursal.Conexion, "spCSLDB_CATSUCURSAL_del_Sucursal", parametros);
+                while (dr.Read())
+                {
+                    Sucursal.Completado = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                    Sucursal.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                }
+                return Sucursal;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

@@ -24,7 +24,7 @@
             },
             ignore: "",
             rules: {
-                IDSucursal: { required: true },
+                IDEmpresa: { required: true },
                 IDTipoVehiculo: { CMBINT: true },
                 IDMarca: { CMBINT: true },
                 Placas: { required: true, texto: true, maxlength: 10 },
@@ -37,7 +37,7 @@
             },
             messages: {
                 
-                IDSucursal: { required: "Seleccione una sucursal." },
+                IDEmpresa: { required: "Seleccione una empresa." },
                 IDTipoVehiculo: { CMBINT: "Seleccione un tipo de vehículo." },
                 IDMarca: { CMBINT: "Seleccione una marca de vehículo." },
                 Placas: { required: "Ingrese la placa del vehículo.", placa: "Ingrese un formato valido (letras, números y guión(-)", maxlength: "El campo nombre admite máximo 10 caracteres." },
@@ -83,13 +83,38 @@
             format: 'dd/mm/yyyy'
         });
     };
-
+    var runEvents = function () {
+        $("#IDEmpresa").on("change", function () {
+            var IDEmpresa = $("#IDEmpresa").val();
+            GetSucursalesXIDEmpresa(IDEmpresa);
+        });
+    }
+    function GetSucursalesXIDEmpresa(IDEmpresa) {
+        $.ajax({
+            url: "/Admin/CatVehiculo/ObtenerSucursalesXIDEmpresa/",
+            data: { IDEmpresa: IDEmpresa },
+            async: false,
+            dataType: "json",
+            type: "POST",
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "1");
+            },
+            success: function (result) {
+                $("#IDSucursal option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#IDSucursal").append('<option value="' + result[i].IDSucursal + '">' + result[i].NombreSucursal + '</option>');
+                }
+                $('#IDSucursal.select').selectpicker('refresh');
+            }
+        });
+    }
 
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
             runDatePicker();
+            runEvents();
         }
     };
 }();

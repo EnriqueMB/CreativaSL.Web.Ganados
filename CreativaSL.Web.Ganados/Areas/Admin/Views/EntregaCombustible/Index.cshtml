@@ -94,7 +94,7 @@
                                     @foreach (var Item in Model.listaEntregaCombustible)
                                     {
                                         <tr id="@Item.IDEntregaCombustible">
-                                            <td>@Item.Fecha</td>
+                                            <td>@Item.Fecha.ToShortDateString()</td>
                                             <td>@Item.Vehiculo</td>
                                             <td>@Item.Total</td>
                                             <td>@Item.Sucursal</td>

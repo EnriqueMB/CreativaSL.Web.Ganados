@@ -34,6 +34,7 @@
                 @Html.AntiForgeryToken()
                 <div class="field_error" id="validation_summary"></div>
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                   @Html.HiddenFor(model => model.IDEntregaCombustible)
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title"><strong>Entrega </strong> de combustible </h3>

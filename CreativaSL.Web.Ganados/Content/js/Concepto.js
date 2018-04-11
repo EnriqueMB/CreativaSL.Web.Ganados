@@ -15,7 +15,7 @@
                     error.insertAfter($(element).closest('.form-group').children('div').children().last());
                 } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
                     error.insertAfter($(element).closest('.form-group').children('div'));
-                } else if (element.attr("type") == "text" ) {
+                } else if (element.attr("type") == "text") {
                     error.insertAfter($(element).closest('.input-group').children('div'));
                 } else {
                     error.insertAfter(element);
@@ -24,17 +24,17 @@
             },
             ignore: "",
             rules: {
-                
+
                 Descripcion: { required: true, texto: true, maxlength: 180 },
                 Clave: { required: true, maxlength: 10 },
                 IDTipoConciliacion: { CMBINT: true }
-                
+
             },
             messages: {
                 Descripcion: { required: "Ingrese una descripción del concepto", texto: "Ingrese una descripción del concepto", maxlength: "El campo descripción admite máximo 180 caracteres." },
                 Clave: { required: "Ingrese una clave.", maxlength: "El campo clave admite máximo 10 caracteres." },
                 IDTipoConciliacion: { CMBINT: "Seleccione un tipo de conciliación." }
-                
+
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

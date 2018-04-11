@@ -24,7 +24,15 @@ namespace CreativaSL.Web.Ganados.Models
             Opcion = 0;
             Completado = false;
             Usuario = string.Empty;
+            IDEmpresa = string.Empty;
+            ListaEmpresas = new List<CatEmpresaModels>();
+            _listaSucursales = new List<CatSucursalesModels>();
         }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Seleccione una empresa.")]
+        public string IDEmpresa { get; set; }
+        public List<CatEmpresaModels> ListaEmpresas { get; set; }
+
         private List<CatSucursalesModels> _listaSucursales;
 
         public List<CatSucursalesModels> listaSucursales
