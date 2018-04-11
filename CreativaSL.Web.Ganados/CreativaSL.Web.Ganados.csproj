@@ -427,6 +427,8 @@
     <Content Include="Content\js\ConceptosNomina.js" />
     <Content Include="Content\js\CuentaProveedor.js" />
     <Content Include="Content\js\alta_baja_nomina_empleado.js" />
+    <Content Include="Content\js\EmpleadoAltaNomina.js" />
+    <Content Include="Content\js\EmpleadoBajaNomina.js" />
     <Content Include="Content\js\entregacombustible.js" />
     <Content Include="Content\js\Lugar.js" />
     <Content Include="Content\js\MarcaVehiculo.js" />
@@ -1049,6 +1051,8 @@
     <Content Include="Content\js\plugins\fonts\fontawesome-webfont.woff2" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Vacaciones.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\CreateVacaciones.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpleado\AltaNomina.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpleado\BajaNomina.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1124,6 +1128,8 @@
     <Compile Include="Models\CatConceptoDetalleDocumentosModels.cs" />
     <Compile Include="Models\CatConceptoNominaModels.cs" />
     <Compile Include="Models\CatConceptosNominaModels.cs" />
+    <Compile Include="Models\CatEmpleadoAltaNominaModels.cs" />
+    <Compile Include="Models\CatEmpleadoBajaNominaModels.cs" />
     <Compile Include="Models\CatEmpleadoModels.cs" />
     <Compile Include="Models\CatEmpresaModels.cs" />
     <Compile Include="Models\CatEstadoModels.cs" />
@@ -1134,6 +1140,7 @@
     <Compile Include="Models\CatJaulaModels.cs" />
     <Compile Include="Models\CatLugarModels.cs" />
     <Compile Include="Models\CatMarcaVehiculoModels.cs" />
+    <Compile Include="Models\CatMotivoBajaModels.cs" />
     <Compile Include="Models\CatMunicipioModels.cs" />
     <Compile Include="Models\CatPaisModels.cs" />
     <Compile Include="Models\CatProductosAlmacenModels.cs" />

@@ -237,38 +237,57 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // POST: Admin/CatEmpleado/AltaBajaNomina/5
         [HttpPost]
-        public ActionResult AltaBajaNomina(string id, bool id2)
+        public ActionResult ObtenerSueldoCategoriaPuesto(string IDCP)
         {
             try
             {
-                CatEmpleadoModels Empleado = new CatEmpleadoModels();
+                CatEmpleadoAltaNominaModels Empleado = new CatEmpleadoAltaNominaModels();
                 CatEmpleado_Datos EmpleadoDatos = new CatEmpleado_Datos();
+                Empleado.IDCategoriaPuesto = IDCP;
                 Empleado.Conexion = Conexion;
-                Empleado.Usuario = User.Identity.Name;
-                Empleado.IDEmpleado = id;
-                Empleado.AltaNominal = id2;
-                EmpleadoDatos.AltaBajaNominaEmpleado(Empleado);
-                if (Empleado.AltaNominal)
-                {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El Empleado fue dado de baja correctamente.";
-                    return Json("");
-                }
-                else
-                {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El Empleado fue dado de alta correctamente.";
-                    return Json("");
-                }
-
+                Empleado = EmpleadoDatos.GetSueldoBaseCategoriaPuesto(Empleado);
+                return Json(Empleado.sueldoBase, JsonRequestBehavior.AllowGet);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ex.Message.ToString();
+                return Json("", JsonRequestBehavior.AllowGet);
             }
         }
+
+        // POST: Admin/CatEmpleado/AltaBajaNomina/5
+        //[HttpPost]
+        //public ActionResult AltaBajaNomina(string id, bool id2)
+        //{
+        //    try
+        //    {
+        //        CatEmpleadoModels Empleado = new CatEmpleadoModels();
+        //        CatEmpleado_Datos EmpleadoDatos = new CatEmpleado_Datos();
+        //        Empleado.Conexion = Conexion;
+        //        Empleado.Usuario = User.Identity.Name;
+        //        Empleado.IDEmpleado = id;
+        //        Empleado.AltaNominal = id2;
+        //        EmpleadoDatos.AltaBajaNominaEmpleado(Empleado);
+        //        if (Empleado.AltaNominal)
+        //        {
+        //            TempData["typemessage"] = "1";
+        //            TempData["message"] = "El Empleado fue dado de baja correctamente.";
+        //            return Json("");
+        //        }
+        //        else
+        //        {
+        //            TempData["typemessage"] = "1";
+        //            TempData["message"] = "El Empleado fue dado de alta correctamente.";
+        //            return Json("");
+        //        }
+
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
         // GET: Admin/CatEmpleado/Vacaciones/5
         [HttpGet]
@@ -351,7 +370,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     return View(Vacaciones);
                 }
-               
+
             }
             catch (Exception)
             {
@@ -388,6 +407,176 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             catch
             {
                 return View();
+            }
+        }
+        // GET: Admin/CatEmpleado/Edit/5
+        [HttpGet]
+        public ActionResult AltaNomina(string id)
+        {
+            try
+            {
+
+                CatEmpleadoAltaNominaModels EmpleadoNomina = new CatEmpleadoAltaNominaModels();
+                CatEmpleadoModels Empleado = new CatEmpleadoModels();
+                CatEmpleado_Datos EmleadoDatos = new CatEmpleado_Datos();
+                EmpleadoNomina.Conexion = Conexion;
+                Empleado.Conexion = Conexion;
+                EmpleadoNomina.IDEmpleado = id;
+                EmpleadoNomina = EmleadoDatos.GetEmpleadoAltaBaja(EmpleadoNomina);
+                if (!EmpleadoNomina.Baja)
+                {
+
+                    EmpleadoNomina = EmleadoDatos.GetNombreEmpleado(EmpleadoNomina);
+                    EmpleadoNomina.ListaCmbPuesto = EmleadoDatos.obtenerComboCatPuesto(Empleado);
+                    EmpleadoNomina.ListaCmbCategoriaPuesto = EmleadoDatos.ObteneComboCatCategoriaPuesto(Empleado);
+                    return View(EmpleadoNomina);
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "El empleado ya a sido dado de baja una vez";
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception)
+            {
+                CatEmpleadoModels Empleado = new CatEmpleadoModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult AltaNomina(string id, CatEmpleadoAltaNominaModels datos)
+        {
+            CatEmpleado_Datos EmpleadoDatos = new CatEmpleado_Datos();
+            CatEmpleadoModels Empleado = new CatEmpleadoModels();
+            try
+            {
+                
+                if (ModelState.IsValid)
+                {
+                    datos.Conexion = Conexion;
+                    datos.Usuario = User.Identity.Name;
+                    datos = EmpleadoDatos.AltaNominaEmpleado(datos);
+                    if (datos.Completado && datos.Resultado==1)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardaron correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else if(datos.Completado && datos.Resultado == 0)
+                    {
+                        Empleado.Conexion = Conexion;
+                        datos.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(Empleado);
+                        datos.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(Empleado);
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "El empleado ya fue dado de baja.";
+                        return View(datos);
+                    }
+                    else
+                    {
+                        Empleado.Conexion = Conexion;
+                        datos.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(Empleado);
+                        datos.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(Empleado);
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Error al tratar de dar de alta al empleado.";
+                        return View(datos);
+                    }
+                }
+                else
+                {
+                    Empleado.Conexion = Conexion;
+                    datos.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(Empleado);
+                    datos.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(Empleado);
+                    return View(datos);
+                }
+
+            }
+            catch (Exception)
+            {
+                datos.Conexion = Conexion;
+                datos.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(Empleado);
+                datos.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(Empleado);
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(datos);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult BajaNomina(string id)
+        {
+            try
+            {
+                CatEmpleadoBajaNominaModels EmpleadoNominaB = new CatEmpleadoBajaNominaModels();
+                CatEmpleadoAltaNominaModels EmpleadoNominaA = new CatEmpleadoAltaNominaModels();
+                CatEmpleado_Datos EmleadoDatos = new CatEmpleado_Datos();
+                EmpleadoNominaB.Conexion = Conexion;
+                EmpleadoNominaA.Conexion = Conexion;
+                EmpleadoNominaB.IDEmpleado = id;
+                EmpleadoNominaA.IDEmpleado = id;
+                EmpleadoNominaA = EmleadoDatos.GetNombreEmpleado(EmpleadoNominaA);
+                EmpleadoNominaB.NombreCompleto = EmpleadoNominaA.NombreCompleto;
+                EmpleadoNominaB.ListaCmbMotivoBaja = EmleadoDatos.ObteneComboCatMotivoBaja(EmpleadoNominaB); 
+                return View(EmpleadoNominaB);
+            }
+            catch (Exception)
+            {
+                CatEmpleadoModels Empleado = new CatEmpleadoModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
+        }
+
+        public ActionResult BajaNomina(string id, CatEmpleadoBajaNominaModels datos)
+        {
+            CatEmpleado_Datos EmpleadoDatos = new CatEmpleado_Datos();
+            CatEmpleadoModels Empleado = new CatEmpleadoModels();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    datos.Conexion = Conexion;
+                    datos.Usuario = User.Identity.Name;
+                    datos = EmpleadoDatos.BajaNominaEmpleado(datos);
+                    if (datos.Completado && datos.Resultado==1)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "El empleado fue dado de alta correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else if(datos.Completado && datos.Resultado == 0)
+                    {
+                        datos.ListaCmbMotivoBaja = EmpleadoDatos.ObteneComboCatMotivoBaja(datos);
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "El empleado debe estar dado de alta.";
+                        return View(datos);
+                    }
+                    else
+                    {
+                        datos.ListaCmbMotivoBaja = EmpleadoDatos.ObteneComboCatMotivoBaja(datos);
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Error al dar de baja al empleado.";
+                        return View(datos);
+                    }
+                }
+                else
+                {
+                    datos.Conexion = Conexion;
+                    datos.ListaCmbMotivoBaja = EmpleadoDatos.ObteneComboCatMotivoBaja(datos);
+                    return View(datos);
+                }
+            }
+            catch (Exception)
+            {
+                datos.Conexion = Conexion;
+                datos.ListaCmbMotivoBaja = EmpleadoDatos.ObteneComboCatMotivoBaja(datos);
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(datos);
             }
         }
     }
