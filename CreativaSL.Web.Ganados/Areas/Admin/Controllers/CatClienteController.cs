@@ -371,7 +371,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch
             {
-                return View();
+                return Json("");
             }
         }
 
@@ -400,7 +400,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch
             {
-                return View();
+                return Json("");
             }
         }
 

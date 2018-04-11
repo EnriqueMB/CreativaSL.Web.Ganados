@@ -14,6 +14,8 @@
                         box.find(".mb-control-yes").prop('onclick', null).off('click');
                         $("#" + row).remove();
                         //location.reload(true);
+                        //console.log(result);
+                        //if(result == 'true')
                         Mensaje("Registro Eliminado Correctamente", "1");
                     });
                 },

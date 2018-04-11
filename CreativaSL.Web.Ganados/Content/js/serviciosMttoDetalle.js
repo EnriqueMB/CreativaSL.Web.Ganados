@@ -1,11 +1,11 @@
-﻿var Servicios = function () {
+﻿var ServiciosDetalle = function () {
     "use strict";
     var runValidator1 = function () {
-        var form1 = $('#form-SMV');
+        var form1 = $('#form-SMD');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
 
-        $('#form-SMV').validate({
+        $('#form-SMD').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -23,12 +23,16 @@
             },
             ignore: "",
             rules: {
-                IDSucursal: { required: true },
-                Fecha: { required: true }
+                IDTipoServicio: { required: true },
+                Encargado: { required: true, nombre: true },
+                Importe: { required: true }
             },
             messages: {
-                IDSucursal: { required: "Seleccione una sucursal." },
-                Fecha: { required: "Ingrese la fecha del servicio." }
+                IDTipoServicio: { required: "Seleccione el servicio realizado." },
+                Encargado: { required: "Ingrese el nombre de la persona que realizó el servicio.", 
+                    nombre: "Ingrese un dato válido en Responsable."
+                },
+                Importe: { required : "Debe ingresar el importe del servicio." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -58,18 +62,11 @@
                 //this.submit();
             }
         });
-    };
-
-    var runDatePicker = function () {
-        $('#Fecha').datepicker({
-            format: 'dd/mm/yyyy'
-        });
-    };
+    };   
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
-            runDatePicker();
         }
     };
 }();

@@ -1,0 +1,120 @@
+﻿@model CreativaSL.Web.Ganados.ViewModels.ServiciosMantenimientoDetalleViewModels
+@{
+    ViewBag.Title = "EditDetail";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+                    <h3></h3>
+                </div>
+                <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+                    <h3></h3>
+                </div>
+                <div class="col-md-12">
+                    @{ Html.EnableClientValidation(false); }
+                    @using (Html.BeginForm("EditDetail", "Mantenimiento", FormMethod.Post, new { @class = "form-horizontal", id = "form-SMD", autocomplete = "off" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.IDServicio)
+                        @Html.HiddenFor(model => model.IDServicioDetalle)
+                        <div class="field_error" id="validation_summary"></div>
+                        @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><strong>Datos específicos </strong> del servicio</h3>
+                            <ul class="panel-controls"></ul>
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="form-group">
+                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Tipo de servicio </label>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.DropDownListFor(model => model.IDTipoServicio, new SelectList(Model.ListaTipoServicios, "IDTipoServicio", "Descripcion"), new { id = "IDTipoServicio", @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.IDTipoServicio)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Responsable</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.Encargado, new { id = "Encargado", @class = "form-control", placeholder = "Ingrese el nombre del responsable del servicio" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Encargado)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Importe </label>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">$</span>
+                                        @Html.TextBoxFor(model => model.Importe, "{0:F2}", new { id = "Importe", @class = "form-control", placeholder = "Ingrese el importe del servicio" })
+                                        @*<span class="input-group-addon">.00</span>*@
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Importe)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 col-xs-12 control-label"><span></span> Observaciones</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.Observaciones, new { id = "Observaciones", @class = "form-control", placeholder = "Ingrese información adicional en caso de que exista" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Observaciones)
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="panel-footer">
+                            <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                            <a href="@Url.Action("Details","Mantenimiento", new { id = Model.IDServicio})" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+            var message = '@message';
+            var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/smartwizard/jquery.smartWizard-2.0.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/serviciosMttoDetalle.js")"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            ServiciosDetalle.init();
+        });
+    </script>
+}
+
+

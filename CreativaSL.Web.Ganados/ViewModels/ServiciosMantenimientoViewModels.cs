@@ -16,8 +16,18 @@ namespace CreativaSL.Web.Ganados.ViewModels
             _Fecha = DateTime.Today;
             _ImporteTotal = 0;
             _ListaSucursales = new List<CatSucursalesModels>();
-            _ListaEmpleados = new List<CatEmpleadoModels>();
         }
+
+        private string _ID;
+        /// <summary>
+        /// ID del vehículo, Remolque, etc., al que se le aplica el servicio
+        /// </summary>
+        public string ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+
 
         private string _IDServicio;
         public string IDServicio
@@ -55,14 +65,13 @@ namespace CreativaSL.Web.Ganados.ViewModels
             set { _ListaSucursales = value; }
         }
 
-        private List<CatEmpleadoModels> _ListaEmpleados;
+        private int _Tipo;
 
-        public List<CatEmpleadoModels> ListaEmpleados
+        public int Tipo
         {
-            get { return _ListaEmpleados; }
-            set { _ListaEmpleados = value; }
+            get { return _Tipo; }
+            set { _Tipo = value; }
         }
-
 
     }
 }

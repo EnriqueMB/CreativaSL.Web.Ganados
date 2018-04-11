@@ -10,9 +10,24 @@ namespace CreativaSL.Web.Ganados.Models
 
         public ServiciosMantenimientoModels()
         {
+            _IDServicio = string.Empty;
+            _Sucursal = new CatSucursalesModels();
+            _Vehiculo = new CatVehiculoModels();
+            _Fecha = DateTime.MinValue;
+            _ServiciosRealizados = string.Empty;
+            _ImporteTotal = 0;
             _ListaRemolques = new List<CatRemolqueModels>();
             _ListaVehiculos = new List<CatVehiculoModels>();
         }
+
+        private CatVehiculoModels _Vehiculo;
+
+        public CatVehiculoModels Vehiculo
+        {
+            get { return _Vehiculo; }
+            set { _Vehiculo = value; }
+        }
+
 
 
         private string _IDServicio;
@@ -92,6 +107,7 @@ namespace CreativaSL.Web.Ganados.Models
 
 
         #region Datos De Control
+        public bool NuevoRegistro { get; set; }
         public string Conexion { get; set; }
         public int Resultado { get; set; }
         public bool Completado { get; set; }

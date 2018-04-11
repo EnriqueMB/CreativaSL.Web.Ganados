@@ -27,14 +27,14 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("CreateV","Mantenimiento", new { ViewBag.IDVehiculo})" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo servicio</a></li>
+                            <li><a href="@Url.Action("CreateV","Mantenimiento", new { id = ViewBag.IDVehiculo})" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo servicio</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
                         </ul>
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table class="table datatable">
+                            <table class="table datatable2">
                                 <thead>
                                     <tr>
                                         <th>Fecha </th>
@@ -54,7 +54,8 @@
                                         <td>@Item.ServiciosRealizados</td>
                                         <td style="text-align:center;">
                                             <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                <a title="Editar" class="btn btn-yellow" href="@Url.Action("EditV", "Mantenimiento", new { id = Item.IDServicio })"><i class="fa fa-edit"></i></a>
+                                                <a title="Detalles" class="btn btn-blue" href="@Url.Action("Details", "Mantenimiento", new { id = Item.IDServicio })"><i class="fa fa-gears"></i></a>
+                                                <a title="Editar" class="btn btn-yellow" href="@Url.Action("EditV", "Mantenimiento", new { id = Item.IDServicio})"><i class="fa fa-edit"></i></a>
                                                 <a title="Eliminar" class="btn delete btn-danger deleteRow" id="delete-@Item.IDServicio" data-hrefa="@Url.Action("Delete", "Mantenimiento", new { id = Item.IDServicio })" onClick="delete_row('@Item.IDServicio');"><i class="fa fa-trash-o"></i></a>
                                             </div>
                                             <div class="visible-xs visible-sm hidden-md hidden-lg">
@@ -64,7 +65,12 @@
                                                     </a>
                                                     <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                         <li>
-                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("EditV", "Mantenimiento", new { id = Item.IDServicio })">
+                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "Mantenimiento", new { id = Item.IDServicio })">
+                                                                <i class="fa fa-edit"></i> Detalles
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("EditV", "Mantenimiento", new { id = Item.IDServicio})">
                                                                 <i class="fa fa-edit"></i> Editar
                                                             </a>
                                                         </li>
@@ -116,9 +122,11 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/servicioslista.js")"></script>
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
+        Servicios.init();
     });
     </script>
 }
