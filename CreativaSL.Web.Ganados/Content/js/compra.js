@@ -18,14 +18,30 @@
         document.getElementById("Trayecto.id_lugarDestino").addEventListener('change', onChangeHandler);
 
     };
-    var LoadValidationCreate = function () {
+    var LoadItems = function () {
+        $('#FechaHoraProgramada').datepicker({
+            format: 'dd/mm/yyyy',
+            language: 'es'
+        });
+
+    };
+    var RunEventsLineaFletera = function () {
+        $("#IDEmpresa").on("change", function () {
+            var IDEmpresa = $(this).val();
+            GetChoferesXIDEmpresa(IDEmpresa);
+            GetVehiculosXIDEmpresa(IDEmpresa);
+            GetJaulasXIDEmpresa(IDEmpresa);
+            GetRemolquesXIDEmpresa(IDEmpresa);
+        });
+    }
+    var LoadValidationProveedor = function () {
         var form1 = $('#frmCreateCompra');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
 
-        $('#frmCreateCompra').validate({ // initialize the plugin
+        $('#frmProveedor').validate({ // initialize the plugin
             //debug: true,
-            errorElement: "span", // contain the error msg in a span tag
+            errorElement: "li",
             errorClass: 'text-danger',
             errorLabelContainer: $("#validation_summary"),
             errorPlacement: function (error, element) { // render error placement for each input type
@@ -59,7 +75,7 @@
                 FechaHoraProgramada: {
                     required: true,
                     fecha: true
-                },
+                }
             },
             messages: {
                 IDProveedor: {
@@ -100,43 +116,343 @@
             submitHandler: function (form) {
                 successHandler1.show();
                 errorHandler1.hide();
-                form.submit();
+                
+                if ($("#IDCompra").length != 0) {
+                    //Tiene un id, actualizamos el registro
+                    A_Proveedor();
+                }
+                else {
+                    //No tiene id, se crea la compra
+                    form.submit();
+                }
             }
         });
     };
-    var RunEvents = function () {
-        $("#IDSucursal").on("change", function () {
-            var IDSucursal = $(this).val();
-            ProveedoresXIDSucursal(IDSucursal);
+    var LoadValidationFlete = function () {
+        var form1 = $('#frmFlete');
+        var errorHandler1 = $('.errorHandler', form1);
+        var successHandler1 = $('.successHandler', form1);
+
+        $('#frmFlete').validate({ // initialize the plugin
+            //debug: true,
+            errorElement: "li",
+            errorClass: 'text-danger',
+            errorLabelContainer: $("#validation_summary_flete"),
+            errorPlacement: function (error, element) { // render error placement for each input type
+                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
+                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
+                    error.insertAfter($(element).closest('.form-group').children('div'));
+                } else if (element.attr("type") == "text") {
+                    error.insertAfter($(element).closest('.input-group').children('div'));
+                } else {
+                    error.insertAfter(element);
+                    // for other inputs, just perform default behavior
+                }
+            },
+            ignore: "",
+            rules: {
+                IDEmpresa: {
+                    required: true
+                },
+                IDSucursal: {
+                    required: true
+                },
+                IDChofer: {
+                    required: true,
+                },
+                IDVehiculo: {
+                    required: true,
+                },
+                "Flete.kmInicialVehiculo": {
+                    required: true,
+                    digits: true
+                }
+            },
+            messages: {
+                IDEmpresa: {
+                    required: "-Seleccione una línea fletera."
+                },
+                IDSucursal: {
+                    required: "-Seleccione una sucursal."
+                },
+                IDChofer: {
+                    required: "-Seleccione un chofer."
+                },
+                IDVehiculo: {
+                    required: "-Seleccione un vehículo."
+                },
+                "Flete.kmInicialVehiculo": {
+                    required: "-Ingrese el kilómetraje inicial.",
+                    digits: "Ingrese un número entero mayor o igual a 0 (cero). "
+                }
+            },
+            invalidHandler: function (event, validator) {
+                successHandler1.hide();
+                errorHandler1.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');
+                $(element).closest('.controlError').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.controlError').removeClass('has-error');
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                label.removeClass('color');
+                $(element).closest('.controlError').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler1.show();
+                errorHandler1.hide();
+                AC_Flete();
+            }
+        });
+    };
+    var LoadValidationDocumentos = function () {
+        var form1 = $('#frmDocumentos');
+        var errorHandler1 = $('.errorHandler', form1);
+        var successHandler1 = $('.successHandler', form1);
+
+        $('#frmDocumentos').validate({ // initialize the plugin
+            errorElement: "li",
+            errorClass: 'text-danger',
+            errorLabelContainer: $("#validation_summary_documentos"),
+            errorPlacement: function (error, element) { // render error placement for each input type
+                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
+                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
+                    error.insertAfter($(element).closest('.form-group').children('div'));
+                } else if (element.attr("type") == "text") {
+                    error.insertAfter($(element).closest('.input-group').children('div'));
+                } else {
+                    error.insertAfter(element);
+                    // for other inputs, just perform default behavior
+                }
+            },
+            ignore: "",
+            rules: {
+                GuiaTransito: {
+                    required: true,
+                    maxlength: 15
+                },
+                CertZoosanitario: {
+                    maxlength: 15
+                },
+                CertBrucelosis: {
+                    maxlength: 15
+                },
+                CertTuberculosis: {
+                    maxlength: 15
+                }
+            },
+            messages: {
+                GuiaTransito: {
+                    required: "-Introduzca un número de gruia.",
+                    maxlength: jQuery.validator.format("-Guia Transito tiene una longitud máxima de caracteres: {0}")
+                },
+                CertZoosanitario: {
+                    maxlength: jQuery.validator.format("-Cert. Zoosanitario tiene una longitud máxima de caracteres: {0}")
+                },
+                CertBrucelosis: {
+                    maxlength: jQuery.validator.format("-Cert. Brucelosis tiene una longitud máxima de caracteres: {0}")
+                },
+                CertTuberculosis: {
+                    maxlength: jQuery.validator.format("-Cert. Tuberculosis tiene una longitud máxima de caracteres: {0}")
+                }
+            },
+            invalidHandler: function (event, validator) {
+                successHandler1.hide();
+                errorHandler1.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');
+                $(element).closest('.controlError').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.controlError').removeClass('has-error');
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                label.removeClass('color');
+                $(element).closest('.controlError').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler1.show();
+                errorHandler1.hide();
+                A_Documento();
+            }
+        });
+    };
+    function A_Documento() {
+        var form = $("#frmDocumentos")[0];
+        var formData = new FormData(form);
+
+        $.ajax({
+            type: 'POST',
+            data: formData,
+            url: '/Admin/Compra/A_Documentos/',
+            contentType: false,
+            processData: false,
+            cache: false,
+            error: function (response) {
+                Mensaje(response.Mensaje, "2");
+            },
+            success: function (response) {
+                if (response.Success) {
+                    Mensaje("Registro guardado con éxito.", "1");
+                }
+                else
+                    Mensaje(response.Mensaje, "2");
+            }
         });
     }
-    function ProveedoresXIDSucursal(IDSucursal) {
+    function AC_Flete() {
+        var form = $("#frmFlete")[0];
+        var formData = new FormData(form);
+
         $.ajax({
-            url: '/Admin/Compra/ProveedoresXIDSucursal/',
+            type: 'POST',
+            data: formData,
+            url: '/Admin/Compra/AC_Flete/',
+            contentType: false,
+            processData: false,
+            cache: false,
+            error: function (response) {
+                Mensaje(response.Mensaje, "2");
+            },
+            success: function (response) {
+                if (response.Success) {
+                    Mensaje("Registro guardado con éxito.", "1");
+                    $("#IDFlete").val = response.Mensaje;
+                }
+                else
+                    Mensaje(response.Mensaje, "2");
+            }
+        });
+    }
+    function A_Proveedor() {
+        var form = $("#frmProveedor")[0];
+        var formData = new FormData(form);
+
+        $.ajax({
+            type: 'POST',
+            data: formData,
+            url: '/Admin/Compra/A_Proveedor/',
+            contentType: false,
+            processData: false,
+            cache: false,
+            error: function () {
+                Mensaje(response.Mensaje, "2");
+            },
+            success: function (result) {
+                if (response.Success) {
+                    Mensaje("Registro del proveedor actualizado con éxito.", "1");
+                }
+                else
+                    Mensaje(response.Mensaje, "2");
+            }
+        });
+    }
+
+    function GetVehiculosXIDEmpresa(IDEmpresa) {
+        $.ajax({
+            url: '/Admin/Compra/GetVehiculosXIDEmpresa/',
             type: "POST",
             dataType: 'json',
-            data: { IDSucursal: IDSucursal },
+            data: { IDEmpresa: IDEmpresa },
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "1");
+            },
+            success: function (result) {
+                $('#IDVehiculo').empty();
+                if (result.length > 1) {
+                    //Primera fila
+                    var optgroup = result[0].Modelo;
+                    var option = '<optgroup label="' + result[0].Modelo + '"><option value="' + result[0].IDVehiculo + '">' + result[0].nombreMarca + '</option>';
+
+                    for (var i = 1; i < result.length; i++) {
+                        if (optgroup == result[i].Modelo) {
+                            option += '<option value="' + result[i].IDVehiculo + '">' + result[i].nombreMarca + '</option>';
+                        }
+                        else {
+                            //Cerramos el grupo
+                            option += '</optgroup>';
+                            //Anexamos al select
+                            $("#IDVehiculo").append(option);
+                            //Creamos un group nuevo
+                            option = '<optgroup label="' + result[i].Modelo + '"><option value="' + result[i].IDVehiculo + '">' + result[i].nombreMarca + '</option>';
+                            optgroup = result[i].Modelo;
+                        }
+                    }
+                    //Anexamos el último valor
+                    option += '</optgroup>';
+                    $("#IDVehiculo").append(option);
+                }
+                $('#IDVehiculo.select').selectpicker('refresh');
+            }
+        });
+    }
+    function GetChoferesXIDEmpresa(IDEmpresa) {
+        $.ajax({
+            url: '/Admin/Compra/GetChoferesXIDEmpresa/',
+            type: "POST",
+            dataType: 'json',
+            data: { IDEmpresa: IDEmpresa },
             error: function () {
                 Mensaje("Ocurrió un error al cargar el combo", "1");
             },
             success: function (result) {
 
-                $("#IDProveedor option").remove();
+                $("#IDChofer option").remove();
                 for (var i = 0; i < result.length; i++) {
-                    $("#IDProveedor").append('<option value="' + result[i].IDProveedor + '">' + result[i].NombreRazonSocial + '</option>');
+                    $("#IDChofer").append('<option value="' + result[i].IDChofer + '">' + result[i].Nombre + '</option>');
                 }
-                $('#IDProveedor.select').selectpicker('refresh');
+                $('#IDChofer.select').selectpicker('refresh');
             }
         });
     }
-    var LoadItems = function () {
-        $('#FechaHoraProgramada').datepicker({
-            format: 'dd/mm/yyyy',
-            language: 'es'
-        });
+    function GetJaulasXIDEmpresa(IDEmpresa) {
+        $.ajax({
+            url: '/Admin/Compra/GetJaulasXIDEmpresa/',
+            type: "POST",
+            dataType: 'json',
+            data: { IDEmpresa: IDEmpresa },
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "1");
+            },
+            success: function (result) {
 
-    };
-    var LoadTableGanado = function (idCompra) {
+                $("#IDJaula option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#IDJaula").append('<option value="' + result[i].IDJaula + '">' + result[i].Matricula + '</option>');
+                }
+                $('#IDJaula.select').selectpicker('refresh');
+            }
+        });
+    }
+    function GetRemolquesXIDEmpresa(IDEmpresa) {
+        $.ajax({
+            url: '/Admin/Compra/GetRemolquesXIDEmpresa/',
+            type: "POST",
+            dataType: 'json',
+            data: { IDEmpresa: IDEmpresa },
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "1");
+            },
+            success: function (result) {
+
+                $("#IDRemolque option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#IDRemolque").append('<option value="' + result[i].IDRemolque + '">' + result[i].placa + '</option>');
+                }
+                $('#IDRemolque.select').selectpicker('refresh');
+            }
+        });
+    }
+
+    var LoadTableGanado = function (IDCompra) {
 
         tableGanado = $('#GanadoXCompraGanado').DataTable({
             "language": {
@@ -145,7 +461,7 @@
             responsive: true,
             "ajax": {
                 "data": {
-                    "IDCompra": idCompra
+                    "IDCompra": IDCompra
                 },
                 "url": "TableJsonGanado",
                 "type": "POST",
@@ -349,12 +665,15 @@
     return {
         init: function (option, idCompra) {
             LoadItems();
-            if(option == 2)
+            
+            LoadValidationProveedor();
+            if (option == 2) {
                 InitMap(option);
+                LoadValidationFlete();
+                LoadValidationDocumentos();
+                RunEventsLineaFletera();
+            }
 
-            RunEvents();
-
-            LoadValidationCreate();
             LoadTableGanado(idCompra);
             LoadTableMovimientos(idCompra);
             LoadTableEvento(idCompra);

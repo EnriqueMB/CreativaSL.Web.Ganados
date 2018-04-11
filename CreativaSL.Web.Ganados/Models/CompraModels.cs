@@ -43,7 +43,7 @@ namespace CreativaSL.Web.Ganados.Models
         public string CertTuberculosis { get; set; }
         public string CertBrucelosis { get; set; }
 
-        [RegularExpression("^[0-9]*$", 
+        [RegularExpression("^[0-9]*$",
             ErrorMessage = "Solo número enteros positivos.")]
         [DisplayName("Ganado pactado machos")]
         public int GanadosPactadoMachos { get; set; }
@@ -86,7 +86,11 @@ namespace CreativaSL.Web.Ganados.Models
         public string IDUsuario { get; set; }
         public string IDDocumentoXPagar { get; set; }
         public string IDRecepcion { get; set; }
-
+        public string IDEmpresa { get; set; }
+        public string IDChofer { get; set; }
+        public string IDVehiculo { get; set; }
+        public string IDJaula { get; set; }
+        public string IDRemolque { get; set; }
 
         public CatChoferModels Chofer { get; set; }
         public CompraGanadosModels CompraGanado { get; set; }
@@ -110,6 +114,7 @@ namespace CreativaSL.Web.Ganados.Models
 
         public List<CatChoferModels> ListaChoferes { get; set; }
         public List<CompraGanadosModels> ListaCompraGanado { get; set; }
+        public List<CatEmpresaModels> ListaEmpresas { get; set; }
         public List<CatFierroModels> ListaFierros { get; set; }
         public List<GanadosModels> ListaGanados { get; set; }
         public List<GeneroGanadoModels> ListaGeneroGanado { get; set; }
@@ -155,6 +160,7 @@ namespace CreativaSL.Web.Ganados.Models
             ListaChoferes = new List<CatChoferModels>();
             ListaCompraGanado = new List<CompraGanadosModels>();
             ListaEstatusGanado = new List<CatEstatusGanadoModels>();
+            ListaEmpresas = new List<CatEmpresaModels>();
             ListaFierros = new List<CatFierroModels>();
             ListaFormasPagos = new List<CFDI_FormaPagoModels>();
             ListaGanados = new List<GanadosModels>();
@@ -168,13 +174,18 @@ namespace CreativaSL.Web.Ganados.Models
             ListaTipoClasificacion = new List<CatTipoClasificacionModels>();
 
             //Valores predeterminados de los atributos
+            IDChofer = string.Empty;
             IDCompra = string.Empty;
             IDDocumentoXPagar = string.Empty;
+            IDEmpresa = string.Empty;
             IDFlete = string.Empty;
+            IDJaula = string.Empty;
             IDProveedor = string.Empty;
             IDRecepcion = string.Empty;
+            IDRemolque = string.Empty;
             IDSucursal = string.Empty;
             IDUsuario = string.Empty;
+            IDVehiculo = string.Empty;
             CertZoosanitario = string.Empty;
             CertTuberculosis = string.Empty;
             CertBrucelosis = string.Empty;

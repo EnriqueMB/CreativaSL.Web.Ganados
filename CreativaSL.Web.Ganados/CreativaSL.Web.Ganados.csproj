@@ -1080,6 +1080,7 @@
     <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosV.cshtml" />
     <Content Include="Areas\Admin\Views\Nomina\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\CreatePart2.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
