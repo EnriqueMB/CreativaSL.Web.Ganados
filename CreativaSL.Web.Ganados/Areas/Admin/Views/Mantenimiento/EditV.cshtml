@@ -1,9 +1,8 @@
 ﻿@model CreativaSL.Web.Ganados.ViewModels.ServiciosMantenimientoViewModels
 @{
-    ViewBag.Title = "CreateV";
+    ViewBag.Title = "EditV";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
 @section featured{
     @{
         var message = TempData["message"] ?? string.Empty;
@@ -30,10 +29,11 @@
 
                 <div class="col-md-12">
                     @{ Html.EnableClientValidation(false); }
-                    @using (Html.BeginForm("CreateV", "Mantenimiento", FormMethod.Post, new { @class = "form-horizontal", id = "form-SMV", autocomplete = "off" }))
+                    @using (Html.BeginForm("EditV", "Mantenimiento", FormMethod.Post, new { @class = "form-horizontal", id = "form-SMV", autocomplete = "off" }))
                     {
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(model => model.ID)
+                        @Html.HiddenFor(model => model.IDServicio)
                         <div class="field_error" id="validation_summary"></div>
                         @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
                         <div class="panel panel-default">
@@ -64,7 +64,7 @@
                             </div>
                             <div class="panel-footer">
                                 <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
-                                <a href="@Url.Action("ServiciosV","Mantenimiento", new { id = Model.ID })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                                <a href="@Url.Action("ServiciosV", "Mantenimiento", new { id = Model.ID })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                             </div>
                         </div>
                     }
@@ -73,8 +73,8 @@
         </div>
     </div>
     <script>
-            var message = '@message';
-            var typemessage = '@typemessage';
+        var message = '@message';
+        var typemessage = '@typemessage';
     </script>
 }
 @section script{

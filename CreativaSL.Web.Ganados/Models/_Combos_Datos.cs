@@ -30,6 +30,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
         public List<CatVehiculoModels> ObtenerComboVehiculosPrincp(string Conexion)
         {
             try
@@ -91,6 +92,28 @@ namespace CreativaSL.Web.Ganados.Models
                 return Lista;
             }
             catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CatTipoServicioModels> ObtenerComboTipoServicio(string Conexion)
+        {
+            try
+            {
+                List<CatTipoServicioModels> Lista = new List<CatTipoServicioModels>();
+                CatTipoServicioModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Mantenimiento_get_ComboTipoServicios");
+                while(Dr.Read())
+                {
+                    Item = new CatTipoServicioModels();
+                    Item.IDTipoServicio = !Dr.IsDBNull(Dr.GetOrdinal("IDTipoServicio")) ? Dr.GetString(Dr.GetOrdinal("IDTipoServicio")) : string.Empty;
+                    Item.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                return Lista;
+            }
+            catch(Exception ex)
             {
                 throw ex;
             }

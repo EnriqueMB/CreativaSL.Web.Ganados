@@ -878,7 +878,9 @@
     <Content Include="Content\js\ProveedorAlmacen.js" />
     <Content Include="Content\js\Remolques.js" />
     <Content Include="Content\js\rendimiento.js" />
+    <Content Include="Content\js\servicioslista.js" />
     <Content Include="Content\js\serviciosMtto.js" />
+    <Content Include="Content\js\serviciosMttoDetalle.js" />
     <Content Include="Content\js\settings.js" />
     <Content Include="Content\js\sucursal.js" />
     <Content Include="Content\js\TipoProveedor.js" />
@@ -1089,6 +1091,11 @@
     <Content Include="Areas\Admin\Views\Mantenimiento\CreateV.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\AltaNomina.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\BajaNomina.cshtml" />
+    
+    <Content Include="Areas\Admin\Views\Mantenimiento\CreateDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\EditDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\EditV.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1252,6 +1259,7 @@
     <Compile Include="Models\ResumenGastosModels.cs" />
     <Compile Include="Models\SalidaAlmacenDetalle.cs" />
     <Compile Include="Models\SalidaAlmacenDetalleModels.cs" />
+    <Compile Include="Models\ServiciosMantenimientoDetalleModels.cs" />
     <Compile Include="Models\ServiciosMantenimientoModels.cs" />
     <Compile Include="Models\TelefonosContactoSucursalModels.cs" />
     <Compile Include="Models\TipoUsuarioModels.cs" />
@@ -1318,6 +1326,7 @@
     <Compile Include="ViewModels\EmpleadoNominaViewModels.cs" />
     <Compile Include="ViewModels\EntregaCombustibleViewModels.cs" />
     <Compile Include="ViewModels\RendimientoCombustibleViewModels.cs" />
+    <Compile Include="ViewModels\ServiciosMantenimientoDetalleViewModels.cs" />
     <Compile Include="ViewModels\ServiciosMantenimientoViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
