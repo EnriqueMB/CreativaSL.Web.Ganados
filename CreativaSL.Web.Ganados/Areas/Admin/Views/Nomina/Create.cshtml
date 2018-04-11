@@ -18,7 +18,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Empleado Nomina </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Empleado Nómina </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -29,7 +29,10 @@
                 @{ Html.EnableClientValidation(false); }
                 @using (Html.BeginForm("Create", "Nomina", FormMethod.Post, new { @class = "form-inline", id = "form-search", autocomplete = "off" }))
                 {
-                    <div class="form-group">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                    <div id="validation_summary" class="field_error "></div> //JS
+                    <div class="form-group"> 
                         <div class="col-md-12">
                             <label class="col-md-12 col-xs-12 control-label"><span>* </span> Sucursal </label>
                             <div class="col-md-12 col-xs-12">
@@ -38,52 +41,69 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- START DEFAULT DATATABLE -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title"></h3>
-
-                            <div class="panel-body">
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Seleccionar</th>
-                                                <th>Clave Empleado</th>
-                                                <th>Empleado</th>
-                                                <th>Puesto</th>
-                                                <th>Categoria</th>
-                                                <th>Sueldo Diario</th>
-                                                <th>Percepciones</th>
-                                                <th>Deducciones</th>
-                                                <th style="display:none"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="IDTabla">
-                                            @*@for (int i = 0; i < 20; i++)
-                                            {
-                                                <tr>
-                                                    <td><input checked="checked" id="ListaEmpleados_@i--AbrirCaja" name="ListaEmpleados[@i].AbrirCaja" type="checkbox" value="true" /><input name="ListaEmpleados[@i].AbrirCaja" type="hidden" value="false" /> </td>
-                                                    <td>Empleado 00-@i</td>
-                                                </tr>
-                                            }*@
-                                        </tbody>
-                                    </table>
-
-                                </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="col-md-12 col-xs-12 control-label"><span>* </span> Fecha Inicio </label>
+                            <div class="input-group date">
+                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                @Html.TextBoxFor(model => model.FechaInicio, "{0:dd/MM/yyyy}", new { id = "FechaInicio", @class = "form-control datepicker", @readonly = "readonly", @title = "Fecha Inicio" })
                             </div>
-
-                        </div>
-
-                        <div class="panel-footer">
-                            <input type="submit" id="save" value="Guardar" class="btn btn-primary pull-right">
-                            <a href="@Url.Action("Index","Nomina")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                         </div>
                     </div>
-                    <!-- END DEFAULT DATATABLE -->
-                }
-            </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="col-md-12 col-xs-12 control-label"><span>* </span> Fecha Fin </label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                @Html.TextBoxFor(model => model.FechaFin, "{0:dd/MM/yyyy}", new { id = "FechaFin", @class = "form-control daterange", @readonly = "readonly", @title = "Fecha Fin" })
+                            </div>
+                        </div>
+                    </div>
+                        <!-- START DEFAULT DATATABLE -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"></h3>
+
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Seleccionar</th>
+                                                    <th>Clave Empleado</th>
+                                                    <th>Empleado</th>
+                                                    <th>Puesto</th>
+                                                    <th>Categoria</th>
+                                                    <th>Sueldo Diario</th>
+                                                    <th>Percepciones</th>
+                                                    <th>Deducciones</th>
+                                                    <th style="display:none"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="IDTabla">
+                                                @*@for (int i = 0; i < 20; i++)
+                                                    {
+                                                        <tr>
+                                                            <td><input checked="checked" id="ListaEmpleados_@i--AbrirCaja" name="ListaEmpleados[@i].AbrirCaja" type="checkbox" value="true" /><input name="ListaEmpleados[@i].AbrirCaja" type="hidden" value="false" /> </td>
+                                                            <td>Empleado 00-@i</td>
+                                                        </tr>
+                                                    }*@
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="panel-footer">
+                                <input type="submit" id="save" value="Guardar" class="btn btn-primary pull-right">
+                                <a href="@Url.Action("Index","Nomina")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                            </div>
+                        </div>
+                        <!-- END DEFAULT DATATABLE -->
+                        }
+                    </div>
         </div>
     </div>
     <script>
@@ -93,18 +113,20 @@
 }
 @section script
 {
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/nomina-empleado.js")"></script>
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
         NominaEmpleado.init();
-        $("form").on("submit", function (event) {
-            //event.preventDefault();
-            //console.log($(this).serialize());
-        });
+        //$("form").on("submit", function (event) {
+        //    //event.preventDefault();
+        //    //console.log($(this).serialize());
+        //});
 
         //console.log($('input.form-control'));
         //$('input.form-control').on('change', function () {

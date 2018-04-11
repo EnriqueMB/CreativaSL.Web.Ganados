@@ -137,6 +137,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -427,11 +428,14 @@
     <Content Include="Content\js\ConceptosNomina.js" />
     <Content Include="Content\js\CuentaProveedor.js" />
     <Content Include="Content\js\alta_baja_nomina_empleado.js" />
+    <Content Include="Content\js\EmpleadoAltaNomina.js" />
+    <Content Include="Content\js\EmpleadoBajaNomina.js" />
     <Content Include="Content\js\entregacombustible.js" />
     <Content Include="Content\js\jaula.js" />
     <Content Include="Content\js\Lugar.js" />
     <Content Include="Content\js\MarcaVehiculo.js" />
     <Content Include="Content\js\NominaDiasFestivos.js" />
+    <Content Include="Content\js\plugins\bootstrap\bootstrap-timepicker respaldo.js" />
     <Content Include="Content\js\plugins\dualSelect\bootstrap-duallistbox.css" />
     <Content Include="Content\js\plugins\dualSelect\jquery.bootstrap-duallistbox.js" />
     <Content Include="Content\js\ProductosAlmacen.js" />
@@ -1080,7 +1084,11 @@
     <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosV.cshtml" />
     <Content Include="Areas\Admin\Views\Nomina\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Compra\CreatePart2.cshtml" />
+    <Content Include="Areas\Admin\Views\CatConceptoDocumento\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Nomina\Detalle.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\CreateV.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpleado\AltaNomina.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpleado\BajaNomina.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1158,6 +1166,8 @@
     <Compile Include="Models\CatConceptoDetalleDocumentosModels.cs" />
     <Compile Include="Models\CatConceptoNominaModels.cs" />
     <Compile Include="Models\CatConceptosNominaModels.cs" />
+    <Compile Include="Models\CatEmpleadoAltaNominaModels.cs" />
+    <Compile Include="Models\CatEmpleadoBajaNominaModels.cs" />
     <Compile Include="Models\CatEmpleadoModels.cs" />
     <Compile Include="Models\CatEmpresaModels.cs" />
     <Compile Include="Models\CatEstadoModels.cs" />
@@ -1168,6 +1178,7 @@
     <Compile Include="Models\CatJaulaModels.cs" />
     <Compile Include="Models\CatLugarModels.cs" />
     <Compile Include="Models\CatMarcaVehiculoModels.cs" />
+    <Compile Include="Models\CatMotivoBajaModels.cs" />
     <Compile Include="Models\CatMunicipioModels.cs" />
     <Compile Include="Models\CatPaisModels.cs" />
     <Compile Include="Models\CatProductosAlmacenModels.cs" />
@@ -1304,6 +1315,7 @@
     <Compile Include="Models\_Usuario_Datos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CuentaBancariaViewModels.cs" />
+    <Compile Include="ViewModels\EmpleadoNominaViewModels.cs" />
     <Compile Include="ViewModels\EntregaCombustibleViewModels.cs" />
     <Compile Include="ViewModels\RendimientoCombustibleViewModels.cs" />
     <Compile Include="ViewModels\ServiciosMantenimientoViewModels.cs" />

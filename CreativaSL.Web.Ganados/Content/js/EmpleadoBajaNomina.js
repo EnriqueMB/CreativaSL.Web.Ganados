@@ -1,12 +1,12 @@
-﻿var NominaEmpleado = function () {
+﻿var EmpleadoBajaNomina = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
-        var form1 = $('#form-search');
+        var form1 = $('#form-dg');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
 
-        $('#form-search').validate({
+        $('#form-dg').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -24,17 +24,12 @@
             },
             ignore: "",
             rules: {
-
-                IDSucursal: { required: true },
-                FechaInicio: { required: true },
-                FechaFin: { required: true }
-
+                IDMotivoBaja: { CMBINT: true },
+                Comentarios: { required: true }
             },
             messages: {
-
-                IDSucursal: { required: "Seleccione una sucursal." },
-                FechaInicio: { required: "Seleccione una fecha inicio periodo." },
-                FechaFin: { required: "Seleccione una fecha fin periodo." }
+                IDPuesto: { CMBINT: "Seleccione un motivo." },
+                Comentarios: { required: "Escriba los comentarios." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -66,70 +61,16 @@
         });
     };
 
-    var runCombos = function () {
-    getDatostablaEmpleado($("#IDSucursal").val());
-        $('#IDSucursal').on('change', function (event) {
-            $("#IDTabla  tr").remove();
-            getDatostablaEmpleado($("#IDSucursal").val());
-        });
-         
-        // $("#IDPuesto").trigger('change');
-        //$("#IDPuesto").change(function () {
-        //    $("#IDCategoriaPuesto option").remove();
-        //    getDatosRegimen($("#IDPuesto").val());
-        //});
-        function getDatostablaEmpleado(IDSucursal) {
-            $.ajax({
-                url: "/Admin/Nomina/DatostablaEmpleado",
-                data: { IDS: IDSucursal },
-                async: false,
-                dataType: "json",
-                type: "POST",
-                error: function () {
-                    Mensaje("Ocurrió un error al cargar la tabla", "2");
-                },
-                success: function (result) {
-                    var Numero = 0;
-                    for (var i = 0; i < result.length; i++) {
-                        Numero = i;
-                        $("#IDTabla").append('<tr><td><input checked="checked" id="ListaEmpleados_' + Numero + '.AbrirCaja" name="ListaEmpleados[' + Numero + '].AbrirCaja" type="checkbox" value="true" /><input name="ListaEmpleados[' + Numero + '].AbrirCaja" type="hidden" value="false" /> </td>' +
-                            ' <td>' + result[i].CodigoUsuario + '</td>' +
-                            '<td>' + result[i].NombreEmpleado + '</td>' +
-                            '<td>' + result[i].Puesto + '</td>' +
-                            ' <td>' + result[i].CategoriaPuesto + '</td>' +
-                            '<td>' + result[i].Sueldo + '</td>' +
-                            '<td>' + result[i].Percepciones + '</td>' +
-                            '<td>' + result[i].Deducciones + '</td>' +
-                            '<td style="display:none"><input id="ListaEmpleados_' + Numero + '.IDEmpleado" name="ListaEmpleados[' + Numero + '].IDEmpleado" type="text" value="' + result[i].IDEmpleado + '" /></td></tr>');
-                    }
-                    //$('#IDCategoriaPuesto.select').selectpicker('refresh');
-                }
-            });
-        }
-    };
-
     var runDatePicker = function () {
-        $('#FechaInicio').datepicker({
-            format: 'dd/mm/yyyy',
-            startDate: '-0d',
-            autoclose: true
+        $('#FechaIngreso').datepicker({
+            format: 'dd/mm/yyyy'
         });
-        $('#FechaFin').datepicker({
-            format: 'dd/mm/yyyy',
-            startDate: '0d',
-            autoclose: true
-        });
-        //$('#FechaFin').datepicker('setDaysOfWeekDisabled', [1,6]);
     };
-
-
-
 
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
-            runCombos();
             runDatePicker();
         }
     };

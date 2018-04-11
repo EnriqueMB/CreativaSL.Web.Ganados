@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
+using CreativaSL.Web.Ganados.ViewModels;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -32,7 +36,8 @@ namespace CreativaSL.Web.Ganados.Models
             _BandBusqFechas = false;
             _BandIDSucursal = false;
             _NombreSucursal = string.Empty;
-            _ListaEmpleados = new List<CatEmpleadoModels>();
+            _ListaEmpleados = new List<EmpleadoNominaViewModels>();
+           // _TablaEmpleadoNomina = new DataTable();
         }
         private bool _AbrirCaja;
         /// <summary>
@@ -52,7 +57,8 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _IDSucursal;
-
+        [Required(ErrorMessage = "Seleccione una sucursal")]
+        [Display(Name = "Sucursal")]
         public string IDSucursal
         {
             get { return _IDSucursal; }
@@ -68,7 +74,10 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private DateTime _FechaInicio;
-
+        [Required(ErrorMessage = "Debe seleccionar una fecha de inicio del periodo de nómina")]
+        [Display(Name = "Fecha de inicio")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime FechaInicio
         {
             get { return _FechaInicio; }
@@ -76,16 +85,19 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private DateTime _FechaFin;
-
+        [Required(ErrorMessage = "Debe seleccionar una fecha de fin del periodo de nómina")]
+        [Display(Name = "Fecha de fin")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime FechaFin
         {
             get { return _FechaFin; }
             set { _FechaFin = value; }
         }
 
-        private List<CatEmpleadoModels> _ListaEmpleados;
+        private List<EmpleadoNominaViewModels> _ListaEmpleados;
 
-        public List<CatEmpleadoModels> ListaEmpleados
+        public List<EmpleadoNominaViewModels> ListaEmpleados
         {
             get { return _ListaEmpleados; }
             set { _ListaEmpleados = value; }
@@ -153,6 +165,14 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _NombreSucursal; }
             set { _NombreSucursal = value; }
+        }
+        
+        private DataTable _TablaEmpleadoNomina;
+       
+        public DataTable TablaEmpladoNomina
+        {
+            get { return _TablaEmpleadoNomina; }
+            set { _TablaEmpleadoNomina = value; }
         }
 
 
