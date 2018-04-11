@@ -54,7 +54,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Create(CatConceptoDetalleDocumentosModels Concepto)
         {
-            
+
             try
             {
                 _CatConceptoDetalleDocumento_Datos ConceptoDatos = new _CatConceptoDetalleDocumento_Datos();
@@ -79,8 +79,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
                 else
                 {
-                    Concepto.Conexion = Conexion;
-                    Concepto.listTipoConciliacion = ConceptoDatos.ObtenerComboTipoConciliacion(Concepto);
                     return View(Concepto);
                 }
             }
@@ -89,6 +87,98 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
                 return View(Concepto);
+            }
+        }
+        // GET: Admin/CatConceptoDocumento/Edit
+        //[HttpGet]
+        public ActionResult Edit(string id)
+        {
+            try
+            {
+                CatConceptoDetalleDocumentosModels Concepto = new CatConceptoDetalleDocumentosModels();
+                _CatConceptoDetalleDocumento_Datos ConceptoDatos = new _CatConceptoDetalleDocumento_Datos();
+                Concepto.IDConceptosDocumento = id;
+                Concepto.Conexion = Conexion;
+                Concepto = ConceptoDatos.ObternerCatConceptoDocumento(Concepto);
+                Concepto.listTipoConciliacion = ConceptoDatos.ObtenerComboTipoConciliacion(Concepto);
+                return View(Concepto);
+            }
+            catch (Exception ex)
+            {
+                CatConceptoDetalleDocumentosModels Concepto = new CatConceptoDetalleDocumentosModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Concepto);
+            }
+        }
+        // POST: Admin/CatConceptoDocumento/Edit
+        [HttpPost]
+        public ActionResult Edit(CatConceptoDetalleDocumentosModels Concepto)
+        {
+            try
+            {
+                //CatBancoModels Banco = new CatBancoModels();
+                _CatConceptoDetalleDocumento_Datos ConceptoDatos = new _CatConceptoDetalleDocumento_Datos();
+                Concepto.Conexion = Conexion;
+                Concepto.Opcion = 2;
+                Concepto.Usuario = User.Identity.Name;
+
+                Concepto = ConceptoDatos.DACatConceptoDocumento(Concepto);
+                if (Concepto.Completado == true)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "Los datos se guardarón correctamente.";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                    return View("");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contácte a soporte técnico.";
+                return View(Concepto);
+            }
+
+        }
+        public ActionResult Delete(string id)
+        {
+            return View();
+        }
+
+        // POST: Admin/CatBanco/Delete
+        [HttpPost]
+        public ActionResult Delete(string id, CatConceptoDetalleDocumentosModels Concepto)
+        {
+            try
+            {
+                _CatConceptoDetalleDocumento_Datos ConceptoDatos = new _CatConceptoDetalleDocumento_Datos();
+                Concepto.Conexion = Conexion;
+                Concepto.Opcion = 3;
+                Concepto.IDConceptosDocumento = id;
+                Concepto.Usuario = User.Identity.Name;
+                Concepto = ConceptoDatos.EliminarCatConceptoDocumento(Concepto);
+                if (Concepto.Completado == true)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "El registro se ha eliminado correctamente";
+                }
+                return Json("");
+
+
+            }
+            catch
+            {
+                CatConceptoDetalleDocumentosModels Conceptos = new CatConceptoDetalleDocumentosModels();
+
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
+                return Json("");
+
             }
         }
     }
