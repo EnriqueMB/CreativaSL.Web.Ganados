@@ -1079,6 +1079,7 @@
     <Content Include="Areas\Admin\Views\Mantenimiento\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosV.cshtml" />
     <Content Include="Areas\Admin\Views\Nomina\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1364,7 +1365,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\Flete\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
