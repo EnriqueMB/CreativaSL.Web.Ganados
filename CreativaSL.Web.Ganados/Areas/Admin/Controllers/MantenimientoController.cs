@@ -142,40 +142,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
                 return View(Model);
             }
-        }
-        // GET: Admin/Mantenimiento/Create
-        public ActionResult CreateV(string id)
-        {
-            try
-            {
-                ServiciosMantenimientoViewModels Servicio = new ServiciosMantenimientoViewModels();
-                _Combos_Datos Datos = new _Combos_Datos();
-                Servicio.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
-                return View(Servicio);
-            }
-            catch (Exception)
-            {
-                TempData["typemessage"] = "2";
-                TempData["message"] = "No se puede cargar la vista";
-                return RedirectToAction("Servicios", new {id = id });
-            }
-        }
-
-        // POST: Admin/Mantenimiento/Create
-        [HttpPost]
-        public ActionResult CreateV(ServiciosMantenimientoViewModels Model)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        }    
 
         // GET: Admin/Mantenimiento/Create
         public ActionResult EditV(string id)
