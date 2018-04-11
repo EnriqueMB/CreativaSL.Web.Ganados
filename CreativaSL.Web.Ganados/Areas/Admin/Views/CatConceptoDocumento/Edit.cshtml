@@ -1,9 +1,10 @@
-﻿@model CreativaSL.Web.Ganados.Models.CatBancoModels
+﻿@model CreativaSL.Web.Ganados.Models.CatConceptoDetalleDocumentosModels
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+
 @section css
 {
     <!--FILEINPUT-->
@@ -12,8 +13,8 @@
 
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
 }
-
 @section featured{
+
     @{
         var message = TempData["message"] ?? string.Empty;
         var typemessage = TempData["typemessage"] ?? string.Empty;
@@ -26,57 +27,70 @@
             <h3></h3>
         </div>
         <div class="col-md-12">
-            @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("Create", "CatBanco", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off", @enctype = "multipart/form-data" }))
+            @*<form class="form-horizontal">*@
+             @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("Edit", "CatConceptoDocumento", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off", @enctype = "multipart/form-data" }))
             {
-                @Html.AntiForgeryToken()
+                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-                <div id="validation_summary" class="field_error "></div> //JS
+                  <div id="validation_summary" class="field_error "></div> //JS
+
+                @Html.HiddenFor(model => model.IDConceptosDocumento)
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Nuevo</strong> Banco</h3>
+                        <h3 class="panel-title"><strong>Editar</strong> Concepto</h3>
+                        <ul class="panel-controls">
+                            @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
+                        </ul>
                     </div>
-                    <ul class="panel-controls">
-                        @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
-                    </ul>
                     <div class="panel-body">
                         <div class="form-group">
-                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Nombre banco</label>
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Descripción del concepto</label>
                             <div class="col-md-6 col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.TextBoxFor(model => model.Descripcion, new { id = "Descripcion", @class = "form-control", placeholder = "Ingrese el nombre del banco" })
+                                    @Html.TextBoxFor(model => model.Descripcion, new { id = "Descripcion", @class = "form-control", placeholder = "Ingrese una descripción del concepto" })
                                 </div>
                                 @Html.ValidationMessageFor(model => model.Descripcion)
+                                <span class="help-block">Ingrese descripción del concepto</span>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Ingrese la imagen del banco</label>
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Clave</label>
                             <div class="col-md-6 col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.TextBoxFor(model => model.ImagenB, new { id = "Imagen", @type = "file", @class = "form-control" })
+                                    @Html.TextBoxFor(model => model.Clave, new { id = "Clave", @class = "form-control", placeholder = "Ingrese una clave" })
                                 </div>
-                                @Html.ValidationMessageFor(model => model.Imagen)
-                                <span class="help-block">Ingrese por lo menos 1 imagen.</span>
+                                @Html.ValidationMessageFor(model => model.Clave)
+                                <span class="help-block">Ingrese una clave</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Tipo conciliación </label>
+                            <div class="col-md-6 col-xs-12">
+                                @Html.DropDownListFor(model => model.IDTipoConciliacion, new SelectList(Model.listTipoConciliacion, "IDTipoConciliacion", "Descripcion"), new { id = "IDTipoConciliacion", @class = "form-control select", data_live_search = "true" })
+                                @Html.ValidationMessageFor(model => model.IDTipoConciliacion)
+                                <span class="help-block">Ingrese un tipo de conciliación</span>
                             </div>
                         </div>
                     </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("Index", "CatConceptoDocumento")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    </div>
                 </div>
-
-
-                <div class="panel-footer">
-                    <a href="@Url.Action("Index","CatBanco")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                    <button form="form-dg" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
-                </div>
+                @*</form>*@
             }
         </div>
     </div>
     <script>
         var message = '@message';
         var typemessage = '@typemessage';
+
     </script>
 }
 @section script{
@@ -85,33 +99,18 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/Bancos.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/Concepto.js")"></script>
 
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
-            Bancos.init();
-
-            $('#Imagen').fileinput({
-                theme: 'fa',
-                language: 'es',
-                minFileCount: 1,
-                uploadUrl: "#",
-                showUpload: false,
-                showUploadedThumbs: false,
-                overwriteInitial: false,
-                allowedFileExtensions: ['png'],
-                required: true
-            })
+            Concepto.init();
         });
     </script>
 }
-
-
-
-
 
 
 

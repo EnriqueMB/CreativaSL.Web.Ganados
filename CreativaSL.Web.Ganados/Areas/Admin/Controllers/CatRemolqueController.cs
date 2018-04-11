@@ -50,6 +50,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Remolque.listaSucursales = RemolqueDatos.obtenerListaSucursales(Remolque);
                 var listaSucursal = new SelectList(Remolque.listaSucursales, "IDSucursal", "NombreSucursal");
 
+                Remolque.ListaEmpresas = RemolqueDatos.ObtenerListaEmpresas(Remolque);
               
                 return View(Remolque);
             }
@@ -124,7 +125,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Remolque.listaSucursales = RemolqueDatos.obtenerListaSucursales(Remolque);
                 var listaSucursal = new SelectList(Remolque.listaSucursales, "IDSucursal", "NombreSucursal");
                 Remolque = RemolqueDatos.ObtenerDetalleCatRemolque(Remolque);
-               
+                Remolque.ListaEmpresas = RemolqueDatos.ObtenerListaEmpresas(Remolque);
                 return View(Remolque);
             }
             catch (Exception ex)
@@ -207,6 +208,26 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             catch
             {
                 return View();
+            }
+        }
+        [HttpPost]
+        public ActionResult ObtenerSucursalesXIDEmpresa(string IDEmpresa)
+        {
+            try
+            {
+                CatRemolqueModels Remolque = new CatRemolqueModels();
+                _CatRemolque_Datos RemolqueDatos = new _CatRemolque_Datos();
+                Remolque.Conexion = Conexion;
+                Remolque.IDEmpresa = IDEmpresa;
+                Remolque.Usuario = User.Identity.Name;
+                Remolque.listaSucursales = RemolqueDatos.ObtenerSucursalesXIDEmpresa(Remolque);
+                return Content(Remolque.listaSucursales.ToJSON(), "application/json");
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error. Por favor contacte a soporte técnico";
+                return Json("");
             }
         }
     }

@@ -327,7 +327,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     else
                     {
                         TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde. Error: " + Sucursal.Mensaje;
                         return View(Sucursal);
                     }
                 }
@@ -338,6 +338,26 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Se ha generado el siguiente error: " + ex.ToString();
                 return View(Sucursal);
+            }
+        }
+        [HttpPost]
+        public ActionResult DeleteSucursal(string id)
+        {
+            try
+            {
+                Sucursal = new CatSucursalesModels();
+                SucursalDatos = new _CatSucursal_Datos();
+                Sucursal.Conexion = Conexion;
+                Sucursal.Usuario = User.Identity.Name;
+                Sucursal.IDSucursal = id;
+                Sucursal = SucursalDatos.Del_Sucursal(Sucursal);
+                Sucursal.Mensaje = "{\"Mensaje\": \"" + Sucursal.Mensaje + "\"}";
+                return Content(Sucursal.Mensaje, "application/json");
+            }
+            catch (Exception ex)
+            {
+                Sucursal.Mensaje = "{\"Mensaje error:\": \"" + Sucursal.Mensaje + "\"}";
+                return Content(Sucursal.Mensaje, "application/json");
             }
         }
     }

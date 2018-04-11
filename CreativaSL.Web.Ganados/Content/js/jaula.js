@@ -1,12 +1,12 @@
-﻿var Concepto = function () {
+﻿var Jaula = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
-        var form1 = $('#form-dg');
+        var form1 = $('#frmJaula');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
-
-        $('#form-dg').validate({
+        
+        $('#frmJaula').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -15,7 +15,7 @@
                     error.insertAfter($(element).closest('.form-group').children('div').children().last());
                 } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
                     error.insertAfter($(element).closest('.form-group').children('div'));
-                } else if (element.attr("type") == "text") {
+                } else if (element.attr("type") == "text" ) {
                     error.insertAfter($(element).closest('.input-group').children('div'));
                 } else {
                     error.insertAfter(element);
@@ -24,52 +24,72 @@
             },
             ignore: "",
             rules: {
-
-                Descripcion: { required: true, texto: true, maxlength: 180 },
-                Clave: { required: true, maxlength: 10 },
-                IDTipoConciliacion: { CMBINT: true }
-
+                ListaEmpresas: { required: true },
+                Matricula: { required: true, maxlength: 15 },
             },
             messages: {
-                Descripcion: { required: "Ingrese una descripción del concepto", texto: "Ingrese una descripción del concepto", maxlength: "El campo descripción admite máximo 180 caracteres." },
-                Clave: { required: "Ingrese una clave.", maxlength: "El campo clave admite máximo 10 caracteres." },
-                IDTipoConciliacion: { CMBINT: "Seleccione un tipo de conciliación." }
-
+                ListaEmpresas: { required: "Seleccione una empresa" },
+                Matricula: { required: "Ingrese la matrícula de la jaula.", maxlength: "El campo nombre admite máximo 15 caracteres." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
                 errorHandler1.show();
-                //$("#validation_summary").text(validator.showErrors());
             },
             highlight: function (element) {
                 $(element).closest('.help-block').removeClass('valid');
                 // display OK icon
-                $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+                $(element).closest('.classError').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
                 // add the Bootstrap error class to the control group
             },
             unhighlight: function (element) { // revert the change done by hightlight
-                $(element).closest('.form-group').removeClass('has-error');
+                $(element).closest('.classError').removeClass('has-error');
                 // set error class to the control group
             },
             success: function (label, element) {
                 label.addClass('help-block valid');
                 label.removeClass('color');
                 // mark the current input as valid and display OK icon
-                $(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+                $(element).closest('.classError').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
             },
             submitHandler: function (form) {
                 successHandler1.show();
                 errorHandler1.hide();
                 form.submit();
-                //this.submit();
             }
         });
     };
+
+    var runEvents = function () {
+        $("#IDEmpresa").on("change", function () {
+            var IDEmpresa = $("#IDEmpresa").val();
+            GetSucursalesXIDEmpresa(IDEmpresa);
+        });
+    }
+    function GetSucursalesXIDEmpresa(IDEmpresa) {
+        $.ajax({
+            url: "/Admin/CatJaula/ObtenerSucursalesXIDEmpresa/",
+            data: { IDEmpresa: IDEmpresa },
+            async: false,
+            dataType: "json",
+            type: "POST",
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "1");
+            },
+            success: function (result) {
+                $("#IDSucursal option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#IDSucursal").append('<option value="' + result[i].IDSucursal + '">' + result[i].NombreSucursal + '</option>');
+                }
+                $('#IDSucursal.select').selectpicker('refresh');
+            }
+        });
+    }
 
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
+            runEvents();
         }
     };
 }();

@@ -16,33 +16,55 @@ namespace CreativaSL.Web.Ganados.Models
 
         #region Listados
         /// <summary>
+        /// Obtiene un listado de todos las sucursales
+        /// </summary>
+        /// <param name="Compra">Tiene los datos necesarios para la consulta</param>
+        /// <returns></returns>
+        public List<CatSucursalesModels> GetListadoSucursales(CompraModels Compra)
+        {
+            CatSucursalesModels Sucursal;
+            SqlDataReader dr = null;
+            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_CatSucursal");
+
+            while (dr.Read())
+            {
+                Sucursal = new CatSucursalesModels
+                {
+                    IDSucursal = !dr.IsDBNull(dr.GetOrdinal("IDSucursal")) ? dr.GetString(dr.GetOrdinal("IDSucursal")) : string.Empty,
+                    NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty,
+                };
+
+                Compra.ListaSucursales.Add(Sucursal);
+            }
+            return Compra.ListaSucursales;
+        }
+        /// <summary>
         /// Obtiene un listado de todos los proveedores dados de alta en relacioón a la sucursal
         /// </summary>
         /// <param name="CompraModels"></param>
         /// <returns></returns>
-        public List<CatProveedorModels> GetListadoProveedores(CompraModels Compra)
+        public List<CatProveedorModels> ProveedoresXIDSucursal(CompraModels Compra)
         {
             try
             {
-                List<CatProveedorModels> ListaProveedores = new List<CatProveedorModels>();
                 CatProveedorModels Proveedor;
 
                 object[] parametros =
                 {
-                    Compra.Sucursal.IDSucursal
+                    Compra.IDSucursal
                 };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_COMPRAS_GetListadoProveedores", parametros);
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_CatProveedoXIDSucursal", parametros);
                 while (dr.Read())
                 {
                     Proveedor = new CatProveedorModels
                     {
-                        IDProveedor = !dr.IsDBNull(dr.GetOrdinal("id_proveedor")) ? dr.GetString(dr.GetOrdinal("id_proveedor")) : string.Empty,
+                        IDProveedor = !dr.IsDBNull(dr.GetOrdinal("IDProveedor")) ? dr.GetString(dr.GetOrdinal("IDProveedor")) : string.Empty,
                         NombreRazonSocial = !dr.IsDBNull(dr.GetOrdinal("NombreProveedor")) ? dr.GetString(dr.GetOrdinal("NombreProveedor")) : string.Empty,
                     };
-                    ListaProveedores.Add(Proveedor);
+                    Compra.ListaProveedores.Add(Proveedor);
                 }
-                return ListaProveedores;
+                return Compra.ListaProveedores;
             }
             catch (Exception ex)
             {
@@ -61,21 +83,16 @@ namespace CreativaSL.Web.Ganados.Models
                 List<CatLugarModels> ListaLugares = new List<CatLugarModels>();
                 CatLugarModels Lugar = new CatLugarModels();
 
-                object[] parametros =
-                {
-                    Compra.Sucursal.IDSucursal
-                };
-
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_COMPRAS_GetListadoLugares", parametros);
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_AllCatLugar");
                 while (dr.Read())
                 {
                     Lugar = new CatLugarModels
                     {
-                        id_lugar = !dr.IsDBNull(dr.GetOrdinal("id_lugar")) ? dr.GetString(dr.GetOrdinal("id_lugar")) : string.Empty,
-                        descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty,
-                        latitud = float.Parse(dr["gpsLatitud"].ToString()),
-                        longitud = float.Parse(dr["gpsLongitud"].ToString()),
+                        id_lugar = !dr.IsDBNull(dr.GetOrdinal("IDLugar")) ? dr.GetString(dr.GetOrdinal("IDLugar")) : string.Empty,
+                        descripcion = !dr.IsDBNull(dr.GetOrdinal("NombreLugar")) ? dr.GetString(dr.GetOrdinal("NombreLugar")) : string.Empty,
+                        latitud = float.Parse(dr["GpsLatitud"].ToString()),
+                        longitud = float.Parse(dr["GpsLongitud"].ToString()),
                     };
 
                     ListaLugares.Add(Lugar);
@@ -87,6 +104,37 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public CompraModels Compra_a_Compra(CompraModels Compra)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Compra.IDSucursal
+                    ,Compra.IDProveedor
+                    ,Compra.GanadosPactadoMachos
+                    ,Compra.GanadosPactadoHembras
+                    ,Compra.FechaHoraProgramada
+                    ,Compra.Usuario
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_a_Compra", parametros);
+
+                while (dr.Read())
+                {
+                    Compra.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Compra.Completado = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                return Compra;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
         /// Obtiene un listado de todos los choferes en relación a la sucursal
         /// </summary>
@@ -226,29 +274,8 @@ namespace CreativaSL.Web.Ganados.Models
             }
             return Compra.ListaFierros;
         }
-        /// <summary>
-        /// Obtiene un listado de todos las sucursales
-        /// </summary>
-        /// <param name="Compra"></param>
-        /// <returns></returns>
-        public List<CatSucursalesModels> GetListadoSucusales(CompraModels Compra)
-        {
-            CatSucursalesModels Sucursal;
-            SqlDataReader dr = null;
-            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_COMPRAS_GetListadoSucursales");
+       
 
-            while (dr.Read())
-            {
-                Sucursal = new CatSucursalesModels
-                {
-                    IDSucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty,
-                    NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("nombreSuc")) ? dr.GetString(dr.GetOrdinal("nombreSuc")) : string.Empty,
-                };
-
-                Compra.ListaSucursales.Add(Sucursal);
-            }
-            return Compra.ListaSucursales;
-        }
         public List<CatRemolqueModels> GetListadoRemolques(CompraModels Compra)
         {
             CatRemolqueModels Remolque;

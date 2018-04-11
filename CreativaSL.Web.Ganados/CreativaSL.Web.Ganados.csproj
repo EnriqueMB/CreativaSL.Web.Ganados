@@ -429,6 +429,7 @@
     <Content Include="Content\js\CuentaProveedor.js" />
     <Content Include="Content\js\alta_baja_nomina_empleado.js" />
     <Content Include="Content\js\entregacombustible.js" />
+    <Content Include="Content\js\jaula.js" />
     <Content Include="Content\js\Lugar.js" />
     <Content Include="Content\js\MarcaVehiculo.js" />
     <Content Include="Content\js\NominaDiasFestivos.js" />
@@ -1080,7 +1081,8 @@
     <Content Include="Areas\Admin\Views\Mantenimiento\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosV.cshtml" />
     <Content Include="Areas\Admin\Views\Nomina\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Nomina\Detalle.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatConceptoDocumento\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
