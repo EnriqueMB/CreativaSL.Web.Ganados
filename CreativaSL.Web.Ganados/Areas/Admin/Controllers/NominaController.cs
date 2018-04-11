@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Models;
+using System.Data;
+using CreativaSL.Web.Ganados.ViewModels;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -78,12 +80,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/Nomina/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
         // GET: Admin/Nomina/Create
         public ActionResult Create()
         {
@@ -107,58 +103,83 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Create(NominaModels Nomina)
         {
+            Nomina_Datos NominaDatos = new Nomina_Datos();
+            _Combos_Datos Combos = new _Combos_Datos();
             try
             {
-                
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    Nomina.Conexion = Conexion;
+                    Nomina.Usuario = User.Identity.Name;
+                    Nomina.TablaEmpladoNomina = new DataTable();
+                    Nomina.TablaEmpladoNomina.Columns.Add("IDEmpleado", typeof(string));
+                    foreach (EmpleadoNominaViewModels Item in Nomina.ListaEmpleados)
+                    {
+                        if (Item.AbrirCaja)
+                        {
+                            object[] data = { Item.IDEmpleado };
+                            Nomina.TablaEmpladoNomina.Rows.Add(data);
+                        }
+                    }
+                    Nomina.CountEmpleado = Nomina.TablaEmpladoNomina.Rows.Count;
+                    if (Nomina.CountEmpleado == 0)
+                    {
+                        Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
+                        ModelState.AddModelError("", "Tienes que seleccionar al menos un empleado para la nómina");
+                        return View(Nomina);
+                    }
+                    else
+                    {
+                        NominaDatos.ANomina(Nomina);
+                        if (Nomina.Completado)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los empleados fueron dados de alta correctamente en la nómina.";
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Los empleado no se guardaron correctamente. Intente más tarde.";
+                            return View(Nomina);
+                        }
+                    }
+                }
+                else
+                {
+                    Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
+                    return View(Nomina);
+                }
             }
             catch
             {
-                return View();
+                Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Los empleado no se guardaron correctamente. Contacte a soporte técnico.";
+                return View(Nomina);
             }
         }
 
-        // GET: Admin/Nomina/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Admin/Nomina/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        // GET: Admin/Nomina/Details/5
+        public ActionResult Detalle(string id, string id2)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                NominaModels Nomina = new NominaModels();
+                Nomina_Datos NominaDatos = new Nomina_Datos();
+                Nomina.Conexion = Conexion;
+                Nomina.IDNomina = id;
+                Nomina.IDSucursal = id2;
+                Nomina.ListaNomina = NominaDatos.ObtenerListaDetalleNomina(Nomina);
+                return View(Nomina);
             }
-            catch
+            catch (Exception)
             {
-                return View();
-            }
-        }
-
-        // GET: Admin/Nomina/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Admin/Nomina/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
+                NominaModels Nomina = new NominaModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Nomina);
             }
         }
 
@@ -173,7 +194,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Nomina.IDSucursal = IDS;
                 Nomina.Conexion = Conexion;
                 Nomina.ListaNomina = NominaDatos.ObtenerListaNominaEmpleado(Nomina);
-                return Json(Nomina.ListaNomina, JsonRequestBehavior.AllowGet);
+                return Content(Nomina.ListaNomina.ToJSON(), "application/json");
+                //return Json(Nomina.ListaNomina, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

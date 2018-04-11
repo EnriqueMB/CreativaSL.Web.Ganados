@@ -37,22 +37,28 @@
                                     @Html.ValidationMessageFor(model => model.IDSucursal)
                                 </div>
                             </div>
-                                <div class="col-md-3">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @Html.CheckBoxFor(model => model.BandBusqFechas)<label class="control-label"> Filtrar por periodo: </label>
                                     <div class="form-group">
-                                        @Html.CheckBoxFor(model => model.BandBusqFechas)<label class="control-label"> Filtrar por periodo: </label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                            @Html.TextBoxFor(model => model.FechaInicio, "{0:dd/MM/yyyy}", new { id = "FechaInicio", @class = "form-control datepicker", @readonly = "readonly", @title = "Fecha Inicio" })
+                                        <div class="col-md-12">
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                                @Html.TextBoxFor(model => model.FechaInicio, "{0:dd/MM/yyyy}", new { id = "FechaInicio", @class = "form-control datepicker", @readonly = "readonly", @title = "Fecha Inicio" })
+                                            </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                                @Html.TextBoxFor(model => model.FechaFin, "{0:dd/MM/yyyy}", new { id = "FechaFin", @class = "form-control datepicker", @readonly = "readonly", @title = "Fecha Fin" })
+                                            <div class="col-md-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                                    @Html.TextBoxFor(model => model.FechaFin, "{0:dd/MM/yyyy}", new { id = "FechaFin", @class = "form-control datepicker", @readonly = "readonly", @title = "Fecha Fin" })
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                              
+                            </div>
+
                                 <div class="col-md-3">
                                     @Html.CheckBoxFor(model => model.BandBusqClave)<label class="control-label"> Filtrar por clave: </label>
                                         <div class="input-group">
@@ -82,10 +88,10 @@
                                 <thead>
                                     <tr>
                                         <th>Sucursal</th>
-                                        <th>Clave Nomina</th>
+                                        <th>Clave Nómina</th>
                                         <th>Fecha Inico</th>
                                         <th>Fecha Fin</th>
-                                        @*<th>Acción</th>*@
+                                        <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -94,12 +100,11 @@
                                         <tr id="@Nomina.IDNomina">
                                             <td>@Nomina.NombreSucursal</td>
                                             <td>@Nomina.ClaveNomina</td>
-                                            <td>@Nomina.FechaInicio</td>
-                                            <td>@Nomina.FechaFin</td>
-                                            @*<td style="text-align:center;">
+                                            <td>@Nomina.FechaInicio.ToShortDateString()</td>
+                                            <td>@Nomina.FechaFin.ToShortDateString()</td>
+                                            <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" href="@Url.Action("Edit", "CatBanco", new { id = bancos.IDBanco})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" id="delete-@bancos.IDBanco" data-hrefa="@Url.Action("Delete", "CatBanco", new { id =  bancos.IDBanco })" onClick="delete_row('@bancos.IDBanco');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Detalle" href="@Url.Action("Detalle", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal })" class="btn btn-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-bars"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -108,19 +113,14 @@
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatBanco", new { id = bancos.IDBanco})">
-                                                                    <i class="fa fa-edit"></i> Editar
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@bancos.IDBanco" data-hrefa="@Url.Action("Delete", "CatBanco", new { id = bancos.IDBanco })" onClick="delete_row('@bancos.IDBanco');">
-                                                                    <i class="fa fa-trash-o"></i> Eliminar
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Detalle", "Nomina", new { id = Nomina.IDNomina,  id2 = Nomina.IDSucursal})">
+                                                                    <i class="fa fa-bars"></i> Detalle
                                                                 </a>
                                                             </li>
                                                         </ul>
                                                     </div>
                                                 </div>
-                                            </td>*@
+                                            </td>
                                         </tr>
                                     }
                                 </tbody>
@@ -159,6 +159,7 @@
 {
 <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>

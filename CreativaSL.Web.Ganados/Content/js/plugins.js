@@ -6,7 +6,8 @@ $(function() {
             if ($(".datepicker").length > 0) {
                 $(".datepicker").datepicker({
                     format: 'dd/mm/yyyy',
-                    language: 'es'
+                    language: 'es',
+                    autoclose: true
                 });
                 $("#dp-2,#dp-3,#dp-4").datepicker(); // Sample
             }           
@@ -29,6 +30,7 @@ $(function() {
         var feDaterangepicker = function(){
             if($(".daterange").length > 0)
                $(".daterange").daterangepicker({format: 'YYYY-MM-DD',startDate: '2013-01-01',endDate: '2013-12-31'});
+
         }
         // END Daterangepicker
         
