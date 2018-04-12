@@ -75,7 +75,7 @@ namespace CreativaSL.Web.Ganados.Models
 
         public decimal KilosTotal { get; set; }
         public decimal MermaPromedio { get; set; }
-        public bool Estatus { get; set; }
+        public int Estatus { get; set; }
         public HttpPostedFileBase[] ImgFierros { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Seleccione un proveedor.")]
@@ -190,7 +190,7 @@ namespace CreativaSL.Web.Ganados.Models
             CertTuberculosis = string.Empty;
             CertBrucelosis = string.Empty;
             Conexion = string.Empty;
-            Estatus = true;
+            Estatus = -1;
             FechaHoraProgramada = DateTime.Now;
             FechaHoraTerminada = DateTime.Now;
             GuiaTransito = string.Empty;
