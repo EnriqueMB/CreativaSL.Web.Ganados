@@ -129,6 +129,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Sueldo = !dr.IsDBNull(dr.GetOrdinal("Sueldo")) ? dr.GetDecimal(dr.GetOrdinal("Sueldo")) : 0;
                     Item.Percepciones = !dr.IsDBNull(dr.GetOrdinal("Percepciones")) ? dr.GetDecimal(dr.GetOrdinal("Percepciones")) : 0;
                     Item.Deducciones = !dr.IsDBNull(dr.GetOrdinal("Deducciones")) ? dr.GetDecimal(dr.GetOrdinal("Deducciones")) : 0;
+                    Item.IDEmpleado = !dr.IsDBNull(dr.GetOrdinal("IDEmpleado")) ? dr.GetString(dr.GetOrdinal("IDEmpleado")) : string.Empty;
                     Lista.Add(Item);
                 }
                 return Lista;
@@ -242,5 +243,34 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+
+        public NominaModels ElimnarConceptosNomina(NominaModels Datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Datos.IDConcepto, Datos.EsFijo, Datos.Usuario
+                };
+                object Resultado = SqlHelper.ExecuteScalar(Datos.Conexion, "spCSLDB_Nomina_set_QuitarConceptoNomina", parametros);
+                if (Resultado != null)
+                {
+                    int IDRegistro = 0;
+                    if (int.TryParse(Resultado.ToString(), out IDRegistro))
+                    {
+                        if (IDRegistro > 0)
+                        {
+                            Datos.Completado = true;
+                            Datos.Resultado = IDRegistro;
+                        }
+                    }
+                }
+                return Datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
