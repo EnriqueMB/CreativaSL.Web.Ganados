@@ -250,7 +250,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
                     }
-                  
                 }
             }
             catch (Exception)
@@ -260,6 +259,23 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
             }
         }
+
+        //GET: Admin/Nomina/RptDiasLaborados/3/3
+        [HttpGet]
+        public ActionResult RptDiasLaborados(string id, string id2)
+        {
+            try
+            {
+                return View();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
 
         // POST: Admin/Nomina/getDatostablaEmpleado/3
         [HttpPost]

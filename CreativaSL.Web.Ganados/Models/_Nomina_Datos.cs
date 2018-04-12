@@ -277,7 +277,7 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                object[] Parametros = { Datos.IDNomina };
+                object[] Parametros = { Datos.IDNomina, Datos.IDSucursal };
                 DataSet Ds = SqlHelper.ExecuteDataset(Datos.Conexion, "spCSLDB_Nomina_get_RptNominaDetalle", Parametros);
                 if (Ds != null)
                 {
@@ -330,7 +330,7 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                object[] Parametros = { Datos.IDNomina };
+                object[] Parametros = { Datos.IDNomina, Datos.IDSucursal };
                 DataSet Ds = SqlHelper.ExecuteDataset(Datos.Conexion, "spCSLDB_Nomina_get_RptNominaSaldos", Parametros);
                 if (Ds != null)
                 {
