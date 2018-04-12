@@ -1257,6 +1257,7 @@
     <Compile Include="Models\NominaDetalleModels.cs" />
     <Compile Include="Models\NominaDiasFestivosModels.cs" />
     <Compile Include="Models\NominaModels.cs" />
+    <Compile Include="Models\NominaResumenDetalleModels.cs" />
     <Compile Include="Models\NominaVacacionesModels.cs" />
     <Compile Include="Models\ProductorAlmacenSucursalModels.cs" />
     <Compile Include="Models\ProveedorLugarModels.cs" />

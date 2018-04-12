@@ -15,6 +15,7 @@ namespace CreativaSL.Web.Ganados.Models
             Conexion = string.Empty;
             Usuario = string.Empty;
             _NombreConcepto = string.Empty;
+            _NombreEmpleado = string.Empty;
         }
 
         private string _IDConceptosFijo;
@@ -49,6 +50,13 @@ namespace CreativaSL.Web.Ganados.Models
             set { _NombreConcepto = value; }
         }
 
+        private string _NombreEmpleado;
+
+        public string NombreEmpleado
+        {
+            get { return _NombreEmpleado; }
+            set { _NombreEmpleado = value; }
+        }
 
         private decimal _Monto;
 

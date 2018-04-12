@@ -39,6 +39,8 @@
                                 <thead>
                                     <tr>
                                         <th>Descripción</th>
+                                        <th>Calculado</th>
+                                        <th>Suma</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
@@ -47,7 +49,22 @@
                                     {
                                         <tr id="@ConceptoNomina.IDConceptoNomina">
                                             <td>@ConceptoNomina.Descripcion</td>
-
+                                            @if (ConceptoNomina.Calculado)
+                                            {
+                                                <td>SI</td>
+                                            }
+                                            else
+                                            {
+                                                <td>NO</td>
+                                            }
+                                            @if (ConceptoNomina.SumaResta)
+                                            {
+                                                <td>SI</td>
+                                            }
+                                            else
+                                            {
+                                                <td>NO</td>
+                                            }
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     <a title="Editar" href="@Url.Action("Edit", "CatConceptosNomina", new { id = ConceptoNomina.IDConceptoNomina })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>

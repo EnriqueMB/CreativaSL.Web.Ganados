@@ -27,6 +27,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
+                        @{ Html.EnableClientValidation(false); }
                         @using (Html.BeginForm("Index", "Nomina", FormMethod.Post, new { @class = "form-inline", id = "form-search", autocomplete = "off" }))
                         {
 
@@ -40,13 +41,15 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     @Html.CheckBoxFor(model => model.BandBusqFechas)<label class="control-label"> Filtrar por periodo: </label>
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <div class="input-group date">
-                                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                                @Html.TextBoxFor(model => model.FechaInicio, "{0:dd/MM/yyyy}", new { id = "FechaInicio", @class = "form-control datepicker", @readonly = "readonly", @title = "Fecha Inicio" })
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <div class="input-group date">
+                                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                                    @Html.TextBoxFor(model => model.FechaInicio, "{0:dd/MM/yyyy}", new { id = "FechaInicio", @class = "form-control datepicker", @readonly = "readonly", @title = "Fecha Inicio" })
+                                                </div>
                                             </div>
                                         </div>
+                                        <br />
                                         <div class="form-group">
                                             <div class="col-md-12">
                                                 <div class="input-group">
@@ -55,7 +58,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                   
                                 </div>
                             </div>
 
@@ -157,18 +160,16 @@
 }
 @section script
 {
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+@*<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>*@
 <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/nomina-busqueda.js")"></script>
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
-        nominaBusqueda.init();
+        //nominaBusqueda.init();
         });
     </script>
 }

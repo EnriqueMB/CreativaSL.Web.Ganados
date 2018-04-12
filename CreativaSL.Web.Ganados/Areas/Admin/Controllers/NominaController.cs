@@ -42,41 +42,53 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Index(NominaModels Nomina)
         {
+            Nomina_Datos NominaDatos = new Nomina_Datos();
+            _Combos_Datos Combos = new _Combos_Datos();
             try
             {
-                Nomina_Datos NominaDatos = new Nomina_Datos();
-                _Combos_Datos Combos = new _Combos_Datos();
-                Nomina.Conexion = Conexion;
-                Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
-                Nomina.EsBusqueda = true;
-                if (!Nomina.BandBusqClave)
+
+                ModelState.Remove("IDSucursal");
+                if (ModelState.IsValid)
                 {
-                    Nomina.ClaveNomina = string.Empty;
+                    Nomina.Conexion = Conexion;
+                    Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
+                    Nomina.EsBusqueda = true;
+                    if (!Nomina.BandBusqClave)
+                    {
+                        Nomina.ClaveNomina = string.Empty;
+                    }
+                    if (!Nomina.BandIDSucursal)
+                    {
+                        Nomina.IDSucursal = string.Empty;
+                    }
+                    if (!Nomina.BandBusqFechas)
+                    {
+                        Nomina.FechaInicio = DateTime.Today;
+                        Nomina.FechaFin = DateTime.Today;
+                    }
+                    if (string.IsNullOrEmpty(Nomina.IDSucursal))
+                    {
+                        Nomina.BandIDSucursal = false;
+                    }
+                    if (!Nomina.BandBusqClave && !Nomina.BandIDSucursal && !Nomina.BandBusqFechas)
+                    {
+                        Nomina.EsBusqueda = false;
+                    }
+                    Nomina.ListaNomina = NominaDatos.ObtenerListaNomina(Nomina);
+                    return View(Nomina);
                 }
-                if (!Nomina.BandIDSucursal)
+                else
                 {
-                    Nomina.IDSucursal = string.Empty;
+                    Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
+                    return View(Nomina);
                 }
-                if (!Nomina.BandBusqFechas)
-                {
-                    Nomina.FechaInicio = DateTime.Today;
-                    Nomina.FechaFin = DateTime.Today;
-                }
-                if (string.IsNullOrEmpty(Nomina.IDSucursal))
-                {
-                    Nomina.BandIDSucursal = false;
-                }
-                if (!Nomina.BandBusqClave && !Nomina.BandIDSucursal && !Nomina.BandBusqFechas)
-                {
-                    Nomina.EsBusqueda = false;
-                }
-                Nomina.ListaNomina = NominaDatos.ObtenerListaNomina(Nomina);
-                return View(Nomina);
             }
             catch (Exception)
             {
-
-                throw;
+               
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Nomina);
             }
         }
 
@@ -94,8 +106,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-
-                throw;
+                NominaModels Nomina = new NominaModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
             }
         }
 
