@@ -575,7 +575,7 @@ namespace CreativaSL.Web.Ganados.Models
                 };
             dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_COMPRAS_GetListadoPrecioRangoPeso", parametros);
 
-            return Auxiliar.DatasetToJson(dr);
+            return Auxiliar.SqlReaderToJson(dr);
         }
         public List<CatTipoClasificacionModels> GetListadoTipoClasificacion(CompraModels Compra)
         {
@@ -707,7 +707,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(CompraModels.Conexion, "spCSLDB_COMPRAS_IndexVentas");
-                string jsonDr = Auxiliar.DatasetToJson(dr);
+                string jsonDr = Auxiliar.SqlReaderToJson(dr);
                 return jsonDr;
             }
             catch (Exception ex)
@@ -986,7 +986,7 @@ namespace CreativaSL.Web.Ganados.Models
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_COMPRAS_GetGanadoXGanadoDetalle", parametros);
 
-                return  Auxiliar.DatasetToJson(dr);
+                return  Auxiliar.SqlReaderToJson(dr);
             }
             catch (Exception ex)
             {
@@ -1005,7 +1005,7 @@ namespace CreativaSL.Web.Ganados.Models
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_COMPRAS_GetListadoPrecioRangoPeso", parametros);
 
-                return Auxiliar.DatasetToJson(dr);
+                return Auxiliar.SqlReaderToJson(dr);
             }
             catch (Exception ex)
             {
