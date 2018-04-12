@@ -243,5 +243,34 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+
+        public NominaModels ElimnarConceptosNomina(NominaModels Datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Datos.IDConcepto, Datos.EsFijo, Datos.Usuario
+                };
+                object Resultado = SqlHelper.ExecuteScalar(Datos.Conexion, "spCSLDB_Nomina_set_QuitarConceptoNomina", parametros);
+                if (Resultado != null)
+                {
+                    int IDRegistro = 0;
+                    if (int.TryParse(Resultado.ToString(), out IDRegistro))
+                    {
+                        if (IDRegistro > 0)
+                        {
+                            Datos.Completado = true;
+                            Datos.Resultado = IDRegistro;
+                        }
+                    }
+                }
+                return Datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

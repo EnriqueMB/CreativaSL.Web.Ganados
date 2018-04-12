@@ -205,6 +205,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 throw;
             }
         }
+        //GET: Admin/Nomina/DetalleEmpleado/2
         [HttpPost]
         public ActionResult DetalleEmpleado(NominaModels Nomina)
         {
@@ -212,15 +213,37 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 
                 Nomina_Datos NominaDatos = new Nomina_Datos();
-               
                 Nomina.Conexion = Conexion;
-                Nomina.listaConceptoNomina = NominaDatos.ObtenerConceptosNomina(Nomina);
-                return View(Nomina);
+                Nomina.Usuario = User.Identity.Name;
+                Nomina = NominaDatos.AgregarConceptoNomina(Nomina);
+                if (Nomina.Completado)
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Los datos se guardarón correctamente.";
+                    return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
+                }
+                else
+                {
+                    if (Nomina.Resultado == -1)
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "El concepto ya fue insertado.";
+                        return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
+                    }
+                  
+                }
             }
             catch (Exception)
             {
-
-                throw;
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte soporte técnico.";
+                return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
             }
         }
 
