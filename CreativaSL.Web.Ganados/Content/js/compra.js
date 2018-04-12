@@ -1,6 +1,7 @@
 ﻿var Compra = function () {
     "use strict"
     var tableGanado;
+    var listadoPrecioPeso;
 
     var InitMap = function (option) {
         if (option == 2){
@@ -28,6 +29,7 @@
         });
 
     };
+    //Eventos
     var RunEventsLineaFletera = function () {
         $("#IDEmpresa").on("change", function () {
             var IDEmpresa = $(this).val();
@@ -37,6 +39,7 @@
             GetRemolquesXIDEmpresa(IDEmpresa);
         });
     }
+    //Validaciones
     var LoadValidationProveedor = function () {
         var form1 = $('#frmCreateCompra');
         var errorHandler1 = $('.errorHandler', form1);
@@ -119,15 +122,7 @@
             submitHandler: function (form) {
                 successHandler1.show();
                 errorHandler1.hide();
-
-                if ($("#IDCompra").length != 0) {
-                    //Tiene un id, actualizamos el registro
-                    A_Proveedor();
-                }
-                else {
-                    //No tiene id, se crea la compra
-                    form.submit();
-                }
+                form.submit();
             }
         });
     };
@@ -288,208 +283,7 @@
             }
         });
     };
-
-    function A_Documento() {
-        var form = $("#frmDocumentos")[0];
-        var formData = new FormData(form);
-
-        $.ajax({
-            type: 'POST',
-            data: formData,
-            url: '/Admin/Compra/A_Documentos/',
-            contentType: false,
-            processData: false,
-            cache: false,
-            error: function (response) {
-                Mensaje(response.Mensaje, "2");
-            },
-            success: function (response) {
-                if (response.Success) {
-                    Mensaje("Registro guardado con éxito.", "1");
-                }
-                else
-                    Mensaje(response.Mensaje, "2");
-            }
-        });
-    }
-    function AC_Flete() {
-        var form = $("#frmFlete")[0];
-        var formData = new FormData(form);
-
-        $.ajax({
-            type: 'POST',
-            data: formData,
-            url: '/Admin/Compra/AC_Flete/',
-            contentType: false,
-            processData: false,
-            cache: false,
-            error: function (response) {
-                Mensaje(response.Mensaje, "2");
-            },
-            success: function (response) {
-                if (response.Success) {
-                    Mensaje("Registro guardado con éxito.", "1");
-                    $("#IDFlete").val = response.Mensaje;
-                }
-                else
-                    Mensaje(response.Mensaje, "2");
-            }
-        });
-    }
-    function A_Proveedor() {
-        var form = $("#frmProveedor")[0];
-        var formData = new FormData(form);
-
-        $.ajax({
-            type: 'POST',
-            data: formData,
-            url: '/Admin/Compra/A_Proveedor/',
-            contentType: false,
-            processData: false,
-            cache: false,
-            error: function (response) {
-                Mensaje(response.Mensaje, "2");
-            },
-            success: function (response) {
-                if (response.Success) {
-                    Mensaje("Registro del proveedor actualizado con éxito.", "1");
-                }
-                else
-                    Mensaje(response.Mensaje, "2");
-            }
-        });
-    }
-
-    function GetVehiculosXIDEmpresa(IDEmpresa) {
-        $.ajax({
-            url: '/Admin/Compra/GetVehiculosXIDEmpresa/',
-            type: "POST",
-            dataType: 'json',
-            data: { IDEmpresa: IDEmpresa },
-            error: function () {
-                Mensaje("Ocurrió un error al cargar el combo", "1");
-            },
-            success: function (result) {
-                $('#IDVehiculo').empty();
-                var optgroup = result[0].Modelo;
-                var option = '<optgroup label="' + result[0].Modelo + '"><option value="' + result[0].IDVehiculo + '">' + result[0].nombreMarca + '</option>';
-
-                for (var i = 1; i < result.length; i++) {
-                    if (optgroup == result[i].Modelo) {
-                        option += '<option value="' + result[i].IDVehiculo + '">' + result[i].nombreMarca + '</option>';
-                    }
-                    else {
-                        //Cerramos el grupo
-                        option += '</optgroup>';
-                        //Anexamos al select
-                        $("#IDVehiculo").append(option);
-                        //Creamos un group nuevo
-                        option = '<optgroup label="' + result[i].Modelo + '"><option value="' + result[i].IDVehiculo + '">' + result[i].nombreMarca + '</option>';
-                        optgroup = result[i].Modelo;
-                    }
-                }
-                //Anexamos el último valor
-                option += '</optgroup>';
-                $("#IDVehiculo").append(option);
-                $('#IDVehiculo.select').selectpicker('refresh');
-            }
-        });
-    }
-    function GetChoferesXIDEmpresa(IDEmpresa) {
-        $.ajax({
-            url: '/Admin/Compra/GetChoferesXIDEmpresa/',
-            type: "POST",
-            dataType: 'json',
-            data: { IDEmpresa: IDEmpresa },
-            error: function () {
-                Mensaje("Ocurrió un error al cargar el combo", "1");
-            },
-            success: function (result) {
-
-                $("#IDChofer option").remove();
-                for (var i = 0; i < result.length; i++) {
-                    $("#IDChofer").append('<option value="' + result[i].IDChofer + '">' + result[i].Nombre + '</option>');
-                }
-                $('#IDChofer.select').selectpicker('refresh');
-            }
-        });
-    }
-    function GetJaulasXIDEmpresa(IDEmpresa) {
-        $.ajax({
-            url: '/Admin/Compra/GetJaulasXIDEmpresa/',
-            type: "POST",
-            dataType: 'json',
-            data: { IDEmpresa: IDEmpresa },
-            error: function () {
-                Mensaje("Ocurrió un error al cargar el combo", "1");
-            },
-            success: function (result) {
-
-                $("#IDJaula option").remove();
-                for (var i = 0; i < result.length; i++) {
-                    $("#IDJaula").append('<option value="' + result[i].IDJaula + '">' + result[i].Matricula + '</option>');
-                }
-                $('#IDJaula.select').selectpicker('refresh');
-            }
-        });
-    }
-    function GetRemolquesXIDEmpresa(IDEmpresa) {
-        $.ajax({
-            url: '/Admin/Compra/GetRemolquesXIDEmpresa/',
-            type: "POST",
-            dataType: 'json',
-            data: { IDEmpresa: IDEmpresa },
-            error: function () {
-                Mensaje("Ocurrió un error al cargar el combo", "1");
-            },
-            success: function (result) {
-
-                $("#IDRemolque option").remove();
-                for (var i = 0; i < result.length; i++) {
-                    $("#IDRemolque").append('<option value="' + result[i].IDRemolque + '">' + result[i].placa + '</option>');
-                }
-                $('#IDRemolque.select').selectpicker('refresh');
-            }
-        });
-    }
-
-    function CalculateAndDisplayRoute(directionsService, directionsDisplay) {
-        var selectIndexInicio = document.getElementById('Trayecto.id_lugarOrigen').selectedIndex;
-        var optionInicio = document.getElementById('Trayecto.id_lugarOrigen').options.item(selectIndexInicio);
-        var latitudInicial = optionInicio.dataset.latitud.replace(",", ".");
-        var longInicial = optionInicio.dataset.longitud.replace(",", ".");
-
-        var selectIndexFinal = document.getElementById('Trayecto.id_lugarDestino').selectedIndex;
-        var optionFinal = document.getElementById('Trayecto.id_lugarDestino').options.item(selectIndexFinal);
-        var latitudFinal = optionFinal.dataset.latitud.replace(",", ".");
-        var longFinal = optionFinal.dataset.longitud.replace(",", ".");
-
-        var inicio = new google.maps.LatLng(latitudInicial, longInicial);
-        var final = new google.maps.LatLng(latitudFinal, longFinal);
-
-        if ((latitudInicial != 0 && longInicial != 0) && (latitudFinal != 0 && longFinal != 0)) {
-            directionsService.route({
-                origin: inicio,
-                destination: final,
-                travelMode: 'DRIVING'
-            }, function (response, status) {
-                if (status === 'OK') {
-                    directionsDisplay.setDirections(response);
-                } else {
-                    window.alert('No se pudo cargar la ubicación, verifique sus coordenas en el catálogo de Lugares, estatus: ' + status);
-                }
-            });
-        }
-        else {
-
-            if ((optionInicio.text != "-- Seleccione --") && (optionFinal.text != "-- Seleccione --"))
-                window.alert('No se pudo cargar la ubicación, verifique sus coordenas en el catálogo de Lugares');
-        }
-    }    
-
-
-
-
+    //Tablas
     var LoadTableGanado = function (IDCompra) {
 
         tableGanado = $('#GanadoXCompraGanado').DataTable({
@@ -584,6 +378,279 @@
             ModalGanado(0);
         });
     };
+    //Modales
+    function ModalGanado(IDGanado) {
+        $.ajax({
+            url: 'ModalGanado',
+            type: "POST",
+            data: { IDGanado: IDGanado },
+            success: function (data) {
+                $('#ContenidoModalGanado').html(data);
+                $('#ModalGanado').modal({ backdrop: 'static', keyboard: false });
+                EventsModalGanado();
+
+            }
+        });
+    }
+    //Funciones
+    function A_Documento() {
+        var form = $("#frmDocumentos")[0];
+        var formData = new FormData(form);
+
+        $.ajax({
+            type: 'POST',
+            data: formData,
+            url: '/Admin/Compra/A_Documentos/',
+            contentType: false,
+            processData: false,
+            cache: false,
+            error: function (response) {
+                Mensaje(response.Mensaje, "2");
+            },
+            success: function (response) {
+                if (response.Success) {
+                    Mensaje("Registro guardado con éxito.", "1");
+                }
+                else
+                    Mensaje(response.Mensaje, "2");
+            }
+        });
+    }
+    function AC_Flete() {
+        var form = $("#frmFlete")[0];
+        var formData = new FormData(form);
+
+        $.ajax({
+            type: 'POST',
+            data: formData,
+            url: '/Admin/Compra/AC_Flete/',
+            contentType: false,
+            processData: false,
+            cache: false,
+            error: function (response) {
+                Mensaje(response.Mensaje, "2");
+            },
+            success: function (response) {
+                if (response.Success) {
+                    Mensaje("Registro guardado con éxito.", "1");
+                    $("#IDFlete").val = response.Mensaje;
+                }
+                else
+                    Mensaje(response.Mensaje, "2");
+            }
+        });
+    }
+    function GetVehiculosXIDEmpresa(IDEmpresa) {
+        $.ajax({
+            url: '/Admin/Compra/GetVehiculosXIDEmpresa/',
+            type: "POST",
+            dataType: 'json',
+            data: { IDEmpresa: IDEmpresa },
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "1");
+            },
+            success: function (result) {
+                $('#IDVehiculo').empty();
+                var optgroup = result[0].Modelo;
+                var option = '<optgroup label="' + result[0].Modelo + '"><option value="' + result[0].IDVehiculo + '">' + result[0].nombreMarca + '</option>';
+
+                for (var i = 1; i < result.length; i++) {
+                    if (optgroup == result[i].Modelo) {
+                        option += '<option value="' + result[i].IDVehiculo + '">' + result[i].nombreMarca + '</option>';
+                    }
+                    else {
+                        //Cerramos el grupo
+                        option += '</optgroup>';
+                        //Anexamos al select
+                        $("#IDVehiculo").append(option);
+                        //Creamos un group nuevo
+                        option = '<optgroup label="' + result[i].Modelo + '"><option value="' + result[i].IDVehiculo + '">' + result[i].nombreMarca + '</option>';
+                        optgroup = result[i].Modelo;
+                    }
+                }
+                //Anexamos el último valor
+                option += '</optgroup>';
+                $("#IDVehiculo").append(option);
+                $('#IDVehiculo.select').selectpicker('refresh');
+            }
+        });
+    }
+    function GetChoferesXIDEmpresa(IDEmpresa) {
+        $.ajax({
+            url: '/Admin/Compra/GetChoferesXIDEmpresa/',
+            type: "POST",
+            dataType: 'json',
+            data: { IDEmpresa: IDEmpresa },
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "1");
+            },
+            success: function (result) {
+
+                $("#IDChofer option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#IDChofer").append('<option value="' + result[i].IDChofer + '">' + result[i].Nombre + '</option>');
+                }
+                $('#IDChofer.select').selectpicker('refresh');
+            }
+        });
+    }
+    function GetJaulasXIDEmpresa(IDEmpresa) {
+        $.ajax({
+            url: '/Admin/Compra/GetJaulasXIDEmpresa/',
+            type: "POST",
+            dataType: 'json',
+            data: { IDEmpresa: IDEmpresa },
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "1");
+            },
+            success: function (result) {
+
+                $("#IDJaula option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#IDJaula").append('<option value="' + result[i].IDJaula + '">' + result[i].Matricula + '</option>');
+                }
+                $('#IDJaula.select').selectpicker('refresh');
+            }
+        });
+    }
+    function GetRemolquesXIDEmpresa(IDEmpresa) {
+        $.ajax({
+            url: '/Admin/Compra/GetRemolquesXIDEmpresa/',
+            type: "POST",
+            dataType: 'json',
+            data: { IDEmpresa: IDEmpresa },
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "1");
+            },
+            success: function (result) {
+
+                $("#IDRemolque option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#IDRemolque").append('<option value="' + result[i].IDRemolque + '">' + result[i].placa + '</option>');
+                }
+                $('#IDRemolque.select').selectpicker('refresh');
+            }
+        });
+    }
+    function CalculateAndDisplayRoute(directionsService, directionsDisplay) {
+        var selectIndexInicio = document.getElementById('Trayecto.id_lugarOrigen').selectedIndex;
+        var optionInicio = document.getElementById('Trayecto.id_lugarOrigen').options.item(selectIndexInicio);
+        var latitudInicial = optionInicio.dataset.latitud.replace(",", ".");
+        var longInicial = optionInicio.dataset.longitud.replace(",", ".");
+
+        var selectIndexFinal = document.getElementById('Trayecto.id_lugarDestino').selectedIndex;
+        var optionFinal = document.getElementById('Trayecto.id_lugarDestino').options.item(selectIndexFinal);
+        var latitudFinal = optionFinal.dataset.latitud.replace(",", ".");
+        var longFinal = optionFinal.dataset.longitud.replace(",", ".");
+
+        var inicio = new google.maps.LatLng(latitudInicial, longInicial);
+        var final = new google.maps.LatLng(latitudFinal, longFinal);
+
+        if ((latitudInicial != 0 && longInicial != 0) && (latitudFinal != 0 && longFinal != 0)) {
+            directionsService.route({
+                origin: inicio,
+                destination: final,
+                travelMode: 'DRIVING'
+            }, function (response, status) {
+                if (status === 'OK') {
+                    directionsDisplay.setDirections(response);
+                } else {
+                    window.alert('No se pudo cargar la ubicación, verifique sus coordenas en el catálogo de Lugares, estatus: ' + status);
+                }
+            });
+        }
+        else {
+
+            if ((optionInicio.text != "-- Seleccione --") && (optionFinal.text != "-- Seleccione --"))
+                window.alert('No se pudo cargar la ubicación, verifique sus coordenas en el catálogo de Lugares');
+        }
+    }    
+
+    function EventsModalGanado() {
+        var inputDiferenciaPeso = $("#CompraGanado_DiferenciaPeso");
+        var inputMermaObtenida = $("#CompraGanado_Merma");
+        var pesoInicial = $("#CompraGanado_PesoInicial").val();
+        var pesoFinal = $("#CompraGanado_PesoFinal").val();
+
+        $('#Ganado_Repeso').change(function () {
+            $('.Esconder').toggle(1000);
+            if ($('#Ganado_Repeso').is(":checked")) {
+            }
+        });
+        $("#CompraGanado_PesoInicial").on("keyup keydown", function (e) {
+            $(this).val($(this).val().replace(/[^\d].+/, ""));
+
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105)) {
+                e.preventDefault();
+            }
+            else {
+                    pesoInicial = $(this).val();
+                if ($('#Ganado_Repeso').is(":checked")) {
+                    inputDiferenciaPeso.val(diferenciaPeso(pesoInicial, pesoFinal));
+                    inputMermaObtenida.val(mermaGenerada(pesoInicial, pesoFinal));
+                }
+                else{
+                     
+                    console.log("directo");
+                }
+            }
+        });
+        $("#CompraGanado_PesoFinal").on("keyup keydown", function (e) {
+            $(this).val($(this).val().replace(/[^\d].+/, ""));
+
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105)) {
+                e.preventDefault();
+            }
+            else {
+                    pesoFinal = $(this).val();
+                if ($('#Ganado_Repeso').is(":checked")) {
+                    inputDiferenciaPeso.val(diferenciaPeso(pesoInicial, pesoFinal));
+                    inputMermaObtenida.val(mermaGenerada(pesoInicial, pesoFinal));
+                }
+                else {
+
+                    console.log("directo");
+                }
+            }
+        });
+
+    }
+    function mermaGenerada(pesoInicial, pesoFinal) {
+        var mermaGenerada = (((pesoFinal * 100) / pesoInicial) - 100)*(-1);
+            mermaGenerada = mermaGenerada.toFixed(2);
+        return mermaGenerada;
+    }
+    function diferenciaPeso(pesoInicial, pesoFinal) {
+       return (pesoFinal - pesoInicial);
+    }
+    function calcularCompraGanado() {
+        var repeso = $('#Ganado_Repeso').is(":checked");
+
+        var inputGenero = $("#Ganado_genero");
+        var inputPesoInicial = $("#CompraGanado_PesoInicial");
+        var inputFinal = $("CompraGanado_PesoFinal");
+        var genero = $("#Ganado_genero").val;
+        var pesoInicial = $("#CompraGanado_PesoInicial").val;
+        var pesoFinal = $("CompraGanado_PesoFinal").val;
+        var mermaPermitida = $("Sucursal_MermaPredeterminada").val;
+        
+        if (repeso) {
+            
+        }
+        else {
+
+        }
+
+        //    $("input").keyup(function () {
+
+        //        var pesoInicial = document.getElementById("CompraGanado_PesoInicial").value;
+        //        var val = this.value;
+        //        pesoInicial.replace(/\D|\-/, '');
+
+        //}).keyup();
+    }
+    
+   
     var LoadTableMovimientos = function (idCompra) {
         $("#btnAddPago").on("click", function () {
             ModalPago(0);
@@ -599,42 +666,10 @@
     }
 
 
-    function ModalGanado(idGanado) {
-        $.ajax({
-            url: 'ModalGanado',
-            type: "POST",
-            data: { idGanado: idGanado },
-            success: function (data) {
-                $('#ContenidoModalGanado').html(data);
-                $('#ModalGanado').modal({ backdrop: 'static', keyboard: false });
-                
-                $('#Ganado_Repeso').change(function () {
-                    $('.Esconder').toggle(1000);
-                    if ($('#Ganado_Repeso').is(":checked")) {
-                       // calcularCompraGanado(true);
-                        
-                    }
-                });
-
-                
-            }
-        });
-    }
-    function calcularCompraGanado(checked) {
-       
-        if (!isNaN(pesoInicial)) {
-
-        }
+   
+    
 
 
-        //    $("input").keyup(function () {
-
-        //        var pesoInicial = document.getElementById("CompraGanado_PesoInicial").value;
-        //        var val = this.value;
-        //        pesoInicial.replace(/\D|\-/, '');
- 
-        //}).keyup();
-    }
     function ModalCobro(idDocCobrar) {
         $.ajax({
             url: "ModalCobro",
@@ -673,7 +708,8 @@
     }
 
     return {
-        init: function (option, idCompra) {
+        init: function (option, IDCompra, PrecioPeso) {
+            listadoPrecioPeso = PrecioPeso
             LoadItems();
             LoadValidationProveedor();
             InitMap(option);
@@ -682,9 +718,9 @@
             LoadValidationDocumentos();
             RunEventsLineaFletera();
            
-            LoadTableGanado(idCompra);
-            LoadTableMovimientos(idCompra);
-            LoadTableEvento(idCompra);
+            LoadTableGanado(IDCompra);
+            LoadTableMovimientos(IDCompra);
+            LoadTableEvento(IDCompra);
         }
     };
 }();

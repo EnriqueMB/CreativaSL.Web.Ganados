@@ -21,7 +21,7 @@ namespace CreativaSL.Web.Ganados.Models
         public RespuestaAjax RespuestaAjax { get; set; }
         #endregion
 
-        public string sRangoPeso { get; set; }
+        public string ListadoPrecioRangoPeso { get; set; }
 
         //Para el index
         public DataTable TablaCompra { get; set; }
@@ -201,6 +201,7 @@ namespace CreativaSL.Web.Ganados.Models
             GanadosPactadoHembras = 0;
             GanadosPactadoTotal = 0;
             KilosTotal = 0;
+            ListadoPrecioRangoPeso = string.Empty;
             MermaPromedio = 0;
             Mensaje = string.Empty;
             MontoPagado = 0;
