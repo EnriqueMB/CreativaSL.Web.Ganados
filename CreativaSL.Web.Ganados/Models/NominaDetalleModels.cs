@@ -7,48 +7,70 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class NominaDetalleModels
     {
-        private string _id_nomina;
-
-        public string id_nomina
+        public NominaDetalleModels()
         {
-            get { return _id_nomina; }
-            set { _id_nomina = value; }
+            _IDNomina = string.Empty;
+            _IDEmpleado = string.Empty;
+            _NombreEmpleado = string.Empty;
         }
-        private string _id_empleado;
 
-        public string id_empleado
-        {
-            get { return _id_empleado; }
-            set { _id_empleado = value; }
-        }
-        private decimal _percepciones;
+        private string _IDNomina;
 
-        public decimal percepciones
+        public string IDNomina
         {
-            get { return _percepciones; }
-            set { _percepciones = value; }
+            get { return _IDNomina; }
+            set { _IDNomina = value; }
         }
-        private decimal _deducciones;
 
-        public decimal deducciones
-        {
-            get { return _deducciones; }
-            set { _deducciones = value; }
-        }
-        private decimal _total;
+        private string _NombreEmpleado;
 
-        public decimal total
+        public string NombreEmpleado
         {
-            get { return _total; }
-            set { _total = value; }
+            get { return _NombreEmpleado; }
+            set { _NombreEmpleado = value; }
         }
-        private bool _pagado;
 
-        public bool pagado
+
+        private string _IDEmpleado;
+
+        public string IDEmpleado
         {
-            get { return _pagado; }
-            set { _pagado = value; }
+            get { return _IDEmpleado; }
+            set { _IDEmpleado = value; }
         }
+
+        private decimal _Percepciones;
+
+        public decimal Percepciones
+        {
+            get { return _Percepciones; }
+            set { _Percepciones = value; }
+        }
+
+        private decimal _Deducciones;
+
+        public decimal Deducciones
+        {
+            get { return _Deducciones; }
+            set { _Deducciones = value; }
+        }
+
+        private decimal _Total;
+
+        public decimal Total
+        {
+            get { return _Total; }
+            set { _Total = value; }
+        }
+
+        private bool _Pagado;
+
+        public bool Pagado
+        {
+            get { return _Pagado; }
+            set { _Pagado = value; }
+        }
+
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }

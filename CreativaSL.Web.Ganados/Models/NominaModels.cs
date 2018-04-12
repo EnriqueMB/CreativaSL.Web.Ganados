@@ -40,7 +40,9 @@ namespace CreativaSL.Web.Ganados.Models
             _ListaEmpleados = new List<EmpleadoNominaViewModels>();
             _ListaConceptosFijo = new List<NominaConceptosFijosModels>();
             _ListaConceptosVariable = new List<NominaConceptosEmpModels>();
-           // _TablaEmpleadoNomina = new DataTable();
+            _ListaResumenDetalleNomina = new List<NominaResumenDetalleModels>();
+            _PeriodoFechas = string.Empty;
+            _ListaNominaDetalle = new List<NominaDetalleModels>();
         }
 
         private List<CatConceptoNominaModels> _listaConceptoNomina;
@@ -104,10 +106,10 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private DateTime _FechaFin;
-        [Required(ErrorMessage = "Debe seleccionar una fecha de fin del periodo de nómina")]
-        [Display(Name = "Fecha de fin")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
+        //[Required(ErrorMessage = "Debe seleccionar una fecha de fin del periodo de nómina")]
+        //[Display(Name = "Fecha de fin")]
+        //[DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime FechaFin
         {
             get { return _FechaFin; }
@@ -224,6 +226,38 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _ListaConceptosFijo; }
             set { _ListaConceptosFijo = value; }
+        }
+
+        private List<NominaResumenDetalleModels> _ListaResumenDetalleNomina;
+
+        public List<NominaResumenDetalleModels> ListaResumenDetalleNomina
+        {
+            get { return _ListaResumenDetalleNomina; }
+            set { _ListaResumenDetalleNomina = value; }
+        }
+
+        private int _DiasPeriodo;
+
+        public int DiasPeriodo
+        {
+            get { return _DiasPeriodo; }
+            set { _DiasPeriodo = value; }
+        }
+
+        private string _PeriodoFechas;
+
+        public string PeriodoFechas
+        {
+            get { return _PeriodoFechas; }
+            set { _PeriodoFechas = value; }
+        }
+
+        private List<NominaDetalleModels> _ListaNominaDetalle;
+
+        public List<NominaDetalleModels> ListaNominaDetalle
+        {
+            get { return _ListaNominaDetalle; }
+            set { _ListaNominaDetalle = value; }
         }
 
 
