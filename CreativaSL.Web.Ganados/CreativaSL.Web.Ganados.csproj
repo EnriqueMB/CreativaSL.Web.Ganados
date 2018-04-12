@@ -1095,7 +1095,7 @@
     <Content Include="Areas\Admin\Views\Mantenimiento\EditDetail.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\EditV.cshtml" />
-    <Content Include="Areas\Admin\Views\Nomina\DetalleEmpleado.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\CreatePart2.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

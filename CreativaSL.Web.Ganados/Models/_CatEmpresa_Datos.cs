@@ -131,7 +131,7 @@ namespace CreativaSL.Web.Ganados.Models
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Empresa.Conexion, "spCSLDB_EMPRESA_get_CuentasBancarias", parametros);
-                string jsonDr = Auxiliar.DatasetToJson(dr);
+                string jsonDr = Auxiliar.SqlReaderToJson(dr);
                 return jsonDr;
             }
             catch (Exception ex)
