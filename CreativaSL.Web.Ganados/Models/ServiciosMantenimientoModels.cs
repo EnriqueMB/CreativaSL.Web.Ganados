@@ -16,6 +16,9 @@ namespace CreativaSL.Web.Ganados.Models
             _Fecha = DateTime.MinValue;
             _ServiciosRealizados = string.Empty;
             _ImporteTotal = 0;
+            _CssClassEstatus = string.Empty;
+            _Estatus = string.Empty;
+            _IDEstatus = 0;
             _ListaRemolques = new List<CatRemolqueModels>();
             _ListaVehiculos = new List<CatVehiculoModels>();
         }
