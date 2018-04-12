@@ -235,11 +235,8 @@ namespace CreativaSL.Web.Ganados.Models
         {
             CatEstatusGanadoModels EstatusGanado;
             SqlDataReader dr = null;
-            object[] parametros =
-               {
-                    Compra.Sucursal.IDSucursal
-                };
-            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_CatEstatusGanado", parametros);
+            
+            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_CatEstatusGanado");
 
             while (dr.Read())
             {

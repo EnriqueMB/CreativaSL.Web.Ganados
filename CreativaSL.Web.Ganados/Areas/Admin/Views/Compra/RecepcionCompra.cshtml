@@ -355,10 +355,12 @@
             var IDCompra    = "@Model.IDCompra";
             var sRangoPeso  =  @Html.Raw(Json.Encode(Model.ListadoPrecioRangoPeso));
             var finalRangoPeso = sRangoPeso.replace("\\", "");
+            var mermaEstablecida = @Model.Sucursal.MermaPredeterminada;
+
             finalRangoPeso = $.parseJSON(finalRangoPeso);
 
             Mensaje(message, typemessage);
-            Compra.init(1, IDCompra, finalRangoPeso);
+            Compra.init(1, IDCompra, finalRangoPeso, mermaEstablecida);
         });
     </script>
 }

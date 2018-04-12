@@ -557,7 +557,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        
+
 
 
 
@@ -583,12 +583,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #region MODALES
         #region Ganado
         [HttpPost]
-        public ActionResult ModalGanado(string IDGanado, decimal MermaPredeterminada)
+        public ActionResult ModalGanado(string IDGanado, decimal Merma)
         {
             Compra = new CompraModels();
             CompraDatos = new _Compra_Datos();
             Compra.Ganado.id_Ganados = IDGanado;
-            Compra.Sucursal.MermaPredeterminada = MermaPredeterminada;
+            Compra.Sucursal.MermaPredeterminada = Merma;
             Compra.Conexion = Conexion;
             Compra = CompraDatos.GetCompraGanadoXIDGanado(Compra);
             Compra.ListaEstatusGanado = CompraDatos.GetListadoEstatusGanado(Compra);

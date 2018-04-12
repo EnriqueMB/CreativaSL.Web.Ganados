@@ -1,7 +1,6 @@
 ﻿var Compra = function () {
     "use strict"
     var tableGanado;
-    var listadoPrecioPeso;
 
     var InitMap = function (option) {
         if (option == 2){
@@ -284,8 +283,7 @@
         });
     };
     //Tablas
-    var LoadTableGanado = function (IDCompra) {
-
+    var LoadTableGanado = function (IDCompra, jsonPreciosPeso, Merma) {
         tableGanado = $('#GanadoXCompraGanado').DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
@@ -343,7 +341,7 @@
             "drawCallback": function (settings) {
                 $(".editGanado").on("click", function () {
                     var idGanado = $(this).data("id")
-                    ModalGanado(idGanado);
+                    ModalGanado(idGanado, jsonPreciosPeso, Merma);
                 });
                 $(".deleteCuentaBancaria").on("click", function () {
                     var url = $(this).attr('data-hrefa');
@@ -375,20 +373,19 @@
         });
 
         $("#btnAddGanado").on("click", function () {
-            ModalGanado(0);
+            ModalGanado(0, jsonPreciosPeso, Merma);
         });
     };
     //Modales
-    function ModalGanado(IDGanado) {
+    function ModalGanado(IDGanado, jsonPreciosPeso, MermaSucursal) {
         $.ajax({
             url: 'ModalGanado',
             type: "POST",
-            data: { IDGanado: IDGanado },
+            data: { IDGanado: IDGanado, Merma: MermaSucursal },
             success: function (data) {
                 $('#ContenidoModalGanado').html(data);
                 $('#ModalGanado').modal({ backdrop: 'static', keyboard: false });
-                EventsModalGanado();
-
+                EventsModalGanado(jsonPreciosPeso, MermaSucursal);
             }
         });
     }
@@ -566,11 +563,21 @@
         }
     }    
 
-    function EventsModalGanado() {
+    function EventsModalGanado(jsonPrecioPeso, MermaSucursal) {
+        var MermaSucursal = MermaSucursal;
+        var jsonPrecioPeso = jsonPrecioPeso;
+
         var inputDiferenciaPeso = $("#CompraGanado_DiferenciaPeso");
         var inputMermaObtenida = $("#CompraGanado_Merma");
+        var inputPesoSugerido = $("#CompraGanado_PesoSugerido");
+        var inputPrecioSugerido = $("#CompraGanado_PrecioSugeridoXkilo");
+        var selectGenero = $("#Ganado_genero").val();
+
         var pesoInicial = $("#CompraGanado_PesoInicial").val();
         var pesoFinal = $("#CompraGanado_PesoFinal").val();
+        var MermaObtenida = inputMermaObtenida.val();
+        var PesoSugerido = inputPesoSugerido.val();
+        var PrecioSugerido = inputPrecioSugerido.val();
 
         $('#Ganado_Repeso').change(function () {
             $('.Esconder').toggle(1000);
@@ -585,9 +592,18 @@
             }
             else {
                     pesoInicial = $(this).val();
-                if ($('#Ganado_Repeso').is(":checked")) {
-                    inputDiferenciaPeso.val(diferenciaPeso(pesoInicial, pesoFinal));
-                    inputMermaObtenida.val(mermaGenerada(pesoInicial, pesoFinal));
+                    if ($('#Ganado_Repeso').is(":checked")) {
+                        inputDiferenciaPeso.val(diferenciaPeso(pesoInicial, pesoFinal));
+                        MermaObtenida = mermaGenerada(pesoInicial, pesoFinal);
+                        inputMermaObtenida.val(MermaObtenida);
+                        console.log(pesoInicial);
+                        console.log(pesoFinal);
+                        console.log(MermaSucursal);
+                        console.log(MermaObtenida);
+                        PesoSugerido = pesoSugerido(pesoInicial, pesoFinal, MermaSucursal, MermaObtenida);
+                        inputPesoSugerido.val(PesoSugerido);
+
+                        //PrecioSugerido = precioSugerido(jsonPrecioPeso, PesoSugerido, selectGenero);
                 }
                 else{
                      
@@ -605,7 +621,11 @@
                     pesoFinal = $(this).val();
                 if ($('#Ganado_Repeso').is(":checked")) {
                     inputDiferenciaPeso.val(diferenciaPeso(pesoInicial, pesoFinal));
-                    inputMermaObtenida.val(mermaGenerada(pesoInicial, pesoFinal));
+                    MermaObtenida = mermaGenerada(pesoInicial, pesoFinal);
+                    inputMermaObtenida.val(MermaObtenida);
+
+                    PesoSugerido = pesoSugerido(pesoInicial, pesoFinal, MermaSucursal, MermaObtenida);
+                    inputPesoSugerido.val(PesoSugerido);
                 }
                 else {
 
@@ -614,6 +634,18 @@
             }
         });
 
+    }
+
+    function pesoSugerido(pesoInicial, pesoFinal, MermaSucursal, MermaObtenida) {
+        if (MermaObtenida > MermaSucursal) {
+            console.log((pesoInicial * (MermaSucursal / 100)));
+            console.log(pesoInicial);
+            var peso = pesoInicial - (pesoInicial * (MermaSucursal / 100));
+            return peso;
+        }
+        else {
+            return pesoInicial;
+        }
     }
     function mermaGenerada(pesoInicial, pesoFinal) {
         var mermaGenerada = (((pesoFinal * 100) / pesoInicial) - 100)*(-1);
@@ -665,11 +697,6 @@
         });
     }
 
-
-   
-    
-
-
     function ModalCobro(idDocCobrar) {
         $.ajax({
             url: "ModalCobro",
@@ -708,8 +735,7 @@
     }
 
     return {
-        init: function (option, IDCompra, PrecioPeso) {
-            listadoPrecioPeso = PrecioPeso
+        init: function (option, IDCompra, PrecioPeso, merma) {
             LoadItems();
             LoadValidationProveedor();
             InitMap(option);
@@ -718,7 +744,7 @@
             LoadValidationDocumentos();
             RunEventsLineaFletera();
            
-            LoadTableGanado(IDCompra);
+            LoadTableGanado(IDCompra, PrecioPeso, merma);
             LoadTableMovimientos(IDCompra);
             LoadTableEvento(IDCompra);
         }
