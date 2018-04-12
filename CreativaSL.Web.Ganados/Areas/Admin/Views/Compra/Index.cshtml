@@ -9,12 +9,12 @@
 <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
     <style>
         td.details-control {
-            background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
+            background: url("@Url.Content("~/Content/img/details_open.png")") no-repeat center center;
             cursor: pointer;
         }
 
         tr.shown td.details-control {
-            background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
+            background: url("@Url.Content("~/Content/img/details_close.png")") no-repeat center center;
         }
     </style>
 }
@@ -54,6 +54,7 @@
                                     <thead>
                                         <tr>
                                             <th rowspan="2"></th>
+                                            <th rowspan="2">Folio</th>
                                             <th rowspan="2">Nombre cliente</th>
                                             <th rowspan="2">Lugar</th>
                                             <th colspan="3">Ganado pactado</th>
@@ -122,8 +123,7 @@
         </script>
         <script>
             function format(d) {
-                // `d` is the original data object for the row
-                return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                return '<table class="table" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
                     '<tr>' +
                     '<td>Full name:</td>' +
                     '<td>' + d.NombreProveedor + '</td>' +
@@ -157,8 +157,10 @@
                         "class": "details-control",
                         "orderable": false,
                         "data": null,
-                        "defaultContent": ""
+                        "defaultContent": "",
+                        "width": "5%"
                     },
+                    { "data": "Folio" },
                     { "data": "NombreProveedor" },
                     { "data": "LugarDestino" },
                     { "data": "GanadoPactadoMachos" },
@@ -172,13 +174,18 @@
                     { "data": "TotalEgreso" },
                     { "data": "MontoTotal" },
                     { "data": "MermaPromedio" },
-                    { "data": "ClassEstatus" },
+                    {
+                        "data": null,
+                        "render": function (data, type, full) {
+                            return "<label class = '" + full["ClassEstatus"] + "'>"+ full["Estatus"] +"</label>";
+                        }
+                    },
                     {
                         "data": null,
                         "render": function (data, type, full) {
 
                             return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm editGanado' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm editCompra' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
                                 "<a title='Eliminar' data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
@@ -188,7 +195,7 @@
                                 "</a>" +
                                 "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
                                 "<li>" +
-                                "<a class='deleteGanado' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<a class='editCompra' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
                                 "<i class='fa fa-edit'></i> Editar" +
                                 "</a>" +
                                 "</li>" +
@@ -205,11 +212,11 @@
                 ],
                 responsive: true,
                 "drawCallback": function (settings) {
-                    $(".editGanado").on("click", function () {
-                        var idGanado = $(this).data("id")
-                        alert("Edit")
+                    $(".editCompra").on("click", function () {
+                        var IDCompra = $(this).data("id")
+                        window.location.href = '/Admin/Compra/Edit/' + IDCompra;
                     });
-                    
+
                 },
                 "order": [[1, 'asc']]
             });

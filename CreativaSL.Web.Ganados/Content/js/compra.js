@@ -3,22 +3,23 @@
     var tableGanado;
 
     var InitMap = function (option) {
-        var directionsDisplay = new google.maps.DirectionsRenderer;
-        var directionsService = new google.maps.DirectionsService;
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 10,
-            center: { lat: 17.6063149, lng: -93.204288 }
-        });
-        directionsDisplay.setMap(map);
+        if (option == 2){
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+            var directionsService = new google.maps.DirectionsService;
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                center: { lat: 17.6063149, lng: -93.204288 }
+            });
+            directionsDisplay.setMap(map);
 
-        var onChangeHandler = function () {
-            CalculateAndDisplayRoute(directionsService, directionsDisplay);
-        };
-        document.getElementById("Trayecto.id_lugarOrigen").addEventListener('change', onChangeHandler);
-        document.getElementById("Trayecto.id_lugarDestino").addEventListener('change', onChangeHandler);
+            var onChangeHandler = function () {
+                CalculateAndDisplayRoute(directionsService, directionsDisplay);
+            };
+            document.getElementById("Trayecto.id_lugarOrigen").addEventListener('change', onChangeHandler);
+            document.getElementById("Trayecto.id_lugarDestino").addEventListener('change', onChangeHandler);
 
-        if (option == 2)
             CalculateAndDisplayRoute(directionsService, directionsDisplay);
+        }
     };
     var LoadItems = function () {
         $('#FechaHoraProgramada').datepicker({
@@ -119,7 +120,7 @@
                 successHandler1.show();
                 errorHandler1.hide();
 
-                if ($("$IDCompra").length != 0) {
+                if ($("#IDCompra").length != 0) {
                     //Tiene un id, actualizamos el registro
                     A_Proveedor();
                 }
@@ -346,10 +347,10 @@
             contentType: false,
             processData: false,
             cache: false,
-            error: function () {
+            error: function (response) {
                 Mensaje(response.Mensaje, "2");
             },
-            success: function (result) {
+            success: function (response) {
                 if (response.Success) {
                     Mensaje("Registro del proveedor actualizado con éxito.", "1");
                 }
@@ -480,7 +481,9 @@
             });
         }
         else {
-            window.alert('No se pudo cargar la ubicación, verifique sus coordenas en el catálogo de Lugares');
+
+            if ((optionInicio.text != "-- Seleccione --") && (optionFinal.text != "-- Seleccione --"))
+                window.alert('No se pudo cargar la ubicación, verifique sus coordenas en el catálogo de Lugares');
         }
     }    
 
