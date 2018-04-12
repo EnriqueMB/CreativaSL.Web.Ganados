@@ -1,6 +1,6 @@
 ﻿@model CreativaSL.Web.Ganados.Models.CompraModels
 @{
-    ViewBag.Title = "Creando compra de ganado";
+    ViewBag.Title = "Programar compra";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 @section css
@@ -40,11 +40,11 @@
                 <div role="tabpanel" class="tab-pane active" id="proveedor">
                     <div class="col-md-12">
                         @{ Html.EnableClientValidation(false); }
-                        @using (Html.BeginForm("Create", "Compra", FormMethod.Post, new { id = "frmProveedor", @class = "form-horizontal", autocomplete = "off" }))
+                        @using (Html.BeginForm("ProgramarCompra", "Compra", FormMethod.Post, new { id = "frmProveedor", @class = "form-horizontal", autocomplete = "off" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true)
-                            
+                            @Html.HiddenFor(model => model.IDCompra);
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h3 class="panel-title"><strong>Información</strong> Compra </h3>
@@ -121,7 +121,7 @@
                                 </div>
                                 <div class="panel-footer">
                                     <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
-                                    <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                                    <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                                 </div>
                             </div>
                         }
