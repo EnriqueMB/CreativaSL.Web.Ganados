@@ -183,6 +183,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
+        //GET: Admin/Nomina/DetalleEmpleado/2
+        [HttpGet]
+        public ActionResult DetalleEmpleado(string id, string id2)
+        {
+            try
+            {
+                return View();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         // POST: Admin/Nomina/getDatostablaEmpleado/3
         [HttpPost]
         public ActionResult DatostablaEmpleado(string IDS)
