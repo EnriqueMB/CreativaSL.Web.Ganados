@@ -33,6 +33,7 @@ namespace CreativaSL.Web.Ganados.Models
             _Deducciones = 0;
             _ListaSucursales = new List<CatSucursalesModels>();
             _EsBusqueda = false;
+            _fijo = false;
             _BandBusqFechas = false;
             _BandIDSucursal = false;
             _NombreSucursal = string.Empty;
@@ -41,6 +42,22 @@ namespace CreativaSL.Web.Ganados.Models
             _ListaConceptosVariable = new List<NominaConceptosEmpModels>();
            // _TablaEmpleadoNomina = new DataTable();
         }
+
+        private List<CatConceptoNominaModels> _listaConceptoNomina;
+
+        public List<CatConceptoNominaModels> listaConceptoNomina
+        {
+            get { return _listaConceptoNomina; }
+            set { _listaConceptoNomina = value; }
+        }
+        private bool _fijo;
+
+        public bool fijo
+        {
+            get { return _fijo; }
+            set { _fijo = value; }
+        }
+
         private bool _AbrirCaja;
         /// <summary>
         /// Ver si el Empleado Abre caja 
@@ -177,9 +194,9 @@ namespace CreativaSL.Web.Ganados.Models
             set { _TablaEmpleadoNomina = value; }
         }
 
-        private string _IDConcepto;
+        private int _IDConcepto;
 
-        public string IDConcepto
+        public int IDConcepto
         {
             get { return _IDConcepto; }
             set { _IDConcepto = value; }

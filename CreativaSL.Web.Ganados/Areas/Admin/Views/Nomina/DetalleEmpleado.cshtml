@@ -5,5 +5,316 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h2>DetalleEmpleado</h2>
+@section featured
+{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Conceptos nominales </h2> <a href="@Url.Action("Detalle","Nomina")" class="btn btn-danger btn-lg mb-control-yes" style="padding:5px;margin-left: 15px;">Regresar</a>
+    </div>
+    <!-- END PAGE TITLE -->
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                        <ul class="panel-controls">
+                            <li><a href="#" class="btn btn-default btnCrear" data-toggle="modal" data-target="#exampleModal"><span class="fa fa-plus"></span> Nuevo concepto fijo</a></li> @*"@Url.Action("Create","CatTipoServicio")"*@
+                            
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Concepto</th>
+                                        <th>Monto</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Registro 1</td>
+                                        <td>Registro 1</td>
+                                        <td>Registro 1</td>
+                                    </tr>
+                                                                 @*@foreach (var Tipo in Model.listaTipoServicio)
+                                    {
+                                        <tr id="@Tipo.IDTipoServicio">
+                                            <td>@Tipo.Descripcion</td>
+                                            <td style="text-align:center;">
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    <a title="Editar" href="@Url.Action("Edit", "CatTipoServicio", new { id = Tipo.IDTipoServicio })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" id="delete-@Tipo.IDTipoServicio" data-hrefa="@Url.Action("Delete", "CatTipoServicio", new { id = Tipo.IDTipoServicio })" onClick="delete_row('@Tipo.IDTipoServicio');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                </div>
+                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                        </a>
+                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatTipoServicio", new { id = Tipo.IDTipoServicio })">
+                                                                    <i class="fa fa-edit"></i> Editar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" id="delete-@Tipo.IDTipoServicio" data-hrefa="@Url.Action("Delete", "CatTipoVehiculo", new { id = Tipo.IDTipoServicio })" onClick="delete_row('@Tipo.IDTipoServicio');">
+                                                                    <i class="fa fa-trash-o"></i> Eliminar
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }*@
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- END DEFAULT DATATABLE -->
+            </div>
+            <div class="col-md-6">
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                        <ul class="panel-controls">
+                            <li><a href="#" class="btn btn-default btnCrear" data-toggle="modal" data-target="#exampleModal2"><span class="fa fa-plus"></span> Nuevo concepto variable</a></li> 
+                         
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Concepto</th>
+                                        <th>Monto</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Registro 1</td>
+                                        <td>Registro 1</td>
+                                        <td>Registro 1</td>
+                                    </tr>
+                                    @*@foreach (var Tipo in Model.listaTipoServicio)
+                                {
+                                    <tr id="@Tipo.IDTipoServicio">
+                                        <td>@Tipo.Descripcion</td>
+                                        <td style="text-align:center;">
+                                            <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                <a title="Editar" href="@Url.Action("Edit", "CatTipoServicio", new { id = Tipo.IDTipoServicio })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                <a title="Eliminar" id="delete-@Tipo.IDTipoServicio" data-hrefa="@Url.Action("Delete", "CatTipoServicio", new { id = Tipo.IDTipoServicio })" onClick="delete_row('@Tipo.IDTipoServicio');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                            </div>
+                                            <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                <div class="btn-group">
+                                                    <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                        <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                    </a>
+                                                    <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatTipoServicio", new { id = Tipo.IDTipoServicio })">
+                                                                <i class="fa fa-edit"></i> Editar
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" id="delete-@Tipo.IDTipoServicio" data-hrefa="@Url.Action("Delete", "CatTipoVehiculo", new { id = Tipo.IDTipoServicio })" onClick="delete_row('@Tipo.IDTipoServicio');">
+                                                                <i class="fa fa-trash-o"></i> Eliminar
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }*@
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- END DEFAULT DATATABLE -->
+            </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Nuevo Concepto Fijo</h5>
+                            @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>*@
+                        </div>
+                        @{ Html.EnableClientValidation(false); }
+                            @using (Html.BeginForm("DetalleEmpleado", "Nomina", FormMethod.Post, new { @class = "form-horizontal", id = "form-detalleEmpleado", autocomplete = "off" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                             <div id="validation_summary" class="field_error "></div> //JS
+                          <div class="modal-body">
+                              <div class="panel-body">
+                                  <div class="form-group">
+                                      <div class="col-md-12 classError">
+                                          <label class="col-md-3 col-xs-12 control-label">Empresa</label>
+                                          <div class="col-md-9 col-xs-12">
+                                              @Html.DropDownListFor(model => model.IDConcepto, new SelectList(Model.listaConceptoNomina, "IDConceptoNomina", "Descripcion"), new { id = "IDConcepto", @class = "form-control select", data_live_search = "true" })
+                                              @Html.ValidationMessageFor(model => model.IDConcepto)
+                                              <span class="help-block">Seleccione la empresa</span>
+                                          </div>
+                                      </div>
+                                      </div>
+                                     
+                                  <div class="form-group">
+                                      <div class="col-md-12 classError">
+                                          <label class="col-md-3 control-label">Sueldo</label>
+                                          <div class="col-md-9 col-xs-12">
+                                              <div class="input-group">
+                                                  <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                  @Html.TextBoxFor(model => model.Sueldo, new { id = "Sueldo", @class = "form-control" })
+                                              </div>
+                                              @Html.ValidationMessageFor(model => model.Sueldo)
+                                              <span class="help-block">Ingrese el sueldo</span>
+                                             
+                                          </div>
+                                      </div>
+                                    
+                                      
+                                  </div>
+                                  </div>
+
+
+                              </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button form="form-dg" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
+                        </div>
+                            }
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Nuevo Concepto Variable</h5>
+                            @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>*@
+                        </div>
+                        @{ Html.EnableClientValidation(false); }
+                      @using (Html.BeginForm("DetalleEmpleado", "Nomina", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off" }))
+                      {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                         <div id="validation_summary" class="field_error "></div> //JS
+                            <div class="modal-body">
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <div class="col-md-12 classError">
+                                            <label class="col-md-3 col-xs-12 control-label">Empresa</label>
+                                            <div class="col-md-9 col-xs-12">
+                                                @Html.DropDownListFor(model => model.IDConcepto, new SelectList(Model.listaConceptoNomina, "IDConceptoNomina", "Descripcion"), new { id = "IDConcepto", @class = "form-control select", data_live_search = "true" })
+                                                @Html.ValidationMessageFor(model => model.IDConcepto)
+                                                <span class="help-block">Seleccione la empresa</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-12 classError">
+                                            <label class="col-md-3 control-label">Sueldo</label>
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.Sueldo, new { id = "Sueldo", @class = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Sueldo)
+                                                <span class="help-block">Ingrese el sueldo</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                                
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button form="form-dg" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
+                            </div>
+                      }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres eliminar esta fila?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    var message = '@message';
+    var typemessage = '@typemessage';
+    </script>
+}
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/DetalleEmpleado.js")"></script>
+    <script>
+    jQuery(document).ready(function () {
+        Mensaje(message, typemessage);
+        DetalleEmpleado.init();
+        });
+    </script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
 

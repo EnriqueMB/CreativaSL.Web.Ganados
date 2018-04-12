@@ -7,9 +7,9 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CatConceptoNominaModels
     {
-        private string _IDConceptoNomina;
+        private int _IDConceptoNomina;
 
-        public string IDConceptoNomina
+        public int IDConceptoNomina
         {
             get { return _IDConceptoNomina; }
             set { _IDConceptoNomina = value; }
