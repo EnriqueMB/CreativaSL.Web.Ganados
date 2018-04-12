@@ -154,6 +154,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 ModelState.Remove("LogoRFC");
                 ModelState.Remove("LogoRFCHttp");
                 ModelState.Remove("LogoEmpresaHttp");
+                ModelState.Remove("Banco.ImagenB");
 
                 if (ModelState.IsValid)
                 {

@@ -129,6 +129,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Sueldo = !dr.IsDBNull(dr.GetOrdinal("Sueldo")) ? dr.GetDecimal(dr.GetOrdinal("Sueldo")) : 0;
                     Item.Percepciones = !dr.IsDBNull(dr.GetOrdinal("Percepciones")) ? dr.GetDecimal(dr.GetOrdinal("Percepciones")) : 0;
                     Item.Deducciones = !dr.IsDBNull(dr.GetOrdinal("Deducciones")) ? dr.GetDecimal(dr.GetOrdinal("Deducciones")) : 0;
+                    Item.IDEmpleado = !dr.IsDBNull(dr.GetOrdinal("IDEmpleado")) ? dr.GetString(dr.GetOrdinal("IDEmpleado")) : string.Empty;
                     Lista.Add(Item);
                 }
                 return Lista;
@@ -139,6 +140,137 @@ namespace CreativaSL.Web.Ganados.Models
                 throw;
             }
         }
+        
+        public NominaModels AgregarConceptoNomina(NominaModels Datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Datos.EsFijo, Datos.IDEmpleado, Datos.IDConcepto, Datos.Sueldo, Datos.Usuario
+                };
+                object Resultado = SqlHelper.ExecuteScalar(Datos.Conexion, "spCSLDB_Nomina_set_AgregarConcepto", parametros);
+                if (Resultado != null)
+                {
+                    int IDRegistro = 0;
+                    if (int.TryParse(Resultado.ToString(), out IDRegistro))
+                    {
+                        if (IDRegistro == 1)
+                        {
+                            Datos.Completado = true;
+                        }
+                        Datos.Resultado = IDRegistro;
+                    }
+                }
+                return Datos;
+            }
+            catch (Exception ex)
+            {
 
+                throw;
+            }
+        }
+
+        public List<CatConceptoNominaModels> ObtenerConceptosNomina(NominaModels Datos)
+        {
+            try
+            {
+                List<CatConceptoNominaModels> lista = new List<CatConceptoNominaModels>();
+                CatConceptoNominaModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Nomina_Combo_get_CatConceptoNomina");
+                while (dr.Read())
+                {
+                    item = new CatConceptoNominaModels();
+                    item.IDConceptoNomina = !dr.IsDBNull(dr.GetOrdinal("IDConcepto")) ? dr.GetInt32(dr.GetOrdinal("IDConcepto")) : 0;
+                    item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public NominaModels ObtenerListasDeConceptosXID(NominaModels Datos)
+        {
+            try
+            {
+                object[] parametros = { Datos.IDEmpleado};
+                DataSet Ds = SqlHelper.ExecuteDataset(Datos.Conexion, "spCSLDB_Nomina_get_ConceptosNomina", parametros);
+                if (Ds != null)
+                {
+                    if (Ds.Tables.Count > 0)
+                    {
+                        List<NominaConceptosFijosModels> ListaFijo = new List<NominaConceptosFijosModels>();
+                        NominaConceptosFijosModels Item2;
+                        DataTableReader Dr = Ds.Tables[0].CreateDataReader();
+                        while (Dr.Read())
+                        {
+                            Item2 = new NominaConceptosFijosModels();
+                            Item2.IDConceptosFijo = !Dr.IsDBNull(Dr.GetOrdinal("IDConceptoFijo")) ? Dr.GetString(Dr.GetOrdinal("IDConceptoFijo")) : string.Empty;
+                            Item2.IDConcepto = !Dr.IsDBNull(Dr.GetOrdinal("IDConcepto")) ? Dr.GetInt32(Dr.GetOrdinal("IDConcepto")) : 0;
+                            Item2.NombreConcepto = !Dr.IsDBNull(Dr.GetOrdinal("Concepto")) ? Dr.GetString(Dr.GetOrdinal("Concepto")) : string.Empty;
+                            Item2.Monto = !Dr.IsDBNull(Dr.GetOrdinal("Monto")) ? Dr.GetDecimal(Dr.GetOrdinal("Monto")) : 0;
+                            Item2.Simbolo = !Dr.IsDBNull(Dr.GetOrdinal("Simbolo")) ? Dr.GetString(Dr.GetOrdinal("Simbolo")) : string.Empty;
+                            ListaFijo.Add(Item2);
+                        }
+                        Datos.ListaConceptosFijo = ListaFijo;
+                        List<NominaConceptosEmpModels> ListaVariable = new List<NominaConceptosEmpModels>();
+                        NominaConceptosEmpModels Item;
+                        DataTableReader DTR = Ds.Tables[1].CreateDataReader();
+                        DataTable Tbl1 = Ds.Tables[1];
+                        while (DTR.Read())
+                        {
+                            Item = new NominaConceptosEmpModels();
+                            Item.IDConceptoEmpleado = !DTR.IsDBNull(DTR.GetOrdinal("IDConceptoVariable")) ? DTR.GetString(DTR.GetOrdinal("IDConceptoVariable")) : string.Empty;
+                            Item.IDConcepto = !DTR.IsDBNull(DTR.GetOrdinal("IDConcepto")) ? DTR.GetInt32(DTR.GetOrdinal("IDConcepto")) : 0;
+                            Item.NombreConcepto = !DTR.IsDBNull(DTR.GetOrdinal("Concepto")) ? DTR.GetString(DTR.GetOrdinal("Concepto")) : string.Empty;
+                            Item.Monto = !DTR.IsDBNull(DTR.GetOrdinal("Monto")) ? DTR.GetDecimal(DTR.GetOrdinal("Monto")) : 0;
+                            Item.Simbolo = !DTR.IsDBNull(DTR.GetOrdinal("Simbolo")) ? DTR.GetString(DTR.GetOrdinal("Simbolo")) : string.Empty;
+                            ListaVariable.Add(Item);
+                        }
+                        Datos.ListaConceptosVariable = ListaVariable;
+                    }
+                }
+                return Datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public NominaModels ElimnarConceptosNomina(NominaModels Datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Datos.IDConcepto, Datos.EsFijo, Datos.Usuario
+                };
+                object Resultado = SqlHelper.ExecuteScalar(Datos.Conexion, "spCSLDB_Nomina_set_QuitarConceptoNomina", parametros);
+                if (Resultado != null)
+                {
+                    int IDRegistro = 0;
+                    if (int.TryParse(Resultado.ToString(), out IDRegistro))
+                    {
+                        if (IDRegistro > 0)
+                        {
+                            Datos.Completado = true;
+                            Datos.Resultado = IDRegistro;
+                        }
+                    }
+                }
+                return Datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

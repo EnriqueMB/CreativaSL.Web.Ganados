@@ -183,6 +183,70 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
+        //GET: Admin/Nomina/DetalleEmpleado/2
+        [HttpGet]
+        public ActionResult DetalleEmpleado(string id, string id2, string id3)
+        {
+            try
+            {
+                NominaModels Nomina = new NominaModels();
+                Nomina_Datos NominaDatos = new Nomina_Datos();
+                Nomina.IDNomina = id;
+                Nomina.IDSucursal = id2;
+                Nomina.IDEmpleado = id3;
+                Nomina.Conexion = Conexion;
+                Nomina.listaConceptoNomina = NominaDatos.ObtenerConceptosNomina(Nomina);
+                Nomina = NominaDatos.ObtenerListasDeConceptosXID(Nomina);
+                return View(Nomina);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        //GET: Admin/Nomina/DetalleEmpleado/2
+        [HttpPost]
+        public ActionResult DetalleEmpleado(NominaModels Nomina)
+        {
+            try
+            {
+                
+                Nomina_Datos NominaDatos = new Nomina_Datos();
+                Nomina.Conexion = Conexion;
+                Nomina.Usuario = User.Identity.Name;
+                Nomina = NominaDatos.AgregarConceptoNomina(Nomina);
+                if (Nomina.Completado)
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Los datos se guardarón correctamente.";
+                    return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
+                }
+                else
+                {
+                    if (Nomina.Resultado == -1)
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "El concepto ya fue insertado.";
+                        return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
+                    }
+                  
+                }
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte soporte técnico.";
+                return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
+            }
+        }
+
         // POST: Admin/Nomina/getDatostablaEmpleado/3
         [HttpPost]
         public ActionResult DatostablaEmpleado(string IDS)
@@ -193,7 +257,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Nomina_Datos NominaDatos = new Nomina_Datos();
                 Nomina.IDSucursal = IDS;
                 Nomina.Conexion = Conexion;
+
                 Nomina.ListaNomina = NominaDatos.ObtenerListaNominaEmpleado(Nomina);
+               
                 return Content(Nomina.ListaNomina.ToJSON(), "application/json");
                 //return Json(Nomina.ListaNomina, JsonRequestBehavior.AllowGet);
             }

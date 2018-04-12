@@ -64,7 +64,7 @@
                                             <td>@nomina.Deducciones.ToString("0.00").Replace(',', '.')</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" href="@Url.Action("DetalleEmpleado", "Nomina", new { id = nomina.IDNomina, id2 = nomina.IDSucursal})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Ver Conceptos" href="@Url.Action("DetalleEmpleado", "Nomina", new { id = nomina.IDNomina, id2 = nomina.IDSucursal, id3 = nomina.IDEmpleado})" class="btn btn-danger tooltips" data-placement="top" data-original-title="Ver Conceptos"><i class="fa fa-exchange"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -73,8 +73,8 @@
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("DetalleEmpleado", "Nomina", new { id = nomina.IDNomina, id2 = nomina.IDSucursal})">
-                                                                    <i class="fa fa-edit"></i> Editar
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("DetalleEmpleado", "Nomina", new { id = nomina.IDNomina, id2 = nomina.IDSucursal, id3 = nomina.IDEmpleado})">
+                                                                    <i class="fa fa-exchange"></i>Ver Conceptos
                                                                 </a>
                                                             </li>
                                                         </ul>

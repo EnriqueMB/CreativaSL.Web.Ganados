@@ -428,6 +428,7 @@
     <Content Include="Content\js\ConceptosNomina.js" />
     <Content Include="Content\js\CuentaProveedor.js" />
     <Content Include="Content\js\alta_baja_nomina_empleado.js" />
+    <Content Include="Content\js\DetalleEmpleado.js" />
     <Content Include="Content\js\EmpleadoAltaNomina.js" />
     <Content Include="Content\js\EmpleadoBajaNomina.js" />
     <Content Include="Content\js\entregacombustible.js" />
@@ -1095,6 +1096,8 @@
     <Content Include="Areas\Admin\Views\Mantenimiento\EditDetail.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\EditV.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\CreatePart2.cshtml" />
+    <Content Include="Areas\Admin\Views\Nomina\DetalleEmpleado.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosR.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\CreateR.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\EditR.cshtml" />
@@ -1247,6 +1250,8 @@
     <Compile Include="Models\MenuModels.cs" />
     <Compile Include="Models\MovimientosProductosModels.cs" />
     <Compile Include="Models\MunicipioModels.cs" />
+    <Compile Include="Models\NominaConceptosEmpModels.cs" />
+    <Compile Include="Models\NominaConceptosFijosModels.cs" />
     <Compile Include="Models\NominaDetalleConceptosModels.cs" />
     <Compile Include="Models\NominaDetalleModels.cs" />
     <Compile Include="Models\NominaDiasFestivosModels.cs" />
