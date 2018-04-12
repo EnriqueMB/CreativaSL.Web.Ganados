@@ -37,6 +37,8 @@ namespace CreativaSL.Web.Ganados.Models
             _BandIDSucursal = false;
             _NombreSucursal = string.Empty;
             _ListaEmpleados = new List<EmpleadoNominaViewModels>();
+            _ListaConceptosFijo = new List<NominaConceptosFijosModels>();
+            _ListaConceptosVariable = new List<NominaConceptosEmpModels>();
            // _TablaEmpleadoNomina = new DataTable();
         }
         private bool _AbrirCaja;
@@ -189,6 +191,22 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _EsFijo; }
             set { _EsFijo = value; }
+        }
+
+        private List<NominaConceptosEmpModels> _ListaConceptosVariable;
+
+        public List<NominaConceptosEmpModels> ListaConceptosVariable
+        {
+            get { return _ListaConceptosVariable; }
+            set { _ListaConceptosVariable = value; }
+        }
+
+        private List<NominaConceptosFijosModels> _ListaConceptosFijo;
+
+        public List<NominaConceptosFijosModels> ListaConceptosFijo
+        {
+            get { return _ListaConceptosFijo; }
+            set { _ListaConceptosFijo = value; }
         }
 
 

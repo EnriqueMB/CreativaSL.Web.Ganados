@@ -192,5 +192,55 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public NominaModels ObtenerListasDeConceptosXID(NominaModels Datos)
+        {
+            try
+            {
+                object[] parametros = { Datos.IDEmpleado};
+                DataSet Ds = SqlHelper.ExecuteDataset(Datos.Conexion, "spCSLDB_Nomina_get_ConceptosNomina", parametros);
+                if (Ds != null)
+                {
+                    if (Ds.Tables.Count > 0)
+                    {
+                        List<NominaConceptosFijosModels> ListaFijo = new List<NominaConceptosFijosModels>();
+                        NominaConceptosFijosModels Item2;
+                        DataTableReader Dr = Ds.Tables[0].CreateDataReader();
+                        while (Dr.Read())
+                        {
+                            Item2 = new NominaConceptosFijosModels();
+                            Item2.IDConceptosFijo = !Dr.IsDBNull(Dr.GetOrdinal("IDConceptoFijo")) ? Dr.GetString(Dr.GetOrdinal("IDConceptoFijo")) : string.Empty;
+                            Item2.IDConcepto = !Dr.IsDBNull(Dr.GetOrdinal("IDConcepto")) ? Dr.GetInt32(Dr.GetOrdinal("IDConcepto")) : 0;
+                            Item2.NombreConcepto = !Dr.IsDBNull(Dr.GetOrdinal("Concepto")) ? Dr.GetString(Dr.GetOrdinal("Concepto")) : string.Empty;
+                            Item2.Monto = !Dr.IsDBNull(Dr.GetOrdinal("Monto")) ? Dr.GetDecimal(Dr.GetOrdinal("Monto")) : 0;
+                            Item2.Simbolo = !Dr.IsDBNull(Dr.GetOrdinal("Simbolo")) ? Dr.GetString(Dr.GetOrdinal("Simbolo")) : string.Empty;
+                            ListaFijo.Add(Item2);
+                        }
+                        Datos.ListaConceptosFijo = ListaFijo;
+                        List<NominaConceptosEmpModels> ListaVariable = new List<NominaConceptosEmpModels>();
+                        NominaConceptosEmpModels Item;
+                        DataTableReader DTR = Ds.Tables[1].CreateDataReader();
+                        DataTable Tbl1 = Ds.Tables[1];
+                        while (DTR.Read())
+                        {
+                            Item = new NominaConceptosEmpModels();
+                            Item.IDConceptoEmpleado = !DTR.IsDBNull(DTR.GetOrdinal("IDConceptoVariable")) ? DTR.GetString(DTR.GetOrdinal("IDConceptoVariable")) : string.Empty;
+                            Item.IDConcepto = !DTR.IsDBNull(DTR.GetOrdinal("IDConcepto")) ? DTR.GetInt32(DTR.GetOrdinal("IDConcepto")) : 0;
+                            Item.NombreConcepto = !DTR.IsDBNull(DTR.GetOrdinal("Concepto")) ? DTR.GetString(DTR.GetOrdinal("Concepto")) : string.Empty;
+                            Item.Monto = !DTR.IsDBNull(DTR.GetOrdinal("Monto")) ? DTR.GetDecimal(DTR.GetOrdinal("Monto")) : 0;
+                            Item.Simbolo = !DTR.IsDBNull(DTR.GetOrdinal("Simbolo")) ? DTR.GetString(DTR.GetOrdinal("Simbolo")) : string.Empty;
+                            ListaVariable.Add(Item);
+                        }
+                        Datos.ListaConceptosVariable = ListaVariable;
+                    }
+                }
+                return Datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

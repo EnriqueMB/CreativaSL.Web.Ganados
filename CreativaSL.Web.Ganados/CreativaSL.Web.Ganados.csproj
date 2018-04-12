@@ -1246,6 +1246,8 @@
     <Compile Include="Models\MenuModels.cs" />
     <Compile Include="Models\MovimientosProductosModels.cs" />
     <Compile Include="Models\MunicipioModels.cs" />
+    <Compile Include="Models\NominaConceptosEmpModels.cs" />
+    <Compile Include="Models\NominaConceptosFijosModels.cs" />
     <Compile Include="Models\NominaDetalleConceptosModels.cs" />
     <Compile Include="Models\NominaDetalleModels.cs" />
     <Compile Include="Models\NominaDiasFestivosModels.cs" />
