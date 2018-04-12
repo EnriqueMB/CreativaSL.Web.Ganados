@@ -1,4 +1,5 @@
 ﻿var DetalleEmpleado = function () {
+   
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
