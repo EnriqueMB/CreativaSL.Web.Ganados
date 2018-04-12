@@ -83,6 +83,30 @@ namespace CreativaSL.Web.Ganados.Models
             get { return string.Format("{0:c}", _ImporteTotal); }
         }
 
+        private int _IDEstatus;
+
+        public int IDEstatus
+        {
+            get { return _IDEstatus; }
+            set { _IDEstatus = value; }
+        }
+        
+        private string _Estatus;
+
+        public string Estatus
+        {
+            get { return _Estatus; }
+            set { _Estatus = value; }
+        }
+
+        private string _CssClassEstatus;
+
+        public string CssClassEstatus
+        {
+            get { return _CssClassEstatus; }
+            set { _CssClassEstatus = value; }
+        }
+
 
         private List<CatVehiculoModels> _ListaVehiculos;
         /// <summary>

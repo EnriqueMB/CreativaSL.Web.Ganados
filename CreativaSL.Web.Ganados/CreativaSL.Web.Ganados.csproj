@@ -1091,11 +1091,13 @@
     <Content Include="Areas\Admin\Views\Mantenimiento\CreateV.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\AltaNomina.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\BajaNomina.cshtml" />
-    
     <Content Include="Areas\Admin\Views\Mantenimiento\CreateDetail.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\EditDetail.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\EditV.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosR.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\CreateR.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\EditR.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
