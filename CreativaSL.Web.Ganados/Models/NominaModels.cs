@@ -175,6 +175,22 @@ namespace CreativaSL.Web.Ganados.Models
             set { _TablaEmpleadoNomina = value; }
         }
 
+        private string _IDConcepto;
+
+        public string IDConcepto
+        {
+            get { return _IDConcepto; }
+            set { _IDConcepto = value; }
+        }
+
+        private bool _EsFijo;
+
+        public bool EsFijo
+        {
+            get { return _EsFijo; }
+            set { _EsFijo = value; }
+        }
+
 
         #region Empleado para la nomina
         /// <summary>
