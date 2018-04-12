@@ -161,27 +161,45 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>*@
                         </div>
-                       
-                            @using (Html.BeginForm("DetalleEmpleado", "Nomina", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off", @enctype = "multipart/form-data" }))
-                            { <div class="modal-body">
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.TextBoxFor(model => model.Sueldo, new { id = "Sueldo", @class = "form-control", placeholder = "Ingrese el correo electrónico de contacto del proveedor" })
-                                </div>
-                                @*@Html.DropDownListFor(model => model.sexo, new SelectList(Model.ListaGeneroCMB, "IDGenero", "Descripcion"), new { id = "sexo", @class = "form-control select", data_live_search = "true" })
-                                    @Html.ValidationMessageFor(model => model.sexo)*@
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.TextBoxFor(model => model.Sueldo, new { id = "Sueldo", @class = "form-control", placeholder = "Ingrese el correo electrónico de contacto del proveedor" })
-                                </div>
-                            </div>
+                        @{ Html.EnableClientValidation(false); }
+                            @using (Html.BeginForm("DetalleEmpleado", "Nomina", FormMethod.Post, new { @class = "form-horizontal", id = "form-detalleEmpleado", autocomplete = "off" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                             <div id="validation_summary" class="field_error "></div> //JS
+                          <div class="modal-body">
+                              <div class="panel-body">
+                                  <div class="form-group">
+                                      <div class="col-md-12 classError">
+                                          <label class="col-md-3 col-xs-12 control-label">Empresa</label>
+                                          <div class="col-md-9 col-xs-12">
+                                              @Html.DropDownListFor(model => model.IDConcepto, new SelectList(Model.listaConceptoNomina, "IDConceptoNomina", "Descripcion"), new { id = "IDConcepto", @class = "form-control select", data_live_search = "true" })
+                                              @Html.ValidationMessageFor(model => model.IDConcepto)
+                                              <span class="help-block">Seleccione la empresa</span>
+                                          </div>
+                                      </div>
+                                      </div>
+                                     
+                                  <div class="form-group">
+                                      <div class="col-md-12 classError">
+                                          <label class="col-md-3 control-label">Sueldo</label>
+                                          <div class="col-md-9 col-xs-12">
+                                              <div class="input-group">
+                                                  <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                  @Html.TextBoxFor(model => model.Sueldo, new { id = "Sueldo", @class = "form-control" })
+                                              </div>
+                                              @Html.ValidationMessageFor(model => model.Sueldo)
+                                              <span class="help-block">Ingrese el sueldo</span>
+                                             
+                                          </div>
+                                      </div>
+                                    
+                                      
+                                  </div>
+                                  </div>
 
 
-
-                        </div>
+                              </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                             <button form="form-dg" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
@@ -199,22 +217,48 @@
                             <span aria-hidden="true">&times;</span>
                         </button>*@
                         </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="form-group">
-                                    <label for="recipient-name" class="col-form-label">Recipient:</label>
-                                    <input type="text" class="form-control" id="recipient-name">
+                        @{ Html.EnableClientValidation(false); }
+                      @using (Html.BeginForm("DetalleEmpleado", "Nomina", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off" }))
+                      {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                         <div id="validation_summary" class="field_error "></div> //JS
+                            <div class="modal-body">
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <div class="col-md-12 classError">
+                                            <label class="col-md-3 col-xs-12 control-label">Empresa</label>
+                                            <div class="col-md-9 col-xs-12">
+                                                @Html.DropDownListFor(model => model.IDConcepto, new SelectList(Model.listaConceptoNomina, "IDConceptoNomina", "Descripcion"), new { id = "IDConcepto", @class = "form-control select", data_live_search = "true" })
+                                                @Html.ValidationMessageFor(model => model.IDConcepto)
+                                                <span class="help-block">Seleccione la empresa</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-12 classError">
+                                            <label class="col-md-3 control-label">Sueldo</label>
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.Sueldo, new { id = "Sueldo", @class = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Sueldo)
+                                                <span class="help-block">Ingrese el sueldo</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="message-text" class="col-form-label">Message:</label>
-                                    <textarea class="form-control" id="message-text"></textarea>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Send message</button>
-                        </div>
+                               
+                                
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button form="form-dg" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
+                            </div>
+                      }
                     </div>
                 </div>
             </div>
@@ -250,9 +294,14 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/DetalleEmpleado.js")"></script>
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
+        DetalleEmpleado.init();
         });
     </script>
 }

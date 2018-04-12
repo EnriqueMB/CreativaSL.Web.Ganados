@@ -189,7 +189,30 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                return View();
+                NominaModels Nomina = new NominaModels();
+                Nomina_Datos NominaDatos = new Nomina_Datos();
+                Nomina.IDSucursal = id;
+                Nomina.Conexion = Conexion;
+                Nomina.listaConceptoNomina = NominaDatos.ObtenerConceptosNomina(Nomina);
+                return View(Nomina);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        [HttpPost]
+        public ActionResult DetalleEmpleado(NominaModels Nomina)
+        {
+            try
+            {
+                
+                Nomina_Datos NominaDatos = new Nomina_Datos();
+               
+                Nomina.Conexion = Conexion;
+                Nomina.listaConceptoNomina = NominaDatos.ObtenerConceptosNomina(Nomina);
+                return View(Nomina);
             }
             catch (Exception)
             {
@@ -208,7 +231,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Nomina_Datos NominaDatos = new Nomina_Datos();
                 Nomina.IDSucursal = IDS;
                 Nomina.Conexion = Conexion;
+
                 Nomina.ListaNomina = NominaDatos.ObtenerListaNominaEmpleado(Nomina);
+               
                 return Content(Nomina.ListaNomina.ToJSON(), "application/json");
                 //return Json(Nomina.ListaNomina, JsonRequestBehavior.AllowGet);
             }

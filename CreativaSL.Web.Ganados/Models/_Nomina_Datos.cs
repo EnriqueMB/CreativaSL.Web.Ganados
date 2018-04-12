@@ -181,7 +181,7 @@ namespace CreativaSL.Web.Ganados.Models
                 while (dr.Read())
                 {
                     item = new CatConceptoNominaModels();
-                    item.IDConceptoNomina = !dr.IsDBNull(dr.GetOrdinal("IDConcepto")) ? dr.GetString(dr.GetOrdinal("IDConcepto")) : string.Empty;
+                    item.IDConceptoNomina = !dr.IsDBNull(dr.GetOrdinal("IDConcepto")) ? dr.GetInt32(dr.GetOrdinal("IDConcepto")) : 0;
                     item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
                     lista.Add(item);
                 }
