@@ -139,6 +139,58 @@ namespace CreativaSL.Web.Ganados.Models
                 throw;
             }
         }
+        
+        public NominaModels AgregarConceptoNomina(NominaModels Datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Datos.EsFijo, Datos.IDEmpleado, Datos.IDConcepto, Datos.Sueldo, Datos.Usuario
+                };
+                object Resultado = SqlHelper.ExecuteScalar(Datos.Conexion, "spCSLDB_Nomina_set_AgregarConcepto", parametros);
+                if (Resultado != null)
+                {
+                    int IDRegistro = 0;
+                    if (int.TryParse(Resultado.ToString(), out IDRegistro))
+                    {
+                        if (IDRegistro == 1)
+                        {
+                            Datos.Completado = true;
+                        }
+                        Datos.Resultado = IDRegistro;
+                    }
+                }
+                return Datos;
+            }
+            catch (Exception ex)
+            {
 
+                throw;
+            }
+        }
+
+        public List<CatConceptoNominaModels> ObtenerConceptosNomina(NominaModels Datos)
+        {
+            try
+            {
+                List<CatConceptoNominaModels> lista = new List<CatConceptoNominaModels>();
+                CatConceptoNominaModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Nomina_Combo_get_CatConceptoNomina");
+                while (dr.Read())
+                {
+                    item = new CatConceptoNominaModels();
+                    item.IDConceptoNomina = !dr.IsDBNull(dr.GetOrdinal("IDConcepto")) ? dr.GetInt32(dr.GetOrdinal("IDConcepto")) : 0;
+                    item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
