@@ -28,7 +28,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra = new CompraModels();
                 CompraDatos = new _Compra_Datos();
                 Compra.Conexion = Conexion;
-                Compra = CompraDatos.ObtenerCompraIndex(Compra);
+                //Compra = CompraDatos.ObtenerCompraIndex(Compra);
                 return View(Compra);
             }
             catch (Exception ex)
@@ -134,6 +134,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Compra.ListaVehiculos = CompraDatos.GetVehiculosXIDEmpresa(Compra);
                     Compra.ListaRemolques = CompraDatos.GetRemolquesXIDEmpresa(Compra);
                     Compra.ListaJaulas = CompraDatos.GetJaulasXIDEmpresa(Compra);
+                    Compra.ListaFierros = CompraDatos.GetListadoFierrosXIDCompra(Compra);
 
                     return View(Compra);
                 }
@@ -147,6 +148,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         //Funciones Combo
+        #region funciones combo
         [HttpPost]
         public ActionResult GetChoferesXIDEmpresa(string IDEmpresa)
         {
@@ -231,8 +233,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Json("");
             }
         }
-        
+        #endregion
         //Funciones SaveUpdPestañas
+        #region Funciones SaveUpdPestañas
         [HttpPost]
         public ActionResult A_Proveedor(CompraModels Compra)
         {
@@ -328,6 +331,109 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
             }
         }
+        #endregion
+        //Funciones imagenes - fierro
+        #region Imágenes
+        [HttpPost]
+        public ContentResult SaveImageFierro(string IDCompra)
+        {
+            string jsString = "{}";
+            try
+            {
+                foreach (string file in Request.Files)
+                {
+                    var fileContent = Request.Files[file];
+                    if (fileContent != null && fileContent.ContentLength > 0)
+                    {
+                        //Obtengo el stream
+                        var stream = fileContent.InputStream;
+                        //Genero un array de bytes
+                        byte[] fileData = null;
+                        using (var binaryReader = new BinaryReader(stream))
+                        {
+                            fileData = binaryReader.ReadBytes(fileContent.ContentLength);
+                        }
+                        //Realizo la convercion a base 64
+                        string Base64 = Convert.ToBase64String(fileData);
+                        //Ya tengo la imagen ahora la guardo en la bd
+                        HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                        FormsAuthenticationTicket Ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                        Compra = new CompraModels();
+                        CompraDatos = new _Compra_Datos();
+
+                        Compra.IDCompra = IDCompra;
+                        Compra.Conexion = Conexion;
+                        Compra.Fierro.ImgFierro = Base64;
+                        Compra.Fierro.NombreFierro = Request.Files[file].FileName;
+                        Compra.IDUsuario = Ticket.Name;
+                        Compra = CompraDatos.SaveImageFierro(Compra);
+
+                        jsString = "{ \"initialPreview\":[\"<img class='file-preview-image' style='width: auto; height: auto; max-width: 100 %; max-height: 100%; ' src='data: image/png; base64, " + Base64 + "' />\"],\"initialPreviewConfig\":[{\"caption\":\"" + Compra.Fierro.NombreFierro + "\",\"size\":" + fileContent.ContentLength + ",\"width\":\"50px\",\"url\":\"DeleteImageFierro\",\"key\":\"" + Compra.Fierro.IDFierro + "\"}]}";
+
+                        return Content(jsString, "application/json");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                jsString = "{\"Mensaje de error\": \"" + ex + "\"}";
+                return Content(jsString, "application/json");
+            }
+            return Content(jsString, "application/json");
+        }
+        [HttpPost]
+        public ContentResult DeleteImageFierro(string key)
+        {
+            string jsString;
+            try
+            {
+                HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                FormsAuthenticationTicket Ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                Compra = new CompraModels();
+                CompraDatos = new _Compra_Datos();
+                Compra.Conexion = Conexion;
+                Compra.Fierro.IDFierro = key;
+                Compra.IDUsuario = Ticket.Name;
+                Compra = CompraDatos.DeleteImageFierro(Compra);
+                jsString = "{\"Mensaje\": \"" + Compra.Mensaje + "\"}";
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                jsString = "{\"Mensaje de error\": \"" + ex + "\"}";
+            }
+            return Content(jsString, "application/json");
+        }
+        #endregion
+
+
+
+        [HttpPost]
+        public ActionResult JsonIndex(CompraModels Compra)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                Compra.Conexion = Conexion;
+
+                Compra.RespuestaAjax.Mensaje = CompraDatos.ObtenerCompraIndexDataTable(Compra);
+                Compra.RespuestaAjax.Success = true;
+
+                return Content(Compra.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Compra.RespuestaAjax.Mensaje = ex.ToString();
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+
 
 
 
@@ -405,81 +511,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         #endregion
         #region Métodos diversos
-        #region Imágenes
-        [HttpPost]
-        public ContentResult SaveImageFierro(string IDCompra)
-        {
-            string jsString = "{}";
-            try
-            {
-                foreach (string file in Request.Files)
-                {
-                    var fileContent = Request.Files[file];
-                    if (fileContent != null && fileContent.ContentLength > 0)
-                    {
-                        //Obtengo el stream
-                        var stream = fileContent.InputStream;
-                        //Genero un array de bytes
-                        byte[] fileData = null;
-                        using (var binaryReader = new BinaryReader(stream))
-                        {
-                            fileData = binaryReader.ReadBytes(fileContent.ContentLength);
-                        }
-                        //Realizo la convercion a base 64
-                        string Base64 = Convert.ToBase64String(fileData);
-                        //Ya tengo la imagen ahora la guardo en la bd
-                        HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-                        FormsAuthenticationTicket Ticket = FormsAuthentication.Decrypt(authCookie.Value);
-
-                        Compra = new CompraModels();
-                        CompraDatos = new _Compra_Datos();
-
-                        Compra.IDCompra = IDCompra;
-                        Compra.Conexion = Conexion;
-                        Compra.Fierro.ImgFierro = Base64;
-                        Compra.Fierro.NombreFierro = Request.Files[file].FileName;
-                        Compra.IDUsuario = Ticket.Name;
-                        Compra = CompraDatos.SaveImageFierro(Compra);
-
-                        jsString = "{ \"initialPreview\":[\"<img class='file-preview-image' style='width: auto; height: auto; max-width: 100 %; max-height: 100%; ' src='data: image/png; base64, " + Base64 + "' />\"],\"initialPreviewConfig\":[{\"caption\":\"" + Compra.Fierro.NombreFierro + "\",\"size\":" + fileContent.ContentLength + ",\"width\":\"50px\",\"url\":\"DeleteImageFierro\",\"key\":\"" + Compra.Fierro.IDFierro + "\"}]}";
-
-                        return Content(jsString, "application/json");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                jsString = "{\"Mensaje de error\": \"" + ex + "\"}";
-                return Content(jsString, "application/json");
-            }
-            return Content(jsString, "application/json");
-        }
-        [HttpPost]
-        public ContentResult DeleteImageFierro(string key)
-        {
-            string jsString;
-            try
-            {
-                HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-                FormsAuthenticationTicket Ticket = FormsAuthentication.Decrypt(authCookie.Value);
-
-                Compra = new CompraModels();
-                CompraDatos = new _Compra_Datos();
-                Compra.Conexion = Conexion;
-                Compra.Fierro.IDFierro = key;
-                Compra.IDUsuario = Ticket.Name;
-                Compra = CompraDatos.DeleteImageFierro(Compra);
-                jsString = "{\"Mensaje\": \"" + Compra.Mensaje + "\"}";
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                jsString = "{\"Mensaje de error\": \"" + ex + "\"}";
-            }
-            return Content(jsString, "application/json");
-        }
-        #endregion
+       
         [HttpPost]
         public ActionResult CreateCompra(CompraModels Compra)
         {

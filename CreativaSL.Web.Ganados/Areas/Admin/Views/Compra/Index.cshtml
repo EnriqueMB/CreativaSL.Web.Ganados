@@ -7,6 +7,16 @@
 @section css
 {
 <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
+    <style>
+        td.details-control {
+            background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        tr.shown td.details-control {
+            background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
+        }
+    </style>
 }
 
     @section featured
@@ -40,9 +50,10 @@
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <table id="tblIndexCompra" class="table">
+                                <table id="tblIndexCompra" class="table tCompra">
                                     <thead>
                                         <tr>
+                                            <th rowspan="2"></th>
                                             <th rowspan="2">Nombre cliente</th>
                                             <th rowspan="2">Lugar</th>
                                             <th colspan="3">Ganado pactado</th>
@@ -66,57 +77,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (System.Data.DataRow Compra in Model.TablaCompra.Rows)
-                                        {
-                                            <tr>
-                                                <td>@Compra["NombreProveedor"].ToString()</td>
-                                                <td>@Compra["LugarDestino"].ToString()</td>
-                                                <td>@Compra["GanadoPactadoMachos"].ToString()</td>
-                                                <td>@Compra["GanadoPactadoHembras"].ToString()</td>
-                                                <td>@Compra["GanadoPactadoTotal"].ToString()</td>
-                                                <td>@Compra["GanadoCompradoMachos"].ToString()</td>
-                                                <td>@Compra["GanadoCompradoHembras"].ToString()</td>
-                                                <td>@Compra["GanadoCompradoTotal"].ToString()</td>
-                                                <td>@Compra["GanadoKilosTotal"].ToString()</td>@*Total de kilos*@
-                                                <td></td>@*Total de ingresos, checar en los pago por cobrar*@
-                                                <td></td>@*Total de egreso, checar en los pagos por pagar*@
-                                                <td></td>@*Total, diferencia entre ingreso y egreso*@
-                                                <td>@Compra["MermaPromedio"].ToString()</td>@*Merma promedio*@
-                                                <td>@Html.Label(@Compra["Estatus"].ToString(), new { @class = Compra["ClassEstatus"] })</td>
-
-                                                <td style="text-align:center;">
-                                                    <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                        <a title="Documentos" href="@Url.Action("Details", "Compra", new { IDCompra = Compra["id_compra"].ToString() })" class="btn btn-green tooltips btn-sm" data-placement="top" data-original-title="Document"><i class="fa fa-file-text"></i></a>
-                                                        <a title="Editar" href="@Url.Action("Edit", "Compra", new { IDCompra = Compra["id_compra"].ToString() })" class="btn btn-yellow tooltips btn-sm" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                        <a title="Eliminar" id="delete-@Compra["id_compra"].ToString()" data-hrefa="@Url.Action("Delete", "Compra", new { IDCompra = Compra["id_compra"].ToString()  })" onClick="delete_row('@Compra["id_compra"].ToString() ');" class="btn btn-danger tooltips btn-sm" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
-                                                    </div>
-                                                    <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                        <div class="btn-group">
-                                                            <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                                <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                            </a>
-                                                            <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                                <li>
-                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "Compra", new { IDCompra = Compra["id_compra"].ToString() })">
-                                                                        <i class="fa fa-file-text"></i> Documentos
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "Compra", new { IDCompra = Compra["id_compra"].ToString() })">
-                                                                        <i class="fa fa-edit"></i> Editar
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a role="menuitem" tabindex="-1" id="delete-@Compra["id_compra"].ToString()" data-hrefa="@Url.Action("Delete", "Compra", new { IDCompra = Compra["id_compra"].ToString()  })" onClick="delete_row('@Compra["id_compra"].ToString()');">
-                                                                        <i class="fa fa-trash-o"></i> Eliminar
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        }
+                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -160,32 +121,122 @@
             });
         </script>
         <script>
-            $("#tblIndexCompra").dataTable({
+            function format(d) {
+                // `d` is the original data object for the row
+                return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                    '<tr>' +
+                    '<td>Full name:</td>' +
+                    '<td>' + d.NombreProveedor + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>Extension number:</td>' +
+                    '<td>' + d.Estatus + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>Extra info:</td>' +
+                    '<td>And any further details here (images etc)...</td>' +
+                    '</tr>' +
+                    '</table>';
+            }
+
+            var tblIndexCompra1 = $("#tblIndexCompra").DataTable({
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
                 },
+                "ajax": {
+                    "data": {
+
+                    },
+                    "url": "/Admin/Compra/JsonIndex/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "dataSrc": ''
+                },
                 "columns": [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    { "width": "6%" }
+                    {
+                        "class": "details-control",
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": ""
+                    },
+                    { "data": "NombreProveedor" },
+                    { "data": "LugarDestino" },
+                    { "data": "GanadoPactadoMachos" },
+                    { "data": "GanadoPactadoHembras" },
+                    { "data": "GanadoPactadoTotal" },
+                    { "data": "GanadoCompradoMachos" },
+                    { "data": "GanadoCompradoHembras" },
+                    { "data": "GanadoCompradoTotal" },
+                    { "data": "GanadoKilosTotal" },
+                    { "data": "TotalIngreso" },
+                    { "data": "TotalEgreso" },
+                    { "data": "MontoTotal" },
+                    { "data": "MermaPromedio" },
+                    { "data": "ClassEstatus" },
+                    {
+                        "data": null,
+                        "render": function (data, type, full) {
+
+                            return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm editGanado' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                                "<a title='Eliminar' data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                                "</div>" +
+                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                "<div class='btn-group'>" +
+                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                                "</a>" +
+                                "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                                "<li>" +
+                                "<a class='deleteGanado' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-edit'></i> Editar" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a role='menuitem' tabindex='-1' id='" + full["id_compra"] + "'>" +
+                                "<i class='fa fa-trash-o'></i> Eliminar" +
+                                "</a>" +
+                                "</li>" +
+                                "</ul>" +
+                                "</div>" +
+                                "</div>";
+                        }
+                    }
                 ],
-                responsive: true
+                responsive: true,
+                "drawCallback": function (settings) {
+                    $(".editGanado").on("click", function () {
+                        var idGanado = $(this).data("id")
+                        alert("Edit")
+                    });
+                    
+                },
+                "order": [[1, 'asc']]
             });
-            $(".tblIndexEmpresa").on('page.dt', function () {
+
+            $("#tblIndexCompra").on('page.dt', function () {
                 onresize(100);
             });
+
+            // Add event listener for opening and closing details
+            $('#tblIndexCompra tbody').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = tblIndexCompra1.row(tr);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                }
+                else {
+                    // Open this row
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
+                }
+            });
+
+
+
         </script>
 
     }

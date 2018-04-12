@@ -263,6 +263,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.IDJaula = !dr.IsDBNull(dr.GetOrdinal("id_jaula")) ? dr.GetString(dr.GetOrdinal("id_jaula")) : string.Empty;
                     Compra.IDRemolque = !dr.IsDBNull(dr.GetOrdinal("id_remolque")) ? dr.GetString(dr.GetOrdinal("id_remolque")) : string.Empty;
                     Compra.IDVehiculo = !dr.IsDBNull(dr.GetOrdinal("id_vehiculo")) ? dr.GetString(dr.GetOrdinal("id_vehiculo")) : string.Empty;
+                    Compra.Flete.kmInicialVehiculo = !dr.IsDBNull(dr.GetOrdinal("kmInicialVehiculo")) ? dr.GetInt32(dr.GetOrdinal("kmInicialVehiculo")) : 0; 
                     Compra.Trayecto.id_lugarOrigen = !dr.IsDBNull(dr.GetOrdinal("id_lugarOrigen")) ? dr.GetString(dr.GetOrdinal("id_lugarOrigen")) : string.Empty;
                     Compra.Trayecto.id_lugarDestino = !dr.IsDBNull(dr.GetOrdinal("id_lugarDestino")) ? dr.GetString(dr.GetOrdinal("id_lugarDestino")) : string.Empty;
                 }
@@ -622,25 +623,103 @@ namespace CreativaSL.Web.Ganados.Models
             return Compra.ListaFormasPagos;
         }
         #endregion
-     
-        
-        
-      
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-          
+
+        #region Imagenes
+        public CompraModels DeleteImageFierro(CompraModels Compra)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Compra.Fierro.IDFierro,
+                    Compra.IDUsuario
+                };
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_DeleteImageFierro", parametros);
+                while (dr.Read())
+                {
+                    Compra.Mensaje = !dr.IsDBNull(dr.GetOrdinal("Mensaje")) ? dr.GetString(dr.GetOrdinal("Mensaje")) : string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Compra;
+        }
+        public CompraModels SaveImageFierro(CompraModels Compra)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Compra.IDCompra,
+                    Compra.Fierro.ImgFierro,
+                    Compra.Fierro.NombreFierro,
+                    Compra.IDUsuario
+                };
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_SaveImageFierro", parametros);
+                while (dr.Read())
+                {
+                    Compra.Fierro.IDFierro = !dr.IsDBNull(dr.GetOrdinal("id_fierro")) ? dr.GetString(dr.GetOrdinal("id_fierro")) : string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Compra;
+        }
+        public List<CatFierroModels> GetListadoFierrosXIDCompra(CompraModels Compra)
+        {
+            CatFierroModels Fierro;
+            SqlDataReader dr = null;
+            object[] parametros =
+            {
+                Compra.IDCompra
+            };
+
+            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_get_CatFierroXIDCompra", parametros);
+
+            while (dr.Read())
+            {
+                Fierro = new CatFierroModels
+                {
+                    IDFierro = !dr.IsDBNull(dr.GetOrdinal("id_fierro")) ? dr.GetString(dr.GetOrdinal("id_fierro")) : string.Empty,
+                    NombreFierro = !dr.IsDBNull(dr.GetOrdinal("nombreFierro")) ? dr.GetString(dr.GetOrdinal("nombreFierro")) : string.Empty,
+                    ImgFierro = !dr.IsDBNull(dr.GetOrdinal("imgFierro")) ? dr.GetString(dr.GetOrdinal("imgFierro")) : string.Empty
+                };
+
+                Compra.ListaFierros.Add(Fierro);
+            }
+            return Compra.ListaFierros;
+            
+        }
+        #endregion
+
+
+        public string ObtenerCompraIndexDataTable(CompraModels CompraModels)
+        {
+            try
+            {
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(CompraModels.Conexion, "spCSLDB_COMPRAS_IndexVentas");
+                string jsonDr = Auxiliar.DatasetToJson(dr);
+                return jsonDr;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
+
+
         #region Index
         /// <summary>
         /// Obtiene los datos a mostar en el modulo COMPRAS->INDEX
@@ -671,6 +750,22 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
       
         #region Insert
         public CompraModels CreateCompra(CompraModels Compra)
@@ -714,13 +809,8 @@ namespace CreativaSL.Web.Ganados.Models
             return Compra;
         }
         #endregion
-        #region Edit
-
-        #endregion
-        #region Delete
-
-        #endregion
-        
+       
+              
         /// <summary>
         /// Obtiene los datos de la tabla Compra, por medio del id de la compra
         /// </summary>
@@ -924,53 +1014,6 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public CompraModels DeleteImageFierro(CompraModels Compra)
-        {
-            try
-            {
-                object[] parametros =
-                {
-                    Compra.Fierro.IDFierro,
-                    Compra.IDUsuario
-                };
-
-                SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_COMPRAS_DeleteImageFierro", parametros);
-                while (dr.Read())
-                {
-                    Compra.Mensaje = !dr.IsDBNull(dr.GetOrdinal("Mensaje")) ? dr.GetString(dr.GetOrdinal("Mensaje")) : string.Empty;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return Compra;
-        }
-        public CompraModels SaveImageFierro(CompraModels Compra)
-        {
-            try
-            {
-                object[] parametros =
-                {
-                    Compra.IDCompra,
-                    Compra.Fierro.ImgFierro,
-                    Compra.Fierro.NombreFierro,
-                    Compra.IDUsuario
-                };
-
-                SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_COMPRAS_SaveImageFierro", parametros);
-                while (dr.Read())
-                {
-                    Compra.Fierro.IDFierro = !dr.IsDBNull(dr.GetOrdinal("id_fierro")) ? dr.GetString(dr.GetOrdinal("id_fierro")) : string.Empty;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return Compra;
-        }
+        
     }
 }

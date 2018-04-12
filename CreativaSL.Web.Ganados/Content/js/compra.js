@@ -17,6 +17,8 @@
         document.getElementById("Trayecto.id_lugarOrigen").addEventListener('change', onChangeHandler);
         document.getElementById("Trayecto.id_lugarDestino").addEventListener('change', onChangeHandler);
 
+        if (option == 2)
+            CalculateAndDisplayRoute(directionsService, directionsDisplay);
     };
     var LoadItems = function () {
         $('#FechaHoraProgramada').datepicker({
@@ -116,8 +118,8 @@
             submitHandler: function (form) {
                 successHandler1.show();
                 errorHandler1.hide();
-                
-                if ($("#IDCompra").length != 0) {
+
+                if ($("$IDCompra").length != 0) {
                     //Tiene un id, actualizamos el registro
                     A_Proveedor();
                 }
@@ -285,6 +287,7 @@
             }
         });
     };
+
     function A_Documento() {
         var form = $("#frmDocumentos")[0];
         var formData = new FormData(form);
@@ -367,29 +370,26 @@
             },
             success: function (result) {
                 $('#IDVehiculo').empty();
-                if (result.length > 1) {
-                    //Primera fila
-                    var optgroup = result[0].Modelo;
-                    var option = '<optgroup label="' + result[0].Modelo + '"><option value="' + result[0].IDVehiculo + '">' + result[0].nombreMarca + '</option>';
+                var optgroup = result[0].Modelo;
+                var option = '<optgroup label="' + result[0].Modelo + '"><option value="' + result[0].IDVehiculo + '">' + result[0].nombreMarca + '</option>';
 
-                    for (var i = 1; i < result.length; i++) {
-                        if (optgroup == result[i].Modelo) {
-                            option += '<option value="' + result[i].IDVehiculo + '">' + result[i].nombreMarca + '</option>';
-                        }
-                        else {
-                            //Cerramos el grupo
-                            option += '</optgroup>';
-                            //Anexamos al select
-                            $("#IDVehiculo").append(option);
-                            //Creamos un group nuevo
-                            option = '<optgroup label="' + result[i].Modelo + '"><option value="' + result[i].IDVehiculo + '">' + result[i].nombreMarca + '</option>';
-                            optgroup = result[i].Modelo;
-                        }
+                for (var i = 1; i < result.length; i++) {
+                    if (optgroup == result[i].Modelo) {
+                        option += '<option value="' + result[i].IDVehiculo + '">' + result[i].nombreMarca + '</option>';
                     }
-                    //Anexamos el último valor
-                    option += '</optgroup>';
-                    $("#IDVehiculo").append(option);
+                    else {
+                        //Cerramos el grupo
+                        option += '</optgroup>';
+                        //Anexamos al select
+                        $("#IDVehiculo").append(option);
+                        //Creamos un group nuevo
+                        option = '<optgroup label="' + result[i].Modelo + '"><option value="' + result[i].IDVehiculo + '">' + result[i].nombreMarca + '</option>';
+                        optgroup = result[i].Modelo;
+                    }
                 }
+                //Anexamos el último valor
+                option += '</optgroup>';
+                $("#IDVehiculo").append(option);
                 $('#IDVehiculo.select').selectpicker('refresh');
             }
         });
@@ -451,6 +451,41 @@
             }
         });
     }
+
+    function CalculateAndDisplayRoute(directionsService, directionsDisplay) {
+        var selectIndexInicio = document.getElementById('Trayecto.id_lugarOrigen').selectedIndex;
+        var optionInicio = document.getElementById('Trayecto.id_lugarOrigen').options.item(selectIndexInicio);
+        var latitudInicial = optionInicio.dataset.latitud.replace(",", ".");
+        var longInicial = optionInicio.dataset.longitud.replace(",", ".");
+
+        var selectIndexFinal = document.getElementById('Trayecto.id_lugarDestino').selectedIndex;
+        var optionFinal = document.getElementById('Trayecto.id_lugarDestino').options.item(selectIndexFinal);
+        var latitudFinal = optionFinal.dataset.latitud.replace(",", ".");
+        var longFinal = optionFinal.dataset.longitud.replace(",", ".");
+
+        var inicio = new google.maps.LatLng(latitudInicial, longInicial);
+        var final = new google.maps.LatLng(latitudFinal, longFinal);
+
+        if ((latitudInicial != 0 && longInicial != 0) && (latitudFinal != 0 && longFinal != 0)) {
+            directionsService.route({
+                origin: inicio,
+                destination: final,
+                travelMode: 'DRIVING'
+            }, function (response, status) {
+                if (status === 'OK') {
+                    directionsDisplay.setDirections(response);
+                } else {
+                    window.alert('No se pudo cargar la ubicación, verifique sus coordenas en el catálogo de Lugares, estatus: ' + status);
+                }
+            });
+        }
+        else {
+            window.alert('No se pudo cargar la ubicación, verifique sus coordenas en el catálogo de Lugares');
+        }
+    }    
+
+
+
 
     var LoadTableGanado = function (IDCompra) {
 
@@ -546,7 +581,7 @@
             ModalGanado(0);
         });
     };
-    var LoadTableMovimientos = function(idCompra) {
+    var LoadTableMovimientos = function (idCompra) {
         $("#btnAddPago").on("click", function () {
             ModalPago(0);
         });
@@ -560,33 +595,7 @@
         });
     }
 
-    //Funciones
-    function CalculateAndDisplayRoute(directionsService, directionsDisplay) {
-        var selectIndexInicio = document.getElementById('Trayecto.id_lugarOrigen').selectedIndex;
-        var optionInicio = document.getElementById('Trayecto.id_lugarOrigen').options.item(selectIndexInicio);
-        var latitudInicia = optionInicio.dataset.latitud.replace(",", ".");
-        var longInicial = optionInicio.dataset.longitud.replace(",", ".");
 
-        var selectIndexFinal = document.getElementById('Trayecto.id_lugarDestino').selectedIndex;
-        var optionFinal = document.getElementById('Trayecto.id_lugarDestino').options.item(selectIndexFinal);
-        var latitudFinal = optionFinal.dataset.latitud.replace(",", ".");
-        var longFinal = optionFinal.dataset.longitud.replace(",", ".");
-
-        var inicio = new google.maps.LatLng(latitudInicia, longInicial);
-        var final = new google.maps.LatLng(latitudFinal, longFinal);
-
-        directionsService.route({
-            origin: inicio,
-            destination: final,
-            travelMode: 'DRIVING'
-        }, function (response, status) {
-            if (status === 'OK') {
-                directionsDisplay.setDirections(response);
-            } else {
-                window.alert('No se pudo cargar la ubicación, verifique sus coordenas en el catálogo de Lugares, estatus: ' + status);
-            }
-        });
-    }
     function ModalGanado(idGanado) {
         $.ajax({
             url: 'ModalGanado',
@@ -623,8 +632,6 @@
  
         //}).keyup();
     }
-
-
     function ModalCobro(idDocCobrar) {
         $.ajax({
             url: "ModalCobro",
@@ -665,15 +672,13 @@
     return {
         init: function (option, idCompra) {
             LoadItems();
-            
             LoadValidationProveedor();
-            if (option == 2) {
-                InitMap(option);
-                LoadValidationFlete();
-                LoadValidationDocumentos();
-                RunEventsLineaFletera();
-            }
-
+            InitMap(option);
+            
+            LoadValidationFlete();
+            LoadValidationDocumentos();
+            RunEventsLineaFletera();
+           
             LoadTableGanado(idCompra);
             LoadTableMovimientos(idCompra);
             LoadTableEvento(idCompra);

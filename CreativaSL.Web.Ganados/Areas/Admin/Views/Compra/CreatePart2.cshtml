@@ -44,7 +44,7 @@
                         @{ Html.EnableClientValidation(false); }
                         @using (Html.BeginForm("A_Proveedor", "Compra", FormMethod.Post, new { id = "frmProveedor", @class = "form-horizontal", autocomplete = "off" }))
                         {
-                            @Html.HiddenFor(model=>model.IDCompra);
+                            @Html.HiddenFor(model => model.IDCompra);
                             @Html.AntiForgeryToken()
 
                             <div class="panel panel-default">
@@ -190,7 +190,7 @@
                                             <div class="col-md-10 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.DropDownListFor(model => model.IDRemolque, new SelectList(Model.ListaRemolques, "IDRemolque", "placa"), new { @class = "form-control" })
+                                                    @Html.DropDownListFor(model => model.IDRemolque, new SelectList(Model.ListaRemolques, "IDRemolque", "placa"), new { @class = "form-control select classSelect", data_live_search = "true", data_style = "form-control" })
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.IDRemolque)
                                             </div>
@@ -202,7 +202,7 @@
                                             <div class="col-md-10 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Flete.kmInicialVehiculo, new { id = "KmInicial", @class = "form-control", placeholder="Introduzca el km. inicial del vehículo." })
+                                                    @Html.TextBoxFor(model => model.Flete.kmInicialVehiculo, new { id = "KmInicial", @class = "form-control", placeholder = "Introduzca el km. inicial del vehículo." })
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.Flete.kmInicialVehiculo)
                                             </div>
@@ -219,7 +219,7 @@
                                                         <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud"
                                                                 @if (Model.Trayecto.id_lugarOrigen == lugar.id_lugar) { <text>
                                                                 selected="selected"
-                                                                </text>     }>
+                                                                </text> }>
                                                             @lugar.descripcion
                                                         </option>
                                                     }
@@ -231,7 +231,7 @@
                                                         <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud"
                                                                 @if (Model.Trayecto.id_lugarDestino == lugar.id_lugar) { <text>
                                                                 selected="selected"
-                                                                </text>     }>
+                                                                </text> }>
                                                             @lugar.descripcion
                                                         </option>
                                                     }
@@ -255,70 +255,70 @@
                     <div class="col-md-12">
                         @{ Html.EnableClientValidation(false); }
                         @using (Html.BeginForm("AC_Documentos", "Compra", FormMethod.Post, new { id = "frmDocumentos", @class = "form-horizontal", autocomplete = "off" }))
-                    {
-                    @Html.HiddenFor(model => model.IDCompra);
-                    @Html.AntiForgeryToken()
+                        {
+                            @Html.HiddenFor(model => model.IDCompra);
+                            @Html.AntiForgeryToken()
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title"><strong>Información</strong> Documentos </h3>
-                            <ul class="panel-controls"></ul>
-                        </div>
-                        <div class="panel-body">
-                            @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
-                            <div id="validation_summary_documentos" class="field_error "></div><br />
-                            <div class="form-group">
-                                <div class="col-md-6 controlError">
-                                    <label class="col-md-3 control-label">Núm. de guía de tránsito</label>
-                                    <div class="col-md-9 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.GuiaTransito, new { id = "GuiaTransito", @class = "form-control", placeholder = "Introduzca un númeo de gruía" })
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><strong>Información</strong> Documentos </h3>
+                                    <ul class="panel-controls"></ul>
+                                </div>
+                                <div class="panel-body">
+                                    @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
+                                    <div id="validation_summary_documentos" class="field_error "></div><br />
+                                    <div class="form-group">
+                                        <div class="col-md-6 controlError">
+                                            <label class="col-md-3 control-label">Núm. de guía de tránsito</label>
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.GuiaTransito, new { id = "GuiaTransito", @class = "form-control", placeholder = "Introduzca un númeo de gruía" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.GuiaTransito)
+                                            </div>
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.GuiaTransito)
+                                        <div class="col-md-6 controlError">
+                                            <label class="col-md-3 control-label">Núm. de Certificado Zoosanitario</label>
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.CertZoosanitario, new { id = "NumCertZoosanitario", @class = "form-control", placeholder = "Introduzca un número de certificado zoosanitario." })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.CertZoosanitario)
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-6 controlError">
+                                            <label class="col-md-3 control-label">Núm. de Certificado Brucelosis</label>
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.CertBrucelosis, new { id = "NumCertBrucelosis", @class = "form-control", placeholder = "Introduzca un número de certificado de brucelosis" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.CertBrucelosis)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 controlError">
+                                            <label class="col-md-3 control-label">Núm. de Certificado Tuberculosis</label>
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.CertTuberculosis, new { id = "NumCertTuberculosis", @class = "form-control", placeholder = "Introduzca un número de certificado de tuberculosis." })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.CertTuberculosis)
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 controlError">
-                                    <label class="col-md-3 control-label">Núm. de Certificado Zoosanitario</label>
-                                    <div class="col-md-9 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.CertZoosanitario, new { id = "NumCertZoosanitario", @class = "form-control", placeholder= "Introduzca un número de certificado zoosanitario." })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.CertZoosanitario)
-                                    </div>
+                                <div class="panel-footer">
+                                    <input type="submit" value="Guardar Documentos" class="btn btn-primary pull-right">
+                                    <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                                 </div>
-                               
                             </div>
-                            <div class="form-group">
-                                <div class="col-md-6 controlError">
-                                    <label class="col-md-3 control-label">Núm. de Certificado Brucelosis</label>
-                                    <div class="col-md-9 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.CertBrucelosis, new { id = "NumCertBrucelosis", @class = "form-control", placeholder = "Introduzca un número de certificado de brucelosis" })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.CertBrucelosis)
-                                    </div>
-                                </div>
-                                <div class="col-md-6 controlError">
-                                    <label class="col-md-3 control-label">Núm. de Certificado Tuberculosis</label>
-                                    <div class="col-md-9 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.CertTuberculosis, new { id = "NumCertTuberculosis", @class = "form-control", placeholder = "Introduzca un número de certificado de tuberculosis." })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.CertTuberculosis)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel-footer">
-                            <input type="submit" value="Guardar Documentos" class="btn btn-primary pull-right">
-                            <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                        </div>
-                    </div>
-                    }
+                        }
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="fierros">
@@ -344,7 +344,7 @@
                         </div>
                     </div>
                 </div>
-                </div>
+            </div>
 
         </div>
         <!--TERMINA TABS-->
@@ -392,6 +392,7 @@
             showRemove: false,
             showClose: false,
             showCancel: false,
+            required: true,
             overwriteInitial: false,
             previewFileIcon: '<i class="fa fa-file"></i>',
             allowedPreviewTypes: ['image'],
