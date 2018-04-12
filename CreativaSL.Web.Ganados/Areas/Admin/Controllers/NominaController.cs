@@ -185,15 +185,18 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         //GET: Admin/Nomina/DetalleEmpleado/2
         [HttpGet]
-        public ActionResult DetalleEmpleado(string id, string id2)
+        public ActionResult DetalleEmpleado(string id, string id2, string id3)
         {
             try
             {
                 NominaModels Nomina = new NominaModels();
                 Nomina_Datos NominaDatos = new Nomina_Datos();
-                Nomina.IDSucursal = id;
+                Nomina.IDNomina = id;
+                Nomina.IDSucursal = id2;
+                Nomina.IDEmpleado = id3;
                 Nomina.Conexion = Conexion;
                 Nomina.listaConceptoNomina = NominaDatos.ObtenerConceptosNomina(Nomina);
+                Nomina = NominaDatos.ObtenerListasDeConceptosXID(Nomina);
                 return View(Nomina);
             }
             catch (Exception)

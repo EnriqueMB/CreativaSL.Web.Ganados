@@ -18,7 +18,12 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Conceptos nominales </h2> <a href="@Url.Action("Detalle","Nomina")" class="btn btn-danger btn-lg mb-control-yes" style="padding:5px;margin-left: 15px;">Regresar</a>
+        @{  
+            string IDN = Model.IDNomina;
+            string IDS = Model.IDSucursal;
+            string IDE = Model.IDEmpleado;
+          }
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Conceptos nominales </h2> <a href="@Url.Action("Detalle", "Nomina", new{ id = IDN, id2 = IDS })" class="btn btn-danger btn-lg mb-control-yes" style="padding:5px;margin-left: 15px;">Regresar</a>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -30,7 +35,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="#" class="btn btn-default btnCrear" data-toggle="modal" data-target="#exampleModal"><span class="fa fa-plus"></span> Nuevo concepto fijo</a></li> @*"@Url.Action("Create","CatTipoServicio")"*@
+                            <li><a class="btn btn-default btnCrear" data-toggle="modal" data-target="#exampleModal"><span class="fa fa-plus"></span> Nuevo concepto fijo</a></li> @*"@Url.Action("Create","CatTipoServicio")"*@
                             
                         </ul>
                     </div>
@@ -40,24 +45,21 @@
                                 <thead>
                                     <tr>
                                         <th>Concepto</th>
+                                        <th></th>
                                         <th>Monto</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Registro 1</td>
-                                        <td>Registro 1</td>
-                                        <td>Registro 1</td>
-                                    </tr>
-                                                                 @*@foreach (var Tipo in Model.listaTipoServicio)
+                                   @foreach (var fijo in Model.ListaConceptosFijo)
                                     {
-                                        <tr id="@Tipo.IDTipoServicio">
-                                            <td>@Tipo.Descripcion</td>
+                                        <tr id="@fijo.IDConceptosFijo">
+                                            <td>@fijo.NombreConcepto</td>
+                                            <td>@fijo.Simbolo</td>
+                                            <td>@fijo.Monto.ToString("0.00").Replace(',', '.')</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" href="@Url.Action("Edit", "CatTipoServicio", new { id = Tipo.IDTipoServicio })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" id="delete-@Tipo.IDTipoServicio" data-hrefa="@Url.Action("Delete", "CatTipoServicio", new { id = Tipo.IDTipoServicio })" onClick="delete_row('@Tipo.IDTipoServicio');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Eliminar Concepto Fijo" id="delete-@fijo.IDConceptosFijo" data-hrefa="@Url.Action("DeleteConceptoFijo", "Nomina", new { id = fijo.IDConceptosFijo, id2 = IDE })" onClick="delete_row('@fijo.IDConceptosFijo');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar Concepto Fijo"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -66,13 +68,8 @@
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatTipoServicio", new { id = Tipo.IDTipoServicio })">
-                                                                    <i class="fa fa-edit"></i> Editar
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@Tipo.IDTipoServicio" data-hrefa="@Url.Action("Delete", "CatTipoVehiculo", new { id = Tipo.IDTipoServicio })" onClick="delete_row('@Tipo.IDTipoServicio');">
-                                                                    <i class="fa fa-trash-o"></i> Eliminar
+                                                                <a role="menuitem" tabindex="-1" id="delete-@fijo.IDConceptosFijo" data-hrefa="@Url.Action("DeleteConceptoFijo", "Nomina", new { id = fijo.IDConceptosFijo, id2 = IDE })" onClick="delete_row('@fijo.IDConceptosFijo');">
+                                                                    <i class="fa fa-trash-o"></i> Elimnar Concepto Fijo
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -80,7 +77,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                    }*@
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -104,47 +101,39 @@
                                 <thead>
                                     <tr>
                                         <th>Concepto</th>
+                                        <th></th>
                                         <th>Monto</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Registro 1</td>
-                                        <td>Registro 1</td>
-                                        <td>Registro 1</td>
-                                    </tr>
-                                    @*@foreach (var Tipo in Model.listaTipoServicio)
-                                {
-                                    <tr id="@Tipo.IDTipoServicio">
-                                        <td>@Tipo.Descripcion</td>
-                                        <td style="text-align:center;">
-                                            <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                <a title="Editar" href="@Url.Action("Edit", "CatTipoServicio", new { id = Tipo.IDTipoServicio })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                <a title="Eliminar" id="delete-@Tipo.IDTipoServicio" data-hrefa="@Url.Action("Delete", "CatTipoServicio", new { id = Tipo.IDTipoServicio })" onClick="delete_row('@Tipo.IDTipoServicio');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
-                                            </div>
-                                            <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                <div class="btn-group">
-                                                    <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                        <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                    </a>
-                                                    <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                        <li>
-                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatTipoServicio", new { id = Tipo.IDTipoServicio })">
-                                                                <i class="fa fa-edit"></i> Editar
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a role="menuitem" tabindex="-1" id="delete-@Tipo.IDTipoServicio" data-hrefa="@Url.Action("Delete", "CatTipoVehiculo", new { id = Tipo.IDTipoServicio })" onClick="delete_row('@Tipo.IDTipoServicio');">
-                                                                <i class="fa fa-trash-o"></i> Eliminar
-                                                            </a>
-                                                        </li>
-                                                    </ul>
+                                    @foreach (var variable in Model.ListaConceptosVariable)
+                                    {
+                                        <tr id="@variable.IDConceptoEmpleado">
+                                            <td>@variable.NombreConcepto</td>
+                                            <td>@variable.Simbolo</td>
+                                            <td>@variable.Monto.ToString("0.00").Replace(',', '.')</td>
+                                            <td style="text-align:center;">
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    <a title="Eliminar Concepto Variable" id="delete-@variable.IDConceptoEmpleado" data-hrefa="@Url.Action("DeleteConceptoVariable", "Nomina", new { id = variable.IDConceptoEmpleado, id2 = IDE })" onClick="delete_row('@variable.IDConceptoEmpleado');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar Concepto Variable"><i class="fa fa-trash-o"></i></a>
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                }*@
+                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                        </a>
+                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" id="delete-@variable.IDConceptoEmpleado" data-hrefa="@Url.Action("DeleteConceptoVariable", "Nomina", new { id = variable.IDConceptoEmpleado, id2 = IDE })" onClick="delete_row('@variable.IDConceptoEmpleado');">
+                                                                    <i class="fa fa-trash-o"></i> Elimnar Concepto Variable
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
