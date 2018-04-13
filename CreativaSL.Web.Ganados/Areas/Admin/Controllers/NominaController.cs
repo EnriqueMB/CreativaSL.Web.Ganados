@@ -223,40 +223,51 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult DetalleEmpleado(NominaModels Nomina)
         {
+            Nomina_Datos NominaDatos = new Nomina_Datos();
             try
             {
-                
-                Nomina_Datos NominaDatos = new Nomina_Datos();
                 Nomina.Conexion = Conexion;
                 Nomina.Usuario = User.Identity.Name;
                 Nomina = NominaDatos.AgregarConceptoNomina(Nomina);
                 if (Nomina.Completado)
                 {
+                    Nomina.listaConceptoNomina = NominaDatos.ObtenerConceptosNomina(Nomina);
+                    Nomina = NominaDatos.ObtenerListasDeConceptosXID(Nomina);
                     TempData["typemessage"] = "1";
                     TempData["message"] = "Los datos se guardarón correctamente.";
-                    return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
+                    return View(Nomina);
+                    //return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
                 }
                 else
                 {
                     if (Nomina.Resultado == -1)
                     {
+                        Nomina.listaConceptoNomina = NominaDatos.ObtenerConceptosNomina(Nomina);
+                        Nomina = NominaDatos.ObtenerListasDeConceptosXID(Nomina);
                         TempData["typemessage"] = "2";
                         TempData["message"] = "El concepto ya fue insertado.";
-                        return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
+                        return View(Nomina);
+                       // return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
                     }
                     else
                     {
+                        Nomina.listaConceptoNomina = NominaDatos.ObtenerConceptosNomina(Nomina);
+                        Nomina = NominaDatos.ObtenerListasDeConceptosXID(Nomina);
                         TempData["typemessage"] = "2";
                         TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                        return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
+                        return View(Nomina);
+                        //return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
                     }
                 }
             }
             catch (Exception)
             {
+                Nomina.listaConceptoNomina = NominaDatos.ObtenerConceptosNomina(Nomina);
+                Nomina = NominaDatos.ObtenerListasDeConceptosXID(Nomina);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte soporte técnico.";
-                return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
+                return View(Nomina);
+               // return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
             }
         }
         // GET: Admin/EntregaCombustible/Delete/5
@@ -303,7 +314,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                return View();
+                NominaModels Nomina = new NominaModels();
+                Nomina_Datos NominaD = new Nomina_Datos();
+                Nomina.Conexion = Conexion;
+                Nomina = NominaD.ObtenerDatosEmpresaTipo1(Nomina);
+                return View(Nomina);
             }
             catch (Exception)
             {

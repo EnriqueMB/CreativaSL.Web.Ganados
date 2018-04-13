@@ -43,7 +43,17 @@ namespace CreativaSL.Web.Ganados.Models
             _ListaResumenDetalleNomina = new List<NominaResumenDetalleModels>();
             _PeriodoFechas = string.Empty;
             _ListaNominaDetalle = new List<NominaDetalleModels>();
+            _DatosEmpresa = new DatosEmpresaViewModels();
         }
+
+        private DatosEmpresaViewModels _DatosEmpresa;
+
+        public DatosEmpresaViewModels DatosEmpresa
+        {
+            get { return _DatosEmpresa; }
+            set { _DatosEmpresa = value; }
+        }
+
 
         private List<CatConceptoNominaModels> _listaConceptoNomina;
 

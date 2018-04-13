@@ -35,24 +35,24 @@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table class="table datatable">
+                            <table class="table" id="Tbl50">
                                 <thead>
                                     <tr>
-                                        <th colspan="1" class="text-center"><img src="~/Content/img/logo.png"/></th>
+                                        <th colspan="1" class="text-center">@Html.Raw(HttpUtility.HtmlDecode(Model.DatosEmpresa.ImagenContruida))</th>
                                         <th colspan="11" class="text-center">
                                           <table class="table ">
                                               <thead>
                                                   <tr>
                                                       <th>Nombre:</th>
-                                                      <th>ENRIQUE RAFAEL ROSALES BALLINAS</th>
+                                                      <th>@Model.DatosEmpresa.RazonFiscal</th>
                                                   </tr>
                                                   <tr >
                                                       <th>Sucursal:</th>
-                                                      <th>CREATIVA SOFTLINE TAMBIEN UNACH</th>
+                                                      <th>@Model.DatosEmpresa.NombreSucursal</th>
                                                   </tr>
                                                   <tr>
                                                       <th>Dirección:</th>
-                                                      <th>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</th>
+                                                      <th>@Model.DatosEmpresa.DireccionFiscal</th>
                                                   </tr>
                                                   <tr>
                                                       <th  colspan="2">DETALLES DE DÍAS LABORADOS</th>
@@ -73,7 +73,7 @@
                                         <th>DD</th>
                                         <th>DF</th>
                                         <th>DDF</th>
-                                        <th>DT</th>
+                                        <th>RT</th>
                                         <th>FR</th>
                                         <th>DDR</th>
                                         <th>DTD</th>
@@ -111,6 +111,104 @@
                                         <td>0</td>
                                         <td>0</td>
                                     </tr>
+                                    <tr>
+                                        <td>Eder Ramirez</td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>5</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Eder Ramirez</td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>5</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Eder Ramirez</td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>5</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Eder Ramirez</td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>5</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Eder Ramirez</td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>5</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Eder Ramirez</td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>5</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Eder Ramirez</td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>5</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
                                 </tbody>
                                 <tfoot >
                                     <tr>
@@ -119,10 +217,10 @@
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th colspan="1"> TEXTO:</th>
-                                                    <th colspan="11"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et facilisis lectus. Mauris blandit metus nunc.
-                                                     Vestibulum quis massa vitae ipsum viverra ultricies a et magna. Integer non lobortis neque.
-                                                     Mauris id arcu mattis lectus sollicitudin dictum vitae eget risus. Nullam ornare lobortis sapien at ultrices. </th>
+                                                    <th colspan="1"> ABREVIATURAS:</th>
+                                                    <th colspan="11">DL: DIAS LABORADOS, DD: DÍAS DE DESCANSO, DF: DÍAS FALTADOS, DDF: DÍAS DE DESCUENTO POR FALTAS, RT: RETARDOS, FR: FALTAS POR RETARDOS,
+                                                                DDR: DÍAS DE DESCUENTO DE FALTAS POR RETARDO, DDT: DÍAS TOTALES DE DESCUENTO, DFE: DIAS FESTIVOS, DO: DÍAS DOMINGO, DV: DIAS DE VACACIONES.  
+                                                    </th>
                                                 </tr>
                                             </thead>
                                         </table>
@@ -168,6 +266,9 @@
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
+        $("#Tbl50").dataTable({
+            "iDisplayLength":25
+        });
         });
     </script>
 }
