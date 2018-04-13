@@ -317,7 +317,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 NominaModels Nomina = new NominaModels();
                 Nomina_Datos NominaD = new Nomina_Datos();
                 Nomina.Conexion = Conexion;
+                Nomina.IDNomina = id;
+                Nomina.IDSucursal = id2;
                 Nomina = NominaD.ObtenerDatosEmpresaTipo1(Nomina);
+                NominaD.ObtenerReporteNominaDetalle(Nomina);
                 return View(Nomina);
             }
             catch (Exception)
@@ -336,7 +339,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 NominaModels Nomina = new NominaModels();
                 Nomina_Datos NominaD = new Nomina_Datos();
                 Nomina.Conexion = Conexion;
+                Nomina.IDNomina = id;
+                Nomina.IDSucursal = id2;
                 Nomina = NominaD.ObtenerDatosEmpresaTipo1(Nomina);
+                NominaD.ObtenerReporteNominaSaldos(Nomina);
                 return View(Nomina);
             }
             catch (Exception)

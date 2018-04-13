@@ -292,31 +292,32 @@ namespace CreativaSL.Web.Ganados.Models
                             Datos.FechaInicio = Dr.GetDateTime(Dr.GetOrdinal("FechaInicio"));
                             Datos.FechaFin = Dr.GetDateTime(Dr.GetOrdinal("FechaFin"));
                             Datos.DiasPeriodo = Dr.GetInt32(Dr.GetOrdinal("DiasPeriodo"));
-                            Datos.PeriodoFechas = "Del " + Datos.FechaInicio.ToShortDateString() + " al " + Datos.FechaFin.ToShortDateString();
+                            Datos.PeriodoFechas = "DEL " + Datos.FechaInicio.ToShortDateString() + " AL " + Datos.FechaFin.ToShortDateString();
                         }
-
-                        DataTableReader Dr2 = Ds.Tables[1].CreateDataReader();
-                        List<NominaResumenDetalleModels> Lista = new List<NominaResumenDetalleModels>();
-                        NominaResumenDetalleModels Item;
-                        while (Dr2.Read())
+                        if (Datos.Opcion == 1) //Quitar el if solo esta puesto para hacer dinamino Una parte
                         {
-                            Item = new NominaResumenDetalleModels();
-                            Item.NombreEmpleado = Dr2.GetString(Dr2.GetOrdinal("Empleado"));
-                            Item.DiasLaborados = Dr2.GetInt32(Dr2.GetOrdinal("DiasLaborados"));
-                            Item.DiasDescanso = Dr2.GetInt32(Dr2.GetOrdinal("DiasDescanso"));
-                            Item.Faltas = Dr2.GetInt32(Dr2.GetOrdinal("Faltas"));
-                            Item.DiasDescuentoFaltas = Dr2.GetInt32(Dr2.GetOrdinal("DiasDescuentoFaltas"));
-                            Item.Retardos = Dr2.GetInt32(Dr2.GetOrdinal("Retardos"));
-                            Item.FaltasRetardo = Dr2.GetInt32(Dr2.GetOrdinal("FaltasRetardos"));
-                            Item.DiasDescuentoRetardos = Dr2.GetInt32(Dr2.GetOrdinal("DiasDescuentoRetardos"));
-                            Item.DiasDescuentoTotales = Dr2.GetInt32(Dr2.GetOrdinal("DiasDescuentoTotales"));
-                            Item.DiasFestivos = Dr2.GetInt32(Dr2.GetOrdinal("DiasFestivos"));
-                            Item.DiasDomingo = Dr2.GetInt32(Dr2.GetOrdinal("DiasDomingo"));
-                            Item.DiasVacaciones = Dr2.GetInt32(Dr2.GetOrdinal("DiasVacaciones"));
-                            Lista.Add(Item);
+                            DataTableReader Dr2 = Ds.Tables[1].CreateDataReader();
+                            List<NominaResumenDetalleModels> Lista = new List<NominaResumenDetalleModels>();
+                            NominaResumenDetalleModels Item;
+                            while (Dr2.Read())
+                            {
+                                Item = new NominaResumenDetalleModels();
+                                Item.NombreEmpleado = Dr2.GetString(Dr2.GetOrdinal("Empleado"));
+                                Item.DiasLaborados = Dr2.GetInt32(Dr2.GetOrdinal("DiasLaborados"));
+                                Item.DiasDescanso = Dr2.GetInt32(Dr2.GetOrdinal("DiasDescanso"));
+                                Item.Faltas = Dr2.GetInt32(Dr2.GetOrdinal("Faltas"));
+                                Item.DiasDescuentoFaltas = Dr2.GetInt32(Dr2.GetOrdinal("DiasDescuentoFaltas"));
+                                Item.Retardos = Dr2.GetInt32(Dr2.GetOrdinal("Retardos"));
+                                Item.FaltasRetardo = Dr2.GetInt32(Dr2.GetOrdinal("FaltasRetardos"));
+                                Item.DiasDescuentoRetardos = Dr2.GetInt32(Dr2.GetOrdinal("DiasDescuentoRetardos"));
+                                Item.DiasDescuentoTotales = Dr2.GetInt32(Dr2.GetOrdinal("DiasDescuentoTotales"));
+                                Item.DiasFestivos = Dr2.GetInt32(Dr2.GetOrdinal("DiasFestivos"));
+                                Item.DiasDomingo = Dr2.GetInt32(Dr2.GetOrdinal("DiasDomingo"));
+                                Item.DiasVacaciones = Dr2.GetInt32(Dr2.GetOrdinal("DiasVacaciones"));
+                                Lista.Add(Item);
+                            }
+                            Datos.ListaResumenDetalleNomina = Lista;
                         }
-                        Datos.ListaResumenDetalleNomina = Lista;
-
                         Datos.Completado = true;
                     }
                 }
@@ -345,39 +346,40 @@ namespace CreativaSL.Web.Ganados.Models
                             Datos.FechaInicio = Dr.GetDateTime(Dr.GetOrdinal("FechaInicio"));
                             Datos.FechaFin = Dr.GetDateTime(Dr.GetOrdinal("FechaFin"));
                             Datos.DiasPeriodo = Dr.GetInt32(Dr.GetOrdinal("DiasPeriodo"));
-                            Datos.PeriodoFechas = "Del " + Datos.FechaInicio.ToShortDateString() + " al " + Datos.FechaFin.ToShortDateString();
+                            Datos.PeriodoFechas = "DEL " + Datos.FechaInicio.ToShortDateString() + " AL " + Datos.FechaFin.ToShortDateString();
                         }
-
-                        DataTableReader Dr2 = Ds.Tables[1].CreateDataReader();
-                        List<NominaDetalleModels> Lista = new List<NominaDetalleModels>();
-                        NominaDetalleModels Item;
-                        while (Dr2.Read())
+                        if (Datos.Opcion == 1) //Quitar el if solo esta puesto para hacer dinamino Una parte
                         {
-                            Item = new NominaDetalleModels();
-                            Item.NombreEmpleado = Dr2.GetString(Dr2.GetOrdinal("Empleado"));
-                            Item.Percepciones = Dr2.GetDecimal(Dr2.GetOrdinal("Percepciones"));
-                            Item.Deducciones = Dr2.GetDecimal(Dr2.GetOrdinal("Deducciones"));
-                            Item.Total = Dr2.GetDecimal(Dr2.GetOrdinal("Total"));
-                            Lista.Add(Item);
-                        }
-                        Datos.ListaNominaDetalle = Lista;
+                            DataTableReader Dr2 = Ds.Tables[1].CreateDataReader();
+                            List<NominaDetalleModels> Lista = new List<NominaDetalleModels>();
+                            NominaDetalleModels Item;
+                            while (Dr2.Read())
+                            {
+                                Item = new NominaDetalleModels();
+                                Item.NombreEmpleado = Dr2.GetString(Dr2.GetOrdinal("Empleado"));
+                                Item.Percepciones = Dr2.GetDecimal(Dr2.GetOrdinal("Percepciones"));
+                                Item.Deducciones = Dr2.GetDecimal(Dr2.GetOrdinal("Deducciones"));
+                                Item.Total = Dr2.GetDecimal(Dr2.GetOrdinal("Total"));
+                                Lista.Add(Item);
+                            }
+                            Datos.ListaNominaDetalle = Lista;
 
-                        DataTableReader Dr3 = Ds.Tables[2].CreateDataReader();
-                        List<NominaConceptosFijosModels> Lista02 = new List<NominaConceptosFijosModels>();
-                        NominaConceptosFijosModels Item02;
-                        while (Dr3.Read())
-                        {
-                            Item02 = new NominaConceptosFijosModels();
-                            Item02.IDEmpleado = Dr3.GetString(Dr3.GetOrdinal("IDEmpleado"));
-                            Item02.NombreEmpleado = Dr3.GetString(Dr3.GetOrdinal("Empleado"));
-                            Item02.NombreConcepto = Dr3.GetString(Dr3.GetOrdinal("Concepto"));
-                            Item02.IDConcepto = Dr3.GetInt32(Dr3.GetOrdinal("ClaveConcepto"));
-                            Item02.Monto = Dr3.GetDecimal(Dr3.GetOrdinal("Monto"));
-                            Item02.Simbolo = Dr3.GetString(Dr3.GetOrdinal("Simbolo"));
-                            Lista02.Add(Item02);
+                            DataTableReader Dr3 = Ds.Tables[2].CreateDataReader();
+                            List<NominaConceptosFijosModels> Lista02 = new List<NominaConceptosFijosModels>();
+                            NominaConceptosFijosModels Item02;
+                            while (Dr3.Read())
+                            {
+                                Item02 = new NominaConceptosFijosModels();
+                                Item02.IDEmpleado = Dr3.GetString(Dr3.GetOrdinal("IDEmpleado"));
+                                Item02.NombreEmpleado = Dr3.GetString(Dr3.GetOrdinal("Empleado"));
+                                Item02.NombreConcepto = Dr3.GetString(Dr3.GetOrdinal("Concepto"));
+                                Item02.IDConcepto = Dr3.GetInt32(Dr3.GetOrdinal("ClaveConcepto"));
+                                Item02.Monto = Dr3.GetDecimal(Dr3.GetOrdinal("Monto"));
+                                Item02.Simbolo = Dr3.GetString(Dr3.GetOrdinal("Simbolo"));
+                                Lista02.Add(Item02);
+                            }
+                            Datos.ListaConceptosFijo = Lista02;
                         }
-                        Datos.ListaConceptosFijo = Lista02;
-
                         Datos.Completado = true;
                     }
                 }
