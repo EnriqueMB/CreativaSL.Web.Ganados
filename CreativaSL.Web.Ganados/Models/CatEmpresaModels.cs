@@ -14,11 +14,13 @@ namespace CreativaSL.Web.Ganados.Models
     {
         public string IDEmpresa { get; set; }
 
+        public string NombreSucursal { get; set; }
+
         [Required]
         [DisplayName("razón fiscal")]
         [StringLength(150, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 5)]
         public string RazonFiscal { get; set; }
-
+        
         [Required]
         [DisplayName("direccion fiscal")]
         [StringLength(150, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 10)]
@@ -102,7 +104,7 @@ namespace CreativaSL.Web.Ganados.Models
             ListaBancos = new List<CatBancoModels>();
             TablaCuentasBancarias = string.Empty;
             CuentaBancaria = new CuentaBancariaModels();
-
+            NombreSucursal = string.Empty;
             ImagBDEmpresa = false;
             ImagBDRFC = false;
         }

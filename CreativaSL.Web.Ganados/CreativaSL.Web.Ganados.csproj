@@ -1333,6 +1333,7 @@
     <Compile Include="Models\_Usuario_Datos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CuentaBancariaViewModels.cs" />
+    <Compile Include="ViewModels\DatosEmpresaViewModels.cs" />
     <Compile Include="ViewModels\EmpleadoNominaViewModels.cs" />
     <Compile Include="ViewModels\EntregaCombustibleViewModels.cs" />
     <Compile Include="ViewModels\RendimientoCombustibleViewModels.cs" />
