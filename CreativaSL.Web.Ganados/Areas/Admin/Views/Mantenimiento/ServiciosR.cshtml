@@ -58,7 +58,7 @@
                                             </td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Procesar" class="btn btn-success processRow" href="@Url.Action("Process", "Mantenimiento", new { id = Item.IDServicio })"><i class="fa fa-upload"></i></a>
+                                                    <a title="Procesar" class="btn btn-success processRow" href="@Url.Action("Process", "Mantenimiento", new { id = Item.IDServicio })"><i class="fa fa-caret-square-o-right"></i></a>
                                                     <a title="Detalles" class="btn btn-blue" href="@Url.Action("Details", "Mantenimiento", new { id = Item.IDServicio })"><i class="fa fa-gears"></i></a>
                                                     <a title="Editar" class="btn btn-yellow" href="@Url.Action("EditR", "Mantenimiento", new { id = Item.IDServicio})"><i class="fa fa-edit"></i></a>
                                                     <a title="Eliminar" class="btn delete btn-danger deleteRow" data-sku="@Item.IDServicio" id="delete-@Item.IDServicio" href="@Url.Action("Delete", "Mantenimiento", new { id = Item.IDServicio })"><i class="fa fa-trash-o"></i></a>
@@ -71,12 +71,12 @@
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
                                                                 <a role="menuitem" tabindex="-1" class="processRow" href="@Url.Action("Process", "Mantenimiento", new { id = Item.IDServicio })">
-                                                                    <i class="fa fa-edit"></i> Procesar
+                                                                    <i class="fa fa-caret-square-o-right"></i> Procesar
                                                                 </a>
                                                             </li>
                                                             <li>
                                                                 <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "Mantenimiento", new { id = Item.IDServicio })">
-                                                                    <i class="fa fa-edit"></i> Detalles
+                                                                    <i class="fa fa-gears"></i> Detalles
                                                                 </a>
                                                             </li>
                                                             <li>
