@@ -209,9 +209,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 ModelState.Remove("ImgTicket");
                 if (ModelState.IsValid)
                 {
-                    
-
-
                     HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
                     if (!string.IsNullOrEmpty(bannerImage.FileName))
                     {
@@ -220,7 +217,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             Stream s = bannerImage.InputStream;
                             Bitmap img = new Bitmap(s);
                             Entrega.UrlImagen64 = img.ToBase64String(ImageFormat.Png);
-                            
                         }
                     }
                     else
@@ -246,6 +242,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         TempData["typemessage"] = "2";
                         TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
+                        Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Entrega.IDSucursal);
+                        Entrega.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
                         return View(Entrega);
                     }
                 }
@@ -345,8 +344,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Entrega.IDEntregaCombustible = id;
                 Entrega.Usuario = User.Identity.Name;
                 Entrega = EntregaCombustibleDatos.EliminarEntregaCombustible(Entrega);
-
-                return Json("");
+                if (Entrega.Completado)
+                    return Json("true");
+                else
+                    return Json("false");
                 // TODO: Add delete logic here
 
 
@@ -359,6 +360,29 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
                 return Json("");
 
+            }
+        }
+
+        // POST: Admin/EntregaCombustible/Delete/5
+        [HttpPost]
+        public ActionResult Procesar(string id)
+        {
+            try
+            {
+                EntregaCombustibleModels Entrega = new EntregaCombustibleModels();
+                _EntregaCombustible_Datos EntregaCombustibleDatos = new _EntregaCombustible_Datos();
+                Entrega.Conexion = Conexion;
+                Entrega.IDEntregaCombustible = id;
+                Entrega.Usuario = User.Identity.Name;
+                Entrega = EntregaCombustibleDatos.ProcesarEntregaCombustible(Entrega);
+                if (Entrega.Completado)
+                    return Json("true");
+                else
+                    return Json("false");
+            }
+            catch
+            {
+                return Json("false");
             }
         }
 

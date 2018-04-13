@@ -102,18 +102,14 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     datos.IDEntregaCombustible, datos.Usuario
                 };
-                object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Mantenimiento_del_EntregaCombustible", parametros);
-                if (Resultado != null)
+                object Result = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Mantenimiento_del_EntregaCombustible", parametros);
+                if (Result != null)
                 {
-                    if (!string.IsNullOrEmpty(datos.IDEntregaCombustible))
-                    {
+                    int Resultado = 0;
+                    int.TryParse(Result.ToString(), out Resultado);
+                    datos.Resultado = Resultado;
+                    if (Resultado == 1)
                         datos.Completado = true;
-                    }
-                    else
-                    {
-                        datos.Completado = false;
-                    }
-                    return datos;
                 }
                 return datos;
             }
@@ -128,17 +124,19 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    datos.Opcion, datos.IDEntregaCombustible,
-                    datos.IDVehiculo,
+                    datos.Opcion, datos.IDEntregaCombustible ?? string.Empty, 
+                    datos.IDSucursal ?? string.Empty,
+                    datos.IDVehiculo ?? string.Empty,
                     datos.IDTipoCombustible,
                     datos.Fecha,
-                    datos.NoTicket,
+                    datos.NoTicket ?? string.Empty,
                     datos.KMInicial,
                     datos.Litros,
                     datos.Precio,
                     datos.Total,
-                    datos.UrlImagen64,datos.BandImg,
-                    datos.Usuario
+                    datos.UrlImagen64 ?? string.Empty,
+                    datos.BandImg,
+                    datos.Usuario ?? string.Empty
                 };
                 object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Mantenimiento_ac_EntregaCombustible", parametros);
                 datos.IDEntregaCombustible = Resultado.ToString();
@@ -163,28 +161,47 @@ namespace CreativaSL.Web.Ganados.Models
             try
             {
                 List<EntregaCombustibleModels> Lista = new List<EntregaCombustibleModels>();
-               
-               
-
                 object[] Parametros = { Datos.IDSucursal, Datos.IDVehiculo, Datos.Fecha, Datos.BandIDSucursal, Datos.BandIDVehiuculo, Datos.BandFechaEntrega };
                 SqlDataReader dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Mantenimiento_get_EntregaCombustible", Parametros);
-                 EntregaCombustibleModels Item;
-                while(dr.Read())
+                EntregaCombustibleModels Item;
+                while (dr.Read())
                 {
                     Item = new EntregaCombustibleModels();
                     Item.Total = !dr.IsDBNull(dr.GetOrdinal("total")) ? dr.GetDecimal(dr.GetOrdinal("total")) : 0;
                     Item.IDEntregaCombustible = !dr.IsDBNull(dr.GetOrdinal("id_entregaCombustible")) ? dr.GetString(dr.GetOrdinal("id_entregaCombustible")) : string.Empty;
-                  
                     Item.Fecha = !dr.IsDBNull(dr.GetOrdinal("fecha")) ? dr.GetDateTime(dr.GetOrdinal("fecha")) : DateTime.Now;
                     Item.Vehiculo = !dr.IsDBNull(dr.GetOrdinal("Vehiculo")) ? dr.GetString(dr.GetOrdinal("Vehiculo")) : string.Empty;
                     Item.Sucursal = !dr.IsDBNull(dr.GetOrdinal("Sucursal")) ? dr.GetString(dr.GetOrdinal("Sucursal")) : string.Empty;
-
+                    Item.Estatus = !dr.IsDBNull(dr.GetOrdinal("Estatus")) ? dr.GetString(dr.GetOrdinal("Estatus")) : string.Empty;
+                    Item.CssClassEstatus = !dr.IsDBNull(dr.GetOrdinal("CssClass")) ? dr.GetString(dr.GetOrdinal("CssClass")) : string.Empty;
                     Lista.Add(Item);
-                
+
                 }
                 return Lista;
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public EntregaCombustibleModels ProcesarEntregaCombustible(EntregaCombustibleModels datos)
+        {
+            try
+            {
+                object Result = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Mantenimiento_ProcesarEntregaCombustibleXID", datos.IDEntregaCombustible, datos.Usuario);
+                if (Result != null)
+                {
+                    int Resultado = 0;
+                    int.TryParse(Result.ToString(), out Resultado);
+                    datos.Resultado = Resultado;
+                    if (Resultado == 1)
+                        datos.Completado = true;
+                }
+                return datos;
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
