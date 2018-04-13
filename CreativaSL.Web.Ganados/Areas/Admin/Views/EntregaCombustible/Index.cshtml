@@ -26,6 +26,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
+                        @{ Html.EnableClientValidation(false); }
                         @using (Html.BeginForm("Index", "EntregaCombustible", FormMethod.Post, new { @class = "form-inline", id = "form-search", autocomplete = "off" }))
                         {
                             
@@ -87,6 +88,7 @@
                                         <th>Vehículo</th>
                                         <th>Gasto Total</th>
                                         <th>Sucursal</th>
+                                        <th>Estatus</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
@@ -96,14 +98,17 @@
                                         <tr id="@Item.IDEntregaCombustible">
                                             <td>@Item.Fecha.ToShortDateString()</td>
                                             <td>@Item.Vehiculo</td>
-                                            <td>@Item.Total</td>
+                                            <td>@Item.TotalFormat</td>
                                             <td>@Item.Sucursal</td>
+                                            <td>
+                                                <span class="@Item.CssClassEstatus">@Item.Estatus</span>
+                                            </td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Rendimiento" class="btn btn-green" href="@Url.Action("Rendimiento", "EntregaCombustible", new { id = Item.IDEntregaCombustible })"><i class="fa fa-money"></i></a>
-                                                    <a title="Procesar" class="btn btn-primary" href="@Url.Action("Procesar", "EntregaCombustible", new { id = Item.IDEntregaCombustible })"><i class="fa fa-money"></i></a>
+                                                    <a title="Rendimiento" class="btn btn-green" href="@Url.Action("Rendimiento", "EntregaCombustible", new { id = Item.IDEntregaCombustible })"><i class="fa fa-road"></i></a>
+                                                    <a title="Procesar" class="btn btn-primary processRow" href="@Url.Action("Procesar", "EntregaCombustible", new { id = Item.IDEntregaCombustible })"><i class="fa fa-caret-square-o-right"></i></a>
                                                     <a title="Editar" href="@Url.Action("Edit", "EntregaCombustible", new { id = Item.IDEntregaCombustible})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" id="delete-@Item.IDEntregaCombustible" data-hrefa="@Url.Action("Delete", "EntregaCombustible", new { id =  Item.IDEntregaCombustible })" onClick="delete_row('@Item.IDEntregaCombustible');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Eliminar" id="delete-@Item.IDEntregaCombustible" data-sku="@Item.IDEntregaCombustible" href="@Url.Action("Delete", "EntregaCombustible", new { id =  Item.IDEntregaCombustible })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -113,12 +118,12 @@
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
                                                                 <a role="menuitem" tabindex="-1" href="@Url.Action("Rendimiento", "EntregaCombustible", new { id = Item.IDEntregaCombustible })">
-                                                                    <i class="fa fa-money"></i> Rendimiento
+                                                                    <i class="fa fa-road"></i> Rendimiento
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Procesar", "EntregaCombustible", new { id = Item.IDEntregaCombustible })">
-                                                                    <i class="fa fa-money"></i> Procesar
+                                                                <a role="menuitem" class="processRow" tabindex="-1" href="@Url.Action("Procesar", "EntregaCombustible", new { id = Item.IDEntregaCombustible })">
+                                                                    <i class="fa fa-caret-square-o-right"></i> Procesar
                                                                 </a>
                                                             </li>
                                                             <li>
@@ -127,7 +132,7 @@
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@Item.IDEntregaCombustible" data-hrefa="@Url.Action("Delete", "EntregaCombustible", new { id =  Item.IDEntregaCombustible })" onClick="delete_row('@Item.IDEntregaCombustible');">
+                                                                <a role="menuitem" class="deleteRow" tabindex="-1" id="delete-@Item.IDEntregaCombustible" data-sku="@Item.IDEntregaCombustible" href="@Url.Action("Delete", "EntregaCombustible", new { id =  Item.IDEntregaCombustible })">
                                                                     <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>
@@ -164,6 +169,26 @@
             </div>
         </div>
     </div>
+
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-process-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Procesar <strong> Entrega de combustible</strong></div>
+                <div class="mb-content">
+                    <p>¿Está seguro de procesar la entrega? Éste proceso NO es reversible. Se generará un documento por pagar.</p>
+                    <p>Presione "sí" para confirmar.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script>
     var message = '@message';
     var typemessage = '@typemessage';
@@ -175,9 +200,11 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/combustible.js")"></script>
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
+        Combustible.init();
         });
     </script>
 }

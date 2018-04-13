@@ -74,6 +74,20 @@ namespace CreativaSL.Web.Ganados.Models
 
             return imgTag;
         }
+        public static string ToBase64ImageReport(this Bitmap bmp, ImageFormat imageFormat)
+        {
+            string imgTag = string.Empty;
+            string base64String = string.Empty;
+
+            base64String = bmp.ToBase64String(imageFormat);
+
+            imgTag = "<img class='img-report' src=\"data:image/" + imageFormat.ToString() + ";base64,";
+            imgTag += base64String + "\"/> ";
+            //imgTag += "width=\"" + bmp.Width.ToString() + "\" ";
+            //imgTag += "height=\"" + bmp.Height.ToString() + "\" />";
+
+            return imgTag;
+        }
         public static Bitmap Base64StringToBitmap(this string base64String)
         {
             Bitmap bmpReturn = null;

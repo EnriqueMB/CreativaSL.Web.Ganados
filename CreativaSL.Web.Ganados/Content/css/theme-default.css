@@ -14,7 +14,15 @@
 @import "dropzone/dropzone.css";
 @import "animate/animate.min.css";
 
-
+/*IMAGEN REPORTE*/
+.img-report {
+    width:100%;
+    height:auto;
+}
+.th-reports-img {
+    width:30% ;
+    vertical-align: middle !important;
+}
 /* PREDEFINED CLASSES */
 td.center .dropdown-menu {
   text-align: left;

@@ -109,6 +109,7 @@
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     <a title="Detalle" href="@Url.Action("Detalle", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal })" class="btn btn-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-bars"></i></a>
                                                     <a title="Reporte Dias Laborados" href="@Url.Action("RptDiasLaborados", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal })" class="btn btn-primary tooltips" data-placement="top" data-original-title="Reporte Dias Laborados"><i class="fa fa-cog"></i></a>
+                                                    <a title="Reporte Saldos" href="@Url.Action("RptSaldos", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal })" class="btn btn-primary tooltips" data-placement="top" data-original-title="Reporte Saldos"><i class="fa fa-cogs"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -124,6 +125,11 @@
                                                             <li>
                                                                 <a role="menuitem" tabindex="-1" href="@Url.Action("RptDiasLaborados", "Nomina", new { id = Nomina.IDNomina,  id2 = Nomina.IDSucursal})">
                                                                     <i class="fa fa-cog"></i> Reporte Dias Laborados
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("RptSaldos", "Nomina", new { id = Nomina.IDNomina,  id2 = Nomina.IDSucursal})">
+                                                                    <i class="fa fa-cogs"></i> Reporte Saldos
                                                                 </a>
                                                             </li>
                                                         </ul>
