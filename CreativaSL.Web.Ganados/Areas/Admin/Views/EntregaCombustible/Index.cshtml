@@ -26,6 +26,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
+                        @{ Html.EnableClientValidation(false); }
                         @using (Html.BeginForm("Index", "EntregaCombustible", FormMethod.Post, new { @class = "form-inline", id = "form-search", autocomplete = "off" }))
                         {
                             

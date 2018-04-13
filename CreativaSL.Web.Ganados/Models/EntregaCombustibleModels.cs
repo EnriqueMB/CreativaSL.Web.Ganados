@@ -113,6 +113,9 @@ namespace CreativaSL.Web.Ganados.Models
         /// <summary>
         /// Fecha en que se realiza la carga de combustible
         /// </summary>
+        [Display(Name = "Fecha")]
+
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Fecha
         {
             get { return _Fecha; }
