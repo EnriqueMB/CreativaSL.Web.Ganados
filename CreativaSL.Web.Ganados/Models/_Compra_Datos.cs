@@ -421,6 +421,46 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public CompraModels Compras_ac_Ganado(CompraModels Compra)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                //--TABLA GANADO
+
+                     Compra.Ganado.id_Ganados //@id_ganado char(36)
+                    ,Compra.IDCompra//,@id_compra CHAR(36)
+                    ,Compra.IDSucursal//,@id_sucursal CHAR(36)
+                    ,Compra.EstatusGanado.id_estatusGanado//,@id_estatusGanado SMALLINT
+                    ,Compra.Ganado.observacion//,@observacion TEXT
+                    ,Compra.Ganado.numArete//,@numArete NVARCHAR(15)
+                    ,Compra.Ganado.Repeso//,@repeso BIT
+                    ,Compra.Ganado.genero//,@genero BIT
+                    //--TABLA COMPRA-GANADO
+                    ,Compra.CompraGanado.PesoInicial//,@pesoInicial DECIMAL(7,3)
+                    ,Compra.CompraGanado.PesoFinal//,@pesoFinal DECIMAL(7,3)
+                    ,Compra.CompraGanado.Merma//,@merma DECIMAL(7,3)
+                    ,Compra.CompraGanado.PesoPagado//,@pesoPagado DECIMAL(7,3)
+                    ,Compra.CompraGanado.PrecioKilo//,@precioKilo MONEY
+                    //--OTROS
+                    ,Compra.Usuario//,@id_usuario CHAR(36)
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_ac_Ganado", parametros);
+
+                while (dr.Read())
+                {
+                    Compra.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Compra.Completado = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                return Compra;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
 
         #region Imagenes
@@ -653,9 +693,10 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.Ganado.id_Ganados
                 };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_COMPRAS_GetCompraGanadoXIDGanado", parametros);
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_CompraGanadoXIDGanado", parametros);
                 while (dr.Read())
                 {
+                    Compra.IDSucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty;
                     Compra.CompraGanado.IDCompra = !dr.IsDBNull(dr.GetOrdinal("id_compra")) ? dr.GetString(dr.GetOrdinal("id_compra")) : string.Empty;
                     Compra.Ganado.numArete = !dr.IsDBNull(dr.GetOrdinal("numArete")) ? dr.GetString(dr.GetOrdinal("numArete")) : string.Empty;
                     Compra.Ganado.genero = !dr.IsDBNull(dr.GetOrdinal("genero")) ? dr.GetString(dr.GetOrdinal("genero")) : string.Empty;
