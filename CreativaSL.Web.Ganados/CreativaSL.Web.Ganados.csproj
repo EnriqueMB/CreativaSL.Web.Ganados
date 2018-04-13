@@ -1103,6 +1103,7 @@
     <Content Include="Areas\Admin\Views\Mantenimiento\CreateR.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\EditR.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosR.cshtml" />
+    <Content Include="Areas\Admin\Views\Nomina\RptSaldos.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

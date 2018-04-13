@@ -298,7 +298,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch
             {
-                CatProductosModels Producto = new CatProductosModels();
+                NominaModels Nomina = new NominaModels();
 
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
@@ -327,7 +327,24 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
+        //GET: Admin/Nomina/RptSaldos/3/3
+        [HttpGet]
+        public ActionResult RptSaldos(string id, string id2)
+        {
+            try
+            {
+                NominaModels Nomina = new NominaModels();
+                Nomina_Datos NominaD = new Nomina_Datos();
+                Nomina.Conexion = Conexion;
+                Nomina = NominaD.ObtenerDatosEmpresaTipo1(Nomina);
+                return View(Nomina);
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+        }
 
         // POST: Admin/Nomina/getDatostablaEmpleado/3
         [HttpPost]
