@@ -215,14 +215,14 @@ namespace CreativaSL.Web.Ganados.Models
         {
             GeneroGanadoModels genero = new GeneroGanadoModels
             {
-                id = "MACHO",
-                descripcion = "MACHO"
+                Id = true,
+                Descripcion = "MACHO"
             };
             ListaGeneroGanado.Add(genero);
             genero = new GeneroGanadoModels
             {
-                id = "HEMBRA",
-                descripcion = "HEMBRA"
+                Id = false,
+                Descripcion = "HEMBRA"
             };
             ListaGeneroGanado.Add(genero);
 

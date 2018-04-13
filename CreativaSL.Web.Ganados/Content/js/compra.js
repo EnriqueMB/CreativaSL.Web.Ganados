@@ -564,24 +564,22 @@
     }    
 
     function EventsModalGanado(jsonPrecioPeso, MermaSucursal) {
-        var MermaSucursal = MermaSucursal;
-        var jsonPrecioPeso = jsonPrecioPeso;
-
-        var inputDiferenciaPeso = $("#CompraGanado_DiferenciaPeso");
-        var inputMermaObtenida = $("#CompraGanado_Merma");
-        var inputPesoSugerido = $("#CompraGanado_PesoSugerido");
-        var inputPrecioSugerido = $("#CompraGanado_PrecioSugeridoXkilo");
-        var selectGenero = $("#Ganado_genero").val();
-
         var pesoInicial = $("#CompraGanado_PesoInicial").val();
         var pesoFinal = $("#CompraGanado_PesoFinal").val();
-        var MermaObtenida = inputMermaObtenida.val();
-        var PesoSugerido = inputPesoSugerido.val();
-        var PrecioSugerido = inputPrecioSugerido.val();
 
-        $('#Ganado_Repeso').change(function () {
+        $("#Ganado_genero").on("change", function () {
+            if ($('#Ganado_Repeso').is(":checked")) {
+                calculosSugeridos(true, jsonPrecioPeso, MermaSucursal, pesoInicial, pesoFinal);
+            } else {
+                calculosSugeridos(false, jsonPrecioPeso, MermaSucursal, pesoInicial, pesoFinal);
+            }
+        });
+        $('#Ganado_Repeso').on("change", function () {
             $('.Esconder').toggle(1000);
             if ($('#Ganado_Repeso').is(":checked")) {
+                calculosSugeridos(true, jsonPrecioPeso, MermaSucursal, pesoInicial, pesoFinal);
+            } else {
+                calculosSugeridos(false, jsonPrecioPeso, MermaSucursal, pesoInicial, pesoFinal);
             }
         });
         $("#CompraGanado_PesoInicial").on("keyup keydown", function (e) {
@@ -592,22 +590,11 @@
             }
             else {
                     pesoInicial = $(this).val();
-                    if ($('#Ganado_Repeso').is(":checked")) {
-                        inputDiferenciaPeso.val(diferenciaPeso(pesoInicial, pesoFinal));
-                        MermaObtenida = mermaGenerada(pesoInicial, pesoFinal);
-                        inputMermaObtenida.val(MermaObtenida);
-                        console.log(pesoInicial);
-                        console.log(pesoFinal);
-                        console.log(MermaSucursal);
-                        console.log(MermaObtenida);
-                        PesoSugerido = pesoSugerido(pesoInicial, pesoFinal, MermaSucursal, MermaObtenida);
-                        inputPesoSugerido.val(PesoSugerido);
-
-                        //PrecioSugerido = precioSugerido(jsonPrecioPeso, PesoSugerido, selectGenero);
+                if ($('#Ganado_Repeso').is(":checked")) {
+                    calculosSugeridos(true, jsonPrecioPeso, MermaSucursal,pesoInicial, pesoFinal);
                 }
                 else{
-                     
-                    console.log("directo");
+                    calculosSugeridos(false, jsonPrecioPeso, MermaSucursal, pesoInicial, pesoFinal) 
                 }
             }
         });
@@ -620,26 +607,57 @@
             else {
                     pesoFinal = $(this).val();
                 if ($('#Ganado_Repeso').is(":checked")) {
-                    inputDiferenciaPeso.val(diferenciaPeso(pesoInicial, pesoFinal));
-                    MermaObtenida = mermaGenerada(pesoInicial, pesoFinal);
-                    inputMermaObtenida.val(MermaObtenida);
-
-                    PesoSugerido = pesoSugerido(pesoInicial, pesoFinal, MermaSucursal, MermaObtenida);
-                    inputPesoSugerido.val(PesoSugerido);
+                    calculosSugeridos(true, jsonPrecioPeso, MermaSucursal, pesoInicial, pesoFinal);
                 }
                 else {
 
-                    console.log("directo");
+                    calculosSugeridos(false, jsonPrecioPeso, MermaSucursal, pesoInicial, pesoFinal) 
                 }
             }
         });
-
     }
 
+    function calculosSugeridos(checked, jsonPrecioPeso, MermaSucursal, pesoInicial, pesoFinal) {
+        var inputDiferenciaPeso = $("#CompraGanado_DiferenciaPeso");
+        var inputMermaObtenida = $("#CompraGanado_Merma");
+        var inputPesoSugerido = $("#CompraGanado_PesoSugerido");
+        var inputPrecioSugerido = $("#CompraGanado_PrecioSugeridoXkilo");
+        var inputTotalSugerido = $("#CompraGanado_TotalSugerido");
+        var selectGenero = $("#Ganado_genero").val();
+        
+        var MermaObtenida, PesoSugerido, PrecioSugerido;
+
+        if (checked) {
+            inputDiferenciaPeso.val(diferenciaPeso(pesoInicial, pesoFinal));
+            MermaObtenida = mermaGenerada(pesoInicial, pesoFinal);
+            inputMermaObtenida.val(MermaObtenida);
+            PesoSugerido = pesoSugerido(pesoInicial, pesoFinal, MermaSucursal, MermaObtenida);
+            inputPesoSugerido.val(PesoSugerido);
+            PrecioSugerido = precioSugerido(jsonPrecioPeso, PesoSugerido, selectGenero)
+            inputPrecioSugerido.val(PrecioSugerido);
+            inputTotalSugerido.val(PrecioSugerido * PesoSugerido);
+        }
+        else {
+            inputPesoSugerido.val(pesoInicial);
+            PesoSugerido = precioSugerido(jsonPrecioPeso, pesoInicial, selectGenero);
+            inputPrecioSugerido.val(PesoSugerido);
+            inputTotalSugerido.val(pesoInicial * PesoSugerido); 
+        }
+        
+    }
+    function precioSugerido(jsonPrecioPeso, PesoSugerido, selectGenero) {
+        var selectGenero = (selectGenero == "True") ? true : false;
+        for (var item in jsonPrecioPeso) {
+            if (jsonPrecioPeso[item].esMacho == selectGenero) {
+                if ((jsonPrecioPeso[item].pesoMinimo <= PesoSugerido) && (PesoSugerido <= jsonPrecioPeso[item].pesoMaximo)) {
+                    return jsonPrecioPeso[item].precio;
+                }
+            }
+        }
+
+    }
     function pesoSugerido(pesoInicial, pesoFinal, MermaSucursal, MermaObtenida) {
         if (MermaObtenida > MermaSucursal) {
-            console.log((pesoInicial * (MermaSucursal / 100)));
-            console.log(pesoInicial);
             var peso = pesoInicial - (pesoInicial * (MermaSucursal / 100));
             return peso;
         }
@@ -649,38 +667,13 @@
     }
     function mermaGenerada(pesoInicial, pesoFinal) {
         var mermaGenerada = (((pesoFinal * 100) / pesoInicial) - 100)*(-1);
-            mermaGenerada = mermaGenerada.toFixed(2);
+        mermaGenerada = Math.abs(mermaGenerada.toFixed(2));
         return mermaGenerada;
     }
     function diferenciaPeso(pesoInicial, pesoFinal) {
        return (pesoFinal - pesoInicial);
     }
-    function calcularCompraGanado() {
-        var repeso = $('#Ganado_Repeso').is(":checked");
-
-        var inputGenero = $("#Ganado_genero");
-        var inputPesoInicial = $("#CompraGanado_PesoInicial");
-        var inputFinal = $("CompraGanado_PesoFinal");
-        var genero = $("#Ganado_genero").val;
-        var pesoInicial = $("#CompraGanado_PesoInicial").val;
-        var pesoFinal = $("CompraGanado_PesoFinal").val;
-        var mermaPermitida = $("Sucursal_MermaPredeterminada").val;
-        
-        if (repeso) {
-            
-        }
-        else {
-
-        }
-
-        //    $("input").keyup(function () {
-
-        //        var pesoInicial = document.getElementById("CompraGanado_PesoInicial").value;
-        //        var val = this.value;
-        //        pesoInicial.replace(/\D|\-/, '');
-
-        //}).keyup();
-    }
+   
     
    
     var LoadTableMovimientos = function (idCompra) {
