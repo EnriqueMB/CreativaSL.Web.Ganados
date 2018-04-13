@@ -28,6 +28,7 @@
         });
 
     };
+    //Eventos
     var RunEventsLineaFletera = function () {
         $("#IDEmpresa").on("change", function () {
             var IDEmpresa = $(this).val();
@@ -37,6 +38,7 @@
             GetRemolquesXIDEmpresa(IDEmpresa);
         });
     }
+    //Validaciones
     var LoadValidationProveedor = function () {
         var form1 = $('#frmCreateCompra');
         var errorHandler1 = $('.errorHandler', form1);
@@ -119,15 +121,7 @@
             submitHandler: function (form) {
                 successHandler1.show();
                 errorHandler1.hide();
-
-                if ($("#IDCompra").length != 0) {
-                    //Tiene un id, actualizamos el registro
-                    A_Proveedor();
-                }
-                else {
-                    //No tiene id, se crea la compra
-                    form.submit();
-                }
+                form.submit();
             }
         });
     };
@@ -288,7 +282,114 @@
             }
         });
     };
+    //Tablas
+    var LoadTableGanado = function (IDCompra, jsonPreciosPeso, Merma) {
+        tableGanado = $('#GanadoXCompraGanado').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+            responsive: true,
+            "ajax": {
+                "data": {
+                    "IDCompra": IDCompra
+                },
+                "url": "TableJsonGanado",
+                "type": "POST",
+                "datatype": "json",
+                "dataSrc": ''
+            },
+            "columns": [
+                { "data": "numArete" },
+                { "data": "genero" },
+                { "data": "pesoInicial" },
+                { "data": "pesoFinal" },
+                { "data": "diferenciaPeso" },
+                { "data": "merma" },
+                { "data": "pesoPagado" },
+                { "data": "precioKilo" },
+                { "data": "totalPagado" },
+                {
+                    "data": null,
+                    "render": function (data, type, full) {
 
+                        return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                            "<a data-id='" + full["id_ganado"] + "' class='btn btn-yellow tooltips btn-sm editGanado' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                            "<a title='Eliminar' data-id='" + full["id_ganado"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "</div>" +
+                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                            "<div class='btn-group'>" +
+                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                            "</a>" +
+                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                            "<li>" +
+                            "<a class='deleteGanado' data-id='" + full["id_ganado"] + "'  role='menuitem' tabindex='-1'>" +
+                            "<i class='fa fa-edit'></i> Editar" +
+                            "</a>" +
+                            "</li>" +
+                            "<li>" +
+                            "<a role='menuitem' tabindex='-1' id='" + full["id_ganado"] + "'>" +
+                            "<i class='fa fa-trash-o'></i> Eliminar" +
+                            "</a>" +
+                            "</li>" +
+                            "</ul>" +
+                            "</div>" +
+                            "</div>";
+                    }
+                }
+            ],
+            "drawCallback": function (settings) {
+                $(".editGanado").on("click", function () {
+                    var idGanado = $(this).data("id")
+                    ModalGanado(idGanado, jsonPreciosPeso, Merma);
+                });
+                $(".deleteCuentaBancaria").on("click", function () {
+                    var url = $(this).attr('data-hrefa');
+                    var row = $(this).attr('data-id');
+                    var box = $("#mb-remove-row");
+                    box.addClass("open");
+                    box.find(".mb-control-yes").on("click", function () {
+                        box.removeClass("open");
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (result) {
+                                if (result.Success) {
+                                    box.find(".mb-control-yes").prop('onclick', null).off('click');
+                                    Mensaje(result.Mensaje, "1");
+                                    TblCuentasBancarias.ajax.reload();
+                                }
+                                else
+                                    Mensaje(result.Mensaje, "2");
+                            },
+                            error: function () {
+                                Mensaje(result.Mensaje, "2");
+                            }
+                        });
+                    });
+                });
+            }
+        });
+
+        $("#btnAddGanado").on("click", function () {
+            ModalGanado(0, jsonPreciosPeso, Merma);
+        });
+    };
+    //Modales
+    function ModalGanado(IDGanado, jsonPreciosPeso, MermaSucursal) {
+        $.ajax({
+            url: 'ModalGanado',
+            type: "POST",
+            data: { IDGanado: IDGanado, Merma: MermaSucursal },
+            success: function (data) {
+                $('#ContenidoModalGanado').html(data);
+                $('#ModalGanado').modal({ backdrop: 'static', keyboard: false });
+                EventsModalGanado(jsonPreciosPeso, MermaSucursal);
+            }
+        });
+    }
+    //Funciones
     function A_Documento() {
         var form = $("#frmDocumentos")[0];
         var formData = new FormData(form);
@@ -336,30 +437,6 @@
             }
         });
     }
-    function A_Proveedor() {
-        var form = $("#frmProveedor")[0];
-        var formData = new FormData(form);
-
-        $.ajax({
-            type: 'POST',
-            data: formData,
-            url: '/Admin/Compra/A_Proveedor/',
-            contentType: false,
-            processData: false,
-            cache: false,
-            error: function (response) {
-                Mensaje(response.Mensaje, "2");
-            },
-            success: function (response) {
-                if (response.Success) {
-                    Mensaje("Registro del proveedor actualizado con éxito.", "1");
-                }
-                else
-                    Mensaje(response.Mensaje, "2");
-            }
-        });
-    }
-
     function GetVehiculosXIDEmpresa(IDEmpresa) {
         $.ajax({
             url: '/Admin/Compra/GetVehiculosXIDEmpresa/',
@@ -452,7 +529,6 @@
             }
         });
     }
-
     function CalculateAndDisplayRoute(directionsService, directionsDisplay) {
         var selectIndexInicio = document.getElementById('Trayecto.id_lugarOrigen').selectedIndex;
         var optionInicio = document.getElementById('Trayecto.id_lugarOrigen').options.item(selectIndexInicio);
@@ -487,103 +563,119 @@
         }
     }    
 
+    function EventsModalGanado(jsonPrecioPeso, MermaSucursal) {
+        var pesoInicial = $("#CompraGanado_PesoInicial").val();
+        var pesoFinal = $("#CompraGanado_PesoFinal").val();
 
-
-
-    var LoadTableGanado = function (IDCompra) {
-
-        tableGanado = $('#GanadoXCompraGanado').DataTable({
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-            },
-            responsive: true,
-            "ajax": {
-                "data": {
-                    "IDCompra": IDCompra
-                },
-                "url": "TableJsonGanado",
-                "type": "POST",
-                "datatype": "json",
-                "dataSrc": ''
-            },
-            "columns": [
-                { "data": "numArete" },
-                { "data": "genero" },
-                { "data": "pesoInicial" },
-                { "data": "pesoFinal" },
-                { "data": "diferenciaPeso" },
-                { "data": "merma" },
-                { "data": "pesoPagado" },
-                { "data": "precioKilo" },
-                { "data": "totalPagado" },
-                {
-                    "data": null,
-                    "render": function (data, type, full) {
-
-                        return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-id='" + full["id_ganado"] + "' class='btn btn-yellow tooltips btn-sm editGanado' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
-                            "<a title='Eliminar' data-id='" + full["id_ganado"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
-                            "</div>" +
-                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
-                            "<div class='btn-group'>" +
-                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
-                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
-                            "</a>" +
-                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
-                            "<li>" +
-                            "<a class='deleteGanado' data-id='" + full["id_ganado"] + "'  role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-edit'></i> Editar" +
-                            "</a>" +
-                            "</li>" +
-                            "<li>" +
-                            "<a role='menuitem' tabindex='-1' id='" + full["id_ganado"] + "'>" +
-                            "<i class='fa fa-trash-o'></i> Eliminar" +
-                            "</a>" +
-                            "</li>" +
-                            "</ul>" +
-                            "</div>" +
-                            "</div>";
-                    }
-                }
-            ],
-            "drawCallback": function (settings) {
-                $(".editGanado").on("click", function () {
-                    var idGanado = $(this).data("id")
-                    ModalGanado(idGanado);
-                });
-                $(".deleteCuentaBancaria").on("click", function () {
-                    var url = $(this).attr('data-hrefa');
-                    var row = $(this).attr('data-id');
-                    var box = $("#mb-remove-row");
-                    box.addClass("open");
-                    box.find(".mb-control-yes").on("click", function () {
-                        box.removeClass("open");
-                        $.ajax({
-                            url: url,
-                            type: 'POST',
-                            dataType: 'json',
-                            success: function (result) {
-                                if (result.Success) {
-                                    box.find(".mb-control-yes").prop('onclick', null).off('click');
-                                    Mensaje(result.Mensaje, "1");
-                                    TblCuentasBancarias.ajax.reload();
-                                }
-                                else
-                                    Mensaje(result.Mensaje, "2");
-                            },
-                            error: function () {
-                                Mensaje(result.Mensaje, "2");
-                            }
-                        });
-                    });
-                });
+        $("#Ganado_genero").on("change", function () {
+            if ($('#Ganado_Repeso').is(":checked")) {
+                calculosSugeridos(true, jsonPrecioPeso, MermaSucursal, pesoInicial, pesoFinal);
+            } else {
+                calculosSugeridos(false, jsonPrecioPeso, MermaSucursal, pesoInicial, pesoFinal);
             }
         });
-
-        $("#btnAddGanado").on("click", function () {
-            ModalGanado(0);
+        $('#Ganado_Repeso').on("change", function () {
+            $('.Esconder').toggle(1000);
+            if ($('#Ganado_Repeso').is(":checked")) {
+                calculosSugeridos(true, jsonPrecioPeso, MermaSucursal, pesoInicial, pesoFinal);
+            } else {
+                calculosSugeridos(false, jsonPrecioPeso, MermaSucursal, pesoInicial, pesoFinal);
+            }
         });
-    };
+        $("#CompraGanado_PesoInicial").on("keyup keydown", function (e) {
+            $(this).val($(this).val().replace(/[^\d].+/, ""));
+
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105)) {
+                e.preventDefault();
+            }
+            else {
+                    pesoInicial = $(this).val();
+                if ($('#Ganado_Repeso').is(":checked")) {
+                    calculosSugeridos(true, jsonPrecioPeso, MermaSucursal,pesoInicial, pesoFinal);
+                }
+                else{
+                    calculosSugeridos(false, jsonPrecioPeso, MermaSucursal, pesoInicial, pesoFinal) 
+                }
+            }
+        });
+        $("#CompraGanado_PesoFinal").on("keyup keydown", function (e) {
+            $(this).val($(this).val().replace(/[^\d].+/, ""));
+
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105)) {
+                e.preventDefault();
+            }
+            else {
+                    pesoFinal = $(this).val();
+                if ($('#Ganado_Repeso').is(":checked")) {
+                    calculosSugeridos(true, jsonPrecioPeso, MermaSucursal, pesoInicial, pesoFinal);
+                }
+                else {
+
+                    calculosSugeridos(false, jsonPrecioPeso, MermaSucursal, pesoInicial, pesoFinal) 
+                }
+            }
+        });
+    }
+
+    function calculosSugeridos(checked, jsonPrecioPeso, MermaSucursal, pesoInicial, pesoFinal) {
+        var inputDiferenciaPeso = $("#CompraGanado_DiferenciaPeso");
+        var inputMermaObtenida = $("#CompraGanado_Merma");
+        var inputPesoSugerido = $("#CompraGanado_PesoSugerido");
+        var inputPrecioSugerido = $("#CompraGanado_PrecioSugeridoXkilo");
+        var inputTotalSugerido = $("#CompraGanado_TotalSugerido");
+        var selectGenero = $("#Ganado_genero").val();
+        
+        var MermaObtenida, PesoSugerido, PrecioSugerido;
+
+        if (checked) {
+            inputDiferenciaPeso.val(diferenciaPeso(pesoInicial, pesoFinal));
+            MermaObtenida = mermaGenerada(pesoInicial, pesoFinal);
+            inputMermaObtenida.val(MermaObtenida);
+            PesoSugerido = pesoSugerido(pesoInicial, pesoFinal, MermaSucursal, MermaObtenida);
+            inputPesoSugerido.val(PesoSugerido);
+            PrecioSugerido = precioSugerido(jsonPrecioPeso, PesoSugerido, selectGenero)
+            inputPrecioSugerido.val(PrecioSugerido);
+            inputTotalSugerido.val(PrecioSugerido * PesoSugerido);
+        }
+        else {
+            inputPesoSugerido.val(pesoInicial);
+            PesoSugerido = precioSugerido(jsonPrecioPeso, pesoInicial, selectGenero);
+            inputPrecioSugerido.val(PesoSugerido);
+            inputTotalSugerido.val(pesoInicial * PesoSugerido); 
+        }
+        
+    }
+    function precioSugerido(jsonPrecioPeso, PesoSugerido, selectGenero) {
+        var selectGenero = (selectGenero == "True") ? true : false;
+        for (var item in jsonPrecioPeso) {
+            if (jsonPrecioPeso[item].esMacho == selectGenero) {
+                if ((jsonPrecioPeso[item].pesoMinimo <= PesoSugerido) && (PesoSugerido <= jsonPrecioPeso[item].pesoMaximo)) {
+                    return jsonPrecioPeso[item].precio;
+                }
+            }
+        }
+
+    }
+    function pesoSugerido(pesoInicial, pesoFinal, MermaSucursal, MermaObtenida) {
+        if (MermaObtenida > MermaSucursal) {
+            var peso = pesoInicial - (pesoInicial * (MermaSucursal / 100));
+            return peso;
+        }
+        else {
+            return pesoInicial;
+        }
+    }
+    function mermaGenerada(pesoInicial, pesoFinal) {
+        var mermaGenerada = (((pesoFinal * 100) / pesoInicial) - 100)*(-1);
+        mermaGenerada = Math.abs(mermaGenerada.toFixed(2));
+        return mermaGenerada;
+    }
+    function diferenciaPeso(pesoInicial, pesoFinal) {
+       return (pesoFinal - pesoInicial);
+    }
+   
+    
+   
     var LoadTableMovimientos = function (idCompra) {
         $("#btnAddPago").on("click", function () {
             ModalPago(0);
@@ -598,43 +690,6 @@
         });
     }
 
-
-    function ModalGanado(idGanado) {
-        $.ajax({
-            url: 'ModalGanado',
-            type: "POST",
-            data: { idGanado: idGanado },
-            success: function (data) {
-                $('#ContenidoModalGanado').html(data);
-                $('#ModalGanado').modal({ backdrop: 'static', keyboard: false });
-                
-                $('#Ganado_Repeso').change(function () {
-                    $('.Esconder').toggle(1000);
-                    if ($('#Ganado_Repeso').is(":checked")) {
-                       // calcularCompraGanado(true);
-                        
-                    }
-                });
-
-                
-            }
-        });
-    }
-    function calcularCompraGanado(checked) {
-       
-        if (!isNaN(pesoInicial)) {
-
-        }
-
-
-        //    $("input").keyup(function () {
-
-        //        var pesoInicial = document.getElementById("CompraGanado_PesoInicial").value;
-        //        var val = this.value;
-        //        pesoInicial.replace(/\D|\-/, '');
- 
-        //}).keyup();
-    }
     function ModalCobro(idDocCobrar) {
         $.ajax({
             url: "ModalCobro",
@@ -673,7 +728,7 @@
     }
 
     return {
-        init: function (option, idCompra) {
+        init: function (option, IDCompra, PrecioPeso, merma) {
             LoadItems();
             LoadValidationProveedor();
             InitMap(option);
@@ -682,9 +737,9 @@
             LoadValidationDocumentos();
             RunEventsLineaFletera();
            
-            LoadTableGanado(idCompra);
-            LoadTableMovimientos(idCompra);
-            LoadTableEvento(idCompra);
+            LoadTableGanado(IDCompra, PrecioPeso, merma);
+            LoadTableMovimientos(IDCompra);
+            LoadTableEvento(IDCompra);
         }
     };
 }();

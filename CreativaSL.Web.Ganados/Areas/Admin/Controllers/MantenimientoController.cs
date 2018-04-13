@@ -48,7 +48,18 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         // GET: Admin/Mantenimiento/Servicios/5
         public ActionResult ServiciosR(string id)
         {
-            return View();
+            try
+            {
+                ViewBag.IDRemolque = id;
+                _ServicioMantenimiento_Datos Datos = new _ServicioMantenimiento_Datos();
+                return View(Datos.ObtenerServiciosXIDRemolque(Conexion, id));
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
         }
 
         // POST: Admin/Mantenimiento/Delete/5
@@ -63,6 +74,31 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Model.Usuario = User.Identity.Name;
                 Model.IDServicio = id;
                 Datos.EliminarServicio(Model);
+                if (Model.Completado)
+                    return Json("true");
+                else
+                {
+                    throw new Exception("Error");
+                }
+            }
+            catch
+            {
+                return Json("false");
+            }
+        }
+
+        // POST: Admin/Mantenimiento/Delete/5
+        [HttpPost]
+        public ActionResult Process(string id)
+        {
+            try
+            {
+                ServiciosMantenimientoModels Model = new ServiciosMantenimientoModels();
+                _ServicioMantenimiento_Datos Datos = new _ServicioMantenimiento_Datos();
+                Model.Conexion = Conexion;
+                Model.Usuario = User.Identity.Name;
+                Model.IDServicio = id;
+                Datos.ProcesarServicio(Model);
                 if (Model.Completado)
                     return Json("true");
                 else
@@ -142,7 +178,79 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
                 return View(Model);
             }
-        }    
+        }
+
+        // GET: Admin/Mantenimiento/Create
+        public ActionResult CreateR(string id)
+        {
+            try
+            {
+                ServiciosMantenimientoViewModels Servicio = new ServiciosMantenimientoViewModels();
+                _Combos_Datos Datos = new _Combos_Datos();
+                Servicio.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
+                Servicio.ID = id;
+                return View(Servicio);
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Servicios", new { id = id });
+            }
+        }
+
+        // POST: Admin/Mantenimiento/Create
+        [HttpPost]
+        public ActionResult CreateR(ServiciosMantenimientoViewModels Model)
+        {
+            _ServicioMantenimiento_Datos Datos = new _ServicioMantenimiento_Datos();
+            _Combos_Datos CDatos = new _Combos_Datos();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ServiciosMantenimientoModels ModelP = new ServiciosMantenimientoModels
+                    {
+                        NuevoRegistro = true,
+                        IDServicio = string.Empty,
+                        Sucursal = new CatSucursalesModels { IDSucursal = Model.IDSucursal },
+                        Fecha = Model.Fecha,
+                        //Este objeto es genérico(para solo crear un sp)
+                        Vehiculo = new CatVehiculoModels { IDVehiculo = Model.ID },
+                        //La opción determina la tabla en la que se guardará
+                        Opcion = 2,
+                        Conexion = Conexion,
+                        Usuario = User.Identity.Name
+                    };
+                    Datos.ACServicio(ModelP);
+                    if (ModelP.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardaron correctamente.";
+                        return RedirectToAction("CreateDetail", new { id = ModelP.IDServicio });
+                    }
+                    else
+                    {
+                        Model.ListaSucursales = CDatos.ObtenerComboSucursales(Conexion);
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        return View(Model);
+                    }
+                }
+                else
+                {
+                    Model.ListaSucursales = CDatos.ObtenerComboSucursales(Conexion);
+                    return View(Model);
+                }
+            }
+            catch
+            {
+                Model.ListaSucursales = CDatos.ObtenerComboSucursales(Conexion);
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(Model);
+            }
+        }
 
         // GET: Admin/Mantenimiento/Create
         public ActionResult EditV(string id)
@@ -182,6 +290,77 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Fecha = Model.Fecha,
                         Vehiculo = new CatVehiculoModels(),
                         Opcion = 1,
+                        Conexion = Conexion,
+                        Usuario = User.Identity.Name
+                    };
+                    Datos.ACServicio(ModelP);
+                    if (ModelP.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardaron correctamente.";
+                        return RedirectToAction("Details", new { id = ModelP.IDServicio });
+                    }
+                    else
+                    {
+                        Model.ListaSucursales = CDatos.ObtenerComboSucursales(Conexion);
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        return View(Model);
+                    }
+                }
+                else
+                {
+                    Model.ListaSucursales = CDatos.ObtenerComboSucursales(Conexion);
+                    return View(Model);
+                }
+            }
+            catch
+            {
+                Model.ListaSucursales = CDatos.ObtenerComboSucursales(Conexion);
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(Model);
+            }
+        }
+
+        // GET: Admin/Mantenimiento/Create
+        public ActionResult EditR(string id)
+        {
+            try
+            {
+                ServiciosMantenimientoViewModels Servicio = new ServiciosMantenimientoViewModels();
+                _Combos_Datos CDatos = new _Combos_Datos();
+                _ServicioMantenimiento_Datos Datos = new _ServicioMantenimiento_Datos();
+                Servicio = Datos.ObtenerDatosServicio(Conexion, id, 2);
+                Servicio.ListaSucursales = CDatos.ObtenerComboSucursales(Conexion);
+                return View(Servicio);
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Servicios");
+            }
+        }
+
+        // POST: Admin/Mantenimiento/Create
+        [HttpPost]
+        public ActionResult EditR(ServiciosMantenimientoViewModels Model)
+        {
+            _ServicioMantenimiento_Datos Datos = new _ServicioMantenimiento_Datos();
+            _Combos_Datos CDatos = new _Combos_Datos();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ServiciosMantenimientoModels ModelP = new ServiciosMantenimientoModels
+                    {
+                        NuevoRegistro = false,
+                        IDServicio = Model.IDServicio,
+                        Sucursal = new CatSucursalesModels { IDSucursal = Model.IDSucursal },
+                        Fecha = Model.Fecha,
+                        Vehiculo = new CatVehiculoModels(),
+                        Opcion = 2,
                         Conexion = Conexion,
                         Usuario = User.Identity.Name
                     };
@@ -327,7 +506,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return RedirectToAction("Servicios", new { id = id });
+                return RedirectToAction("Index");
             }
         }
 
@@ -411,123 +590,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 return Json("");
             }
-        }
-
+        }        
         
-
-        //// GET: Admin/Mantenimiento/Create
-        //public ActionResult Create(string id, int tipo)
-        //{
-        //    try
-        //    {
-        //        ServiciosMantenimientoViewModels Servicio = new ServiciosMantenimientoViewModels();
-        //        _Combos_Datos Datos = new _Combos_Datos();
-        //        Servicio.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
-        //        return View(Servicio);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        TempData["typemessage"] = "2";
-        //        TempData["message"] = "No se puede cargar la vista";
-        //        return RedirectToAction("Servicios", new { id = id, tipo = tipo } );
-        //    }
-        //}
-
-        //// POST: Admin/Mantenimiento/Create
-        //[HttpPost]
-        //public ActionResult Create(ServiciosMantenimientoViewModels Model)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add insert logic here
-
-        //        return RedirectToAction("");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //// GET: Admin/Mantenimiento/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: Admin/Mantenimiento/Edit/5
-        //[HttpPost]
-        //public ActionResult Edit(int id, FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add update logic here
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //// GET: Admin/Mantenimiento/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: Admin/Mantenimiento/Delete/5
-        //[HttpPost]
-        //public ActionResult Delete(int id, FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add delete logic here
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //// GET: Admin/Mantenimiento/Servicios/5
-        //public ActionResult Servicios(string id, int opcion)
-        //{
-        //    return View();
-        //}
-
-
-
-
-
-
-
-        // GET: Admin/Mantenimiento/Delete/5
-        public ActionResult Test()
-        {
-            ServiciosMantenimientoViewModels Model = new ServiciosMantenimientoViewModels();
-            _Combos_Datos Datos = new _Combos_Datos();
-            Model.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
-            return View(Model);
-        }
-
-        // POST: Admin/Mantenimiento/Delete/5
-        [HttpPost]
-        public ActionResult Test(ServiciosMantenimientoViewModels Model) //string IDSucursal, List<CatEmpleadoModels> Lista)
-        {
-            try
-            {
-                _Combos_Datos Datos = new _Combos_Datos();
-                Model.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
-                return View(Model);
-            }
-            catch
-            {
-                return View();
-            }
-        }
+                
     }
 }

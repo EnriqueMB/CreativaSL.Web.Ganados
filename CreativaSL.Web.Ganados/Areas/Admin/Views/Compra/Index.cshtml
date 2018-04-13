@@ -16,6 +16,11 @@
         tr.shown td.details-control {
             background: url("@Url.Content("~/Content/img/details_close.png")") no-repeat center center;
         }
+        .continueCompra{
+            background-color: #95b75d !important;
+            border-color: #95b75d !important;
+            color: white !important;
+        }
     </style>
 }
 
@@ -43,7 +48,7 @@
                         <div class="panel-heading">
                             <h3 class="panel-title"></h3>
                             <ul class="panel-controls">
-                                <li><a href="@Url.Action("Create","Compra")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva Compra</a></li>
+                                <li><a href="@Url.Action("ProgramarCompra","Compra")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva Compra</a></li>
                                 <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                                 <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
                             </ul>
@@ -183,10 +188,10 @@
                     {
                         "data": null,
                         "render": function (data, type, full) {
-
-                            return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                            var botones = "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm continueCompra' title='Continuar'  data-placement='top' data-original-title='continueCompra'><i class='fa fa-mail-forward'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm editCompra' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
-                                "<a title='Eliminar' data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
@@ -194,6 +199,11 @@
                                 "<i class='fa fa-cog'></i> <span class='caret'></span>" +
                                 "</a>" +
                                 "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                                "<li>" +
+                                "<a class='continueCompra' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-edit'></i> Continuar" +
+                                "</a>" +
+                                "</li>" +
                                 "<li>" +
                                 "<a class='editCompra' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
                                 "<i class='fa fa-edit'></i> Editar" +
@@ -207,6 +217,7 @@
                                 "</ul>" +
                                 "</div>" +
                                 "</div>";
+                            return botones;
                         }
                     }
                 ],
@@ -214,7 +225,11 @@
                 "drawCallback": function (settings) {
                     $(".editCompra").on("click", function () {
                         var IDCompra = $(this).data("id")
-                        window.location.href = '/Admin/Compra/Edit/' + IDCompra;
+                        window.location.href = '/Admin/Compra/Edit?IDCompra=' + IDCompra;
+                    });
+                    $(".continueCompra").on("click", function () {
+                        var IDCompra = $(this).data("id")
+                        window.location.href = '/Admin/Compra/Continue?IDCompra=' + IDCompra;
                     });
 
                 },
@@ -241,8 +256,6 @@
                     tr.addClass('shown');
                 }
             });
-
-
 
         </script>
 

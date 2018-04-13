@@ -7,7 +7,7 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class GeneroGanadoModels
     {
-        public string id { get; set; }
-        public string descripcion { get; set; }
+        public bool Id { get; set; }
+        public string Descripcion { get; set; }
     }
 }

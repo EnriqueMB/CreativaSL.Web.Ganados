@@ -1,6 +1,6 @@
 ﻿@model ICollection<CreativaSL.Web.Ganados.Models.ServiciosMantenimientoModels>
 @{
-    ViewBag.Title = "ServiciosV";
+    ViewBag.Title = "ServiciosR";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 @section featured{
@@ -27,7 +27,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("CreateV","Mantenimiento", new { id = ViewBag.IDVehiculo})" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo servicio</a></li>
+                            <li><a href="@Url.Action("CreateR","Mantenimiento", new { id = ViewBag.IDRemolque})" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo servicio</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
                         </ul>
@@ -48,52 +48,52 @@
                                 <tbody>
                                     @foreach (var Item in Model)
                                     {
-                                    <tr id="@Item.IDServicio">
-                                        <td>@Item.FechaFormat</td>
-                                        <td>@Item.Sucursal.NombreSucursal</td>
-                                        <td>@Item.ImporteTotalFormat</td>                                       
-                                        <td>@Item.ServiciosRealizados</td>
-                                        <td>
-                                            <span class="@Item.CssClassEstatus">@Item.Estatus</span>
-                                        </td>
-                                        <td style="text-align:center;">
-                                            <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                <a title="Procesar" class="btn btn-success processRow" href="@Url.Action("Process", "Mantenimiento", new { id = Item.IDServicio })"><i class="fa fa-upload"></i></a>
-                                                <a title="Detalles" class="btn btn-blue" href="@Url.Action("Details", "Mantenimiento", new { id = Item.IDServicio })"><i class="fa fa-gears"></i></a>
-                                                <a title="Editar" class="btn btn-yellow" href="@Url.Action("EditV", "Mantenimiento", new { id = Item.IDServicio})"><i class="fa fa-edit"></i></a>
-                                                <a title="Eliminar" class="btn delete btn-danger deleteRow" data-sku="@Item.IDServicio" id="delete-@Item.IDServicio" href="@Url.Action("Delete", "Mantenimiento", new { id = Item.IDServicio })" ><i class="fa fa-trash-o"></i></a>
-                                            </div>
-                                            <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                <div class="btn-group">
-                                                    <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                        <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                    </a>
-                                                    <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                        <li>
-                                                            <a role="menuitem" tabindex="-1" class="processRow" href="@Url.Action("Process", "Mantenimiento", new { id = Item.IDServicio })">
-                                                                <i class="fa fa-edit"></i> Procesar
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "Mantenimiento", new { id = Item.IDServicio })">
-                                                                <i class="fa fa-edit"></i> Detalles
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("EditV", "Mantenimiento", new { id = Item.IDServicio})">
-                                                                <i class="fa fa-edit"></i> Editar
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a role="menuitem" tabindex="-1" id="delete-@Item.IDServicio" data-sku="@Item.IDServicio" href="@Url.Action("Delete", "Mantenimiento", new { id = Item.IDServicio })">
-                                                                <i class="fa fa-trash-o"></i> Eliminar
-                                                            </a>
-                                                        </li>
-                                                    </ul>
+                                        <tr id="@Item.IDServicio">
+                                            <td>@Item.FechaFormat</td>
+                                            <td>@Item.Sucursal.NombreSucursal</td>
+                                            <td>@Item.ImporteTotalFormat</td>
+                                            <td>@Item.ServiciosRealizados</td>
+                                            <td>
+                                                <span class="@Item.CssClassEstatus">@Item.Estatus</span>
+                                            </td>
+                                            <td style="text-align:center;">
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    <a title="Procesar" class="btn btn-success processRow" href="@Url.Action("Process", "Mantenimiento", new { id = Item.IDServicio })"><i class="fa fa-upload"></i></a>
+                                                    <a title="Detalles" class="btn btn-blue" href="@Url.Action("Details", "Mantenimiento", new { id = Item.IDServicio })"><i class="fa fa-gears"></i></a>
+                                                    <a title="Editar" class="btn btn-yellow" href="@Url.Action("EditR", "Mantenimiento", new { id = Item.IDServicio})"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" class="btn delete btn-danger deleteRow" data-sku="@Item.IDServicio" id="delete-@Item.IDServicio" href="@Url.Action("Delete", "Mantenimiento", new { id = Item.IDServicio })"><i class="fa fa-trash-o"></i></a>
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                        </a>
+                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" class="processRow" href="@Url.Action("Process", "Mantenimiento", new { id = Item.IDServicio })">
+                                                                    <i class="fa fa-edit"></i> Procesar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "Mantenimiento", new { id = Item.IDServicio })">
+                                                                    <i class="fa fa-edit"></i> Detalles
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("EditR", "Mantenimiento", new { id = Item.IDServicio})">
+                                                                    <i class="fa fa-edit"></i> Editar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" id="delete-@Item.IDServicio" data-sku="@Item.IDServicio" href="@Url.Action("Delete", "Mantenimiento", new { id = Item.IDServicio })">
+                                                                    <i class="fa fa-trash-o"></i> Eliminar
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     }
                                 </tbody>
                             </table>
@@ -123,7 +123,6 @@
         </div>
     </div>
 
-
     <div class="message-box animated fadeIn" data-sound="alert" id="mb-process-row">
         <div class="mb-container">
             <div class="mb-middle">
@@ -149,7 +148,7 @@
 }
 @section script
 {
-    
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/servicioslista.js")"></script>

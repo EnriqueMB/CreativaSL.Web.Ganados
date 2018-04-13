@@ -27,6 +27,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
+                        @{ Html.EnableClientValidation(false); }
                         @using (Html.BeginForm("Index", "Nomina", FormMethod.Post, new { @class = "form-inline", id = "form-search", autocomplete = "off" }))
                         {
 
@@ -40,13 +41,15 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     @Html.CheckBoxFor(model => model.BandBusqFechas)<label class="control-label"> Filtrar por periodo: </label>
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <div class="input-group date">
-                                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                                @Html.TextBoxFor(model => model.FechaInicio, "{0:dd/MM/yyyy}", new { id = "FechaInicio", @class = "form-control datepicker", @readonly = "readonly", @title = "Fecha Inicio" })
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <div class="input-group date">
+                                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                                    @Html.TextBoxFor(model => model.FechaInicio, "{0:dd/MM/yyyy}", new { id = "FechaInicio", @class = "form-control datepicker", @readonly = "readonly", @title = "Fecha Inicio" })
+                                                </div>
                                             </div>
                                         </div>
+                                        <br />
                                         <div class="form-group">
                                             <div class="col-md-12">
                                                 <div class="input-group">
@@ -55,7 +58,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                   
                                 </div>
                             </div>
 
@@ -105,6 +108,7 @@
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     <a title="Detalle" href="@Url.Action("Detalle", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal })" class="btn btn-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-bars"></i></a>
+                                                    <a title="Reporte Dias Laborados" href="@Url.Action("RptDiasLaborados", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal })" class="btn btn-primary tooltips" data-placement="top" data-original-title="Reporte Dias Laborados"><i class="fa fa-cog"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -115,6 +119,11 @@
                                                             <li>
                                                                 <a role="menuitem" tabindex="-1" href="@Url.Action("Detalle", "Nomina", new { id = Nomina.IDNomina,  id2 = Nomina.IDSucursal})">
                                                                     <i class="fa fa-bars"></i> Detalle
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("RptDiasLaborados", "Nomina", new { id = Nomina.IDNomina,  id2 = Nomina.IDSucursal})">
+                                                                    <i class="fa fa-cog"></i> Reporte Dias Laborados
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -157,18 +166,16 @@
 }
 @section script
 {
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+@*<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>*@
 <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/nomina-busqueda.js")"></script>
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
-        nominaBusqueda.init();
+        //nominaBusqueda.init();
         });
     </script>
 }

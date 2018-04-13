@@ -1,6 +1,6 @@
 ﻿@model CreativaSL.Web.Ganados.Models.CompraModels
 @{
-    ViewBag.Title = "Create Parte 2";
+    ViewBag.Title = "EmbarqueCompra";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 @section css
@@ -115,7 +115,7 @@
 
                                 <div class="panel-footer">
                                     <input type="submit" value="Guardar proveedor" class="btn btn-primary pull-right">
-                                    <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                                    <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                                 </div>
                             </div>
                         }
@@ -219,7 +219,7 @@
                                                         <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud"
                                                                 @if (Model.Trayecto.id_lugarOrigen == lugar.id_lugar) { <text>
                                                                 selected="selected"
-                                                                </text> }>
+                                                                </text>  }>
                                                             @lugar.descripcion
                                                         </option>
                                                     }
@@ -231,7 +231,7 @@
                                                         <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud"
                                                                 @if (Model.Trayecto.id_lugarDestino == lugar.id_lugar) { <text>
                                                                 selected="selected"
-                                                                </text> }>
+                                                                </text>  }>
                                                             @lugar.descripcion
                                                         </option>
                                                     }
@@ -245,7 +245,7 @@
 
                                 <div class="panel-footer">
                                     <input type="submit" value="Guardar Flete" class="btn btn-primary pull-right">
-                                    <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                                    <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                                 </div>
                             </div>
                         }
@@ -315,7 +315,7 @@
                                 </div>
                                 <div class="panel-footer">
                                     <input type="submit" value="Guardar Documentos" class="btn btn-primary pull-right">
-                                    <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                                    <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                                 </div>
                             </div>
                         }
@@ -341,6 +341,9 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="panel-footer">
+                            <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                         </div>
                     </div>
                 </div>

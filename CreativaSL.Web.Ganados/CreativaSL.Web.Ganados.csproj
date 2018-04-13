@@ -991,7 +991,6 @@
     <Content Include="Areas\Admin\Views\CatMarcaVehiculo\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Compra\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatCategoriaPuesto\Create.cshtml" />
@@ -1096,8 +1095,14 @@
     <Content Include="Areas\Admin\Views\Mantenimiento\EditDetail.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\EditV.cshtml" />
-    <Content Include="Areas\Admin\Views\Compra\CreatePart2.cshtml" />
     <Content Include="Areas\Admin\Views\Nomina\DetalleEmpleado.cshtml" />
+    <Content Include="Areas\Admin\Views\Nomina\RptDiasLaborados.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\EmbarqueCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\ProgramarCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\RecepcionCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\CreateR.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\EditR.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosR.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1253,6 +1258,7 @@
     <Compile Include="Models\NominaDetalleModels.cs" />
     <Compile Include="Models\NominaDiasFestivosModels.cs" />
     <Compile Include="Models\NominaModels.cs" />
+    <Compile Include="Models\NominaResumenDetalleModels.cs" />
     <Compile Include="Models\NominaVacacionesModels.cs" />
     <Compile Include="Models\ProductorAlmacenSucursalModels.cs" />
     <Compile Include="Models\ProveedorLugarModels.cs" />

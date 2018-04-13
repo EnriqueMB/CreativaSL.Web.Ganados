@@ -16,6 +16,9 @@ namespace CreativaSL.Web.Ganados.Models
             _Fecha = DateTime.MinValue;
             _ServiciosRealizados = string.Empty;
             _ImporteTotal = 0;
+            _CssClassEstatus = string.Empty;
+            _Estatus = string.Empty;
+            _IDEstatus = 0;
             _ListaRemolques = new List<CatRemolqueModels>();
             _ListaVehiculos = new List<CatVehiculoModels>();
         }
@@ -81,6 +84,30 @@ namespace CreativaSL.Web.Ganados.Models
         public string ImporteTotalFormat
         {
             get { return string.Format("{0:c}", _ImporteTotal); }
+        }
+
+        private int _IDEstatus;
+
+        public int IDEstatus
+        {
+            get { return _IDEstatus; }
+            set { _IDEstatus = value; }
+        }
+        
+        private string _Estatus;
+
+        public string Estatus
+        {
+            get { return _Estatus; }
+            set { _Estatus = value; }
+        }
+
+        private string _CssClassEstatus;
+
+        public string CssClassEstatus
+        {
+            get { return _CssClassEstatus; }
+            set { _CssClassEstatus = value; }
         }
 
 

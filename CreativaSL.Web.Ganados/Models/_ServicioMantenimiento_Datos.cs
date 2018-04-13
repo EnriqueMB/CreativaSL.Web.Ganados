@@ -75,11 +75,40 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Sucursal.NombreSucursal = !Dr.IsDBNull(Dr.GetOrdinal("Sucursal")) ? Dr.GetString(Dr.GetOrdinal("Sucursal")) : string.Empty;
                     Item.ImporteTotal = !Dr.IsDBNull(Dr.GetOrdinal("ImporteTotal")) ? Dr.GetDecimal(Dr.GetOrdinal("ImporteTotal")) : 0;
                     Item.ServiciosRealizados = !Dr.IsDBNull(Dr.GetOrdinal("Servicios")) ? Dr.GetString(Dr.GetOrdinal("Servicios")) : string.Empty;
+                    Item.Estatus = !Dr.IsDBNull(Dr.GetOrdinal("Estatus")) ? Dr.GetString(Dr.GetOrdinal("Estatus")) : string.Empty;
+                    Item.CssClassEstatus = !Dr.IsDBNull(Dr.GetOrdinal("CssClass")) ? Dr.GetString(Dr.GetOrdinal("CssClass")) : string.Empty;
                     Lista.Add(Item);
                 }
                 return Lista;
             }
             catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<ServiciosMantenimientoModels> ObtenerServiciosXIDRemolque(string Conexion, string IDRemolque)
+        {
+            try
+            {
+                List<ServiciosMantenimientoModels> Lista = new List<ServiciosMantenimientoModels>();
+                ServiciosMantenimientoModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Mantenimiento_get_ServiciosXIDRemolque", IDRemolque);
+                while (Dr.Read())
+                {
+                    Item = new ServiciosMantenimientoModels();
+                    Item.IDServicio = !Dr.IsDBNull(Dr.GetOrdinal("IDServicio")) ? Dr.GetString(Dr.GetOrdinal("IDServicio")) : string.Empty;
+                    Item.Fecha = !Dr.IsDBNull(Dr.GetOrdinal("Fecha")) ? Dr.GetDateTime(Dr.GetOrdinal("Fecha")) : DateTime.MinValue;
+                    Item.Sucursal.NombreSucursal = !Dr.IsDBNull(Dr.GetOrdinal("Sucursal")) ? Dr.GetString(Dr.GetOrdinal("Sucursal")) : string.Empty;
+                    Item.ImporteTotal = !Dr.IsDBNull(Dr.GetOrdinal("ImporteTotal")) ? Dr.GetDecimal(Dr.GetOrdinal("ImporteTotal")) : 0;
+                    Item.ServiciosRealizados = !Dr.IsDBNull(Dr.GetOrdinal("Servicios")) ? Dr.GetString(Dr.GetOrdinal("Servicios")) : string.Empty;
+                    Item.Estatus = !Dr.IsDBNull(Dr.GetOrdinal("Estatus")) ? Dr.GetString(Dr.GetOrdinal("Estatus")) : string.Empty;
+                    Item.CssClassEstatus = !Dr.IsDBNull(Dr.GetOrdinal("CssClass")) ? Dr.GetString(Dr.GetOrdinal("CssClass")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                return Lista;
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -248,6 +277,27 @@ namespace CreativaSL.Web.Ganados.Models
                 }
             }
             catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
+        public void ProcesarServicio(ServiciosMantenimientoModels Datos)
+        {
+            try
+            {
+                object[] Parametros = { Datos.IDServicio, Datos.Usuario };
+                object Result = SqlHelper.ExecuteScalar(Datos.Conexion, "spCSLDB_Mantenimiento_ProcesarServicioXID", Parametros);
+                if (Result != null)
+                {
+                    int Resultado = 0;
+                    int.TryParse(Result.ToString(), out Resultado);
+                    Datos.Resultado = Resultado;
+                    if (Resultado == 1)
+                        Datos.Completado = true;
+                }
+            }
+            catch(Exception ex)
             {
                 throw ex;
             }
