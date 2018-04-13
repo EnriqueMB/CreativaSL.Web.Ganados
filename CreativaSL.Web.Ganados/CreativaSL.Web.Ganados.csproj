@@ -424,6 +424,7 @@
     <Content Include="Content\js\CategoriaPuestos.js" />
     <Content Include="Content\js\Chofer.js" />
     <Content Include="Content\js\ClienteLugar.js" />
+    <Content Include="Content\js\combustible.js" />
     <Content Include="Content\js\Concepto.js" />
     <Content Include="Content\js\ConceptosNomina.js" />
     <Content Include="Content\js\CuentaProveedor.js" />
