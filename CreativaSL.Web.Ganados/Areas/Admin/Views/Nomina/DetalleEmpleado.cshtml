@@ -59,7 +59,7 @@
                                             <td>@fijo.Monto.ToString("0.00").Replace(',', '.')</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Eliminar Concepto Fijo" id="delete-@fijo.IDConceptosFijo" data-hrefa="@Url.Action("DeleteConceptoFijo", "Nomina", new { id = fijo.IDConceptosFijo, id2 = IDE })" onClick="delete_row('@fijo.IDConceptosFijo');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar Concepto Fijo"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Eliminar Concepto Fijo" id="delete-@fijo.IDConceptosFijo" data-hrefa="@Url.Action("DeleteConcepto", "Nomina", new { id = fijo.IDConceptosFijo, id2 = IDE,id3=true })" onClick="delete_row('@fijo.IDConceptosFijo');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar Concepto Fijo"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -68,7 +68,7 @@
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@fijo.IDConceptosFijo" data-hrefa="@Url.Action("DeleteConceptoFijo", "Nomina", new { id = fijo.IDConceptosFijo, id2 = IDE })" onClick="delete_row('@fijo.IDConceptosFijo');">
+                                                                <a role="menuitem" tabindex="-1" id="delete-@fijo.IDConceptosFijo" data-hrefa="@Url.Action("DeleteConcepto", "Nomina", new { id = fijo.IDConceptosFijo, id2 = IDE,id3=true })" onClick="delete_row('@fijo.IDConceptosFijo');">
                                                                     <i class="fa fa-trash-o"></i> Elimnar Concepto Fijo
                                                                 </a>
                                                             </li>
@@ -115,7 +115,7 @@
                                             <td>@variable.Monto.ToString("0.00").Replace(',', '.')</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Eliminar Concepto Variable" id="delete-@variable.IDConceptoEmpleado" data-hrefa="@Url.Action("DeleteConceptoVariable", "Nomina", new { id = variable.IDConceptoEmpleado, id2 = IDE })" onClick="delete_row('@variable.IDConceptoEmpleado');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar Concepto Variable"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Eliminar Concepto Variable" id="delete-@variable.IDConceptoEmpleado" data-hrefa="@Url.Action("DeleteConcepto", "Nomina", new { id = variable.IDConceptoEmpleado, id2 = IDE,id3=false })" onClick="delete_row('@variable.IDConceptoEmpleado');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar Concepto Variable"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -124,7 +124,7 @@
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@variable.IDConceptoEmpleado" data-hrefa="@Url.Action("DeleteConceptoVariable", "Nomina", new { id = variable.IDConceptoEmpleado, id2 = IDE })" onClick="delete_row('@variable.IDConceptoEmpleado');">
+                                                                <a role="menuitem" tabindex="-1" id="delete-@variable.IDConceptoEmpleado" data-hrefa="@Url.Action("DeleteConcepto", "Nomina", new { id = variable.IDConceptoEmpleado, id2 = IDE,id3=false })" onClick="delete_row('@variable.IDConceptoEmpleado');">
                                                                     <i class="fa fa-trash-o"></i> Elimnar Concepto Variable
                                                                 </a>
                                                             </li>

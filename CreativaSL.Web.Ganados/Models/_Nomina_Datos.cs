@@ -170,7 +170,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw;
             }
         }
-
+       
         public List<CatConceptoNominaModels> ObtenerConceptosNomina(NominaModels Datos)
         {
             try
@@ -250,7 +250,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    Datos.IDConcepto, Datos.EsFijo, Datos.Usuario
+                    Datos.IDEmpleado, Datos.EsFijo, Datos.Usuario
                 };
                 object Resultado = SqlHelper.ExecuteScalar(Datos.Conexion, "spCSLDB_Nomina_set_QuitarConceptoNomina", parametros);
                 if (Resultado != null)

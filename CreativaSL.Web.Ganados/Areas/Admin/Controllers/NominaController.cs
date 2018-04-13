@@ -218,7 +218,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Nomina = NominaDatos.AgregarConceptoNomina(Nomina);
                 if (Nomina.Completado)
                 {
-                    TempData["typemessage"] = "2";
+                    TempData["typemessage"] = "1";
                     TempData["message"] = "Los datos se guardarón correctamente.";
                     return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
                 }
@@ -246,6 +246,43 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
             }
         }
+        // GET: Admin/EntregaCombustible/Delete/5
+        public ActionResult DeleteConcepto(int id)
+        {
+            return View();
+        }
+
+        // POST: Admin/EntregaCombustible/Delete/5
+        [HttpPost]
+        public ActionResult DeleteConcepto(string id,string id2,bool id3,FormCollection collection)
+        {
+            try
+            {
+                NominaModels Nomina = new NominaModels();
+                Nomina_Datos NominaDatos = new Nomina_Datos();
+                Nomina.Conexion = Conexion;
+                Nomina.IDSucursal = id2;
+                Nomina.EsFijo = id3;
+                Nomina.IDEmpleado = id;
+                Nomina.Usuario = User.Identity.Name;
+                Nomina = NominaDatos.ElimnarConceptosNomina(Nomina);
+
+                return Json("");
+                // TODO: Add delete logic here
+
+
+            }
+            catch
+            {
+                CatProductosModels Producto = new CatProductosModels();
+
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
+                return Json("");
+
+            }
+        }
+
 
         // POST: Admin/Nomina/getDatostablaEmpleado/3
         [HttpPost]
