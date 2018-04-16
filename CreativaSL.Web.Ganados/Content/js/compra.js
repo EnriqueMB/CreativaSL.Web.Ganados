@@ -181,6 +181,9 @@
                 "Flete.kmInicialVehiculo": {
                     required: true,
                     digits: true
+                },
+                IDCostoFlete: {
+                    min:1
                 }
             },
             messages: {
@@ -199,6 +202,9 @@
                 "Flete.kmInicialVehiculo": {
                     required: "-Ingrese el kilómetraje inicial.",
                     digits: "Ingrese un número entero mayor o igual a 0 (cero). "
+                },
+                IDCostoFlete: {
+                    min: "-Seleccione un tipo de costo del flete."
                 }
             },
             invalidHandler: function (event, validator) {

@@ -68,9 +68,8 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="form-group controlError">
-                                    <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-6 controlError">
                                         <label class="col-md-2 control-label">Chofer</label>
                                         <div class="col-md-10 col-xs-12">
                                             <div class="input-group">
@@ -92,8 +91,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group controlError">
-                                    <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-6 controlError">
                                         <label class="col-md-2 control-label">Jaula seleccionada</label>
                                         <div class="col-md-10 col-xs-12">
                                             <div class="input-group">
@@ -114,8 +113,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group controlError">
-                                    <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-6 controlError">
                                         <label class="col-md-2 control-label">Kilómetraje Inicial</label>
                                         <div class="col-md-10 col-xs-12">
                                             <div class="input-group">
@@ -125,12 +124,56 @@
                                             @Html.ValidationMessageFor(model => model.Flete.kmInicialVehiculo)
                                         </div>
                                     </div>
+                                    <div class="col-md-6 controlError">
+                                        <label class="col-md-2 control-label">Opcion del costo del flete</label>
+                                        <div class="col-md-10 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.DropDownListFor(model => model.IDCostoFlete, new SelectList(Model.ListaCostoFlete, "IDCostoFlete", "Descripcion"), new { @class = "form-control select classSelect", data_live_search = "true", data_style = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.IDCostoFlete)
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <div class="row">
+                                    <div class="row">
+                                       <div class="col-md-6">
+                                           <div class="form-group">
+                                               <div class="col-md-12 controlError">
+                                                   <label class="col-md-1 control-label">Nombre del proveedor</label>
+                                                   <div class="col-md-11 col-xs-12">
+                                                       <div class="input-group">
+                                                           <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                           @Html.TextBoxFor(model => model.Proveedor.NombreRazonSocial, new { id = "Proveedor_NombreRazonSocial", @class = "form-control", placeholder = "Nombre del proveedor." })
+                                                       </div>
+                                                       @Html.ValidationMessageFor(model => model.Proveedor.NombreRazonSocial)
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="col-md-12 controlError">
+                                                    <label class="col-md-1 control-label">R.F.C. del proveedor</label>
+                                                    <div class="col-md-11 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                            @Html.TextBoxFor(model => model.Proveedor.RFC, new { id = "Proveedor_RFC", @class = "form-control", placeholder = "R.F.C del proveedor." })
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.Proveedor.RFC)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
 
                                 <div class="form-group">
                                     <div class="col-md-12">
                                         <div id="floating-panel">
-                                            <b>Inicio: </b>
+                                            <b>Origen: </b>
                                             <select id="Trayecto.id_lugarOrigen" name="Trayecto.id_lugarOrigen">
                                                 @foreach (var lugar in Model.ListaLugaresProveedor)
                                                 {
@@ -150,7 +193,7 @@
                                                 </option>
                                                 }
                                             </select>
-                                            <b>Fin: </b>
+                                            <b>Destino: </b>
                                             <select id="Trayecto.id_lugarDestino" name="Trayecto.id_lugarDestino">
                                                 @foreach (var lugar in Model.ListaLugares)
                                                 {

@@ -108,6 +108,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 CompraDatos = new _Compra_Datos();
+                ModelState.Remove("IDCostoFlete");
                 if (ModelState.IsValid)
                 {
                     Compra.Conexion = Conexion;
@@ -185,6 +186,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Compra.ListaJaulas = CompraDatos.GetJaulasXIDEmpresa(Compra);
                     Compra.ListaFierros = CompraDatos.GetListadoFierrosXIDCompra(Compra);
                     Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
+                    Compra.ListaCostoFlete = CompraDatos.GetListadoCostoFlete(Compra);
 
                     return View(Compra);
                 }
@@ -346,6 +348,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                ModelState.Remove("IDPLugarProveedor");
                 ModelState.Remove("IDProveedor");
                 if (ModelState.IsValid)
                 {
@@ -378,6 +381,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                ModelState.Remove("IDCostoFlete");
+                ModelState.Remove("IDPLugarProveedor");
                 ModelState.Remove("IDProveedor");
                 if (ModelState.IsValid)
                 {
@@ -410,10 +415,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                ModelState.Remove("IDCostoFlete");
                 ModelState.Remove("IDProveedor");
                 ModelState.Remove("Sucursal.NombreSucursalMatriz");
                 ModelState.Remove("Sucursal.Direccion");
                 ModelState.Remove("Sucursal.NombreSucursal");
+                ModelState.Remove("IDPLugarProveedor");
 
                 if (ModelState.IsValid)
                 {

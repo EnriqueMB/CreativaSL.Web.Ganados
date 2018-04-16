@@ -1183,6 +1183,7 @@
     <Compile Include="Models\CatConceptoDetalleDocumentosModels.cs" />
     <Compile Include="Models\CatConceptoNominaModels.cs" />
     <Compile Include="Models\CatConceptosNominaModels.cs" />
+    <Compile Include="Models\CatCostoFlete.cs" />
     <Compile Include="Models\CatEmpleadoAltaNominaModels.cs" />
     <Compile Include="Models\CatEmpleadoBajaNominaModels.cs" />
     <Compile Include="Models\CatEmpleadoModels.cs" />

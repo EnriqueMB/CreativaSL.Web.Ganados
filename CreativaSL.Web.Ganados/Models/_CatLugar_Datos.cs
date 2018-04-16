@@ -15,12 +15,23 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                   datos.opcion,
-                    datos.id_lugar ?? String.Empty,datos.descripcion ?? string.Empty,
-                    datos.latitud,datos.longitud,datos.ejido ?? string.Empty,datos.id_sucursal ?? string.Empty,
+                    datos.opcion,
+                    datos.id_lugar ?? String.Empty,
+                    datos.descripcion ?? string.Empty,
+                    datos.latitud,
+                    datos.longitud,
+                    datos.ejido ?? string.Empty,
+                    datos.id_sucursal ?? string.Empty,
                     datos.id_pais ?? string.Empty,
-                    datos.id_estadoCodigo?? string.Empty,datos.id_municipio ,
-                    datos.bascula,datos.nombrePropietario ?? string.Empty,datos.apellidoPaterno ?? string.Empty,datos.apellidoMaterno ?? string.Empty,datos.observaciones ?? string.Empty,datos.user ?? string.Empty
+                    datos.id_estadoCodigo?? string.Empty,
+                    datos.id_municipio,
+                    datos.bascula,
+                    datos.nombrePropietario ?? string.Empty,
+                    datos.apellidoPaterno ?? string.Empty,
+                    datos.apellidoMaterno ?? string.Empty,
+                    datos.observaciones ?? string.Empty,
+                    datos.user ?? string.Empty,
+                    datos.Direccion ?? string.Empty
                     };
                 object aux = SqlHelper.ExecuteScalar(datos.conexion, "spCSLDB_ac_CatLugar", parametros);
                 datos.id_lugar = aux.ToString();
@@ -91,6 +102,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.observaciones = dr["observaciones"].ToString();
                     datos.nombreSucursal = dr["nombreSucursal"].ToString();
                     datos.bascula = Convert.ToBoolean(dr["bascula"].ToString());
+                    datos.Direccion = dr["direccion"].ToString();
                 }
                 return datos;
             }

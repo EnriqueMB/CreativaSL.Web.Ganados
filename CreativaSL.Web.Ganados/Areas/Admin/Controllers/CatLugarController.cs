@@ -92,6 +92,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Lugar.opcion = 1;
 
                     Lugar.user = User.Identity.Name;
+                    Lugar.latitud = float.Parse(Lugar.lat);
+                    Lugar.longitud = float.Parse(Lugar.lng);
+
                     Lugar = LugarDatos.AbcCatLugar(Lugar);
                     if (Lugar.Completado == true)
                     {
@@ -181,7 +184,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Lugar.conexion = Conexion;
                     Lugar.opcion = 2;
                     Lugar.id_lugar = id;
-
+                    Lugar.latitud = float.Parse(Lugar.lat);
+                    Lugar.longitud = float.Parse(Lugar.lng);
                     Lugar.user = User.Identity.Name;
                     Lugar = LugarDatos.AbcCatLugar(Lugar);
                     if (Lugar.Completado == true)

@@ -280,6 +280,25 @@ namespace CreativaSL.Web.Ganados.Models
             }
             return Compra.ListaEstatusGanado;
         }
+        public List<CatCostoFlete> GetListadoCostoFlete(CompraModels Compra)
+        {
+            CatCostoFlete CostoFlete;
+            SqlDataReader dr = null;
+
+            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_CatCostoFlete");
+
+            while (dr.Read())
+            {
+                CostoFlete = new CatCostoFlete
+                {
+                    IDCostoFlete = !dr.IsDBNull(dr.GetOrdinal("IDCostoFlete")) ? dr.GetByte(dr.GetOrdinal("IDCostoFlete")) : 0,
+                    Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty,
+                };
+
+                Compra.ListaCostoFlete.Add(CostoFlete);
+            }
+            return Compra.ListaCostoFlete;
+        }
         #endregion
 
         #region Get

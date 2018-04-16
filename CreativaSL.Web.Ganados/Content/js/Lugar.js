@@ -36,6 +36,7 @@
                 id_estadoCodigo: { required: true },
                 id_pais: { required: true },
                 id_sucursal: { required: true },
+                Direccion: {maxlength: 300}
 
             },
             messages: {
@@ -50,8 +51,8 @@
             id_municipio: { CMBINT: "Seleccione un municipio." },
             id_estadoCodigo: { required: "Ingrese un estado válido." },
             id_pais: { required: "Ingrese un pais válido." },
-            id_sucursal: { required: "Ingrese una sucursal válida." }
-
+            id_sucursal: { required: "Ingrese una sucursal válida." },
+            Direccion: { maxlength: jQuery.validator.format("Dirección tiene un máximo de caracteres: {0}") }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

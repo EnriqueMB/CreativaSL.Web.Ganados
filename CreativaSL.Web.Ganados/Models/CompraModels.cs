@@ -93,6 +93,8 @@ namespace CreativaSL.Web.Ganados.Models
         public string IDRemolque { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Seleccione un lugar.")]
         public string IDPLugarProveedor { get; set; }
+        [Range(2, 10, ErrorMessage = "Seleecion un tipo de costo del flete.")]
+        public int IDCostoFlete { get; set; }
 
         public CatChoferModels Chofer { get; set; }
         public CompraGanadosModels CompraGanado { get; set; }
@@ -112,10 +114,10 @@ namespace CreativaSL.Web.Ganados.Models
         public DocumentoPorPagarModels DocPorPagar { get; set; }
         public CatTipoClasificacionModels TipoClasificacion { get; set; }
         public CFDI_FormaPagoModels FormaPago { get; set; }
-        
 
         public List<CatChoferModels> ListaChoferes { get; set; }
         public List<CompraGanadosModels> ListaCompraGanado { get; set; }
+        public List<CatCostoFlete> ListaCostoFlete { get; set; }
         public List<CatEmpresaModels> ListaEmpresas { get; set; }
         public List<CatFierroModels> ListaFierros { get; set; }
         public List<GanadosModels> ListaGanados { get; set; }
@@ -162,6 +164,7 @@ namespace CreativaSL.Web.Ganados.Models
 
             //Inicializamos las listas
             ListaChoferes = new List<CatChoferModels>();
+            ListaCostoFlete = new List<CatCostoFlete>();
             ListaCompraGanado = new List<CompraGanadosModels>();
             ListaEstatusGanado = new List<CatEstatusGanadoModels>();
             ListaEmpresas = new List<CatEmpresaModels>();
@@ -183,6 +186,7 @@ namespace CreativaSL.Web.Ganados.Models
             IDChofer = string.Empty;
             IDCompra = string.Empty;
             IDDocumentoXPagar = string.Empty;
+            IDCostoFlete = 0;
             IDEmpresa = string.Empty;
             IDFlete = string.Empty;
             IDJaula = string.Empty;
