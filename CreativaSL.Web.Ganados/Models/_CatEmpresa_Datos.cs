@@ -29,7 +29,8 @@ namespace CreativaSL.Web.Ganados.Models
                         NumTelefonico1 = !dr.IsDBNull(dr.GetOrdinal("numTelefonico1")) ? dr.GetString(dr.GetOrdinal("numTelefonico1")) : string.Empty,
                         NumTelefonico2 = !dr.IsDBNull(dr.GetOrdinal("numTelefonico2")) ? dr.GetString(dr.GetOrdinal("numTelefonico2")) : string.Empty,
                         Email = !dr.IsDBNull(dr.GetOrdinal("email")) ? dr.GetString(dr.GetOrdinal("email")) : string.Empty,
-                        HorarioAtencion = !dr.IsDBNull(dr.GetOrdinal("horarioAtencion")) ? dr.GetString(dr.GetOrdinal("horarioAtencion")) : string.Empty
+                        HorarioAtencion = !dr.IsDBNull(dr.GetOrdinal("horarioAtencion")) ? dr.GetString(dr.GetOrdinal("horarioAtencion")) : string.Empty,
+                        PermitirSucursales = !dr.IsDBNull(dr.GetOrdinal("permitirSucursales")) ? dr.GetBoolean(dr.GetOrdinal("permitirSucursales")) : false,
                     };
                     ItemEmpresa.LogoEmpresa = ItemEmpresa.ValidarStringImage(ItemEmpresa.LogoEmpresa);
 

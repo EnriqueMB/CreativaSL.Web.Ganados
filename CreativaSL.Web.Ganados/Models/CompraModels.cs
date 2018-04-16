@@ -91,6 +91,8 @@ namespace CreativaSL.Web.Ganados.Models
         public string IDVehiculo { get; set; }
         public string IDJaula { get; set; }
         public string IDRemolque { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Seleccione un lugar.")]
+        public string IDPLugarProveedor { get; set; }
 
         public CatChoferModels Chofer { get; set; }
         public CompraGanadosModels CompraGanado { get; set; }
@@ -123,10 +125,12 @@ namespace CreativaSL.Web.Ganados.Models
         public List<CatProveedorModels> ListaProveedores { get; set; }
         public List<CatSucursalesModels> ListaSucursales { get; set; }
         public List<CatVehiculoModels> ListaVehiculos { get; set; }
+        public List<CatRangoPesoCompraModels> ListaRangoPrecio { get; set; }
         public List<CatRemolqueModels> ListaRemolques { get; set; }
         public List<CatEstatusGanadoModels> ListaEstatusGanado { get; set; }
         public List<CatTipoClasificacionModels> ListaTipoClasificacion { get; set; }
         public List<CFDI_FormaPagoModels> ListaFormasPagos { get; set; }
+        public List<CatLugarModels> ListaLugaresProveedor { get; set; }
 
         private CultureInfo CultureInfo = new CultureInfo("es-MX");
         #endregion
@@ -166,7 +170,9 @@ namespace CreativaSL.Web.Ganados.Models
             ListaGanados = new List<GanadosModels>();
             ListaJaulas = new List<CatJaulaModels>();
             ListaLugares = new List<CatLugarModels>();
+            ListaLugaresProveedor = new List<CatLugarModels>();
             ListaProveedores = new List<CatProveedorModels>();
+            ListaRangoPrecio = new List<CatRangoPesoCompraModels>();
             ListaRemolques = new List<CatRemolqueModels>();
             ListaSucursales = new List<CatSucursalesModels>();
             ListaVehiculos = new List<CatVehiculoModels>();
@@ -180,6 +186,7 @@ namespace CreativaSL.Web.Ganados.Models
             IDEmpresa = string.Empty;
             IDFlete = string.Empty;
             IDJaula = string.Empty;
+            IDPLugarProveedor = string.Empty;
             IDProveedor = string.Empty;
             IDRecepcion = string.Empty;
             IDRemolque = string.Empty;

@@ -38,6 +38,17 @@
             GetRemolquesXIDEmpresa(IDEmpresa);
         });
     }
+    var RunEventsFechaProgramada = function () {
+        $("#IDProveedor").on("change", function () {
+            var IDProveedor = $(this).val();
+            GetLugaresProveedorXIDProveedor(IDProveedor);
+        });
+    }
+    var RunEventsGanado = function (IDProveedor, NombreProveedor) {
+        $("#btnListadoPrecio").on("click", function () {
+            ModalListadoPrecios(IDProveedor, NombreProveedor);
+        });
+    }
     //Validaciones
     var LoadValidationProveedor = function () {
         var form1 = $('#frmCreateCompra');
@@ -69,6 +80,9 @@
                 IDSucursal: {
                     required: true
                 },
+                IDPLugarProveedor: {
+                    required: true
+                },
                 GanadosPactadoMachos: {
                     required: true,
                     digits: true
@@ -88,6 +102,9 @@
                 },
                 IDSucursal: {
                     required: "-Seleccione una Sucursal"
+                },
+                IDPLugarProveedor: {
+                    required: "-Seleccione un lugar del proveedor"
                 },
                 GanadosPactadoMachos: {
                     required: "-Seleccione una cantidad de ganado machos",
@@ -288,6 +305,7 @@
         var successHandler1 = $('.successHandler', form1);
 
         $('#frmGanado').validate({ // initialize the plugin
+            debug: true,
             errorElement: "li",
             errorClass: 'text-danger',
             errorLabelContainer: $("#validation_summary_ganado"),
@@ -316,10 +334,10 @@
                     digits: true
                 },
                 "CompraGanado.TotalPagado": {
-                    min: 1
+                    group: true, group: ["CompraGanado_TotalPagado", "CompraGanado_TotalSugerido", "Algunos de estos 2 campos: Total Pagado o Total Sugerido deben ser mayores a 0."]
                 },
                 "CompraGanado.TotalSugerido": {
-                    min: 1
+                    group: true, group: ["CompraGanado_TotalPagado", "CompraGanado_TotalSugerido", "Algunos de estos 2 campos: Total Pagado o Total Sugerido deben ser mayores a 0."]
                 }
             },
             messages: {
@@ -331,14 +349,6 @@
                     required: "-Introduzca un peso inicial.",
                     min: "-Peso Inicial debe ser mayor a 0.",
                     digits: "-Peso Inicial: Solo numeros enteros."
-                },
-                "CompraGanado.TotalPagado": {
-                    min: "wqs"
-                   
-                },
-                "CompraGanado.TotalSugerido": {
-                    min: "asdd"
-                    
                 }
             },
             invalidHandler: function (event, validator) {
@@ -423,7 +433,7 @@
             "drawCallback": function (settings) {
                 $(".editGanado").on("click", function () {
                     var idGanado = $(this).data("id")
-                    ModalGanado(idGanado, jsonPreciosPeso, Merma);
+                    ModalGanado(idGanado, jsonPreciosPeso, Merma, IDCompra);
                 });
                 $(".deleteCuentaBancaria").on("click", function () {
                     var url = $(this).attr('data-hrefa');
@@ -455,19 +465,30 @@
         });
 
         $("#btnAddGanado").on("click", function () {
-            ModalGanado(0, jsonPreciosPeso, Merma);
+            ModalGanado(0, jsonPreciosPeso, Merma, IDCompra);
         });
     };
     //Modales
-    function ModalGanado(IDGanado, jsonPreciosPeso, MermaSucursal) {
+    function ModalListadoPrecios(IDProveedor, NombreProveedor) {
         $.ajax({
-            url: 'ModalGanado',
+            url: '/Admin/Compra/ModalListadoPrecios/',
             type: "POST",
-            data: { IDGanado: IDGanado, Merma: MermaSucursal },
+            data: { IDProveedor: IDProveedor, NombreProveedor: NombreProveedor},
+            success: function (data) {
+                $('#ContenidoModalListadoPrecios').html(data);
+                $('#ModalListadoPrecios').modal({ backdrop: 'static', keyboard: false });
+            }
+        });
+    }
+    function ModalGanado(IDGanado, jsonPreciosPeso, MermaSucursal, IDCompra) {
+        $.ajax({
+            url: '/Admin/Compra/ModalGanado/',
+            type: "POST",
+            data: { IDGanado: IDGanado, Merma: MermaSucursal, IDCompra: IDCompra },
             success: function (data) {
                 $('#ContenidoModalGanado').html(data);
                 $('#ModalGanado').modal({ backdrop: 'static', keyboard: false });
-                 LoadValidationGanado();
+                LoadValidationGanado();
                 EventsModalGanado(jsonPreciosPeso, MermaSucursal);
             }
         });
@@ -537,9 +558,29 @@
             success: function (response) {
                 if (response.Success) {
                     Mensaje(response.Mensaje, "1");
+                    tableGanado.ajax.reload();
                 }
                 else
                     Mensaje(response.Mensaje, "2");
+            }
+        });
+    }
+    function GetLugaresProveedorXIDProveedor(IDProveedor) {
+        $.ajax({
+            url: '/Admin/Compra/GetLugaresProveedorXIDProveedor/',
+            type: "POST",
+            dataType: 'json',
+            data: { IDProveedor: IDProveedor },
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "1");
+            },
+            success: function (result) {
+
+                $("#IDPLugarProveedor option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#IDPLugarProveedor").append('<option value="' + result[i].id_lugar + '">' + result[i].descripcion + '</option>');
+                }
+                $('#IDPLugarProveedor.select').selectpicker('refresh');
             }
         });
     }
@@ -926,7 +967,7 @@
     }
 
     return {
-        init: function (option, IDCompra, PrecioPeso, merma) {
+        init: function (option, IDCompra, PrecioPeso, merma, IDProveedor, NombreProveedor) {
             LoadItems();
             LoadValidationProveedor();
             InitMap(option);
@@ -934,7 +975,10 @@
             LoadValidationFlete();
             LoadValidationDocumentos();
             RunEventsLineaFletera();
-           
+            RunEventsFechaProgramada();
+            RunEventsGanado(IDProveedor, NombreProveedor);
+
+
             LoadTableGanado(IDCompra, PrecioPeso, merma);
             LoadTableMovimientos(IDCompra);
             LoadTableEvento(IDCompra);

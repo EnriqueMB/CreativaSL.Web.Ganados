@@ -107,25 +107,34 @@ $.validator.addMethod("fecha", function (value, element) {
     return this.optional(element) || /^([0-2][0-9]|3[0-1])(\/|-)(0[1-9]|1[0-2])\2(\d{4})$/i.test(value);
 }, "Formato de la fecha inválido debe ser: dd/mm/yyyy ");
 
+$.validator.addMethod("group", function (value, element, params) {
+    var inputGroup = document.getElementById(params[0]).value;
+    var inputGroup2 = document.getElementById(params[1]).value;
+    var expReg = new RegExp("^[1-9]+[0-9]+([.][0-9]+)?$|^[0]+([.][0-9]+)$");
+    var error = false;
 
-$.validator.addMethod( "require_from_group", function( value, element, options ) {
-	var $fields = $( options[ 1 ], element.form ),
-		$fieldsFirst = $fields.eq( 0 ),
-		validator = $fieldsFirst.data( "valid_req_grp" ) ? $fieldsFirst.data( "valid_req_grp" ) : $.extend( {}, this ),
-		isValid = $fields.filter( function() {
-			return validator.elementValue( this );
-		} ).length >= options[ 0 ];
+    if (expReg.test(inputGroup)) {
+        error = true;
+        console.log("valido 1: " + error);
+        return error;
+    }
+    else {
+        error = false;
+        console.log("valido 1: " + error);
+    }
 
-	// Store the cloned validator for future validation
-	$fieldsFirst.data( "valid_req_grp", validator );
+    if (expReg.test(inputGroup2)) {
+        error = true;
+        console.log("valido 2: " + error);
+    }
+    else {
+        error = false;
+        console.log("valido 2:" + error);
+    }
 
-	// If element isn't being validated, run each require_from_group field's validation rules
-	if ( !$( element ).data( "being_validated" ) ) {
-		$fields.data( "being_validated", true );
-		$fields.each( function() {
-			validator.element( this );
-		} );
-		$fields.data( "being_validated", false );
-	}
-	return isValid;
-}, $.validator.format( "Please fill at least {0} of these fields." ) );
+    return error;
+
+}, function (params, element) {
+    //Error personalizado
+    return params[2];
+});

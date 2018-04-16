@@ -15,6 +15,7 @@ namespace CreativaSL.Web.Ganados.Models
         public string IDEmpresa { get; set; }
 
         public string NombreSucursal { get; set; }
+        public bool PermitirSucursales { get; set; }
 
         [Required]
         [DisplayName("razón fiscal")]
@@ -107,6 +108,7 @@ namespace CreativaSL.Web.Ganados.Models
             NombreSucursal = string.Empty;
             ImagBDEmpresa = false;
             ImagBDRFC = false;
+            PermitirSucursales = false;
         }
 
         public string ValidarStringImage(string validar)

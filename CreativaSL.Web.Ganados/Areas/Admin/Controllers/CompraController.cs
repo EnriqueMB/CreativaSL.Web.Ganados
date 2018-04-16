@@ -87,12 +87,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra.ListaSucursales = CompraDatos.GetListadoSucursales(Compra);
                 Compra.ListaProveedores = CompraDatos.GetListaProveedores(Compra);
                 Compra.ListaLugares = CompraDatos.GetListadoLugares(Compra);
-
+           
                 if (!string.IsNullOrEmpty(IDCompra))
                 {
                     Compra.IDCompra = IDCompra;
                     Compra = CompraDatos.GetCompra(Compra);
                 }
+                Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
             }
             catch (Exception ex)
             {
@@ -126,6 +127,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Compra.ListaSucursales = CompraDatos.GetListadoSucursales(Compra);
                         Compra.ListaProveedores = CompraDatos.GetListaProveedores(Compra);
                         Compra.ListaLugares = CompraDatos.GetListadoLugares(Compra);
+                        Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
                         TempData["typemessage"] = "2";
                         TempData["message"] = "Ocurrió un error al guardar el registro. Error: " + Compra.Mensaje;
                         return View(Compra);
@@ -146,6 +148,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra.ListaSucursales = CompraDatos.GetListadoSucursales(Compra);
                 Compra.ListaProveedores = CompraDatos.GetListaProveedores(Compra);
                 Compra.ListaLugares = CompraDatos.GetListadoLugares(Compra);
+                Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico, error: " + ex.ToString();
                 return View(Compra);
@@ -181,6 +184,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Compra.ListaRemolques = CompraDatos.GetRemolquesXIDEmpresa(Compra);
                     Compra.ListaJaulas = CompraDatos.GetJaulasXIDEmpresa(Compra);
                     Compra.ListaFierros = CompraDatos.GetListadoFierrosXIDCompra(Compra);
+                    Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
 
                     return View(Compra);
                 }
@@ -213,7 +217,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     //Obtengo los datos de la compra
                     Compra = CompraDatos.GetCompra(Compra);
                     //Obtengo el listado de precios
-                    Compra.ListadoPrecioRangoPeso = Auxiliar.SqlReaderToJson(CompraDatos.GetListadoPrecioRangoPeso(Compra));
+                    Compra.ListadoPrecioRangoPeso = Auxiliar.SqlReaderToJson(CompraDatos.GetSqlDataReaderListadoPrecioRangoPeso(Compra));
 
                     return View(Compra);
                 }
@@ -312,41 +316,31 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Json("");
             }
         }
+        [HttpPost]
+        public ActionResult GetLugaresProveedorXIDProveedor(string IDProveedor)
+        {
+            try
+            {
+                Compra = new CompraModels();
+                CompraDatos = new _Compra_Datos();
+                Compra.Conexion = Conexion;
+                Compra.IDProveedor = IDProveedor;
+                Compra.Usuario = User.Identity.Name;
+                Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
+
+                return Content(Compra.ListaLugaresProveedor.ToJSON(), "application/json");
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error. Por favor contacte a soporte técnico";
+                return Json("");
+            }
+        }
         #endregion
         /********************************************************************/
         //Funciones SaveUpdPestañas
         #region Funciones SaveUpdPestañas
-        [HttpPost]
-        public ActionResult A_Proveedor(CompraModels Compra)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    CompraDatos = new _Compra_Datos();
-                    Compra.Conexion = Conexion;
-                    Compra.Usuario = User.Identity.Name;
-                    Compra = CompraDatos.Compras_ac_Proveedor(Compra);
-
-                    Compra.RespuestaAjax.Mensaje = Compra.Mensaje;
-                    Compra.RespuestaAjax.Success = Compra.Completado;
-
-                    return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
-                }
-                else
-                {
-                    Compra.RespuestaAjax.Mensaje = "Verifique su formulario.";
-                    Compra.RespuestaAjax.Success = false;
-                    return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
-                }
-            }
-            catch (Exception ex)
-            {
-                Compra.RespuestaAjax.Mensaje = ex.ToString();
-                Compra.RespuestaAjax.Success = false;
-                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
-            }
-        }
         [HttpPost]
         public ActionResult AC_Flete(CompraModels Compra)
         {
@@ -426,7 +420,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     CompraDatos = new _Compra_Datos();
                     Compra.Conexion = Conexion;
                     Compra.Usuario = User.Identity.Name;
-                    Compra.CompraGanado.TotalSugerido = Compra.CompraGanado.TotalSugerido > 0 ? Compra.CompraGanado.TotalPagado : Compra.CompraGanado.TotalSugerido;
+                    Compra.CompraGanado.TotalPagado = Compra.CompraGanado.TotalPagado > 0 ? Compra.CompraGanado.TotalPagado : Compra.CompraGanado.TotalSugerido;
                     Compra.CompraGanado.PesoPagado = Compra.CompraGanado.PesoPagado > 0 ? Compra.CompraGanado.PesoPagado : Compra.CompraGanado.PesoSugerido;
                     Compra.CompraGanado.PrecioKilo = Compra.CompraGanado.PrecioKilo > 0 ? Compra.CompraGanado.PrecioKilo : Compra.CompraGanado.PrecioSugeridoXkilo;
 
@@ -559,11 +553,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #region Modales
         #region Ganado
         [HttpPost]
-        public ActionResult ModalGanado(string IDGanado, decimal Merma)
+        public ActionResult ModalGanado(string IDGanado, decimal Merma, string IDCompra)
         {
             Compra = new CompraModels();
             CompraDatos = new _Compra_Datos();
             Compra.Ganado.id_Ganados = IDGanado;
+            Compra.IDCompra = IDCompra;
             Compra.Sucursal.MermaPredeterminada = Merma;
             Compra.Conexion = Conexion;
             Compra = CompraDatos.GetCompraGanadoXIDGanado(Compra);
@@ -571,17 +566,20 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             Compra.InicializarComboGeneroGanado();
             return PartialView("ModalGanado", Compra);
         }
+        public ActionResult ModalListadoPrecios(string IDProveedor, string NombreProveedor)
+        {
+            Compra = new CompraModels();
+            CompraDatos = new _Compra_Datos();
+            Compra.IDProveedor = IDProveedor;
+            Compra.Conexion = Conexion;
+            Compra.Proveedor.NombreRazonSocial = NombreProveedor;
+            Compra.ListaRangoPrecio = CompraDatos.GetListadoPrecioRangoPeso(Compra);
+            return PartialView("ModalListadoPrecios", Compra);
+        }
         #endregion
         #endregion
-
-        
-
-
-
-
-
-
-
+        /********************************************************************/
+        //Llenado de tablas Json 
         #region Llenados de tablas Json
         #region Tabla Ganado
         [HttpPost]
@@ -596,16 +594,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return Content(Compra.Mensaje, "application/json");
         }
         #endregion
-
         #endregion
+        /********************************************************************/
+       
 
         #region MODALES
-
-        
-        
-        
-        
-        
         #region Pago
         [HttpPost]
         public ActionResult ModalPago(string idDocPagar)

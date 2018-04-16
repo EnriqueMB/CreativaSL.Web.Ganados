@@ -16,7 +16,7 @@
         tr.shown td.details-control {
             background: url("@Url.Content("~/Content/img/details_close.png")") no-repeat center center;
         }
-        .continueCompra{
+        .transaccionesCompra{
             background-color: #95b75d !important;
             border-color: #95b75d !important;
             color: white !important;
@@ -189,7 +189,8 @@
                         "data": null,
                         "render": function (data, type, full) {
                             var botones = "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm continueCompra' title='Continuar'  data-placement='top' data-original-title='continueCompra'><i class='fa fa-mail-forward'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transaccionesCompra' title='Transacciones ($)'  data-placement='top' data-original-title='continueCompra'><i class='fa fa-money'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm continueCompra' title='Continuar'  data-placement='top' data-original-title='continueCompra'><i class='fa fa-mail-forward'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm editCompra' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
@@ -199,6 +200,11 @@
                                 "<i class='fa fa-cog'></i> <span class='caret'></span>" +
                                 "</a>" +
                                 "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                                "<li>" +
+                                "<a class='transaccionesCompra' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-edit'></i> Transacciones ($)" +
+                                "</a>" +
+                                "</li>" +
                                 "<li>" +
                                 "<a class='continueCompra' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
                                 "<i class='fa fa-edit'></i> Continuar" +
