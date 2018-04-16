@@ -348,8 +348,7 @@ namespace CreativaSL.Web.Ganados.Models
                             Datos.DiasPeriodo = Dr.GetInt32(Dr.GetOrdinal("DiasPeriodo"));
                             Datos.PeriodoFechas = "DEL " + Datos.FechaInicio.ToShortDateString() + " AL " + Datos.FechaFin.ToShortDateString();
                         }
-                        if (Datos.Opcion == 1) //Quitar el if solo esta puesto para hacer dinamino Una parte
-                        {
+                       
                             DataTableReader Dr2 = Ds.Tables[1].CreateDataReader();
                             List<NominaDetalleModels> Lista = new List<NominaDetalleModels>();
                             NominaDetalleModels Item;
@@ -366,20 +365,30 @@ namespace CreativaSL.Web.Ganados.Models
 
                             DataTableReader Dr3 = Ds.Tables[2].CreateDataReader();
                             List<NominaConceptosFijosModels> Lista02 = new List<NominaConceptosFijosModels>();
-                            NominaConceptosFijosModels Item02;
-                            while (Dr3.Read())
-                            {
-                                Item02 = new NominaConceptosFijosModels();
-                                Item02.IDEmpleado = Dr3.GetString(Dr3.GetOrdinal("IDEmpleado"));
-                                Item02.NombreEmpleado = Dr3.GetString(Dr3.GetOrdinal("Empleado"));
-                                Item02.NombreConcepto = Dr3.GetString(Dr3.GetOrdinal("Concepto"));
-                                Item02.IDConcepto = Dr3.GetInt32(Dr3.GetOrdinal("ClaveConcepto"));
-                                Item02.Monto = Dr3.GetDecimal(Dr3.GetOrdinal("Monto"));
-                                Item02.Simbolo = Dr3.GetString(Dr3.GetOrdinal("Simbolo"));
-                                Lista02.Add(Item02);
-                            }
+                             List<CatEmpleadoModels> ListaEm = new List<CatEmpleadoModels>();
+                        CatEmpleadoModels Item003;
+                        
+                        NominaConceptosFijosModels Item02;
+                        while (Dr3.Read())
+                        {
+                            Item003 = new CatEmpleadoModels();
+                            Item003.IDEmpleado = Dr3.GetString(Dr3.GetOrdinal("IDEmpleado"));
+                            Item003.Nombre = Dr3.GetString(Dr3.GetOrdinal("Empleado"));
+                            ListaEm.Add(Item003);
+
+                            Item02 = new NominaConceptosFijosModels();
+                            Item02.IDEmpleado = Dr3.GetString(Dr3.GetOrdinal("IDEmpleado"));
+                            Item02.NombreEmpleado = Dr3.GetString(Dr3.GetOrdinal("Empleado"));
+                            Item02.NombreConcepto = Dr3.GetString(Dr3.GetOrdinal("Concepto"));
+                            Item02.IDConcepto = Dr3.GetInt32(Dr3.GetOrdinal("ClaveConcepto"));
+                            Item02.Monto = Dr3.GetDecimal(Dr3.GetOrdinal("Monto"));
+                            Item02.Simbolo = Dr3.GetString(Dr3.GetOrdinal("Simbolo"));
+                            Lista02.Add(Item02);
+
                             Datos.ListaConceptosFijo = Lista02;
+                            Datos.listaEmpleado = ListaEm;
                         }
+                        
                         Datos.Completado = true;
                     }
                 }
