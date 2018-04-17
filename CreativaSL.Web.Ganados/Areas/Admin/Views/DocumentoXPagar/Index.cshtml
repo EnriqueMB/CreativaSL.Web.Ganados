@@ -71,8 +71,8 @@
                                             <td>@Doc.NombreSucursal</td>
                                             <td>@Doc.EstatusNombre</td>
                                             <td>@Doc.Fecha.ToShortDateString()</td>
-                                            <td>@Doc.Total</td>
-                                            <td>@Doc.Pendientes</td>
+                                            <td>@Doc.Total.ToString("0.00").Replace(',', '.')</td>
+                                            <td>@Doc.Pendientes.ToString("0.00").Replace(',', '.')</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     <a title="Detalle Documento" href="@Url.Action("DetalleDocumento", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento})" class="btn btn-green tooltips" data-placement="top" data-original-title="Detalle Documento"><i class="fa fa-eye"></i></a>
