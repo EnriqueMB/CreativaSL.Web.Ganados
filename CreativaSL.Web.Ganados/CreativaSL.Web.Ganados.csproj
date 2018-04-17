@@ -1108,6 +1108,8 @@
     <Content Include="Areas\Admin\Views\Compra\ModalListadoPrecios.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\Index.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXPagar\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXPagar\DetalleDocumento.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
