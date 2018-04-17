@@ -433,6 +433,7 @@
     <Content Include="Content\js\EmpleadoAltaNomina.js" />
     <Content Include="Content\js\EmpleadoBajaNomina.js" />
     <Content Include="Content\js\entregacombustible.js" />
+    <Content Include="Content\js\flete.js" />
     <Content Include="Content\js\jaula.js" />
     <Content Include="Content\js\Lugar.js" />
     <Content Include="Content\js\MarcaVehiculo.js" />
@@ -1108,6 +1109,7 @@
     <Content Include="Areas\Admin\Views\Compra\ModalListadoPrecios.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\Index.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\AC_Flete.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1334,6 +1336,7 @@
     <Compile Include="Models\_Compra_Datos.cs" />
     <Compile Include="Models\_DocumentoXPagar_Datos.cs" />
     <Compile Include="Models\_EntregaCombustible_Datos.cs" />
+    <Compile Include="Models\_Flete_Datos.cs" />
     <Compile Include="Models\_Login_Datos.cs" />
     <Compile Include="Models\_Menu_Datos.cs" />
     <Compile Include="Models\_NominaDiasFestivos_Datos.cs" />
