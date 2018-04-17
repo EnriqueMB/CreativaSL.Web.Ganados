@@ -91,7 +91,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 if (!string.IsNullOrEmpty(IDCompra))
                 {
                     Compra.IDCompra = IDCompra;
-                    Compra = CompraDatos.GetCompra(Compra);
+                    Compra = CompraDatos.GetCompraProgramada(Compra);
                 }
                 Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
             }
@@ -174,7 +174,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Compra.IDCompra = IDCompra;
                     Compra.Conexion = Conexion;
                     //Obtengo los datos de la compra
-                    Compra = CompraDatos.GetCompra(Compra);
+                    Compra = CompraDatos.GetCompraEmbarque(Compra);
                     //Obteno los listados
                     Compra.ListaSucursales = CompraDatos.GetListadoSucursales(Compra);
                     Compra.ListaProveedores = CompraDatos.GetListaProveedores(Compra);
