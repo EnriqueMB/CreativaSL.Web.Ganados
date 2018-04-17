@@ -1,26 +1,17 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace CreativaSL.Web.Ganados.Models
+namespace CreativaSL.Web.Ganados.ViewModels
 {
-    public class EntradaAlmacenModels
+    public class EntradaAlmacenViewModels
     {
-
-        public EntradaAlmacenModels()
+        public EntradaAlmacenViewModels()
         {
-            _IDEntradaAlmacen = string.Empty;
-            _CompraAlmacen = new CompraAlmacenModels();
-            _Almacen = new CatAlmacenModels();
-            _FechaEntrada = DateTime.Today;
-            _FolioEntrada = string.Empty;
-            _Comentario = string.Empty;
-            Conexion = string.Empty;
-            Resultado = 0;
-            Completado = false;
-            Usuario = string.Empty;
-            Opcion = 0;
+            _ListaAlmacenes = new List<CatAlmacenModels>();
+            _ListaCompras = new List<CompraAlmacenModels>();
         }
 
         private string _IDEntradaAlmacen;
@@ -33,26 +24,26 @@ namespace CreativaSL.Web.Ganados.Models
             set { _IDEntradaAlmacen = value; }
         }
 
-        private CompraAlmacenModels _CompraAlmacen;
+        private string _IDCompraAlmacen;
         /// <summary>
         /// Objeto que contiene los datos de la compra de almacén
         /// </summary>
-        public CompraAlmacenModels CompraAlmacen
+        public string IDCompraAlmacen
         {
-            get { return _CompraAlmacen; }
-            set { _CompraAlmacen = value; }
+            get { return _IDCompraAlmacen; }
+            set { _IDCompraAlmacen = value; }
         }
-        
-        private CatAlmacenModels _Almacen;
+
+        private string _IDAlmacen;
         /// <summary>
         /// Objeto que contiene los datos del almacén al que se ingresarán los productos
         /// </summary>
-        public CatAlmacenModels Almacen
+        public string IDAlmacen
         {
-            get { return _Almacen; }
-            set { _Almacen = value; }
+            get { return _IDAlmacen; }
+            set { _IDAlmacen = value; }
         }
-        
+
         private DateTime _FechaEntrada;
         /// <summary>
         /// Fecha en la que se realiza la entrada a almacén
@@ -63,12 +54,6 @@ namespace CreativaSL.Web.Ganados.Models
             set { _FechaEntrada = value; }
         }
         
-        public string FechaEntradaFormat
-        {
-            get { return _FechaEntrada.ToShortDateString(); }
-        }
-
-
         private string _FolioEntrada;
         /// <summary>
         /// Folio generado por el sistema
@@ -89,14 +74,24 @@ namespace CreativaSL.Web.Ganados.Models
             set { _Comentario = value; }
         }
 
+        private List<CompraAlmacenModels> _ListaCompras;
+        /// <summary>
+        /// Lista para llenar combo comrpas
+        /// </summary>
+        public List<CompraAlmacenModels> ListaCompras
+        {
+            get { return _ListaCompras; }
+            set { _ListaCompras = value; }
+        }
 
-        #region Datos De Control
-        public bool NuevoRegistro { get; set; }
-        public string Conexion { get; set; }
-        public int Resultado { get; set; }
-        public bool Completado { get; set; }
-        public string Usuario { get; set; }
-        public int Opcion { get; set; }
-        #endregion
+        private List<CatAlmacenModels> _ListaAlmacenes;
+        /// <summary>
+        /// Lista de almacenes 
+        /// </summary>
+        public List<CatAlmacenModels> ListaAlmacenes
+        {
+            get { return _ListaAlmacenes; }
+            set { _ListaAlmacenes = value; }
+        }
     }
 }
