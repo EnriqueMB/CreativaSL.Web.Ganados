@@ -1,10 +1,8 @@
-﻿@model CreativaSL.Web.Ganados.Models.DocumentoPorPagarModels
-
+﻿@model ICollection<CreativaSL.Web.Ganados.Models.EntradaAlmacenModels>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
 @section featured{
     @{
         var message = TempData["message"] ?? string.Empty;
@@ -17,7 +15,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Documentos por Pagar </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Entradas de Almacén </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -29,7 +27,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("Create","DocumentoXPagar")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Documento</a></li>
+                            <li><a href="@Url.Action("Create", "EntradasAlmacen")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva entrada</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
                         </ul>
@@ -39,50 +37,28 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th>Tipo Documento</th>
-                                        <th>Sucursal</th>
-                                        <th>Estatus</th>
+                                        <th>Folio de entrada</th>
+                                        <th>Almacén</th>
                                         <th>Fecha</th>
-                                        <th>Total</th>
-                                        <th>Pendiente</th>
+                                        <th>Factura o nota de compra</th>
+                                        <th>Observaciones</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var Doc in Model.ListaDocumentos)
+                                    @foreach (var Item in Model)
                                     {
-                                        <tr id="@Doc.IDDocumentoPagar">
-                                            @if (Doc.IDTipoDocumento == 1)
-                                            {
-                                                <td>Compra</td>
-                                            }
-                                            else if (Doc.IDTipoDocumento == 2)
-                                            {
-                                                <td>Compra Almacen</td>
-                                            }
-                                            else if (Doc.IDTipoDocumento == 3)
-                                            {
-                                                <td>Entrega Combustible</td>
-                                            }
-                                            else if (Doc.IDTipoDocumento == 4)
-                                            {
-                                                <td>Mtto Servicio</td>
-                                            }
-                                            <td>@Doc.NombreSucursal</td>
-                                            @if (Doc.IDEstatus == 1)
-                                            {
-                                                <td><span class="label label-success">@Doc.EstatusNombre</span></td>
-                                            }
-                                            else
-                                            {
-                                                <td><span class="label label-primary">@Doc.EstatusNombre</span></td>
-                                            }
-                                            <td>@Doc.Fecha.ToShortDateString()</td>
-                                            <td>@Doc.Total.ToString("0.00").Replace(',', '.')</td>
-                                            <td>@Doc.Pendientes.ToString("0.00").Replace(',', '.')</td>
+                                        <tr id="@Item.IDEntradaAlmacen">
+                                            <td>@Item.FolioEntrada</td>
+                                            <td>@Item.Almacen.Descripcion</td>
+                                            <td>@Item.FechaEntradaFormat</td>
+                                            <td>@Item.CompraAlmacen.NumFacturaNota</td>
+                                            <td>@Item.Comentario</td>                                            
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Detalle Documento" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento})" class="btn btn-green tooltips" data-placement="top" data-original-title="Detalle Documento"><i class="fa fa-eye"></i></a>
+                                                    <a title="Procesar" class="btn btn-primary processRow" href="@Url.Action("Procesar", "EntradasAlmacen", new {id = Item.IDEntradaAlmacen })"><i class="fa fa-caret-square-o-right"></i></a>
+                                                    <a title="Editar" href="@Url.Action("Edit", "EntradasAlmacen", new { id = Item.IDEntradaAlmacen})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" id="delete-@Item.IDEntradaAlmacen" data-sku="@Item.IDEntradaAlmacen" href="@Url.Action("Delete", "EntradasAlmacen", new { id =  Item.IDEntradaAlmacen })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -91,8 +67,19 @@
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento})">
-                                                                    <i class="fa fa-eye"></i> Detalle Documento
+                                                                <a role="menuitem" class="processRow" tabindex="-1" href="@Url.Action("Procesar", "EntradasAlmacen", new { id = Item.IDEntradaAlmacen })">
+                                                                    <i class="fa fa-caret-square-o-right"></i> 
+
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "EntradasAlmacen", new { id = Item.IDEntradaAlmacen })">
+                                                                    <i class="fa fa-edit"></i> Editar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" class="deleteRow" tabindex="-1" id="delete-@Item.IDEntradaAlmacen" data-sku="@Item.IDEntradaAlmacen" href="@Url.Action("Delete", "EntradasAlmacen", new { id =  Item.IDEntradaAlmacen })">
+                                                                    <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -126,10 +113,27 @@
                     </div>
                 </div>
             </div>
-         
-
         </div>
     </div>
+
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-process-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Procesar <strong> Entrega de combustible</strong></div>
+                <div class="mb-content">
+                    <p>¿Está seguro de procesar la entrega? Éste proceso NO es reversible. Se generará un documento por pagar.</p>
+                    <p>Presione "sí" para confirmar.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
     var message = '@message';
     var typemessage = '@typemessage';
@@ -139,6 +143,7 @@
 {
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script>
     jQuery(document).ready(function () {
@@ -146,7 +151,3 @@
         });
     </script>
 }
-
-
-
-

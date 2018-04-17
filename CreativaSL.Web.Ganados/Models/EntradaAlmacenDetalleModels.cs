@@ -7,6 +7,14 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class EntradaAlmacenDetalleModels
     {
+
+        public EntradaAlmacenDetalleModels()
+        {
+            _CompraDetalle = new CompraAlmacenDetalleModels();
+            _ProductoAlmacen = new CatProductosAlmacenModels();
+            _UnidadMedida = new CatUnidadMedidaModels();
+        }
+
         private string _IDEntradaAlmacenDetalle;
 
         public string IDEntradaAlmacenDetalle
@@ -62,6 +70,30 @@ namespace CreativaSL.Web.Ganados.Models
             set { _Precio = value; }
         }
 
+        private CompraAlmacenDetalleModels _CompraDetalle;
+
+        public CompraAlmacenDetalleModels CompraDetalle
+        {
+            get { return _CompraDetalle; }
+            set { _CompraDetalle = value; }
+        }
+
+        private CatProductosAlmacenModels _ProductoAlmacen;
+
+        public CatProductosAlmacenModels ProductoAlmacen
+        {
+            get { return _ProductoAlmacen; }
+            set { _ProductoAlmacen = value; }
+        }
+
+        private CatUnidadMedidaModels _UnidadMedida;
+
+        public CatUnidadMedidaModels UnidadMedida
+        {
+            get { return _UnidadMedida; }
+            set { _UnidadMedida = value; }
+        }
+                
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }
