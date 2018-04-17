@@ -45,6 +45,7 @@
                                         <th>Fecha</th>
                                         <th>Total</th>
                                         <th>Pendiente</th>
+                                        <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -72,10 +73,9 @@
                                             <td>@Doc.Fecha.ToShortDateString()</td>
                                             <td>@Doc.Total</td>
                                             <td>@Doc.Pendientes</td>
-                                            @*<td style="text-align:center;">
+                                            <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" href="@Url.Action("Edit", "CatConceptoDocumento", new { id = concepto.IDConceptosDocumento})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" id="delete-@concepto.IDConceptosDocumento" data-hrefa="@Url.Action("Delete", "CatConceptoDocumento", new { id =  concepto.IDConceptosDocumento })" onClick="delete_row('@concepto.IDConceptosDocumento');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Detalle Documento" href="@Url.Action("DetalleDocumento", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento})" class="btn btn-green tooltips" data-placement="top" data-original-title="Detalle Documento"><i class="fa fa-eye"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -84,19 +84,14 @@
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatConceptoDocumento", new { id = concepto.IDConceptosDocumento})">
-                                                                    <i class="fa fa-edit"></i> Editar
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@concepto.IDConceptosDocumento" data-hrefa="@Url.Action("Delete", "CatConceptoDocumento", new { id = concepto.IDConceptosDocumento })" onClick="delete_row('@concepto.IDConceptosDocumento');">
-                                                                    <i class="fa fa-trash-o"></i> Eliminar
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("DetalleDocumento", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento})">
+                                                                    <i class="fa fa-eye"></i> Detalle Documento
                                                                 </a>
                                                             </li>
                                                         </ul>
                                                     </div>
                                                 </div>
-                                            </td>*@
+                                            </td>
                                         </tr>
                                     }
                                 </tbody>
