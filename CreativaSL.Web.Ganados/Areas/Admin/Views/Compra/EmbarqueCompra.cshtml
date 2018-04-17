@@ -282,7 +282,7 @@
                                                     <select id="Trayecto.id_lugarDestino" name="Trayecto.id_lugarDestino">
                                                         @foreach (var lugar in Model.ListaLugaresProveedor)
                                                 {
-                                                <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud"
+                                                <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud" data-direccion="@lugar.Direccion"
                                                         @if (Model.Trayecto.id_lugarDestino == lugar.id_lugar) { <text>
                                                         selected="selected"
                                                         </text>   } else if (Model.IDPLugarProveedor == lugar.id_lugar) { <text>

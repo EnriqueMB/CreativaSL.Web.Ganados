@@ -99,7 +99,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.IDProveedor
                 };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_LugarProvedorXIDProveedor", parametros);
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_CatLugarProvedorXIDProveedor", parametros);
                 while (dr.Read())
                 {
                     Lugar = new CatLugarModels
@@ -108,6 +108,7 @@ namespace CreativaSL.Web.Ganados.Models
                         descripcion = !dr.IsDBNull(dr.GetOrdinal("NombreLugar")) ? dr.GetString(dr.GetOrdinal("NombreLugar")) : string.Empty,
                         latitud = float.Parse(dr["GpsLatitud"].ToString()),
                         longitud = float.Parse(dr["GpsLongitud"].ToString()),
+                        Direccion = !dr.IsDBNull(dr.GetOrdinal("Direccion")) ? dr.GetString(dr.GetOrdinal("Direccion")) : string.Empty
                     };
 
                     Compra.ListaLugaresProveedor.Add(Lugar);

@@ -47,6 +47,9 @@
             else
                 $('.EsconderCostoFlete').hide(1000);
         });
+        $("#Trayecto.id_lugarDestino").on("change", function () {
+            GetValuesFlete($(this));
+        });
     }
     var RunEventsFechaProgramada = function () {
         $("#IDProveedor").on("change", function () {
@@ -510,6 +513,12 @@
         });
     }
     //Funciones
+    function GetValuesFlete(select) {
+        var direccion = select.data("direccion");
+        var ubicacion = select.val();
+
+        $("#").
+    }
     function A_Documento() {
         var form = $("#frmDocumentos")[0];
         var formData = new FormData(form);
