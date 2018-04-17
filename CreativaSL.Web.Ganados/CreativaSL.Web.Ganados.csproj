@@ -1105,6 +1105,9 @@
     <Content Include="Areas\Admin\Views\Mantenimiento\EditR.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosR.cshtml" />
     <Content Include="Areas\Admin\Views\Nomina\RptSaldos.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\ModalListadoPrecios.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXPagar\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\Index.cshtml" />
     <Content Include="Areas\Admin\Views\EntradasAlmacen\Index.cshtml" />
     <Content Include="Areas\Admin\Views\EntradasAlmacen\Create.cshtml" />
     <Content Include="Areas\Admin\Views\EntradasAlmacen\CreateDetail.cshtml" />
@@ -1160,6 +1163,8 @@
     <Compile Include="Areas\Admin\Controllers\CatVehiculoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompraAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompraController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DocumentoXCobrarController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DocumentoXPagarController.cs" />
     <Compile Include="Areas\Admin\Controllers\EntradasAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\EntregaCombustibleController.cs" />
     <Compile Include="Areas\Admin\Controllers\FleteController.cs" />
@@ -1186,6 +1191,7 @@
     <Compile Include="Models\CatConceptoDetalleDocumentosModels.cs" />
     <Compile Include="Models\CatConceptoNominaModels.cs" />
     <Compile Include="Models\CatConceptosNominaModels.cs" />
+    <Compile Include="Models\CatCostoFlete.cs" />
     <Compile Include="Models\CatEmpleadoAltaNominaModels.cs" />
     <Compile Include="Models\CatEmpleadoBajaNominaModels.cs" />
     <Compile Include="Models\CatEmpleadoModels.cs" />
@@ -1331,6 +1337,7 @@
     <Compile Include="Models\_Combos_Datos.cs" />
     <Compile Include="Models\_Compra_Datos.cs" />
     <Compile Include="Models\_EntradaAlmacen_Datos.cs" />
+    <Compile Include="Models\_DocumentoXPagar_Datos.cs" />
     <Compile Include="Models\_EntregaCombustible_Datos.cs" />
     <Compile Include="Models\_Login_Datos.cs" />
     <Compile Include="Models\_Menu_Datos.cs" />

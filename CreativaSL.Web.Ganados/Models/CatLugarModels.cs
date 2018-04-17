@@ -25,6 +25,7 @@ namespace CreativaSL.Web.Ganados.Models
             _bascula = false;
             _nombrePropietario = string.Empty;
             _observaciones = string.Empty;
+            Direccion = string.Empty;
             
             //Datos de control
             activo = false;
@@ -35,6 +36,9 @@ namespace CreativaSL.Web.Ganados.Models
             resultado = string.Empty;
 
         }
+
+        public string Direccion { get; set; }
+
         //Nombre del dueño 
         private string _nombrePropietario;
         [Required(ErrorMessage = "El nombre es obligatorio")]

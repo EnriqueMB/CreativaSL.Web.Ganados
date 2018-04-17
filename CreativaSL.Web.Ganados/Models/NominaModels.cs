@@ -237,6 +237,13 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _ListaConceptosFijo; }
             set { _ListaConceptosFijo = value; }
         }
+        private List<CatEmpleadoModels> _listaEmpleado;
+
+        public List<CatEmpleadoModels> listaEmpleado
+        {
+            get { return _listaEmpleado; }
+            set { _listaEmpleado = value; }
+        }
 
         private List<NominaResumenDetalleModels> _ListaResumenDetalleNomina;
 

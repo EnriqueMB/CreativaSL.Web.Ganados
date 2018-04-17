@@ -106,3 +106,35 @@ $.validator.addMethod("validarImagen", function () {
 $.validator.addMethod("fecha", function (value, element) {
     return this.optional(element) || /^([0-2][0-9]|3[0-1])(\/|-)(0[1-9]|1[0-2])\2(\d{4})$/i.test(value);
 }, "Formato de la fecha inválido debe ser: dd/mm/yyyy ");
+
+$.validator.addMethod("group", function (value, element, params) {
+    var inputGroup = document.getElementById(params[0]).value;
+    var inputGroup2 = document.getElementById(params[1]).value;
+    var expReg = new RegExp("^[1-9]+[0-9]+([.][0-9]+)?$|^[0]+([.][0-9]+)$");
+    var error = false;
+
+    if (expReg.test(inputGroup)) {
+        error = true;
+        console.log("valido 1: " + error);
+        return error;
+    }
+    else {
+        error = false;
+        console.log("valido 1: " + error);
+    }
+
+    if (expReg.test(inputGroup2)) {
+        error = true;
+        console.log("valido 2: " + error);
+    }
+    else {
+        error = false;
+        console.log("valido 2:" + error);
+    }
+
+    return error;
+
+}, function (params, element) {
+    //Error personalizado
+    return params[2];
+});
