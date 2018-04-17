@@ -1109,6 +1109,9 @@
     <Content Include="Areas\Admin\Views\Compra\ModalListadoPrecios.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\Index.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\EntradasAlmacen\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\EntradasAlmacen\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\EntradasAlmacen\CreateDetail.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\AC_Flete.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1164,6 +1167,7 @@
     <Compile Include="Areas\Admin\Controllers\CompraController.cs" />
     <Compile Include="Areas\Admin\Controllers\DocumentoXCobrarController.cs" />
     <Compile Include="Areas\Admin\Controllers\DocumentoXPagarController.cs" />
+    <Compile Include="Areas\Admin\Controllers\EntradasAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\EntregaCombustibleController.cs" />
     <Compile Include="Areas\Admin\Controllers\FleteController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeAdminController.cs" />
@@ -1334,6 +1338,7 @@
     <Compile Include="Models\_CatVehiculo_Datos.cs" />
     <Compile Include="Models\_Combos_Datos.cs" />
     <Compile Include="Models\_Compra_Datos.cs" />
+    <Compile Include="Models\_EntradaAlmacen_Datos.cs" />
     <Compile Include="Models\_DocumentoXPagar_Datos.cs" />
     <Compile Include="Models\_EntregaCombustible_Datos.cs" />
     <Compile Include="Models\_Flete_Datos.cs" />
@@ -1347,6 +1352,7 @@
     <Compile Include="ViewModels\CuentaBancariaViewModels.cs" />
     <Compile Include="ViewModels\DatosEmpresaViewModels.cs" />
     <Compile Include="ViewModels\EmpleadoNominaViewModels.cs" />
+    <Compile Include="ViewModels\EntradaAlmacenViewModels.cs" />
     <Compile Include="ViewModels\EntregaCombustibleViewModels.cs" />
     <Compile Include="ViewModels\RendimientoCombustibleViewModels.cs" />
     <Compile Include="ViewModels\ServiciosMantenimientoDetalleViewModels.cs" />

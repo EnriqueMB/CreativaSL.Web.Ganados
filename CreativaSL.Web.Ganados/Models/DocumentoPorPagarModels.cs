@@ -18,6 +18,14 @@ namespace CreativaSL.Web.Ganados.Models
             _EstatusNombre = string.Empty;
             _ListaDocumentos = new List<DocumentoPorPagarModels>();
         }
+        private List<DocumentoPorPagarDetalleModels> _listaDocumentoPorPagarDetalle;
+
+        public List<DocumentoPorPagarDetalleModels> listaDocumentoPorPagarDetalle
+        {
+            get { return _listaDocumentoPorPagarDetalle; }
+            set { _listaDocumentoPorPagarDetalle = value; }
+        }
+
 
         private string _IDDocumentoPagar;
 
