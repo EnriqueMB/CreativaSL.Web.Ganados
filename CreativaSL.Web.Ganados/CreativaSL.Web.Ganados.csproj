@@ -80,6 +80,14 @@
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ExcelDataReader, Version=3.4.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.3.4.0\lib\net45\ExcelDataReader.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ExcelDataReader.DataSet, Version=3.4.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.DataSet.3.4.0\lib\net45\ExcelDataReader.DataSet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -135,6 +143,7 @@
       <HintPath>..\packages\System.Data.Entity.Repository.2.0.0.1\lib\net45\System.Data.Entity.Repository.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -437,6 +446,7 @@
     <Content Include="Content\js\EmpleadoAltaNomina.js" />
     <Content Include="Content\js\EmpleadoBajaNomina.js" />
     <Content Include="Content\js\entregacombustible.js" />
+    <Content Include="Content\js\flete.js" />
     <Content Include="Content\js\jaula.js" />
     <Content Include="Content\js\Lugar.js" />
     <Content Include="Content\js\MarcaVehiculo.js" />
@@ -1117,7 +1127,7 @@
     <Content Include="Areas\Admin\Views\EntradasAlmacen\Index.cshtml" />
     <Content Include="Areas\Admin\Views\EntradasAlmacen\Create.cshtml" />
     <Content Include="Areas\Admin\Views\EntradasAlmacen\CreateDetail.cshtml" />
-    <Content Include="App_Browsers\qt.browser" />
+    <Content Include="Areas\Admin\Views\Flete\AC_Flete.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1170,6 +1180,7 @@
     <Compile Include="Areas\Admin\Controllers\CatVehiculoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompraAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompraController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DatosExcelController.cs" />
     <Compile Include="Areas\Admin\Controllers\DocumentoXCobrarController.cs" />
     <Compile Include="Areas\Admin\Controllers\DocumentoXPagarController.cs" />
     <Compile Include="Areas\Admin\Controllers\EntradasAlmacenController.cs" />
@@ -1346,6 +1357,7 @@
     <Compile Include="Models\_EntradaAlmacen_Datos.cs" />
     <Compile Include="Models\_DocumentoXPagar_Datos.cs" />
     <Compile Include="Models\_EntregaCombustible_Datos.cs" />
+    <Compile Include="Models\_Flete_Datos.cs" />
     <Compile Include="Models\_Login_Datos.cs" />
     <Compile Include="Models\_Menu_Datos.cs" />
     <Compile Include="Models\_NominaDiasFestivos_Datos.cs" />
