@@ -1,5 +1,7 @@
 ﻿var Flete = function () {
     "use strict"
+    var lugarOrigen = document.getElementById('Trayecto_LugarOrigen_id_lugar');
+    var lugarDestino = document.getElementById('Trayecto_LugarDestino_id_lugar');
 
     var InitMap = function (option) {
         if (option == 2)
@@ -15,8 +17,8 @@
             var onChangeHandler = function () {
                 CalculateAndDisplayRoute(directionsService, directionsDisplay);
             };
-            document.getElementById("LugarOrigen_id_lugar").addEventListener('change', onChangeHandler);
-            document.getElementById("LugarDestino_id_lugar").addEventListener('change', onChangeHandler);
+            lugarOrigen.addEventListener('change', onChangeHandler);
+            lugarDestino.addEventListener('change', onChangeHandler);
 
             CalculateAndDisplayRoute(directionsService, directionsDisplay);
         }
@@ -46,26 +48,26 @@
             $("#LugarDestino_Direccion").val('');
             $("#LugarDestino_descripcion").val('');
         });
-        $("#LugarOrigen_id_lugar").on("change", function () {
+        $("#Trayecto_LugarOrigen_id_lugar").on("change", function () {
             var direccion = $(this).find(":selected").data("direccion");
             var descripcion = $(this).find(":selected").text();
-            $("#LugarOrigen_Direccion").val(direccion);
-            $("#LugarOrigen_descripcion").val(descripcion);
+            $("#Trayecto_LugarOrigen_Direccion").val(direccion);
+            $("#Trayecto_LugarOrigen_descripcion").val(descripcion);
         });
-        $("#LugarDestino_id_lugar").on("change", function () {
+        $("#Trayecto_LugarDestino_id_lugar").on("change", function () {
             var direccion = $(this).find(":selected").data("direccion");
             var descripcion = $(this).find(":selected").text();
-            $("#LugarDestino_Direccion").val(direccion);
-            $("#LugarDestino_descripcion").val(descripcion);
+            $("#Trayecto_LugarDestino_Direccion").val(direccion);
+            $("#Trayecto_LugarDestino_descripcion").val(descripcion);
         });
     }
     //Validaciones
     var LoadValidationFlete = function () {
-        var form1 = $('#frmFlete');
+        var form1 = $('#Frm_AC_Cliente');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
 
-        $('#frmFlete').validate({ // initialize the plugin
+        form1.validate({ // initialize the plugin
             //debug: true,
             errorElement: "li",
             errorClass: 'text-danger',
@@ -148,9 +150,115 @@
             }
         });
     };
+    //Tablas
+    var LoadTableImpuest = function (IDCompra, jsonPreciosPeso, Merma) {
+        tableImpuesto = $('#GanadoXCompraGanado').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+            responsive: true,
+            "ajax": {
+                "data": {
+                    "IDCompra": IDCompra
+                },
+                "url": "TableJsonGanado",
+                "type": "POST",
+                "datatype": "json",
+                "dataSrc": ''
+            },
+            "columns": [
+                { "data": "numArete" },
+                { "data": "genero" },
+                { "data": "pesoInicial" },
+                { "data": "pesoFinal" },
+                { "data": "diferenciaPeso" },
+                { "data": "merma" },
+                { "data": "pesoPagado" },
+                { "data": "precioKilo" },
+                { "data": "totalPagado" },
+                {
+                    "data": null,
+                    "render": function (data, type, full) {
+
+                        return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                            "<a data-id='" + full["id_ganado"] + "' class='btn btn-yellow tooltips btn-sm editGanado' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                            "<a title='Eliminar' data-id='" + full["id_ganado"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "</div>" +
+                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                            "<div class='btn-group'>" +
+                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                            "</a>" +
+                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                            "<li>" +
+                            "<a class='deleteGanado' data-id='" + full["id_ganado"] + "'  role='menuitem' tabindex='-1'>" +
+                            "<i class='fa fa-edit'></i> Editar" +
+                            "</a>" +
+                            "</li>" +
+                            "<li>" +
+                            "<a role='menuitem' tabindex='-1' id='" + full["id_ganado"] + "'>" +
+                            "<i class='fa fa-trash-o'></i> Eliminar" +
+                            "</a>" +
+                            "</li>" +
+                            "</ul>" +
+                            "</div>" +
+                            "</div>";
+                    }
+                }
+            ],
+            "drawCallback": function (settings) {
+                $(".editGanado").on("click", function () {
+                    var idGanado = $(this).data("id")
+                    ModalGanado(idGanado, jsonPreciosPeso, Merma, IDCompra);
+                });
+                $(".deleteCuentaBancaria").on("click", function () {
+                    var url = $(this).attr('data-hrefa');
+                    var row = $(this).attr('data-id');
+                    var box = $("#mb-remove-row");
+                    box.addClass("open");
+                    box.find(".mb-control-yes").on("click", function () {
+                        box.removeClass("open");
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (result) {
+                                if (result.Success) {
+                                    box.find(".mb-control-yes").prop('onclick', null).off('click');
+                                    Mensaje(result.Mensaje, "1");
+                                    TblCuentasBancarias.ajax.reload();
+                                }
+                                else
+                                    Mensaje(result.Mensaje, "2");
+                            },
+                            error: function () {
+                                Mensaje(result.Mensaje, "2");
+                            }
+                        });
+                    });
+                });
+            }
+        });
+
+        $("#btnAddGanado").on("click", function () {
+            ModalGanado(0, jsonPreciosPeso, Merma, IDCompra);
+        });
+    };
+   //Funcion Modal
+    function ModalListadoPrecios(IDFleteImpuesto) {
+        $.ajax({
+            url: '/Admin/FleteImpuesto/ModalImpuesto/',
+            type: "POST",
+            data: { IDFleteImpuesto: IDFleteImpuesto },
+            success: function (data) {
+                $('#ContenidoModalImpuesto').html(data);
+                $('#ModalImpuesto').modal({ backdrop: 'static', keyboard: false });
+            }
+        });
+    }
     //Funciones
     function AC_Flete() {
-        var form = $("#frmFlete")[0];
+        var form = $("#Frm_AC_Cliente")[0];
         var formData = new FormData(form);
 
         $.ajax({
@@ -174,18 +282,18 @@
         });
     }
     function CalculateAndDisplayRoute(directionsService, directionsDisplay) {
-        var selectIndexInicio = document.getElementById('LugarOrigen_id_lugar').selectedIndex;
-        var optionInicio = document.getElementById('LugarOrigen_id_lugar').options.item(selectIndexInicio);
-        var latitudInicial = optionInicio.dataset.latitud.replace(",", ".");
-        var longInicial = optionInicio.dataset.longitud.replace(",", ".");
+        var selectIndexInicio   = lugarOrigen.selectedIndex;
+        var optionInicio        = lugarOrigen.options.item(selectIndexInicio);
+        var latitudInicial      = optionInicio.dataset.latitud.replace(",", ".");
+        var longInicial         = optionInicio.dataset.longitud.replace(",", ".");
 
-        var selectIndexFinal = document.getElementById('LugarDestino_id_lugar').selectedIndex;
-        var optionFinal = document.getElementById('LugarDestino_id_lugar').options.item(selectIndexFinal);
-        var latitudFinal = optionFinal.dataset.latitud.replace(",", ".");
-        var longFinal = optionFinal.dataset.longitud.replace(",", ".");
+        var selectIndexFinal    = lugarDestino.selectedIndex;
+        var optionFinal         = lugarDestino.options.item(selectIndexFinal);
+        var latitudFinal        = optionFinal.dataset.latitud.replace(",", ".");
+        var longFinal           = optionFinal.dataset.longitud.replace(",", ".");
 
-        var inicio = new google.maps.LatLng(latitudInicial, longInicial);
-        var final = new google.maps.LatLng(latitudFinal, longFinal);
+        var inicio  = new google.maps.LatLng(latitudInicial, longInicial);
+        var final   = new google.maps.LatLng(latitudFinal, longFinal);
 
         if ((latitudInicial != 0 && longInicial != 0) && (latitudFinal != 0 && longFinal != 0)) {
             directionsService.route({
@@ -309,9 +417,9 @@
             },
             success: function (result) {
 
-                $("#LugarOrigen_id_lugar option").remove();
+                $("#Trayecto_LugarOrigen_id_lugar option").remove();
                 for (var i = 0; i < result.length; i++) {
-                    $("#LugarOrigen_id_lugar").append('<option value="' + result[i].id_lugar + '" data-latitud="' + result[i].latitud + '" data-longitud="' + result[i].longitud + '" data-direccion="' + result[i].Direccion + '">' + result[i].descripcion + '</option>');
+                    $("#Trayecto_LugarOrigen_id_lugar").append('<option value="' + result[i].id_lugar + '" data-latitud="' + result[i].latitud + '" data-longitud="' + result[i].longitud + '" data-direccion="' + result[i].Direccion + '">' + result[i].descripcion + '</option>');
                 }
             }
         });
@@ -327,9 +435,9 @@
             },
             success: function (result) {
 
-                $("#LugarDestino_id_lugar option").remove();
+                $("#Trayecto_LugarDestino_id_lugar option").remove();
                 for (var i = 0; i < result.length; i++) {
-                    $("#LugarDestino_id_lugar").append('<option value="' + result[i].id_lugar + '" data-latitud="' + result[i].latitud + '" data-longitud="' + result[i].longitud + '" data-direccion="' + result[i].Direccion + '">' + result[i].descripcion + '</option>');
+                    $("#Trayecto_LugarDestino_id_lugar").append('<option value="' + result[i].id_lugar + '" data-latitud="' + result[i].latitud + '" data-longitud="' + result[i].longitud + '" data-direccion="' + result[i].Direccion + '">' + result[i].descripcion + '</option>');
                 }
             }
         });

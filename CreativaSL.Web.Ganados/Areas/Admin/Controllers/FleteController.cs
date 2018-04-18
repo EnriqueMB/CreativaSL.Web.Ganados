@@ -45,10 +45,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Flete.Vehiculo.listaVehiculos = FleteDatos.GetListadoVehiculos(Flete);
                     Flete.Jaula.listaJaulas = FleteDatos.GetListadoJaulas(Flete);
                     Flete.Remolque.listaRemolque = FleteDatos.GetListadoRemolque(Flete);
-                    Flete.Remitente.ListaClientes = FleteDatos.GetListadoClientes(Flete);
-                    Flete.Destinatario.ListaClientes = FleteDatos.GetListadoClientes(Flete);
-                    Flete.LugarOrigen.listaLugares = FleteDatos.GetListadoLugaresXIDProveedorIDCliente(Flete, Flete.Trayecto.id_lugarOrigen);
-                    Flete.LugarDestino.listaLugares = FleteDatos.GetListadoLugaresXIDProveedorIDCliente(Flete, Flete.Trayecto.id_lugarDestino);
+                    Flete.Trayecto.ListaRemitente = FleteDatos.GetListadoClientes(Flete);
+                    Flete.Trayecto.ListaDestinatario = FleteDatos.GetListadoClientes(Flete);
+                    Flete.Trayecto.ListaLugarOrigen = FleteDatos.GetListadoLugaresXIDProveedorIDCliente(Flete, Flete.Trayecto.id_lugarOrigen);
+                    Flete.Trayecto.ListaLugarDestino = FleteDatos.GetListadoLugaresXIDProveedorIDCliente(Flete, Flete.Trayecto.id_lugarDestino);
                     Flete.ListaFormaPago = FleteDatos.GetListadoFormaPagos(Flete);
                     Flete.ListaMetodoPago = FleteDatos.GetListadoMetodoPago(Flete);
 
@@ -159,9 +159,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 FleteDatos = new _Flete_Datos();
                 Flete.Conexion = Conexion;
                 Flete.Usuario = User.Identity.Name;
-                Flete.LugarOrigen.listaLugares = FleteDatos.GetListadoLugaresXIDProveedorIDCliente(Flete, IDRemitente);
+                Flete.Trayecto.ListaLugarOrigen = FleteDatos.GetListadoLugaresXIDProveedorIDCliente(Flete, IDRemitente);
 
-                return Content(Flete.LugarOrigen.listaLugares.ToJSON(), "application/json");
+                return Content(Flete.Trayecto.ListaLugarOrigen.ToJSON(), "application/json");
             }
             catch
             {
@@ -179,9 +179,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 FleteDatos = new _Flete_Datos();
                 Flete.Conexion = Conexion;
                 Flete.Usuario = User.Identity.Name;
-                Flete.LugarDestino.listaLugares = FleteDatos.GetListadoLugaresXIDProveedorIDCliente(Flete, IDDestino);
+                Flete.Trayecto.ListaLugarDestino = FleteDatos.GetListadoLugaresXIDProveedorIDCliente(Flete, IDDestino);
 
-                return Content(Flete.LugarDestino.listaLugares.ToJSON(), "application/json");
+                return Content(Flete.Trayecto.ListaLugarDestino.ToJSON(), "application/json");
             }
             catch
             {

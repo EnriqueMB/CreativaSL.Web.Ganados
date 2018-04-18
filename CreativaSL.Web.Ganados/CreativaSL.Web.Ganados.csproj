@@ -1113,6 +1113,7 @@
     <Content Include="Areas\Admin\Views\EntradasAlmacen\Create.cshtml" />
     <Content Include="Areas\Admin\Views\EntradasAlmacen\CreateDetail.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\AC_Flete.cshtml" />
+    <Content Include="Areas\Admin\Views\FleteImpuesto\ModalFleteImpuesto.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1170,6 +1171,7 @@
     <Compile Include="Areas\Admin\Controllers\EntradasAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\EntregaCombustibleController.cs" />
     <Compile Include="Areas\Admin\Controllers\FleteController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FleteImpuestoController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\MantenimientoController.cs" />
     <Compile Include="Areas\Admin\Controllers\NominaController.cs" />
@@ -1236,6 +1238,8 @@
     <Compile Include="Models\CFDI_PaisModels.cs" />
     <Compile Include="Models\CFDI_ProductoServicioModels.cs" />
     <Compile Include="Models\CFDI_RegimenFiscalModels.cs" />
+    <Compile Include="Models\CFDI_TipoFactorModels.cs" />
+    <Compile Include="Models\CFDI_TipoImpuestoModels.cs" />
     <Compile Include="Models\ClienteLugarModels.cs" />
     <Compile Include="Models\CompraAlmacenDetalleModels.cs" />
     <Compile Include="Models\CompraAlmacenModels.cs" />
@@ -1258,6 +1262,7 @@
     <Compile Include="Models\ExistenciaProductoAlmacenModels.cs" />
     <Compile Include="Models\ExistenciaProductosAlmacenPrecioModels.cs" />
     <Compile Include="Models\FierroCompraModels.cs" />
+    <Compile Include="Models\FleteImpuestoModels.cs" />
     <Compile Include="Models\FleteModels.cs" />
     <Compile Include="Models\GanadoModels.cs" />
     <Compile Include="Models\GeneroGanadoModels.cs" />
@@ -1341,6 +1346,7 @@
     <Compile Include="Models\_EntradaAlmacen_Datos.cs" />
     <Compile Include="Models\_DocumentoXPagar_Datos.cs" />
     <Compile Include="Models\_EntregaCombustible_Datos.cs" />
+    <Compile Include="Models\_FleteImpuesto.cs" />
     <Compile Include="Models\_Flete_Datos.cs" />
     <Compile Include="Models\_Login_Datos.cs" />
     <Compile Include="Models\_Menu_Datos.cs" />
