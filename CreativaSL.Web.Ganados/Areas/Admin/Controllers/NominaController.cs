@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Models;
 using System.Data;
 using CreativaSL.Web.Ganados.ViewModels;
+using Rotativa;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -327,6 +328,26 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
 
                 throw;
+            }
+        }
+
+        public ActionResult PDF_RptDiasLaborados()
+        {
+            try
+            {
+                var report = new ActionAsPdf("RptDiasLaborados")
+                {
+                    //FileName = "Invoice.pdf",
+                    PageOrientation = Rotativa.Options.Orientation.Landscape,
+                    CustomSwitches = "--page-offset 0 --footer-center [page] --footer-font-size 12 --viewport-size 1000x1000"
+
+                };
+                return report;
+             
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
             }
         }
 

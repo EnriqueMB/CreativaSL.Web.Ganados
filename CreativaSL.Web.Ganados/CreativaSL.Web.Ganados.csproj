@@ -80,6 +80,14 @@
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ExcelDataReader, Version=3.3.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.3.3.0\lib\net45\ExcelDataReader.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ExcelDataReader.DataSet, Version=3.3.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.DataSet.3.3.0\lib\net45\ExcelDataReader.DataSet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -125,12 +133,17 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.1.6.4\lib\net40\Rotativa.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Entity.Design" />
     <Reference Include="System.Data.Entity.Repository, Version=2.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.Entity.Repository.2.0.0.1\lib\net45\System.Data.Entity.Repository.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -441,6 +454,7 @@
     <Content Include="Content\js\plugins\bootstrap\bootstrap-timepicker respaldo.js" />
     <Content Include="Content\js\plugins\dualSelect\bootstrap-duallistbox.css" />
     <Content Include="Content\js\plugins\dualSelect\jquery.bootstrap-duallistbox.js" />
+    <Content Include="Content\js\plugins\jquery\jquery.metadata.js" />
     <Content Include="Content\js\ProductosAlmacen.js" />
     <Content Include="Content\js\precioRangoProveedor.js" />
     <Content Include="Content\js\nomina-vacaciones.js" />
@@ -951,6 +965,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Global.asax" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\Shared\_LayoutLogin.cshtml" />
@@ -1113,7 +1128,9 @@
     <Content Include="Areas\Admin\Views\EntradasAlmacen\Create.cshtml" />
     <Content Include="Areas\Admin\Views\EntradasAlmacen\CreateDetail.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\AC_Flete.cshtml" />
-    <Content Include="Areas\Admin\Views\FleteImpuesto\ModalFleteImpuesto.cshtml" />
+    <Content Include="App_Browsers\qt.browser" />
+    <Content Include="Areas\Admin\Views\DatosExcel\Upload.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXPagar\DetalleDocumento.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1166,6 +1183,7 @@
     <Compile Include="Areas\Admin\Controllers\CatVehiculoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompraAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompraController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DatosExcelController.cs" />
     <Compile Include="Areas\Admin\Controllers\DocumentoXCobrarController.cs" />
     <Compile Include="Areas\Admin\Controllers\DocumentoXPagarController.cs" />
     <Compile Include="Areas\Admin\Controllers\EntradasAlmacenController.cs" />
