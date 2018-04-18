@@ -125,6 +125,10 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.1.6.4\lib\net40\Rotativa.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Entity.Design" />
     <Reference Include="System.Data.Entity.Repository, Version=2.0.0.1, Culture=neutral, processorArchitecture=MSIL">
@@ -440,6 +444,7 @@
     <Content Include="Content\js\plugins\bootstrap\bootstrap-timepicker respaldo.js" />
     <Content Include="Content\js\plugins\dualSelect\bootstrap-duallistbox.css" />
     <Content Include="Content\js\plugins\dualSelect\jquery.bootstrap-duallistbox.js" />
+    <Content Include="Content\js\plugins\jquery\jquery.metadata.js" />
     <Content Include="Content\js\ProductosAlmacen.js" />
     <Content Include="Content\js\precioRangoProveedor.js" />
     <Content Include="Content\js\nomina-vacaciones.js" />
@@ -950,6 +955,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Global.asax" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\Shared\_LayoutLogin.cshtml" />
@@ -1111,6 +1117,7 @@
     <Content Include="Areas\Admin\Views\EntradasAlmacen\Index.cshtml" />
     <Content Include="Areas\Admin\Views\EntradasAlmacen\Create.cshtml" />
     <Content Include="Areas\Admin\Views\EntradasAlmacen\CreateDetail.cshtml" />
+    <Content Include="App_Browsers\qt.browser" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
