@@ -7,57 +7,62 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class FleteModels
     {
-        private string _id_flete;
-
-        public string id_flete
+        public FleteModels()
         {
-            get { return _id_flete; }
-            set { _id_flete = value; }
-        }
-        private string _id_vehiculo;
+            Cliente = new CatClienteModels();
+            Chofer = new CatChoferModels();
+            Vehiculo = new CatVehiculoModels();
+            Empresa = new CatEmpresaModels();
+            Jaula = new CatJaulaModels();
+            Remolque = new CatRemolqueModels();
+            Trayecto = new TrayectoModels();
+            LugarOrigen = new CatLugarModels();
+            LugarDestino = new CatLugarModels();
+            Remitente = new CatClienteModels();
+            Destinatario = new CatClienteModels();
+            FormaPago = new CFDI_FormaPagoModels();
+            Impuesto = new CFDI_ImpuestoModels();
+            MetodoPago = new CFDI_MetodoPagoModels();
+            Moneda = new CFDI_MonedaModels();
+    }
 
-        public string id_vehiculo
-        {
-            get { return _id_vehiculo; }
-            set { _id_vehiculo = value; }
-        }
-        private string _id_chofer;
-
-        public string id_chofer
-        {
-            get { return _id_chofer; }
-            set { _id_chofer = value; }
-        }
-        private string _id_jaula;
-
-        public string id_jaula
-        {
-            get { return _id_jaula; }
-            set { _id_jaula = value; }
-        }
-        private int _kmInicialVehiculo;
-
-        public int kmInicialVehiculo
-        {
-            get { return _kmInicialVehiculo; }
-            set { _kmInicialVehiculo = value; }
-        }
-        private int _kmFinalVehiculo;
-
-        public int kmFinalVehiculo
-        {
-            get { return _kmFinalVehiculo; }
-            set { _kmFinalVehiculo = value; }
-        }
-        private decimal _precioFlete;
-
-        public decimal precioFlete
-        {
-            get { return _precioFlete; }
-            set { _precioFlete = value; }
-        }
-
+        //No tocar
+        public string id_flete { get; set; }
+        public string id_vehiculo { get; set; }
+        public string id_chofer { get; set; }
+        public string id_jaula { get; set; }
+        public int kmInicialVehiculo { get; set; }
+        public int kmFinalVehiculo { get; set; }
+        public decimal precioFlete { get; set; }
         public string IDRemolque { get; set; }
+        ///
+
+        public DateTime FechaEntrega { get; set; }
+        public DateTime FechaFlete { get; set; }
+        public string Folio { get; set; }
+        public string CondicionPago { get; set; }
+
+        public CatClienteModels Cliente { get; set; }
+        public CatChoferModels Chofer { get; set; }
+        public CatVehiculoModels Vehiculo { get; set; }
+        public CatEmpresaModels Empresa { get; set; }
+        public CatJaulaModels Jaula { get; set; }
+        public CatRemolqueModels Remolque { get; set; }
+        public TrayectoModels Trayecto { get; set; }
+        public CatLugarModels LugarOrigen { get; set; }
+        public CatLugarModels LugarDestino { get; set; }
+        public CatClienteModels Remitente { get; set; }
+        public CatClienteModels Destinatario { get; set; }
+        public CFDI_FormaPagoModels FormaPago { get; set; }
+        public CFDI_ImpuestoModels Impuesto { get; set; }
+        public CFDI_MetodoPagoModels MetodoPago { get; set; }
+        public CFDI_MonedaModels Moneda { get; set; }
+
+        public List<CFDI_FormaPagoModels> ListaFormaPago { get; set; }
+        public List<CFDI_ImpuestoModels> ListaImpuestos { get; set; }
+        public List<CFDI_MetodoPagoModels> ListaMetodoPago { get; set; }
+
+
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }

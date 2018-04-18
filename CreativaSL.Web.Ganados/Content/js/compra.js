@@ -517,7 +517,7 @@
         var direccion = select.data("direccion");
         var ubicacion = select.val();
 
-        $("#").
+        
     }
     function A_Documento() {
         var form = $("#frmDocumentos")[0];
