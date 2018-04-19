@@ -34,9 +34,45 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         // GET: Admin/DocumentoXPagar/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string id, int id2)
         {
-            return View();
+            try
+            {
+                DocumentoPorPagarDetalleModels Documentos = new DocumentoPorPagarDetalleModels();
+                DocumentoXPagar_Datos DocumentosDatos = new DocumentoXPagar_Datos();
+                Documentos.Conexion = Conexion;
+                Documentos.IDDocumentoPagar = id;
+                Documentos.IDTipoDocumento = id2;
+                Documentos.listaDocumentosDetalle = DocumentosDatos.ObtenerDetalleListaDocumentosPagar(Documentos);
+                return View(Documentos);
+            }
+            catch (Exception)
+            {
+                DocumentoPorPagarModels Documentos = new DocumentoPorPagarModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Documentos);
+            }
+        }
+        public ActionResult DetalleDocumento(string id, int id2)
+        {
+            try
+            {
+                DocumentoPorPagarDetalleModels Documentos = new DocumentoPorPagarDetalleModels();
+                DocumentoXPagar_Datos DocumentosDatos = new DocumentoXPagar_Datos();
+                Documentos.Conexion = Conexion;
+                Documentos.IDDocumentoPagar = id;
+                Documentos.IDTipoDocumento = id2;
+                Documentos.listaDocumentosDetalle = DocumentosDatos.ObtenerDetalleListaDocumentosPagar(Documentos);
+                return View(Documentos);
+            }
+            catch (Exception)
+            {
+                DocumentoPorPagarModels Documentos = new DocumentoPorPagarModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Documentos);
+            }
         }
 
         // GET: Admin/DocumentoXPagar/Create

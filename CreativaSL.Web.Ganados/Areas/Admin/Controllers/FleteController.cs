@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.Models;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -8,82 +10,188 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     public class FleteController : Controller
     {
+        private string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
+        private FleteModels Flete;
+        private _Flete_Datos FleteDatos;
+
         // GET: Admin/Flete
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: Admin/Flete/Details/5
-        public ActionResult Details(int id)
+        [HttpGet]
+        public ActionResult AC_Flete(string IDFlete)
         {
-            return View();
+            //cargarmos los datos del flete x id
+            if (!string.IsNullOrEmpty(IDFlete))
+            {
+
+                return View(Flete);
+            }
+            else
+            {
+                //si no tiene id cargamos una vista con los datos predeterminados
+                try
+                {
+                    Flete = new FleteModels();
+                    FleteDatos = new _Flete_Datos();
+                    Flete.id_flete = IDFlete;
+                    Flete.Conexion = Conexion;
+
+                    Flete.ListaEmpresa = FleteDatos.GetListadoEmpresas(Flete);
+                    Flete.ListaCliente = FleteDatos.GetListadoClientes(Flete);
+                    Flete.ListaChofer = FleteDatos.GetListadoChoferes(Flete);
+                    Flete.ListaVehiculo = FleteDatos.GetListadoVehiculos(Flete);
+                    Flete.ListaJaula = FleteDatos.GetListadoJaulas(Flete);
+                    Flete.ListaRemolque = FleteDatos.GetListadoRemolque(Flete);
+                    Flete.Trayecto.ListaRemitente = FleteDatos.GetListadoClientes(Flete);
+                    Flete.Trayecto.ListaDestinatario = FleteDatos.GetListadoClientes(Flete);
+                    Flete.Trayecto.ListaLugarOrigen = FleteDatos.GetListadoLugaresXIDProveedorIDCliente(Flete, Flete.Trayecto.id_lugarOrigen);
+                    Flete.Trayecto.ListaLugarDestino = FleteDatos.GetListadoLugaresXIDProveedorIDCliente(Flete, Flete.Trayecto.id_lugarDestino);
+                    Flete.ListaFormaPago = FleteDatos.GetListadoFormaPagos(Flete);
+                    Flete.ListaMetodoPago = FleteDatos.GetListadoMetodoPago(Flete);
+
+                    return View(Flete);
+                }
+                catch (Exception ex)
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista, error: " + ex.ToString();
+                    return View(Flete);
+                }
+            }
         }
 
-        // GET: Admin/Flete/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Admin/Flete/Create
+        /********************************************************************/
+        //Funciones Combo
+        #region funciones combo
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult GetChoferesXIDEmpresa(string IDEmpresa)
         {
             try
             {
-                // TODO: Add insert logic here
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                Flete.Conexion = Conexion;
+                Flete.Empresa.IDEmpresa = IDEmpresa;
+                Flete.Usuario = User.Identity.Name;
+                Flete.Chofer.ListaChoferes = FleteDatos.GetChoferesXIDEmpresa(Flete);
 
-                return RedirectToAction("Index");
+                return Content(Flete.Chofer.ListaChoferes.ToJSON(), "application/json");
             }
             catch
             {
-                return View();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error. Por favor contacte a soporte técnico";
+                return Json("");
             }
         }
-
-        // GET: Admin/Flete/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Admin/Flete/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult GetVehiculosXIDEmpresa(string IDEmpresa)
         {
             try
             {
-                // TODO: Add update logic here
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                Flete.Conexion = Conexion;
+                Flete.Empresa.IDEmpresa = IDEmpresa;
+                Flete.Usuario = User.Identity.Name;
+                Flete.Vehiculo.listaVehiculos = FleteDatos.GetVehiculosXIDEmpresa(Flete);
 
-                return RedirectToAction("Index");
+                return Content(Flete.Vehiculo.listaVehiculos.ToJSON(), "application/json");
             }
             catch
             {
-                return View();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error. Por favor contacte a soporte técnico";
+                return Json("");
             }
         }
-
-        // GET: Admin/Flete/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Admin/Flete/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult GetJaulasXIDEmpresa(string IDEmpresa)
         {
             try
             {
-                // TODO: Add delete logic here
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                Flete.Conexion = Conexion;
+                Flete.Empresa.IDEmpresa = IDEmpresa;
+                Flete.Usuario = User.Identity.Name;
+                Flete.Jaula.listaJaulas = FleteDatos.GetJaulasXIDEmpresa(Flete);
 
-                return RedirectToAction("Index");
+                return Content(Flete.Jaula.listaJaulas.ToJSON(), "application/json");
             }
             catch
             {
-                return View();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error. Por favor contacte a soporte técnico";
+                return Json("");
             }
         }
+        [HttpPost]
+        public ActionResult GetRemolquesXIDEmpresa(string IDEmpresa)
+        {
+            try
+            {
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                Flete.Conexion = Conexion;
+                Flete.Empresa.IDEmpresa = IDEmpresa;
+                Flete.Usuario = User.Identity.Name;
+                Flete.Remolque.listaRemolque = FleteDatos.GetRemolquesXIDEmpresa(Flete);
+
+                return Content(Flete.Remolque.listaRemolque.ToJSON(), "application/json");
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error. Por favor contacte a soporte técnico";
+                return Json("");
+            }
+        }
+        [HttpPost]
+        public ActionResult GetLugarXIDRemitente(string IDRemitente)
+        {
+            try
+            {
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                Flete.Conexion = Conexion;
+                Flete.Usuario = User.Identity.Name;
+                Flete.Trayecto.ListaLugarOrigen = FleteDatos.GetListadoLugaresXIDProveedorIDCliente(Flete, IDRemitente);
+
+                return Content(Flete.Trayecto.ListaLugarOrigen.ToJSON(), "application/json");
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error. Por favor contacte a soporte técnico";
+                return Json("");
+            }
+        }
+        [HttpPost]
+        public ActionResult GetLugarXIDDestino(string IDDestino)
+        {
+            try
+            {
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                Flete.Conexion = Conexion;
+                Flete.Usuario = User.Identity.Name;
+                Flete.Trayecto.ListaLugarDestino = FleteDatos.GetListadoLugaresXIDProveedorIDCliente(Flete, IDDestino);
+
+                return Content(Flete.Trayecto.ListaLugarDestino.ToJSON(), "application/json");
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error. Por favor contacte a soporte técnico";
+                return Json("");
+            }
+        }
+        
+        #endregion
+        /********************************************************************/
     }
 }

@@ -1,0 +1,531 @@
+﻿@model CreativaSL.Web.Ganados.Models.FleteModels
+
+@{
+    ViewBag.Title = "AC_Flete";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section css
+{
+   <style>
+       #map {
+        height: 400px;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    #floating-panel {
+        display: block;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+    }
+    .form-control[disabled], .form-control[readonly] {
+    color: #000 !important; 
+}
+    </style>
+}
+@section featured
+{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <!--INICIA TABS-->
+        <div class="panel panel-default tabs">
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a class="pestaña" href="#cliente" aria-controls="cliente" role="tab" data-toggle="tab">Cliente</a></li>
+                <li role="presentation"><a class="pestaña" href="#ubicacion" aria-controls="ubicacion" role="tab" data-toggle="tab">Ubicacion</a></li>
+                <li role="presentation"><a class="pestaña" href="#pago" aria-controls="pago" role="tab" data-toggle="tab">Pago</a></li>
+                <li role="presentation"><a class="pestaña" href="#impuestos" aria-controls="impuestos" role="tab" data-toggle="tab">Impuestos</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="cliente">
+                    <div class="col-md-12">
+                        @{ Html.EnableClientValidation(false); }
+                        @using (Html.BeginForm("AC_Cliente", "Flete", FormMethod.Post, new { id = "Frm_AC_Cliente", @class = "form-horizontal", autocomplete = "off" }))
+                        {
+                            @Html.HiddenFor(model => model.id_flete);
+                            @Html.AntiForgeryToken()
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Información del <strong>Cliente</strong></h3>
+                                    <ul class="panel-controls"></ul>
+                                </div>
+                                <div class="panel-body">
+                                    @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
+                                    <div id="validation_summary_clienteFlete" class="field_error "></div><br />
+                                    <div class="form-group">
+                                        <div class="col-md-12 controlError">
+                                            <label class="col-md-1 control-label">Linea fletera</label>
+                                            <div class="col-md-11 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.DropDownListFor(model => model.Empresa.IDEmpresa, new SelectList(Model.ListaEmpresa, "IDEmpresa", "RazonFiscal"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Empresa.IDEmpresa)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-6 controlError">
+                                            <label class="col-md-2 control-label">Nombre del cliente</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <select id="Cliente_IDCliente" name="Cliente.IDCliente" class="form-control select" data-live-search = "true", data-style = "form-control">
+                                                        @foreach (var cliente in Model.ListaCliente)
+                                                        {
+                                                            <option value="@cliente.IDCliente" data-rfc="@cliente.RFC" 
+                                                                    @if (Model.Cliente.IDCliente == cliente.IDCliente) { <text>
+                                                                    selected="selected"
+                                                                    </text>       }>
+                                                                @cliente.NombreRazonSocial
+                                                            </option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 controlError">
+                                            <label class="col-md-2 control-label">R.F.C. del cliente</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.Cliente.RFC, new { id = "Cliente_RFC", @class = "form-control", placeholder = "R.F.C del Cliente.", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-6 controlError">
+                                            <label class="col-md-2 control-label">Chofer</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.DropDownListFor(model => model.Chofer.IDChofer, new SelectList(Model.ListaChofer, "IDChofer", "Nombre"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Chofer.IDChofer)
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 controlError">
+                                            <label class="col-md-2 control-label">Vehículo</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.DropDownListFor(model => model.Vehiculo.IDVehiculo, new SelectList(Model.ListaVehiculo, "IDVehiculo", "nombreMarca", "nombreTipoVehiculo", 1), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Vehiculo.IDVehiculo)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-6 controlError">
+                                            <label class="col-md-2 control-label">Jaula</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.DropDownListFor(model => model.Jaula.IDJaula, new SelectList(Model.ListaJaula, "IDJaula", "Matricula"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Jaula.IDJaula)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 controlError">
+                                            <label class="col-md-2 control-label">Remolque</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.DropDownListFor(model => model.Remolque.IDRemolque, new SelectList(Model.ListaRemolque, "IDRemolque", "placa"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Remolque.IDRemolque)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-6 controlError">
+                                            <label class="col-md-2 control-label">Kilómetraje Inicial</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.kmInicialVehiculo, new { id = "KmInicial", @class = "form-control", placeholder = "Introduzca el km. inicial del vehículo." })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.kmInicialVehiculo)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                    <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                                    <a href="@Url.Action("Index", "Flete")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="ubicacion">
+                    <div class="col-md-12">
+                        @{ Html.EnableClientValidation(false); }
+                        @using (Html.BeginForm("AC_Ubicacion", "Flete", FormMethod.Post, new { id = "frmUbicacionFlete", @class = "form-horizontal", autocomplete = "off" }))
+                        {
+                            @Html.HiddenFor(model => model.id_flete);
+                            @Html.AntiForgeryToken()
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><strong>Ubicación </strong></h3>
+                                    <ul class="panel-controls"></ul>
+                                </div>
+                                <div class="panel-body">
+                                    @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
+                                    <div id="validation_summary_ubicacionFlete" class="field_error "></div><br />
+                                    <div class="row">
+                                        <fieldset class="col-md-6">
+                                            <legend>Origen</legend>
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12 controlError">
+                                                            <label class="col-md-2 control-label">Remitente</label>
+                                                            <div class="col-md-10 col-xs-12">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                    @Html.DropDownListFor(model => model.Trayecto.Remitente.IDCliente, new SelectList(Model.Trayecto.ListaRemitente, "IDCliente", "NombreRazonSocial"), new { @class = "form-control select ", data_live_search = "true", data_style = "form-control" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12 controlError">
+                                                            <label class="col-md-2 control-label">Domicilio</label>
+                                                            <div class="col-md-10 col-xs-12">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                    @Html.TextBoxFor(model => model.Trayecto.LugarOrigen.Direccion, new { id = "Trayecto_LugarOrigen_Direccion", @class = "form-control", @readonly = "readonly" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12 controlError">
+                                                            <label class="col-md-2 control-label">Se recogerá en:</label>
+                                                            <div class="col-md-10 col-xs-12">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                    @Html.TextBoxFor(model => model.Trayecto.LugarOrigen.descripcion, new { id = "Trayecto_LugarOrigen_descripcion", @class = "form-control", @readonly = "readonly" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <fieldset class="col-md-6">
+                                            <legend>Destino</legend>
+
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12 controlError">
+                                                            <label class="col-md-2 control-label">Destinatario</label>
+                                                            <div class="col-md-10 col-xs-12">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                    @Html.DropDownListFor(model => model.Trayecto.Destinatario.IDCliente, new SelectList(Model.Trayecto.ListaDestinatario, "IDCliente", "NombreRazonSocial"), new { @class = "form-control select ", data_live_search = "true", data_style = "form-control" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12 controlError">
+                                                            <label class="col-md-2 control-label">Domicilio</label>
+                                                            <div class="col-md-10 col-xs-12">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                    @Html.TextBoxFor(model => model.Trayecto.LugarDestino.Direccion, new { id = "Trayecto_LugarDestino_Direccion", @class = "form-control", @readonly = "readonly" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12 controlError">
+                                                            <label class="col-md-2 control-label">Se entregará en:</label>
+                                                            <div class="col-md-10 col-xs-12">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                    @Html.TextBoxFor(model => model.Trayecto.LugarDestino.descripcion, new { id = "Trayecto_LugarDestino_descripcion", @class = "form-control", placeholder = "Lugar de entrega", @readonly = "readonly" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <div id="floating-panel">
+                                                    <b>Origen: </b>
+                                                    <select id="Trayecto_LugarOrigen_id_lugar" name="Trayecto.LugarOrigen.id_lugar">
+                                                        @foreach (var lugar in Model.Trayecto.ListaLugarOrigen)
+                                                        {
+                                                            <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud" data-direccion="@lugar.Direccion"
+                                                                    @if (Model.Trayecto.id_lugarOrigen == lugar.id_lugar) { <text>
+                                                                    selected="selected"
+                                                                    </text>      }>
+                                                                @lugar.descripcion
+                                                            </option>
+                                                        }
+                                                    </select>
+
+                                                    <b>Destino: </b>
+
+                                                    <select id="Trayecto_LugarDestino_id_lugar" name="Trayecto.LugarDestino.id_lugar">
+                                                        @foreach (var lugar in Model.Trayecto.ListaLugarDestino)
+                                                        {
+                                                            <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud" data-direccion="@lugar.Direccion"
+                                                                    @if (Model.Trayecto.id_lugarDestino == lugar.id_lugar) { <text>
+                                                                    selected="selected"
+                                                                    </text>   }>
+                                                                @lugar.descripcion
+                                                            </option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div id="map"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                    <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                                    <a href="@Url.Action("Index", "Flete")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="pago">
+                    <div class="col-md-12">
+                        @{ Html.EnableClientValidation(false); }
+                        @using (Html.BeginForm("AC_Pago", "Flete", FormMethod.Post, new { id = "frmPagoFlete", @class = "form-horizontal", autocomplete = "off" }))
+                        {
+                            @Html.HiddenFor(model => model.id_flete);
+                            @Html.AntiForgeryToken()
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><strong>Detalle del Pago </strong></h3>
+                                    <ul class="panel-controls"></ul>
+                                </div>
+                                <div class="panel-body">
+                                    @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
+                                    <div id="validation_summary_pagoFlete" class="field_error "></div><br />
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-6 controlError">
+                                                <label class="col-md-2 control-label">Subtotal</label>
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.precioFlete, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 controlError">
+                                                <label class="col-md-2 control-label">Condición de pago</label>
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.CondicionPago, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-6 controlError">
+                                                <label class="col-md-2 control-label">Método de pago</label>
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.DropDownListFor(model => model.MetodoPago.Clave, new SelectList(Model.ListaMetodoPago, "Clave", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 controlError">
+                                                <label class="col-md-2 control-label">Forma de pago</label>
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.DropDownListFor(model => model.FormaPago.Clave, new SelectList(Model.ListaFormaPago, "Clave", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                    <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                                    <a href="@Url.Action("Index", "Flete")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="impuestos">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Información de <strong>Impuestos del flete</strong></h3>
+                                    <ul class="panel-controls"></ul>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label class="col-md-3 control-label">Subtotal Flete</label>
+                                                <div class="col-md-9 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.precioFlete, new { @class = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="col-md-4 control-label">Impuestos trasladados</label>
+                                                <div class="col-md-8 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.TotalImpuestoTrasladado, new { @class = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="col-md-4 control-label">Impuestos retenidos</label>
+                                                <div class="col-md-8 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.TotalImpuestoRetenido, new { @class = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="col-md-3 control-label">Total</label>
+                                                <div class="col-md-9col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.totalFlete, new { @class = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- START DEFAULT DATATABLE -->
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"></h3>
+                                    <ul class="panel-controls">
+                                        <li><a id="btnAddImpuesto" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo impuesto</a></li>
+                                        <li><a href="@Url.Action("Index","Flete")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span>Regresar</a></li>
+                                        <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                        <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                    </ul>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-md-12">
+                                        <h3></h3>
+                                        <div class="table-responsive">
+                                            <table id="tblImpuesto" class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tipo de impuesto</th>
+                                                        <th>Impuesto</th>
+                                                        <th>Tipo de factor</th>
+                                                        <th>Base</th>
+                                                        <th>Tasa o cuota</th>
+                                                        <th>Importe</th>
+                                                        <th>Acción</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+
+                                </div>
+                            </div>
+                            <!-- END DEFAULT DATATABLE -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+                   
+        </div>
+
+    </div>
+        <!--TERMINA TABS-->
+        <div id="ModalImpuesto" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
+            <div class="modal-dialog modal-lg" id="ContenidoModalImpuesto">
+
+            </div>
+        </div>
+    </div>
+    <script>
+        var message     = "@message";
+        var typemessage = "@typemessage";
+    </script>
+}
+
+@section script
+{
+    <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+    <script src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <!--SELECT PICKER-->
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <!--FUNCIONES DE FLETE JS-->
+    <script type="text/javascript" src="@Url.Content("~/Content/js/flete.js")"></script>
+    <script>
+    jQuery(document).ready(function () {
+        var IDFlete = "@Model.id_flete";
+
+        Mensaje(message, typemessage);
+        Flete.init(2, IDFlete);
+    });
+    </script>
+}
+

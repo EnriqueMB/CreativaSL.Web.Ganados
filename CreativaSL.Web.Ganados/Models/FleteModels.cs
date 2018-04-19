@@ -7,57 +7,62 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class FleteModels
     {
-        private string _id_flete;
-
-        public string id_flete
+        public FleteModels()
         {
-            get { return _id_flete; }
-            set { _id_flete = value; }
-        }
-        private string _id_vehiculo;
-
-        public string id_vehiculo
-        {
-            get { return _id_vehiculo; }
-            set { _id_vehiculo = value; }
-        }
-        private string _id_chofer;
-
-        public string id_chofer
-        {
-            get { return _id_chofer; }
-            set { _id_chofer = value; }
-        }
-        private string _id_jaula;
-
-        public string id_jaula
-        {
-            get { return _id_jaula; }
-            set { _id_jaula = value; }
-        }
-        private int _kmInicialVehiculo;
-
-        public int kmInicialVehiculo
-        {
-            get { return _kmInicialVehiculo; }
-            set { _kmInicialVehiculo = value; }
-        }
-        private int _kmFinalVehiculo;
-
-        public int kmFinalVehiculo
-        {
-            get { return _kmFinalVehiculo; }
-            set { _kmFinalVehiculo = value; }
-        }
-        private decimal _precioFlete;
-
-        public decimal precioFlete
-        {
-            get { return _precioFlete; }
-            set { _precioFlete = value; }
+            Cliente = new CatClienteModels();
+            Chofer = new CatChoferModels();
+            Vehiculo = new CatVehiculoModels();
+            Empresa = new CatEmpresaModels();
+            Jaula = new CatJaulaModels();
+            Remolque = new CatRemolqueModels();
+            Trayecto = new TrayectoModels();
+            FormaPago = new CFDI_FormaPagoModels();
+            MetodoPago = new CFDI_MetodoPagoModels();
         }
 
+        //No tocar
+        public int kmInicialVehiculo { get; set; }
+        public int kmFinalVehiculo { get; set; }
+        public decimal precioFlete { get; set; }
+        public string id_flete { get; set; }
+        public string id_vehiculo { get; set; }
+        public string id_chofer { get; set; }
+        public string id_jaula { get; set; }
         public string IDRemolque { get; set; }
+        
+        ///Campos unicos de la tabla
+        public string Folio { get; set; }
+        public decimal TotalImpuestoTrasladado { get; set; }
+        public decimal TotalImpuestoRetenido { get; set; }
+        public decimal totalFlete { get; set; }
+        public DateTime FechaFlete { get; set; }
+        public DateTime FechaEntrega { get; set; }
+        public string CondicionPago { get; set; }
+
+        //ID
+        public CatEmpresaModels Empresa { get; set; }
+        public CatClienteModels Cliente { get; set; }
+        public CatVehiculoModels Vehiculo { get; set; }
+        public CatChoferModels Chofer { get; set; }
+        public CatJaulaModels Jaula { get; set; }
+        public CatRemolqueModels Remolque { get; set; }
+        public CFDI_MetodoPagoModels MetodoPago { get; set; }
+        public CFDI_FormaPagoModels FormaPago { get; set; }
+
+        //Select
+        public List<CatEmpresaModels> ListaEmpresa { get; set; }
+        public List<CatClienteModels> ListaCliente { get; set; }
+        public List<CatVehiculoModels> ListaVehiculo { get; set; }
+        public List<CatChoferModels> ListaChofer { get; set; }
+        public List<CatJaulaModels> ListaJaula { get; set; }
+        public List<CatRemolqueModels> ListaRemolque { get; set; }
+        public List<CFDI_FormaPagoModels> ListaFormaPago { get; set; }
+        public List<CFDI_MetodoPagoModels> ListaMetodoPago { get; set; }
+
+        //TablaRelacionada
+        public FleteImpuestoModels FleteImpuesto { get; set; }
+        public TrayectoModels Trayecto { get; set; }
+
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }
