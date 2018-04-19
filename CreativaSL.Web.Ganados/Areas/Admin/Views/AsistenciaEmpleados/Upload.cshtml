@@ -40,7 +40,7 @@
                     <div class="panel-body">
                         <div class="col-md-6">
                             <div class="row">
-                                @using (Html.BeginForm("Upload", "DatosExcel", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                @using (Html.BeginForm("Upload", "AsistenciaEmpleados", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
                                 {
                                     @Html.AntiForgeryToken()
                                     @Html.ValidationSummary()

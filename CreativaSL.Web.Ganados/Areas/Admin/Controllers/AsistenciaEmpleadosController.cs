@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
-    public class DatosExcelController : Controller
+    public class AsistenciaEmpleadosController : Controller
     {
         // GET: Admin/DatosExcel
         public ActionResult Index()

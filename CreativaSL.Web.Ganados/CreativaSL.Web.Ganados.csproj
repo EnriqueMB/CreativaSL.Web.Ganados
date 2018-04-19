@@ -1129,7 +1129,7 @@
     <Content Include="Areas\Admin\Views\EntradasAlmacen\CreateDetail.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\AC_Flete.cshtml" />
     <Content Include="App_Browsers\qt.browser" />
-    <Content Include="Areas\Admin\Views\DatosExcel\Upload.cshtml" />
+    <Content Include="Areas\Admin\Views\AsistenciaEmpleados\Upload.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\DetalleDocumento.cshtml" />
     <Content Include="Areas\Admin\Views\FleteImpuesto\ModalFleteImpuesto.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -1184,7 +1184,7 @@
     <Compile Include="Areas\Admin\Controllers\CatVehiculoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompraAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompraController.cs" />
-    <Compile Include="Areas\Admin\Controllers\DatosExcelController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AsistenciaEmpleadosController.cs" />
     <Compile Include="Areas\Admin\Controllers\DocumentoXCobrarController.cs" />
     <Compile Include="Areas\Admin\Controllers\DocumentoXPagarController.cs" />
     <Compile Include="Areas\Admin\Controllers\EntradasAlmacenController.cs" />
