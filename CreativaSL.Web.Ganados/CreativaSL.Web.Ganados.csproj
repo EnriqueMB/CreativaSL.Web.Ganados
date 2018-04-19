@@ -432,6 +432,9 @@
     <Content Include="Content\js\DetalleEmpleado.js" />
     <Content Include="Content\js\EmpleadoAltaNomina.js" />
     <Content Include="Content\js\EmpleadoBajaNomina.js" />
+    <Content Include="Content\js\entradaAlmacen.js" />
+    <Content Include="Content\js\entradaAlmacenDetalle.js" />
+    <Content Include="Content\js\entradaAlmacenLista.js" />
     <Content Include="Content\js\entregacombustible.js" />
     <Content Include="Content\js\jaula.js" />
     <Content Include="Content\js\Lugar.js" />
@@ -440,6 +443,7 @@
     <Content Include="Content\js\plugins\bootstrap\bootstrap-timepicker respaldo.js" />
     <Content Include="Content\js\plugins\dualSelect\bootstrap-duallistbox.css" />
     <Content Include="Content\js\plugins\dualSelect\jquery.bootstrap-duallistbox.js" />
+    <Content Include="Content\js\plugins\maskedinput\jquery.mask.min.js" />
     <Content Include="Content\js\ProductosAlmacen.js" />
     <Content Include="Content\js\precioRangoProveedor.js" />
     <Content Include="Content\js\nomina-vacaciones.js" />
@@ -1346,9 +1350,11 @@
     <Compile Include="Models\_ServicioMantenimiento_Datos.cs" />
     <Compile Include="Models\_Usuario_Datos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CantidadEntregaViewModels.cs" />
     <Compile Include="ViewModels\CuentaBancariaViewModels.cs" />
     <Compile Include="ViewModels\DatosEmpresaViewModels.cs" />
     <Compile Include="ViewModels\EmpleadoNominaViewModels.cs" />
+    <Compile Include="ViewModels\EntradaAlmacenDetalleViewModels.cs" />
     <Compile Include="ViewModels\EntradaAlmacenViewModels.cs" />
     <Compile Include="ViewModels\EntregaCombustibleViewModels.cs" />
     <Compile Include="ViewModels\RendimientoCombustibleViewModels.cs" />
