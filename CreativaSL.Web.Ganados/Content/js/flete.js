@@ -2,6 +2,7 @@
     "use strict"
     var lugarOrigen = document.getElementById('Trayecto_LugarOrigen_id_lugar');
     var lugarDestino = document.getElementById('Trayecto_LugarDestino_id_lugar');
+    var tableImpuesto;
 
     var InitMap = function (option) {
         if (option == 2)
@@ -36,13 +37,13 @@
             var rfc = $(this).find(":selected").data("rfc");
             $("#Cliente_RFC").val(rfc);
         });
-        $("#Remitente_IDCliente").on("change", function () {
+        $("#Trayecto_Remitente_IDCliente").on("change", function () {
             var IDRemitente = $(this).val();
             GetLugarXIDRemitente(IDRemitente);
             $("#LugarOrigen_Direccion").val('');
             $("#LugarOrigen_descripcion").val('');
         });
-        $("#Destinatario_IDCliente").on("change", function () {
+        $("#Trayecto_Destinatario_IDCliente").on("change", function () {
             var IDDestino = $(this).val();
             GetLugarXIDDestino(IDDestino);
             $("#LugarDestino_Direccion").val('');
@@ -151,38 +152,35 @@
         });
     };
     //Tablas
-    var LoadTableImpuest = function (IDCompra, jsonPreciosPeso, Merma) {
-        tableImpuesto = $('#GanadoXCompraGanado').DataTable({
+    var LoadTableImpuesto = function (IDFlete) {
+        tableImpuesto = $('#tblImpuesto').DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
             },
             responsive: true,
             "ajax": {
                 "data": {
-                    "IDCompra": IDCompra
+                    "IDFlete": IDFlete
                 },
-                "url": "TableJsonGanado",
+                "url": "/Admin/FleteImpuesto/TableJsonFleteImpuesto/",
                 "type": "POST",
                 "datatype": "json",
                 "dataSrc": ''
             },
             "columns": [
-                { "data": "numArete" },
-                { "data": "genero" },
-                { "data": "pesoInicial" },
-                { "data": "pesoFinal" },
-                { "data": "diferenciaPeso" },
-                { "data": "merma" },
-                { "data": "pesoPagado" },
-                { "data": "precioKilo" },
-                { "data": "totalPagado" },
+                { "data": "TipoImpuesto" },
+                { "data": "Impuesto" },
+                { "data": "TipoFactor" },
+                { "data": "base" },
+                { "data": "tasaCuota" },
+                { "data": "importe" },
                 {
                     "data": null,
                     "render": function (data, type, full) {
 
                         return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-id='" + full["id_ganado"] + "' class='btn btn-yellow tooltips btn-sm editGanado' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
-                            "<a title='Eliminar' data-id='" + full["id_ganado"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "<a data-id='" + full["IDFleteImpuesto"] + "' class='btn btn-yellow tooltips btn-sm editImpuesto' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                            "<a title='Eliminar' data-id='" + full["IDFleteImpuesto"] + "' class='btn btn-danger tooltips btn-sm deleteImpuesto' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                             "<div class='btn-group'>" +
@@ -191,12 +189,12 @@
                             "</a>" +
                             "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
                             "<li>" +
-                            "<a class='deleteGanado' data-id='" + full["id_ganado"] + "'  role='menuitem' tabindex='-1'>" +
+                            "<a class='editImpuesto' data-id='" + full["IDFleteImpuesto"] + "'  role='menuitem' tabindex='-1'>" +
                             "<i class='fa fa-edit'></i> Editar" +
                             "</a>" +
                             "</li>" +
                             "<li>" +
-                            "<a role='menuitem' tabindex='-1' id='" + full["id_ganado"] + "'>" +
+                            "<a role='menuitem' tabindex='-1' id='" + full["IDFleteImpuesto"] + "'>" +
                             "<i class='fa fa-trash-o'></i> Eliminar" +
                             "</a>" +
                             "</li>" +
@@ -207,11 +205,11 @@
                 }
             ],
             "drawCallback": function (settings) {
-                $(".editGanado").on("click", function () {
-                    var idGanado = $(this).data("id")
-                    ModalGanado(idGanado, jsonPreciosPeso, Merma, IDCompra);
+                $(".editImpuesto").on("click", function () {
+                    var IDFleteImpuesto = $(this).data("id")
+                    ModalImpuesto(IDFleteImpuesto);
                 });
-                $(".deleteCuentaBancaria").on("click", function () {
+                $(".deleteImpuesto").on("click", function () {
                     var url = $(this).attr('data-hrefa');
                     var row = $(this).attr('data-id');
                     var box = $("#mb-remove-row");
@@ -226,7 +224,7 @@
                                 if (result.Success) {
                                     box.find(".mb-control-yes").prop('onclick', null).off('click');
                                     Mensaje(result.Mensaje, "1");
-                                    TblCuentasBancarias.ajax.reload();
+                                    tableImpuesto.ajax.reload();
                                 }
                                 else
                                     Mensaje(result.Mensaje, "2");
@@ -240,14 +238,14 @@
             }
         });
 
-        $("#btnAddGanado").on("click", function () {
-            ModalGanado(0, jsonPreciosPeso, Merma, IDCompra);
+        $("#btnAddImpuesto").on("click", function () {
+            ModalImpuesto(0);
         });
     };
    //Funcion Modal
-    function ModalListadoPrecios(IDFleteImpuesto) {
+    function ModalImpuesto(IDFleteImpuesto) {
         $.ajax({
-            url: '/Admin/FleteImpuesto/ModalImpuesto/',
+            url: '/Admin/FleteImpuesto/ModalFleteImpuesto/',
             type: "POST",
             data: { IDFleteImpuesto: IDFleteImpuesto },
             success: function (data) {
@@ -444,10 +442,11 @@
     }
 
     return {
-        init: function (option) {
+        init: function (option, IDFlete) {
             InitMap(option);
             RunEventsLineaFletera();
             LoadValidationFlete();
+            LoadTableImpuesto(IDFlete);
         }
     };
 }();

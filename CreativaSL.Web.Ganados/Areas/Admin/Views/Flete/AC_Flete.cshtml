@@ -213,7 +213,7 @@
                                                             <div class="col-md-10 col-xs-12">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                    @Html.DropDownListFor(model => model.Trayecto.Remitente.IDCliente, new SelectList(Model.Trayecto.Remitente.ListaClientes, "IDCliente", "NombreRazonSocial"), new { @class = "form-control select ", data_live_search = "true", data_style = "form-control" })
+                                                                    @Html.DropDownListFor(model => model.Trayecto.Remitente.IDCliente, new SelectList(Model.Trayecto.ListaRemitente, "IDCliente", "NombreRazonSocial"), new { @class = "form-control select ", data_live_search = "true", data_style = "form-control" })
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -395,115 +395,105 @@
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="impuestos">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Información de <strong>Impuestos del flete</strong></h3>
-                                <ul class="panel-controls"></ul>
-                            </div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="form-group">
-                                        <div class="col-md-3">
-                                            <label class="col-md-3 control-label">Subtotal Flete</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.precioFlete, new { @class="form-control", @readonly = "readonly" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="col-md-3 control-label">Impuesto trasladados</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.TotalImpuestoTrasladado, new { @class = "form-control", @readonly = "readonly" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="col-md-3 control-label">Impuesto retenidos</label>
-                                            <div class="col-md-9col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.TotalImpuestoRetenido, new { @class = "form-control", @readonly="readonly" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="col-md-3 control-label">Total</label>
-                                            <div class="col-md-9col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.totalFlete, new { @class = "form-control", @readonly = "readonly" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Información de <strong>Impuestos del flete</strong></h3>
+                                    <ul class="panel-controls"></ul>
                                 </div>
-                                <div class="page-content-wrap">
+                                <div class="panel-body">
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            <!-- START DEFAULT DATATABLE -->
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                    <h3 class="panel-title"></h3>
-                                                    <ul class="panel-controls">
-                                                        <li><a id="btnAddImpuesto" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo impuesto</a></li>
-                                                        <li><a href="@Url.Action("Index","Flete")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span>Regresar</a></li>
-                                                        <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                                                        <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="panel-body">
-                                                    <div class="col-md-6">
-                                                        <h3>Traslados</h3>
-                                                        <div class="table-responsive">
-                                                            <table class="table datatable">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Impuesto</th>
-                                                                        <th>Tipo de factor</th>
-                                                                        <th>Tasa o cuota</th>
-                                                                        <th>Importe</th>
-                                                                        <th>Acción</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody></tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <h3>Retenciones</h3>
-                                                        <div class="table-responsive">
-                                                            <table class="table datatable">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Impuesto</th>
-                                                                        <th>Tipo de factor</th>
-                                                                        <th>Tasa o cuota</th>
-                                                                        <th>Importe</th>
-                                                                        <th>Acción</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody></tbody>
-                                                            </table>
-                                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label class="col-md-3 control-label">Subtotal Flete</label>
+                                                <div class="col-md-9 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.precioFlete, new { @class = "form-control", @readonly = "readonly" })
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- END DEFAULT DATATABLE -->
+                                            <div class="col-md-3">
+                                                <label class="col-md-4 control-label">Impuestos trasladados</label>
+                                                <div class="col-md-8 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.TotalImpuestoTrasladado, new { @class = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="col-md-4 control-label">Impuestos retenidos</label>
+                                                <div class="col-md-8 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.TotalImpuestoRetenido, new { @class = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="col-md-3 control-label">Total</label>
+                                                <div class="col-md-9col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.totalFlete, new { @class = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- START DEFAULT DATATABLE -->
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"></h3>
+                                    <ul class="panel-controls">
+                                        <li><a id="btnAddImpuesto" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo impuesto</a></li>
+                                        <li><a href="@Url.Action("Index","Flete")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span>Regresar</a></li>
+                                        <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                        <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                    </ul>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-md-12">
+                                        <h3></h3>
+                                        <div class="table-responsive">
+                                            <table id="tblImpuesto" class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tipo de impuesto</th>
+                                                        <th>Impuesto</th>
+                                                        <th>Tipo de factor</th>
+                                                        <th>Base</th>
+                                                        <th>Tasa o cuota</th>
+                                                        <th>Importe</th>
+                                                        <th>Acción</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+
+                                </div>
+                            </div>
+                            <!-- END DEFAULT DATATABLE -->
+                        </div>
+                    </div>
                 </div>
             </div>
-
+                   
         </div>
+
+    </div>
         <!--TERMINA TABS-->
         <div id="ModalImpuesto" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
             <div class="modal-dialog modal-lg" id="ContenidoModalImpuesto">
@@ -531,9 +521,10 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/flete.js")"></script>
     <script>
     jQuery(document).ready(function () {
+        var IDFlete = "@Model.id_flete";
 
         Mensaje(message, typemessage);
-        Flete.init(2);
+        Flete.init(2, IDFlete);
     });
     </script>
 }

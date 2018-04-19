@@ -8,13 +8,13 @@
     <div class="modal-body">
         <!--INICIA CUERPO MODAL-->
         @using (Html.BeginForm("AC_Impuesto", "/Admin/FleteImpuesto", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
-        {
-            @Html.HiddenFor(model => model.IDFlete);
+    {
+        @Html.HiddenFor(model => model.IDFlete);
             <div class="form-group">
                 <div class="col-md-6">
-                    <label class="col-md-2 control-label">Tipo de impuesto:</label>
+                    <label class="col-md-3 control-label">Tipo de impuesto:</label>
                     <div class="controls">
-                        <div class="col-md-10 col-xs-12">
+                        <div class="col-md-9 col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                 @Html.DropDownListFor(model => model.TipoImpuesto.Clave, new SelectList(Model.ListaTipoImpuesto, "Clave", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
@@ -25,9 +25,9 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label class="col-md-2 control-label">Base:</label>
+                    <label class="col-md-3 control-label">Base:</label>
                     <div class="controls">
-                        <div class="col-md-10 col-xs-12">
+                        <div class="col-md-9 col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                 @Html.TextBoxFor(model => model.Base, new { @class = "form-control" })
@@ -37,9 +37,8 @@
                     </div>
                 </div>
             </div>
-
             <div class="form-group">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label class="col-md-3 control-label">Impuesto</label>
                     <div class="controls">
                         <div class="col-md-9 col-xs-12">
@@ -52,7 +51,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label class="col-md-3 control-label">Tipo de factor</label>
                     <div class="controls">
                         <div class="col-md-9 col-xs-12">
@@ -64,8 +63,9 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col-md-4">
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
                     <label class="col-md-3 control-label">Tasa o cuota</label>
                     <div class="controls">
                         <div class="col-md-9 col-xs-12">
@@ -77,13 +77,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="form-group">
                 <div class="col-md-6">
-                    <label class="col-md-2 control-label">Importe:</label>
+                    <label class="col-md-3 control-label">Importe:</label>
                     <div class="controls">
-                        <div class="col-md-10 col-xs-12">
+                        <div class="col-md-9 col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                 @Html.TextBoxFor(model => model.Importe, new { @class = "form-control" })

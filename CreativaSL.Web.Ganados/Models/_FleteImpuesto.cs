@@ -19,7 +19,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     FleteImpuesto.IDFleteImpuesto
                 };
-                dr = SqlHelper.ExecuteReader(FleteImpuesto.Conexion, "spCSLDB_Flete_get_FleteImpuestoXIDFleteImpuesto", parametros);
+                dr = SqlHelper.ExecuteReader(FleteImpuesto.Conexion, "spCSLDB_FleteImpuesto_get_FleteImpuestoXIDFleteImpuesto", parametros);
                 while (dr.Read())
                 {
                     FleteImpuesto.IDFlete = !dr.IsDBNull(dr.GetOrdinal("id_flete")) ? dr.GetString(dr.GetOrdinal("id_flete")) : string.Empty;
@@ -31,6 +31,106 @@ namespace CreativaSL.Web.Ganados.Models
                     FleteImpuesto.Importe = !dr.IsDBNull(dr.GetOrdinal("importe")) ? dr.GetDecimal(dr.GetOrdinal("importe")) : 0;
                 }
                 return FleteImpuesto;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public SqlDataReader GetJsonTableFleteImpuestoXIDFlete(FleteImpuestoModels FleteImpuesto)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    FleteImpuesto.IDFlete
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(FleteImpuesto.Conexion, "spCSLDB_FleteImpuesto_get_FleteImpuestoXIDFlete", parametros);
+
+                return dr;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public List<CFDI_ImpuestoModels> GetListadoImpuesto(FleteImpuestoModels FleteImpuesto)
+        {
+
+            try
+            {
+                CFDI_ImpuestoModels Impuesto;
+                FleteImpuesto.ListaImpuesto = new List<CFDI_ImpuestoModels>();
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(FleteImpuesto.Conexion, "spCSLDB_Combo_get_CFDIImpuesto");
+                while (dr.Read())
+                {
+                    Impuesto = new CFDI_ImpuestoModels
+                    {
+                        Clave = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetInt16(dr.GetOrdinal("ID")) : 0,
+                        Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty,
+                    };
+
+                    FleteImpuesto.ListaImpuesto.Add(Impuesto);
+                }
+                return FleteImpuesto.ListaImpuesto;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<CFDI_TipoImpuestoModels> GetListadoTipoImpuesto(FleteImpuestoModels FleteImpuesto)
+        {
+
+            try
+            {
+                CFDI_TipoImpuestoModels TipoImpuesto;
+                FleteImpuesto.ListaTipoImpuesto = new List<CFDI_TipoImpuestoModels>();
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(FleteImpuesto.Conexion, "spCSLDB_Combo_get_CFDITipoImpuesto");
+                while (dr.Read())
+                {
+                    TipoImpuesto = new CFDI_TipoImpuestoModels
+                    {
+                        Clave = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetInt16(dr.GetOrdinal("ID")) : 0,
+                        Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty,
+                    };
+
+                    FleteImpuesto.ListaTipoImpuesto.Add(TipoImpuesto);
+                }
+                return FleteImpuesto.ListaTipoImpuesto;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<CFDI_TipoFactorModels> GetListadoTipoFactor(FleteImpuestoModels FleteImpuesto)
+        {
+
+            try
+            {
+                CFDI_TipoFactorModels TipoFactor;
+                FleteImpuesto.ListaTipoFactor = new List<CFDI_TipoFactorModels>();
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(FleteImpuesto.Conexion, "spCSLDB_Combo_get_CFDITipoFactor");
+                while (dr.Read())
+                {
+                    TipoFactor = new CFDI_TipoFactorModels
+                    {
+                        Clave = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetInt16(dr.GetOrdinal("ID")) : 0,
+                        Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty,
+                    };
+
+                    FleteImpuesto.ListaTipoFactor.Add(TipoFactor);
+                }
+                return FleteImpuesto.ListaTipoFactor;
             }
             catch (Exception ex)
             {

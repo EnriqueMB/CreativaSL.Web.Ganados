@@ -165,8 +165,8 @@ $(document).ready(function(){
     });
     
     $(".panel-collapse").on("click",function(){
-        panel_collapse($(this).parents(".panel"));
-        $(this).parents(".dropdown").removeClass("open");
+        panel_collapse($(this).closest(".panel"));
+        $(this).closest(".dropdown").removeClass("open");
         return false;
     });    
     $(".panel-remove").on("click",function(){

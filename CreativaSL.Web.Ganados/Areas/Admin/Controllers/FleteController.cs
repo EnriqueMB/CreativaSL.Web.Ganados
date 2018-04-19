@@ -39,12 +39,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Flete.id_flete = IDFlete;
                     Flete.Conexion = Conexion;
 
-                    Flete.Empresa.ListaEmpresas = FleteDatos.GetListadoEmpresas(Flete);
-                    Flete.Cliente.ListaClientes = FleteDatos.GetListadoClientes(Flete);
-                    Flete.Chofer.ListaChoferes = FleteDatos.GetListadoChoferes(Flete);
-                    Flete.Vehiculo.listaVehiculos = FleteDatos.GetListadoVehiculos(Flete);
-                    Flete.Jaula.listaJaulas = FleteDatos.GetListadoJaulas(Flete);
-                    Flete.Remolque.listaRemolque = FleteDatos.GetListadoRemolque(Flete);
+                    Flete.ListaEmpresa = FleteDatos.GetListadoEmpresas(Flete);
+                    Flete.ListaCliente = FleteDatos.GetListadoClientes(Flete);
+                    Flete.ListaChofer = FleteDatos.GetListadoChoferes(Flete);
+                    Flete.ListaVehiculo = FleteDatos.GetListadoVehiculos(Flete);
+                    Flete.ListaJaula = FleteDatos.GetListadoJaulas(Flete);
+                    Flete.ListaRemolque = FleteDatos.GetListadoRemolque(Flete);
                     Flete.Trayecto.ListaRemitente = FleteDatos.GetListadoClientes(Flete);
                     Flete.Trayecto.ListaDestinatario = FleteDatos.GetListadoClientes(Flete);
                     Flete.Trayecto.ListaLugarOrigen = FleteDatos.GetListadoLugaresXIDProveedorIDCliente(Flete, Flete.Trayecto.id_lugarOrigen);
