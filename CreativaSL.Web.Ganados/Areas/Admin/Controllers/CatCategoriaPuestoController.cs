@@ -1,4 +1,5 @@
-﻿using CreativaSL.Web.Ganados.Filters;
+﻿using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     [Autorizado]
     public class CatCategoriaPuestoController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CategoriaPuesto
         public ActionResult Index()
@@ -44,6 +46,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatCategoriaPuestoModels CategoriaPuestos = new CatCategoriaPuestoModels();
                 _CatCategoriaPuesto_Datos CategoriaPuestosDatos = new _CatCategoriaPuesto_Datos();
                 CategoriaPuestos.Conexion = Conexion;
@@ -66,37 +69,42 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatCategoriaPuesto_Datos CategoriaPuestosDatos = new _CatCategoriaPuesto_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-
-                    
-                    CategoriaPuestos.Conexion = Conexion;
-                    CategoriaPuestos.Opcion = 1;
-
-
-                    CategoriaPuestos.Usuario = User.Identity.Name;
-                    CategoriaPuestos = CategoriaPuestosDatos.AcCatCategoriaPuestos(CategoriaPuestos);
-                    if (CategoriaPuestos.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "El registro se guardo correctamente.";
-                        return RedirectToAction("Index");
+                        CategoriaPuestos.Conexion = Conexion;
+                        CategoriaPuestos.Opcion = 1;
+                        CategoriaPuestos.Usuario = User.Identity.Name;
+                        CategoriaPuestos = CategoriaPuestosDatos.AcCatCategoriaPuestos(CategoriaPuestos);
+                        if (CategoriaPuestos.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardo correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            CategoriaPuestos.Conexion = Conexion;
+                            CategoriaPuestos.listaPuestos = CategoriaPuestosDatos.obtenerListaCategoriaPuesto(CategoriaPuestos);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar el registro.";
+                            return View(CategoriaPuestos);
+                        }
                     }
                     else
                     {
                         CategoriaPuestos.Conexion = Conexion;
                         CategoriaPuestos.listaPuestos = CategoriaPuestosDatos.obtenerListaCategoriaPuesto(CategoriaPuestos);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al guardar el registro.";
                         return View(CategoriaPuestos);
                     }
                 }
                 else
                 {
                     CategoriaPuestos.Conexion = Conexion;
-
                     CategoriaPuestos.listaPuestos = CategoriaPuestosDatos.obtenerListaCategoriaPuesto(CategoriaPuestos);
-                    return View(CategoriaPuestos);
+                    return RedirectToAction("Index");
                 }
             }
             catch (Exception ex)
@@ -114,13 +122,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatCategoriaPuestoModels CategoriaPuestos = new CatCategoriaPuestoModels();
                 _CatCategoriaPuesto_Datos CategoriaPuestosDatos = new _CatCategoriaPuesto_Datos();
                 CategoriaPuestos.Conexion = Conexion;
                 CategoriaPuestos.listaPuestos = CategoriaPuestosDatos.obtenerListaCategoriaPuesto(CategoriaPuestos);
                 CategoriaPuestos.id_categoria = id;
                 CategoriaPuestos = CategoriaPuestosDatos.ObtenerDetalleCatCategoriaPuesto(CategoriaPuestos);
-
                 return View(CategoriaPuestos);
             }
             catch (Exception ex)
@@ -139,35 +147,41 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatCategoriaPuesto_Datos CategoriaPuestosDatos = new _CatCategoriaPuesto_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-
-                    CategoriaPuestos.Conexion = Conexion;
-                    CategoriaPuestos.Opcion = 2;
-                    CategoriaPuestos.id_categoria = id;
-                    CategoriaPuestos.Usuario = User.Identity.Name;
-                    CategoriaPuestos = CategoriaPuestosDatos.AcCatCategoriaPuestos(CategoriaPuestos);
-                    if (CategoriaPuestos.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "El registro se guardo correctamente.";
-                        return RedirectToAction("Index");
-
+                        CategoriaPuestos.Conexion = Conexion;
+                        CategoriaPuestos.Opcion = 2;
+                        CategoriaPuestos.id_categoria = id;
+                        CategoriaPuestos.Usuario = User.Identity.Name;
+                        CategoriaPuestos = CategoriaPuestosDatos.AcCatCategoriaPuestos(CategoriaPuestos);
+                        if (CategoriaPuestos.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardo correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            CategoriaPuestos.Conexion = Conexion;
+                            CategoriaPuestos.listaPuestos = CategoriaPuestosDatos.obtenerListaCategoriaPuesto(CategoriaPuestos);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar el registro.";
+                            return View(CategoriaPuestos);
+                        }
                     }
                     else
                     {
                         CategoriaPuestos.Conexion = Conexion;
                         CategoriaPuestos.listaPuestos = CategoriaPuestosDatos.obtenerListaCategoriaPuesto(CategoriaPuestos);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al guardar el registro.";
                         return View(CategoriaPuestos);
                     }
                 }
                 else
                 {
-                    CategoriaPuestos.Conexion = Conexion;
-                    CategoriaPuestos.listaPuestos = CategoriaPuestosDatos.obtenerListaCategoriaPuesto(CategoriaPuestos);
-                    return View(CategoriaPuestos);
+                    return RedirectToAction("Index");
                 }
             }
             catch (Exception ex)
@@ -188,7 +202,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CategoriaPuesto/Delete/5
         [HttpPost]
-        public ActionResult Delete(string id, FormCollection collection)
+        public ActionResult Delete(string id)
         {
             try
             {

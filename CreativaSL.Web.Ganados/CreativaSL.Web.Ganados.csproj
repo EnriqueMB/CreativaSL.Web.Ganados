@@ -434,6 +434,7 @@
     <Content Include="Content\img\themes\light.jpg" />
     <Content Include="Content\js\actions.js" />
     <Content Include="Content\js\Bancos.js" />
+    <Content Include="Content\js\Puestos.js" />
     <Content Include="Content\js\CategoriaPuestos.js" />
     <Content Include="Content\js\Chofer.js" />
     <Content Include="Content\js\ClienteLugar.js" />

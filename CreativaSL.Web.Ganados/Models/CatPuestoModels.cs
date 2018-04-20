@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.Models.Validaciones;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace CreativaSL.Web.Ganados.Models
         [Required(ErrorMessage = "El nombre es obligatorio")]
         [Display(Name = "nombre")]
         [StringLength(300, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-        [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\(\)\-\,\.\;\:\s]*$", ErrorMessage = "Solo Letras y números")]
+        [Texto(ErrorMessage = "Solo Letras y números")]
         public string Descripcion
         {
             get { return _Descripcion; }

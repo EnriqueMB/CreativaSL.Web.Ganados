@@ -1,4 +1,5 @@
-﻿using CreativaSL.Web.Ganados.Filters;
+﻿using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     [Autorizado]
     public class CatTipoVehiculoController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatTipoVehiculo
         public ActionResult Index()
@@ -45,6 +47,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatTipoVehiculoModels TipoVehiculo = new CatTipoVehiculoModels();
                 return View(TipoVehiculo);
             }
@@ -64,30 +67,37 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatTipoVehiculos_Datos TipoVehiculoDatos = new _CatTipoVehiculos_Datos();
             try
             {
-
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    TipoVehiculo.Conexion = Conexion;
-                    TipoVehiculo.Usuario = User.Identity.Name;
-                    TipoVehiculo.Opcion = 1;
-
-                    TipoVehiculo = TipoVehiculoDatos.AcCatTipoVehiculo(TipoVehiculo);
-                    if (TipoVehiculo.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardarón correctamente.";
-                        return RedirectToAction("Index");
+                        TipoVehiculo.Conexion = Conexion;
+                        TipoVehiculo.Usuario = User.Identity.Name;
+                        TipoVehiculo.Opcion = 1;
+
+                        TipoVehiculo = TipoVehiculoDatos.AcCatTipoVehiculo(TipoVehiculo);
+                        if (TipoVehiculo.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardarón correctamente.";
+                            Token.SaveToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(TipoVehiculo);
+                        }
                     }
                     else
                     {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(TipoVehiculo);
                     }
                 }
                 else
                 {
-                    return View(TipoVehiculo);
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -103,6 +113,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatTipoVehiculoModels TipoVehiculo = new CatTipoVehiculoModels();
                 _CatTipoVehiculos_Datos TipoVehiculoDatos = new _CatTipoVehiculos_Datos();
                 TipoVehiculo.Conexion = Conexion;
@@ -121,31 +132,46 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatTipoVehiculo/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, CatTipoVehiculoModels TipoVehiculo)
         {
+            //CatTipoVehiculoModels TipoVehiculo = new CatTipoVehiculoModels();
+            _CatTipoVehiculos_Datos TipoVehiculoDatos = new _CatTipoVehiculos_Datos();
             try
             {
-                CatTipoVehiculoModels TipoVehiculo = new CatTipoVehiculoModels();
-                _CatTipoVehiculos_Datos TipoVehiculoDatos = new _CatTipoVehiculos_Datos();
-                TipoVehiculo.Conexion = Conexion;
-                TipoVehiculo.Usuario = User.Identity.Name;
-                TipoVehiculo.Opcion = 2;
-                int ID = 0;
-                int.TryParse(collection["IDTipoVehiculo"], out ID);
-                TipoVehiculo.IDTipoVehiculo = ID;
-                TipoVehiculo.Descripcion = collection["Descripcion"];
-                TipoVehiculo = TipoVehiculoDatos.AcCatTipoVehiculo(TipoVehiculo);
-                if (TipoVehiculo.Completado == true)
+                if (Token.IsTokenValid())
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "Los datos se guardarón correctamente.";
-                    return RedirectToAction("Index");
+                    if (ModelState.IsValid)
+                    {
+                        TipoVehiculo.Conexion = Conexion;
+                        TipoVehiculo.Usuario = User.Identity.Name;
+                        TipoVehiculo.Opcion = 2;
+                        //int ID = 0;
+                        //int.TryParse(collection["IDTipoVehiculo"], out ID);
+                        //TipoVehiculo.IDTipoVehiculo = ID;
+                        //TipoVehiculo.Descripcion = collection["Descripcion"];
+                        TipoVehiculo = TipoVehiculoDatos.AcCatTipoVehiculo(TipoVehiculo);
+                        if (TipoVehiculo.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardarón correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(TipoVehiculo);
+                        }
+                    }
+                    else
+                    {
+                        return View(TipoVehiculo);
+                    }
                 }
                 else
                 {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                    return RedirectToAction("Edit");
+                    return RedirectToAction("Index");
                 }
             }
             catch

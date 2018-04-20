@@ -1,4 +1,5 @@
-﻿using CreativaSL.Web.Ganados.Filters;
+﻿using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     [Autorizado]
     public class CatTipoServicioController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatTipoServicio
         public ActionResult Index()
@@ -44,8 +46,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatTipoServicioModels TipoServicio = new CatTipoServicioModels();
-               
                 return View(TipoServicio);
             }
             catch (Exception)
@@ -64,30 +66,37 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatTipoServicio_Datos TipoServicioDatos = new _CatTipoServicio_Datos();
             try
             {
-
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    TipoServicio.Conexion = Conexion;
-                    TipoServicio.Usuario = User.Identity.Name;
-                    TipoServicio.Opcion = 1;
-
-                    TipoServicio = TipoServicioDatos.AcCatTipoServicio(TipoServicio);
-                    if (TipoServicio.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardarón correctamente.";
-                        return RedirectToAction("Index");
+                        TipoServicio.Conexion = Conexion;
+                        TipoServicio.Usuario = User.Identity.Name;
+                        TipoServicio.Opcion = 1;
+
+                        TipoServicio = TipoServicioDatos.AcCatTipoServicio(TipoServicio);
+                        if (TipoServicio.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardarón correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(TipoServicio);
+                        }
                     }
                     else
                     {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(TipoServicio);
                     }
                 }
                 else
                 {
-                    return View(TipoServicio);
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -103,6 +112,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatTipoServicioModels TipoServicio = new CatTipoServicioModels();
                 _CatTipoServicio_Datos TipoServicioDatos = new _CatTipoServicio_Datos();
                 TipoServicio.Conexion = Conexion;
@@ -126,30 +136,37 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatTipoServicio_Datos TipoServicioDatos = new _CatTipoServicio_Datos();
             try
             {
-
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    TipoServicio.Conexion = Conexion;
-                    TipoServicio.Usuario = User.Identity.Name;
-                    TipoServicio.Opcion = 2;
-
-                    TipoServicio = TipoServicioDatos.AcCatTipoServicio(TipoServicio);
-                    if (TipoServicio.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardarón correctamente.";
-                        return RedirectToAction("Index");
+                        TipoServicio.Conexion = Conexion;
+                        TipoServicio.Usuario = User.Identity.Name;
+                        TipoServicio.Opcion = 2;
+
+                        TipoServicio = TipoServicioDatos.AcCatTipoServicio(TipoServicio);
+                        if (TipoServicio.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardarón correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(TipoServicio);
+                        }
                     }
                     else
                     {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(TipoServicio);
                     }
                 }
                 else
                 {
-                    return View(TipoServicio);
+                    return RedirectToAction("Index");
                 }
             }
             catch
