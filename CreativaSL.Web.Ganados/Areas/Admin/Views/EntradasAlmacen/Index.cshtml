@@ -34,7 +34,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table class="table datatable">
+                            <table class="table datatable2">
                                 <thead>
                                     <tr>
                                         <th>Folio de entrada</th>
@@ -56,7 +56,14 @@
                                             <td>@Item.Comentario</td>                                            
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Procesar" class="btn btn-primary processRow" href="@Url.Action("Procesar", "EntradasAlmacen", new {id = Item.IDEntradaAlmacen })"><i class="fa fa-caret-square-o-right"></i></a>
+                                                    @if (Item.Finalizado)
+                                                    {
+                                                        <a title="Procesar" class="btn btn-primary processRow" href="@Url.Action("Procesar", "EntradasAlmacen", new { id = Item.IDEntradaAlmacen })"><i class="fa fa-caret-square-o-right"></i></a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a title="Continuar" class="btn btn-primary" href="@Url.Action("CreateDetail", "EntradasAlmacen", new { id = Item.IDEntradaAlmacen })"><i class="fa fa-mail-forward"></i></a>
+                                                    }
                                                     <a title="Editar" href="@Url.Action("Edit", "EntradasAlmacen", new { id = Item.IDEntradaAlmacen})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                                                     <a title="Eliminar" id="delete-@Item.IDEntradaAlmacen" data-sku="@Item.IDEntradaAlmacen" href="@Url.Action("Delete", "EntradasAlmacen", new { id =  Item.IDEntradaAlmacen })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
@@ -66,12 +73,25 @@
                                                             <i class="fa fa-cog"></i> <span class="caret"></span>
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+
+                                                            @if (Item.Finalizado)
+                                                            {
                                                             <li>
                                                                 <a role="menuitem" class="processRow" tabindex="-1" href="@Url.Action("Procesar", "EntradasAlmacen", new { id = Item.IDEntradaAlmacen })">
                                                                     <i class="fa fa-caret-square-o-right"></i> 
 
                                                                 </a>
                                                             </li>
+                                                            }
+                                                            else
+                                                            {
+                                                            <li>
+                                                                <a role="menuitem" class="" tabindex="-1" href="@Url.Action("CreateDetail", "EntradasAlmacen", new { id = Item.IDEntradaAlmacen })">
+                                                                    <i class="fa fa-mail-forward"></i>
+
+                                                                </a>
+                                                            </li>
+                                                            }
                                                             <li>
                                                                 <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "EntradasAlmacen", new { id = Item.IDEntradaAlmacen })">
                                                                     <i class="fa fa-edit"></i> Editar
@@ -145,9 +165,11 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/entradaAlmacenLista.js")"></script>
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
+        Entrada.init();
         });
     </script>
 }

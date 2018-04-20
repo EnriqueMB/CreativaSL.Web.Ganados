@@ -62,6 +62,43 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
             }
         }
+        /********************************************************************/
+        //Funciones AC
+        #region AC_Cliente
+        public ActionResult AC_Cliente(FleteModels Flete)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Flete = new FleteModels();
+                    FleteDatos = new _Flete_Datos();
+                    Flete.Conexion = Conexion;
+                    Flete.Usuario = User.Identity.Name;
+
+                    //Flete = FleteDatos.Compras_ac_Ganado(Compra);
+
+                    //Flete.RespuestaAjax.Mensaje = Compra.Mensaje;
+                    //Flete.RespuestaAjax.Success = Compra.Completado;
+
+                    return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+                }
+                else
+                {
+                    Flete.RespuestaAjax.Mensaje = "Verifique su formulario.";
+                    Flete.RespuestaAjax.Success = false;
+                    return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+                }
+            }
+            catch (Exception ex)
+            {
+                Flete.RespuestaAjax.Mensaje = ex.ToString();
+                Flete.RespuestaAjax.Success = false;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+        /********************************************************************/
 
         /********************************************************************/
         //Funciones Combo
