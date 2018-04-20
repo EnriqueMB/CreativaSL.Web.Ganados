@@ -53,11 +53,11 @@
         <div class="panel panel-default tabs">
 
             <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a class="pestaña" href="#cliente" aria-controls="cliente" role="tab" data-toggle="tab">Cliente</a></li>
-                <li role="presentation"><a class="pestaña" href="#ubicacion" aria-controls="ubicacion" role="tab" data-toggle="tab">Ubicacion</a></li>
-                <li role="presentation"><a class="pestaña" href="#pago" aria-controls="pago" role="tab" data-toggle="tab">Pago</a></li>
-                <li role="presentation"><a class="pestaña" href="#impuestos" aria-controls="impuestos" role="tab" data-toggle="tab">Impuestos</a></li>
+            <ul class="nav nav-tabs"    role="tablist">
+                <li id="liCliente"      role="presentation" class="active">  <a id="tabCliente"     class="pestaña" href="#cliente"     aria-controls="cliente"     role="tab" data-toggle="tab">Cliente</a></li>
+                <li id="liUbicacion"    role="presentation" class="disabled"><a id="tabUbicacion"   class="pestaña" href="#ubicacion"   aria-controls="ubicacion"   role="tab" data-toggle="">Ubicacion</a></li>
+                <li id="liPago"         role="presentation" class="disabled"><a id="tabPago"        class="pestaña" href="#pago"        aria-controls="pago"        role="tab" data-toggle="">Pago</a></li>
+                <li id="liImpuesto"     role="presentation" class="disabled"><a id="tabImpuesto"    class="pestaña" href="#impuestos"   aria-controls="impuestos"   role="tab" data-toggle="">Impuestos</a></li>
             </ul>
 
             <!-- Tab panes -->
@@ -96,13 +96,13 @@
                                             <div class="col-md-10 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    <select id="Cliente_IDCliente" name="Cliente.IDCliente" class="form-control select" data-live-search = "true", data-style = "form-control">
+                                                    <select id="Cliente_IDCliente" name="Cliente.IDCliente" class="form-control select" data-live-search="true" , data-style="form-control">
                                                         @foreach (var cliente in Model.ListaCliente)
                                                         {
-                                                            <option value="@cliente.IDCliente" data-rfc="@cliente.RFC" 
+                                                            <option value="@cliente.IDCliente" data-rfc="@cliente.RFC"
                                                                     @if (Model.Cliente.IDCliente == cliente.IDCliente) { <text>
                                                                     selected="selected"
-                                                                    </text>       }>
+                                                                    </text>        }>
                                                                 @cliente.NombreRazonSocial
                                                             </option>
                                                         }
@@ -176,7 +176,17 @@
                                                 @Html.ValidationMessageFor(model => model.kmInicialVehiculo)
                                             </div>
                                         </div>
+                                        <div class="col-md-6 controlError">
+                                        <label class="col-md-2 control-label">Fecha tentativa de entrega</label>
+                                        <div class="col-md-10 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.FechaTentativaEntrega, "{0:dd/MM/yyyy}", new { id = "FechaTentativaEntrega", autocomplete = "off", @class = "form-control datepicker", @readonly = "readonly" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.FechaTentativaEntrega)
+                                        </div>
                                     </div>
+                                </div>
                                 </div>
                                 <div class="panel-footer">
                                     <input type="submit" value="Guardar" class="btn btn-primary pull-right">

@@ -7,7 +7,7 @@ using System.Web;
 
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class _FleteImpuesto
+    public class _FleteImpuesto_Datos
     {
         public FleteImpuestoModels GetFleteImpuestoXIDFleteImpuesto(FleteImpuestoModels FleteImpuesto)
         {
@@ -37,7 +37,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        public SqlDataReader GetJsonTableFleteImpuestoXIDFlete(FleteImpuestoModels FleteImpuesto)
+        public string GetJsonTableFleteImpuestoXIDFlete(FleteImpuestoModels FleteImpuesto)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace CreativaSL.Web.Ganados.Models
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(FleteImpuesto.Conexion, "spCSLDB_FleteImpuesto_get_FleteImpuestoXIDFlete", parametros);
 
-                return dr;
+                return Auxiliar.SqlReaderToJson(dr);
             }
             catch (Exception ex)
             {

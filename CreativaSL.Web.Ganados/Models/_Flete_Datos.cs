@@ -223,6 +223,60 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public List<CFDI_FormaPagoModels> GetListadoFormaPagos(FleteModels Flete)
+        {
+
+            try
+            {
+                CFDI_FormaPagoModels FormaPago;
+                Flete.ListaFormaPago = new List<CFDI_FormaPagoModels>();
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Combo_get_CFDIFormaPago");
+                while (dr.Read())
+                {
+                    FormaPago = new CFDI_FormaPagoModels
+                    {
+                        Clave = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetInt16(dr.GetOrdinal("ID")) : 0,
+                        Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty,
+                    };
+
+                    Flete.ListaFormaPago.Add(FormaPago);
+                }
+                return Flete.ListaFormaPago;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<CFDI_MetodoPagoModels> GetListadoMetodoPago(FleteModels Flete)
+        {
+
+            try
+            {
+                CFDI_MetodoPagoModels MetodoPago;
+                Flete.ListaMetodoPago = new List<CFDI_MetodoPagoModels>();
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Combo_get_CFDIMetodoPago");
+                while (dr.Read())
+                {
+                    MetodoPago = new CFDI_MetodoPagoModels
+                    {
+                        Clave = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetString(dr.GetOrdinal("ID")) : string.Empty,
+                        Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty,
+                    };
+
+                    Flete.ListaMetodoPago.Add(MetodoPago);
+                }
+                return Flete.ListaMetodoPago;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<CatChoferModels> GetChoferesXIDEmpresa(FleteModels Flete)
         {
             try
@@ -340,54 +394,37 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        public List<CFDI_FormaPagoModels> GetListadoFormaPagos(FleteModels Flete)
-        {
+        
+        #endregion
 
+        #region Funciones AC
+        #region AC_Cliente
+        public FleteModels Flete_ac_FleteCliente(FleteModels Flete)
+        {
             try
             {
-                CFDI_FormaPagoModels FormaPago;
-                Flete.ListaFormaPago = new List<CFDI_FormaPagoModels>();
-
+                object[] parametros =
+                {
+                     Flete.id_flete
+                    ,Flete.Empresa.IDEmpresa
+                    ,Flete.Cliente.IDCliente
+                    ,Flete.Vehiculo.IDVehiculo
+                    ,Flete.Chofer.IDChofer
+                    ,Flete.Jaula.IDJaula
+                    ,Flete.Remolque.IDRemolque
+                    ,Flete.kmInicialVehiculo
+                    ,Flete.FechaTentativaEntrega
+                    ,Flete.Usuario
+                };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Combo_get_CFDIFormaPago");
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_ac_FleteCliente", parametros);
+
                 while (dr.Read())
                 {
-                    FormaPago = new CFDI_FormaPagoModels
-                    {
-                        Clave = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetInt16(dr.GetOrdinal("ID")) : 0,
-                        Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty,
-                    };
-
-                    Flete.ListaFormaPago.Add(FormaPago);
+                    Flete.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Flete.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                 }
-                return Flete.ListaFormaPago;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public List<CFDI_MetodoPagoModels> GetListadoMetodoPago(FleteModels Flete)
-        {
-
-            try
-            {
-                CFDI_MetodoPagoModels MetodoPago;
-                Flete.ListaMetodoPago = new List<CFDI_MetodoPagoModels>();
-
-                SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Combo_get_CFDIMetodoPago");
-                while (dr.Read())
-                {
-                    MetodoPago = new CFDI_MetodoPagoModels
-                    {
-                        Clave = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetString(dr.GetOrdinal("ID")) : string.Empty,
-                        Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty,
-                    };
-
-                    Flete.ListaMetodoPago.Add(MetodoPago);
-                }
-                return Flete.ListaMetodoPago;
+                return Flete;
             }
             catch (Exception ex)
             {
@@ -395,6 +432,6 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
-       
+        #endregion
     }
 }
