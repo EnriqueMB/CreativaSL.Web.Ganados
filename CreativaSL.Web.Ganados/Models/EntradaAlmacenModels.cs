@@ -89,6 +89,14 @@ namespace CreativaSL.Web.Ganados.Models
             set { _Comentario = value; }
         }
 
+        private bool _Finalizado;
+
+        public bool Finalizado
+        {
+            get { return _Finalizado; }
+            set { _Finalizado = value; }
+        }
+
 
         #region Datos De Control
         public bool NuevoRegistro { get; set; }

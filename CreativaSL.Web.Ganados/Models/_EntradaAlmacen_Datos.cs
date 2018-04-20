@@ -1,6 +1,8 @@
-﻿using Microsoft.ApplicationBlocks.Data;
+﻿using CreativaSL.Web.Ganados.ViewModels;
+using Microsoft.ApplicationBlocks.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -15,7 +17,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 List<EntradaAlmacenModels> Lista = new List<EntradaAlmacenModels>();
                 EntradaAlmacenModels Item;
-                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Inventario_get_EntradasAlmacen", Folio);
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Inventario_get_EntradasAlmacen", Folio ?? string.Empty);
                 while (Dr.Read())
                 {
                     Item = new EntradaAlmacenModels();
@@ -25,6 +27,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.FolioEntrada = !Dr.IsDBNull(Dr.GetOrdinal("FolioEntrada")) ? Dr.GetString(Dr.GetOrdinal("FolioEntrada")) : string.Empty;
                     Item.FechaEntrada = !Dr.IsDBNull(Dr.GetOrdinal("FechaEntrada")) ? Dr.GetDateTime(Dr.GetOrdinal("FechaEntrada")) : DateTime.MinValue;
                     Item.Comentario = !Dr.IsDBNull(Dr.GetOrdinal("Comentarios")) ? Dr.GetString(Dr.GetOrdinal("Comentarios")) : string.Empty;
+                    Item.Finalizado = !Dr.IsDBNull(Dr.GetOrdinal("Finalizado")) ? Dr.GetBoolean(Dr.GetOrdinal("Finalizado")) : false;
                     Lista.Add(Item);
                 }
                 return Lista;
@@ -35,23 +38,23 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public List<EntradaAlmacenDetalleModels> ObtenerDetalleEntradaXID(string Conexion, string IDEntraada)
+        public List<CantidadEntregaViewModels> ObtenerDetalleEntradaXID(string Conexion, string IDEntraada)
         {
             try
             {
-                List<EntradaAlmacenDetalleModels> Lista = new List<EntradaAlmacenDetalleModels>();
-                EntradaAlmacenDetalleModels Item = new EntradaAlmacenDetalleModels();
+                List<CantidadEntregaViewModels> Lista = new List<CantidadEntregaViewModels>();
+                CantidadEntregaViewModels Item = new CantidadEntregaViewModels();
                 SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Inventario_get_DetalleEntregaXID", IDEntraada);
                 while(Dr.Read())
                 {
-                    Item = new EntradaAlmacenDetalleModels();
+                    Item = new CantidadEntregaViewModels();
                     Item.IDEntradaAlmacenDetalle = !Dr.IsDBNull(Dr.GetOrdinal("IDEntradaAlmacenDetalle")) ? Dr.GetString(Dr.GetOrdinal("IDEntradaAlmacenDetalle")) : string.Empty;
-                    Item.CompraDetalle = new CompraAlmacenDetalleModels { IDCompraAlmacenDetalle =  !Dr.IsDBNull(Dr.GetOrdinal("IDCompraDetalle")) ? Dr.GetString(Dr.GetOrdinal("IDCompraDetalle")) : string.Empty };
-                    Item.ProductoAlmacen = new CatProductosAlmacenModels { Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Producto")) ? Dr.GetString(Dr.GetOrdinal("Producto")) : string.Empty };
-                    Item.CompraDetalle.Cantidad = !Dr.IsDBNull(Dr.GetOrdinal("Cantidad")) ? Dr.GetDecimal(Dr.GetOrdinal("Cantidad")) : 0;
-                    Item.CompraDetalle.CantidadAsignada = !Dr.IsDBNull(Dr.GetOrdinal("CantidadAsignada")) ? Dr.GetDecimal(Dr.GetOrdinal("CantidadAsignada")) : 0;
+                    Item.IDCompraAlmacenDetalle = !Dr.IsDBNull(Dr.GetOrdinal("IDCompraDetalle")) ? Dr.GetString(Dr.GetOrdinal("IDCompraDetalle")) : string.Empty;
+                    Item.Producto = !Dr.IsDBNull(Dr.GetOrdinal("Producto")) ? Dr.GetString(Dr.GetOrdinal("Producto")) : string.Empty;
+                    Item.CantidadCompra = !Dr.IsDBNull(Dr.GetOrdinal("Cantidad")) ? Dr.GetDecimal(Dr.GetOrdinal("Cantidad")) : 0;
+                    Item.CantidadAsignada = !Dr.IsDBNull(Dr.GetOrdinal("CantidadAsignada")) ? Dr.GetDecimal(Dr.GetOrdinal("CantidadAsignada")) : 0;
                     Item.Cantidad = !Dr.IsDBNull(Dr.GetOrdinal("CantidadEntrega")) ? Dr.GetDecimal(Dr.GetOrdinal("CantidadEntrega")) : 0;
-                    Item.UnidadMedida = new CatUnidadMedidaModels { Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("UnidadMedida")) ? Dr.GetString(Dr.GetOrdinal("UnidadMedida")) : string.Empty };
+                    Item.UnidadMedida = !Dr.IsDBNull(Dr.GetOrdinal("UnidadMedida")) ? Dr.GetString(Dr.GetOrdinal("UnidadMedida")) : string.Empty;
                     Lista.Add(Item);
                 }
                 return Lista;
@@ -76,13 +79,38 @@ namespace CreativaSL.Web.Ganados.Models
                     Datos.Usuario
                 };
                 object Result = SqlHelper.ExecuteScalar(Datos.Conexion, "spCSLDB_Inventario_ac_EntradaAlmacen", Parametros);
+                if (Result != null)
+                {
+                    if (!string.IsNullOrEmpty(Result.ToString().Trim()))
+                    {
+                        Datos.Completado = true;
+                        Datos.IDEntradaAlmacen = Result.ToString();
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void ACEntradaAlmacenDetalle(EntradaAlmacenDetalleModels Datos)
+        {
+            try
+            {                
+                object Result = SqlHelper.ExecuteScalar(Datos.Conexion, CommandType.StoredProcedure, "spCSLDB_Inventario_ac_EntradaAlmacenDetalle", 
+                                                        new SqlParameter("@IDEntrada", Datos.IDEntradaAlmacen),
+                                                        new SqlParameter("@TablaDetalle", Datos.TablaDatos),
+                                                        new SqlParameter("@IDUsuario", Datos.Usuario));
                 if(Result != null)
                 {
                     int Resultado = 0;
                     int.TryParse(Result.ToString(), out Resultado);
                     Datos.Resultado = Resultado;
-                    if (Resultado == 1)
+                    if(Resultado == 1)
+                    {
                         Datos.Completado = true;
+                    }
                 }
             }
             catch(Exception ex)
