@@ -47,20 +47,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CatCategoriaPuestoModels CategoriaPuestos = new CatCategoriaPuestoModels();
                 _CatCategoriaPuesto_Datos CategoriaPuestosDatos = new _CatCategoriaPuesto_Datos();
                 CategoriaPuestos.Conexion = Conexion;
-
                 CategoriaPuestos.listaPuestos = CategoriaPuestosDatos.obtenerListaCategoriaPuesto(CategoriaPuestos);
-                var List = new SelectList(CategoriaPuestos.listaPuestos, "IDPuesto", "Descripcion");
-                ViewData["cmbCategoriaPuestos"] = List;
-
-                
                 return View(CategoriaPuestos);
             }
             catch (Exception ex)
             {
-                CatLugarModels Lugar = new CatLugarModels();
+                CatCategoriaPuestoModels CategoriaPuestos = new CatCategoriaPuestoModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return View(Lugar);
+                return View(CategoriaPuestos);
             }
         }
 
@@ -86,26 +81,28 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         TempData["typemessage"] = "1";
                         TempData["message"] = "El registro se guardo correctamente.";
                         return RedirectToAction("Index");
-
                     }
                     else
                     {
+                        CategoriaPuestos.Conexion = Conexion;
+                        CategoriaPuestos.listaPuestos = CategoriaPuestosDatos.obtenerListaCategoriaPuesto(CategoriaPuestos);
                         TempData["typemessage"] = "2";
                         TempData["message"] = "Ocurrió un error al guardar el registro.";
                         return View(CategoriaPuestos);
                     }
                 }
-                else {
+                else
+                {
                     CategoriaPuestos.Conexion = Conexion;
 
                     CategoriaPuestos.listaPuestos = CategoriaPuestosDatos.obtenerListaCategoriaPuesto(CategoriaPuestos);
                     return View(CategoriaPuestos);
                 }
-
             }
             catch (Exception ex)
             {
-                
+                CategoriaPuestos.Conexion = Conexion;
+                CategoriaPuestos.listaPuestos = CategoriaPuestosDatos.obtenerListaCategoriaPuesto(CategoriaPuestos);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
                 return View(CategoriaPuestos);
@@ -120,10 +117,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CatCategoriaPuestoModels CategoriaPuestos = new CatCategoriaPuestoModels();
                 _CatCategoriaPuesto_Datos CategoriaPuestosDatos = new _CatCategoriaPuesto_Datos();
                 CategoriaPuestos.Conexion = Conexion;
-
                 CategoriaPuestos.listaPuestos = CategoriaPuestosDatos.obtenerListaCategoriaPuesto(CategoriaPuestos);
-                var List = new SelectList(CategoriaPuestos.listaPuestos, "IDPuesto", "Descripcion");
-                ViewData["cmbCategoriaPuestos"] = List;
                 CategoriaPuestos.id_categoria = id;
                 CategoriaPuestos = CategoriaPuestosDatos.ObtenerDetalleCatCategoriaPuesto(CategoriaPuestos);
 
@@ -131,10 +125,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                CatLugarModels Lugar = new CatLugarModels();
+                CatCategoriaPuestoModels CategoriaPuestos = new CatCategoriaPuestoModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return View(Lugar);
+                return View(CategoriaPuestos);
             }
         }
 
@@ -151,8 +145,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     CategoriaPuestos.Conexion = Conexion;
                     CategoriaPuestos.Opcion = 2;
                     CategoriaPuestos.id_categoria = id;
-
-
                     CategoriaPuestos.Usuario = User.Identity.Name;
                     CategoriaPuestos = CategoriaPuestosDatos.AcCatCategoriaPuestos(CategoriaPuestos);
                     if (CategoriaPuestos.Completado == true)
@@ -164,12 +156,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     }
                     else
                     {
+                        CategoriaPuestos.Conexion = Conexion;
+                        CategoriaPuestos.listaPuestos = CategoriaPuestosDatos.obtenerListaCategoriaPuesto(CategoriaPuestos);
                         TempData["typemessage"] = "2";
                         TempData["message"] = "Ocurrió un error al guardar el registro.";
                         return View(CategoriaPuestos);
                     }
                 }
-                else {
+                else
+                {
                     CategoriaPuestos.Conexion = Conexion;
                     CategoriaPuestos.listaPuestos = CategoriaPuestosDatos.obtenerListaCategoriaPuesto(CategoriaPuestos);
                     return View(CategoriaPuestos);
@@ -177,8 +172,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                
-
+                CategoriaPuestos.Conexion = Conexion;
+                CategoriaPuestos.listaPuestos = CategoriaPuestosDatos.obtenerListaCategoriaPuesto(CategoriaPuestos);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
                 return View(CategoriaPuestos);
@@ -207,13 +202,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["message"] = "El registro se ha eliminado correctamente";
                 return Json("");
                 // TODO: Add delete logic here
-
-
             }
             catch
             {
-                CatChoferModels Chofer = new CatChoferModels();
-
+                CatCategoriaPuestoModels CategoriaPuestos = new CatCategoriaPuestoModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
                 return Json("");
