@@ -142,3 +142,11 @@ $.validator.addMethod("group", function (value, element, params) {
     //Error personalizado
     return params[2];
 });
+//SAT
+$.validator.addMethod("TasaCuotaSAT", function (value, element) {
+    return this.optional(element) || /^([0-9][.])+([0-9]{1,6})$/i.test(value);
+}, "La Tasa o Cuota debe ser un número entero, seguido de hasta 6 decimales.");
+
+$.validator.addMethod("BaseSAT", function (value, element) {
+    return this.optional(element) || /^[1-9]([0-9]+)?([.][0-9]{1,6})?$/i.test(value);
+}, "La Base debe ser mayor que cero, hasta 6 decimales.");

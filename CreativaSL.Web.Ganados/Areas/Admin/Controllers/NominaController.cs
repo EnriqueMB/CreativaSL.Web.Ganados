@@ -400,6 +400,35 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
+        public ActionResult PDF_Saldos(string id, string id2)
+        {
+            try
+            {
+                string customSwitches = string.Format("--header-center  \"COMO USAR O ROTATIVA\" " +
+                        "--header-spacing \"8\" " +
+                        "--header-font-name \"Open Sans\" " +
+                        "--footer-font-size \"8\" " +
+                        "--footer-font-name \"Open Sans\" " +
+                        "--header-font-size \"10\" " +
+                        "--footer-right \"Pag: [page] de [toPage]\"");
+
+                var report = new ActionAsPdf("RptSaldos", new { id, id2 })
+                {
+                    //FileName = "Invoice.pdf",
+                    PageOrientation = Rotativa.Options.Orientation.Landscape,
+                    CustomSwitches = "--margin-bottom 15 --margin-left 10 --margin-right 10 --margin-top 17 --footer-right \"Fecha: [date]\" " + "--footer-center \"Pagina: [page] de [toPage]\" --footer-line --footer-font-size \"12\" --footer-spacing 5 --footer-font-name \"calibri light\""//"--page-offset 0 --footer-center [page] --footer-font-size 12 --viewport-size 1000x1000"
+                    //PageMargins = new Rotativa.Options.Margins(30, 10, 15, 10)
+                    //pageMargins = new Rotativa.Options.Margins()
+                };
+                return report;
+
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
         // POST: Admin/Nomina/getDatostablaEmpleado/3
         [HttpPost]
         public ActionResult DatostablaEmpleado(string IDS)

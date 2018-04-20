@@ -1341,7 +1341,9 @@
     <Compile Include="Models\Validaciones\PlacasAttribute.cs" />
     <Compile Include="Models\Validaciones\PrecioAttribute.cs" />
     <Compile Include="Models\Validaciones\RFCAttribute.cs" />
+    <Compile Include="Models\Validaciones\SAT_BaseAttribute.cs" />
     <Compile Include="Models\Validaciones\TarjetaCreditoAttribute.cs" />
+    <Compile Include="Models\Validaciones\SAT_TasaCuotaAttribute.cs" />
     <Compile Include="Models\Validaciones\TelefonoAttribute.cs" />
     <Compile Include="Models\Validaciones\TestAttribute.cs" />
     <Compile Include="Models\Validaciones\TextoAttribute.cs" />
@@ -1378,7 +1380,7 @@
     <Compile Include="Models\_EntradaAlmacen_Datos.cs" />
     <Compile Include="Models\_DocumentoXPagar_Datos.cs" />
     <Compile Include="Models\_EntregaCombustible_Datos.cs" />
-    <Compile Include="Models\_FleteImpuesto.cs" />
+    <Compile Include="Models\_FleteImpuesto_Datos.cs" />
     <Compile Include="Models\_Flete_Datos.cs" />
     <Compile Include="Models\_Login_Datos.cs" />
     <Compile Include="Models\_Menu_Datos.cs" />

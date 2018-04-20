@@ -18,6 +18,7 @@ namespace CreativaSL.Web.Ganados.Models
             Trayecto = new TrayectoModels();
             FormaPago = new CFDI_FormaPagoModels();
             MetodoPago = new CFDI_MetodoPagoModels();
+            RespuestaAjax = new RespuestaAjax();
         }
 
         //No tocar
@@ -29,14 +30,14 @@ namespace CreativaSL.Web.Ganados.Models
         public string id_chofer { get; set; }
         public string id_jaula { get; set; }
         public string IDRemolque { get; set; }
-        
+
         ///Campos unicos de la tabla
         public string Folio { get; set; }
         public decimal TotalImpuestoTrasladado { get; set; }
         public decimal TotalImpuestoRetenido { get; set; }
         public decimal totalFlete { get; set; }
-        public DateTime FechaFlete { get; set; }
-        public DateTime FechaEntrega { get; set; }
+        public DateTime FechaFinalizadoFlete { get; set; }
+        public DateTime FechaTentativaEntrega { get; set; }
         public string CondicionPago { get; set; }
 
         //ID
@@ -69,6 +70,7 @@ namespace CreativaSL.Web.Ganados.Models
         public bool Completado { get; set; }
         public string Usuario { get; set; }
         public int Opcion { get; set; }
+        public RespuestaAjax RespuestaAjax { get; set; }
         #endregion
     }
 }
