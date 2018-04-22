@@ -6,12 +6,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Models;
+using CreativaSL.Web.Ganados.App_Start;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     [Autorizado]
     public class CatEmpleadoController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatEmpleado
         public ActionResult Index()
@@ -44,6 +46,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatEmpleadoModels Empleado = new CatEmpleadoModels();
                 CatEmpleado_Datos EmpleadoDatos = new CatEmpleado_Datos();
                 _Combos_Datos Combos = new _Combos_Datos();
@@ -71,38 +74,46 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _Combos_Datos Combos = new _Combos_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    DatosEmpleado.Conexion = Conexion;
-                    DatosEmpleado.Usuario = User.Identity.Name;
-                    DatosEmpleado.Opcion = 1;
-                    DatosEmpleado.AltaNominal = false;
-                    DatosEmpleado = EmpleadoDatos.AbcCatEmpleado(DatosEmpleado);
-                    if (DatosEmpleado.Completado)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Index");
+                        DatosEmpleado.Conexion = Conexion;
+                        DatosEmpleado.Usuario = User.Identity.Name;
+                        DatosEmpleado.Opcion = 1;
+                        DatosEmpleado.AltaNominal = false;
+                        DatosEmpleado = EmpleadoDatos.AbcCatEmpleado(DatosEmpleado);
+                        if (DatosEmpleado.Completado)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            DatosEmpleado.ListaCmbGrupoSanguineo = EmpleadoDatos.ObteneComboCatGrupoSanguineo(DatosEmpleado);
+                            DatosEmpleado.ListaCmbSucursal = Combos.ObtenerComboSucursales(Conexion);
+                            DatosEmpleado.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(DatosEmpleado);
+                            DatosEmpleado.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(DatosEmpleado);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(DatosEmpleado);
+                        }
                     }
                     else
                     {
+                        DatosEmpleado.Conexion = Conexion;
                         DatosEmpleado.ListaCmbGrupoSanguineo = EmpleadoDatos.ObteneComboCatGrupoSanguineo(DatosEmpleado);
                         DatosEmpleado.ListaCmbSucursal = Combos.ObtenerComboSucursales(Conexion);
                         DatosEmpleado.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(DatosEmpleado);
                         DatosEmpleado.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(DatosEmpleado);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(DatosEmpleado);
                     }
                 }
                 else
                 {
-                    DatosEmpleado.Conexion = Conexion;
-                    DatosEmpleado.ListaCmbGrupoSanguineo = EmpleadoDatos.ObteneComboCatGrupoSanguineo(DatosEmpleado);
-                    DatosEmpleado.ListaCmbSucursal = Combos.ObtenerComboSucursales(Conexion);
-                    DatosEmpleado.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(DatosEmpleado);
-                    DatosEmpleado.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(DatosEmpleado);
-                    return View(DatosEmpleado);
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -124,6 +135,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatEmpleadoModels Empleado = new CatEmpleadoModels();
                 CatEmpleado_Datos EmleadoDatos = new CatEmpleado_Datos();
                 _Combos_Datos Combos = new _Combos_Datos();
@@ -153,37 +165,45 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _Combos_Datos Combos = new _Combos_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    DatosEmpleado.Conexion = Conexion;
-                    DatosEmpleado.Usuario = User.Identity.Name;
-                    DatosEmpleado.Opcion = 2;
-                    DatosEmpleado = EmpleadoDatos.AbcCatEmpleado(DatosEmpleado);
-                    if (DatosEmpleado.Completado)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Index");
+                        DatosEmpleado.Conexion = Conexion;
+                        DatosEmpleado.Usuario = User.Identity.Name;
+                        DatosEmpleado.Opcion = 2;
+                        DatosEmpleado = EmpleadoDatos.AbcCatEmpleado(DatosEmpleado);
+                        if (DatosEmpleado.Completado)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            DatosEmpleado.ListaCmbGrupoSanguineo = EmpleadoDatos.ObteneComboCatGrupoSanguineo(DatosEmpleado);
+                            DatosEmpleado.ListaCmbSucursal = Combos.ObtenerComboSucursales(Conexion);
+                            DatosEmpleado.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(DatosEmpleado);
+                            DatosEmpleado.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(DatosEmpleado);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(DatosEmpleado);
+                        }
                     }
                     else
                     {
+                        DatosEmpleado.Conexion = Conexion;
                         DatosEmpleado.ListaCmbGrupoSanguineo = EmpleadoDatos.ObteneComboCatGrupoSanguineo(DatosEmpleado);
                         DatosEmpleado.ListaCmbSucursal = Combos.ObtenerComboSucursales(Conexion);
                         DatosEmpleado.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(DatosEmpleado);
                         DatosEmpleado.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(DatosEmpleado);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(DatosEmpleado);
                     }
                 }
                 else
                 {
-                    DatosEmpleado.Conexion = Conexion;
-                    DatosEmpleado.ListaCmbGrupoSanguineo = EmpleadoDatos.ObteneComboCatGrupoSanguineo(DatosEmpleado);
-                    DatosEmpleado.ListaCmbSucursal = Combos.ObtenerComboSucursales(Conexion);
-                    DatosEmpleado.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(DatosEmpleado);
-                    DatosEmpleado.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(DatosEmpleado);
-                    return View(DatosEmpleado);
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -321,6 +341,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 NominaVacacionesModels Vacaciones = new NominaVacacionesModels();
                 Vacaciones.IDEmpleado = id;
                 return View(Vacaciones);
@@ -342,39 +363,46 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             CatEmpleado_Datos EmpleadoDatos = new CatEmpleado_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    Vacaciones.Conexion = Conexion;
-                    Vacaciones.Opcion = 1;
-                    Vacaciones.Usuario = User.Identity.Name;
-                    Vacaciones = EmpleadoDatos.AVacacionesNomina(Vacaciones);
-                    if (Vacaciones.Completado)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Vacaciones", new { id = Vacaciones.IDEmpleado });
-                    }
-                    else
-                    {
-                        if (Vacaciones.Resultado == 51000)
+                        Vacaciones.Conexion = Conexion;
+                        Vacaciones.Opcion = 1;
+                        Vacaciones.Usuario = User.Identity.Name;
+                        Vacaciones = EmpleadoDatos.AVacacionesNomina(Vacaciones);
+                        if (Vacaciones.Completado)
                         {
-                            TempData["typemessage"] = "2";
-                            TempData["message"] = "El empleado ya cuenta con esa fecha asignado. Selecciones un nuevo rango de fechas";
-                            return View(Vacaciones);
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Vacaciones", new { id = Vacaciones.IDEmpleado });
                         }
                         else
                         {
-                            TempData["typemessage"] = "2";
-                            TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
-                            return View(Vacaciones);
+                            if (Vacaciones.Resultado == 51000)
+                            {
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "El empleado ya cuenta con esa fecha asignado. Selecciones un nuevo rango de fechas";
+                                return View(Vacaciones);
+                            }
+                            else
+                            {
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                                return View(Vacaciones);
+                            }
                         }
+                    }
+                    else
+                    {
+                        return View(Vacaciones);
                     }
                 }
                 else
                 {
-                    return View(Vacaciones);
+                    return RedirectToAction("Vacaciones", new { id = Vacaciones.IDEmpleado });
                 }
-
             }
             catch (Exception)
             {
@@ -419,7 +447,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-
+                Token.SaveToken();
                 CatEmpleadoAltaNominaModels EmpleadoNomina = new CatEmpleadoAltaNominaModels();
                 CatEmpleadoModels Empleado = new CatEmpleadoModels();
                 CatEmpleado_Datos EmleadoDatos = new CatEmpleado_Datos();
@@ -439,6 +467,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     TempData["typemessage"] = "2";
                     TempData["message"] = "El empleado ya a sido dado de baja una vez";
+                    Token.ResetToken();
                     return RedirectToAction("Index");
                 }
             }
@@ -458,45 +487,51 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             CatEmpleadoModels Empleado = new CatEmpleadoModels();
             try
             {
-                
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    datos.Conexion = Conexion;
-                    datos.Usuario = User.Identity.Name;
-                    datos = EmpleadoDatos.AltaNominaEmpleado(datos);
-                    if (datos.Completado && datos.Resultado==1)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Index");
-                    }
-                    else if(datos.Completado && datos.Resultado == 0)
-                    {
-                        Empleado.Conexion = Conexion;
-                        datos.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(Empleado);
-                        datos.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(Empleado);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "El empleado ya fue dado de baja.";
-                        return View(datos);
+                        datos.Conexion = Conexion;
+                        datos.Usuario = User.Identity.Name;
+                        datos = EmpleadoDatos.AltaNominaEmpleado(datos);
+                        if (datos.Completado && datos.Resultado == 1)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else if (datos.Completado && datos.Resultado == 0)
+                        {
+                            Empleado.Conexion = Conexion;
+                            datos.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(Empleado);
+                            datos.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(Empleado);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "El empleado ya fue dado de baja.";
+                            return View(datos);
+                        }
+                        else
+                        {
+                            Empleado.Conexion = Conexion;
+                            datos.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(Empleado);
+                            datos.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(Empleado);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Error al tratar de dar de alta al empleado.";
+                            return View(datos);
+                        }
                     }
                     else
                     {
                         Empleado.Conexion = Conexion;
                         datos.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(Empleado);
                         datos.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(Empleado);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Error al tratar de dar de alta al empleado.";
                         return View(datos);
                     }
                 }
                 else
                 {
-                    Empleado.Conexion = Conexion;
-                    datos.ListaCmbPuesto = EmpleadoDatos.obtenerComboCatPuesto(Empleado);
-                    datos.ListaCmbCategoriaPuesto = EmpleadoDatos.ObteneComboCatCategoriaPuesto(Empleado);
-                    return View(datos);
+                    return RedirectToAction("Index");
                 }
-
             }
             catch (Exception)
             {
@@ -514,6 +549,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatEmpleadoBajaNominaModels EmpleadoNominaB = new CatEmpleadoBajaNominaModels();
                 CatEmpleadoAltaNominaModels EmpleadoNominaA = new CatEmpleadoAltaNominaModels();
                 CatEmpleado_Datos EmleadoDatos = new CatEmpleado_Datos();
@@ -541,37 +577,45 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             CatEmpleadoModels Empleado = new CatEmpleadoModels();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    datos.Conexion = Conexion;
-                    datos.Usuario = User.Identity.Name;
-                    datos = EmpleadoDatos.BajaNominaEmpleado(datos);
-                    if (datos.Completado && datos.Resultado==1)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "El empleado fue dado de alta correctamente.";
-                        return RedirectToAction("Index");
-                    }
-                    else if(datos.Completado && datos.Resultado == 0)
-                    {
-                        datos.ListaCmbMotivoBaja = EmpleadoDatos.ObteneComboCatMotivoBaja(datos);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "El empleado debe estar dado de alta.";
-                        return View(datos);
+                        datos.Conexion = Conexion;
+                        datos.Usuario = User.Identity.Name;
+                        datos = EmpleadoDatos.BajaNominaEmpleado(datos);
+                        if (datos.Completado && datos.Resultado == 1)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El empleado fue dado de alta correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else if (datos.Completado && datos.Resultado == 0)
+                        {
+                            datos.ListaCmbMotivoBaja = EmpleadoDatos.ObteneComboCatMotivoBaja(datos);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "El empleado debe estar dado de alta.";
+                            return View(datos);
+                        }
+                        else
+                        {
+                            datos.ListaCmbMotivoBaja = EmpleadoDatos.ObteneComboCatMotivoBaja(datos);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Error al dar de baja al empleado.";
+                            return View(datos);
+                        }
                     }
                     else
                     {
+                        datos.Conexion = Conexion;
                         datos.ListaCmbMotivoBaja = EmpleadoDatos.ObteneComboCatMotivoBaja(datos);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Error al dar de baja al empleado.";
                         return View(datos);
                     }
                 }
                 else
                 {
-                    datos.Conexion = Conexion;
-                    datos.ListaCmbMotivoBaja = EmpleadoDatos.ObteneComboCatMotivoBaja(datos);
-                    return View(datos);
+                    return RedirectToAction("Index");
                 }
             }
             catch (Exception)

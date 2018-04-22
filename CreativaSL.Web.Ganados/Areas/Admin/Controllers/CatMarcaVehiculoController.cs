@@ -6,12 +6,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Models;
+using CreativaSL.Web.Ganados.App_Start;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     [Autorizado]
     public class CatMarcaVehiculoController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatMarcaVehiculo
         [HttpGet]
@@ -46,6 +48,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatMarcaVehiculoModels Marca = new CatMarcaVehiculoModels();
                 return View(Marca);
             }
@@ -60,28 +63,43 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatMarcaVehiculo/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CatMarcaVehiculoModels Marca)
         {
+            //CatMarcaVehiculoModels Marca = new CatMarcaVehiculoModels();
+            CatMarcaVehiculo_Datos MarcaDatos = new CatMarcaVehiculo_Datos();
             try
             {
-                CatMarcaVehiculoModels Marca = new CatMarcaVehiculoModels();
-                CatMarcaVehiculo_Datos MarcaDatos = new CatMarcaVehiculo_Datos();
-                Marca.Conexion = Conexion;
-                Marca.Usuario = User.Identity.Name;
-                Marca.Opcion = 1;
-                Marca.Descripcion = collection["Descripcion"];
-                Marca = MarcaDatos.AbcCatMarcaVehiculo(Marca);
-                if (Marca.Completado == true)
+                if (Token.IsTokenValid())
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "Los datos se guardarón correctamente.";
-                    return RedirectToAction("Index");
+                    if (ModelState.IsValid)
+                    {
+                        Marca.Conexion = Conexion;
+                        Marca.Usuario = User.Identity.Name;
+                        Marca.Opcion = 1;
+                        //Marca.Descripcion = collection["Descripcion"];
+                        Marca = MarcaDatos.AbcCatMarcaVehiculo(Marca);
+                        if (Marca.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardarón correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Marca);
+                        }
+                    }
+                    else
+                    {
+                        return View(Marca);
+                    }
                 }
                 else
                 {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                    return View(Marca);
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -98,6 +116,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatMarcaVehiculoModels Marca = new CatMarcaVehiculoModels();
                 CatMarcaVehiculo_Datos MarcaDatos = new CatMarcaVehiculo_Datos();
                 Marca.Conexion = Conexion;
@@ -116,31 +135,46 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatMarcaVehiculo/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, CatMarcaVehiculoModels Marca)
         {
+           // CatMarcaVehiculoModels Marca = new CatMarcaVehiculoModels();
+            CatMarcaVehiculo_Datos MarcaDatos = new CatMarcaVehiculo_Datos();
             try
             {
-                CatMarcaVehiculoModels Marca = new CatMarcaVehiculoModels();
-                CatMarcaVehiculo_Datos MarcaDatos = new CatMarcaVehiculo_Datos();
-                Marca.Conexion = Conexion;
-                Marca.Usuario = User.Identity.Name;
-                Marca.Opcion = 2;
-                int ID = 0;
-                int.TryParse(collection["IDMarca"], out ID);
-                Marca.IDMarca = ID;
-                Marca.Descripcion = collection["Descripcion"];
-                Marca = MarcaDatos.AbcCatMarcaVehiculo(Marca);
-                if (Marca.Completado == true)
+                if (Token.IsTokenValid())
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "Los datos se guardarón correctamente.";
-                    return RedirectToAction("Index");
+                    if (ModelState.IsValid)
+                    {
+                        Marca.Conexion = Conexion;
+                        Marca.Usuario = User.Identity.Name;
+                        Marca.Opcion = 2;
+                        //int ID = 0;
+                        //int.TryParse(collection["IDMarca"], out ID);
+                        //Marca.IDMarca = ID;
+                        //Marca.Descripcion = collection["Descripcion"];
+                        Marca = MarcaDatos.AbcCatMarcaVehiculo(Marca);
+                        if (Marca.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardarón correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Marca);
+                        }
+                    }
+                    else
+                    {
+                        return View(Marca);
+                    }
                 }
                 else
                 {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                    return View(Marca);
+                    return RedirectToAction("Index");
                 }
             }
             catch

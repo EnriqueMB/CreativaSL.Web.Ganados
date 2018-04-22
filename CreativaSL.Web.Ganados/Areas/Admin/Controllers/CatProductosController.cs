@@ -1,4 +1,5 @@
-﻿using CreativaSL.Web.Ganados.Filters;
+﻿using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     [Autorizado]
     public class CatProductosController : Controller
     {
-        // GET: Admin/CatProducto
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
+        // GET: Admin/CatProducto
         public ActionResult Index()
         {
             try
@@ -45,6 +47,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatProductosModels Producto = new CatProductosModels();
                 _CatProductos_Datos ProductoDatos = new _CatProductos_Datos();
                 return View(Producto);
@@ -65,35 +68,39 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatProductos_Datos ProductoDatos = new _CatProductos_Datos();
             try
             {
-
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    Producto.Conexion = Conexion;
-
-                    Producto.Usuario = User.Identity.Name;
-                    Producto.Opcion = 1;
-                    Producto = ProductoDatos.AcCatProductos(Producto);
-                    //Si abc fue completado correctamente
-                    if (Producto.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "El registro se guardo correctamente.";
-                        return RedirectToAction("Index");
+                        Producto.Conexion = Conexion;
+                        Producto.Usuario = User.Identity.Name;
+                        Producto.Opcion = 1;
+                        Producto = ProductoDatos.AcCatProductos(Producto);
+                        //Si abc fue completado correctamente
+                        if (Producto.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardo correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar el registro.";
+                            return View(Producto);
+                        }
                     }
                     else
                     {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        Producto.Conexion = Conexion;
                         return View(Producto);
                     }
                 }
-                else {
-                    Producto.Conexion = Conexion;
-                    return View(Producto);
-                }
-               
-
-               
+                else
+                {
+                    return RedirectToAction("Index");
+                }               
             }
             catch (Exception)
             {
@@ -111,6 +118,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
             try
             {
+                Token.SaveToken();
                 CatProductosModels Producto = new CatProductosModels();
                 _CatProductos_Datos ProductoDatos = new _CatProductos_Datos();
                 Producto.Conexion = Conexion;
@@ -135,43 +143,43 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatProductos_Datos ProductoDatos = new _CatProductos_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                  
-                    
-                    Producto.IDProducto = id;
-                    Producto.Conexion = Conexion;
-
-                    Producto.Usuario = User.Identity.Name;
-                    Producto.Opcion = 2;
-                    Producto = ProductoDatos.AcCatProductos(Producto);
-                    //Si abc fue completado correctamente
-                    if (Producto.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "El registro se guardo correctamente.";
-                        return RedirectToAction("Index");
-
+                        Producto.IDProducto = id;
+                        Producto.Conexion = Conexion;
+                        Producto.Usuario = User.Identity.Name;
+                        Producto.Opcion = 2;
+                        Producto = ProductoDatos.AcCatProductos(Producto);
+                        //Si abc fue completado correctamente
+                        if (Producto.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardo correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar el registro.";
+                            return View(Producto);
+                        }
                     }
                     else
                     {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al guardar el registro.";
                         return View(Producto);
+
                     }
                 }
                 else
                 {
-                    Producto.Conexion = Conexion;
-                    return View(Producto);
-
+                    return RedirectToAction("Index");
                 }
-
-
             }
             catch (Exception)
             {
-              
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return View(Producto);
@@ -200,13 +208,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["message"] = "El registro se ha eliminado correctamente";
                 return Json("");
                 // TODO: Add delete logic here
-
-
             }
             catch
             {
                 CatProductosModels Producto = new CatProductosModels();
-
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
                 return Json("");

@@ -6,12 +6,14 @@ using CreativaSL.Web.Ganados.Models;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CreativaSL.Web.Ganados.App_Start;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     [Autorizado]
     public class CatConceptoDocumentoController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatConceptoDocumento
         public ActionResult Index()
@@ -39,6 +41,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatConceptoDetalleDocumentosModels ConceptoDetalle = new CatConceptoDetalleDocumentosModels();
                 _CatConceptoDetalleDocumento_Datos ConceptoDetalleDatos = new _CatConceptoDetalleDocumento_Datos();
                 ConceptoDetalle.Conexion = Conexion;
@@ -47,39 +50,49 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                CatConceptoDetalleDocumentosModels ConceptoDetalle = new CatConceptoDetalleDocumentosModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
             }
         }
+
         [HttpPost]
         public ActionResult Create(CatConceptoDetalleDocumentosModels Concepto)
         {
-
+            _CatConceptoDetalleDocumento_Datos ConceptoDatos = new _CatConceptoDetalleDocumento_Datos();
             try
             {
-                _CatConceptoDetalleDocumento_Datos ConceptoDatos = new _CatConceptoDetalleDocumento_Datos();
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    Concepto.Conexion = Conexion;
-                    Concepto.Usuario = User.Identity.Name;
-                    Concepto.Opcion = 1;
-                    Concepto = ConceptoDatos.DACatConceptoDocumento(Concepto);
-                    if (Concepto.Completado)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Index");
+                        Concepto.Conexion = Conexion;
+                        Concepto.Usuario = User.Identity.Name;
+                        Concepto.Opcion = 1;
+                        Concepto = ConceptoDatos.DACatConceptoDocumento(Concepto);
+                        if (Concepto.Completado)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Concepto);
+                        }
                     }
                     else
                     {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(Concepto);
                     }
                 }
                 else
                 {
-                    return View(Concepto);
+                    return RedirectToAction("Index");
                 }
             }
             catch (Exception ex)
@@ -95,6 +108,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatConceptoDetalleDocumentosModels Concepto = new CatConceptoDetalleDocumentosModels();
                 _CatConceptoDetalleDocumento_Datos ConceptoDatos = new _CatConceptoDetalleDocumento_Datos();
                 Concepto.IDConceptosDocumento = id;
@@ -108,33 +122,46 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CatConceptoDetalleDocumentosModels Concepto = new CatConceptoDetalleDocumentosModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return View(Concepto);
+                return RedirectToAction("Index");
             }
         }
         // POST: Admin/CatConceptoDocumento/Edit
         [HttpPost]
         public ActionResult Edit(CatConceptoDetalleDocumentosModels Concepto)
         {
+            _CatConceptoDetalleDocumento_Datos ConceptoDatos = new _CatConceptoDetalleDocumento_Datos();
             try
             {
-                //CatBancoModels Banco = new CatBancoModels();
-                _CatConceptoDetalleDocumento_Datos ConceptoDatos = new _CatConceptoDetalleDocumento_Datos();
-                Concepto.Conexion = Conexion;
-                Concepto.Opcion = 2;
-                Concepto.Usuario = User.Identity.Name;
-
-                Concepto = ConceptoDatos.DACatConceptoDocumento(Concepto);
-                if (Concepto.Completado == true)
+                if (Token.IsTokenValid())
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "Los datos se guardarón correctamente.";
-                    return RedirectToAction("Index");
+                    if (ModelState.IsValid)
+                    {
+                        Concepto.Conexion = Conexion;
+                        Concepto.Opcion = 2;
+                        Concepto.Usuario = User.Identity.Name;
+
+                        Concepto = ConceptoDatos.DACatConceptoDocumento(Concepto);
+                        if (Concepto.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardarón correctamente.";
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Concepto);
+                        }
+                    }
+                    else
+                    {
+                        return View(Concepto);
+                    }
                 }
                 else
                 {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                    return View("");
+                    return RedirectToAction("Index");
                 }
             }
             catch (Exception ex)
@@ -162,19 +189,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Concepto.IDConceptosDocumento = id;
                 Concepto.Usuario = User.Identity.Name;
                 Concepto = ConceptoDatos.EliminarCatConceptoDocumento(Concepto);
-                if (Concepto.Completado == true)
-                {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se ha eliminado correctamente";
-                }
+                TempData["typemessage"] = "1";
+                TempData["message"] = "El registro se ha eliminado correctamente";
                 return Json("");
-
-
             }
             catch
             {
                 CatConceptoDetalleDocumentosModels Conceptos = new CatConceptoDetalleDocumentosModels();
-
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
                 return Json("");

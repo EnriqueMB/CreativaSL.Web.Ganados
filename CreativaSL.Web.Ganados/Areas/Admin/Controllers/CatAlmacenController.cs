@@ -1,4 +1,5 @@
-﻿using CreativaSL.Web.Ganados.Filters;
+﻿using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     [Autorizado]
     public class CatAlmacenController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatAlmacen
         public ActionResult Index()
@@ -44,14 +46,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatAlmacenModels Almacen = new CatAlmacenModels();
                 _CatAlmacen_Datos AlmacenDatos = new _CatAlmacen_Datos();
                 Almacen.Conexion = Conexion;
                 Almacen.ListaSucursales = AlmacenDatos.obtenerListaSucursales(Almacen);
                 var listaSucursal = new SelectList(Almacen.ListaSucursales, "IDSucursal", "NombreSucursal");
                 ViewData["cmbSucursal"] = listaSucursal;
-
-               
                 return View(Almacen);
             }
             catch (Exception ex)
@@ -67,37 +68,53 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
+            CatAlmacenModels Almacen = new CatAlmacenModels { Conexion = Conexion};
+            _CatAlmacen_Datos AlmacenDatos = new _CatAlmacen_Datos();
             try
             {
-                CatAlmacenModels Almacen = new CatAlmacenModels();
-                _CatAlmacen_Datos AlmacenDatos = new _CatAlmacen_Datos();
-                Almacen.Conexion = Conexion;
-                Almacen.ClaveAlmacen = collection["ClaveAlmacen"];
-                Almacen.Descripcion = collection["Descripcion"];
-                Almacen.IDSucursal = collection["ListaSucursales"];
-                Almacen.Usuario = User.Identity.Name;
-                Almacen.Opcion = 1;
-                Almacen = AlmacenDatos.AcCatAlmacen(Almacen);
-                //Si abc fue completado correctamente
-                if (Almacen.Completado == true)
-                {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se guardo correctamente.";
-                    return RedirectToAction("Index");
+                if (Token.IsTokenValid())
+                {   
+                    Almacen.Conexion = Conexion;
+                    Almacen.ClaveAlmacen = collection["ClaveAlmacen"];
+                    Almacen.Descripcion = collection["Descripcion"];
+                    Almacen.IDSucursal = collection["ListaSucursales"];
+                    Almacen.Usuario = User.Identity.Name;
+                    Almacen.Opcion = 1;
+                    Almacen = AlmacenDatos.AcCatAlmacen(Almacen);
+                    //Si abc fue completado correctamente
+                    if (Almacen.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "El registro se guardo correctamente.";
+                        Token.ResetToken();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        Almacen.ListaSucursales = AlmacenDatos.obtenerListaSucursales(Almacen);
+                        var listaSucursal = new SelectList(Almacen.ListaSucursales, "IDSucursal", "NombreSucursal");
+                        ViewData["cmbSucursal"] = listaSucursal;
+                        return View(Almacen);
+                    }                    
                 }
                 else
                 {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrió un error al guardar el registro.";
+                    Almacen.ListaSucursales = AlmacenDatos.obtenerListaSucursales(Almacen);
+                    var listaSucursal = new SelectList(Almacen.ListaSucursales, "IDSucursal", "NombreSucursal");
+                    ViewData["cmbSucursal"] = listaSucursal;
                     return View(Almacen);
                 }
             }
             catch (Exception)
             {
-                CatProductosModels Producto = new CatProductosModels();
+                Almacen.ListaSucursales = AlmacenDatos.obtenerListaSucursales(Almacen);
+                var listaSucursal = new SelectList(Almacen.ListaSucursales, "IDSucursal", "NombreSucursal");
+                ViewData["cmbSucursal"] = listaSucursal;
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return View(Producto);
+                return View(Almacen);
             }
         }
 

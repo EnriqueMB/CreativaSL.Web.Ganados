@@ -1,4 +1,5 @@
-﻿using CreativaSL.Web.Ganados.Models;
+﻿using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Models;
 using CreativaSL.Web.Ganados.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     public class MantenimientoController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/Mantenimiento
         public ActionResult Index()
@@ -115,6 +117,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 ServiciosMantenimientoViewModels Servicio = new ServiciosMantenimientoViewModels();
                 _Combos_Datos Datos = new _Combos_Datos();
                 Servicio.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
@@ -137,38 +140,46 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _Combos_Datos CDatos = new _Combos_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    ServiciosMantenimientoModels ModelP = new ServiciosMantenimientoModels
+                    if (ModelState.IsValid)
                     {
-                        NuevoRegistro = true,
-                        IDServicio = string.Empty,
-                        Sucursal = new CatSucursalesModels { IDSucursal = Model.IDSucursal },
-                        Fecha = Model.Fecha,
-                        Vehiculo = new CatVehiculoModels { IDVehiculo = Model.ID },
-                        Opcion = 1,
-                        Conexion = Conexion,
-                        Usuario = User.Identity.Name
-                    };
-                    Datos.ACServicio(ModelP);
-                    if (ModelP.Completado == true)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("CreateDetail", new { id = ModelP.IDServicio });
+                        ServiciosMantenimientoModels ModelP = new ServiciosMantenimientoModels
+                        {
+                            NuevoRegistro = true,
+                            IDServicio = string.Empty,
+                            Sucursal = new CatSucursalesModels { IDSucursal = Model.IDSucursal },
+                            Fecha = Model.Fecha,
+                            Vehiculo = new CatVehiculoModels { IDVehiculo = Model.ID },
+                            Opcion = 1,
+                            Conexion = Conexion,
+                            Usuario = User.Identity.Name
+                        };
+                        Datos.ACServicio(ModelP);
+                        if (ModelP.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("CreateDetail", new { id = ModelP.IDServicio });
+                        }
+                        else
+                        {
+                            Model.ListaSucursales = CDatos.ObtenerComboSucursales(Conexion);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Model);
+                        }
                     }
                     else
                     {
                         Model.ListaSucursales = CDatos.ObtenerComboSucursales(Conexion);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(Model);
                     }
                 }
                 else
                 {
-                    Model.ListaSucursales = CDatos.ObtenerComboSucursales(Conexion);
-                    return View(Model);
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -185,6 +196,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 ServiciosMantenimientoViewModels Servicio = new ServiciosMantenimientoViewModels();
                 _Combos_Datos Datos = new _Combos_Datos();
                 Servicio.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
@@ -207,40 +219,48 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _Combos_Datos CDatos = new _Combos_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    ServiciosMantenimientoModels ModelP = new ServiciosMantenimientoModels
+                    if (ModelState.IsValid)
                     {
-                        NuevoRegistro = true,
-                        IDServicio = string.Empty,
-                        Sucursal = new CatSucursalesModels { IDSucursal = Model.IDSucursal },
-                        Fecha = Model.Fecha,
-                        //Este objeto es genérico(para solo crear un sp)
-                        Vehiculo = new CatVehiculoModels { IDVehiculo = Model.ID },
-                        //La opción determina la tabla en la que se guardará
-                        Opcion = 2,
-                        Conexion = Conexion,
-                        Usuario = User.Identity.Name
-                    };
-                    Datos.ACServicio(ModelP);
-                    if (ModelP.Completado == true)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("CreateDetail", new { id = ModelP.IDServicio });
+                        ServiciosMantenimientoModels ModelP = new ServiciosMantenimientoModels
+                        {
+                            NuevoRegistro = true,
+                            IDServicio = string.Empty,
+                            Sucursal = new CatSucursalesModels { IDSucursal = Model.IDSucursal },
+                            Fecha = Model.Fecha,
+                            //Este objeto es genérico(para solo crear un sp)
+                            Vehiculo = new CatVehiculoModels { IDVehiculo = Model.ID },
+                            //La opción determina la tabla en la que se guardará
+                            Opcion = 2,
+                            Conexion = Conexion,
+                            Usuario = User.Identity.Name
+                        };
+                        Datos.ACServicio(ModelP);
+                        if (ModelP.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("CreateDetail", new { id = ModelP.IDServicio });
+                        }
+                        else
+                        {
+                            Model.ListaSucursales = CDatos.ObtenerComboSucursales(Conexion);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Model);
+                        }
                     }
                     else
                     {
                         Model.ListaSucursales = CDatos.ObtenerComboSucursales(Conexion);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(Model);
                     }
                 }
                 else
                 {
-                    Model.ListaSucursales = CDatos.ObtenerComboSucursales(Conexion);
-                    return View(Model);
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -257,6 +277,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 ServiciosMantenimientoViewModels Servicio = new ServiciosMantenimientoViewModels();
                 _Combos_Datos CDatos = new _Combos_Datos();
                 _ServicioMantenimiento_Datos Datos = new _ServicioMantenimiento_Datos();                
@@ -280,38 +301,46 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _Combos_Datos CDatos = new _Combos_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    ServiciosMantenimientoModels ModelP = new ServiciosMantenimientoModels
+                    if (ModelState.IsValid)
                     {
-                        NuevoRegistro = false,
-                        IDServicio = Model.IDServicio,
-                        Sucursal = new CatSucursalesModels { IDSucursal = Model.IDSucursal },
-                        Fecha = Model.Fecha,
-                        Vehiculo = new CatVehiculoModels(),
-                        Opcion = 1,
-                        Conexion = Conexion,
-                        Usuario = User.Identity.Name
-                    };
-                    Datos.ACServicio(ModelP);
-                    if (ModelP.Completado == true)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Details", new { id = ModelP.IDServicio });
+                        ServiciosMantenimientoModels ModelP = new ServiciosMantenimientoModels
+                        {
+                            NuevoRegistro = false,
+                            IDServicio = Model.IDServicio,
+                            Sucursal = new CatSucursalesModels { IDSucursal = Model.IDSucursal },
+                            Fecha = Model.Fecha,
+                            Vehiculo = new CatVehiculoModels(),
+                            Opcion = 1,
+                            Conexion = Conexion,
+                            Usuario = User.Identity.Name
+                        };
+                        Datos.ACServicio(ModelP);
+                        if (ModelP.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Details", new { id = ModelP.IDServicio });
+                        }
+                        else
+                        {
+                            Model.ListaSucursales = CDatos.ObtenerComboSucursales(Conexion);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Model);
+                        }
                     }
                     else
                     {
                         Model.ListaSucursales = CDatos.ObtenerComboSucursales(Conexion);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(Model);
                     }
                 }
                 else
                 {
-                    Model.ListaSucursales = CDatos.ObtenerComboSucursales(Conexion);
-                    return View(Model);
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -328,6 +357,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 ServiciosMantenimientoViewModels Servicio = new ServiciosMantenimientoViewModels();
                 _Combos_Datos CDatos = new _Combos_Datos();
                 _ServicioMantenimiento_Datos Datos = new _ServicioMantenimiento_Datos();
@@ -351,38 +381,46 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _Combos_Datos CDatos = new _Combos_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    ServiciosMantenimientoModels ModelP = new ServiciosMantenimientoModels
+                    if (ModelState.IsValid)
                     {
-                        NuevoRegistro = false,
-                        IDServicio = Model.IDServicio,
-                        Sucursal = new CatSucursalesModels { IDSucursal = Model.IDSucursal },
-                        Fecha = Model.Fecha,
-                        Vehiculo = new CatVehiculoModels(),
-                        Opcion = 2,
-                        Conexion = Conexion,
-                        Usuario = User.Identity.Name
-                    };
-                    Datos.ACServicio(ModelP);
-                    if (ModelP.Completado == true)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Details", new { id = ModelP.IDServicio });
+                        ServiciosMantenimientoModels ModelP = new ServiciosMantenimientoModels
+                        {
+                            NuevoRegistro = false,
+                            IDServicio = Model.IDServicio,
+                            Sucursal = new CatSucursalesModels { IDSucursal = Model.IDSucursal },
+                            Fecha = Model.Fecha,
+                            Vehiculo = new CatVehiculoModels(),
+                            Opcion = 2,
+                            Conexion = Conexion,
+                            Usuario = User.Identity.Name
+                        };
+                        Datos.ACServicio(ModelP);
+                        if (ModelP.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Details", new { id = ModelP.IDServicio });
+                        }
+                        else
+                        {
+                            Model.ListaSucursales = CDatos.ObtenerComboSucursales(Conexion);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Model);
+                        }
                     }
                     else
                     {
                         Model.ListaSucursales = CDatos.ObtenerComboSucursales(Conexion);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(Model);
                     }
                 }
                 else
                 {
-                    Model.ListaSucursales = CDatos.ObtenerComboSucursales(Conexion);
-                    return View(Model);
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -416,6 +454,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 ServiciosMantenimientoDetalleViewModels Servicio = new ServiciosMantenimientoDetalleViewModels();
                 _Combos_Datos Datos = new _Combos_Datos();
                 Servicio.ListaTipoServicios = Datos.ObtenerComboTipoServicio(Conexion);
@@ -438,46 +477,54 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _Combos_Datos CDatos = new _Combos_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    ServiciosMantenimientoDetalleModels ModelP = new ServiciosMantenimientoDetalleModels
+                    if (ModelState.IsValid)
                     {
-                        NuevoRegistro = true,
-                        IDServicioDetalle = string.Empty,
-                        IDServicio = Model.IDServicio,
-                        TipoServicio = new CatTipoServicioModels { IDTipoServicio = Model.IDTipoServicio },
-                        Encargado = Model.Encargado,
-                        Importe = Model.Importe,
-                        Observaciones = Model.Observaciones,
-                        Conexion = Conexion,
-                        Usuario = User.Identity.Name
-                    };
-                    Datos.ACServicioDetalle(ModelP);
-                    if (ModelP.Completado == true)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Details", new { id = ModelP.IDServicio });
+                        ServiciosMantenimientoDetalleModels ModelP = new ServiciosMantenimientoDetalleModels
+                        {
+                            NuevoRegistro = true,
+                            IDServicioDetalle = string.Empty,
+                            IDServicio = Model.IDServicio,
+                            TipoServicio = new CatTipoServicioModels { IDTipoServicio = Model.IDTipoServicio },
+                            Encargado = Model.Encargado,
+                            Importe = Model.Importe,
+                            Observaciones = Model.Observaciones,
+                            Conexion = Conexion,
+                            Usuario = User.Identity.Name
+                        };
+                        Datos.ACServicioDetalle(ModelP);
+                        if (ModelP.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Details", new { id = ModelP.IDServicio });
+                        }
+                        else
+                        {
+                            Model.ListaTipoServicios = CDatos.ObtenerComboTipoServicio(Conexion);
+                            if (ModelP.Resultado == -1)
+                            {
+                                ModelState.AddModelError("", "El estatus del servicio no permite su modificación.");
+                            }
+                            else
+                            {
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                            }
+                            return View(Model);
+                        }
                     }
                     else
                     {
                         Model.ListaTipoServicios = CDatos.ObtenerComboTipoServicio(Conexion);
-                        if (ModelP.Resultado == -1)
-                        {
-                            ModelState.AddModelError("", "El estatus del servicio no permite su modificación.");
-                        }
-                        else
-                        {
-                            TempData["typemessage"] = "2";
-                            TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
-                        }
                         return View(Model);
                     }
                 }
                 else
                 {
-                    Model.ListaTipoServicios = CDatos.ObtenerComboTipoServicio(Conexion);
-                    return View(Model);
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -494,6 +541,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 ServiciosMantenimientoDetalleViewModels Servicio = new ServiciosMantenimientoDetalleViewModels();
                 _Combos_Datos CDatos = new _Combos_Datos();
                 _ServicioMantenimiento_Datos Datos = new _ServicioMantenimiento_Datos();
@@ -518,46 +566,54 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _Combos_Datos CDatos = new _Combos_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    ServiciosMantenimientoDetalleModels ModelP = new ServiciosMantenimientoDetalleModels
+                    if (ModelState.IsValid)
                     {
-                        NuevoRegistro = false,
-                        IDServicioDetalle = Model.IDServicioDetalle,
-                        IDServicio = Model.IDServicio,
-                        TipoServicio = new CatTipoServicioModels { IDTipoServicio = Model.IDTipoServicio },
-                        Encargado = Model.Encargado,
-                        Importe = Model.Importe,
-                        Observaciones = Model.Observaciones,
-                        Conexion = Conexion,
-                        Usuario = User.Identity.Name
-                    };
-                    Datos.ACServicioDetalle(ModelP);
-                    if (ModelP.Completado == true)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Details", new { id = ModelP.IDServicio });
+                        ServiciosMantenimientoDetalleModels ModelP = new ServiciosMantenimientoDetalleModels
+                        {
+                            NuevoRegistro = false,
+                            IDServicioDetalle = Model.IDServicioDetalle,
+                            IDServicio = Model.IDServicio,
+                            TipoServicio = new CatTipoServicioModels { IDTipoServicio = Model.IDTipoServicio },
+                            Encargado = Model.Encargado,
+                            Importe = Model.Importe,
+                            Observaciones = Model.Observaciones,
+                            Conexion = Conexion,
+                            Usuario = User.Identity.Name
+                        };
+                        Datos.ACServicioDetalle(ModelP);
+                        if (ModelP.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Details", new { id = ModelP.IDServicio });
+                        }
+                        else
+                        {
+                            Model.ListaTipoServicios = CDatos.ObtenerComboTipoServicio(Conexion);
+                            if (ModelP.Resultado == -1)
+                            {
+                                ModelState.AddModelError("", "El estatus del servicio no permite su modificación.");
+                            }
+                            else
+                            {
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                            }
+                            return View(Model);
+                        }
                     }
                     else
                     {
                         Model.ListaTipoServicios = CDatos.ObtenerComboTipoServicio(Conexion);
-                        if (ModelP.Resultado == -1)
-                        {
-                            ModelState.AddModelError("", "El estatus del servicio no permite su modificación.");
-                        }
-                        else
-                        {
-                            TempData["typemessage"] = "2";
-                            TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
-                        }
                         return View(Model);
                     }
                 }
                 else
                 {
-                    Model.ListaTipoServicios = CDatos.ObtenerComboTipoServicio(Conexion);
-                    return View(Model);
+                    return RedirectToAction("Index");
                 }
             }
             catch

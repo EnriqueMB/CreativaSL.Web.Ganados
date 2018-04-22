@@ -1,4 +1,5 @@
-﻿using CreativaSL.Web.Ganados.Filters;
+﻿using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     [Autorizado]
     public class CatProductosAlmacenController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatProductosAlmacen
         public ActionResult Index()
@@ -27,7 +29,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Producto.listaPrdocutosAlmacen = ProductoDatos.ObtenerCatProductosAlmacen(Producto);
                 return View(Producto);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 CatProductosAlmacenModels Producto = new CatProductosAlmacenModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista" + ex;
@@ -47,6 +50,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatProductosAlmacenModels Producto = new CatProductosAlmacenModels();
                 _CatProductosAlmacen_Datos ProductoDatos = new _CatProductosAlmacen_Datos();
                 Producto.Conexion = Conexion;
@@ -69,44 +73,51 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatProductosAlmacen_Datos ProductoDatos = new _CatProductosAlmacen_Datos();
             try
             {
-                // TODO: Add insert logic here
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                    if (bannerImage != null && bannerImage.ContentLength > 0)
+                    // TODO: Add insert logic here
+                    if (ModelState.IsValid)
                     {
-                        Stream s = bannerImage.InputStream;
-                        Bitmap img = new Bitmap(s);
-                        Producto.Imagen = img.ToBase64String(ImageFormat.Png);
-                    }
-                   
-                    Producto.Conexion = Conexion;
-                    Producto.Opcion = 1;
-                    Producto.IDProductoAlmacen = "0";
+                        HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                        if (bannerImage != null && bannerImage.ContentLength > 0)
+                        {
+                            Stream s = bannerImage.InputStream;
+                            Bitmap img = new Bitmap(s);
+                            Producto.Imagen = img.ToBase64String(ImageFormat.Png);
+                        }
 
-                    Producto.Almacen = true;
-                    Producto = ProductoDatos.AcCatProductosAlmacen(Producto);
-                    if (Producto.Completado == true)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "El registro se guardo correctamente.";
-                        return RedirectToAction("Index");
+                        Producto.Conexion = Conexion;
+                        Producto.Opcion = 1;
+                        Producto.IDProductoAlmacen = "0";
+
+                        Producto.Almacen = true;
+                        Producto = ProductoDatos.AcCatProductosAlmacen(Producto);
+                        if (Producto.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardo correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar el registro.";
+                            return View(Producto);
+                        }
                     }
                     else
                     {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        Producto.Conexion = Conexion;
+                        Producto.listaTipoCodigoProducto = ProductoDatos.obtenerComboCatTipoCodigo(Producto);
+                        Producto.listaUnidadMedida = ProductoDatos.obtenerComboCatUnidadMedida(Producto);
                         return View(Producto);
                     }
                 }
-                else {
-                    Producto.Conexion = Conexion;
-                    Producto.listaTipoCodigoProducto = ProductoDatos.obtenerComboCatTipoCodigo(Producto);
-                    Producto.listaUnidadMedida = ProductoDatos.obtenerComboCatUnidadMedida(Producto);
-                    return View(Producto);
+                else
+                {
+                    return RedirectToAction("Index");
                 }
-
-                   
             }
             catch
             {
@@ -121,6 +132,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatProductosAlmacenModels Producto = new CatProductosAlmacenModels();
                 _CatProductosAlmacen_Datos ProductoDatos = new _CatProductosAlmacen_Datos();
                 Producto.Conexion = Conexion;
@@ -146,13 +158,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatProductosAlmacen_Datos ProductoDatos = new _CatProductosAlmacen_Datos();
             try
             {
-                // TODO: Add insert logic here
-                ModelState.Remove("Imagen2");
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                   
-
-                    
+                    // TODO: Add insert logic here
+                    ModelState.Remove("Imagen2");
+                    if (ModelState.IsValid)
+                    {
                         HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
                         if (!string.IsNullOrEmpty(bannerImage.FileName))
                         {
@@ -167,18 +178,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             Producto.BandImg = true;
                         }
-
-
                         Producto.Conexion = Conexion;
                         Producto.Opcion = 2;
-                        
-
                         Producto.Almacen = true;
                         Producto = ProductoDatos.AcCatProductosAlmacen(Producto);
                         if (Producto.Completado == true)
                         {
                             TempData["typemessage"] = "1";
                             TempData["message"] = "El registro se guardo correctamente.";
+                            Token.ResetToken();
                             return RedirectToAction("Index");
                         }
                         else
@@ -195,9 +203,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Producto.listaUnidadMedida = ProductoDatos.obtenerComboCatUnidadMedida(Producto);
                         return View(Producto);
                     }
-
-
-                
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }                
             }
             catch
             {
@@ -225,16 +235,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Producto.IDProductoAlmacen = id;
                 Producto.Usuario = User.Identity.Name;
                 Producto = ProductoDatos.EliminarProductoAlmancen(Producto);
-
                 return Json("");
                 // TODO: Add delete logic here
-
-
             }
             catch
             {
-                CatProductosModels Producto = new CatProductosModels();
-
+                CatProductosAlmacenModels Producto = new CatProductosAlmacenModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
                 return Json("");

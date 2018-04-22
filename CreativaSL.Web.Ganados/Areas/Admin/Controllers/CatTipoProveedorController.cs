@@ -1,4 +1,5 @@
-﻿using CreativaSL.Web.Ganados.Filters;
+﻿using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
    [Autorizado]
     public class CatTipoProveedorController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatTipoProveedor
         public ActionResult Index()
@@ -44,6 +46,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatTipoProveedorModels TipoProveedor = new CatTipoProveedorModels();
                 _CatTipoProveedor_Datos TipoProveedorDatos = new _CatTipoProveedor_Datos();
                 TipoProveedor.Conexion = Conexion;
@@ -67,33 +70,37 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatTipoProveedor_Datos TipoProveedorDatos = new _CatTipoProveedor_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    // TODO: Add insert logic here
-
-                    TipoProveedor.Conexion = Conexion;
-                    TipoProveedor.IDTipoProveedor = 0;
-                    TipoProveedor.Opcion = 1;
-                    TipoProveedor.Usuario = User.Identity.Name;
-                    TipoProveedor = TipoProveedorDatos.AcCatProveedor(TipoProveedor);
-                    if (TipoProveedor.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "El registro se guardo correctamente.";
-                        return RedirectToAction("Index");
+                        TipoProveedor.Conexion = Conexion;
+                        TipoProveedor.IDTipoProveedor = 0;
+                        TipoProveedor.Opcion = 1;
+                        TipoProveedor.Usuario = User.Identity.Name;
+                        TipoProveedor = TipoProveedorDatos.AcCatProveedor(TipoProveedor);
+                        if (TipoProveedor.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardo correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar el registro.";
+                            return View(TipoProveedor);
+                        }
                     }
                     else
                     {
-
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al guardar el registro.";
                         return View(TipoProveedor);
                     }
-                   
                 }
                 else
                 {
-                    return View(TipoProveedor);
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -107,6 +114,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatTipoProveedorModels TipoProveedor = new CatTipoProveedorModels();
                 _CatTipoProveedor_Datos TipoProveedorDatos = new _CatTipoProveedor_Datos();
                 TipoProveedor.Conexion = Conexion;
@@ -129,35 +137,43 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    // TODO: Add insert logic here
-                    _CatTipoProveedor_Datos TipoProveedorDatos = new _CatTipoProveedor_Datos();
-                    TipoProveedor.Conexion = Conexion;
-
-                    TipoProveedor.IDTipoProveedor = id;
-                    TipoProveedor.Opcion = 2;
-                    TipoProveedor.Usuario = User.Identity.Name;
-                    TipoProveedor = TipoProveedorDatos.AcCatProveedor(TipoProveedor);
-                    if (TipoProveedor.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "El registro se guardo correctamente.";
-                        return RedirectToAction("Index");
+                        // TODO: Add insert logic here
+                        _CatTipoProveedor_Datos TipoProveedorDatos = new _CatTipoProveedor_Datos();
+                        TipoProveedor.Conexion = Conexion;
+
+                        TipoProveedor.IDTipoProveedor = id;
+                        TipoProveedor.Opcion = 2;
+                        TipoProveedor.Usuario = User.Identity.Name;
+                        TipoProveedor = TipoProveedorDatos.AcCatProveedor(TipoProveedor);
+                        if (TipoProveedor.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardo correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar el registro.";
+                            return View(TipoProveedor);
+                        }
+
+
                     }
                     else
                     {
-
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al guardar el registro.";
                         return View(TipoProveedor);
                     }
-
-                   
                 }
                 else
                 {
-                    return View(TipoProveedor);
+                    return RedirectToAction("Index");
                 }
             }
             catch
