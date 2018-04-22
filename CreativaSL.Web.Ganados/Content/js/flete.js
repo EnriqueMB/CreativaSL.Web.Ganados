@@ -2,30 +2,45 @@
     "use strict"
     var lugarOrigen = document.getElementById('Trayecto_LugarOrigen_id_lugar');
     var lugarDestino = document.getElementById('Trayecto_LugarDestino_id_lugar');
-    var tableImpuesto;
+    var tableImpuesto, map, directionsDisplay, directionsService;
 
-    var InitMap = function (option) {
-        if (option == 2)
-        {
-            var directionsDisplay = new google.maps.DirectionsRenderer;
-            var directionsService = new google.maps.DirectionsService;
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 10,
-                center: { lat: 17.6063149, lng: -93.204288 }
-            });
-            directionsDisplay.setMap(map);
-
-            var onChangeHandler = function () {
-                CalculateAndDisplayRoute(directionsService, directionsDisplay);
-            };
-            lugarOrigen.addEventListener('change', onChangeHandler);
-            lugarDestino.addEventListener('change', onChangeHandler);
-
-            CalculateAndDisplayRoute(directionsService, directionsDisplay);
-        }
+    var InitMap = function () {
+        google.maps.event.addDomListener(window, "load", gmap);
     };
+    function gmap() {
+        
+        directionsService = new google.maps.DirectionsService;
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 10,
+            center: { lat: 17.6063149, lng: -93.204288 },
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+        directionsDisplay = new google.maps.DirectionsRenderer({
+            map: map
+        });
+        var onChangeHandler = function () {
+            CalculateAndDisplayRoute(directionsService, directionsDisplay, map);
+        };
+        lugarOrigen.addEventListener('change', onChangeHandler);
+        lugarDestino.addEventListener('change', onChangeHandler);
+    }
     //Eventos
-    var RunEventsLineaFletera = function () {
+    var RunEventsGeneral = function () {
+        $('.cslTablist').on("click", function () {
+            var id = $(this).attr('id');
+            //Si es el tab de trayecto, muestra el trayecto seleccionado
+            //Se debe de accionar el evento al momento que el div este visible para que se obtenga 
+            //El tamaño correcto del div, si no marca width 0 (agarra del css el valor dado por defecto, pero 
+            //Si se pone en porcentaje lo agarra como pixel = 100% = 100px)
+            //y el zoom 0 al momento de mostrar
+            if (id == "tabTrayecto") {
+                CalculateAndDisplayRoute(directionsService, directionsDisplay, map);
+            }
+            var data = $(this).data("toggle");
+            if (data != "tab") {
+                Mensaje("Debe guardar sus cambios para continuar.", 2);
+            }
+        });
         $("#Empresa_IDEmpresa").on("change", function () {
             var IDEmpresa = $(this).val();
             GetChoferesXIDEmpresa(IDEmpresa);
@@ -92,7 +107,7 @@
         });
     }
     //Validaciones
-    var LoadValidationFlete = function () {
+    var LoadValidation_AC_Cliente = function () {
         var form1 = $('#Frm_AC_Cliente');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
@@ -101,7 +116,7 @@
             //debug: true,
             errorElement: "li",
             errorClass: 'text-danger',
-            errorLabelContainer: $("#validation_summary_flete"),
+            errorLabelContainer: $("#validation_summary_AC_Cliente"),
             errorPlacement: function (error, element) { // render error placement for each input type
                 if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
                     error.insertAfter($(element).closest('.form-group').children('div').children().last());
@@ -116,45 +131,43 @@
             },
             ignore: "",
             rules: {
-                IDEmpresa: {
+                "Empresa.IDEmpresa": {
                     required: true
                 },
-                IDSucursal: {
+                "Cliente.IDCliente": {
                     required: true
                 },
-                IDChofer: {
-                    required: true,
+                "Chofer_IDChofer": {
+                    required: true
                 },
-                IDVehiculo: {
-                    required: true,
+                "Vehiculo.IDVehiculo": {
+                    required: true
                 },
-                "Flete.kmInicialVehiculo": {
-                    required: true,
+                kmInicialVehiculo: {
                     digits: true
                 },
-                IDCostoFlete: {
-                    min: 1
+                FechaTentativaEntrega: {
+                    required: true
                 }
             },
             messages: {
-                IDEmpresa: {
+                "Empresa.IDEmpresa": {
                     required: "-Seleccione una línea fletera."
                 },
-                IDSucursal: {
-                    required: "-Seleccione una sucursal."
+                "Cliente.IDCliente": {
+                    required: "-Seleccione un cliente."
                 },
-                IDChofer: {
+                "Chofer_IDChofer": {
                     required: "-Seleccione un chofer."
                 },
-                IDVehiculo: {
+                "Vehiculo.IDVehiculo": {
                     required: "-Seleccione un vehículo."
                 },
-                "Flete.kmInicialVehiculo": {
-                    required: "-Ingrese el kilómetraje inicial.",
+                kmInicialVehiculo: {
                     digits: "Ingrese un número entero mayor o igual a 0 (cero). "
                 },
-                IDCostoFlete: {
-                    min: "-Seleccione un tipo de costo del flete."
+                FechaTentativaEntrega: {
+                    required: "-Seleccione una fecha tentativa de entrega."
                 }
             },
             invalidHandler: function (event, validator) {
@@ -176,11 +189,96 @@
             submitHandler: function (form) {
                 successHandler1.show();
                 errorHandler1.hide();
-                AC_Flete();
+                AC_Cliente();
             }
         });
     };
-    //Validaciones
+    var LoadValidation_AC_Trayecto = function () {
+        var form1 = $('#frm_AC_Trayecto');
+        var errorHandler1 = $('.errorHandler', form1);
+        var successHandler1 = $('.successHandler', form1);
+
+        form1.validate({ // initialize the plugin
+            //debug: true,
+            errorElement: "li",
+            errorClass: 'text-danger',
+            errorLabelContainer: $("#validation_summary_AC_Trayecto"),
+            errorPlacement: function (error, element) { // render error placement for each input type
+                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
+                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
+                    error.insertAfter($(element).closest('.form-group').children('div'));
+                } else if (element.attr("type") == "text") {
+                    error.insertAfter($(element).closest('.input-group').children('div'));
+                } else {
+                    error.insertAfter(element);
+                    // for other inputs, just perform default behavior
+                }
+            },
+            ignore: "",
+            rules: {
+                "Trayecto.Remitente.IDCliente": {
+                    required: true
+                },
+                "Trayecto.LugarOrigen.Direccion": {
+                    required: true
+                },
+                "Trayecto.LugarOrigen.descripcion": {
+                    required: true
+                },
+                "Trayecto.Destinatario.IDCliente": {
+                    required: true
+                },
+                "Trayecto.LugarDestino.Direccion": {
+                    required: true
+                },
+                "Trayecto.LugarDestino.descripcion": {
+                    required: true
+                }
+            },
+            messages: {
+                "Trayecto.Remitente.IDCliente": {
+                    required: "-Seleccione un cliente de origen"
+                },
+                "Trayecto.LugarOrigen.Direccion": {
+                    required: "-La dirección del cliente de origen es necesario, seleccione un lugar de origen del mapa."
+                },
+                "Trayecto.LugarOrigen.descripcion": {
+                    required: "-La descripción del cliente de origen es necesario, seleccione un lugar de origen del mapa."
+                },
+                "Trayecto.Destinatario.IDCliente": {
+                    required: "-Seleccione un cliente destino."
+                },
+                "Trayecto.LugarDestino.Direccion": {
+                    required: "-La dirección del cliente de destino es necesario, seleccione un lugar de origen del mapa."
+                },
+                "Trayecto.LugarDestino.descripcion": {
+                    required: "-La descripción del cliente de destino es necesario, seleccione un lugar de origen del mapa."
+                }
+            },
+            invalidHandler: function (event, validator) {
+                successHandler1.hide();
+                errorHandler1.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');
+                $(element).closest('.controlError').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.controlError').removeClass('has-error');
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                label.removeClass('color');
+                $(element).closest('.controlError').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler1.show();
+                errorHandler1.hide();
+                AC_Trayecto();
+            }
+        });
+    };
     var LoadValidationFleteImpuesto = function () {
         var form1 = $('#frm_AC_FleteImpuesto');
         var errorHandler1 = $('.errorHandler', form1);
@@ -375,14 +473,14 @@
         });
     }
     //Funciones
-    function AC_FleteImpuesto() {
-        var form = $("#frm_AC_FleteImpuesto")[0];
+    function AC_Cliente() {
+        var form = $("#Frm_AC_Cliente")[0];
         var formData = new FormData(form);
 
         $.ajax({
             type: 'POST',
             data: formData,
-            url: '/Admin/FleteImpuesto/AC_FleteImpuesto/',
+            url: '/Admin/Flete/AC_Cliente/',
             contentType: false,
             processData: false,
             cache: false,
@@ -391,22 +489,58 @@
             },
             success: function (response) {
                 if (response.Success) {
-                    Mensaje("Registro guardado con éxito.", "1");
-                    $("#IDFlete").val = response.Mensaje;
+                    Mensaje("Datos guardados con éxito.", "1");
+                    //Recogo los valores
+                    var json = JSON.parse(response.Mensaje);
+                    $("#id_flete").val = json.id_flete;
+                    $("#Folio").text("Folio del flete: " + json.folio);
+                    //Habilitamos el tab cliente
+                    document.getElementById("tabTrayecto").dataset.toggle = "tab";
+                    $('#tabTrayecto').data('toggle', "tab")
+                    $("#liTrayecto").removeClass('disabled').addClass('pestaña');
                 }
                 else
                     Mensaje(response.Mensaje, "2");
             }
         });
     }
-    function AC_Flete() {
-        var form = $("#Frm_AC_Cliente")[0];
+    function AC_Trayecto() {
+        var form = $("#frm_AC_Trayecto")[0];
         var formData = new FormData(form);
 
         $.ajax({
             type: 'POST',
             data: formData,
-            url: '/Admin/Compra/AC_Flete/',
+            url: '/Admin/Flete/AC_Trayecto/',
+            contentType: false,
+            processData: false,
+            cache: false,
+            error: function (response) {
+                Mensaje(response.Mensaje, "2");
+            },
+            success: function (response) {
+                if (response.Success) {
+                    Mensaje("Trayecto creado con éxito.", "1");
+                    //Recogo los valores
+                    $("#Trayecto_id_trayecto").val = response.Mensaje;
+                    //Habilitamos el tab movimientos
+                    document.getElementById("tabCobro").dataset.toggle = "tab";
+                    $('#tabCobro').data('toggle', "tab")
+                    $("#liCobro").removeClass('disabled').addClass('pestaña');
+                }
+                else
+                    Mensaje(response.Mensaje, "2");
+            }
+        });
+    }
+    function AC_FleteImpuesto() {
+        var form = $("#frm_AC_FleteImpuesto")[0];
+        var formData = new FormData(form);
+
+        $.ajax({
+            type: 'POST',
+            data: formData,
+            url: '/Admin/FleteImpuesto/AC_FleteImpuesto/',
             contentType: false,
             processData: false,
             cache: false,
@@ -436,7 +570,7 @@
             Importe.val(total.toFixed(2));
         }
     }
-    function CalculateAndDisplayRoute(directionsService, directionsDisplay) {
+    function CalculateAndDisplayRoute(directionsService, directionsDisplay, map) {
         var selectIndexInicio   = lugarOrigen.selectedIndex;
         var optionInicio        = lugarOrigen.options.item(selectIndexInicio);
         var latitudInicial      = optionInicio.dataset.latitud.replace(",", ".");
@@ -468,6 +602,43 @@
             if ((optionInicio.text != "-- Seleccione --") && (optionFinal.text != "-- Seleccione --"))
                 window.alert('No se pudo cargar la ubicación, verifique sus coordenas en el catálogo de Lugares');
         }
+    }
+//Aunque no lo utilizo, puede servir en otro momento, aunque ya no se utiliza en la nueva version de googleMap
+    /**
+* Returns the zoom level at which the given rectangular region fits in the map view. 
+* The zoom level is computed for the currently selected map type. 
+* @param {google.maps.Map} map
+* @param {google.maps.LatLngBounds} bounds 
+* @return {Number} zoom level
+**/
+    function getZoomByBounds(map, bounds) {
+        var MAX_ZOOM = map.mapTypes.get(map.getMapTypeId()).maxZoom || 22;
+        var MIN_ZOOM = map.mapTypes.get(map.getMapTypeId()).minZoom || 0;
+        console.log("MAX_ZOOM: " + MAX_ZOOM);
+        console.log("MIN_ZOOM: " + MIN_ZOOM);
+
+        var ne = map.getProjection().fromLatLngToPoint(bounds.getNorthEast());
+        var sw = map.getProjection().fromLatLngToPoint(bounds.getSouthWest());
+        console.log("ne: " + ne);
+        console.log("sw " + sw);
+
+        console.log("GetDiv.width(): " + $(map.getDiv()).width());
+        console.log("GetDiv.height(): " + $(map.getDiv()).height());
+
+        var worldCoordWidth = Math.abs(ne.x - sw.x);
+        var worldCoordHeight = Math.abs(ne.y - sw.y);
+        console.log("worldCoordWidth " + worldCoordWidth);
+        console.log("worldCoordHeight " + worldCoordHeight);
+
+        //Fit padding in pixels 
+        var FIT_PAD = 40;
+
+        for (var zoom = MAX_ZOOM; zoom >= MIN_ZOOM; --zoom) {
+            if (worldCoordWidth * (1 << zoom) + 2 * FIT_PAD < $(map.getDiv()).width() &&
+                worldCoordHeight * (1 << zoom) + 2 * FIT_PAD < $(map.getDiv()).height())
+                return zoom;
+        }
+        return 0;
     }
     function GetChoferesXIDEmpresa(IDEmpresa) {
         $.ajax({
@@ -597,12 +768,31 @@
             }
         });
     }
-
+    function DesbloquearTabs() {
+        //Solo el primer tab esta desbloqueado
+        var key1 = $("#id_flete");
+        var key2 = $("#Trayecto_id_trayecto");
+        if (key1.val().length == 36) {
+            //Hay un flete desbloqueamos el trayecto
+            document.getElementById("tabTrayecto").dataset.toggle = "tab";
+            $('#tabTrayecto').data('toggle', "tab")
+            $("#liTrayecto").removeClass('disabled').addClass('pestaña');
+        }
+        if (key2.val().length == 36) {
+            //Hay un flete desbloqueamos el cobro
+            document.getElementById("tabCobro").dataset.toggle = "tab";
+            $('#tabCobro').data('toggle', "tab")
+            $("#liCobro").removeClass('disabled').addClass('pestaña');
+        }
+    }
     return {
-        init: function (option, IDFlete) {
-            InitMap(option);
-            RunEventsLineaFletera();
-            LoadValidationFlete();
+        init: function (IDFlete) {
+            InitMap();
+            RunEventsGeneral();
+            DesbloquearTabs();
+            LoadValidation_AC_Cliente();
+            LoadValidation_AC_Trayecto();
+
             LoadTableImpuesto(IDFlete);
         }
     };

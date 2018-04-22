@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -19,6 +20,7 @@ namespace CreativaSL.Web.Ganados.Models
             FormaPago = new CFDI_FormaPagoModels();
             MetodoPago = new CFDI_MetodoPagoModels();
             RespuestaAjax = new RespuestaAjax();
+            FechaTentativaEntrega = DateTime.Now;
         }
 
         //No tocar
@@ -35,10 +37,15 @@ namespace CreativaSL.Web.Ganados.Models
         public string Folio { get; set; }
         public decimal TotalImpuestoTrasladado { get; set; }
         public decimal TotalImpuestoRetenido { get; set; }
-        public decimal totalFlete { get; set; }
+        public decimal TotalFlete { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime FechaFinalizadoFlete { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime FechaTentativaEntrega { get; set; }
         public string CondicionPago { get; set; }
+        public int Estatus { get; set; }
 
         //ID
         public CatEmpresaModels Empresa { get; set; }

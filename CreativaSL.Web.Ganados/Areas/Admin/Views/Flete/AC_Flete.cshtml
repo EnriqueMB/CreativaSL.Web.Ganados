@@ -7,33 +7,35 @@
 
 @section css
 {
-   <style>
-       #map {
-        height: 400px;
-    }
-    /* Optional: Makes the sample page fill the window. */
-    html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-    }
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
-    #floating-panel {
-        display: block;
-        top: 10px;
-        left: 25%;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-        text-align: center;
-        font-family: 'Roboto','sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-    }
-    .form-control[disabled], .form-control[readonly] {
-    color: #000 !important; 
-}
+        #floating-panel {
+            display: block;
+            top: 10px;
+            left: 25%;
+            z-index: 5;
+            background-color: #fff;
+            padding: 5px;
+            border: 1px solid #999;
+            text-align: center;
+            font-family: 'Roboto','sans-serif';
+            line-height: 30px;
+            padding-left: 10px;
+        }
+
+        .form-control[disabled], .form-control[readonly] {
+            color: #000 !important;
+        }
     </style>
 }
 @section featured
@@ -42,6 +44,12 @@
         var message = TempData["message"] ?? string.Empty;
         var typemessage = TempData["typemessage"] ?? string.Empty;
     }
+    <div class="col-md-12">
+        <h3>
+            @Html.Label("Folio del flete: " + Model.Folio, new { id = "Folio", style="float: right" })
+        </h3>
+    </div>
+
     <div class="row">
         <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
             <h3></h3>
@@ -51,13 +59,12 @@
         </div>
         <!--INICIA TABS-->
         <div class="panel panel-default tabs">
-
             <!-- Nav tabs -->
-            <ul class="nav nav-tabs"    role="tablist">
-                <li id="liCliente"      role="presentation" class="active">  <a id="tabCliente"     class="pestaña" href="#cliente"     aria-controls="cliente"     role="tab" data-toggle="tab">Cliente</a></li>
-                <li id="liUbicacion"    role="presentation" class="disabled"><a id="tabUbicacion"   class="pestaña" href="#ubicacion"   aria-controls="ubicacion"   role="tab" data-toggle="">Ubicacion</a></li>
-                <li id="liPago"         role="presentation" class="disabled"><a id="tabPago"        class="pestaña" href="#pago"        aria-controls="pago"        role="tab" data-toggle="">Pago</a></li>
-                <li id="liImpuesto"     role="presentation" class="disabled"><a id="tabImpuesto"    class="pestaña" href="#impuestos"   aria-controls="impuestos"   role="tab" data-toggle="">Impuestos</a></li>
+            <ul class="nav nav-tabs" role="tablist">
+                <li id="liCliente" role="presentation" class="active">  <a id="tabCliente" class="pestaña cslTablist" href="#cliente" aria-controls="cliente" role="tab" data-toggle="tab">Cliente</a></li>
+                <li id="liTrayecto" role="presentation" class="disabled"><a id="tabTrayecto" class="pestaña cslTablist" href="#trayecto" aria-controls="trayecto" role="tab" data-toggle="">Trayecto</a></li>
+                <li id="liCobro" role="presentation" class="disabled"><a id="tabCobro" class="pestaña cslTablist" href="#cobro" aria-controls="cobro" role="tab" data-toggle="">Cobro</a></li>
+                <li id="liImpuesto" role="presentation" class="disabled"><a id="tabImpuesto" class="pestaña cslTablist" href="#impuestos" aria-controls="impuestos" role="tab" data-toggle="">Impuestos</a></li>
             </ul>
 
             <!-- Tab panes -->
@@ -77,14 +84,14 @@
                                 </div>
                                 <div class="panel-body">
                                     @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
-                                    <div id="validation_summary_clienteFlete" class="field_error "></div><br />
+                                    <div id="validation_summary_AC_Cliente" class="field_error "></div><br />
                                     <div class="form-group">
                                         <div class="col-md-12 controlError">
                                             <label class="col-md-1 control-label">Linea fletera</label>
                                             <div class="col-md-11 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.DropDownListFor(model => model.Empresa.IDEmpresa, new SelectList(Model.ListaEmpresa, "IDEmpresa", "RazonFiscal"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                    @Html.DropDownListFor(model => model.Empresa.IDEmpresa, new SelectList(Model.ListaEmpresa, "IDEmpresa", "RazonFiscal"), new { id = "Empresa_IDEmpresa", @class = "form-control select", data_live_search = "true", data_style = "form-control" })
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.Empresa.IDEmpresa)
                                             </div>
@@ -102,7 +109,7 @@
                                                             <option value="@cliente.IDCliente" data-rfc="@cliente.RFC"
                                                                     @if (Model.Cliente.IDCliente == cliente.IDCliente) { <text>
                                                                     selected="selected"
-                                                                    </text>        }>
+                                                                    </text> }>
                                                                 @cliente.NombreRazonSocial
                                                             </option>
                                                         }
@@ -177,154 +184,13 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 controlError">
-                                        <label class="col-md-2 control-label">Fecha tentativa de entrega</label>
-                                        <div class="col-md-10 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.FechaTentativaEntrega, "{0:dd/MM/yyyy}", new { id = "FechaTentativaEntrega", autocomplete = "off", @class = "form-control datepicker", @readonly = "readonly" })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.FechaTentativaEntrega)
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>
-                                <div class="panel-footer">
-                                    <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                                    <a href="@Url.Action("Index", "Flete")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </div>
-                <div role="tabpanel" class="tab-pane" id="ubicacion">
-                    <div class="col-md-12">
-                        @{ Html.EnableClientValidation(false); }
-                        @using (Html.BeginForm("AC_Ubicacion", "Flete", FormMethod.Post, new { id = "frmUbicacionFlete", @class = "form-horizontal", autocomplete = "off" }))
-                        {
-                            @Html.HiddenFor(model => model.id_flete);
-                            @Html.AntiForgeryToken()
-
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><strong>Ubicación </strong></h3>
-                                    <ul class="panel-controls"></ul>
-                                </div>
-                                <div class="panel-body">
-                                    @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
-                                    <div id="validation_summary_ubicacionFlete" class="field_error "></div><br />
-                                    <div class="row">
-                                        <fieldset class="col-md-6">
-                                            <legend>Origen</legend>
-                                            <div class="panel panel-default">
-                                                <div class="panel-body">
-                                                    <div class="form-group">
-                                                        <div class="col-md-12 controlError">
-                                                            <label class="col-md-2 control-label">Remitente</label>
-                                                            <div class="col-md-10 col-xs-12">
-                                                                <div class="input-group">
-                                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                    @Html.DropDownListFor(model => model.Trayecto.Remitente.IDCliente, new SelectList(Model.Trayecto.ListaRemitente, "IDCliente", "NombreRazonSocial"), new { @class = "form-control select ", data_live_search = "true", data_style = "form-control" })
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="col-md-12 controlError">
-                                                            <label class="col-md-2 control-label">Domicilio</label>
-                                                            <div class="col-md-10 col-xs-12">
-                                                                <div class="input-group">
-                                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                    @Html.TextBoxFor(model => model.Trayecto.LugarOrigen.Direccion, new { id = "Trayecto_LugarOrigen_Direccion", @class = "form-control", @readonly = "readonly" })
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="col-md-12 controlError">
-                                                            <label class="col-md-2 control-label">Se recogerá en:</label>
-                                                            <div class="col-md-10 col-xs-12">
-                                                                <div class="input-group">
-                                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                    @Html.TextBoxFor(model => model.Trayecto.LugarOrigen.descripcion, new { id = "Trayecto_LugarOrigen_descripcion", @class = "form-control", @readonly = "readonly" })
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                            <label class="col-md-2 control-label">Fecha tentativa de entrega</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.FechaTentativaEntrega, "{0:dd/MM/yyyy}", new { id = "FechaTentativaEntrega", autocomplete = "off", @class = "form-control datepicker", @readonly = "readonly" })
                                                 </div>
-                                            </div>
-                                        </fieldset>
-                                        <fieldset class="col-md-6">
-                                            <legend>Destino</legend>
-
-                                            <div class="panel panel-default">
-                                                <div class="panel-body">
-                                                    <div class="form-group">
-                                                        <div class="col-md-12 controlError">
-                                                            <label class="col-md-2 control-label">Destinatario</label>
-                                                            <div class="col-md-10 col-xs-12">
-                                                                <div class="input-group">
-                                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                    @Html.DropDownListFor(model => model.Trayecto.Destinatario.IDCliente, new SelectList(Model.Trayecto.ListaDestinatario, "IDCliente", "NombreRazonSocial"), new { @class = "form-control select ", data_live_search = "true", data_style = "form-control" })
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="col-md-12 controlError">
-                                                            <label class="col-md-2 control-label">Domicilio</label>
-                                                            <div class="col-md-10 col-xs-12">
-                                                                <div class="input-group">
-                                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                    @Html.TextBoxFor(model => model.Trayecto.LugarDestino.Direccion, new { id = "Trayecto_LugarDestino_Direccion", @class = "form-control", @readonly = "readonly" })
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="col-md-12 controlError">
-                                                            <label class="col-md-2 control-label">Se entregará en:</label>
-                                                            <div class="col-md-10 col-xs-12">
-                                                                <div class="input-group">
-                                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                    @Html.TextBoxFor(model => model.Trayecto.LugarDestino.descripcion, new { id = "Trayecto_LugarDestino_descripcion", @class = "form-control", placeholder = "Lugar de entrega", @readonly = "readonly" })
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-                                        <div class="form-group">
-                                            <div class="col-md-12">
-                                                <div id="floating-panel">
-                                                    <b>Origen: </b>
-                                                    <select id="Trayecto_LugarOrigen_id_lugar" name="Trayecto.LugarOrigen.id_lugar">
-                                                        @foreach (var lugar in Model.Trayecto.ListaLugarOrigen)
-                                                        {
-                                                            <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud" data-direccion="@lugar.Direccion"
-                                                                    @if (Model.Trayecto.id_lugarOrigen == lugar.id_lugar) { <text>
-                                                                    selected="selected"
-                                                                    </text>      }>
-                                                                @lugar.descripcion
-                                                            </option>
-                                                        }
-                                                    </select>
-
-                                                    <b>Destino: </b>
-
-                                                    <select id="Trayecto_LugarDestino_id_lugar" name="Trayecto.LugarDestino.id_lugar">
-                                                        @foreach (var lugar in Model.Trayecto.ListaLugarDestino)
-                                                        {
-                                                            <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud" data-direccion="@lugar.Direccion"
-                                                                    @if (Model.Trayecto.id_lugarDestino == lugar.id_lugar) { <text>
-                                                                    selected="selected"
-                                                                    </text>   }>
-                                                                @lugar.descripcion
-                                                            </option>
-                                                        }
-                                                    </select>
-                                                </div>
-                                                <div id="map"></div>
+                                                @Html.ValidationMessageFor(model => model.FechaTentativaEntrega)
                                             </div>
                                         </div>
                                     </div>
@@ -337,17 +203,159 @@
                         }
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane" id="pago">
+                <div role="tabpanel" class="tab-pane" id="trayecto">
                     <div class="col-md-12">
                         @{ Html.EnableClientValidation(false); }
-                        @using (Html.BeginForm("AC_Pago", "Flete", FormMethod.Post, new { id = "frmPagoFlete", @class = "form-horizontal", autocomplete = "off" }))
+                        @using (Html.BeginForm("AC_Trayecto", "Flete", FormMethod.Post, new { id = "frm_AC_Trayecto", @class = "form-horizontal", autocomplete = "off" }))
+    {
+                    @Html.HiddenFor(model => model.id_flete);
+                    @Html.HiddenFor(model => model.Trayecto.id_trayecto);
+                    @Html.AntiForgeryToken()
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Información del <strong>Trayecto</strong></h3>
+                            <ul class="panel-controls"></ul>
+                        </div>
+                        <div class="panel-body">
+                            @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
+                            <div id="validation_summary_AC_Trayecto" class="field_error "></div><br />
+                            <div class="row">
+                                <fieldset class="col-md-6">
+                                    <legend>Origen</legend>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <div class="col-md-12 controlError">
+                                                    <label class="col-md-2 control-label">Remitente</label>
+                                                    <div class="col-md-10 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                            @Html.DropDownListFor(model => model.Trayecto.Remitente.IDCliente, new SelectList(Model.Trayecto.ListaRemitente, "IDCliente", "NombreRazonSocial"), new { @class = "form-control select ", data_live_search = "true", data_style = "form-control" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12 controlError">
+                                                    <label class="col-md-2 control-label">Domicilio</label>
+                                                    <div class="col-md-10 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                            @Html.TextBoxFor(model => model.Trayecto.LugarOrigen.Direccion, new { id = "Trayecto_LugarOrigen_Direccion", @class = "form-control", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12 controlError">
+                                                    <label class="col-md-2 control-label">Se recogerá en:</label>
+                                                    <div class="col-md-10 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                            @Html.TextBoxFor(model => model.Trayecto.LugarOrigen.descripcion, new { id = "Trayecto_LugarOrigen_descripcion", @class = "form-control", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="col-md-6">
+                                    <legend>Destino</legend>
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <div class="col-md-12 controlError">
+                                                    <label class="col-md-2 control-label">Destinatario</label>
+                                                    <div class="col-md-10 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                            @Html.DropDownListFor(model => model.Trayecto.Destinatario.IDCliente, new SelectList(Model.Trayecto.ListaDestinatario, "IDCliente", "NombreRazonSocial"), new { @class = "form-control select ", data_live_search = "true", data_style = "form-control" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12 controlError">
+                                                    <label class="col-md-2 control-label">Domicilio</label>
+                                                    <div class="col-md-10 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                            @Html.TextBoxFor(model => model.Trayecto.LugarDestino.Direccion, new { id = "Trayecto_LugarDestino_Direccion", @class = "form-control", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12 controlError">
+                                                    <label class="col-md-2 control-label">Se entregará en:</label>
+                                                    <div class="col-md-10 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                            @Html.TextBoxFor(model => model.Trayecto.LugarDestino.descripcion, new { id = "Trayecto_LugarDestino_descripcion", @class = "form-control", placeholder = "Lugar de entrega", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div id="floating-panel">
+                                            <b>Origen: </b>
+                                            <select id="Trayecto_LugarOrigen_id_lugar" name="Trayecto.LugarOrigen.id_lugar">
+                                                @foreach (var lugar in Model.Trayecto.ListaLugarOrigen)
+                            {
+                                <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud" data-direccion="@lugar.Direccion"
+                                        @if (Model.Trayecto.LugarOrigen.id_lugar == lugar.id_lugar) { <text>
+                                        selected="selected"
+                                        </text> }>
+                                    @lugar.descripcion
+                                </option>
+        }
+                                            </select>
+
+                                            <b>Destino: </b>
+
+                                            <select id="Trayecto_LugarDestino_id_lugar" name="Trayecto.LugarDestino.id_lugar">
+                                                @foreach (var lugar in Model.Trayecto.ListaLugarDestino)
+                            {
+                                <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud" data-direccion="@lugar.Direccion"
+                                        @if (Model.Trayecto.LugarDestino.id_lugar == lugar.id_lugar) { <text>
+                                        selected="selected"
+                                        </text> }>
+                                    @lugar.descripcion
+                                </option>
+        }
+                                            </select>
+                                        </div>
+                                        <div id="map"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                            <a href="@Url.Action("Index", "Flete")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                        </div>
+                    </div>
+}
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="cobro">
+                    <div class="col-md-12">
+                        @{ Html.EnableClientValidation(false); }
+                        @using (Html.BeginForm("AC_Cobro", "Flete", FormMethod.Post, new { id = "frm_AC_Cobro", @class = "form-horizontal", autocomplete = "off" }))
                         {
                             @Html.HiddenFor(model => model.id_flete);
                             @Html.AntiForgeryToken()
 
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title"><strong>Detalle del Pago </strong></h3>
+                                    <h3 class="panel-title">Información del <strong>Cobro</strong></h3>
                                     <ul class="panel-controls"></ul>
                                 </div>
                                 <div class="panel-body">
@@ -447,7 +455,7 @@
                                                 <div class="col-md-9col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        @Html.TextBoxFor(model => model.totalFlete, new { @class = "form-control", @readonly = "readonly" })
+                                                        @Html.TextBoxFor(model => model.TotalFlete, new { @class = "form-control", @readonly = "readonly" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -500,16 +508,15 @@
                     </div>
                 </div>
             </div>
-                   
         </div>
 
+   
+    <!--TERMINA TABS-->
+    <div id="ModalImpuesto" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
+        <div class="modal-dialog modal-lg" id="ContenidoModalImpuesto">
+
+        </div>
     </div>
-        <!--TERMINA TABS-->
-        <div id="ModalImpuesto" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog modal-lg" id="ContenidoModalImpuesto">
-
-            </div>
-        </div>
     </div>
     <script>
         var message     = "@message";
@@ -534,8 +541,9 @@
         var IDFlete = "@Model.id_flete";
 
         Mensaje(message, typemessage);
-        Flete.init(2, IDFlete);
+        Flete.init(IDFlete);
     });
+
+        
     </script>
 }
-
