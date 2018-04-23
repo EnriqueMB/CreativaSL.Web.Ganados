@@ -140,10 +140,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Asistencia.opcion = 1;
                 Asistencia.user = User.Identity.Name;
                 Asistencia = AsistenciaDatos.ActualizarListaFaltas(Asistencia);
-                if (Asistencia.Completado)
-                    return Json("true");
-                else
-                    return Json("false");
+                if (Asistencia.Completado) {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "La lista de faltas fue actualizada";
+                    return Json("");
+                }
+
+                else { return Json("false"); }
+                    
                 // TODO: Add delete logic here
             }
             catch

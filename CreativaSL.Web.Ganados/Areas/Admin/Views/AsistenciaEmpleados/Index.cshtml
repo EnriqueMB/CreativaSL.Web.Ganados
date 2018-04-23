@@ -53,7 +53,7 @@
                                     <ul class="panel-controls">
 
                                        
-                                        <li><a href="@Url.Action("Upload", "AsistenciaEmpleados", new { id = Model.fecha.ToString("yyyy-MM-dd") })" class="btn btn-warning btnCrear"><span class="fa fa fa-bars "></span> Registrar faltas</a></li>
+                                        <li><a href="@Url.Action("Upload", "AsistenciaEmpleados", new { id = Model.fecha.ToString("yyyy-MM-dd") })" class="btn btn-warning btnCrear"><span class="fa fa fa-check "></span> Registrar faltas</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -62,11 +62,14 @@
                     </div>
                     
                     <div class="panel-body">
+                       
+                       @if (!string.IsNullOrEmpty(Model.IDSucursal))
+                       {
                         <div class="table-responsive">
                             <table class="table" id="Tbl5-g">
                                 <thead>
-                                     <tr>
-                                         <th> Usuario</th>
+                                    <tr>
+                                        <th> Usuario</th>
                                         <th>Codigo Usuario</th>
                                         <th>Nombre Usuario</th>
                                         <th>Sucursal</th>
@@ -74,21 +77,46 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   @foreach (var item in Model.listaEmpleados)
-                                   {
-                                       <tr>
-                                           <td >@item.IDEmpleado</td>
-                                           <td>@item.CodigoUsuario</td>
-                                           <td>@item.NombreCompleto</td>
-                                           <td>@item.NombreSucursal</td>
-                                           <td></td>
-                                       </tr>
-                                   }
+                                    @foreach (var item in Model.listaEmpleados)
+                                    {
+                                        <tr>
+                                            <td>@item.IDEmpleado</td>
+                                            <td>@item.CodigoUsuario</td>
+                                            <td>@item.NombreCompleto</td>
+                                            <td>@item.NombreSucursal</td>
+                                            <td></td>
+                                        </tr>
+                                    }
 
                                 </tbody>
-                              
+
                             </table>
                         </div>
+                       }
+                       else
+                       {
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th> Usuario</th>
+                                        <th>Codigo Usuario</th>
+                                        <th>Nombre Usuario</th>
+                                        <th>Sucursal</th>
+                                        <th>Fecha : @Model.fecha.ToShortDateString();</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   <tr>
+                                       <td colspan="5">Seleccione sucursal</td>
+                                   </tr>
+
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                       }
                     </div>
                 </div>
                 <!-- END DEFAULT DATATABLE -->
