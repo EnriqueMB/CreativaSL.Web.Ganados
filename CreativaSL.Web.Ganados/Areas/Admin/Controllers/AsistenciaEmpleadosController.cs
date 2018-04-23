@@ -57,6 +57,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             AsistenciaEmpleadoModels Asistencia = new AsistenciaEmpleadoModels();
             Asistencia.conexion = Conexion;
+            Asistencia.opcion = 1;
             Asistencia.fecha = Convert.ToDateTime(id);
             _AsistenciaEmpleados_Datos AsistenciaDatos = new _AsistenciaEmpleados_Datos();
             if (ModelState.IsValid)
@@ -119,6 +120,40 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 ModelState.AddModelError("File", "Please upload your file");
             }
             return View();
+        }
+        // GET: Admin/EntregaCombustible/Delete/5
+        public ActionResult Actualizar(int id)
+        {
+            return View();
+        }
+
+        // POST: Admin/EntregaCombustible/Delete/5
+        [HttpPost]
+        public ActionResult Actualizar(string id, FormCollection collection)
+        {
+            try
+            {
+                AsistenciaEmpleadoModels Asistencia = new AsistenciaEmpleadoModels();
+                _AsistenciaEmpleados_Datos AsistenciaDatos = new _AsistenciaEmpleados_Datos();
+                Asistencia.conexion = Conexion;
+                Asistencia.IDFalta = id;
+                Asistencia.opcion = 1;
+                Asistencia.user = User.Identity.Name;
+                Asistencia = AsistenciaDatos.ActualizarListaFaltas(Asistencia);
+                if (Asistencia.Completado)
+                    return Json("true");
+                else
+                    return Json("false");
+                // TODO: Add delete logic here
+            }
+            catch
+            {
+                EntregaCombustibleModels Entrega = new EntregaCombustibleModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
+                return Json("");
+
+            }
         }
     }
 }

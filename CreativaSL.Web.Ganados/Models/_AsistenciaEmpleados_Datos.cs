@@ -10,7 +10,34 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class _AsistenciaEmpleados_Datos
     {
-        
+        public AsistenciaEmpleadoModels ActualizarListaFaltas(AsistenciaEmpleadoModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.IDFalta,
+                    datos.user
+
+                };
+                object Resultado = SqlHelper.ExecuteScalar(datos.conexion, "spCSLDB_Faltas_ActualizarFaltasXFechaSistema", parametros);
+                datos.IDFalta = Resultado.ToString();
+                if (!string.IsNullOrEmpty(datos.IDFalta))
+                {
+                    datos.Completado = true;
+                }
+                else
+                {
+                    datos.Completado = false;
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<AsistenciaEmpleadoModels> GenerarListaFaltas(AsistenciaEmpleadoModels datos)
         {
             try
