@@ -122,7 +122,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                Token.IsTokenValid();
+                Token.SaveToken();
                 CatRemolqueModels Remolque = new CatRemolqueModels();
                 _CatRemolque_Datos RemolqueDatos = new _CatRemolque_Datos();
                 Remolque.Conexion = Conexion;
