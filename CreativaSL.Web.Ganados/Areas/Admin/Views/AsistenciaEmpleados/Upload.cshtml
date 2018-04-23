@@ -1,4 +1,4 @@
-﻿@model System.Data.DataTable
+﻿@model CreativaSL.Web.Ganados.Models.AsistenciaEmpleadoModels
 @using System.Data;
 @{
     ViewBag.Title = "Upload";
@@ -24,7 +24,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Documentos por Pagar </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Registro de faltas del día </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -34,23 +34,25 @@
                 <!-- START DEFAULT DATATABLE -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Detalle </strong> del documento por pagar </h3>
+                        <h3 class="panel-title"><strong>Documento </strong> de faltas de empleado  </h3>
                         <ul class="panel-controls"></ul>
                     </div>
                     <div class="panel-body">
                         <div class="col-md-6">
                             <div class="row">
-                                @using (Html.BeginForm("Upload", "AsistenciaEmpleados", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                @{ Html.EnableClientValidation(false); }
+                                @using (Html.BeginForm("Upload", "AsistenciaEmpleados", null, FormMethod.Post, new {id="form-faltas", enctype = "multipart/form-data" }))
                                 {
                                     @Html.AntiForgeryToken()
-                                    @Html.ValidationSummary()
+                                    @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                                      <div id="validation_summary" class="field_error "></div> //JS
 
                                     <div class="form-group">
                                         <input type="file" name="uploadfile" id="uploadfile" />
                                     </div>
 
                                     <div class="form-group">
-                                        <input type="submit" value="Upload" class="btn btn-default" />
+                                        <input type="submit" value="Registrar Faltas" class="btn btn-default" />
                                     </div>
 
 
@@ -61,26 +63,30 @@
                         @if (Model != null)
     {
                             <div class="col-md-12">
+                                <div class=" row">
+                                    <div class="col-md-12 text-center" ><h1>Empleados con falta en el día</h1></div>
+                                </div>
                                 <div class="row">
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                @foreach (DataColumn col in Model.Columns)
-                                                {
-                                                    <th>@col.ColumnName</th>
-                                                }
+                                               <th>Empleado</th>
+                                                <th>Sucursal</th>
+                                                <th>Fecha</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (DataRow row in Model.Rows)
-                                            {
+                                           @foreach (var row in Model.listaAsistencia)
+                                           {
                                                 <tr>
-                                                    @foreach (DataColumn col in Model.Columns)
-                                                    {
-                                                        <td>@row[col.ColumnName]</td>
-                                                    }
+                                                  
+                                                        <td>@row.IDEmpleados</td>
+                                                        <td>@row.IDSucursal</td>
+                                                        <td>@row.fecha.ToShortDateString()</td>
+                                                   
                                                 </tr>
-                                            }
+                                           }
+                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -133,14 +139,14 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
-   
+   <script type="text/javascript" src="@Url.Content("~/Content/js/RegistrarFaltas.js")"></script>
 
 
     <script>
     jQuery(document).ready(function () {
 
         Mensaje(message, typemessage);
-       
+        Faltas.init();
         $('#uploadfile').fileinput({
             theme: 'fa',
             language: 'es',

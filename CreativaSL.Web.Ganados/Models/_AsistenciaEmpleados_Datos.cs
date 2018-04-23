@@ -11,7 +11,7 @@ namespace CreativaSL.Web.Ganados.Models
     public class _AsistenciaEmpleados_Datos
     {
         
-        public int GenerarListaFaltas(AsistenciaEmpleadoModels datos)
+        public List<AsistenciaEmpleadoModels> GenerarListaFaltas(AsistenciaEmpleadoModels datos)
         {
             try
             {
@@ -20,11 +20,36 @@ namespace CreativaSL.Web.Ganados.Models
                 new SqlParameter("@TablaFalta", datos.tablaAsistencia),
                 new SqlParameter("@Fecha",datos.fecha),
                 new SqlParameter("@usuario", datos.user));
-                return Convert.ToInt32(dt.Tables[0].Rows[0][0].ToString());
+
+                DataTableReader Dr2 = dt.Tables[0].CreateDataReader();
+                List<AsistenciaEmpleadoModels> Lista = new List<AsistenciaEmpleadoModels>();
+                AsistenciaEmpleadoModels Item;
+                while (Dr2.Read())
+                {
+                    Item = new AsistenciaEmpleadoModels();
+                    Item.IDFalta = Dr2.GetString(Dr2.GetOrdinal("id_falta"));
+                    Item.IDEmpleados = Dr2.GetString(Dr2.GetOrdinal("nombreCompleto"));
+                    Item.IDSucursal = Dr2.GetString(Dr2.GetOrdinal("nombreSuc"));
+                    Item.fecha = Convert.ToDateTime(Dr2.GetString(Dr2.GetOrdinal("fecha")));
+                    Lista.Add(Item);
+                }
+                
+
+                
+                datos.listaAsistencia = Lista;
+                if (datos.listaAsistencia.Count>0)
+                {
+                    datos.Completado = true;
+                }
+                else
+                {
+                    datos.Completado = false;
+                }
+                return datos.listaAsistencia;
             }
             catch (Exception ex)
             {
-                return -1;
+                return datos.listaAsistencia;
             }
         }
         public List<CatEmpleadoModels> obtenerListaEmpleados(AsistenciaEmpleadoModels Datos)
@@ -35,7 +60,7 @@ namespace CreativaSL.Web.Ganados.Models
                 List<CatEmpleadoModels> lista = new List<CatEmpleadoModels>();
                 CatEmpleadoModels item;
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Datos.conexion, "spCSLDB_Faltas_get_Empleados");
+                dr = SqlHelper.ExecuteReader(Datos.conexion, "spCSLDB_Faltas_get_Empleados",Datos.IDSucursal);
                 while (dr.Read())
                 {
                     item = new CatEmpleadoModels();

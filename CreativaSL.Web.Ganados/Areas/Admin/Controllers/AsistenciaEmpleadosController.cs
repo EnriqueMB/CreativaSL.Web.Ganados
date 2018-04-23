@@ -22,15 +22,33 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             AsistenciaEmpleadoModels Asistencia = new AsistenciaEmpleadoModels();
             _AsistenciaEmpleados_Datos AsistenciaDatos = new _AsistenciaEmpleados_Datos();
+            _Combos_Datos Combo = new _Combos_Datos();
+            Asistencia.ListaSucursales = Combo.ObtenerComboSucursales(Conexion);
             Asistencia.conexion = Conexion;
+            Asistencia.IDSucursal = string.Empty;
             Asistencia.listaEmpleados = AsistenciaDatos.obtenerListaEmpleados(Asistencia);
 
             return View(Asistencia);
         }
+        [HttpPost]
+        public ActionResult Index(AsistenciaEmpleadoModels Asistencia)
+        {
+            
+            _AsistenciaEmpleados_Datos AsistenciaDatos = new _AsistenciaEmpleados_Datos();
+            _Combos_Datos Combo = new _Combos_Datos();
+            Asistencia.ListaSucursales = Combo.ObtenerComboSucursales(Conexion);
+            Asistencia.conexion = Conexion;
+            
+            Asistencia.listaEmpleados = AsistenciaDatos.obtenerListaEmpleados(Asistencia);
+
+            return View(Asistencia);
+        }
+
         public ActionResult Upload(string id)
         {
             AsistenciaEmpleadoModels Asistencia = new AsistenciaEmpleadoModels();
             Asistencia.fecha = Convert.ToDateTime(id);
+
             return View();
         }
         [HttpPost]
@@ -77,10 +95,23 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         }
                     });
                     reader.Close();
+                    Asistencia.user = User.Identity.Name;
                     //Sending result data to View
                     Asistencia.tablaAsistencia = result.Tables[0];
-                    Asistencia.Result=AsistenciaDatos.GenerarListaFaltas(Asistencia);
-                    return View(result.Tables[0]);
+                    Asistencia.listaAsistencia=AsistenciaDatos.GenerarListaFaltas(Asistencia);
+                    if (Asistencia.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Se han registrado las faltas del día.";
+                        return View(Asistencia);
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error registrar las faltas.";
+                        return View(Asistencia);
+                    }
+                  
                 }
             }
             else
