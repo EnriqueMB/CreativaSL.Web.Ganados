@@ -8,12 +8,14 @@ using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Models;
 using System.Data;
 using CreativaSL.Web.Ganados.ViewModels;
+using CreativaSL.Web.Ganados.App_Start;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     [Autorizado]
     public class CatClienteController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatClientes
         public ActionResult Index()
@@ -48,6 +50,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatClienteModels Clientes = new CatClienteModels();
                 CatCliente_Datos ClientesDatos = new CatCliente_Datos();
                 Clientes.EsPersonaFisica = false;
@@ -71,33 +74,41 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             CatCliente_Datos ClienteDatos = new CatCliente_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    clienteID.Conexion = Conexion;
-                    clienteID.Opcion = 1;
-                    clienteID.Usuario = User.Identity.Name;
-                    clienteID = ClienteDatos.AbcCatClientes(clienteID);
-                    if (clienteID.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Index");
+                        clienteID.Conexion = Conexion;
+                        clienteID.Opcion = 1;
+                        clienteID.Usuario = User.Identity.Name;
+                        clienteID = ClienteDatos.AbcCatClientes(clienteID);
+                        if (clienteID.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            clienteID.ListaCmbSucursal = ClienteDatos.ObteneComboCatSucursal(clienteID);
+                            clienteID.ListaRegimenCMB = ClienteDatos.ObtenerComboRegimenFiscal(clienteID);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(clienteID);
+                        }
                     }
                     else
                     {
+                        clienteID.Conexion = Conexion;
                         clienteID.ListaCmbSucursal = ClienteDatos.ObteneComboCatSucursal(clienteID);
                         clienteID.ListaRegimenCMB = ClienteDatos.ObtenerComboRegimenFiscal(clienteID);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(clienteID);
                     }
                 }
                 else
                 {
-                    clienteID.Conexion = Conexion;
-                    clienteID.ListaCmbSucursal = ClienteDatos.ObteneComboCatSucursal(clienteID);
-                    clienteID.ListaRegimenCMB = ClienteDatos.ObtenerComboRegimenFiscal(clienteID);
-                    return View(clienteID);
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -117,6 +128,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatClienteModels Client = new CatClienteModels();
                 CatCliente_Datos ClienteDatos = new CatCliente_Datos();
                 Client.Conexion = Conexion;
@@ -142,33 +154,41 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             CatCliente_Datos ClienteDatos = new CatCliente_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    clienteID.Conexion = Conexion;
-                    clienteID.Opcion = 2;
-                    clienteID.Usuario = User.Identity.Name;
-                    clienteID = ClienteDatos.AbcCatClientes(clienteID);
-                    if (clienteID.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Index");
+                        clienteID.Conexion = Conexion;
+                        clienteID.Opcion = 2;
+                        clienteID.Usuario = User.Identity.Name;
+                        clienteID = ClienteDatos.AbcCatClientes(clienteID);
+                        if (clienteID.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            clienteID.ListaCmbSucursal = ClienteDatos.ObteneComboCatSucursal(clienteID);
+                            clienteID.ListaRegimenCMB = ClienteDatos.ObtenerComboRegimenFiscal(clienteID);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(clienteID);
+                        }
                     }
                     else
                     {
+                        clienteID.Conexion = Conexion;
                         clienteID.ListaCmbSucursal = ClienteDatos.ObteneComboCatSucursal(clienteID);
                         clienteID.ListaRegimenCMB = ClienteDatos.ObtenerComboRegimenFiscal(clienteID);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(clienteID);
                     }
                 }
                 else
                 {
-                    clienteID.Conexion = Conexion;
-                    clienteID.ListaCmbSucursal = ClienteDatos.ObteneComboCatSucursal(clienteID);
-                    clienteID.ListaRegimenCMB = ClienteDatos.ObtenerComboRegimenFiscal(clienteID);
-                    return View(clienteID);
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -211,6 +231,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CuentaBancariaViewModels Model = new CuentaBancariaViewModels();
                 CatCliente_Datos ClientesDatos = new CatCliente_Datos();
                 Model.IDCliente = id;
@@ -232,39 +253,47 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             CatCliente_Datos ClienteDatos = new CatCliente_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    CuentaBancariaModels datosCuenta = new CuentaBancariaModels
+                    if (ModelState.IsValid)
                     {
-                        Banco = new CatBancoModels { IDBanco = cuentaID.IDBanco },
-                        Cliente = new CatClienteModels {IDCliente = cuentaID.IDCliente },
-                        Titular = cuentaID.Titular,
-                        NumCuenta = cuentaID.NumCuenta,
-                        NumTarjeta = cuentaID.NumTarjeta,
-                        Clabe = cuentaID.Clabe,
-                        Conexion = Conexion,
-                        NuevoRegistro = true,
-                        Usuario = User.Identity.Name
-                    };
-                    ClienteDatos.ACDatosBancariosCliente(datosCuenta);
-                    if (datosCuenta.Completado == true)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Cuentas", new {id=cuentaID.IDCliente });
+                        CuentaBancariaModels datosCuenta = new CuentaBancariaModels
+                        {
+                            Banco = new CatBancoModels { IDBanco = cuentaID.IDBanco },
+                            Cliente = new CatClienteModels { IDCliente = cuentaID.IDCliente },
+                            Titular = cuentaID.Titular,
+                            NumCuenta = cuentaID.NumCuenta,
+                            NumTarjeta = cuentaID.NumTarjeta,
+                            Clabe = cuentaID.Clabe,
+                            Conexion = Conexion,
+                            NuevoRegistro = true,
+                            Usuario = User.Identity.Name
+                        };
+                        ClienteDatos.ACDatosBancariosCliente(datosCuenta);
+                        if (datosCuenta.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Cuentas", new { id = cuentaID.IDCliente });
+                        }
+                        else
+                        {
+                            cuentaID.ListaBancos = ClienteDatos.ObtenerComboCatBancos(Conexion);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                            return View(cuentaID);
+                        }
                     }
                     else
                     {
                         cuentaID.ListaBancos = ClienteDatos.ObtenerComboCatBancos(Conexion);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
                         return View(cuentaID);
                     }
                 }
                 else
                 {
-                    cuentaID.ListaBancos = ClienteDatos.ObtenerComboCatBancos(Conexion);
-                    return View(cuentaID);
+                    return RedirectToAction("Cuentas", new { id = cuentaID.IDCliente });
                 }
             }
             catch
@@ -283,6 +312,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             CatCliente_Datos ClienteDatos = new CatCliente_Datos();
             try
             {
+                Token.SaveToken();
                 CuentaBancariaModels Datos = new CuentaBancariaModels { Conexion = Conexion, IDDatosBancarios = id, Cliente = new CatClienteModels {IDCliente = idC } };
                 ClienteDatos.ObtenerDetalleDatosBancariosCliente(Datos);
                 CuentaBancariaViewModels ViewCuenta = Datos.GetViewCB();
@@ -306,40 +336,48 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             CatCliente_Datos ClienteDatos = new CatCliente_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    CuentaBancariaModels datosCuenta = new CuentaBancariaModels
+                    if (ModelState.IsValid)
                     {
-                        IDDatosBancarios = cuentaID.IDDatosBancarios,
-                        Banco = new CatBancoModels { IDBanco = cuentaID.IDBanco },
-                        Cliente = new CatClienteModels { IDCliente = cuentaID.IDCliente },
-                        Titular = cuentaID.Titular,
-                        NumCuenta = cuentaID.NumCuenta,
-                        NumTarjeta = cuentaID.NumTarjeta,
-                        Clabe = cuentaID.Clabe,
-                        Conexion = Conexion,
-                        NuevoRegistro = false,
-                        Usuario = User.Identity.Name
-                    };
-                    ClienteDatos.ACDatosBancariosCliente(datosCuenta);
-                    if (datosCuenta.Completado == true)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Cuentas", new { id = cuentaID.IDCliente });
+                        CuentaBancariaModels datosCuenta = new CuentaBancariaModels
+                        {
+                            IDDatosBancarios = cuentaID.IDDatosBancarios,
+                            Banco = new CatBancoModels { IDBanco = cuentaID.IDBanco },
+                            Cliente = new CatClienteModels { IDCliente = cuentaID.IDCliente },
+                            Titular = cuentaID.Titular,
+                            NumCuenta = cuentaID.NumCuenta,
+                            NumTarjeta = cuentaID.NumTarjeta,
+                            Clabe = cuentaID.Clabe,
+                            Conexion = Conexion,
+                            NuevoRegistro = false,
+                            Usuario = User.Identity.Name
+                        };
+                        ClienteDatos.ACDatosBancariosCliente(datosCuenta);
+                        if (datosCuenta.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Cuentas", new { id = cuentaID.IDCliente });
+                        }
+                        else
+                        {
+                            cuentaID.ListaBancos = ClienteDatos.ObtenerComboCatBancos(Conexion);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                            return View(cuentaID);
+                        }
                     }
                     else
                     {
                         cuentaID.ListaBancos = ClienteDatos.ObtenerComboCatBancos(Conexion);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
                         return View(cuentaID);
                     }
                 }
                 else
                 {
-                    cuentaID.ListaBancos = ClienteDatos.ObtenerComboCatBancos(Conexion);
-                    return View(cuentaID);
+                    return RedirectToAction("Cuentas", new { id = cuentaID.IDCliente });
                 }
             }
             catch
@@ -431,7 +469,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 ClienteLugarModels ClienteLugar = new ClienteLugarModels();
-
                 CatCliente_Datos ClienteD = new CatCliente_Datos();
                 ClienteLugar.IDCliente = id;
                 ClienteLugar.IDSucursal = id2;
@@ -454,6 +491,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             CatCliente_Datos ClienteDatos = new CatCliente_Datos();
             try
             {
+                Token.SaveToken();
                 ClienteLugarModels ClienteLugar = new ClienteLugarModels();
                 ClienteLugar.IDCliente = id;
                 ClienteLugar.Conexion = Conexion;
@@ -474,41 +512,46 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             CatCliente_Datos ClienteDatos = new CatCliente_Datos();
             try
             {
-                
-               
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                   
-                    ClienteLugar.Conexion = Conexion;
-                   
-                    ClienteLugar.Opcion = 1;
-                    //ClienteLugar.listaLugares = ClienteDatos.obtenerLugaresClientes(ClienteLugar);
-
-                    ClienteDatos.ACLugaresCliente(ClienteLugar);
-                    if (ClienteLugar.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Lugares", new { id = ClienteLugar.IDCliente,id2=ClienteLugar.IDSucursal });
+                        ClienteLugar.Conexion = Conexion;
+                        ClienteLugar.Opcion = 1;
+                        //ClienteLugar.listaLugares = ClienteDatos.obtenerLugaresClientes(ClienteLugar);
+                        ClienteDatos.ACLugaresCliente(ClienteLugar);
+                        if (ClienteLugar.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Lugares", new { id = ClienteLugar.IDCliente, id2 = ClienteLugar.IDSucursal });
+                        }
+                        else
+                        {
+                            ClienteLugar.Conexion = Conexion;
+                            ClienteLugar.listaLugares = ClienteDatos.obtenerLugaresClientes(ClienteLugar);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                            return RedirectToAction("ClienteLugar", new { id = ClienteLugar.IDCliente, id2 = ClienteLugar.IDSucursal });
+                        }
                     }
                     else
                     {
                         ClienteLugar.Conexion = Conexion;
                         ClienteLugar.listaLugares = ClienteDatos.obtenerLugaresClientes(ClienteLugar);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
-                        return RedirectToAction("ClienteLugar", new { id = ClienteLugar.IDCliente, id2 = ClienteLugar.IDSucursal });
+                        return View(ClienteLugar);
                     }
                 }
                 else
                 {
-                    ClienteLugar.Conexion = Conexion;
-                    ClienteLugar.listaLugares = ClienteDatos.obtenerLugaresClientes(ClienteLugar);
-                    return View(ClienteLugar);
+                    return RedirectToAction("Lugares", new { id = ClienteLugar.IDCliente, id2 = ClienteLugar.IDSucursal });
                 }
             }
             catch (Exception)
             {
+                ClienteLugar.Conexion = Conexion;
+                ClienteLugar.listaLugares = ClienteDatos.obtenerLugaresClientes(ClienteLugar);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return RedirectToAction("Lugares", new { id = ClienteLugar.IDCliente, id2 = ClienteLugar.IDSucursal });

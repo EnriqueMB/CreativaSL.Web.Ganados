@@ -1,4 +1,5 @@
-﻿using CreativaSL.Web.Ganados.Models;
+﻿using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Models;
 using CreativaSL.Web.Ganados.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     public class EntradasAlmacenController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/EntradasAlmacen
         public ActionResult Index(string Folio)
@@ -33,9 +35,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 EntradaAlmacenViewModels Model = new EntradaAlmacenViewModels();
                 _Combos_Datos Datos = new _Combos_Datos();
-                Model.ListaAlmacenes = Datos.ObtenerAlmacenes(Conexion);
+                Model.ListaAlmacenes = Datos.ObtenerAlmacenesXIDCompra(Conexion, string.Empty);
                 Model.ListaCompras = Datos.ObtenerComprasProcesadas(Conexion);
                 Model.FechaEntrada = DateTime.Today;
                 return View(Model);
@@ -56,40 +59,48 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _Combos_Datos CDatos = new _Combos_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    EntradaAlmacenModels ModelP = new EntradaAlmacenModels
+                    if (ModelState.IsValid)
                     {
-                        NuevoRegistro = true,
-                        IDEntradaAlmacen = string.Empty,
-                        Almacen = new CatAlmacenModels { IDAlmacen = Model.IDAlmacen },
-                        CompraAlmacen = new CompraAlmacenModels { IDCompraAlmacen = Model.IDCompraAlmacen },
-                        FechaEntrada = Model.FechaEntrada,
-                        Comentario = Model.Comentario,
-                        Conexion = Conexion,
-                        Usuario = User.Identity.Name
-                    };
-                    Datos.ACEntradaAlmacen(ModelP);
-                    if (ModelP.Completado == true)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("CreateDetail", new { id = ModelP.IDEntradaAlmacen });
+                        EntradaAlmacenModels ModelP = new EntradaAlmacenModels
+                        {
+                            NuevoRegistro = true,
+                            IDEntradaAlmacen = string.Empty,
+                            Almacen = new CatAlmacenModels { IDAlmacen = Model.IDAlmacen },
+                            CompraAlmacen = new CompraAlmacenModels { IDCompraAlmacen = Model.IDCompraAlmacen },
+                            FechaEntrada = Model.FechaEntrada,
+                            Comentario = Model.Comentario,
+                            Conexion = Conexion,
+                            Usuario = User.Identity.Name
+                        };
+                        Datos.ACEntradaAlmacen(ModelP);
+                        if (ModelP.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("CreateDetail", new { id = ModelP.IDEntradaAlmacen });
+                        }
+                        else
+                        {
+                            Model.ListaAlmacenes = CDatos.ObtenerAlmacenes(Conexion);
+                            Model.ListaCompras = CDatos.ObtenerComprasProcesadas(Conexion);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Model);
+                        }
                     }
                     else
                     {
                         Model.ListaAlmacenes = CDatos.ObtenerAlmacenes(Conexion);
                         Model.ListaCompras = CDatos.ObtenerComprasProcesadas(Conexion);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
                         return View(Model);
                     }
                 }
                 else
                 {
-                    Model.ListaAlmacenes = CDatos.ObtenerAlmacenes(Conexion);
-                    Model.ListaCompras = CDatos.ObtenerComprasProcesadas(Conexion);
-                    return View(Model);
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -103,13 +114,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         // GET: Admin/EntradasAlmacen/Create
-        public ActionResult CreateDetail(string IDEntrada)
+        public ActionResult CreateDetail(string id)
         {
             try
             {
+                Token.SaveToken();
                 _EntradaAlmacen_Datos Datos = new _EntradaAlmacen_Datos();
-                List<EntradaAlmacenDetalleModels> Model = Datos.ObtenerDetalleEntradaXID(Conexion, IDEntrada);
-                ViewBag.IDEntrada = IDEntrada;
+                EntradaAlmacenDetalleViewModels Model = new EntradaAlmacenDetalleViewModels();
+                Model.ListaDetalle = Datos.ObtenerDetalleEntradaXID(Conexion, id);
+                Model.IDEntrega = id;
                 return View(Model);
             }
             catch (Exception)
@@ -117,6 +130,61 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return RedirectToAction("Index");
+            }
+        }
+
+        // POST: Admin/EntradasAlmacen/Create
+        [HttpPost]
+        public ActionResult CreateDetail(EntradaAlmacenDetalleViewModels Model)
+        {
+            _EntradaAlmacen_Datos Datos = new _EntradaAlmacen_Datos();
+            _Combos_Datos CDatos = new _Combos_Datos();
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        EntradaAlmacenDetalleModels ModelP = new EntradaAlmacenDetalleModels
+                        {
+                            IDEntradaAlmacen = Model.IDEntrega,
+                            ListaDetalle = Model.ListaDetalle,
+                            Conexion = Conexion,
+                            Usuario = User.Identity.Name
+                        };
+                        ModelP.LlenarTabla();
+                        Datos.ACEntradaAlmacenDetalle(ModelP);
+                        if (ModelP.Completado)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Datos guardados correctamente";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar los datos.";
+                            return View(Model);
+                        }
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Errores en el modelo.";
+                        return View(Model);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrió un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(Model);
             }
         }
 
@@ -132,6 +200,25 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
+
+
+        // POST: Admin/EntradasAlmacen/ObtenerAlmacenesXIDSucursal/IDsucursal
+        [HttpPost]
+        public ActionResult ObtenerAlmacenesXIDSucursal(string IDCompra)
+        {
+            try
+            {
+                _Combos_Datos Datos = new _Combos_Datos();
+                List<CatAlmacenModels> Lista = Datos.ObtenerAlmacenesXIDCompra(Conexion, IDCompra );
+                return Json(Lista, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                ex.Message.ToString();
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
     }
 }

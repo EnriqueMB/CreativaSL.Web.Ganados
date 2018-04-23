@@ -7,13 +7,16 @@ using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Models;
 using System.Data;
 using CreativaSL.Web.Ganados.ViewModels;
+using CreativaSL.Web.Ganados.App_Start;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     public class CatConceptosNominaController : Controller
     {
-        // GET: Admin/CatConceptosNomina
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
+        // GET: Admin/CatConceptosNomina
+        [HttpGet]
         public ActionResult Index()
         {
             try
@@ -45,6 +48,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.IsTokenValid();
                 CatConceptosNominaModels catConceptos = new CatConceptosNominaModels();
                 catConceptos.Calculado = false;
                 catConceptos.SumaResta = false;
@@ -63,34 +67,41 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Create(CatConceptosNominaModels conceptos)
         {
+            _CatConceptoNomina_Datos conceptoD = new _CatConceptoNomina_Datos();
             try
             {
-                _CatConceptoNomina_Datos conceptoD = new _CatConceptoNomina_Datos();
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    conceptos.Conexion = Conexion;
-                    conceptos.Opcion = 1;
-                    conceptos.Calculado = false;
-                    conceptos.SoloLectura = false;
-                    conceptos.Usuario = User.Identity.Name;
-                    conceptos = conceptoD.AbcCatConceptosNomina(conceptos);
-                    if (conceptos.Completado==true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Index");
+                        conceptos.Conexion = Conexion;
+                        conceptos.Opcion = 1;
+                        conceptos.Calculado = false;
+                        conceptos.SoloLectura = false;
+                        conceptos.Usuario = User.Identity.Name;
+                        conceptos = conceptoD.AbcCatConceptosNomina(conceptos);
+                        if (conceptos.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(conceptos);
+                        }
                     }
                     else
                     {
-
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(conceptos);
                     }
                 }
                 else
                 {
-                    return View(conceptos);   
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -106,6 +117,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatConceptosNominaModels conceptos = new CatConceptosNominaModels();
                 _CatConceptoNomina_Datos conceptosD = new _CatConceptoNomina_Datos();
                 conceptos.Conexion = Conexion;
@@ -126,33 +138,40 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Edit(int id, CatConceptosNominaModels conceptos)
         {
+            _CatConceptoNomina_Datos conceptoD = new _CatConceptoNomina_Datos();
             try
             {
-                _CatConceptoNomina_Datos conceptoD = new _CatConceptoNomina_Datos();
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    conceptos.Conexion = Conexion;
-                    conceptos.IDConceptoNomina = id;
-                    conceptos.Opcion = 2;
-                    conceptos.Usuario = User.Identity.Name;
-                    conceptos = conceptoD.AbcCatConceptosNomina(conceptos);
-                    if (conceptos.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Index");
+                        conceptos.Conexion = Conexion;
+                        conceptos.IDConceptoNomina = id;
+                        conceptos.Opcion = 2;
+                        conceptos.Usuario = User.Identity.Name;
+                        conceptos = conceptoD.AbcCatConceptosNomina(conceptos);
+                        if (conceptos.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(conceptos);
+                        }
                     }
                     else
                     {
-
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(conceptos);
                     }
                 }
                 else
                 {
-                    return View(conceptos);
+                    return RedirectToAction("Index");
                 }
             }
             catch

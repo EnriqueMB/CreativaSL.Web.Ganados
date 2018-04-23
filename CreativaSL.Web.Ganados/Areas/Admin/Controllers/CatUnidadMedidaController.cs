@@ -6,12 +6,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Models;
+using CreativaSL.Web.Ganados.App_Start;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     [Autorizado]
     public class CatUnidadMedidaController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatUnidadMedida
         [HttpGet]
@@ -27,7 +29,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-
                 CatUnidadMedidaModels Unidad = new CatUnidadMedidaModels();
                 TempData["typemessage"]= "2";
                 TempData["message"] = "No se puede cargar la vista";
@@ -48,12 +49,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatUnidadMedidaModels Unidad = new CatUnidadMedidaModels();
                 return View(Unidad);
             }
             catch (Exception)
             {
-
                 CatUnidadMedidaModels Unidad = new CatUnidadMedidaModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
@@ -69,34 +70,37 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatUnidadMedida_Datos UnidadDatos = new _CatUnidadMedida_Datos();
             try
             {
-                if(ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    Unidad.Conexion = Conexion;
-                    Unidad.Opcion = 1;
-                    Unidad.Usuario = User.Identity.Name;
-                    Unidad = UnidadDatos.AbcCatUnidadMedida(Unidad);
-                    if (Unidad.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Index");
+                        Unidad.Conexion = Conexion;
+                        Unidad.Opcion = 1;
+                        Unidad.Usuario = User.Identity.Name;
+                        Unidad = UnidadDatos.AbcCatUnidadMedida(Unidad);
+                        if (Unidad.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar.";
+                            return View(Unidad);
+                        }
                     }
                     else
                     {
-                        
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al intentar guardar.";
                         return View(Unidad);
                     }
-
                 }
                 else
                 {
-                    Unidad.Conexion = Conexion; 
-                    return View(Unidad);
+                    return RedirectToAction("Index");
                 }
-
-               
             }
             catch
             {
@@ -113,6 +117,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             
             try
             {
+                Token.SaveToken();
                 CatUnidadMedidaModels Unidad = new CatUnidadMedidaModels();
                 _CatUnidadMedida_Datos UnidadDatos = new _CatUnidadMedida_Datos();
                 Unidad.Conexion = Conexion;
@@ -136,38 +141,43 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatUnidadMedida_Datos UnidadDatos = new _CatUnidadMedida_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    Unidad.Conexion = Conexion;
-                    Unidad.Opcion = 2;
-                    Unidad.Usuario = User.Identity.Name;
-                    Unidad = UnidadDatos.AbcCatUnidadMedida(Unidad);
-                    if (Unidad.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Index");
+                        Unidad.Conexion = Conexion;
+                        Unidad.Opcion = 2;
+                        Unidad.Usuario = User.Identity.Name;
+                        Unidad = UnidadDatos.AbcCatUnidadMedida(Unidad);
+                        if (Unidad.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar.";
+                            return View(Unidad);
+                        }
                     }
                     else
                     {
-                       
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al intentar guardar.";
-                        return RedirectToAction("Edit", "CatUnidadMedida");
+                        return View(Unidad);
                     }
                 }
                 else
                 {
-                    Unidad.Conexion = Conexion;
-                    return View(Unidad);
+                    return RedirectToAction("Index");
                 }
             }
             catch
             {
-                Unidad.Conexion = Conexion;
+                TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrió un error el intentar guardar. Contacte a soporte técnico";
                 return View(Unidad);
-                
             }
         }
 
@@ -187,23 +197,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 _CatUnidadMedida_Datos unidadDatos = new _CatUnidadMedida_Datos();
                 unidad.Conexion = Conexion;
                 unidad.IDUnidadMedida = id;
-
                 unidad.Opcion = 3;
                 unidad.Usuario = User.Identity.Name;
                 unidad = unidadDatos.EliminarUnidad(unidad);
-                if (unidad.Completado == true)
-                {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se elimino correctamente.";
-                    return Json("");
-                }
-                else
-                {
-
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrió un error al intentar eliminar.";
-                    return View(unidad);
-                }
+                TempData["typemessage"] = "1";
+                TempData["message"] = "El registro se elimino correctamente.";
+                return Json("");
             }
             catch
             {

@@ -184,5 +184,27 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public List<CatAlmacenModels> ObtenerAlmacenesXIDCompra(string Conexion, string IDCompra)
+        {
+            try
+            {
+                List<CatAlmacenModels> Lista = new List<CatAlmacenModels>();
+                CatAlmacenModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Combo_get_CatAlmacenXIDCompra", IDCompra);
+                while (Dr.Read())
+                {
+                    Item = new CatAlmacenModels();
+                    Item.IDAlmacen = !Dr.IsDBNull(Dr.GetOrdinal("IDAlmacen")) ? Dr.GetString(Dr.GetOrdinal("IDAlmacen")) : string.Empty;
+                    Item.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

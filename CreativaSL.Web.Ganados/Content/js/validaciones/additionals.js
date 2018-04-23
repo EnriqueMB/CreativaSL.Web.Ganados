@@ -22,6 +22,10 @@ $.validator.addMethod("tarjetaCredito", function (value, element) {
     return this.optional(element) || /^((67\d{2})|(4\d{3})|(5[1-5]\d{2})|(6011))(-?\s?\d{4}){3}|(3[4,7])\ d{2}-?\s?\d{6}-?\s?\d{5}$/i.test(value) || value == '____-____-____-____';
 }, "invalid credit card");
 
+$.validator.addMethod("decimal", function (value, element) {
+    return this.optional(element) || $.isNumeric(value);
+}, "Invalid number");
+
 $.validator.addMethod("telefono", function (value, element) {
     return this.optional(element) || /^\+?\d{1,3}?[- .]?\(?(?:\d{2,3})\)?[- .]?\d\d\d[- .]?\d\d\d\d$/i.test(value);
 }, "invalid phone number");
@@ -138,3 +142,11 @@ $.validator.addMethod("group", function (value, element, params) {
     //Error personalizado
     return params[2];
 });
+//SAT
+$.validator.addMethod("TasaCuotaSAT", function (value, element) {
+    return this.optional(element) || /^([0-9][.])+([0-9]{1,6})$/i.test(value);
+}, "La Tasa o Cuota debe ser un número entero, seguido de hasta 6 decimales.");
+
+$.validator.addMethod("BaseSAT", function (value, element) {
+    return this.optional(element) || /^[1-9]([0-9]+)?([.][0-9]{1,6})?$/i.test(value);
+}, "La Base debe ser mayor que cero, hasta 6 decimales.");

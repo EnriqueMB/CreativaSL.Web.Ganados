@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -93,7 +95,44 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _UnidadMedida; }
             set { _UnidadMedida = value; }
         }
-                
+
+        private List<CantidadEntregaViewModels> _ListaDetalle;
+
+        public List<CantidadEntregaViewModels> ListaDetalle
+        {
+            get { return _ListaDetalle; }
+            set { _ListaDetalle = value; }
+        }
+
+        private DataTable _TablaDatos;
+
+        public DataTable TablaDatos
+        {
+            get { return _TablaDatos; }
+            set { _TablaDatos = value; }
+        }
+
+        public void LlenarTabla()
+        {
+            try
+            {
+                DataTable Tabla = new DataTable();
+                Tabla.Columns.Add("IDEntradaDetalle", typeof(string));
+                Tabla.Columns.Add("IDCompraDetalle", typeof(string));
+                Tabla.Columns.Add("Cantidad", typeof(decimal));
+                foreach (CantidadEntregaViewModels Item in _ListaDetalle)
+                {
+                    object[] Fila = { Item.IDEntradaAlmacenDetalle, Item.IDCompraAlmacenDetalle, Item.Cantidad };
+                    Tabla.Rows.Add(Fila);
+                }
+                _TablaDatos = Tabla;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }

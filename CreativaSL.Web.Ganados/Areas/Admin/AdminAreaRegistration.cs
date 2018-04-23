@@ -16,8 +16,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin
         {
             context.MapRoute(
                 "Admin_default",
-                "Admin/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                "Admin/{controller}/{action}/{id}/{id2}",
+                new { action = "Index", id = UrlParameter.Optional, id2 = UrlParameter.Optional }
             );
         }
     }

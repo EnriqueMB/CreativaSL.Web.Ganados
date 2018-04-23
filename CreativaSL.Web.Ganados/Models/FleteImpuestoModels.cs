@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.Models.Validaciones;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,6 +8,7 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class FleteImpuestoModels
     {
+        #region Constructor
         public FleteImpuestoModels()
         {
             Impuesto = new CFDI_ImpuestoModels();
@@ -14,9 +16,12 @@ namespace CreativaSL.Web.Ganados.Models
             TipoFactor = new CFDI_TipoFactorModels();
             RespuestaAjax = new RespuestaAjax();
         }
+        #endregion
 
         public string IDFleteImpuesto { get; set; }
+        [SAT_BaseAttribute(ErrorMessage = "La Base debe ser mayor que cero, hasta 6 decimales.")]
         public decimal Base { get; set; }
+        [SAT_TasaCuotaAttribute(ErrorMessage = "La Tasa o Cuota debe ser un número entero, seguido de hasta 6 decimales.")]
         public decimal TasaCuota { get; set; }
         public decimal Importe { get; set; }
         
@@ -35,6 +40,28 @@ namespace CreativaSL.Web.Ganados.Models
         public RespuestaAjax RespuestaAjax { get; set; }
         public string Conexion { get; set; }
         public string Usuario { get; set; }
+        #endregion
+
+        #region Métodos
+        public decimal ObtenerImporte()
+        {
+            //[cfdi_TipoFactor]
+            //clave  descripcion
+            //  1       Tasa
+            //  2       Cuota
+            //  3       Exento
+
+            if (TipoFactor.Clave == 1 || TipoFactor.Clave == 2)
+            {
+                Importe = Base * TasaCuota;
+            }
+            else
+            {
+                Importe = 0;
+            }
+
+            return Importe;
+        }
         #endregion
     }
 }

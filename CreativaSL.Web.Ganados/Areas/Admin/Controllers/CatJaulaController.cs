@@ -1,4 +1,5 @@
-﻿using CreativaSL.Web.Ganados.Filters;
+﻿using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     [Autorizado]
     public class CatJaulaController : Controller
     {
-        // GET: Admin/CatJaula
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
+        // GET: Admin/CatJaula
         public ActionResult Index()
         {
             try
@@ -46,14 +48,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatJaulaModels Jaula = new CatJaulaModels();
                 _CatJaula_Datos JaulaDatos = new _CatJaula_Datos();
                 Jaula.conexion = Conexion; 
                 Jaula.listaSucursales = JaulaDatos.obtenerListaSucursales(Jaula);
-                //Jaula.Estatus = Convert.ToBoolean("true");
-
                 Jaula.ListaEmpresas = JaulaDatos.ObteneComboCatEmpresa(Jaula);
-
                 return View(Jaula);
             }
             catch (Exception ex)
@@ -69,26 +69,40 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Create(CatJaulaModels Jaula)
         {
+            _CatJaula_Datos JaulaDatos = new _CatJaula_Datos();
             try
             {
-                _CatJaula_Datos JaulaDatos = new _CatJaula_Datos();
-                Jaula.conexion = Conexion;
-                Jaula.opcion = 1;
-                Jaula.user = User.Identity.Name;
-                Jaula = JaulaDatos.AbcCatJaula(Jaula);
-
-                if (Jaula.Completado == true)
+                if (Token.IsTokenValid())
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se guardo correctamente.";
-                    return RedirectToAction("Index");
+                    if (ModelState.IsValid)
+                    {
+                        Jaula.conexion = Conexion;
+                        Jaula.opcion = 1;
+                        Jaula.user = User.Identity.Name;
+                        Jaula = JaulaDatos.AbcCatJaula(Jaula);
+                        if (Jaula.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardo correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Jaula.Estatus = true;
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar el registro. Intente más tarde.";
+                            return View(Jaula);
+                        }
+                    }
+                    else
+                    {
+                        return View(Jaula);
+                    }
                 }
                 else
                 {
-                    Jaula.Estatus = true;
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrió un error al guardar el registro. Intente más tarde.";
-                    return View(Jaula);
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -105,12 +119,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatJaulaModels Jaula = new CatJaulaModels();
                 _CatJaula_Datos JaulaDatos = new _CatJaula_Datos();
                 Jaula.conexion = Conexion;
                 Jaula.IDJaula = id;
                 Jaula.listaSucursales = JaulaDatos.obtenerListaSucursales(Jaula);
-
                 Jaula = JaulaDatos.ObtenerDetalleCatJaula(Jaula);
                 Jaula.ListaEmpresas = JaulaDatos.ObteneComboCatEmpresa(Jaula);
                 return View(Jaula);
@@ -126,39 +140,57 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatJaula/Edit/5
         [HttpPost]
-        public ActionResult Edit(string id, FormCollection collection)
+        public ActionResult Edit(string id, CatJaulaModels Jaula)
         {
+            _CatJaula_Datos JaulaDatos = new _CatJaula_Datos();
             try
             {
-                CatJaulaModels Jaula = new CatJaulaModels();
-                _CatJaula_Datos JaulaDatos = new _CatJaula_Datos();
-                Jaula.conexion = Conexion;
-                Jaula.IDJaula = id;
-                Jaula.opcion = 2;
-                //Jaula.Estatus = collection["Estatus"].StartsWith("true");
-                Jaula.IDSucursal = collection["IDSucursal"];
-                Jaula.Matricula = collection["Matricula"];
-                Jaula.IDEmpresa = collection["IDEmpresa"];
-                Jaula.user = User.Identity.Name;
-                Jaula = JaulaDatos.AbcCatJaula(Jaula);
-                if (Jaula.Completado == true)
+                if (Token.IsTokenValid())
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se guardo correctamente.";
-                    return RedirectToAction("Index");
+                    if (ModelState.IsValid)
+                    {
+                        //CatJaulaModels Jaula = new CatJaulaModels();
+                        Jaula.conexion = Conexion;
+                        Jaula.IDJaula = id;
+                        Jaula.opcion = 2;
+                        //Jaula.Estatus = collection["Estatus"].StartsWith("true");
+                        //Jaula.IDSucursal = collection["IDSucursal"];
+                        //Jaula.Matricula = collection["Matricula"];
+                        //Jaula.IDEmpresa = collection["IDEmpresa"];
+                        Jaula.user = User.Identity.Name;
+                        Jaula = JaulaDatos.AbcCatJaula(Jaula);
+                        if (Jaula.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardo correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Jaula.Estatus = true;
+                            Jaula.listaSucursales = JaulaDatos.obtenerListaSucursales(Jaula);
+                            Jaula.ListaEmpresas = JaulaDatos.ObteneComboCatEmpresa(Jaula);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar el registro. Intente más tarde.";
+                            return View(Jaula);
+                        }
+                    }
+                    else
+                    {
+                        Jaula.conexion = Conexion;
+                        Jaula.listaSucursales = JaulaDatos.obtenerListaSucursales(Jaula);
+                        Jaula.ListaEmpresas = JaulaDatos.ObteneComboCatEmpresa(Jaula);
+                        return View(Jaula);
+                    }
                 }
                 else
                 {
-                    Jaula.Estatus = true;
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrió un error al guardar el registro. Intente más tarde.";
-                    return View(Jaula);
+                    return RedirectToAction("Index");
                 }
             }
             catch
             {
-                CatJaulaModels Jaula = new CatJaulaModels();
-
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico.";
                 return View(Jaula);

@@ -9,12 +9,14 @@ using CreativaSL.Web.Ganados.Models;
 using System.Data;
 using CreativaSL.Web.Ganados.ViewModels;
 using Rotativa;
+using CreativaSL.Web.Ganados.App_Start;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     [Autorizado]
     public class NominaController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
 
         // GET: Admin/Nomina
@@ -98,6 +100,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 NominaModels Nomina = new NominaModels();
                 Nomina_Datos NominaDatos = new Nomina_Datos();
                 _Combos_Datos Combos = new _Combos_Datos();
@@ -122,49 +125,57 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _Combos_Datos Combos = new _Combos_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    Nomina.Conexion = Conexion;
-                    Nomina.Usuario = User.Identity.Name;
-                    Nomina.TablaEmpladoNomina = new DataTable();
-                    Nomina.TablaEmpladoNomina.Columns.Add("IDEmpleado", typeof(string));
-                    foreach (EmpleadoNominaViewModels Item in Nomina.ListaEmpleados)
+                    if (ModelState.IsValid)
                     {
-                        if (Item.AbrirCaja)
+                        Nomina.Conexion = Conexion;
+                        Nomina.Usuario = User.Identity.Name;
+                        Nomina.TablaEmpladoNomina = new DataTable();
+                        Nomina.TablaEmpladoNomina.Columns.Add("IDEmpleado", typeof(string));
+                        foreach (EmpleadoNominaViewModels Item in Nomina.ListaEmpleados)
                         {
-                            object[] data = { Item.IDEmpleado };
-                            Nomina.TablaEmpladoNomina.Rows.Add(data);
+                            if (Item.AbrirCaja)
+                            {
+                                object[] data = { Item.IDEmpleado };
+                                Nomina.TablaEmpladoNomina.Rows.Add(data);
+                            }
                         }
-                    }
-                    Nomina.CountEmpleado = Nomina.TablaEmpladoNomina.Rows.Count;
-                    if (Nomina.CountEmpleado == 0)
-                    {
-                        Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
-                        ModelState.AddModelError("", "Tienes que seleccionar al menos un empleado para la nómina");
-                        return View(Nomina);
-                    }
-                    else
-                    {
-                        NominaDatos.ANomina(Nomina);
-                        if (Nomina.Completado)
+                        Nomina.CountEmpleado = Nomina.TablaEmpladoNomina.Rows.Count;
+                        if (Nomina.CountEmpleado == 0)
                         {
-                            TempData["typemessage"] = "1";
-                            TempData["message"] = "Los empleados fueron dados de alta correctamente en la nómina.";
-                            return RedirectToAction("Index");
+                            Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
+                            ModelState.AddModelError("", "Tienes que seleccionar al menos un empleado para la nómina");
+                            return View(Nomina);
                         }
                         else
                         {
-                            Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
-                            TempData["typemessage"] = "2";
-                            TempData["message"] = "Los empleado no se guardaron correctamente. Intente más tarde.";
-                            return View(Nomina);
+                            NominaDatos.ANomina(Nomina);
+                            if (Nomina.Completado)
+                            {
+                                TempData["typemessage"] = "1";
+                                TempData["message"] = "Los empleados fueron dados de alta correctamente en la nómina.";
+                                Token.ResetToken();
+                                return RedirectToAction("Index");
+                            }
+                            else
+                            {
+                                Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "Los empleado no se guardaron correctamente. Intente más tarde.";
+                                return View(Nomina);
+                            }
                         }
+                    }
+                    else
+                    {
+                        Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
+                        return View(Nomina);
                     }
                 }
                 else
                 {
-                    Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
-                    return View(Nomina);
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -204,6 +215,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 NominaModels Nomina = new NominaModels();
                 Nomina_Datos NominaDatos = new Nomina_Datos();
                 Nomina.IDNomina = id;
@@ -227,38 +239,50 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             Nomina_Datos NominaDatos = new Nomina_Datos();
             try
             {
-                Nomina.Conexion = Conexion;
-                Nomina.Usuario = User.Identity.Name;
-                Nomina = NominaDatos.AgregarConceptoNomina(Nomina);
-                if (Nomina.Completado)
+                if (Token.IsTokenValid())
                 {
-                    Nomina.listaConceptoNomina = NominaDatos.ObtenerConceptosNomina(Nomina);
-                    Nomina = NominaDatos.ObtenerListasDeConceptosXID(Nomina);
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "Los datos se guardarón correctamente.";
-                    return View(Nomina);
-                    //return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
-                }
-                else
-                {
-                    if (Nomina.Resultado == -1)
+                    Nomina.Conexion = Conexion;
+                    Nomina.Usuario = User.Identity.Name;
+                    Nomina = NominaDatos.AgregarConceptoNomina(Nomina);
+                    if (Nomina.Completado)
                     {
                         Nomina.listaConceptoNomina = NominaDatos.ObtenerConceptosNomina(Nomina);
                         Nomina = NominaDatos.ObtenerListasDeConceptosXID(Nomina);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "El concepto ya fue insertado.";
-                        return View(Nomina);
-                       // return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
-                    }
-                    else
-                    {
-                        Nomina.listaConceptoNomina = NominaDatos.ObtenerConceptosNomina(Nomina);
-                        Nomina = NominaDatos.ObtenerListasDeConceptosXID(Nomina);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardarón correctamente.";
+                        Token.ResetToken();
                         return View(Nomina);
                         //return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
                     }
+                    else
+                    {
+                        if (Nomina.Resultado == -1)
+                        {
+                            Nomina.listaConceptoNomina = NominaDatos.ObtenerConceptosNomina(Nomina);
+                            Nomina = NominaDatos.ObtenerListasDeConceptosXID(Nomina);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "El concepto ya fue insertado.";
+                            Token.ResetToken();
+                            return View(Nomina);
+                            // return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
+                        }
+                        else
+                        {
+                            Nomina.listaConceptoNomina = NominaDatos.ObtenerConceptosNomina(Nomina);
+                            Nomina = NominaDatos.ObtenerListasDeConceptosXID(Nomina);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Nomina);
+                            //return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
+                        }
+                    }
+                }
+                else
+                {
+                    Nomina.Conexion = Conexion;
+                    Nomina.listaConceptoNomina = NominaDatos.ObtenerConceptosNomina(Nomina);
+                    Nomina = NominaDatos.ObtenerListasDeConceptosXID(Nomina);
+                    return View(Nomina);
                 }
             }
             catch (Exception)
@@ -397,6 +421,35 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
 
                 throw;
+            }
+        }
+
+        public ActionResult PDF_Saldos(string id, string id2)
+        {
+            try
+            {
+                string customSwitches = string.Format("--header-center  \"COMO USAR O ROTATIVA\" " +
+                        "--header-spacing \"8\" " +
+                        "--header-font-name \"Open Sans\" " +
+                        "--footer-font-size \"8\" " +
+                        "--footer-font-name \"Open Sans\" " +
+                        "--header-font-size \"10\" " +
+                        "--footer-right \"Pag: [page] de [toPage]\"");
+
+                var report = new ActionAsPdf("RptSaldos", new { id, id2 })
+                {
+                    //FileName = "Invoice.pdf",
+                    PageOrientation = Rotativa.Options.Orientation.Landscape,
+                    CustomSwitches = "--margin-bottom 15 --margin-left 10 --margin-right 10 --margin-top 17 --footer-right \"Fecha: [date]\" " + "--footer-center \"Pagina: [page] de [toPage]\" --footer-line --footer-font-size \"12\" --footer-spacing 5 --footer-font-name \"calibri light\""//"--page-offset 0 --footer-center [page] --footer-font-size 12 --viewport-size 1000x1000"
+                    //PageMargins = new Rotativa.Options.Margins(30, 10, 15, 10)
+                    //pageMargins = new Rotativa.Options.Margins()
+                };
+                return report;
+
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
             }
         }
 
