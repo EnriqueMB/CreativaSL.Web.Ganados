@@ -1,4 +1,5 @@
-﻿using CreativaSL.Web.Ganados.Models;
+﻿using CreativaSL.Web.Ganados.Filters;
+using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
+    [Autorizado]
     public class FleteController : Controller
     {
         private string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
@@ -17,49 +19,131 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         // GET: Admin/Flete
         public ActionResult Index()
         {
-            return View();
+            try
+            {
+                Flete = new FleteModels();
+                return View(Flete);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
+
+        /********************************************************************/
+        //Funcion Index Json
+        #region Funcion index Json
+        [HttpPost]
+        public ActionResult JsonIndex()
+        {
+            try
+            {
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                Flete.Conexion = Conexion;
+
+                Flete.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(FleteDatos.ObtenerFleteIndexDataTable(Flete));
+                Flete.RespuestaAjax.Success = true;
+
+                return Content(Flete.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Flete.RespuestaAjax.Mensaje = ex.ToString();
+                Flete.RespuestaAjax.Success = false;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+        /********************************************************************/
+
 
         [HttpGet]
         public ActionResult AC_Flete(string IDFlete)
         {
-            //cargarmos los datos del flete x id
-            if (!string.IsNullOrEmpty(IDFlete))
+            Flete = new FleteModels
             {
+                Conexion = Conexion
+            };
+            FleteDatos = new _Flete_Datos();
+            //cargarmos los datos del flete x id
+            if (!string.IsNullOrEmpty(IDFlete) && IDFlete.Length == 36)
+            {
+                Flete.id_flete = IDFlete;
+                Flete = FleteDatos.Flete_get_ACFlete(Flete);
+            }
+            Flete.ListaEmpresa = FleteDatos.GetListadoEmpresas(Flete);
+            Flete.ListaCliente = FleteDatos.GetListadoClientes(Flete);
+            Flete.ListaChofer = FleteDatos.GetListadoChoferes(Flete);
+            Flete.ListaVehiculo = FleteDatos.GetListadoVehiculos(Flete);
+            Flete.ListaJaula = FleteDatos.GetListadoJaulas(Flete);
+            Flete.ListaRemolque = FleteDatos.GetListadoRemolque(Flete);
+            Flete.Trayecto.ListaRemitente = FleteDatos.GetListadoClientes(Flete);
+            Flete.Trayecto.ListaDestinatario = FleteDatos.GetListadoClientes(Flete);
+            Flete.Trayecto.ListaLugarOrigen = FleteDatos.GetListadoLugaresXIDProveedorIDCliente(Flete, Flete.Trayecto.Remitente.IDCliente);
+            Flete.Trayecto.ListaLugarDestino = FleteDatos.GetListadoLugaresXIDProveedorIDCliente(Flete, Flete.Trayecto.Destinatario.IDCliente);
+            Flete.ListaFormaPago = FleteDatos.GetListadoFormaPagos(Flete);
+            Flete.ListaMetodoPago = FleteDatos.GetListadoMetodoPago(Flete);
 
-                return View(Flete);
+            return View(Flete);
+        }
+        [HttpGet]
+        public ActionResult AC_FleteRecepcion(string IDFlete)
+        {
+            Flete = new FleteModels
+            {
+                Conexion = Conexion
+            };
+            FleteDatos = new _Flete_Datos();
+            //cargarmos los datos del flete x id
+            if (!string.IsNullOrEmpty(IDFlete) && IDFlete.Length == 36)
+            {
+                Flete.id_flete = IDFlete;
+                Flete = FleteDatos.Flete_get_ACFlete(Flete);
+            }
+
+            return View(Flete);
+        }
+        [HttpGet]
+        public ActionResult Edit(string IDFlete)
+        {
+            Flete = new FleteModels();
+            FleteDatos = new _Flete_Datos();
+            Flete.Conexion = Conexion;
+            Flete.id_flete = IDFlete;
+            Flete = FleteDatos.GetEstatusFleteXIDFlete(Flete);
+
+            switch (Flete.Estatus)
+            {
+                case 0:
+                    return RedirectToAction("AC_Flete", "Flete", new { IDFlete = Flete.id_flete });
+                case 1:
+                    return RedirectToAction("AC_FleteRecepcion", "Flete", new { IDFlete = Flete.id_flete });
+                default:
+                    return View(Flete);
+            }
+        }
+        [HttpGet]
+        public ActionResult EnviarFlete(string IDFlete)
+        {   
+            if(IDFlete.Length == 36)
+            {
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                //Asigno valores para los querys
+                Flete.Conexion = Conexion;
+                Flete.id_flete = IDFlete;
+                //Paso al siguiente paso
+                Flete = FleteDatos.Flete_a_CambiarEstatusFleteXIDFlete(Flete);
+
+                return RedirectToAction("AC_FleteRecepcion", "Flete", new { IDFlete = Flete.id_flete });
             }
             else
             {
-                //si no tiene id cargamos una vista con los datos predeterminados
-                try
-                {
-                    Flete = new FleteModels();
-                    FleteDatos = new _Flete_Datos();
-                    Flete.id_flete = IDFlete;
-                    Flete.Conexion = Conexion;
-
-                    Flete.ListaEmpresa = FleteDatos.GetListadoEmpresas(Flete);
-                    Flete.ListaCliente = FleteDatos.GetListadoClientes(Flete);
-                    Flete.ListaChofer = FleteDatos.GetListadoChoferes(Flete);
-                    Flete.ListaVehiculo = FleteDatos.GetListadoVehiculos(Flete);
-                    Flete.ListaJaula = FleteDatos.GetListadoJaulas(Flete);
-                    Flete.ListaRemolque = FleteDatos.GetListadoRemolque(Flete);
-                    Flete.Trayecto.ListaRemitente = FleteDatos.GetListadoClientes(Flete);
-                    Flete.Trayecto.ListaDestinatario = FleteDatos.GetListadoClientes(Flete);
-                    Flete.Trayecto.ListaLugarOrigen = FleteDatos.GetListadoLugaresXIDProveedorIDCliente(Flete, Flete.Trayecto.id_lugarOrigen);
-                    Flete.Trayecto.ListaLugarDestino = FleteDatos.GetListadoLugaresXIDProveedorIDCliente(Flete, Flete.Trayecto.id_lugarDestino);
-                    Flete.ListaFormaPago = FleteDatos.GetListadoFormaPagos(Flete);
-                    Flete.ListaMetodoPago = FleteDatos.GetListadoMetodoPago(Flete);
-
-                    return View(Flete);
-                }
-                catch (Exception ex)
-                {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "No se puede cargar la vista, error: " + ex.ToString();
-                    return View(Flete);
-                }
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Flete no válido.";
+                return RedirectToAction("Index", "Flete");
             }
         }
         /********************************************************************/
@@ -69,25 +153,72 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                FleteDatos = new _Flete_Datos();
+                Flete.Conexion = Conexion;
+                Flete.Usuario = User.Identity.Name;
+                Flete = FleteDatos.Flete_ac_FleteCliente(Flete);
+                if (Flete.RespuestaAjax.Success)
+                    Flete.RespuestaAjax.Mensaje.ToJSON();
+
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+                
+            }
+            catch (Exception ex)
+            {
+                Flete.RespuestaAjax.Mensaje = ex.ToString();
+                Flete.RespuestaAjax.Success = false;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+        #region AC_Trayecto
+        public ActionResult AC_Trayecto(FleteModels Flete)
+        {
+            try
+            {
+                if(Flete.id_flete.Length == 36)
                 {
-                    Flete = new FleteModels();
                     FleteDatos = new _Flete_Datos();
                     Flete.Conexion = Conexion;
                     Flete.Usuario = User.Identity.Name;
-
-                    //Flete = FleteDatos.Compras_ac_Ganado(Compra);
-
-                    //Flete.RespuestaAjax.Mensaje = Compra.Mensaje;
-                    //Flete.RespuestaAjax.Success = Compra.Completado;
+                    Flete = FleteDatos.Flete_ac_FleteTrayecto(Flete);
 
                     return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
                 }
                 else
                 {
-                    Flete.RespuestaAjax.Mensaje = "Verifique su formulario.";
-                    Flete.RespuestaAjax.Success = false;
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Flete no válido.";
+                    return RedirectToAction("Index", "Flete");
+                }
+            }
+            catch (Exception ex)
+            {
+                Flete.RespuestaAjax.Mensaje = ex.ToString();
+                Flete.RespuestaAjax.Success = false;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+        #region A_Cobro
+        public ActionResult A_Cobro(FleteModels Flete)
+        {
+            try
+            {
+                if (Flete.id_flete.Length == 36)
+                {
+                    FleteDatos = new _Flete_Datos();
+                    Flete.Conexion = Conexion;
+                    Flete.Usuario = User.Identity.Name;
+                    Flete = FleteDatos.Flete_a_FleteCobro(Flete);
+
                     return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Flete no válido.";
+                    return RedirectToAction("Index", "Flete");
                 }
             }
             catch (Exception ex)

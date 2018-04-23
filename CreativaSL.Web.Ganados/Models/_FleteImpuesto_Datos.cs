@@ -9,34 +9,6 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class _FleteImpuesto_Datos
     {
-        public FleteImpuestoModels GetFleteImpuestoXIDFleteImpuesto(FleteImpuestoModels FleteImpuesto)
-        {
-            try
-            {
-                SqlDataReader dr = null;
-
-                object[] parametros =
-                {
-                    FleteImpuesto.IDFleteImpuesto
-                };
-                dr = SqlHelper.ExecuteReader(FleteImpuesto.Conexion, "spCSLDB_FleteImpuesto_get_FleteImpuestoXIDFleteImpuesto", parametros);
-                while (dr.Read())
-                {
-                    FleteImpuesto.IDFlete = !dr.IsDBNull(dr.GetOrdinal("id_flete")) ? dr.GetString(dr.GetOrdinal("id_flete")) : string.Empty;
-                    FleteImpuesto.Impuesto.Clave = !dr.IsDBNull(dr.GetOrdinal("id_impuesto")) ? dr.GetInt16(dr.GetOrdinal("id_impuesto")) : 0;
-                    FleteImpuesto.TipoFactor.Clave = !dr.IsDBNull(dr.GetOrdinal("id_tipoFactor")) ? dr.GetInt16(dr.GetOrdinal("id_tipoFactor")) : 0;
-                    FleteImpuesto.TipoImpuesto.Clave = !dr.IsDBNull(dr.GetOrdinal("id_tipoImpuesto")) ? dr.GetInt16(dr.GetOrdinal("id_tipoImpuesto")) : 0;
-                    FleteImpuesto.Base = !dr.IsDBNull(dr.GetOrdinal("base")) ? dr.GetDecimal(dr.GetOrdinal("base")) : 0;
-                    FleteImpuesto.TasaCuota = !dr.IsDBNull(dr.GetOrdinal("tasaCuota")) ? dr.GetDecimal(dr.GetOrdinal("tasaCuota")) : 0;
-                    FleteImpuesto.Importe = !dr.IsDBNull(dr.GetOrdinal("importe")) ? dr.GetDecimal(dr.GetOrdinal("importe")) : 0;
-                }
-                return FleteImpuesto;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
         public string GetJsonTableFleteImpuestoXIDFlete(FleteImpuestoModels FleteImpuesto)
         {
             try
@@ -53,6 +25,34 @@ namespace CreativaSL.Web.Ganados.Models
             catch (Exception ex)
             {
 
+                throw ex;
+            }
+        }
+        public FleteImpuestoModels GetFleteImpuestoXIDFleteImpuesto(FleteImpuestoModels FleteImpuesto)
+        {
+            try
+            {
+                SqlDataReader dr = null;
+
+                object[] parametros =
+                {
+                    FleteImpuesto.IDFleteImpuesto
+                };
+                dr = SqlHelper.ExecuteReader(FleteImpuesto.Conexion, "spCSLDB_FleteImpuesto_get_FleteImpuestoXIDFleteImpuesto", parametros);
+                while (dr.Read())
+                {
+                    //FleteImpuesto.IDFlete = !dr.IsDBNull(dr.GetOrdinal("id_flete")) ? dr.GetString(dr.GetOrdinal("id_flete")) : string.Empty;
+                    FleteImpuesto.Impuesto.Clave = !dr.IsDBNull(dr.GetOrdinal("id_impuesto")) ? dr.GetInt16(dr.GetOrdinal("id_impuesto")) : 0;
+                    FleteImpuesto.TipoFactor.Clave = !dr.IsDBNull(dr.GetOrdinal("id_tipoFactor")) ? dr.GetInt16(dr.GetOrdinal("id_tipoFactor")) : 0;
+                    FleteImpuesto.TipoImpuesto.Clave = !dr.IsDBNull(dr.GetOrdinal("id_tipoImpuesto")) ? dr.GetInt16(dr.GetOrdinal("id_tipoImpuesto")) : 0;
+                    FleteImpuesto.Base = !dr.IsDBNull(dr.GetOrdinal("base")) ? dr.GetDecimal(dr.GetOrdinal("base")) : 0;
+                    FleteImpuesto.TasaCuota = !dr.IsDBNull(dr.GetOrdinal("tasaCuota")) ? dr.GetDecimal(dr.GetOrdinal("tasaCuota")) : 0;
+                    FleteImpuesto.Importe = !dr.IsDBNull(dr.GetOrdinal("importe")) ? dr.GetDecimal(dr.GetOrdinal("importe")) : 0;
+                }
+                return FleteImpuesto;
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
         }
@@ -131,6 +131,59 @@ namespace CreativaSL.Web.Ganados.Models
                     FleteImpuesto.ListaTipoFactor.Add(TipoFactor);
                 }
                 return FleteImpuesto.ListaTipoFactor;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public FleteImpuestoModels FleteImpuesto_ac_FleteImpuesto(FleteImpuestoModels FleteImpuesto)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     FleteImpuesto.IDFlete//@id_flete char(36)
+                    ,FleteImpuesto.IDFleteImpuesto//,@id_fleteImpuesto char(36)
+                    ,FleteImpuesto.Impuesto.Clave//,@id_impuesto smallint
+                    ,FleteImpuesto.TipoFactor.Clave//,@id_tipoFactor smallint
+                    ,FleteImpuesto.TipoImpuesto.Clave//,@id_tipoImpuesto smallint
+                    ,FleteImpuesto.Base//,@base decimal(18,3)
+                    ,FleteImpuesto.TasaCuota//,@tasaCuota decimal(18,6)
+                    ,FleteImpuesto.Importe//,@importe money
+                    ,FleteImpuesto.Usuario//,@id_usuario char(36)
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(FleteImpuesto.Conexion, "spCSLDB_FleteImpuesto_ac_FleteImpuesto", parametros);
+                while (dr.Read())
+                {
+                    FleteImpuesto.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    FleteImpuesto.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                return FleteImpuesto;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public FleteImpuestoModels FleteImpuesto_del_FleteImpuesto(FleteImpuestoModels FleteImpuesto)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     FleteImpuesto.IDFleteImpuesto//@id_fleteImpuesto char(36)
+                    ,FleteImpuesto.Usuario//,@id_usuario char(36)
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(FleteImpuesto.Conexion, "spCSLDB_FleteImpuesto_del_FleteImpuestoXIDFleteImpueso", parametros);
+                while (dr.Read())
+                {
+                    FleteImpuesto.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    FleteImpuesto.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                return FleteImpuesto;
             }
             catch (Exception ex)
             {

@@ -9,6 +9,99 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class _Flete_Datos
     {
+
+        #region Index
+        public SqlDataReader ObtenerFleteIndexDataTable(FleteModels Flete)
+        {
+            try
+            {
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_index");
+                return dr;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region Get
+        #region Get AC_Flete
+        public FleteModels Flete_get_ACFlete(FleteModels Flete)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     Flete.id_flete
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_ACFlete", parametros);
+
+                while (dr.Read())
+                {
+                    Flete.Empresa.IDEmpresa = !dr.IsDBNull(dr.GetOrdinal("id_empresa")) ? dr.GetString(dr.GetOrdinal("id_empresa")) : string.Empty;//f.id_empresa
+                    Flete.Cliente.IDCliente = !dr.IsDBNull(dr.GetOrdinal("id_cliente")) ? dr.GetString(dr.GetOrdinal("id_cliente")) : string.Empty;//,f.id_cliente
+                    Flete.Vehiculo.IDVehiculo = !dr.IsDBNull(dr.GetOrdinal("id_vehiculo")) ? dr.GetString(dr.GetOrdinal("id_vehiculo")) : string.Empty;//,f.id_vehiculo
+                    Flete.Chofer.IDChofer = !dr.IsDBNull(dr.GetOrdinal("id_chofer")) ? dr.GetString(dr.GetOrdinal("id_chofer")) : string.Empty;//,f.id_chofer
+                    Flete.Jaula.IDJaula = !dr.IsDBNull(dr.GetOrdinal("id_jaula")) ? dr.GetString(dr.GetOrdinal("id_jaula")) : string.Empty;//,f.id_jaula
+                    Flete.Remolque.IDRemolque = !dr.IsDBNull(dr.GetOrdinal("id_remolque")) ? dr.GetString(dr.GetOrdinal("id_remolque")) : string.Empty;//,f.id_remolque
+                    Flete.kmInicialVehiculo = !dr.IsDBNull(dr.GetOrdinal("kmInicialVehiculo")) ? dr.GetInt32(dr.GetOrdinal("kmInicialVehiculo")) : 0;//,f.kmInicialVehiculo
+                    Flete.FechaTentativaEntrega = !dr.IsDBNull(dr.GetOrdinal("fechaTentativaEntrega")) ? dr.GetDateTime(dr.GetOrdinal("fechaTentativaEntrega")) : DateTime.Now;//,f.fechaTentativaEntrega
+                    Flete.Folio = !dr.IsDBNull(dr.GetOrdinal("folio")) ? dr.GetString(dr.GetOrdinal("folio")) : string.Empty;//,f.folio
+                    Flete.Trayecto.id_trayecto = !dr.IsDBNull(dr.GetOrdinal("id_trayecto")) ? dr.GetString(dr.GetOrdinal("id_trayecto")) : string.Empty;//,t.id_trayecto
+                    Flete.Trayecto.Destinatario.IDCliente = !dr.IsDBNull(dr.GetOrdinal("id_destinatario")) ? dr.GetString(dr.GetOrdinal("id_destinatario")) : string.Empty;//,t.id_destinatario
+                    Flete.Trayecto.Remitente.IDCliente = !dr.IsDBNull(dr.GetOrdinal("id_remitente")) ? dr.GetString(dr.GetOrdinal("id_remitente")) : string.Empty;//,t.id_remitente
+                    Flete.Trayecto.LugarOrigen.id_lugar = !dr.IsDBNull(dr.GetOrdinal("id_lugarOrigen")) ? dr.GetString(dr.GetOrdinal("id_lugarOrigen")) : string.Empty;//,t.id_lugarOrigen
+                    Flete.Trayecto.LugarOrigen.Direccion = !dr.IsDBNull(dr.GetOrdinal("direccionLugarOrigen")) ? dr.GetString(dr.GetOrdinal("direccionLugarOrigen")) : string.Empty;//,(select direccion from dbo.tbl_CatLugar where id_lugar = t.id_lugarOrigen) as direccionLugarOrigen
+                    Flete.Trayecto.LugarOrigen.descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcionLugarOrigen")) ? dr.GetString(dr.GetOrdinal("descripcionLugarOrigen")) : string.Empty;//,(select descripcion from dbo.tbl_CatLugar where id_lugar = t.id_lugarOrigen) as descripcionLugarOrigen
+                    Flete.Trayecto.LugarDestino.id_lugar = !dr.IsDBNull(dr.GetOrdinal("id_lugarDestino")) ? dr.GetString(dr.GetOrdinal("id_lugarDestino")) : string.Empty;//,t.id_lugarDestino
+                    Flete.Trayecto.LugarDestino.Direccion = !dr.IsDBNull(dr.GetOrdinal("direccionLugarDestino")) ? dr.GetString(dr.GetOrdinal("direccionLugarDestino")) : string.Empty;//,(select direccion from dbo.tbl_CatLugar where id_lugar = t.id_lugarDestino) as direccionLugarDestino
+                    Flete.Trayecto.LugarDestino.descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcionLugarDestino")) ? dr.GetString(dr.GetOrdinal("descripcionLugarDestino")) : string.Empty;//,(select descripcion from dbo.tbl_CatLugar where id_lugar = t.id_lugarDestino) as descripcionLugarDestino
+                    Flete.Cliente.RFC = !dr.IsDBNull(dr.GetOrdinal("rfc")) ? dr.GetString(dr.GetOrdinal("rfc")) : string.Empty;//,c.rfc
+                    Flete.precioFlete = !dr.IsDBNull(dr.GetOrdinal("precioFlete")) ? dr.GetDecimal(dr.GetOrdinal("precioFlete")) : 0; //,f.precioFlete
+                    Flete.TotalImpuestoRetenido = !dr.IsDBNull(dr.GetOrdinal("totalImpuestoRetenido")) ? dr.GetDecimal(dr.GetOrdinal("totalImpuestoRetenido")) : 0;//,f.totalImpuestoRetenido
+                    Flete.TotalImpuestoTrasladado = !dr.IsDBNull(dr.GetOrdinal("totalImpuestoTrasladado")) ? dr.GetDecimal(dr.GetOrdinal("totalImpuestoTrasladado")) : 0;//,f.totalImpuestoTrasladado
+                    Flete.TotalFlete = !dr.IsDBNull(dr.GetOrdinal("totalFlete")) ? dr.GetDecimal(dr.GetOrdinal("totalFlete")) : 0;//,f.totalFlete
+                    Flete.CondicionPago = !dr.IsDBNull(dr.GetOrdinal("condicionPago")) ? dr.GetString(dr.GetOrdinal("condicionPago")) : string.Empty;//,f.condicionPago
+                    Flete.MetodoPago.Clave = !dr.IsDBNull(dr.GetOrdinal("id_metodoPago")) ? dr.GetString(dr.GetOrdinal("id_metodoPago")) : string.Empty;//,f.id_metodoPago
+                    Flete.FormaPago.Clave = !dr.IsDBNull(dr.GetOrdinal("id_formaPago")) ? dr.GetInt16(dr.GetOrdinal("id_formaPago")) : 0;//,f.id_formaPago
+                }
+                return Flete;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region Get EstatusFleteXIDFlete
+        public FleteModels GetEstatusFleteXIDFlete(FleteModels Flete)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     Flete.id_flete
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_EstatusFleteXIDFlete", parametros);
+
+                while (dr.Read())
+                {
+                    Flete.Estatus = !dr.IsDBNull(dr.GetOrdinal("estatus")) ? dr.GetInt16(dr.GetOrdinal("estatus")) : 0;//,(select descripcion from dbo.tbl_CatLugar where id_lugar = t.id_lugarDestino) as descripcionLugarDestino
+                }
+                return Flete;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #endregion
+
         #region Combos
         public List<CatClienteModels> GetListadoClientes(FleteModels Flete)
         {
@@ -432,6 +525,95 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
+        #region AC_Cliente
+        public FleteModels Flete_ac_FleteTrayecto(FleteModels Flete)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     Flete.Trayecto.id_trayecto
+                    ,Flete.id_flete
+                    ,Flete.Trayecto.Remitente.IDCliente
+                    ,Flete.Trayecto.LugarOrigen.id_lugar
+                    ,Flete.Trayecto.Destinatario.IDCliente
+                    ,Flete.Trayecto.LugarDestino.id_lugar
+                    ,Flete.Usuario
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_ac_FleteTrayecto", parametros);
+
+                while (dr.Read())
+                {
+                    Flete.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Flete.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                return Flete;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
+        #region A_Cobro
+        public FleteModels Flete_a_FleteCobro(FleteModels Flete)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     Flete.id_flete
+                    ,Flete.precioFlete
+                    ,Flete.CondicionPago
+                    ,Flete.MetodoPago.Clave
+                    ,Flete.FormaPago.Clave
+                    ,Flete.Usuario
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_a_FleteCobro", parametros);
+
+                while (dr.Read())
+                {
+                    Flete.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Flete.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                return Flete;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region A_EstatusFleteXIDFlete
+        public FleteModels Flete_a_CambiarEstatusFleteXIDFlete(FleteModels Flete)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     Flete.id_flete
+                    ,Flete.Usuario
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_a_CambiarEstatusFleteXIDFlete", parametros);
+
+                while (dr.Read())
+                {
+                    Flete.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Flete.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                return Flete;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #endregion
+
+
     }
 }
