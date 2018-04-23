@@ -1142,6 +1142,7 @@
     <Content Include="Areas\Admin\Views\AsistenciaEmpleados\Upload.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\DetalleDocumento.cshtml" />
     <Content Include="Areas\Admin\Views\FleteImpuesto\ModalFleteImpuesto.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\AC_FleteRecepcion.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

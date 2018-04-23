@@ -88,7 +88,23 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
             return View(Flete);
         }
+        [HttpGet]
+        public ActionResult AC_FleteRecepcion(string IDFlete)
+        {
+            Flete = new FleteModels
+            {
+                Conexion = Conexion
+            };
+            FleteDatos = new _Flete_Datos();
+            //cargarmos los datos del flete x id
+            if (!string.IsNullOrEmpty(IDFlete) && IDFlete.Length == 36)
+            {
+                Flete.id_flete = IDFlete;
+                Flete = FleteDatos.Flete_get_ACFlete(Flete);
+            }
 
+            return View(Flete);
+        }
         [HttpGet]
         public ActionResult Edit(string IDFlete)
         {
@@ -108,27 +124,28 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     return View(Flete);
             }
         }
-        //[HttpGet]
-        //public ActionResult Continue(string IDCompra)
-        //{
-        //    Compra = new CompraModels();
-        //    CompraDatos = new _Compra_Datos();
-        //    //Asigno valores para los querys
-        //    Compra.Conexion = Conexion;
-        //    Compra.IDCompra = IDCompra;
-        //    //Obtengo los datos de la compra
-        //    Compra.Estatus = CompraDatos.GetEstatusCompra(Compra);
+        [HttpGet]
+        public ActionResult EnviarFlete(string IDFlete)
+        {   
+            if(IDFlete.Length == 36)
+            {
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                //Asigno valores para los querys
+                Flete.Conexion = Conexion;
+                Flete.id_flete = IDFlete;
+                //Paso al siguiente paso
+                Flete = FleteDatos.Flete_a_CambiarEstatusFleteXIDFlete(Flete);
 
-        //    switch (Compra.Estatus)
-        //    {
-        //        case 0:
-        //            return RedirectToAction("EmbarqueCompra", "Compra", new { IDCompra = Compra.IDCompra });
-        //        case 1:
-        //            return RedirectToAction("RecepcionCompra", "Compra", new { IDCompra = Compra.IDCompra });
-        //        default:
-        //            return View(Compra);
-        //    }
-        //}
+                return RedirectToAction("AC_FleteRecepcion", "Flete", new { IDFlete = Flete.id_flete });
+            }
+            else
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Flete no válido.";
+                return RedirectToAction("Index", "Flete");
+            }
+        }
         /********************************************************************/
         //Funciones AC
         #region AC_Cliente
@@ -165,6 +182,35 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Flete.Conexion = Conexion;
                     Flete.Usuario = User.Identity.Name;
                     Flete = FleteDatos.Flete_ac_FleteTrayecto(Flete);
+
+                    return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Flete no válido.";
+                    return RedirectToAction("Index", "Flete");
+                }
+            }
+            catch (Exception ex)
+            {
+                Flete.RespuestaAjax.Mensaje = ex.ToString();
+                Flete.RespuestaAjax.Success = false;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+        #region A_Cobro
+        public ActionResult A_Cobro(FleteModels Flete)
+        {
+            try
+            {
+                if (Flete.id_flete.Length == 36)
+                {
+                    FleteDatos = new _Flete_Datos();
+                    Flete.Conexion = Conexion;
+                    Flete.Usuario = User.Identity.Name;
+                    Flete = FleteDatos.Flete_a_FleteCobro(Flete);
 
                     return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
                 }
