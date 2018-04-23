@@ -251,8 +251,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         TempData["typemessage"] = "1";
                         TempData["message"] = "Los datos se guardarón correctamente.";
                         Token.ResetToken();
-                        return View(Nomina);
-                        //return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
+                       // return View(Nomina);
+                        return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
                     }
                     else
                     {
@@ -262,7 +262,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             Nomina = NominaDatos.ObtenerListasDeConceptosXID(Nomina);
                             TempData["typemessage"] = "2";
                             TempData["message"] = "El concepto ya fue insertado.";
-                            Token.ResetToken();
+                            //Token.ResetToken();
                             return View(Nomina);
                             // return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
                         }
