@@ -673,5 +673,176 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(RangoPrecio);
             }
         }
+        [HttpGet]
+        public ActionResult UPPProveedor(string id)
+        {
+            try
+            {
+                UPPProvedorModels uPPProvedor = new UPPProvedorModels();
+                _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
+                uPPProvedor.Conexion = Conexion;
+                uPPProvedor.id_proveedor = id;
+                uPPProvedor = ProveedorDatos.ObtenerUPPProveedor(uPPProvedor);
+                uPPProvedor.listaPaises = ProveedorDatos.obtenerListaPaises(uPPProvedor);
+
+                var List = new SelectList(uPPProvedor.listaPaises, "id_pais", "descripcion");
+                ViewData["cmbPaises"] = List;
+
+                uPPProvedor.listaEstado = ProveedorDatos.obtenerListaEstados(uPPProvedor);
+                var Lista = new SelectList(uPPProvedor.listaEstado, "codigoEstado", "descripcion");
+                ViewData["cmbEstados"] = Lista;
+
+                uPPProvedor.listaMunicipio = ProveedorDatos.obtenerListaMunicipios(uPPProvedor);
+                var Listam = new SelectList(uPPProvedor.listaMunicipio, "id_municipio", "descripcion");
+                ViewData["cmbMunicipios"] = Listam;
+
+                return View(uPPProvedor);
+            }
+            catch (Exception)
+            {
+                UPPProvedorModels uPPProvedor = new UPPProvedorModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
+        }
+        public ActionResult UPPProveedor(string id, UPPProvedorModels uPPProvedor)
+        {
+            _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
+            try
+            {
+                HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                if (!string.IsNullOrEmpty(bannerImage.FileName))
+                {
+                    if (bannerImage != null && bannerImage.ContentLength > 0)
+                    {
+                        Stream s = bannerImage.InputStream;
+                        Bitmap img = new Bitmap(s);
+                        uPPProvedor.Imagen = img.ToBase64String(ImageFormat.Png);
+                    }
+                }
+                else
+                {
+                    uPPProvedor.BandImg = true;
+                    ModelState.AddModelError(string.Empty, "Cargar imagen UPPProveedor");
+                }
+                if (ModelState.IsValid)
+                {
+                    uPPProvedor.Conexion = Conexion;
+                    uPPProvedor.id_proveedor = id;
+                    uPPProvedor.Usuario = User.Identity.Name;
+                    uPPProvedor = ProveedorDatos.CUPPProveedor(uPPProvedor);
+                    if (uPPProvedor.Completado)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardaron correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        uPPProvedor.Conexion = Conexion;
+                        uPPProvedor.id_proveedor = id;
+                        uPPProvedor.listaPaises = ProveedorDatos.obtenerListaPaises(uPPProvedor);
+                        var List = new SelectList(uPPProvedor.listaPaises, "id_pais", "descripcion");
+                        ViewData["cmbPaises"] = List;
+
+                        uPPProvedor.listaEstado = ProveedorDatos.obtenerListaEstados(uPPProvedor);
+                        var Lista = new SelectList(uPPProvedor.listaEstado, "codigoEstado", "descripcion");
+                        ViewData["cmbEstados"] = Lista;
+
+                        uPPProvedor.listaMunicipio = ProveedorDatos.obtenerListaMunicipios(uPPProvedor);
+                        var Listam = new SelectList(uPPProvedor.listaMunicipio, "id_municipio", "descripcion");
+                        ViewData["cmbMunicipios"] = Listam;
+
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        return View(uPPProvedor);
+                    }
+                }
+                else
+                {
+                    uPPProvedor.Conexion = Conexion;
+                    uPPProvedor.id_proveedor = id;
+                    uPPProvedor.listaPaises = ProveedorDatos.obtenerListaPaises(uPPProvedor);
+                    var List = new SelectList(uPPProvedor.listaPaises, "id_pais", "descripcion");
+                    ViewData["cmbPaises"] = List;
+
+                    uPPProvedor.listaEstado = ProveedorDatos.obtenerListaEstados(uPPProvedor);
+                    var Lista = new SelectList(uPPProvedor.listaEstado, "codigoEstado", "descripcion");
+                    ViewData["cmbEstados"] = Lista;
+
+                    uPPProvedor.listaMunicipio = ProveedorDatos.obtenerListaMunicipios(uPPProvedor);
+                    var Listam = new SelectList(uPPProvedor.listaMunicipio, "id_municipio", "descripcion");
+                    ViewData["cmbMunicipios"] = Listam;
+
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                    return View(uPPProvedor);
+                }
+            }
+            catch (Exception ex)
+            {
+                // UPPProvedorModels uPPProvedor = new UPPProvedorModels();
+                uPPProvedor.Conexion = Conexion;
+                uPPProvedor.id_proveedor = id;
+                uPPProvedor.listaPaises = ProveedorDatos.obtenerListaPaises(uPPProvedor);
+                var List = new SelectList(uPPProvedor.listaPaises, "id_pais", "descripcion");
+                ViewData["cmbPaises"] = List;
+
+                uPPProvedor.listaEstado = ProveedorDatos.obtenerListaEstados(uPPProvedor);
+                var Lista = new SelectList(uPPProvedor.listaEstado, "codigoEstado", "descripcion");
+                ViewData["cmbEstados"] = Lista;
+
+                uPPProvedor.listaMunicipio = ProveedorDatos.obtenerListaMunicipios(uPPProvedor);
+                var Listam = new SelectList(uPPProvedor.listaMunicipio, "id_municipio", "descripcion");
+                ViewData["cmbMunicipios"] = Listam;
+
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                return View(uPPProvedor);
+            }
+        }
+        //AJAX OBTIENE TODOS LOS COMBOS MEDIANTE JAVASCRIPT
+        [HttpPost]
+        public ActionResult Estado(string id)
+        {
+            try
+            {
+                UPPProvedorModels uPPProvedor = new UPPProvedorModels();
+                _CatProveedor_Datos LugarDatos = new _CatProveedor_Datos();
+                uPPProvedor.Conexion = Conexion;
+                uPPProvedor.id_pais = id;
+                uPPProvedor.listaEstado = LugarDatos.obtenerListaEstados(uPPProvedor);
+
+                return Json(uPPProvedor.listaEstado, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                ex.Message.ToString();
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+
+        public ActionResult Municipio(string idPais, string id)
+        {
+            try
+            {
+                UPPProvedorModels uPPProvedor = new UPPProvedorModels();
+                _CatProveedor_Datos LugarDatos = new _CatProveedor_Datos();
+
+
+                uPPProvedor.id_estadoCodigo = id;
+                uPPProvedor.id_pais = idPais;
+                uPPProvedor.Conexion = Conexion;
+                uPPProvedor.listaMunicipio = LugarDatos.obtenerListaMunicipios(uPPProvedor);
+                return Json(uPPProvedor.listaMunicipio, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                ex.Message.ToString();
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
