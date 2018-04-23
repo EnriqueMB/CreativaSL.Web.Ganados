@@ -58,6 +58,7 @@
                                                     <a title="Precios Rango" class="btn btn-primary" href="@Url.Action("PrecioProveedor", "CatProveedor", new { id = proveedor.IDProveedor})"><i class="fa fa-dollar"></i></a>
                                                     <a title="Lugar Proveedor" class="btn btn-primary" href="@Url.Action("LugarProveedor", "CatProveedor", new { id = proveedor.IDProveedor, id2 = proveedor.IDSucursal})"><i class="fa fa-map-marker"></i></a>
                                                     <a title="Datos bancarios" class="btn btn-green" href="@Url.Action("Cuentas", "CatProveedor", new { id = proveedor.IDProveedor })"><i class="fa fa-money"></i></a>
+                                                    <a title="UPPProveedor" class="btn btn-green" href="@Url.Action("UPPProveedor", "CatProveedor", new { id = proveedor.IDProveedor })"><i class="fa fa-plus"></i></a>
                                                     <a title="Editar" href="@Url.Action("Edit", "CatProveedor", new { id = proveedor.IDProveedor})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                                                     <a title="Eliminar" id="delete-@proveedor.IDProveedor" data-hrefa="@Url.Action("Delete", "CatProveedor", new { id =  proveedor.IDProveedor })" onClick="delete_row('@proveedor.IDProveedor');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
@@ -80,6 +81,11 @@
                                                             <li>
                                                                 <a role="menuitem" tabindex="-1" href="@Url.Action("Cuentas", "CatProveedor", new { id = proveedor.IDProveedor })">
                                                                     <i class="fa fa-money"></i> Datos bancarios
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("UPPProveedor", "CatProveedor", new { id = proveedor.IDProveedor })">
+                                                                    <i class="fa fa-plus"></i> UPPProveedor
                                                                 </a>
                                                             </li>
                                                             <li>
