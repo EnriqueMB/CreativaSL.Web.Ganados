@@ -95,6 +95,25 @@ $.validator.addMethod("validarImgEdit", function (value, element, params) {
 
 }, 'Debe seleccionar una imagen.');
 
+$.validator.addMethod("validarImgEdit2", function (value, element, params) {
+    //Bandera que me indica si hay o no imagen en el servidor
+    var bandera = document.getElementById(params[0]).value;
+    //Hay imagen en el servidor?
+    if (bandera == "True") {
+        return true;
+    }
+    else {
+        //No Hay un elemento en el file input
+        if (element.value.length == 0 || element === undefined) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+}, 'Debe seleccionar una imagen.');
+
 $.validator.addMethod("validarImagen", function () {
 
     if (document.getElementById("ImgINEE").value === '') {

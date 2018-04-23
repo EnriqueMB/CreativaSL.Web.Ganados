@@ -1143,6 +1143,7 @@
     <Content Include="Areas\Admin\Views\DocumentoXPagar\DetalleDocumento.cshtml" />
     <Content Include="Areas\Admin\Views\FleteImpuesto\ModalFleteImpuesto.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\AC_FleteRecepcion.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\ModalDocumentos.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1298,6 +1299,7 @@
     <Compile Include="Models\FierroCompraModels.cs" />
     <Compile Include="Models\FleteImpuestoModels.cs" />
     <Compile Include="Models\FleteModels.cs" />
+    <Compile Include="Models\Flete_TipoDocumentoModels.cs" />
     <Compile Include="Models\GanadoModels.cs" />
     <Compile Include="Models\GeneroGanadoModels.cs" />
     <Compile Include="Models\IncidenteFleteModels.cs" />

@@ -10,8 +10,7 @@ namespace CreativaSL.Web.Ganados.Models
     public class _Flete_Datos
     {
 
-        #region Index
-        public SqlDataReader ObtenerFleteIndexDataTable(FleteModels Flete)
+        public SqlDataReader GetFleteIndexDataTable(FleteModels Flete)
         {
             try
             {
@@ -24,7 +23,24 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        #endregion
+        public SqlDataReader GetDocumentosDataTable(FleteModels Flete)
+        {
+            object[] parametros =
+            {
+                Flete.id_flete
+            };
+
+            try
+            {
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_DocumentosXIDFlete", parametros);
+                return dr;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         #region Get
         #region Get AC_Flete
@@ -93,6 +109,46 @@ namespace CreativaSL.Web.Ganados.Models
                     Flete.Estatus = !dr.IsDBNull(dr.GetOrdinal("estatus")) ? dr.GetInt16(dr.GetOrdinal("estatus")) : 0;//,(select descripcion from dbo.tbl_CatLugar where id_lugar = t.id_lugarDestino) as descripcionLugarDestino
                 }
                 return Flete;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region Get DocumentoXIDDocumeto
+        public Flete_TipoDocumentoModels GetDocumentoXIDDocumento(Flete_TipoDocumentoModels Flete_Tipo)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     Flete_Tipo.IDDocumento
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete_Tipo.Conexion, "spCSLDB_Flete_get_DocumentoXIDDocumento", parametros);
+
+                while (dr.Read())
+                {
+                    Flete_Tipo.IDTipoDocumento = !dr.IsDBNull(dr.GetOrdinal("id_tipoDocumento")) ? dr.GetInt16(dr.GetOrdinal("id_tipoDocumento")) : 0;
+                    Flete_Tipo.Clave = !dr.IsDBNull(dr.GetOrdinal("clave")) ? dr.GetString(dr.GetOrdinal("clave")) : string.Empty;
+                    //Solo para mostrar
+                    Flete_Tipo.Imagen = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
+                }
+                if (string.IsNullOrEmpty(Flete_Tipo.Imagen))
+                {
+                    //No hay imagen en el server
+                    Flete_Tipo.MostrarImagen = Auxiliar.SetDefaultImage();
+                    Flete_Tipo.FlagImg = false;
+                }
+                else
+                {
+                    //Guardamos el string de la imagen
+                    Flete_Tipo.MostrarImagen = Flete_Tipo.Imagen;
+                    Flete_Tipo.FlagImg = true;
+                }
+
+                    return Flete_Tipo;
             }
             catch (Exception ex)
             {
@@ -487,7 +543,33 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        
+        public List<CatTipoDocumentoModels> GetListaTiposDocumentos(Flete_TipoDocumentoModels Flete)
+        {
+            try
+            {
+                CatTipoDocumentoModels TipoDocumento;
+                List<CatTipoDocumentoModels> ListaTipoDocumentos = new List<CatTipoDocumentoModels>();
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Combo_get_CatTipoDocumento");
+                while (dr.Read())
+                {
+                    TipoDocumento = new CatTipoDocumentoModels
+                    {
+                        IDTipoDocumento = !dr.IsDBNull(dr.GetOrdinal("id_tipoDocumento")) ? dr.GetInt16(dr.GetOrdinal("id_tipoDocumento")) : 0,
+                        Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty,
+                    };
+
+                    ListaTipoDocumentos.Add(TipoDocumento);
+                }
+                return ListaTipoDocumentos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         #endregion
 
         #region Funciones AC
@@ -525,7 +607,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
-        #region AC_Cliente
+        #region Flete_ac_FleteTrayecto
         public FleteModels Flete_ac_FleteTrayecto(FleteModels Flete)
         {
             try
@@ -612,8 +694,63 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
-        #endregion
+        #region Flete_ac_Documento
+        public Flete_TipoDocumentoModels Flete_ac_Documento(Flete_TipoDocumentoModels FleteTipo)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     FleteTipo.IDDocumento
+                    ,FleteTipo.IDFlete
+                    ,FleteTipo.IDTipoDocumento
+                    ,FleteTipo.Clave
+                    ,FleteTipo.Imagen
+                    ,FleteTipo.Usuario
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(FleteTipo.Conexion, "spCSLDB_Flete_ac_Documento", parametros);
 
+                while (dr.Read())
+                {
+                    FleteTipo.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    FleteTipo.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                return FleteTipo;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #endregion
+        #region Flete_del_Documento
+        public Flete_TipoDocumentoModels Flete_del_DocumentoXIDDocumento(Flete_TipoDocumentoModels FleteTipo)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     FleteTipo.IDDocumento
+                    ,FleteTipo.Usuario
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(FleteTipo.Conexion, "spCSLDB_Flete_del_DocumentoXIDDocumento", parametros);
+
+                while (dr.Read())
+                {
+                    FleteTipo.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    FleteTipo.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                return FleteTipo;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
 
     }
 }
