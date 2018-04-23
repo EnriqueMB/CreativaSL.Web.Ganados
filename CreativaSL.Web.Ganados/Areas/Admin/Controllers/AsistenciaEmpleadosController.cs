@@ -7,24 +7,40 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CreativaSL.Web.Ganados.Models;
+using CreativaSL.Web.Ganados.Filters;
+using System.Configuration;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
+    [Autorizado]
     public class AsistenciaEmpleadosController : Controller
     {
+        string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/DatosExcel
         public ActionResult Index()
         {
-            return View();
+            AsistenciaEmpleadoModels Asistencia = new AsistenciaEmpleadoModels();
+            _AsistenciaEmpleados_Datos AsistenciaDatos = new _AsistenciaEmpleados_Datos();
+            Asistencia.conexion = Conexion;
+            Asistencia.listaEmpleados = AsistenciaDatos.obtenerListaEmpleados(Asistencia);
+
+            return View(Asistencia);
         }
-        public ActionResult Upload()
+        public ActionResult Upload(string id)
         {
+            AsistenciaEmpleadoModels Asistencia = new AsistenciaEmpleadoModels();
+            Asistencia.fecha = Convert.ToDateTime(id);
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Upload(HttpPostedFileBase uploadfile)
+        public ActionResult Upload(string id,HttpPostedFileBase uploadfile)
         {
+            AsistenciaEmpleadoModels Asistencia = new AsistenciaEmpleadoModels();
+            Asistencia.conexion = Conexion;
+            Asistencia.fecha = Convert.ToDateTime(id);
+            _AsistenciaEmpleados_Datos AsistenciaDatos = new _AsistenciaEmpleados_Datos();
             if (ModelState.IsValid)
             {
                 if (uploadfile != null && uploadfile.ContentLength > 0)
@@ -62,6 +78,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     });
                     reader.Close();
                     //Sending result data to View
+                    Asistencia.tablaAsistencia = result.Tables[0];
+                    Asistencia.Result=AsistenciaDatos.GenerarListaFaltas(Asistencia);
                     return View(result.Tables[0]);
                 }
             }

@@ -1137,6 +1137,7 @@
     <Content Include="Areas\Admin\Views\AsistenciaEmpleados\Upload.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\DetalleDocumento.cshtml" />
     <Content Include="Areas\Admin\Views\FleteImpuesto\ModalFleteImpuesto.cshtml" />
+    <Content Include="Areas\Admin\Views\AsistenciaEmpleados\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1210,6 +1211,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AlmacenEntradaModels.cs" />
+    <Compile Include="Models\AsistenciaEmpleadoModels.cs" />
     <Compile Include="Models\Auxiliar.cs" />
     <Compile Include="Models\CatAlmacenModels.cs" />
     <Compile Include="Models\CatBancoModels.cs" />
@@ -1339,6 +1341,7 @@
     <Compile Include="Models\Validaciones\TextoAttribute.cs" />
     <Compile Include="Models\VentaGanadoModels.cs" />
     <Compile Include="Models\VentaModels.cs" />
+    <Compile Include="Models\_AsistenciaEmpleados_Datos.cs" />
     <Compile Include="Models\_CatAlmacen_Datos.cs" />
     <Compile Include="Models\_CatBanco_Datos.cs" />
     <Compile Include="Models\_CatCategoriaPuesto_Datos.cs" />
