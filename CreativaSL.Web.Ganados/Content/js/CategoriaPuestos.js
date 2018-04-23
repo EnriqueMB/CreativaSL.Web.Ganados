@@ -36,7 +36,7 @@
             messages: {
 
                 //ListSucursal: { required: "Seleccione una sucursal." },
-                descripcion: { required: "Ingrese nombre del chofer.", placa: "Ingrese un formato valido (letras, números y guión(-)", maxlength: "El campo nombre admite máximo 80 caracteres." },
+                descripcion: { required: "Ingrese nombre de la categoria.", texto: "Ingrese un formato valido", maxlength: "El campo nombre admite máximo 80 caracteres." },
                
               
                 id_puesto: { CMBINT: "Seleccione un puesto." },

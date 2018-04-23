@@ -1,12 +1,22 @@
-﻿var TipoProveedor = function () {
+﻿var UPPProveedor = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
-        var form1 = $('#form-Tipovehiculo');
+        var form1 = $('#form-dg');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
+        $.validator.addMethod("validarImagen", function () {
+            if (document.getElementById("Imagen").value === '') {
+                if ((document.getElementById("Imagen").value === ''))
+                    return false;
+                else
+                    return true;
+            }
+            else
+                return true;
+        }, 'Debe seleccionar una imagen.');
 
-        $('#form-Tipovehiculo').validate({
+        $('#form-dg').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -24,16 +34,27 @@
             },
             ignore: "",
             rules: {
-               
-                Descripcion: { required: true, texto: true, maxlength:100 },
-               
-
+                UPP: { required: true },
+                nombrePredio: { required: true, texto: true, maxlength: 200 },
+                propietario: { required: true, texto: true },
+                fechaAlta: { required: true },
+                Imagen: { validarImagen: true },
+                id_municipio: { CMBINT: true },
+                id_estadoCodigo: { required: true },
+                id_pais: { required: true },
             },
             messages: {
-                
-               
-                Descripcion: { required: "Ingrese el tipo del proveedor.", texto: "Ingrese un formato valido", maxlength: "El campo nombre admite máximo 100 caracteres." },
-                
+                UPP: { required: "Ingrese el UPP." },
+                nombrePredio: { required: "Ingrese el UPP.", texto: "Ingrese un nombre valido.", maxlength: "El nombre del predio admite máximo 200 caracteres."},
+
+                propietario: { required: "Ingrese el nombre del propietario", texto: "Ingrese un nombre valido" },
+                fechaAlta: { required: "Ingrese la fecha de alta." },
+
+                Imagen: { validarImagen: "Seleccione una imagén válida de banco" },
+                id_municipio: { CMBINT: "Seleccione un municipio." },
+                id_estadoCodigo: { required: "Ingrese un estado válido." },
+                id_pais: { required: "Ingrese un pais válido." },
+
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -65,12 +86,15 @@
         });
     };
 
+    var rumImagenes = function () {
 
+    };
 
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
+            rumImagenes();
         }
     };
 }();

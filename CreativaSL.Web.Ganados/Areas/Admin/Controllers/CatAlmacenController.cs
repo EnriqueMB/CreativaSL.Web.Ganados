@@ -66,44 +66,50 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatAlmacen/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CatAlmacenModels Almacen)
         {
-            CatAlmacenModels Almacen = new CatAlmacenModels { Conexion = Conexion};
+            
             _CatAlmacen_Datos AlmacenDatos = new _CatAlmacen_Datos();
             try
             {
                 if (Token.IsTokenValid())
-                {   
-                    Almacen.Conexion = Conexion;
-                    Almacen.ClaveAlmacen = collection["ClaveAlmacen"];
-                    Almacen.Descripcion = collection["Descripcion"];
-                    Almacen.IDSucursal = collection["ListaSucursales"];
-                    Almacen.Usuario = User.Identity.Name;
-                    Almacen.Opcion = 1;
-                    Almacen = AlmacenDatos.AcCatAlmacen(Almacen);
-                    //Si abc fue completado correctamente
-                    if (Almacen.Completado == true)
+                {
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "El registro se guardo correctamente.";
-                        Token.ResetToken();
-                        return RedirectToAction("Index");
+                        Almacen.Conexion = Conexion;
+
+                        Almacen.Usuario = User.Identity.Name;
+                        Almacen.Opcion = 1;
+                        Almacen.IDAlmacen = string.Empty;
+                        Almacen = AlmacenDatos.AcCatAlmacen(Almacen);
+                        //Si abc fue completado correctamente
+                        if (Almacen.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardo correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar el registro.";
+                            Almacen.ListaSucursales = AlmacenDatos.obtenerListaSucursales(Almacen);
+                            var listaSucursal = new SelectList(Almacen.ListaSucursales, "IDSucursal", "NombreSucursal");
+                            ViewData["cmbSucursal"] = listaSucursal;
+                            return View(Almacen);
+                        }
                     }
-                    else
-                    {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                    else {
+                        Almacen.Conexion = Conexion;
                         Almacen.ListaSucursales = AlmacenDatos.obtenerListaSucursales(Almacen);
-                        var listaSucursal = new SelectList(Almacen.ListaSucursales, "IDSucursal", "NombreSucursal");
-                        ViewData["cmbSucursal"] = listaSucursal;
                         return View(Almacen);
-                    }                    
+                    }                   
                 }
                 else
                 {
+                    Almacen.Conexion = Conexion;
                     Almacen.ListaSucursales = AlmacenDatos.obtenerListaSucursales(Almacen);
-                    var listaSucursal = new SelectList(Almacen.ListaSucursales, "IDSucursal", "NombreSucursal");
-                    ViewData["cmbSucursal"] = listaSucursal;
                     return View(Almacen);
                 }
             }
@@ -145,31 +151,38 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatAlmacen/Edit/5
         [HttpPost]
-        public ActionResult Edit(string id, FormCollection collection)
+        public ActionResult Edit(CatAlmacenModels Almacen)
         {
+            _CatAlmacen_Datos AlmacenDatos = new _CatAlmacen_Datos();
             try
             {
-                CatAlmacenModels Almacen = new CatAlmacenModels();
-                _CatAlmacen_Datos AlmacenDatos = new _CatAlmacen_Datos();
-                Almacen.Conexion = Conexion;
-                Almacen.IDAlmacen = id;
-                Almacen.ClaveAlmacen = collection["ClaveAlmacen"];
-                Almacen.Descripcion = collection["Descripcion"];
-                Almacen.IDSucursal = collection["ListaSucursales"];
-                Almacen.Usuario = User.Identity.Name;
-                Almacen.Opcion = 2;
-                Almacen = AlmacenDatos.AcCatAlmacen(Almacen);
-                //Si abc fue completado correctamente
-                if (Almacen.Completado == true)
+
+
+
+                if (ModelState.IsValid)
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se guardo correctamente.";
-                    return RedirectToAction("Index");
+                    Almacen.Conexion = Conexion;
+
+                    Almacen.Usuario = User.Identity.Name;
+                    Almacen.Opcion = 2;
+                    Almacen = AlmacenDatos.AcCatAlmacen(Almacen);
+                    //Si abc fue completado correctamente
+                    if (Almacen.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "El registro se guardo correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        return View(Almacen);
+                    }
                 }
-                else
-                {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrió un error al guardar el registro.";
+                else {
+                    Almacen.Conexion = Conexion;
+                    Almacen.ListaSucursales = AlmacenDatos.obtenerListaSucursales(Almacen);
                     return View(Almacen);
                 }
             }

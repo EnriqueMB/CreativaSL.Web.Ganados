@@ -36,8 +36,8 @@
                             <div class="col-md-4">
                                 <label class="col-md-3 col-xs-12 control-label">Sucursal</label>
                                 <div class="col-md-9 col-xs-12">
-                                    @Html.DropDownListFor(model => model.ListaSucursales, ViewData["cmbSucursal"] as SelectList, new { id = "ListSucursal", @class = "form-control select" })
-                                    @Html.ValidationMessageFor(model => model.ListaSucursales)
+                                    @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { id = "ListSucursal", @class = "form-control select" })
+                                    @Html.ValidationMessageFor(model => model.IDSucursal)
                                     <span class="help-block">Seleccione la sucursal</span>
                                 </div>
                             </div>

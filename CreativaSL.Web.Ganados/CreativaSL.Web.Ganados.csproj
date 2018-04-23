@@ -434,6 +434,7 @@
     <Content Include="Content\img\themes\light.jpg" />
     <Content Include="Content\js\actions.js" />
     <Content Include="Content\js\Bancos.js" />
+    <Content Include="Content\js\EmpleadosSucursalFaltas.js" />
     <Content Include="Content\js\Puestos.js" />
     <Content Include="Content\js\CategoriaPuestos.js" />
     <Content Include="Content\js\Chofer.js" />
@@ -898,6 +899,7 @@
     <Content Include="Content\js\portlet.js" />
     <Content Include="Content\js\Productos.js" />
     <Content Include="Content\js\ProveedorAlmacen.js" />
+    <Content Include="Content\js\RegistrarFaltas.js" />
     <Content Include="Content\js\Remolques.js" />
     <Content Include="Content\js\rendimiento.js" />
     <Content Include="Content\js\servicioslista.js" />
@@ -909,6 +911,7 @@
     <Content Include="Content\js\TipoServicio.js" />
     <Content Include="Content\js\TipoVehiculo.js" />
     <Content Include="Content\js\UnidadMedida.js" />
+    <Content Include="Content\js\UPPProveedor.js" />
     <Content Include="Content\js\Usuario.js" />
     <Content Include="Content\js\validaciones\additionals.js" />
     <Content Include="Content\js\Vehiculo.js" />
@@ -1143,7 +1146,9 @@
     <Content Include="Areas\Admin\Views\DocumentoXPagar\DetalleDocumento.cshtml" />
     <Content Include="Areas\Admin\Views\FleteImpuesto\ModalFleteImpuesto.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\AC_FleteRecepcion.cshtml" />
-    <Content Include="Areas\Admin\Views\Flete\ModalDocumentos.cshtml" />
+    <Content Include="Areas\Admin\Views\AsistenciaEmpleados\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXPagar\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\UPPProveedor.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1221,6 +1226,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AlmacenEntradaModels.cs" />
+    <Compile Include="Models\AsistenciaEmpleadoModels.cs" />
     <Compile Include="Models\Auxiliar.cs" />
     <Compile Include="Models\CatAlmacenModels.cs" />
     <Compile Include="Models\CatBancoModels.cs" />
@@ -1353,6 +1359,7 @@
     <Compile Include="Models\Validaciones\TextoAttribute.cs" />
     <Compile Include="Models\VentaGanadoModels.cs" />
     <Compile Include="Models\VentaModels.cs" />
+    <Compile Include="Models\_AsistenciaEmpleados_Datos.cs" />
     <Compile Include="Models\_CatAlmacen_Datos.cs" />
     <Compile Include="Models\_CatBanco_Datos.cs" />
     <Compile Include="Models\_CatCategoriaPuesto_Datos.cs" />

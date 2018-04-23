@@ -1,12 +1,22 @@
-﻿var TipoProveedor = function () {
+﻿var EmpleadoFalta = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
-        var form1 = $('#form-Tipovehiculo');
+        var form1 = $('#form-search');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
+        $.validator.addMethod("validarImagen", function () {
 
-        $('#form-Tipovehiculo').validate({
+            if (document.getElementById("ImgTicket").value === '') {
+                if ((document.getElementById("ImgTicket").value === ''))
+                    return false;
+                else
+                    return true;
+            }
+            else
+                return true;
+        }, 'Debe seleccionar una imagen.');
+        $('#form-search').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -25,14 +35,14 @@
             ignore: "",
             rules: {
                
-                Descripcion: { required: true, texto: true, maxlength:100 },
+                IDSucursal: { required: true },
+               
                
 
             },
             messages: {
-                
                
-                Descripcion: { required: "Ingrese el tipo del proveedor.", texto: "Ingrese un formato valido", maxlength: "El campo nombre admite máximo 100 caracteres." },
+                IDSucursal: { required: "Seleccione una sucursal." },
                 
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
@@ -43,7 +53,7 @@
             highlight: function (element) {
                 $(element).closest('.help-block').removeClass('valid');
                 // display OK icon
-                $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.form-control-feedback').removeClass('glyphicon-ok').addClass('glyphicon-remove');
                 // add the Bootstrap error class to the control group
             },
             unhighlight: function (element) { // revert the change done by hightlight
@@ -54,7 +64,7 @@
                 label.addClass('help-block valid');
                 label.removeClass('color');
                 // mark the current input as valid and display OK icon
-                $(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.form-control-feedback').removeClass('glyphicon-remove').addClass('glyphicon-ok');
             },
             submitHandler: function (form) {
                 successHandler1.show();
@@ -65,12 +75,13 @@
         });
     };
 
-
+   
 
     return {
         //main function to initiate template pages
-        init: function () {
+        init: function (band, img64 ) {
             runValidator1();
+           
         }
     };
 }();

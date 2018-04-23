@@ -535,5 +535,154 @@ namespace CreativaSL.Web.Ganados.Models
 
         #endregion
 
+        #region UPPProveedor
+        public UPPProvedorModels ObtenerUPPProveedor(UPPProvedorModels Datos)
+        {
+            try
+            {
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_get_UPPProveedor", Datos.id_proveedor);
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        //item.id_proveedor = !dr.IsDBNull(dr.GetOrdinal("IDProveedor")) ? dr.GetString(dr.GetOrdinal("IDProveedor")) : string.Empty;
+                        Datos.UPP = !dr.IsDBNull(dr.GetOrdinal("UPP")) ? dr.GetString(dr.GetOrdinal("UPP")) : string.Empty;
+                        Datos.fechaAlta = !dr.IsDBNull(dr.GetOrdinal("fechaAlta")) ? dr.GetDateTime(dr.GetOrdinal("fechaAlta")) : DateTime.Today;
+                        Datos.id_pais = !dr.IsDBNull(dr.GetOrdinal("IDPais")) ? dr.GetString(dr.GetOrdinal("IDPais")) : string.Empty;
+                        Datos.id_estadoCodigo = !dr.IsDBNull(dr.GetOrdinal("C_Estado")) ? dr.GetString(dr.GetOrdinal("C_Estado")) : string.Empty;
+                        Datos.id_estado = !dr.IsDBNull(dr.GetOrdinal("IDEstado")) ? dr.GetInt32(dr.GetOrdinal("IDEstado")) : 0;
+                        Datos.id_municipio = !dr.IsDBNull(dr.GetOrdinal("IDMunicipio")) ? dr.GetInt32(dr.GetOrdinal("IDMunicipio")) : 0;
+                        Datos.nombrePredio = !dr.IsDBNull(dr.GetOrdinal("nombrePredio")) ? dr.GetString(dr.GetOrdinal("nombrePredio")) : string.Empty;
+                        Datos.propietario = !dr.IsDBNull(dr.GetOrdinal("Propietario")) ? dr.GetString(dr.GetOrdinal("Propietario")) : string.Empty;
+                        Datos.Imagen = !dr.IsDBNull(dr.GetOrdinal("imagenUPP")) ? dr.GetString(dr.GetOrdinal("imagenUPP")) : string.Empty;
+                    }
+                }
+                else
+                {
+                    Datos.fechaAlta = new DateTime();
+                    Datos.fechaAlta = DateTime.Today;
+                }
+                return Datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public UPPProvedorModels CUPPProveedor(UPPProvedorModels Datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                   Datos.Opcion,
+                   Datos.id_proveedor,
+                   Datos.UPP,
+                   Datos.fechaAlta,
+                   Datos.id_pais,
+                   Datos.id_estadoCodigo,
+                   Datos.id_municipio,
+                   Datos.nombrePredio,
+                   Datos.propietario,
+                   Datos.Imagen,
+                   Datos.BandImg,
+                   Datos.Usuario
+                    };
+                object aux = SqlHelper.ExecuteScalar(Datos.Conexion, "spCSLDB_ac_UPPProveedor", parametros);
+                Datos.id_proveedor = aux.ToString();
+
+                if (Convert.ToInt32(Datos.id_proveedor)!=1)
+                {
+                    Datos.Completado = true;
+                }
+                else
+                {
+                    Datos.Completado = false;
+                }
+                return Datos;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public List<CatPaisModels> obtenerListaPaises(UPPProvedorModels Datos)
+        {
+            try
+            {
+                List<CatPaisModels> lista = new List<CatPaisModels>();
+                CatPaisModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_get_ComboPaises");
+                while (dr.Read())
+                {
+                    item = new CatPaisModels();
+                    item.id_pais = dr["clave"].ToString();
+                    item.descripcion = dr["descripcion"].ToString();
+
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<CatEstadoModels> obtenerListaEstados(UPPProvedorModels Datos)
+        {
+            try
+            {
+                List<CatEstadoModels> lista = new List<CatEstadoModels>();
+                CatEstadoModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_get_ComboEstado", Datos.id_pais);
+                while (dr.Read())
+                {
+                    item = new CatEstadoModels();
+                    item.id_estado = Convert.ToInt32(dr["id_estado"].ToString());
+                    item.codigoEstado = dr["clave"].ToString();
+                    item.descripcion = dr["descripcion"].ToString();
+
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<CatMunicipioModels> obtenerListaMunicipios(UPPProvedorModels Datos)
+        {
+            try
+            {
+                List<CatMunicipioModels> lista = new List<CatMunicipioModels>();
+                CatMunicipioModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_get_ComboMunicipio", Datos.id_pais, Datos.id_estadoCodigo);
+                while (dr.Read())
+                {
+                    item = new CatMunicipioModels();
+                    item.id_municipio = Convert.ToInt32(dr["id_municipio"].ToString());
+                    item.codigoMunicipio = dr["clave"].ToString();
+                    item.descripcion = dr["descripcion"].ToString();
+
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        #endregion
+
     }
 }

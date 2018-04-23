@@ -32,7 +32,7 @@
             messages: {
                 
                
-                Descripcion: { required: "Ingrese el tipo del vehículo.", placa: "Ingrese un formato valido (letras, números y guión(-)", maxlength: "El campo nombre admite máximo 10 caracteres." },
+                Descripcion: { required: "Ingrese el tipo del vehículo.", texto: "Ingrese un formato valido", maxlength: "El campo nombre admite máximo 100 caracteres." },
                 
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
