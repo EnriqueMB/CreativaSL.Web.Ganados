@@ -30,12 +30,25 @@
     };
     //Eventos
     var RunEventsLineaFletera = function () {
+        //Escondemos 
+        $('.EsconderCostoFlete').hide(0);
+
         $("#IDEmpresa").on("change", function () {
             var IDEmpresa = $(this).val();
             GetChoferesXIDEmpresa(IDEmpresa);
             GetVehiculosXIDEmpresa(IDEmpresa);
             GetJaulasXIDEmpresa(IDEmpresa);
             GetRemolquesXIDEmpresa(IDEmpresa);
+        });
+        $('#IDCostoFlete').on("change", function () {
+            var id= $(this).val();
+            if(id == 3)
+                $('.EsconderCostoFlete').show(1000);
+            else
+                $('.EsconderCostoFlete').hide(1000);
+        });
+        $("#Trayecto.id_lugarDestino").on("change", function () {
+            GetValuesFlete($(this));
         });
     }
     var RunEventsFechaProgramada = function () {
@@ -500,6 +513,12 @@
         });
     }
     //Funciones
+    function GetValuesFlete(select) {
+        var direccion = select.data("direccion");
+        var ubicacion = select.val();
+
+        
+    }
     function A_Documento() {
         var form = $("#frmDocumentos")[0];
         var formData = new FormData(form);

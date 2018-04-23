@@ -7,34 +7,32 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class TrayectoModels
     {
-        private string _id_trayecto;
-
-        public string id_trayecto
+        public TrayectoModels()
         {
-            get { return _id_trayecto; }
-            set { _id_trayecto = value; }
-        }
-        private string _id_flete;
+            LugarOrigen = new CatLugarModels();
+            LugarDestino = new CatLugarModels();
+            Remitente = new CatClienteModels();
+            Destinatario = new CatClienteModels();
+     }
 
-        public string id_flete
-        {
-            get { return _id_flete; }
-            set { _id_flete = value; }
-        }
-        private string _id_lugarOrigen;
+        //No tocar
+        public string id_trayecto { get; set; }
+        public string id_flete { get; set; }
+        public string id_lugarOrigen { get; set; }
+        public string id_lugarDestino { get; set; }
 
-        public string id_lugarOrigen
-        {
-            get { return _id_lugarOrigen; }
-            set { _id_lugarOrigen = value; }
-        }
-        private string _id_lugarDestino;
+        //ID
+        public CatLugarModels LugarOrigen { get; set; }
+        public CatLugarModels LugarDestino { get; set; }
+        public CatClienteModels Remitente { get; set; }
+        public CatClienteModels Destinatario { get; set; }
 
-        public string id_lugarDestino
-        {
-            get { return _id_lugarDestino; }
-            set { _id_lugarDestino = value; }
-        }
+        //Select
+        public List<CatLugarModels> ListaLugarOrigen { get; set; }
+        public List<CatLugarModels> ListaLugarDestino { get; set; }
+        public List<CatClienteModels> ListaRemitente { get; set; }
+        public List<CatClienteModels> ListaDestinatario { get; set; }
+
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }

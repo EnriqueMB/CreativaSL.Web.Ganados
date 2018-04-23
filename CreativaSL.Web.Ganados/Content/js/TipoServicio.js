@@ -32,7 +32,7 @@
             messages: {
 
 
-                Descripcion: { required: "Ingrese el tipo de servicio.", placa: "Ingrese un formato valido (letras, números y guión(-)", maxlength: "El campo nombre admite máximo 120 caracteres." },
+                Descripcion: { required: "Ingrese el tipo de servicio.", texto: "Ingrese un formato valido", maxlength: "El campo nombre admite máximo 120 caracteres." },
 
             },
             invalidHandler: function (event, validator) { //display error alert on form submit

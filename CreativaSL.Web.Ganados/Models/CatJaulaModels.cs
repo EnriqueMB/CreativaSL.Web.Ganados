@@ -42,8 +42,6 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private List<CatSucursalesModels> _listaSucursales;
-        [Required(ErrorMessage = "La sucursal es obligatorio")]
-        [Display(Name = "Sucursal")]
         public List<CatSucursalesModels> listaSucursales
         {
             get { return _listaSucursales; }
@@ -75,8 +73,8 @@ namespace CreativaSL.Web.Ganados.Models
         /// ID SUCURSAL
         /// </summary>
         private string _IDSucursal;
-      
-        
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Seleccione una sucursal.")]
         public string IDSucursal
         {
             get { return _IDSucursal; }

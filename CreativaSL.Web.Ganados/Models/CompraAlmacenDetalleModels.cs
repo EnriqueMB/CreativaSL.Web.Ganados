@@ -63,9 +63,9 @@ namespace CreativaSL.Web.Ganados.Models
             set { _SubTotal = value; }
         }
 
-        private string _CantidadAsignada;
+        private decimal _CantidadAsignada;
 
-        public string CantidadAsignada
+        public decimal CantidadAsignada
         {
             get { return _CantidadAsignada; }
             set { _CantidadAsignada = value; }

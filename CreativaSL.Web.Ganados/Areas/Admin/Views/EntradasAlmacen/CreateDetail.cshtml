@@ -1,0 +1,112 @@
+﻿@model CreativaSL.Web.Ganados.ViewModels.EntradaAlmacenDetalleViewModels
+@{
+    ViewBag.Title = "CreateDetail";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Entradas de Almacén </h2>
+    </div>
+    <!-- END PAGE TITLE -->
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel panel-default">
+                    @{ Html.EnableClientValidation(false); }
+                    @using (Html.BeginForm("CreateDetail", "EntradasAlmacen", FormMethod.Post, new { @class = "form-horizontal", id = "form-ed", autocomplete = "off" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(p => p.IDEntrega)
+
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                        
+                        <ul class="panel-controls">
+                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>                            
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Cantidad Asignada</th>
+                                        <th>Cantidad Entrega</th>
+                                        <th>Unidad de Medida</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (var i = 0; i < Model.ListaDetalle.Count; i++)
+                                    {
+                                        <tr>
+                                            <td>@Model.ListaDetalle[i].Producto</td>
+                                            <td>@string.Format("{0:F3}", Model.ListaDetalle[i].CantidadCompra)</td>
+                                            <td>@string.Format("{0:F3}", Model.ListaDetalle[i].CantidadAsignada)</td>
+                                            <td> 
+                                                <div class="form-group">
+                                                    <div class="col-md-12 col-xs-12">
+                                                        @Html.TextBoxFor(p => p.ListaDetalle[i].Cantidad, "{0:F3}", new { id = "Cantidad", @class = "form-control cantidad decimalVal", placeholder = "", data_max = (Model.ListaDetalle[i].CantidadCompra - Model.ListaDetalle[i].CantidadAsignada ) <= 0 ? 0 : (Model.ListaDetalle[i].CantidadCompra - Model.ListaDetalle[i].CantidadAsignada) })
+                                                        @Html.ValidationMessageFor(p => p.ListaDetalle[i].Cantidad)
+                                                    </div>
+                                                </div>
+                                                @Html.HiddenFor(p => p.ListaDetalle[i].IDEntradaAlmacenDetalle)
+                                                @Html.HiddenFor(p => p.ListaDetalle[i].IDCompraAlmacenDetalle)
+                                                @Html.HiddenFor(p => p.ListaDetalle[i].Producto)
+                                                @Html.HiddenFor(p => p.ListaDetalle[i].UnidadMedida)
+                                                @Html.HiddenFor(p => p.ListaDetalle[i].CantidadCompra)
+                                                @Html.HiddenFor(p => p.ListaDetalle[i].CantidadAsignada)
+                                            </td>
+                                            <td>@Model.ListaDetalle[i].UnidadMedida</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                    </div>
+                    }
+                </div>
+                <!-- END DEFAULT DATATABLE -->
+            </div>
+        </div>
+    </div>
+        
+    <script>
+    var message = '@message';
+    var typemessage = '@typemessage';
+    </script>
+}
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/maskedinput/jquery.mask.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/entradaAlmacenDetalle.js")"></script>
+    <script>
+    jQuery(document).ready(function () {
+        Mensaje(message, typemessage);
+        Entrada.init();
+        });
+    </script>
+}
+

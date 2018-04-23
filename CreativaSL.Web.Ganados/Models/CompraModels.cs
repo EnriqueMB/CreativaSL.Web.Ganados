@@ -93,7 +93,7 @@ namespace CreativaSL.Web.Ganados.Models
         public string IDRemolque { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Seleccione un lugar.")]
         public string IDPLugarProveedor { get; set; }
-        [Range(2, 10, ErrorMessage = "Seleecion un tipo de costo del flete.")]
+        [Range(1, 10, ErrorMessage = "Seleecion un tipo de costo del flete.")]
         public int IDCostoFlete { get; set; }
 
         public CatChoferModels Chofer { get; set; }

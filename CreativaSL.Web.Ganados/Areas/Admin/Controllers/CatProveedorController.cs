@@ -1,4 +1,5 @@
-﻿using CreativaSL.Web.Ganados.Filters;
+﻿using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     [Autorizado]
     public class CatProveedorController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatProveedor
         public ActionResult Index()
@@ -47,6 +49,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatProveedorModels Proveedor = new CatProveedorModels();
                 _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
                 Proveedor.Conexion = Conexion;
@@ -71,49 +74,57 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                    if (bannerImage != null && bannerImage.ContentLength > 0)
+                    if (ModelState.IsValid)
                     {
-                        Stream s = bannerImage.InputStream;
-                        Bitmap img = new Bitmap(s);
-                        Proveedor.ImgINE = img.ToBase64String(ImageFormat.Png);
-                    }
-                    HttpPostedFileBase bannerImage2 = Request.Files[1] as HttpPostedFileBase;
-                    if (bannerImage2 != null && bannerImage2.ContentLength > 0)
-                    {
-                        Stream s = bannerImage2.InputStream;
-                        Bitmap img = new Bitmap(s);
-                        Proveedor.ImgManifestacionFierro = img.ToBase64String(ImageFormat.Png);
-                    }
-                    Proveedor.Conexion = Conexion;
-                    Proveedor.Usuario = User.Identity.Name;
-                    Proveedor.Opcion = 1;
-                    Proveedor = ProveedorDatos.AcCatProveedor(Proveedor);
-                    if (Proveedor.Completado)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Index");
+                        HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                        if (bannerImage != null && bannerImage.ContentLength > 0)
+                        {
+                            Stream s = bannerImage.InputStream;
+                            Bitmap img = new Bitmap(s);
+                            Proveedor.ImgINE = img.ToBase64String(ImageFormat.Png);
+                        }
+                        HttpPostedFileBase bannerImage2 = Request.Files[1] as HttpPostedFileBase;
+                        if (bannerImage2 != null && bannerImage2.ContentLength > 0)
+                        {
+                            Stream s = bannerImage2.InputStream;
+                            Bitmap img = new Bitmap(s);
+                            Proveedor.ImgManifestacionFierro = img.ToBase64String(ImageFormat.Png);
+                        }
+                        Proveedor.Conexion = Conexion;
+                        Proveedor.Usuario = User.Identity.Name;
+                        Proveedor.Opcion = 1;
+                        Proveedor = ProveedorDatos.AcCatProveedor(Proveedor);
+                        if (Proveedor.Completado)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
+                            Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
+                            Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Proveedor);
+                        }
                     }
                     else
                     {
+                        Proveedor.Conexion = Conexion;
                         Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
                         Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
                         Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(Proveedor);
                     }
                 }
                 else
                 {
-                    Proveedor.Conexion = Conexion;
-                    Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
-                    Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
-                    Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
-                    return View(Proveedor);
+                    return RedirectToAction("Index");
                 }
             }
             catch (Exception ex)
@@ -133,6 +144,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatProveedorModels Proveedor = new CatProveedorModels();
                 _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
                 Proveedor.IDProveedor = id;
@@ -159,65 +171,73 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
             try
             {
-                ModelState.Remove("ImgINEE");
-                ModelState.Remove("ImgManifestacionFierros");
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                    if (!string.IsNullOrEmpty(bannerImage.FileName))
+                    ModelState.Remove("ImgINEE");
+                    ModelState.Remove("ImgManifestacionFierros");
+                    if (ModelState.IsValid)
                     {
-                        if (bannerImage != null && bannerImage.ContentLength > 0)
+                        HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                        if (!string.IsNullOrEmpty(bannerImage.FileName))
                         {
-                            Stream s = bannerImage.InputStream;
-                            Bitmap img = new Bitmap(s);
-                            Proveedor.ImgINE = img.ToBase64String(ImageFormat.Png);
+                            if (bannerImage != null && bannerImage.ContentLength > 0)
+                            {
+                                Stream s = bannerImage.InputStream;
+                                Bitmap img = new Bitmap(s);
+                                Proveedor.ImgINE = img.ToBase64String(ImageFormat.Png);
+                            }
+                        }
+                        else
+                        {
+                            Proveedor.BandINE = true;
+                        }
+                        HttpPostedFileBase bannerImage2 = Request.Files[1] as HttpPostedFileBase;
+                        if (!string.IsNullOrEmpty(bannerImage2.FileName))
+                        {
+                            if (bannerImage2 != null && bannerImage2.ContentLength > 0)
+                            {
+                                Stream s = bannerImage2.InputStream;
+                                Bitmap img = new Bitmap(s);
+                                Proveedor.ImgManifestacionFierro = img.ToBase64String(ImageFormat.Png);
+                            }
+                        }
+                        else
+                        {
+                            Proveedor.BandMF = true;
+                        }
+                        Proveedor.Conexion = Conexion;
+                        Proveedor.Usuario = User.Identity.Name;
+                        Proveedor.Opcion = 2;
+                        Proveedor = ProveedorDatos.AcCatProveedor(Proveedor);
+                        if (Proveedor.Completado)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
+                            Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
+                            Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Proveedor);
                         }
                     }
                     else
                     {
-                        Proveedor.BandINE = true;
-                    }
-                    HttpPostedFileBase bannerImage2 = Request.Files[1] as HttpPostedFileBase;
-                    if (!string.IsNullOrEmpty(bannerImage2.FileName))
-                    {
-                        if (bannerImage2 != null && bannerImage2.ContentLength > 0)
-                        {
-                            Stream s = bannerImage2.InputStream;
-                            Bitmap img = new Bitmap(s);
-                            Proveedor.ImgManifestacionFierro = img.ToBase64String(ImageFormat.Png);
-                        }
-                    }
-                    else
-                    {
-                        Proveedor.BandMF = true;
-                    }
-                    Proveedor.Conexion = Conexion;
-                    Proveedor.Usuario = User.Identity.Name;
-                    Proveedor.Opcion = 2;
-                    Proveedor = ProveedorDatos.AcCatProveedor(Proveedor);
-                    if (Proveedor.Completado)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
+                        Proveedor.Conexion = Conexion;
                         Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
                         Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
                         Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(Proveedor);
                     }
                 }
                 else
                 {
-                    Proveedor.Conexion = Conexion;
-                    Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
-                    Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
-                    Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
-                    return View(Proveedor);
+                    return RedirectToAction("Index");
                 }
             }
             catch (Exception ex)
@@ -295,6 +315,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CuentaBancariaProveedorModels Cuenta = new CuentaBancariaProveedorModels();
                 _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
                 Cuenta.IDProveedor = id;
@@ -319,31 +340,40 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    IDCuentaBancoP.Conexion = Conexion;
-                    IDCuentaBancoP.Usuario = User.Identity.Name;
-                    IDCuentaBancoP.Opcion = 1;
-                    ProveedorDatos.ACDatosBancariosProveedor(IDCuentaBancoP);
-                    if (IDCuentaBancoP.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Cuentas", new { id = IDCuentaBancoP.IDProveedor });
+                        IDCuentaBancoP.Conexion = Conexion;
+                        IDCuentaBancoP.Usuario = User.Identity.Name;
+                        IDCuentaBancoP.Opcion = 1;
+                        ProveedorDatos.ACDatosBancariosProveedor(IDCuentaBancoP);
+                        if (IDCuentaBancoP.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Cuentas", new { id = IDCuentaBancoP.IDProveedor });
+                        }
+                        else
+                        {
+                            IDCuentaBancoP.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(IDCuentaBancoP);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                            return View(IDCuentaBancoP);
+                        }
                     }
                     else
                     {
+                        IDCuentaBancoP.Conexion = Conexion;
                         IDCuentaBancoP.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(IDCuentaBancoP);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
                         return View(IDCuentaBancoP);
                     }
+
                 }
                 else
                 {
-                    IDCuentaBancoP.Conexion = Conexion;
-                    IDCuentaBancoP.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(IDCuentaBancoP);
-                    return View(IDCuentaBancoP);
+                    return RedirectToAction("Cuentas", new { id = IDCuentaBancoP.IDProveedor });
                 }
             }
             catch (Exception)
@@ -362,6 +392,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CuentaBancariaProveedorModels Cuenta = new CuentaBancariaProveedorModels();
                 _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
                 Cuenta.IDDatosBancarios = id;
@@ -388,31 +419,39 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    IDCuentaBancoP.Conexion = Conexion;
-                    IDCuentaBancoP.Usuario = User.Identity.Name;
-                    IDCuentaBancoP.Opcion = 2;
-                    ProveedorDatos.ACDatosBancariosProveedor(IDCuentaBancoP);
-                    if (IDCuentaBancoP.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Cuentas", new { id = IDCuentaBancoP.IDProveedor });
+                        IDCuentaBancoP.Conexion = Conexion;
+                        IDCuentaBancoP.Usuario = User.Identity.Name;
+                        IDCuentaBancoP.Opcion = 2;
+                        ProveedorDatos.ACDatosBancariosProveedor(IDCuentaBancoP);
+                        if (IDCuentaBancoP.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Cuentas", new { id = IDCuentaBancoP.IDProveedor });
+                        }
+                        else
+                        {
+                            IDCuentaBancoP.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(IDCuentaBancoP);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                            return View(IDCuentaBancoP);
+                        }
                     }
                     else
                     {
+                        IDCuentaBancoP.Conexion = Conexion;
                         IDCuentaBancoP.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(IDCuentaBancoP);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
                         return View(IDCuentaBancoP);
                     }
                 }
                 else
                 {
-                    IDCuentaBancoP.Conexion = Conexion;
-                    IDCuentaBancoP.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(IDCuentaBancoP);
-                    return View(IDCuentaBancoP);
+                    return RedirectToAction("Cuentas", new { id = IDCuentaBancoP.IDProveedor });
                 }
             }
             catch (Exception)
@@ -484,6 +523,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 ProveedorLugarModels ProveedorLugar = new ProveedorLugarModels();
                 _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
                 ProveedorLugar.Conexion = Conexion;
@@ -510,30 +550,38 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    Proveedor.Conexion = Conexion;
-                    Proveedor.Usuario = User.Identity.Name;
-                    ProveedorDatos.ACProveedorLugares(Proveedor);
-                    if (Proveedor.Completado)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("LugarProveedor", "CatProveedor", new { id = Proveedor.IDProveedor, id2 = Proveedor.IDSucursal });
+                        Proveedor.Conexion = Conexion;
+                        Proveedor.Usuario = User.Identity.Name;
+                        ProveedorDatos.ACProveedorLugares(Proveedor);
+                        if (Proveedor.Completado)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("LugarProveedor", "CatProveedor", new { id = Proveedor.IDProveedor, id2 = Proveedor.IDSucursal });
+                        }
+                        else
+                        {
+                            Proveedor.ListaLugares = ProveedorDatos.obtenerComboLugares(Proveedor);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                            return RedirectToAction("CreateLugar", "CatProveedor", new { id = Proveedor.IDProveedor, id2 = Proveedor.IDSucursal });
+                        }
                     }
                     else
                     {
+                        Proveedor.Conexion = Conexion;
                         Proveedor.ListaLugares = ProveedorDatos.obtenerComboLugares(Proveedor);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
                         return RedirectToAction("CreateLugar", "CatProveedor", new { id = Proveedor.IDProveedor, id2 = Proveedor.IDSucursal });
                     }
                 }
                 else
                 {
-                    Proveedor.Conexion = Conexion;
-                    Proveedor.ListaLugares = ProveedorDatos.obtenerComboLugares(Proveedor);
-                    return RedirectToAction("CreateLugar", "CatProveedor", new { id = Proveedor.IDProveedor, id2 = Proveedor.IDSucursal });
+                    return RedirectToAction("LugarProveedor", "CatProveedor", new { id = Proveedor.IDProveedor, id2 = Proveedor.IDSucursal });
                 }
             }
             catch (Exception)
@@ -603,6 +651,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 RangoPrecioProveedorModels RangoProveedor = new RangoPrecioProveedorModels();
                 _CatProveedor_Datos ProvedorDatos = new _CatProveedor_Datos();
                 RangoProveedor.Conexion = Conexion;
@@ -628,24 +677,35 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    RangoPrecio.Conexion = Conexion;
-                    RangoPrecio.Usuario = User.Identity.Name;
-                    ProveedorDatos.ACPrecioPoRangoPesoProveedor(RangoPrecio);
-                    if (RangoPrecio.Completado)
+                    if (ModelState.IsValid)
                     {
-                        if (RangoPrecio.Resultado == 1)
+                        RangoPrecio.Conexion = Conexion;
+                        RangoPrecio.Usuario = User.Identity.Name;
+                        ProveedorDatos.ACPrecioPoRangoPesoProveedor(RangoPrecio);
+                        if (RangoPrecio.Completado)
                         {
-                            TempData["typemessage"] = "1";
-                            TempData["message"] = "Los datos se guardaron correctamente.";
-                            return RedirectToAction("PrecioProveedor", "CatProveedor", new { id = RangoPrecio.IDProveedor });
-                        }
-                        else if (RangoPrecio.Resultado == 2)
-                        {
-                            TempData["typemessage"] = "1";
-                            TempData["message"] = "Los datos actualizado correctamente.";
-                            return RedirectToAction("PrecioProveedor", "CatProveedor", new { id = RangoPrecio.IDProveedor });
+                            if (RangoPrecio.Resultado == 1)
+                            {
+                                TempData["typemessage"] = "1";
+                                TempData["message"] = "Los datos se guardaron correctamente.";
+                                Token.ResetToken();
+                                return RedirectToAction("PrecioProveedor", "CatProveedor", new { id = RangoPrecio.IDProveedor });
+                            }
+                            else if (RangoPrecio.Resultado == 2)
+                            {
+                                TempData["typemessage"] = "1";
+                                TempData["message"] = "Los datos actualizado correctamente.";
+                                Token.ResetToken();
+                                return RedirectToAction("PrecioProveedor", "CatProveedor", new { id = RangoPrecio.IDProveedor });
+                            }
+                            else
+                            {
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                                return View(RangoPrecio);
+                            }
                         }
                         else
                         {
@@ -656,14 +716,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     }
                     else
                     {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
-                        return View(RangoPrecio);
+                        return View(RangoPrecio);//return RedirectToAction("EditPrecio", "CatProveedor", new { id = RangoPrecio.IDRango, id2 = RangoPrecio.IDProveedor });
                     }
                 }
                 else
                 {
-                    return View(RangoPrecio);//return RedirectToAction("EditPrecio", "CatProveedor", new { id = RangoPrecio.IDRango, id2 = RangoPrecio.IDProveedor });
+                    return RedirectToAction("PrecioProveedor", "CatProveedor", new { id = RangoPrecio.IDProveedor });
                 }
             }
             catch (Exception)

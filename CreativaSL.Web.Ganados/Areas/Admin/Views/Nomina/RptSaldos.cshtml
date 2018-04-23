@@ -30,6 +30,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
+                            <li><a target="_blank" href="@Url.Action("PDF_Saldos","Nomina", new { id = Model.IDNomina, id2 = Model.IDSucursal})" class="btn btn-green btnCrear"><span class="fa fa-file-pdf-o"></span> PDF</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="@Url.Action("Index","Nomina")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span>Regresar</a></li>
                         </ul>
@@ -64,9 +65,9 @@
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th >NÓMINA: <span>@Model.ClaveNomina</span></th>
+                                        <th>NÓMINA: <span>@Model.ClaveNomina</span></th>
                                         <th colspan="3">PERIODO NÓMINA: <span>@Model.PeriodoFechas </span> </th>
-                                        <th > DÍAS DEL PERIODO: <span>@Model.DiasPeriodo</span></th>
+                                        <th> DÍAS DEL PERIODO: <span>@Model.DiasPeriodo</span></th>
                                     </tr>
                                     <tr>
                                         <th>Empleado</th>
@@ -81,24 +82,24 @@
                                         decimal totalD = 0;
                                         foreach (var Tipo in Model.ListaNominaDetalle)
                                         {
-                                        <tr>
-                                            <td>@Tipo.NombreEmpleado</td>
-                                            <td>@Tipo.Percepciones</td>
-                                            <td>@Tipo.Deducciones</td>
-                                            <td>@Tipo.Total</td>
-                                            <td>0</td>
-                                        </tr>
+                                            <tr>
+                                                <td>@Tipo.NombreEmpleado</td>
+                                                <td>@Tipo.Percepciones</td>
+                                                <td>@Tipo.Deducciones</td>
+                                                <td>@Tipo.Total</td>
+                                                <td>0</td>
+                                            </tr>
                                             totalD = totalD + @Tipo.Total;
                                         }
 
                                     }
-                                    
-                                    
+
+
                                 </tbody>
                                 <tfoot>
                                     <tr>
 
-                                       <td colspan="3" class="text-right"><strong>Total:</strong></td>
+                                        <td colspan="3" class="text-right"><strong>Total:</strong></td>
                                         <td colspan="2"><strong>@totalD</strong></td>
                                     </tr>
                                 </tfoot>
@@ -149,77 +150,78 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   @{
-                                       string empleado = "";
-                                       decimal totalf ;
-                                       decimal total;
-                                       foreach (var Tipo in Model.listaEmpleado)
-                                       {
+                                    @{
+                                        string empleado = "";
+                                        decimal totalf;
+                                        decimal total;
+                                        foreach (var Tipo in Model.listaEmpleado)
+                                        {
 
 
-                                           if (@Tipo.IDEmpleado != empleado)
-                                           {
-                                               totalf = 0;
+                                            if (@Tipo.IDEmpleado != empleado)
+                                            {
+                                                totalf = 0;
                                                 total = 0;
-                                               empleado = Tipo.IDEmpleado;
-                                            <tr>
+                                                empleado = Tipo.IDEmpleado;
+                                                <tr>
 
 
-                                                <td>@Tipo.Nombre</td>
+                                                    <td>@Tipo.Nombre</td>
 
-                                                <td colspan="4">
-                                                    <table class="table">
-                                                        <tbody>
-                                                            <!---->
+                                                    <td colspan="4">
+                                                        <table class="table">
+                                                            <tbody>
+                                                                <!---->
 
-                                              @foreach (var item in Model.ListaConceptosFijo)
-                                               {
+                                                                @foreach (var item in Model.ListaConceptosFijo)
+                                                                {
 
-                                                   if (@item.IDEmpleado == Tipo.IDEmpleado)
-                                                   {
-                                                                <tr>
-                                                                    <th>@item.IDConcepto</th>
-                                                                    <th class="text-center">@item.NombreConcepto</th>
-                                                                    <th class="text-left">@item.Simbolo</th>
-                                                                    <th class="text-right">@item.Monto</th>
-                                                                </tr>
-                                                                    if (@item.Simbolo == "-") {
-                                                                        total =  total- @item.Monto;
-                                                                    }
-                                                                    else
+                                                                    if (@item.IDEmpleado == Tipo.IDEmpleado)
                                                                     {
-                                                                        total =  @item.Monto+ total ;
-                                                                    }
+                                                                        <tr>
+                                                                            <th>@item.IDConcepto</th>
+                                                                            <th class="text-center">@item.NombreConcepto</th>
+                                                                            <th class="text-left">@item.Simbolo</th>
+                                                                            <th class="text-right">@item.Monto</th>
+                                                                        </tr>
+                                                                        if (@item.Simbolo == "-")
+                                                                        {
+                                                                            total = total - @item.Monto;
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            total = @item.Monto + total;
+                                                                        }
 
+
+                                                                    }
+                                                                    totalf = total;
 
                                                                 }
-                                                                totalf = total;
-                                                            
-                                                            }
-                                                            
-                                                            
-                                                            <!---->
-                                                            <tr>
-                                                                <th colspan="3" class="text-center">Total</th>
-                                                                <th class="text-right">@totalf</th>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                                <td style="display:none"></td>
-                                                <td style="display:none"></td>
-                                                <td style="display:none"></td>
-                                            </tr>
 
-                                           }
 
-                                       }
-                                }
-                                    
-                                   
-                               
+                                                                <!---->
+                                                                <tr>
+                                                                    <th colspan="3" class="text-center">Total</th>
+                                                                    <th class="text-right">@totalf</th>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                    <td style="display:none"></td>
+                                                    <td style="display:none"></td>
+                                                    <td style="display:none"></td>
+                                                </tr>
+
+                                            }
+
+                                        }
+                                    }
+
+
+
                                 </tbody>
-                              
+
                             </table>
                         </div>
                     </div>
@@ -260,10 +262,16 @@
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
         $("#Tbl50").dataTable({
-            "iDisplayLength":25
+            "iDisplayLength": all,
+            "paging": false,
+            "searching": false,
+            "info": false,
         });
         $("#Tbl5-g").dataTable({
-            "iDisplayLength": 25
+            "iDisplayLength": all,
+            "paging": false,
+            "searching": false,
+            "info": false,
         });
         });
     </script>

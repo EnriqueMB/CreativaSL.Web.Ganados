@@ -7,12 +7,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Filters;
+using CreativaSL.Web.Ganados.App_Start;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     [Autorizado]
     public class NominaDiasFestivosController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/NominaDiasFestivos
         [HttpGet]
@@ -44,9 +46,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         // GET: Admin/NominaDiasFestivos/Create
         public ActionResult Create()
         {
-            
+
             try
             {
+                Token.SaveToken();
                 NominaDiasFestivosModels nomina = new NominaDiasFestivosModels();
                 return View(nomina);
             }
@@ -66,30 +69,36 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _NominaDiasFestivos_Datos nominaDatos = new _NominaDiasFestivos_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    nomina.Conexion = Conexion;
-                    nomina.Opcion = 1;
-                    nomina.Usuario = User.Identity.Name;
-                    nomina = nominaDatos.AbcCatNominaDiasFestivos(nomina);
-                    if (nomina.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Index");
+                        nomina.Conexion = Conexion;
+                        nomina.Opcion = 1;
+                        nomina.Usuario = User.Identity.Name;
+                        nomina = nominaDatos.AbcCatNominaDiasFestivos(nomina);
+                        if (nomina.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar.";
+                            return View(nomina);
+                        }
                     }
                     else
                     {
-
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al intentar guardar.";
                         return View(nomina);
                     }
                 }
                 else
                 {
-                    nomina.Conexion = Conexion;
-                    return View(nomina);
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -106,6 +115,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 NominaDiasFestivosModels nomina = new NominaDiasFestivosModels();
                 _NominaDiasFestivos_Datos nominaDatos = new _NominaDiasFestivos_Datos();
                 nomina.Conexion = Conexion;
@@ -129,30 +139,37 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _NominaDiasFestivos_Datos nominaDatos = new _NominaDiasFestivos_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    nomina.Conexion = Conexion;
-                    nomina.Opcion = 2;
-                    nomina.Usuario = User.Identity.Name;
-                    nomina = nominaDatos.AbcCatNominaDiasFestivos(nomina);
-                    if (nomina.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Index");
+                        nomina.Conexion = Conexion;
+                        nomina.Opcion = 2;
+                        nomina.Usuario = User.Identity.Name;
+                        nomina = nominaDatos.AbcCatNominaDiasFestivos(nomina);
+                        if (nomina.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar.";
+                            return RedirectToAction("Edit", "NominaDiasFestivos");
+                        }
                     }
                     else
                     {
-
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al intentar guardar.";
-                        return RedirectToAction("Edit", "NominaDiasFestivos");
+                        return View(nomina);
                     }
                 }
                 else
                 {
-                    nomina.Conexion = Conexion;
-                    return View(nomina);
+                    return RedirectToAction("Index");
                 }
             }
             catch

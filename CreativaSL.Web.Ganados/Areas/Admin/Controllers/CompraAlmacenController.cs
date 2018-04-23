@@ -1,4 +1,5 @@
-﻿using CreativaSL.Web.Ganados.Models;
+﻿using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -10,6 +11,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     public class CompraAlmacenController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
 
         // GET: Admin/CompraAlmacen
@@ -40,6 +42,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CompraAlmacenModels Almacen = new CompraAlmacenModels();
                 Almacen.ListaSucursales = this.ObtenerComboSucursales();
                 Almacen.ListaProveedores = this.ObtenerComboProveedores();

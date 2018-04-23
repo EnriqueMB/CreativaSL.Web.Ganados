@@ -32,7 +32,7 @@
             messages: {
                 
                
-                Descripcion: { required: "Ingrese la unidad de medida.", placa: "Ingrese un formato valido (letras, números y guión(-)", maxlength: "El campo nombre admite máximo 100 caracteres." },
+                Descripcion: { required: "Ingrese la unidad de medida.", texto: "Ingrese un formato valido", maxlength: "El campo nombre admite máximo 100 caracteres." },
                 
             },
             invalidHandler: function (event, validator) { //display error alert on form submit

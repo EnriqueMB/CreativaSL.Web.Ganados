@@ -9,13 +9,14 @@ using CreativaSL.Web.Ganados.Filters;
 using System.Drawing;
 using System.IO;
 using System.Drawing.Imaging;
+using CreativaSL.Web.Ganados.App_Start;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     [Autorizado]
     public class CatBancoController : Controller
     {
-
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatBanco
         public ActionResult Index()
@@ -41,6 +42,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatBancoModels Banco = new CatBancoModels();
                 //_CatBanco_Datos BancoDatos = new _CatBanco_Datos();
                 //Banco.Conexion = Conexion;
@@ -61,44 +63,52 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatBanco_Datos BancoDatos = new _CatBanco_Datos();
             try
             {
-                HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                if (!string.IsNullOrEmpty(bannerImage.FileName))
+                if (Token.IsTokenValid())
                 {
-                    if (bannerImage != null && bannerImage.ContentLength > 0)
+                    HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                    if (!string.IsNullOrEmpty(bannerImage.FileName))
                     {
+                        if (bannerImage != null && bannerImage.ContentLength > 0)
+                        {
 
-                        Stream s = bannerImage.InputStream;
-                        Bitmap img = new Bitmap(s);
-                        Banco.Imagen = img.ToBase64String(ImageFormat.Png);
+                            Stream s = bannerImage.InputStream;
+                            Bitmap img = new Bitmap(s);
+                            Banco.Imagen = img.ToBase64String(ImageFormat.Png);
 
-                    }
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Cargar imagen Banco");
-                }
-                if (ModelState.IsValid)
-                {
-                    Banco.Conexion = Conexion;
-                    Banco.Usuario = User.Identity.Name;
-                    Banco.Opcion = 1;
-                    Banco = BancoDatos.DaCatBancos(Banco);
-                    if (Banco.Completado)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Index");
+                        }
                     }
                     else
                     {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        ModelState.AddModelError(string.Empty, "Cargar imagen Banco");
+                    }
+                    if (ModelState.IsValid)
+                    {
+                        Banco.Conexion = Conexion;
+                        Banco.Usuario = User.Identity.Name;
+                        Banco.Opcion = 1;
+                        Banco = BancoDatos.DaCatBancos(Banco);
+                        if (Banco.Completado)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Banco);
+                        }
+                    }
+                    else
+                    {
                         return View(Banco);
                     }
                 }
                 else
                 {
-                    return View(Banco);
+                    return RedirectToAction("Index");
                 }
             }
             catch (Exception ex)
@@ -114,6 +124,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatBancoModels Banco = new CatBancoModels();
                 _CatBanco_Datos BancoDatos = new _CatBanco_Datos();
                 Banco.IDBanco = id;
@@ -135,48 +146,56 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                ModelState.Remove("ImagenB");
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    //CatBancoModels Banco = new CatBancoModels();
-                    _CatBanco_Datos BancoDatos = new _CatBanco_Datos();
-                    Banco.Conexion = Conexion;
-                    Banco.IDBanco = id;
-                    Banco.Opcion = 2;
-                    Banco.Usuario = User.Identity.Name;
-                    // Banco.Descripcion = collection["Descripcion"];
-
-                    HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                    if (!string.IsNullOrEmpty(bannerImage.FileName))
+                    ModelState.Remove("ImagenB");
+                    if (ModelState.IsValid)
                     {
-                        if (bannerImage != null && bannerImage.ContentLength > 0)
+                        //CatBancoModels Banco = new CatBancoModels();
+                        _CatBanco_Datos BancoDatos = new _CatBanco_Datos();
+                        Banco.Conexion = Conexion;
+                        Banco.IDBanco = id;
+                        Banco.Opcion = 2;
+                        Banco.Usuario = User.Identity.Name;
+                        // Banco.Descripcion = collection["Descripcion"];
+
+                        HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                        if (!string.IsNullOrEmpty(bannerImage.FileName))
                         {
-                            Stream s = bannerImage.InputStream;
-                            Bitmap img = new Bitmap(s);
-                            Banco.Imagen = img.ToBase64String(ImageFormat.Png);
+                            if (bannerImage != null && bannerImage.ContentLength > 0)
+                            {
+                                Stream s = bannerImage.InputStream;
+                                Bitmap img = new Bitmap(s);
+                                Banco.Imagen = img.ToBase64String(ImageFormat.Png);
+                            }
+                        }
+                        else
+                        {
+                            Banco.BandImg = true;
+                        }
+                        Banco = BancoDatos.DaCatBancos(Banco);
+                        if (Banco.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardarón correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View("");
                         }
                     }
                     else
                     {
-                        Banco.BandImg = true;
-                    }
-                    Banco = BancoDatos.DaCatBancos(Banco);
-                    if (Banco.Completado == true)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardarón correctamente.";
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                        return View("");
+                        return View(Banco);
                     }
                 }
                 else
                 {
-                    return View(Banco);
+                    return RedirectToAction("Index");
                 }
             }
             catch (Exception ex)

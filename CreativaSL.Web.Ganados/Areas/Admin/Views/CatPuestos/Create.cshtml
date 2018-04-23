@@ -18,12 +18,13 @@
         </div>
         <div class="col-md-12">
             @*<form class="form-horizontal">*@
-            @using (Html.BeginForm("Create", "CatPuestos", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("Create", "CatPuestos", FormMethod.Post, new { id = "form-dg", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
-
-                @Html.HiddenFor(model => model.IDPuesto)
+                @*@Html.ValidationSummary(true)*@
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                <div id="validation_summary" class="field_error "></div> //JS
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"><strong>Información</strong> Puestos</h3>
@@ -34,20 +35,24 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <div class="col-md-6">
-                                <label class="col-md-3 control-label">Nombre del Puesto</label>
-                                <div class="col-md-8 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.Descripcion, new { id = "Descripcion", @class = "form-control" })
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Nombre del Puesto</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Descripcion, new { id = "Descripcion", @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Descripcion)
+                                        <span class="help-block">Ingrese el nombre del puesto</span>
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.Descripcion)
-                                    <span class="help-block">Ingrese el nombre del puesto</span>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="col-md-3 control-label">¿Es Gerente?</label>
-                                <div class="col-md-9">
-                                    @Html.CheckBoxFor(model => model.EsGerente)
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">¿Es Gerente?</label>
+                                    <div class="col-md-9">
+                                        @Html.CheckBoxFor(model => model.EsGerente)
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -73,10 +78,13 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/Puestos.js")"></script>
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
+        Puestos.init();
     });
     </script>
 }
