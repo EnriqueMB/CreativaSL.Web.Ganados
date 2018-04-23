@@ -279,10 +279,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
                 else
                 {
-                    Nomina.Conexion = Conexion;
-                    Nomina.listaConceptoNomina = NominaDatos.ObtenerConceptosNomina(Nomina);
-                    Nomina = NominaDatos.ObtenerListasDeConceptosXID(Nomina);
-                    return View(Nomina);
+                    return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
                 }
             }
             catch (Exception)
