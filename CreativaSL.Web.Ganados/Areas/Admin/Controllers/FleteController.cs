@@ -83,6 +83,30 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
+        #region Funcion Json Documentos
+        [HttpPost]
+        public ActionResult TableJsonGanadoActual()
+        {
+            try
+            {
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                Flete.Conexion = Conexion;
+
+                Flete.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(FleteDatos.GetGanadoDataTable(Flete));
+                Flete.RespuestaAjax.Success = true;
+
+                return Content(Flete.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Flete.RespuestaAjax.Mensaje = ex.ToString();
+                Flete.RespuestaAjax.Success = false;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
         /********************************************************************/
         [HttpGet]
         public ActionResult AC_Flete(string IDFlete)
@@ -377,6 +401,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 return PartialView("ModalDocumentos", Flete_TipoDocumento);
             }
+        }
+        [HttpPost]
+        public ActionResult ModalProductoGanado(string IDFlete)
+        {
+            return PartialView("ModalProductoGanado");
         }
         /********************************************************************/
         //Funciones Combo

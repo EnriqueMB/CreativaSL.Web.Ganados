@@ -3,7 +3,7 @@
     var lugarOrigen = document.getElementById('Trayecto_LugarOrigen_id_lugar');
     var lugarDestino = document.getElementById('Trayecto_LugarDestino_id_lugar');
     var tableImpuesto, map, directionsDisplay, directionsService;
-    var tableDocumentos;
+    var tableDocumentos, tableProductoGanado, tableProductoGeneral, tblModalGanadoActual;
 
     var InitMap = function () {
         directionsService = new google.maps.DirectionsService;
@@ -735,6 +735,88 @@
             ModalDocumento(IDFlete, 0);
         });
     };
+    var LoadTableProductos = function () {
+        var IDFlete = $("#id_flete").val();
+
+        tableProductoGanado = $('#tblProductoGanado').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+            responsive: true,
+            "ajax": {
+                "data": {
+                    "IDFlete": IDFlete
+                },
+                "url": "/Admin/Flete/TableJsonProductoGanado/",
+                "type": "POST",
+                "datatype": "json",
+                "dataSrc": ''
+            },
+            "columns": [
+                { "data": "numArete" },
+                { "data": "genero" },
+                { "data": "peso" },
+                {
+                    "data": null,
+                    "render": function (data, type, full) {
+
+                        return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                            "<a data-hrefa='/Admin/Flete/DEL_Producto/' title='Eliminar' data-id='" + full["id_producto"] + "' class='btn btn-danger tooltips btn-sm deleteDocumento' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "</div>" +
+                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                            "<div class='btn-group'>" +
+                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                            "</a>" +
+                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                            "<li>" +
+                            "<a data-hrefa='/Admin/Flete/DEL_Documento/' class='deleteDocumento' role='menuitem' tabindex='-1' data-id='" + full["id_documento"] + "'>" +
+                            "<i class='fa fa-trash-o'></i> Eliminar" +
+                            "</a>" +
+                            "</li>" +
+                            "</ul>" +
+                            "</div>" +
+                            "</div>";
+                    }
+                }
+            ],
+            "drawCallback": function (settings) {
+                $(".deleteProducto").on("click", function () {
+                    var url = $(this).attr('data-hrefa');
+                    var row = $(this).attr('data-id');
+                    var box = $("#mb-deleteProducto");
+                    box.addClass("open");
+                    box.find(".mb-control-yes").on("click", function () {
+                        box.removeClass("open");
+                        $.ajax({
+                            url: url,
+                            data: { IDProducto: row },
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (result) {
+                                if (result.Success) {
+                                    box.find(".mb-control-yes").prop('onclick', null).off('click');
+                                    Mensaje("Producto eliminado con éxito.", "1");
+                                    $("#ModalProducto").modal('hide');
+                                    tableProductoGanado.ajax.reload();
+                                }
+                                else
+                                    Mensaje(result.Mensaje, "2");
+                            },
+                            error: function (result) {
+                                Mensaje(result.Mensaje, "2");
+                            }
+                        });
+                    });
+                });
+            }
+        });
+
+
+        $("#btnAddProductoGanado").on("click", function () {
+            ModalProducto(1);
+        });
+    };
    //Funcion Modal
     function ModalImpuesto(IDFlete, IDFleteImpuesto) {
         $.ajax({
@@ -761,6 +843,27 @@
 
                 LoadValidation_AC_Documento();
                 RunEventsDocumento(imagen);
+            }
+        });
+    }
+    function ModalProducto(opcion) {
+        var url;
+        if (opcion == 1)
+            url = '/Admin/Flete/ModalProductoGanado/';
+        else
+            url = '/Admin/Flete/ModalProductoGeneral/';
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: { },
+            success: function (data) {
+                $('#ContenidoModalProducto').html(data);
+                $('#ModalProducto').modal({ backdrop: 'static', keyboard: false });
+                if (opcion == 1) {
+                    LoadTableGanadoActual();
+                    RunEventProducto();
+                }
             }
         });
     }
@@ -925,6 +1028,48 @@
             TasaCuota.attr('readonly', false);
             TasaCuota.rules("add", { required: true, TasaCuotaSAT: true });
         }
+    }
+    function RunEventProducto() {
+        //Seleccionar filas 
+        $('#tblModalGanadoActual tbody').on('click', 'tr', function () {
+            console.log("click");
+            $(this).toggleClass('selected');
+        });
+        $('#guardarProductoGanado').click(function () {
+            var rows = tblModalGanadoActual.rows('.selected').data();
+
+            for (var i = 0; i < rows.length; i++) {
+                var d = rows[i];
+                console.log(d);
+            }
+        });
+    }
+    function LoadTableGanadoActual() {
+        tblModalGanadoActual = $('#tblModalGanadoActual').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+            responsive: true,
+            "ajax": {
+                "data": {
+                   
+                },
+                "url": "/Admin/Flete/TableJsonGanadoActual/",
+                "type": "POST",
+                "datatype": "json",
+                "dataSrc": ''
+            },
+            "columns": [
+                {
+                    "data": "id_ganado",
+                    "visible": false,
+                    "searchable": false
+                },
+                { "data": "numArete" },
+                { "data": "genero" },
+                { "data": "pesoPagado" },
+            ]
+        });
     }
     function ObtenerImporte() {
         var Base = $('#Base').val();
@@ -1152,10 +1297,14 @@
             document.getElementById("tabCobro").dataset.toggle = "tab";
             $('#tabCobro').data('toggle', "tab")
             $("#liCobro").removeClass('disabled').addClass('pestaña');
-            //Y los documentos
+            //Documentos
             document.getElementById("tabDocumentacion").dataset.toggle = "tab";
             $('#tabDocumentacion').data('toggle', "tab")
             $("#liDocumentacion").removeClass('disabled').addClass('pestaña');
+            //Productos
+            document.getElementById("tabProducto").dataset.toggle = "tab";
+            $('#tabProducto').data('toggle', "tab")
+            $("#liProducto").removeClass('disabled').addClass('pestaña');
         }
     }
     return {
@@ -1170,6 +1319,7 @@
 
             LoadTableImpuesto();
             LoadTableDocumentos();
+            LoadTableProductos();
         }
     };
 }();

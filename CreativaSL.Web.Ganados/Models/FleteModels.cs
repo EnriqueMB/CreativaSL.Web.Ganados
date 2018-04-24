@@ -21,7 +21,7 @@ namespace CreativaSL.Web.Ganados.Models
             MetodoPago = new CFDI_MetodoPagoModels();
             RespuestaAjax = new RespuestaAjax();
             FechaTentativaEntrega = DateTime.Now;
-            Flete_TipoDocumento = new Flete_TipoDocumentoModels();
+            Documentos = new Flete_TipoDocumentoModels();
         }
 
         //No tocar
@@ -67,11 +67,13 @@ namespace CreativaSL.Web.Ganados.Models
         public List<CatRemolqueModels> ListaRemolque { get; set; }
         public List<CFDI_FormaPagoModels> ListaFormaPago { get; set; }
         public List<CFDI_MetodoPagoModels> ListaMetodoPago { get; set; }
+        public List<Flete_ProductosServiciosModels> ListaProductos { get; set; }
 
         //TablaRelacionada
         public FleteImpuestoModels FleteImpuesto { get; set; }
         public TrayectoModels Trayecto { get; set; }
-        public Flete_TipoDocumentoModels Flete_TipoDocumento { get; set; }
+        public Flete_TipoDocumentoModels Documentos { get; set; }
+        public Flete_ProductosServiciosModels Producto { get; set; }
 
         #region Datos De Control
         public string Conexion { get; set; }

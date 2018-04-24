@@ -41,6 +41,19 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public SqlDataReader GetGanadoDataTable(FleteModels Flete)
+        {
+            try
+            {
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_get_GanadoActivo");
+                return dr;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         #region Get
         #region Get AC_Flete
@@ -549,9 +562,12 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 CatTipoDocumentoModels TipoDocumento;
                 List<CatTipoDocumentoModels> ListaTipoDocumentos = new List<CatTipoDocumentoModels>();
-
+                object[] parametro =
+                {
+                    Flete.IDFlete
+                };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Combo_get_CatTipoDocumento");
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Combo_get_CatTipoDocumentoXIDFlete", parametro);
                 while (dr.Read())
                 {
                     TipoDocumento = new CatTipoDocumentoModels
@@ -751,6 +767,5 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
-
-    }
+       }
 }
