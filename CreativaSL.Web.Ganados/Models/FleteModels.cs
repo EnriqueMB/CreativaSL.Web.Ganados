@@ -21,6 +21,7 @@ namespace CreativaSL.Web.Ganados.Models
             MetodoPago = new CFDI_MetodoPagoModels();
             RespuestaAjax = new RespuestaAjax();
             FechaTentativaEntrega = DateTime.Now;
+            Flete_TipoDocumento = new Flete_TipoDocumentoModels();
         }
 
         //No tocar
@@ -70,6 +71,7 @@ namespace CreativaSL.Web.Ganados.Models
         //TablaRelacionada
         public FleteImpuestoModels FleteImpuesto { get; set; }
         public TrayectoModels Trayecto { get; set; }
+        public Flete_TipoDocumentoModels Flete_TipoDocumento { get; set; }
 
         #region Datos De Control
         public string Conexion { get; set; }
