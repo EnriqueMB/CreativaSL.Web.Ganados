@@ -73,7 +73,8 @@
                                         <th>Codigo Usuario</th>
                                         <th>Nombre Usuario</th>
                                         <th>Sucursal</th>
-                                        <th>Fecha : @Model.fecha.ToShortDateString();</th>
+                                        <th>Fecha</th>
+                                        <th> Asistencia</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -84,7 +85,8 @@
                                             <td>@item.CodigoUsuario</td>
                                             <td>@item.NombreCompleto</td>
                                             <td>@item.NombreSucursal</td>
-                                            <td></td>
+                                            <td>@Model.fecha.ToShortDateString()</td>
+                                            <td>-</td>
                                         </tr>
                                     }
 
@@ -176,8 +178,13 @@
             "searching": false,
              dom: 'Bfrtip',
         buttons: [
-            'excel'
+            {
+                extend: 'excel',
+                title: '',
+                filename: 'Lista-del-dia'
+            }
         ]
+
         });
         });
 </script>
