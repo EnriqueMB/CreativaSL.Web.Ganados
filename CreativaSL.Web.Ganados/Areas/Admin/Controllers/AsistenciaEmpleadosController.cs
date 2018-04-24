@@ -99,6 +99,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Asistencia.user = User.Identity.Name;
                     //Sending result data to View
                     Asistencia.tablaAsistencia = result.Tables[0];
+                    
+                    string a = Asistencia.tablaAsistencia.Rows[0][4].ToString();
+                    Asistencia.fecha = Convert.ToDateTime(a);
                     Asistencia.listaAsistencia=AsistenciaDatos.GenerarListaFaltas(Asistencia);
                     if (Asistencia.Completado == true)
                     {
