@@ -1150,6 +1150,7 @@
     <Content Include="Areas\Admin\Views\DocumentoXPagar\Details.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\UPPProveedor.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\ModalDocumentos.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\ModalProductoGanado.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
