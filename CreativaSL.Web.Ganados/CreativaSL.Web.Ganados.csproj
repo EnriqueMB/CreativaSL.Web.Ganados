@@ -1369,6 +1369,7 @@
     <Compile Include="Models\VentaModels.cs" />
     <Compile Include="Models\VerAlmacenInventarioModels.cs" />
     <Compile Include="Models\_Almacen_Datos.cs" />
+    <Compile Include="Models\_AsistenciaEmpleados_Datos.cs" />
     <Compile Include="Models\_CatAlmacen_Datos.cs" />
     <Compile Include="Models\_CatBanco_Datos.cs" />
     <Compile Include="Models\_CatCategoriaPuesto_Datos.cs" />
