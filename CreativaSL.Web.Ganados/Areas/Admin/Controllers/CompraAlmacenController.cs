@@ -1,4 +1,6 @@
-﻿using CreativaSL.Web.Ganados.Models;
+﻿using CreativaSL.Web.Ganados.Filters;
+using CreativaSL.Web.Ganados.Models;
+using CreativaSL.Web.Ganados.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,6 +10,7 @@ using System.Web.Mvc;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
+    [Autorizado]
     public class CompraAlmacenController : Controller
     {
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
@@ -18,84 +21,81 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 CompraAlmacenModels Compras = new CompraAlmacenModels();
-                string IdSucursal = string.Empty;
-                Compras.ListaCompras = this.ObtenerGridCompras(IdSucursal);
+                _CompraAlmacen_Datos CompraDatos = new _CompraAlmacen_Datos();
+                Compras.Conexion = Conexion;
+                Compras.ListaCompras = CompraDatos.ObtenerGridCompras(Compras);
                 return View(Compras);
             }
             catch(Exception)
             {
                 CompraAlmacenModels Compras = new CompraAlmacenModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
                 return View(Compras);
             }
         }
-
-        // GET: Admin/CompraAlmacen/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
         // GET: Admin/CompraAlmacen/Create
         public ActionResult Create()
         {
             try
             {
-                CompraAlmacenModels Almacen = new CompraAlmacenModels();
-                Almacen.ListaSucursales = this.ObtenerComboSucursales();
-                Almacen.ListaProveedores = this.ObtenerComboProveedores();
-                var list = new SelectList(Almacen.ListaSucursales, "IDSucursal", "NombreSucursal");
-                var list2 = new SelectList(Almacen.ListaProveedores, "IDProveedor", "NombreRazonSocial");
-                ViewData["cmbSucursal"] = list;
-                ViewData["cmbProveedor"] = list2;
-                return View(Almacen);
+                CapturarCompraViewModels Model = new CapturarCompraViewModels();
+                _CompraAlmacen_Datos CompraDatos = new _CompraAlmacen_Datos();
+                Model.ListaSucursal = CompraDatos.ObtenerComboSucursales(Conexion);
+                Model.ListaProveedor = CompraDatos.ObtenerComboProveedores(Conexion);
+                return View(Model);
             }
             catch (Exception)
             {
                 //Mensajes de error al cargar vista
-                CatAlmacenModels Almacen = new CatAlmacenModels();
-                return View(Almacen);
+                CapturarCompraViewModels Model = new CapturarCompraViewModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Model);
             }
         }
 
         // POST: Admin/CompraAlmacen/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CapturarCompraViewModels Model)
         {
             try
             {
-                CompraAlmacenModels Compra = new CompraAlmacenModels();
-                CatChofer_Datos ChoferDatos = new CatChofer_Datos();
-                Compra.Conexion = Conexion;
-                //Almacen.Licencia = collection["Licencia"].StartsWith("true");
-                Compra.NumFacturaNota = collection["NumFacturaNota"];
-                //Almacen.vigencia = DateTime.ParseExact(collection["vigencia"], "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                //Chofer.Nombre = collection["nombre"];
-                //Chofer.ApPaterno = collection["ApPaterno"];
-                //Chofer.ApMaterno = collection["ApMaterno"];
-                Compra.Usuario = User.Identity.Name;
-                //Chofer = ChoferDatos.AbcCatChofer(Chofer);
-                //Si abc fue completado correctamente
-                Compra.Completado = true;
-                Compra.IDCompraAlmacen = "COMPRA0001";
-                if (Compra.Completado == true)
+                _CompraAlmacen_Datos CompraDatos = new _CompraAlmacen_Datos();
+
+                if (ModelState.IsValid)
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se guardó correctamente.";
-                    return RedirectToAction("Detail", new { id=Compra.IDCompraAlmacen } );
+                    CompraAlmacenModels Compra = new CompraAlmacenModels
+                    {
+                        Sucursal = new CatSucursalesModels { IDSucursal = Model.IDSucursal },
+                        Proveedor = new CatProveedorModels { IDProveedor = Model.IDProveedorAlmacen },
+                        NumFacturaNota = Model.NumFactNota,
+                        Fecha = Model.FechaCompra,
+                        Conexion = Conexion,
+                        Opcion = 1,
+                        Usuario = User.Identity.Name
+                    };
+                    Compra = CompraDatos.ABCCompraAlmacen(Compra);
+                    if (Compra.Completado)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "El registro se guardó correctamente.";
+                        return RedirectToAction("Detail", new { id = Compra.IDCompraAlmacen});
+                    }
+                    else
+                    {
+                        Model.ListaProveedor = CompraDatos.ObtenerComboProveedores(Conexion);
+                        Model.ListaSucursal = CompraDatos.ObtenerComboSucursales(Conexion);
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        return View(Model);
+                    }
                 }
                 else
                 {
-                    Compra.ListaProveedores = this.ObtenerComboProveedores();
-                    Compra.ListaSucursales = this.ObtenerComboSucursales();
-                    var list = new SelectList(Compra.ListaSucursales, "IDSucursal", "NombreSucursal");
-                    var list2 = new SelectList(Compra.ListaProveedores, "IDProveedor", "NombreRazonSocial");
-                    ViewData["cmbSucursal"] = list;
-                    ViewData["cmbProveedor"] = list2;
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrió un error al guardar el registro.";
-                    return View(Compra);
+                    return View(Model);
                 }
-                
+
             }
             catch (Exception)
             {
@@ -112,6 +112,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 CompraAlmacenModels Compra = new CompraAlmacenModels();
+                _CompraAlmacen_Datos CompraDatos = new _CompraAlmacen_Datos();
+                Compra.Conexion = Conexion;
                 Compra.IDCompraAlmacen = id;
                 return View(Compra);
             }
@@ -166,71 +168,5 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
-
-        #region Métodos
-
-        /// <summary>
-        /// Obtener el listado de compras de una sucursal
-        /// </summary>
-        /// <param name="IdSucursal">Id de la sucursal de la que se requieren las compras</param>
-        /// <returns></returns>
-        private List<CompraAlmacenModels> ObtenerGridCompras(string IdSucursal)
-        {
-            try
-            {
-                List<CompraAlmacenModels> Lista = new List<CompraAlmacenModels>();
-                Lista.Add(new CompraAlmacenModels { NumFacturaNota = "FCT-19283", Proveedor = new CatProveedorModels { NombreRazonSocial = "INSUMMOS DEL SURESTE S. A. DE C. V." }, IDEstatusCompra = 1, MontoTotal = 9785.90m });
-                Lista.Add(new CompraAlmacenModels { NumFacturaNota = "FCT-09323", Proveedor = new CatProveedorModels { NombreRazonSocial = "AGROINSA S. A. DE C. V." }, IDEstatusCompra = 2, MontoTotal = 5423.47m });
-                Lista.Add(new CompraAlmacenModels { NumFacturaNota = "FCT-87683", Proveedor = new CatProveedorModels { NombreRazonSocial = "SUPPORT S. A. DE C. V." }, IDEstatusCompra = 3, MontoTotal = 3289.47m });
-                return Lista;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        /// <summary>
-        /// Obtener el listado de sucursales para mostrarlo en una lista desplegable
-        /// </summary>
-        /// <returns></returns>
-        private List<CatSucursalesModels> ObtenerComboSucursales()
-        {
-            try
-            {
-                List<CatSucursalesModels> Lista = new List<CatSucursalesModels>();
-                Lista.Add(new CatSucursalesModels { IDSucursal = "SUC01", NombreSucursal = "Matriz Grupo Ocampo" });
-                Lista.Add(new CatSucursalesModels { IDSucursal = "SUC02", NombreSucursal = "Sucursal Frailesca" });
-                return Lista;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        /// <summary>
-        /// Obtener el listado de proveedores para mostrarlo en una lista desplegable
-        /// </summary>
-        /// <returns></returns>
-        private List<CatProveedorModels> ObtenerComboProveedores()
-        {
-            try
-            {
-                List<CatProveedorModels> Lista = new List<CatProveedorModels>();
-                Lista.Add(new CatProveedorModels { IDProveedor = "PROV01", NombreRazonSocial = "INSUMMOS DEL SURESTE S. A. DE C. V." });
-                Lista.Add(new CatProveedorModels { IDProveedor = "PROV02", NombreRazonSocial = "AGROINSA S. A. DE C. V." });
-                Lista.Add(new CatProveedorModels { IDProveedor = "PROV02", NombreRazonSocial = "SUPPORT S. A. DE C. V." });
-                return Lista;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        #endregion
-
-
     }
 }

@@ -425,6 +425,7 @@
     <Content Include="Content\js\Chofer.js" />
     <Content Include="Content\js\ClienteLugar.js" />
     <Content Include="Content\js\combustible.js" />
+    <Content Include="Content\js\CompraAlmacen.js" />
     <Content Include="Content\js\Concepto.js" />
     <Content Include="Content\js\ConceptosNomina.js" />
     <Content Include="Content\js\CuentaProveedor.js" />
@@ -1106,6 +1107,10 @@
     <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosR.cshtml" />
     <Content Include="Areas\Admin\Views\Nomina\RptSaldos.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalListadoPrecios.cshtml" />
+    <Content Include="Areas\Admin\Views\Almacen\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Almacen\Ver.cshtml" />
+    <Content Include="Areas\Admin\Views\CompraAlmacen\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CompraAlmacen\Create.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1300,6 +1305,8 @@
     <Compile Include="Models\Validaciones\TextoAttribute.cs" />
     <Compile Include="Models\VentaGanadoModels.cs" />
     <Compile Include="Models\VentaModels.cs" />
+    <Compile Include="Models\VerAlmacenInventarioModels.cs" />
+    <Compile Include="Models\_Almacen_Datos.cs" />
     <Compile Include="Models\_CatAlmacen_Datos.cs" />
     <Compile Include="Models\_CatBanco_Datos.cs" />
     <Compile Include="Models\_CatCategoriaPuesto_Datos.cs" />
@@ -1327,6 +1334,7 @@
     <Compile Include="Models\_CatUnidadMedida_Datos.cs" />
     <Compile Include="Models\_CatVehiculo_Datos.cs" />
     <Compile Include="Models\_Combos_Datos.cs" />
+    <Compile Include="Models\_CompraAlmacen_Datos.cs" />
     <Compile Include="Models\_Compra_Datos.cs" />
     <Compile Include="Models\_EntregaCombustible_Datos.cs" />
     <Compile Include="Models\_Login_Datos.cs" />
@@ -1336,6 +1344,8 @@
     <Compile Include="Models\_ServicioMantenimiento_Datos.cs" />
     <Compile Include="Models\_Usuario_Datos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CapturarCompraViewModels.cs" />
+    <Compile Include="ViewModels\CompraAlmacenDetallesViewModels.cs" />
     <Compile Include="ViewModels\CuentaBancariaViewModels.cs" />
     <Compile Include="ViewModels\DatosEmpresaViewModels.cs" />
     <Compile Include="ViewModels\EmpleadoNominaViewModels.cs" />
@@ -1402,6 +1412,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\CatBodega\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

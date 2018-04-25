@@ -1,14 +1,19 @@
-﻿using CreativaSL.Web.Ganados.Models;
+﻿using CreativaSL.Web.Ganados.Filters;
+using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
+    [Autorizado]
     public class AlmacenController : Controller
     {
+       
+        string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/Almacen
         /// <summary>
         /// Se mostrará el catálogo de almacenes de la sucursal actual (Dada por el usuario
@@ -19,23 +24,41 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 CatAlmacenModels Almacen = new CatAlmacenModels();
-                string IdSucursal = string.Empty;
-                Almacen.ListaAlmacen = this.ObtenerGridAlmacen(IdSucursal);                
+                _Almacen_Datos AlmancenDatos = new _Almacen_Datos();
+                Almacen.Conexion = Conexion;
+                Almacen.ListaAlmacen = AlmancenDatos.ObtenerGridAlmacen(Almacen);                
                 return View(Almacen);
             }
             catch(Exception)
             {
                 CatAlmacenModels Almacen = new CatAlmacenModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
                 return View(Almacen);
             }
         }
                 
         // GET: Admin/Almacen/Details/5
-        public ActionResult Details(int id)
+        [HttpGet]
+        public ActionResult Ver(string id)
         {
-            return View();
-        }
+            try
+            {
+                CatAlmacenModels Bodega = new CatAlmacenModels();
+                _Almacen_Datos BodegaDatos = new _Almacen_Datos();
+                Bodega.Conexion = Conexion;
+                Bodega.IDAlmacen = id;
+                Bodega.ListaInventario = BodegaDatos.ObtenerListaInventario(Bodega);
+                return View(Bodega);
+            }
+            catch (Exception ex)
+            {
 
+                throw ex;
+            }
+            
+        }
+        //ELIMINAR EL CODIGO DE ABAJO O NO
         // GET: Admin/Almacen/Create
         public ActionResult Create()
         {
@@ -136,30 +159,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
 
         #region Métodos
-        /// <summary>
-        /// Obtener el listado de almacenes de una sucursal
-        /// </summary>
-        /// <param name="IdSucursal"></param>
-        /// <returns></returns>
-        private List<CatAlmacenModels> ObtenerGridAlmacen(string IdSucursal)
-        {
-            try
-            {
-                List<CatAlmacenModels> Lista = new List<CatAlmacenModels>();
-                Lista.Add(new CatAlmacenModels { ClaveAlmacen = "ALM-01-001", IDAlmacen = "0001", Sucursal = new CatSucursalesModels { NombreSucursal = "MAtriz Grupo Ocampo" }, Descripcion = "Almacén Norte" });
-                Lista.Add(new CatAlmacenModels { ClaveAlmacen = "ALM-01-002", IDAlmacen = "0002", Sucursal = new CatSucursalesModels { NombreSucursal = "MAtriz Grupo Ocampo" }, Descripcion = "Almacén Sur" });
-                return Lista;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        /// <summary>
-        /// Obtener el listado de sucursales para mostrarlo en una lista desplegable
-        /// </summary>
-        /// <returns></returns>
+        
         private List<CatSucursalesModels> ObtenerComboSucursales()
         {
             try
