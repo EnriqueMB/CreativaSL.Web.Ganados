@@ -118,5 +118,93 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public List<CompraAlmacenModels> ObtenerComprasProcesadas(string Conexion)
+        {
+            try
+            {
+                List<CompraAlmacenModels> Lista = new List<CompraAlmacenModels>();
+                CompraAlmacenModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Inventario_get_ComboComprasProcesadas");
+                while(Dr.Read())
+                {
+                    Item = new CompraAlmacenModels();
+                    Item.IDCompraAlmacen = !Dr.IsDBNull(Dr.GetOrdinal("IDCompraAlmacen")) ? Dr.GetString(Dr.GetOrdinal("IDCompraAlmacen")) : string.Empty;
+                    Item.NumFacturaNota = !Dr.IsDBNull(Dr.GetOrdinal("NumFacturaNota")) ? Dr.GetString(Dr.GetOrdinal("NumFacturaNota")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                return Lista;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CatAlmacenModels> ObtenerAlmacenes(string Conexion)
+        {
+            try
+            {
+                List<CatAlmacenModels> Lista = new List<CatAlmacenModels>();
+                CatAlmacenModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Combo_get_CatAlmacen");
+                while(Dr.Read())
+                {
+                    Item = new CatAlmacenModels();
+                    Item.IDAlmacen = !Dr.IsDBNull(Dr.GetOrdinal("IDAlmacen")) ? Dr.GetString(Dr.GetOrdinal("IDAlmacen")) : string.Empty;
+                    Item.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                return Lista;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CatAlmacenModels> ObtenerAlmacenesXIDSucursal(string Conexion, string IDSucursal)
+        {
+            try
+            {
+                List<CatAlmacenModels> Lista = new List<CatAlmacenModels>();
+                CatAlmacenModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Combo_get_CatAlmacenXIDSucursal", IDSucursal);
+                while (Dr.Read())
+                {
+                    Item = new CatAlmacenModels();
+                    Item.IDAlmacen = !Dr.IsDBNull(Dr.GetOrdinal("IDAlmacen")) ? Dr.GetString(Dr.GetOrdinal("IDAlmacen")) : string.Empty;
+                    Item.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CatAlmacenModels> ObtenerAlmacenesXIDCompra(string Conexion, string IDCompra)
+        {
+            try
+            {
+                List<CatAlmacenModels> Lista = new List<CatAlmacenModels>();
+                CatAlmacenModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Combo_get_CatAlmacenXIDCompra", IDCompra);
+                while (Dr.Read())
+                {
+                    Item = new CatAlmacenModels();
+                    Item.IDAlmacen = !Dr.IsDBNull(Dr.GetOrdinal("IDAlmacen")) ? Dr.GetString(Dr.GetOrdinal("IDAlmacen")) : string.Empty;
+                    Item.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

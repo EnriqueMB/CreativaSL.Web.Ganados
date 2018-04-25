@@ -6,12 +6,14 @@ using System.Web.Mvc;
 using System.Configuration;
 using CreativaSL.Web.Ganados.Models;
 using CreativaSL.Web.Ganados.Filters;
+using CreativaSL.Web.Ganados.App_Start;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     [Autorizado]
     public class CatPuestosController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatPuestos
         [HttpGet]
@@ -46,6 +48,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatPuestoModels Puesto = new CatPuestoModels();
                 Puesto.EsGerente = true;
                 return View(Puesto);
@@ -61,29 +64,44 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatPuestos/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CatPuestoModels Puesto)
         {
+            //CatPuestoModels Puesto = new CatPuestoModels();
+            CatPuestos_Datos PuestoDatos = new CatPuestos_Datos();
             try
             {
-                CatPuestoModels Puesto = new CatPuestoModels();
-                CatPuestos_Datos PuestoDatos = new CatPuestos_Datos();
-                Puesto.Conexion = Conexion;
-                Puesto.Usuario = User.Identity.Name;
-                Puesto.Opcion = 1;
-                Puesto.Descripcion = collection["Descripcion"];
-                Puesto.EsGerente = collection["EsGerente"].StartsWith("true");
-                Puesto = PuestoDatos.AbcCatPuesto(Puesto);
-                if (Puesto.Completado == true)
+                if (Token.IsTokenValid())
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "Los datos se guardarón correctamente.";
-                    return RedirectToAction("Index");
+                    if (ModelState.IsValid)
+                    {
+                        Puesto.Conexion = Conexion;
+                        Puesto.Usuario = User.Identity.Name;
+                        Puesto.Opcion = 1;
+                        //Puesto.Descripcion = collection["Descripcion"];
+                        //Puesto.EsGerente = collection["EsGerente"].StartsWith("true");
+                        Puesto = PuestoDatos.AbcCatPuesto(Puesto);
+                        if (Puesto.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardarón correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Puesto);
+                        }
+                    }
+                    else
+                    {
+                        return View(Puesto);
+                    }
                 }
                 else
                 {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                    return View(Puesto);
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -100,6 +118,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatPuestoModels Puesto = new CatPuestoModels();
                 CatPuestos_Datos PuestoDatos = new CatPuestos_Datos();
                 Puesto.IDPuesto = id;
@@ -118,32 +137,47 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatPuestos/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, CatPuestoModels Puesto)
         {
+            //CatPuestoModels Puesto = new CatPuestoModels();
+            CatPuestos_Datos PuestoDatos = new CatPuestos_Datos();
             try
             {
-                CatPuestoModels Puesto = new CatPuestoModels();
-                CatPuestos_Datos PuestoDatos = new CatPuestos_Datos();
-                Puesto.Conexion = Conexion;
-                Puesto.Usuario = User.Identity.Name;
-                Puesto.Opcion = 2;
-                int ID = 0;
-                int.TryParse(collection["IDPuesto"], out ID);
-                Puesto.IDPuesto = ID;
-                Puesto.Descripcion = collection["Descripcion"];
-                Puesto.EsGerente = collection["EsGerente"].StartsWith("true");
-                Puesto = PuestoDatos.AbcCatPuesto(Puesto);
-                if (Puesto.Completado == true)
+                if (Token.IsTokenValid())
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "Los datos se guardarón correctamente.";
-                    return RedirectToAction("Index");
+                    if (ModelState.IsValid)
+                    {
+                        Puesto.Conexion = Conexion;
+                        Puesto.Usuario = User.Identity.Name;
+                        Puesto.Opcion = 2;
+                        //int ID = 0;
+                        //int.TryParse(collection["IDPuesto"], out ID);
+                        //Puesto.IDPuesto = ID;
+                        //Puesto.Descripcion = collection["Descripcion"];
+                        //Puesto.EsGerente = collection["EsGerente"].StartsWith("true");
+                        Puesto = PuestoDatos.AbcCatPuesto(Puesto);
+                        if (Puesto.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardarón correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Puesto);
+                        }
+                    }
+                    else
+                    {
+                        return View(Puesto);
+                    }
                 }
                 else
                 {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                    return View(Puesto);
+                    return RedirectToAction("Index");
                 }
             }
             catch

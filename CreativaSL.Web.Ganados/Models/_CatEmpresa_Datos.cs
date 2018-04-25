@@ -163,6 +163,11 @@ namespace CreativaSL.Web.Ganados.Models
                     Empresa.CuentaBancaria.NumCuenta = !dr.IsDBNull(dr.GetOrdinal("NumCuenta")) ? dr.GetString(dr.GetOrdinal("NumCuenta")) : string.Empty;
                     Empresa.CuentaBancaria.Clabe = !dr.IsDBNull(dr.GetOrdinal("ClabeInter")) ? dr.GetString(dr.GetOrdinal("ClabeInter")) : string.Empty;
                 }
+                Empresa.CuentaBancaria.Titular.Trim();
+                Empresa.CuentaBancaria.NumCuenta.Trim();
+                Empresa.CuentaBancaria.NumCuenta.Trim();
+                Empresa.CuentaBancaria.Clabe.Trim();
+
                 return Empresa;
             }
             catch (Exception ex)

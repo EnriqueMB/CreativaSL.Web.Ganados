@@ -6,12 +6,14 @@ using System.Net;
 using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
+using CreativaSL.Web.Ganados.App_Start;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     [Autorizado]
     public class CatEmpresaController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         private CatEmpresaModels Empresa;
         private CatSucursalesModels Sucursal;
         private _CatEmpresa_Datos EmpresaDatos;
@@ -44,6 +46,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 Empresa = new CatEmpresaModels
                 {
                     Conexion = Conexion,
@@ -67,28 +70,35 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    EmpresaDatos = new _CatEmpresa_Datos();
+                    if (ModelState.IsValid)
+                    {
+                        EmpresaDatos = new _CatEmpresa_Datos();
 
-                    if (Empresa.LogoEmpresaHttp != null)
-                        Empresa.LogoEmpresa = Auxiliar.ImageToBase64(Empresa.LogoEmpresaHttp);
+                        if (Empresa.LogoEmpresaHttp != null)
+                            Empresa.LogoEmpresa = Auxiliar.ImageToBase64(Empresa.LogoEmpresaHttp);
 
-                    if (Empresa.LogoRFCHttp != null)
-                        Empresa.LogoRFC = Auxiliar.ImageToBase64(Empresa.LogoRFCHttp);
+                        if (Empresa.LogoRFCHttp != null)
+                            Empresa.LogoRFC = Auxiliar.ImageToBase64(Empresa.LogoRFCHttp);
 
-                    Empresa.Conexion = Conexion;
-                    Empresa = EmpresaDatos.UpdateEmpresaXID(Empresa);
+                        Empresa.Conexion = Conexion;
+                        Empresa = EmpresaDatos.UpdateEmpresaXID(Empresa);
+                        Token.ResetToken();
+                        return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
+                    }
+                    else
+                    {
+                        Empresa.RespuestaAjax.Mensaje = "Verifique su formulario.";
+                        Empresa.RespuestaAjax.Success = false;
+                        Empresa.RespuestaAjax.Errores = ModelState.AllErrors();
 
-                    return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
+                        return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
+                    }
                 }
                 else
                 {
-                    Empresa.RespuestaAjax.Mensaje = "Verifique su formulario.";
-                    Empresa.RespuestaAjax.Success = false;
-                    Empresa.RespuestaAjax.Errores = ModelState.AllErrors();
-
-                    return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
+                    return RedirectToAction("Index");
                 }
             }
             catch (Exception ex)
@@ -126,6 +136,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult ModalCuentaBancaria(string IDCuentaBancaria, string IDCliente)
         {
+            Token.SaveToken();
             Empresa = new CatEmpresaModels();
             EmpresaDatos = new _CatEmpresa_Datos();
             Empresa.CuentaBancaria.IDDatosBancarios = IDCuentaBancaria;
@@ -155,23 +166,29 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 ModelState.Remove("LogoRFCHttp");
                 ModelState.Remove("LogoEmpresaHttp");
                 ModelState.Remove("Banco.ImagenB");
-
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    Empresa.Conexion = Conexion;
-                    EmpresaDatos = new _CatEmpresa_Datos();
-                    Empresa.IDUsuario = User.Identity.Name;
-                    Empresa = EmpresaDatos.InsertUpdateCuentaBancaria(Empresa);
+                    if (ModelState.IsValid)
+                    {
+                        Empresa.Conexion = Conexion;
+                        EmpresaDatos = new _CatEmpresa_Datos();
+                        Empresa.IDUsuario = User.Identity.Name;
+                        Empresa = EmpresaDatos.InsertUpdateCuentaBancaria(Empresa);
+                        Token.ResetToken();
+                        return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
+                    }
+                    else
+                    {
 
-                    return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
+                        Empresa.RespuestaAjax.Mensaje = "Verifique su formulario.";
+                        Empresa.RespuestaAjax.Success = false;
+
+                        return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
+                    }
                 }
                 else
                 {
-
-                    Empresa.RespuestaAjax.Mensaje = "Verifique su formulario.";
-                    Empresa.RespuestaAjax.Success = false;
-
-                    return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
+                    return RedirectToAction("Index");
                 }
             }
             catch (Exception ex)
@@ -233,6 +250,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 Sucursal = new CatSucursalesModels
                 {
                     IDEmpresa = id,
@@ -254,27 +272,36 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    SucursalDatos = new _CatSucursal_Datos();
-                    Sucursal.Conexion = Conexion;
-                    Sucursal.Usuario = User.Identity.Name;
-                    Sucursal = SucursalDatos.AC_Sucursal(Sucursal);
+                    if (ModelState.IsValid)
+                    {
+                        SucursalDatos = new _CatSucursal_Datos();
+                        Sucursal.Conexion = Conexion;
+                        Sucursal.Usuario = User.Identity.Name;
+                        Sucursal = SucursalDatos.AC_Sucursal(Sucursal);
 
-                    if (Sucursal.Completado == true)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("IndexSucursales", new { id = Sucursal.IDEmpresa, nombreEmpresa = Sucursal.NombreSucursalMatriz });
+                        if (Sucursal.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("IndexSucursales", new { id = Sucursal.IDEmpresa, nombreEmpresa = Sucursal.NombreSucursalMatriz });
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Sucursal);
+                        }
                     }
-                    else
-                    {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                        return View(Sucursal);
-                    }
+                    return View(Sucursal);
                 }
-                return View(Sucursal);
+                else
+                {
+                    return RedirectToAction("IndexSucursales", new { id = Sucursal.IDEmpresa, nombreEmpresa = Sucursal.NombreSucursalMatriz });
+                }
+            
             }
             catch (Exception ex)
             {
@@ -289,6 +316,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 try
                 {
+                    Token.SaveToken();
                     Sucursal = new CatSucursalesModels
                     {
                         IDSucursal = id,
@@ -312,27 +340,35 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    SucursalDatos = new _CatSucursal_Datos();
-                    Sucursal.Conexion = Conexion;
-                    Sucursal.Usuario = User.Identity.Name;
-                    Sucursal = SucursalDatos.AC_Sucursal(Sucursal);
+                    if (ModelState.IsValid)
+                    {
+                        SucursalDatos = new _CatSucursal_Datos();
+                        Sucursal.Conexion = Conexion;
+                        Sucursal.Usuario = User.Identity.Name;
+                        Sucursal = SucursalDatos.AC_Sucursal(Sucursal);
 
-                    if (Sucursal.Completado == true)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("IndexSucursales", new { id = Sucursal.IDEmpresa, nombreEmpresa = Sucursal.NombreSucursalMatriz });
+                        if (Sucursal.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("IndexSucursales", new { id = Sucursal.IDEmpresa, nombreEmpresa = Sucursal.NombreSucursalMatriz });
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde. Error: " + Sucursal.Mensaje;
+                            return View(Sucursal);
+                        }
                     }
-                    else
-                    {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde. Error: " + Sucursal.Mensaje;
-                        return View(Sucursal);
-                    }
+                    return View(Sucursal);
                 }
-                return View(Sucursal);
+                else
+                {
+                    return RedirectToAction("IndexSucursales", new { id = Sucursal.IDEmpresa, nombreEmpresa = Sucursal.NombreSucursalMatriz });
+                }
             }
             catch (Exception ex)
             {

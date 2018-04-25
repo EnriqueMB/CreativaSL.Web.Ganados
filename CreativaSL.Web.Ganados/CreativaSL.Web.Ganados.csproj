@@ -80,6 +80,14 @@
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ExcelDataReader, Version=3.3.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.3.3.0\lib\net45\ExcelDataReader.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ExcelDataReader.DataSet, Version=3.3.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.DataSet.3.3.0\lib\net45\ExcelDataReader.DataSet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -125,12 +133,17 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.1.6.4\lib\net40\Rotativa.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Entity.Design" />
     <Reference Include="System.Data.Entity.Repository, Version=2.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.Entity.Repository.2.0.0.1\lib\net45\System.Data.Entity.Repository.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -421,6 +434,8 @@
     <Content Include="Content\img\themes\light.jpg" />
     <Content Include="Content\js\actions.js" />
     <Content Include="Content\js\Bancos.js" />
+    <Content Include="Content\js\EmpleadosSucursalFaltas.js" />
+    <Content Include="Content\js\Puestos.js" />
     <Content Include="Content\js\CategoriaPuestos.js" />
     <Content Include="Content\js\Chofer.js" />
     <Content Include="Content\js\ClienteLugar.js" />
@@ -433,7 +448,11 @@
     <Content Include="Content\js\DetalleEmpleado.js" />
     <Content Include="Content\js\EmpleadoAltaNomina.js" />
     <Content Include="Content\js\EmpleadoBajaNomina.js" />
+    <Content Include="Content\js\entradaAlmacen.js" />
+    <Content Include="Content\js\entradaAlmacenDetalle.js" />
+    <Content Include="Content\js\entradaAlmacenLista.js" />
     <Content Include="Content\js\entregacombustible.js" />
+    <Content Include="Content\js\flete.js" />
     <Content Include="Content\js\jaula.js" />
     <Content Include="Content\js\Lugar.js" />
     <Content Include="Content\js\MarcaVehiculo.js" />
@@ -441,6 +460,8 @@
     <Content Include="Content\js\plugins\bootstrap\bootstrap-timepicker respaldo.js" />
     <Content Include="Content\js\plugins\dualSelect\bootstrap-duallistbox.css" />
     <Content Include="Content\js\plugins\dualSelect\jquery.bootstrap-duallistbox.js" />
+    <Content Include="Content\js\plugins\maskedinput\jquery.mask.min.js" />
+    <Content Include="Content\js\plugins\jquery\jquery.metadata.js" />
     <Content Include="Content\js\ProductosAlmacen.js" />
     <Content Include="Content\js\precioRangoProveedor.js" />
     <Content Include="Content\js\nomina-vacaciones.js" />
@@ -879,6 +900,7 @@
     <Content Include="Content\js\portlet.js" />
     <Content Include="Content\js\Productos.js" />
     <Content Include="Content\js\ProveedorAlmacen.js" />
+    <Content Include="Content\js\RegistrarFaltas.js" />
     <Content Include="Content\js\Remolques.js" />
     <Content Include="Content\js\rendimiento.js" />
     <Content Include="Content\js\servicioslista.js" />
@@ -890,6 +912,7 @@
     <Content Include="Content\js\TipoServicio.js" />
     <Content Include="Content\js\TipoVehiculo.js" />
     <Content Include="Content\js\UnidadMedida.js" />
+    <Content Include="Content\js\UPPProveedor.js" />
     <Content Include="Content\js\Usuario.js" />
     <Content Include="Content\js\validaciones\additionals.js" />
     <Content Include="Content\js\Vehiculo.js" />
@@ -951,6 +974,12 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Global.asax" />
+    <Content Include="Rotativa\libeay32.dll" />
+    <Content Include="Rotativa\libgcc_s_dw2-1.dll" />
+    <Content Include="Rotativa\mingwm10.dll" />
+    <Content Include="Rotativa\README.txt" />
+    <Content Include="Rotativa\ssleay32.dll" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\Shared\_LayoutLogin.cshtml" />
@@ -1107,6 +1136,22 @@
     <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosR.cshtml" />
     <Content Include="Areas\Admin\Views\Nomina\RptSaldos.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalListadoPrecios.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXPagar\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\EntradasAlmacen\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\EntradasAlmacen\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\EntradasAlmacen\CreateDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\AC_Flete.cshtml" />
+    <Content Include="App_Browsers\qt.browser" />
+    <Content Include="Areas\Admin\Views\AsistenciaEmpleados\Upload.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXPagar\DetalleDocumento.cshtml" />
+    <Content Include="Areas\Admin\Views\FleteImpuesto\ModalFleteImpuesto.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\AC_FleteRecepcion.cshtml" />
+    <Content Include="Areas\Admin\Views\AsistenciaEmpleados\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXPagar\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\UPPProveedor.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\ModalDocumentos.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\ModalProductoGanado.cshtml" />
     <Content Include="Areas\Admin\Views\Almacen\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Almacen\Ver.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\Index.cshtml" />
@@ -1124,13 +1169,17 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <None Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\TokenModule.cs" />
+    <Compile Include="App_Start\TokenProcessor.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
@@ -1163,8 +1212,13 @@
     <Compile Include="Areas\Admin\Controllers\CatVehiculoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompraAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompraController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AsistenciaEmpleadosController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DocumentoXCobrarController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DocumentoXPagarController.cs" />
+    <Compile Include="Areas\Admin\Controllers\EntradasAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\EntregaCombustibleController.cs" />
     <Compile Include="Areas\Admin\Controllers\FleteController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FleteImpuestoController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\MantenimientoController.cs" />
     <Compile Include="Areas\Admin\Controllers\NominaController.cs" />
@@ -1179,6 +1233,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AlmacenEntradaModels.cs" />
+    <Compile Include="Models\AsistenciaEmpleadoModels.cs" />
     <Compile Include="Models\Auxiliar.cs" />
     <Compile Include="Models\CatAlmacenModels.cs" />
     <Compile Include="Models\CatBancoModels.cs" />
@@ -1231,6 +1286,8 @@
     <Compile Include="Models\CFDI_PaisModels.cs" />
     <Compile Include="Models\CFDI_ProductoServicioModels.cs" />
     <Compile Include="Models\CFDI_RegimenFiscalModels.cs" />
+    <Compile Include="Models\CFDI_TipoFactorModels.cs" />
+    <Compile Include="Models\CFDI_TipoImpuestoModels.cs" />
     <Compile Include="Models\ClienteLugarModels.cs" />
     <Compile Include="Models\CompraAlmacenDetalleModels.cs" />
     <Compile Include="Models\CompraAlmacenModels.cs" />
@@ -1253,7 +1310,10 @@
     <Compile Include="Models\ExistenciaProductoAlmacenModels.cs" />
     <Compile Include="Models\ExistenciaProductosAlmacenPrecioModels.cs" />
     <Compile Include="Models\FierroCompraModels.cs" />
+    <Compile Include="Models\FleteImpuestoModels.cs" />
     <Compile Include="Models\FleteModels.cs" />
+    <Compile Include="Models\Flete_ProductosServiciosModels.cs" />
+    <Compile Include="Models\Flete_TipoDocumentoModels.cs" />
     <Compile Include="Models\GanadoModels.cs" />
     <Compile Include="Models\GeneroGanadoModels.cs" />
     <Compile Include="Models\IncidenteFleteModels.cs" />
@@ -1299,7 +1359,9 @@
     <Compile Include="Models\Validaciones\PlacasAttribute.cs" />
     <Compile Include="Models\Validaciones\PrecioAttribute.cs" />
     <Compile Include="Models\Validaciones\RFCAttribute.cs" />
+    <Compile Include="Models\Validaciones\SAT_BaseAttribute.cs" />
     <Compile Include="Models\Validaciones\TarjetaCreditoAttribute.cs" />
+    <Compile Include="Models\Validaciones\SAT_TasaCuotaAttribute.cs" />
     <Compile Include="Models\Validaciones\TelefonoAttribute.cs" />
     <Compile Include="Models\Validaciones\TestAttribute.cs" />
     <Compile Include="Models\Validaciones\TextoAttribute.cs" />
@@ -1336,7 +1398,11 @@
     <Compile Include="Models\_Combos_Datos.cs" />
     <Compile Include="Models\_CompraAlmacen_Datos.cs" />
     <Compile Include="Models\_Compra_Datos.cs" />
+    <Compile Include="Models\_EntradaAlmacen_Datos.cs" />
+    <Compile Include="Models\_DocumentoXPagar_Datos.cs" />
     <Compile Include="Models\_EntregaCombustible_Datos.cs" />
+    <Compile Include="Models\_FleteImpuesto_Datos.cs" />
+    <Compile Include="Models\_Flete_Datos.cs" />
     <Compile Include="Models\_Login_Datos.cs" />
     <Compile Include="Models\_Menu_Datos.cs" />
     <Compile Include="Models\_NominaDiasFestivos_Datos.cs" />
@@ -1346,9 +1412,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CapturarCompraViewModels.cs" />
     <Compile Include="ViewModels\CompraAlmacenDetallesViewModels.cs" />
+    <Compile Include="ViewModels\CantidadEntregaViewModels.cs" />
     <Compile Include="ViewModels\CuentaBancariaViewModels.cs" />
     <Compile Include="ViewModels\DatosEmpresaViewModels.cs" />
     <Compile Include="ViewModels\EmpleadoNominaViewModels.cs" />
+    <Compile Include="ViewModels\EntradaAlmacenDetalleViewModels.cs" />
+    <Compile Include="ViewModels\EntradaAlmacenViewModels.cs" />
     <Compile Include="ViewModels\EntregaCombustibleViewModels.cs" />
     <Compile Include="ViewModels\RendimientoCombustibleViewModels.cs" />
     <Compile Include="ViewModels\ServiciosMantenimientoDetalleViewModels.cs" />

@@ -136,82 +136,167 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="row">
-                                       <div class="col-md-6">
-                                           <div class="form-group">
-                                               <div class="col-md-12 controlError">
-                                                   <label class="col-md-1 control-label">Nombre del proveedor</label>
-                                                   <div class="col-md-11 col-xs-12">
-                                                       <div class="input-group">
-                                                           <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                           @Html.TextBoxFor(model => model.Proveedor.NombreRazonSocial, new { id = "Proveedor_NombreRazonSocial", @class = "form-control", placeholder = "Nombre del proveedor." })
-                                                       </div>
-                                                       @Html.ValidationMessageFor(model => model.Proveedor.NombreRazonSocial)
-                                                   </div>
-                                               </div>
-                                           </div>
-                                       </div>
-                                        <div class="col-md-6">
+                                <div class="row EsconderCostoFlete">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title"><strong>Costos del Flete </strong></h3>
+                                            <ul class="panel-controls"></ul>
+                                        </div>
+                                        <div class="panel-body">
                                             <div class="form-group">
-                                                <div class="col-md-12 controlError">
-                                                    <label class="col-md-1 control-label">R.F.C. del proveedor</label>
-                                                    <div class="col-md-11 col-xs-12">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                            @Html.TextBoxFor(model => model.Proveedor.RFC, new { id = "Proveedor_RFC", @class = "form-control", placeholder = "R.F.C del proveedor." })
+                                                <div class="col-md-6">
+                                                    <div class="col-md-12 controlError">
+                                                        <label class="col-md-2 control-label">Nombre del proveedor</label>
+                                                        <div class="col-md-10 col-xs-12">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                @Html.TextBoxFor(model => model.Proveedor.NombreRazonSocial, new { id = "Proveedor_NombreRazonSocial", @class = "form-control", placeholder = "Nombre del proveedor." })
+                                                            </div>
+                                                            @Html.ValidationMessageFor(model => model.Proveedor.NombreRazonSocial)
                                                         </div>
-                                                        @Html.ValidationMessageFor(model => model.Proveedor.RFC)
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="col-md-12 controlError">
+                                                        <label class="col-md-2 control-label">R.F.C. del proveedor</label>
+                                                        <div class="col-md-10 col-xs-12">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                @Html.TextBoxFor(model => model.Proveedor.RFC, new { id = "Proveedor_RFC", @class = "form-control", placeholder = "R.F.C del proveedor." })
+                                                            </div>
+                                                            @Html.ValidationMessageFor(model => model.Proveedor.RFC)
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <fieldset class="col-md-6">
+                                                <legend>Origen</legend>
+
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12 controlError">
+                                                                <label class="col-md-2 control-label">Remitente</label>
+                                                                <div class="col-md-10 col-xs-12">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        @Html.TextBoxFor(model => model.Proveedor.RFC, new { id = "Proveedor_RFC", @class = "form-control", placeholder = "R.F.C del proveedor." })
+                                                                    </div>
+                                                                    @Html.ValidationMessageFor(model => model.Proveedor.RFC)
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-md-12 controlError">
+                                                                <label class="col-md-2 control-label">Domicilio</label>
+                                                                <div class="col-md-10 col-xs-12">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        @Html.TextBoxFor(model => model.Proveedor.RFC, new { id = "Proveedor_RFC", @class = "form-control", placeholder = "R.F.C del proveedor." })
+                                                                    </div>
+                                                                    @Html.ValidationMessageFor(model => model.Proveedor.RFC)
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-md-12 controlError">
+                                                                <label class="col-md-2 control-label">Se recogerá en:</label>
+                                                                <div class="col-md-10 col-xs-12">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        @Html.TextBoxFor(model => model.Proveedor.RFC, new { id = "Proveedor_RFC", @class = "form-control", placeholder = "¿En dónde se recogerá?" })
+                                                                    </div>
+                                                                    @Html.ValidationMessageFor(model => model.Proveedor.RFC)
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                            </fieldset>	
+                                            <fieldset class="col-md-6">
+                                                <legend>Destino</legend>
+
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12 controlError">
+                                                                <label class="col-md-2 control-label">Destinatario</label>
+                                                                <div class="col-md-10 col-xs-12">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        @Html.TextBoxFor(model => model.Proveedor.NombreRazonSocial, new { id = "Proveedor_NombreRazonSocial", @class = "form-control", placeholder = "R.F.C del proveedor." })
+                                                                    </div>
+                                                                    @Html.ValidationMessageFor(model => model.Proveedor.NombreRazonSocial)
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-md-12 controlError">
+                                                                <label class="col-md-2 control-label">Domicilio</label>
+                                                                <div class="col-md-10 col-xs-12">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        @Html.TextBoxFor(model => model.Proveedor.RFC, new { id = "Proveedor_RFC", @class = "form-control", placeholder = "R.F.C del proveedor." })
+                                                                    </div>
+                                                                    @Html.ValidationMessageFor(model => model.Proveedor.RFC)
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-md-12 controlError">
+                                                                <label class="col-md-2 control-label">Se entregará en:</label>
+                                                                <div class="col-md-10 col-xs-12">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        @Html.TextBoxFor(model => model.Proveedor.RFC, new { id = "Proveedor_RFC", @class = "form-control", placeholder = "¿En dónde se entregará?" })
+                                                                    </div>
+                                                                    @Html.ValidationMessageFor(model => model.Proveedor.RFC)
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>	
                                         </div>
                                     </div>
                                 </div>
-
-
                                 <div class="form-group">
-                                    <div class="col-md-12">
-                                        <div id="floating-panel">
-                                            <b>Origen: </b>
-                                            <select id="Trayecto.id_lugarOrigen" name="Trayecto.id_lugarOrigen">
-                                                @foreach (var lugar in Model.ListaLugaresProveedor)
+                                            <div class="col-md-12">
+                                                <div id="floating-panel">
+                                                    <b>Origen: </b>
+
+                                                    <select id="Trayecto.id_lugarOrigen" name="Trayecto.id_lugarOrigen">
+                                                        @foreach (var lugar in Model.ListaLugares)
                                                 {
                                                 <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud"
-                                                        @if (Model.Trayecto.id_lugarOrigen == lugar.id_lugar)
-                                                        {
-                                                            <text>
-                                                            selected="selected"
-                                                            </text> 
-                                                        }
-                                                        else if(Model.IDPLugarProveedor == lugar.id_lugar){
-                                                            <text>
-                                                            selected="selected"
-                                                            </text>
-                                                        }>
+                                                        @if (Model.Trayecto.id_lugarOrigen == lugar.id_lugar) { <text>
+                                                        selected="selected"
+                                                        </text>   }>
                                                     @lugar.descripcion
                                                 </option>
                                                 }
-                                            </select>
-                                            <b>Destino: </b>
-                                            <select id="Trayecto.id_lugarDestino" name="Trayecto.id_lugarDestino">
-                                                @foreach (var lugar in Model.ListaLugares)
+                                                    </select>
+
+                                                    <b>Destino: </b>
+
+                                                    <select id="Trayecto.id_lugarDestino" name="Trayecto.id_lugarDestino">
+                                                        @foreach (var lugar in Model.ListaLugaresProveedor)
                                                 {
-                                                <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud"
+                                                <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud" data-direccion="@lugar.Direccion"
                                                         @if (Model.Trayecto.id_lugarDestino == lugar.id_lugar) { <text>
                                                         selected="selected"
-                                                        </text> }>
+                                                        </text>   } else if (Model.IDPLugarProveedor == lugar.id_lugar) { <text>
+                                                        selected="selected"
+                                                        </text>   }>
                                                     @lugar.descripcion
                                                 </option>
                                                 }
-                                            </select>
+                                                    </select>
+                                                </div>
+                                                <div id="map"></div>
+                                            </div>
                                         </div>
-                                        <div id="map"></div>
-                                    </div>
-                                </div>
-
                             </div>
-
                             <div class="panel-footer">
                                 <input type="submit" value="Guardar Flete" class="btn btn-primary pull-right">
                                 <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
@@ -322,8 +407,8 @@
         <!--TERMINA TABS-->
     </div>
     <script>
-        var message     = '@message';
-        var typemessage = '@typemessage';
+        var message     = "@message";
+        var typemessage = "@typemessage";
     </script>
 }
 

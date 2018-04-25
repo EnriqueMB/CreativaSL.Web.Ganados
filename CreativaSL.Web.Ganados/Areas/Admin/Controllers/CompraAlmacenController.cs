@@ -1,4 +1,5 @@
 ﻿using CreativaSL.Web.Ganados.Filters;
+using CreativaSL.Web.Ganados.App_Start;
 using CreativaSL.Web.Ganados.Models;
 using CreativaSL.Web.Ganados.ViewModels;
 using System;
@@ -13,6 +14,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     [Autorizado]
     public class CompraAlmacenController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
 
         // GET: Admin/CompraAlmacen

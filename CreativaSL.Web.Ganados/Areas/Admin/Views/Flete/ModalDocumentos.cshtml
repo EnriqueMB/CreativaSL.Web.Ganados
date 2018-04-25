@@ -1,0 +1,70 @@
+﻿@model CreativaSL.Web.Ganados.Models.Flete_TipoDocumentoModels
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Documentos</h4>
+    </div>
+    <div class="modal-body">
+        <!--INICIA CUERPO MODAL-->
+        @{ Html.EnableClientValidation(false); }
+        @using (Html.BeginForm("AC_Documentos", "Flete", FormMethod.Post, new { id = "frm_AC_Documentos", @class = "form-horizontal", autocomplete = "off" }))
+        {
+            @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
+            <div id="validation_summary_AC_FleteDocumentos" class="field_error "></div>
+            @Html.HiddenFor(model => model.IDFlete);
+            @Html.HiddenFor(model => model.IDDocumento);
+            @Html.HiddenFor(model => model.Imagen);
+            @Html.HiddenFor(model => model.MostrarImagen);
+            @Html.HiddenFor(model => model.FlagImg);
+            <div class="form-group">
+                <div class="col-md-6 controlError">
+                    <label class="col-md-4 control-label">Seleccione el tipo de documento:</label>
+                    <div class="controls">
+                        <div class="col-md-8 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                @Html.DropDownListFor(model => model.IDTipoDocumento, new SelectList(Model.ListaTipoDocumentos, "IDTipoDocumento", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.IDTipoDocumento)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 controlError">
+                    <label class="col-md-4 control-label">Clave:</label>
+                    <div class="controls">
+                        <div class="col-md-8 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                @Html.TextBoxFor(model => model.Clave, new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Clave)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="controlError col-md-12">
+                    <label class="col-md-2 control-label">Ingrese una imagen del documento</label>
+                    <div class="col-md-10 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+                            @Html.TextBoxFor(model => model.ImagenPost, new { id = "ImagenPost", name = "ImagenPost", @type = "file", @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.ImagenPost)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group modal-footer">
+                <div class="controls">
+                    <button type="submit" class="btn btn-success green">Guardar</button>
+                    <button type="button" class="btn btn-secondary red" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+
+        }
+        <!--TERMINA CUERPO MODAL-->
+    </div>
+</div>
+

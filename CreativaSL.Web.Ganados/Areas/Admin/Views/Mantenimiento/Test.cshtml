@@ -55,7 +55,7 @@
                                                     <tr>
                                                         @*<td>@Html.CheckBox("ListaEmpleados[" + @i + "].AbrirCaja", true) </td>*@
                                                         <td><input checked="checked" id="ListaEmpleados_@i--AbrirCaja" name="ListaEmpleados[@i].AbrirCaja" type="checkbox" value="true" /><input name="ListaEmpleados[@i].AbrirCaja" type="hidden" value="false" /> </td>
-                                                        @*<td>@Html.CheckBoxFor(p => p[i].AbrirCaja, new { @class = "form-control" })</td>*@
+                                                        <td>@Html.CheckBoxFor(p => p[i].AbrirCaja, new { @class = "form-control" })</td>
                                                         @*<td><input type="checkbox" class="icheckbox form-control" name="Lista[@i].AbrirCaja" />  </td>*@
                                                         <td>Empleado 00-@i</td>
                                                     </tr>

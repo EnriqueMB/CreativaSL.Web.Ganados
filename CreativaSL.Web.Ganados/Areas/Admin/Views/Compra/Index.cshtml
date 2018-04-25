@@ -50,7 +50,7 @@
                             <ul class="panel-controls">
                                 <li><a href="@Url.Action("ProgramarCompra","Compra")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva Compra</a></li>
                                 <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                                <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
+                                <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                             </ul>
                         </div>
                         <div class="panel-body">
@@ -87,6 +87,9 @@
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                        <div class="panel-footer">
+                            <br />
                         </div>
                     </div>
                     <!-- END DEFAULT DATATABLE -->
@@ -242,7 +245,7 @@
                 "order": [[1, 'asc']]
             });
 
-            $("#tblIndexCompra").on('page.dt', function () {
+            tblIndexCompra1.on('page.dt', function () {
                 onresize(100);
             });
 
