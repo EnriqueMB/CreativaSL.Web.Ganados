@@ -11,7 +11,6 @@ namespace CreativaSL.Web.Ganados.Models
         {
             _id_estatus_Ganados = string.Empty;
             _id_sucursal = string.Empty;
-            _id_estatus_Ganados = string.Empty;
             id_tipoGanadosPorPeso = 0;
             _observacion = string.Empty;
             Conexion = string.Empty;
@@ -19,6 +18,7 @@ namespace CreativaSL.Web.Ganados.Models
             numArete = string.Empty;
             Repeso = true;
             genero = string.Empty;
+            CompraGanado = new CompraGanadosModels();
         }
 
         private string _id_Ganados;
@@ -74,5 +74,8 @@ namespace CreativaSL.Web.Ganados.Models
         public string Usuario { get; set; }
         public int Opcion { get; set; }
         #endregion
+
+        public CompraGanadosModels CompraGanado { get; set; }
+
     }
 }

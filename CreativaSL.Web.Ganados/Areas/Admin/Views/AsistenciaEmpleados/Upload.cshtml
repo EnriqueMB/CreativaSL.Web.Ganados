@@ -67,23 +67,44 @@
                                     <div class="col-md-12 text-center" ><h1>Empleados con falta en el día</h1></div>
                                 </div>
                                 <div class="row">
-                                    <table class="table">
+                                    <table class="table dataTable">
                                         <thead>
                                             <tr>
                                                <th>Empleado</th>
                                                 <th>Sucursal</th>
                                                 <th>Fecha</th>
+                                                <th>Actualizar Falta</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                            @foreach (var row in Model.listaAsistencia)
                                            {
-                                                <tr>
+                                                <tr  id="@row.IDFalta">
                                                   
                                                         <td>@row.IDEmpleados</td>
                                                         <td>@row.IDSucursal</td>
                                                         <td>@row.fecha.ToShortDateString()</td>
-                                                   
+                                                    <td style="text-align:center;">
+                                                        <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                            <a title="Actualizar" id="delete-@row.IDFalta" data-hrefa="@Url.Action("Actualizar", "AsistenciaEmpleados", new { id = @row.IDFalta  })" onClick="delete_row('@row.IDFalta');" class="btn btn-default tooltips" data-placement="top" data-original-title="Actualizar"><i class="fa fa-check"></i> </a>
+                                                           
+                                                        </div>
+                                                        <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                            <div class="btn-group">
+                                                                <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                    <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                                </a>
+                                                                <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                    <li>
+                                                                        <a role="menuitem" tabindex="-1" id="delete-@row.IDFalta" data-hrefa="@Url.Action("Actualizar", "AsistenciaEmpleados", new { id =@row.IDFalta })" onClick="delete_row('@row.IDFalta');">
+                                                                            <i class="fa fa-check"></i> 
+                                                                        </a>
+                                                                    </li>
+                                                                    
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                            }
                                             
@@ -108,7 +129,7 @@
     <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
         <div class="mb-container">
             <div class="mb-middle">
-                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-title"><span class="fa fa-times"></span>Actualizar  <strong>falta</strong> de empleado ?</div>
                 <div class="mb-content">
                     <p>¿Seguro que quieres eliminar esta fila?</p>
                     <p>Presione "sí" si está seguro.</p>

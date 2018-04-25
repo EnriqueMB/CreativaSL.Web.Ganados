@@ -1,4 +1,5 @@
-﻿using CreativaSL.Web.Ganados.Filters;
+﻿using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     public class FleteController : Controller
     {
         private string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         private FleteModels Flete;
         private _Flete_Datos FleteDatos;
 
@@ -31,7 +33,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         /********************************************************************/
-        //Funcion Index Json
+        //Funcion Json Table
         #region Funcion index Json
         [HttpPost]
         public ActionResult JsonIndex()
@@ -42,7 +44,56 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 FleteDatos = new _Flete_Datos();
                 Flete.Conexion = Conexion;
 
-                Flete.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(FleteDatos.ObtenerFleteIndexDataTable(Flete));
+                Flete.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(FleteDatos.GetFleteIndexDataTable(Flete));
+                Flete.RespuestaAjax.Success = true;
+
+                return Content(Flete.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Flete.RespuestaAjax.Mensaje = ex.ToString();
+                Flete.RespuestaAjax.Success = false;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+        #region Funcion Json Documentos
+        [HttpPost]
+        public ActionResult TableJsonDocumentos(string IDFlete)
+        {
+            try
+            {
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                Flete.Conexion = Conexion;
+                Flete.id_flete = IDFlete;
+
+                Flete.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(FleteDatos.GetDocumentosDataTable(Flete));
+                Flete.RespuestaAjax.Success = true;
+
+                return Content(Flete.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Flete.RespuestaAjax.Mensaje = ex.ToString();
+                Flete.RespuestaAjax.Success = false;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+        #region Funcion Json Documentos
+        [HttpPost]
+        public ActionResult TableJsonGanadoActual()
+        {
+            try
+            {
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                Flete.Conexion = Conexion;
+
+                Flete.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(FleteDatos.GetGanadoDataTable(Flete));
                 Flete.RespuestaAjax.Success = true;
 
                 return Content(Flete.RespuestaAjax.Mensaje, "application/json");
@@ -57,11 +108,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         #endregion
         /********************************************************************/
-
-
         [HttpGet]
         public ActionResult AC_Flete(string IDFlete)
         {
+            Token.SaveToken();
             Flete = new FleteModels
             {
                 Conexion = Conexion
@@ -108,6 +158,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Edit(string IDFlete)
         {
+            Token.SaveToken();
             Flete = new FleteModels();
             FleteDatos = new _Flete_Datos();
             Flete.Conexion = Conexion;
@@ -126,8 +177,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         [HttpGet]
         public ActionResult EnviarFlete(string IDFlete)
-        {   
-            if(IDFlete.Length == 36)
+        {
+            if (IDFlete.Length == 36)
             {
                 Flete = new FleteModels();
                 FleteDatos = new _Flete_Datos();
@@ -153,15 +204,24 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                FleteDatos = new _Flete_Datos();
-                Flete.Conexion = Conexion;
-                Flete.Usuario = User.Identity.Name;
-                Flete = FleteDatos.Flete_ac_FleteCliente(Flete);
-                if (Flete.RespuestaAjax.Success)
-                    Flete.RespuestaAjax.Mensaje.ToJSON();
+                if (Token.IsTokenValid())
+                {
+                    FleteDatos = new _Flete_Datos();
+                    Flete.Conexion = Conexion;
+                    Flete.Usuario = User.Identity.Name;
+                    Flete = FleteDatos.Flete_ac_FleteCliente(Flete);
+                    if (Flete.RespuestaAjax.Success)
+                        Flete.RespuestaAjax.Mensaje.ToJSON();
 
-                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
-                
+                    Token.ResetToken();
+
+                    return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Flete");
+                }
+
             }
             catch (Exception ex)
             {
@@ -176,19 +236,26 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                if(Flete.id_flete.Length == 36)
+                if (Token.IsTokenValid())
                 {
-                    FleteDatos = new _Flete_Datos();
-                    Flete.Conexion = Conexion;
-                    Flete.Usuario = User.Identity.Name;
-                    Flete = FleteDatos.Flete_ac_FleteTrayecto(Flete);
+                    if (Flete.id_flete.Length == 36)
+                    {
+                        FleteDatos = new _Flete_Datos();
+                        Flete.Conexion = Conexion;
+                        Flete.Usuario = User.Identity.Name;
+                        Flete = FleteDatos.Flete_ac_FleteTrayecto(Flete);
 
-                    return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+                        return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Flete no válido.";
+                        return RedirectToAction("Index", "Flete");
+                    }
                 }
                 else
                 {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Flete no válido.";
                     return RedirectToAction("Index", "Flete");
                 }
             }
@@ -205,19 +272,68 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                if (Flete.id_flete.Length == 36)
+                if (Token.IsTokenValid())
                 {
-                    FleteDatos = new _Flete_Datos();
-                    Flete.Conexion = Conexion;
-                    Flete.Usuario = User.Identity.Name;
-                    Flete = FleteDatos.Flete_a_FleteCobro(Flete);
+                    if (Flete.id_flete.Length == 36)
+                    {
+                        FleteDatos = new _Flete_Datos();
+                        Flete.Conexion = Conexion;
+                        Flete.Usuario = User.Identity.Name;
+                        Flete = FleteDatos.Flete_a_FleteCobro(Flete);
+                        Token.ResetToken();
 
-                    return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+                        return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Flete no válido.";
+                        return RedirectToAction("Index", "Flete");
+                    }
                 }
                 else
                 {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Flete no válido.";
+                    return RedirectToAction("Index", "Flete");
+                }
+            }
+            catch (Exception ex)
+            {
+                Flete.RespuestaAjax.Mensaje = ex.ToString();
+                Flete.RespuestaAjax.Success = false;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+        #region AC_Documento
+        public ActionResult AC_Documento(Flete_TipoDocumentoModels Documento)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    if (Documento.IDFlete.Length == 36)
+                    {
+                        FleteDatos = new _Flete_Datos();
+                        Documento.Conexion = Conexion;
+                        Documento.Usuario = User.Identity.Name;
+                        //Verifico input
+                        if (Documento.ImagenPost != null)
+                            Documento.Imagen = Auxiliar.ImageToBase64(Documento.ImagenPost);
+
+                        Documento = FleteDatos.Flete_ac_Documento(Documento);
+                        Token.ResetToken();
+                        Token.SaveToken();
+                        return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Flete no válido.";
+                        return RedirectToAction("Index", "Flete");
+                    }
+                }
+                else
+                {
                     return RedirectToAction("Index", "Flete");
                 }
             }
@@ -230,7 +346,67 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         #endregion
         /********************************************************************/
+        //Funciones DEL
+        #region DEL_Documento
+        public ActionResult DEL_Documento(Flete_TipoDocumentoModels Documento)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    if (Documento.IDDocumento.Length == 36)
+                    {
+                        FleteDatos = new _Flete_Datos();
+                        Documento.Conexion = Conexion;
+                        Documento.Usuario = User.Identity.Name;
+                        Documento = FleteDatos.Flete_del_DocumentoXIDDocumento(Documento);
+                        Token.ResetToken();
+                        Token.SaveToken();
+                        return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Flete no válido.";
+                        return RedirectToAction("Index", "Flete");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Flete");
+                }
+            }
+            catch (Exception ex)
+            {
+                Documento.RespuestaAjax.Mensaje = ex.ToString();
+                Documento.RespuestaAjax.Success = false;
+                return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+        /********************************************************************/
+        //Funciones Modal
+        [HttpPost]
+        public ActionResult ModalDocumento(string IDFlete, string IDDocumento)
+        {
+            {
+                FleteDatos = new _Flete_Datos();
+                Flete_TipoDocumentoModels Flete_TipoDocumento = new Flete_TipoDocumentoModels();
+                Flete_TipoDocumento.IDFlete = IDFlete;
+                Flete_TipoDocumento.IDDocumento = IDDocumento;
+                Flete_TipoDocumento.Conexion = Conexion;
 
+                Flete_TipoDocumento = FleteDatos.GetDocumentoXIDDocumento(Flete_TipoDocumento);
+                Flete_TipoDocumento.ListaTipoDocumentos = FleteDatos.GetListaTiposDocumentos(Flete_TipoDocumento);
+
+                return PartialView("ModalDocumentos", Flete_TipoDocumento);
+            }
+        }
+        [HttpPost]
+        public ActionResult ModalProductoGanado(string IDFlete)
+        {
+            return PartialView("ModalProductoGanado");
+        }
         /********************************************************************/
         //Funciones Combo
         #region funciones combo
