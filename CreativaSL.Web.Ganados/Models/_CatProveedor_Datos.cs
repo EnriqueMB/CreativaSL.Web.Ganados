@@ -591,8 +591,9 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                 object aux = SqlHelper.ExecuteScalar(Datos.Conexion, "spCSLDB_ac_UPPProveedor", parametros);
                 Datos.id_proveedor = aux.ToString();
-
-                if (Convert.ToInt32(Datos.id_proveedor)!=1)
+                int completo = 0;
+                int.TryParse(Datos.id_proveedor.ToString(), out completo);
+                if (completo==1)
                 {
                     Datos.Completado = true;
                 }

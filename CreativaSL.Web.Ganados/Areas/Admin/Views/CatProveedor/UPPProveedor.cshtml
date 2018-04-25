@@ -199,12 +199,23 @@
             overwriteInitial: true,
             showUploadedThumbs: false,
             allowedFileExtensions: ['png'],
-            initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.Imagen" />'
-            ],
-            initialPreviewConfig: [
-               { caption: 'UPPProveedor'}
-            ],
+            @if (!string.IsNullOrEmpty(Model.Imagen))
+            {
+                <text>initialPreview: [
+                 "<img class='file-preview-image' if; height: auto; max-width: 100%; max-height: 100%;' src='data:image/png;base64, @Model.Imagen'/>'"
+                ],
+                initialPreviewConfig: [
+                    { caption: 'UPPProveedor' }
+                ],</text>
+            }
+            else {
+                <text>initialPreview: [
+                 "<img class='file-preview-image' if; height: auto; max-width: 100%; max-height: 100%;' src='/Content/img/GrupoOcampo.png'/>'"
+                ],
+                initialPreviewConfig: [
+                    { caption: 'Default' }
+                ],</text>
+            }
             initialPreviewShowDelete: false,
             showRemove: false,
             showClose: false,
@@ -216,35 +227,24 @@
 
 
             //LISTA DE ESTADOS CUANDO COMBO PAISES CAMBIA
-            $("#id_pais").val('MEX');
-            getEstado($("#id_pais").val());
+            @if (string.IsNullOrEmpty(Model.Imagen))
+            {
+                <text>$("#id_pais").val('MEX');
+        
+                getEstado($("#id_pais").val());</text>
+            }
+            //$("#id_pais").val('MEX');
+            //getEstado($("#id_pais").val());
             $("#id_pais").change(function () {
 
                 var id = $("#id_pais").val();
                 getEstado(id);
-                var municipio = $("#id_municipio option:selected").text();
-                var estado = $("#id_estadoCodigo option:selected").text();
-                var pais = $("#id_pais option:selected").text();
-                var busqueda = pais;
-
 
             });
             $("#id_estadoCodigo").change(function () {
                 var id2 = $("#id_pais").val();
                 var id = $("#id_estadoCodigo").val();
                 getMunicipio(id2, id);
-                var municipio = $("#id_municipio option:selected").text();
-                var estado = $("#id_estadoCodigo option:selected").text();
-                var pais = $("#id_pais option:selected").text();
-                var busqueda = estado + ',' + pais;
-            });
-
-            $("#id_municipio").change(function () {
-
-                var municipio = $("#id_municipio option:selected").text();
-                var estado = $("#id_estadoCodigo option:selected").text();
-                var pais = $("#id_pais option:selected").text();
-                var busqueda = municipio + ',' + estado + ',' + pais;
             });
             function getEstado(id) {
 
@@ -266,17 +266,8 @@
                         $("#id_estadoCodigo").html(items);
                         // getMunicipio($("#ListPaises").val(), $("#ListEstado").val());
 
-                        var municipio = $("#id_municipio option:selected").text();
-                        var estado = $("#id_estadoCodigo option:selected").text();
-                        var pais = $("#id_pais option:selected").text();
-                        var busqueda = pais;
-
 
                         $('#id_estadoCodigo.select').selectpicker('refresh');
-                        auxbol = 0;
-
-
-
                     }
                 });
             }
@@ -298,11 +289,6 @@
                             items += "<option value=\"" + municipio[i].id_municipio + "\">" + municipio[i].descripcion + "</option>";
                         }
                         $("#id_municipio").html(items);
-
-                        var municipio = $("#id_municipio option:selected").text();
-                        var estado = $("#id_estadoCodigo option:selected").text();
-                        var pais = $("#id_pais option:selected").text();
-                        var busqueda = estado + ',' + pais;
 
                         $('#id_municipio.select').selectpicker('refresh');
 

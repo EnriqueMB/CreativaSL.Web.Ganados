@@ -742,18 +742,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 uPPProvedor.id_proveedor = id;
                 uPPProvedor = ProveedorDatos.ObtenerUPPProveedor(uPPProvedor);
                 uPPProvedor.listaPaises = ProveedorDatos.obtenerListaPaises(uPPProvedor);
-
-                var List = new SelectList(uPPProvedor.listaPaises, "id_pais", "descripcion");
-                ViewData["cmbPaises"] = List;
-
                 uPPProvedor.listaEstado = ProveedorDatos.obtenerListaEstados(uPPProvedor);
-                var Lista = new SelectList(uPPProvedor.listaEstado, "codigoEstado", "descripcion");
-                ViewData["cmbEstados"] = Lista;
-
                 uPPProvedor.listaMunicipio = ProveedorDatos.obtenerListaMunicipios(uPPProvedor);
-                var Listam = new SelectList(uPPProvedor.listaMunicipio, "id_municipio", "descripcion");
-                ViewData["cmbMunicipios"] = Listam;
-
                 return View(uPPProvedor);
             }
             catch (Exception)
@@ -801,17 +791,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         uPPProvedor.Conexion = Conexion;
                         uPPProvedor.id_proveedor = id;
                         uPPProvedor.listaPaises = ProveedorDatos.obtenerListaPaises(uPPProvedor);
-                        var List = new SelectList(uPPProvedor.listaPaises, "id_pais", "descripcion");
-                        ViewData["cmbPaises"] = List;
-
                         uPPProvedor.listaEstado = ProveedorDatos.obtenerListaEstados(uPPProvedor);
-                        var Lista = new SelectList(uPPProvedor.listaEstado, "codigoEstado", "descripcion");
-                        ViewData["cmbEstados"] = Lista;
-
                         uPPProvedor.listaMunicipio = ProveedorDatos.obtenerListaMunicipios(uPPProvedor);
-                        var Listam = new SelectList(uPPProvedor.listaMunicipio, "id_municipio", "descripcion");
-                        ViewData["cmbMunicipios"] = Listam;
-
                         TempData["typemessage"] = "2";
                         TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(uPPProvedor);
@@ -822,17 +803,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     uPPProvedor.Conexion = Conexion;
                     uPPProvedor.id_proveedor = id;
                     uPPProvedor.listaPaises = ProveedorDatos.obtenerListaPaises(uPPProvedor);
-                    var List = new SelectList(uPPProvedor.listaPaises, "id_pais", "descripcion");
-                    ViewData["cmbPaises"] = List;
-
                     uPPProvedor.listaEstado = ProveedorDatos.obtenerListaEstados(uPPProvedor);
-                    var Lista = new SelectList(uPPProvedor.listaEstado, "codigoEstado", "descripcion");
-                    ViewData["cmbEstados"] = Lista;
-
                     uPPProvedor.listaMunicipio = ProveedorDatos.obtenerListaMunicipios(uPPProvedor);
-                    var Listam = new SelectList(uPPProvedor.listaMunicipio, "id_municipio", "descripcion");
-                    ViewData["cmbMunicipios"] = Listam;
-
                     TempData["typemessage"] = "2";
                     TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                     return View(uPPProvedor);
@@ -844,17 +816,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 uPPProvedor.Conexion = Conexion;
                 uPPProvedor.id_proveedor = id;
                 uPPProvedor.listaPaises = ProveedorDatos.obtenerListaPaises(uPPProvedor);
-                var List = new SelectList(uPPProvedor.listaPaises, "id_pais", "descripcion");
-                ViewData["cmbPaises"] = List;
-
                 uPPProvedor.listaEstado = ProveedorDatos.obtenerListaEstados(uPPProvedor);
-                var Lista = new SelectList(uPPProvedor.listaEstado, "codigoEstado", "descripcion");
-                ViewData["cmbEstados"] = Lista;
-
                 uPPProvedor.listaMunicipio = ProveedorDatos.obtenerListaMunicipios(uPPProvedor);
-                var Listam = new SelectList(uPPProvedor.listaMunicipio, "id_municipio", "descripcion");
-                ViewData["cmbMunicipios"] = Listam;
-
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                 return View(uPPProvedor);
