@@ -1,4 +1,5 @@
-﻿using CreativaSL.Web.Ganados.Filters;
+﻿using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     [Autorizado]
     public class CatLugarController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatLugar
         public ActionResult Index()
@@ -44,28 +46,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-
+                Token.SaveToken();
                 CatLugarModels Lugar = new CatLugarModels();
                 _CatLugar_Datos LugarDatos = new _CatLugar_Datos();
                 Lugar.conexion = Conexion;
                 Lugar.lat = "16.99873295324791";
                 Lugar.lng = "-92.9919061984375";
                 Lugar.listaPaises = LugarDatos.obtenerListaPaises(Lugar);
-                var List= new SelectList(Lugar.listaPaises, "id_pais", "descripcion");
-                ViewData["cmbPaises"] = List;
-
                 Lugar.listaEstado = LugarDatos.obtenerListaEstados(Lugar);
-                var Lista = new SelectList(Lugar.listaEstado, "codigoEstado", "descripcion");
-                ViewData["cmbEstados"] = Lista;
-
                 Lugar.listaMunicipio = LugarDatos.obtenerListaMunicipios(Lugar);
-                var Listam = new SelectList(Lugar.listaMunicipio, "id_municipio", "descripcion");
-                ViewData["cmbMunicipios"] = Listam;
-
                 Lugar.listaSucursal = LugarDatos.obtenerListaSucursales(Lugar);
-                var listaSucursal = new SelectList(Lugar.listaSucursal, "IDSucursal", "NombreSucursal");
-                ViewData["cmbSucursal"] = listaSucursal;
-
                 return View(Lugar);
             }
             catch (Exception ex)
@@ -84,44 +74,51 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatLugar_Datos LugarDatos = new _CatLugar_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-
-
-                    Lugar.conexion = Conexion;
-                    Lugar.opcion = 1;
-
-                    Lugar.user = User.Identity.Name;
-                    Lugar = LugarDatos.AbcCatLugar(Lugar);
-                    if (Lugar.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "El registro se guardo correctamente.";
-                        return RedirectToAction("Index");
-
+                        Lugar.conexion = Conexion;
+                        Lugar.opcion = 1;
+                        Lugar.user = User.Identity.Name;
+                        Lugar.latitud = float.Parse(Lugar.lat);
+                        Lugar.longitud = float.Parse(Lugar.lng);
+                        Lugar = LugarDatos.AbcCatLugar(Lugar);
+                        if (Lugar.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardo correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Lugar.listaPaises = LugarDatos.obtenerListaPaises(Lugar);
+                            Lugar.listaEstado = LugarDatos.obtenerListaEstados(Lugar);
+                            Lugar.listaMunicipio = LugarDatos.obtenerListaMunicipios(Lugar);
+                            Lugar.listaSucursal = LugarDatos.obtenerListaSucursales(Lugar);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar el registro.";
+                            return View(Lugar);
+                        }
                     }
                     else
                     {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        Lugar.conexion = Conexion;
+                        Lugar.listaPaises = LugarDatos.obtenerListaPaises(Lugar);
+                        Lugar.listaEstado = LugarDatos.obtenerListaEstados(Lugar);
+                        Lugar.listaMunicipio = LugarDatos.obtenerListaMunicipios(Lugar);
+                        Lugar.listaSucursal = LugarDatos.obtenerListaSucursales(Lugar);
                         return View(Lugar);
                     }
                 }
                 else
                 {
-                    Lugar.conexion = Conexion;
-                    Lugar.listaPaises = LugarDatos.obtenerListaPaises(Lugar);
-                    Lugar.listaEstado = LugarDatos.obtenerListaEstados(Lugar);
-                    Lugar.listaMunicipio = LugarDatos.obtenerListaMunicipios(Lugar);
-                    Lugar.listaSucursal = LugarDatos.obtenerListaSucursales(Lugar);
-                    return View(Lugar);
+                    return RedirectToAction("Index");
                 }
-               
             }
             catch(Exception ex)
             {
-                
-               
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
                 return View(Lugar);
@@ -133,29 +130,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-
+                Token.SaveToken();
                 CatLugarModels Lugar = new CatLugarModels();
                 _CatLugar_Datos LugarDatos = new _CatLugar_Datos();
                 Lugar.conexion = Conexion;
                 Lugar.id_lugar = id;
                 Lugar = LugarDatos.ObtenerDetalleCatLugar(Lugar);
-               
                 Lugar.listaPaises = LugarDatos.obtenerListaPaises(Lugar);
-                var List = new SelectList(Lugar.listaPaises, "id_pais", "descripcion");
-                ViewData["cmbPaises"] = List;
-
                 Lugar.listaEstado = LugarDatos.obtenerListaEstados(Lugar);
-                var Lista = new SelectList(Lugar.listaEstado, "codigoEstado", "descripcion");
-                ViewData["cmbEstados"] = Lista;
-
                 Lugar.listaMunicipio = LugarDatos.obtenerListaMunicipios(Lugar);
-                var Listam = new SelectList(Lugar.listaMunicipio, "id_municipio", "descripcion");
-                ViewData["cmbMunicipios"] = Listam;
-
                 Lugar.listaSucursal = LugarDatos.obtenerListaSucursales(Lugar);
-                var listaSucursal = new SelectList(Lugar.listaSucursal, "IDSucursal", "NombreSucursal");
-                ViewData["cmbSucursal"] = listaSucursal;
-
                 return View(Lugar);
             }
             catch (Exception ex)
@@ -174,44 +158,53 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatLugar_Datos LugarDatos = new _CatLugar_Datos();
             try
             {
-
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-
-                    Lugar.conexion = Conexion;
-                    Lugar.opcion = 2;
-                    Lugar.id_lugar = id;
-
-                    Lugar.user = User.Identity.Name;
-                    Lugar = LugarDatos.AbcCatLugar(Lugar);
-                    if (Lugar.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "El registro se editó correctamente.";
-                        return RedirectToAction("Index");
+                        Lugar.conexion = Conexion;
+                        Lugar.opcion = 2;
+                        Lugar.id_lugar = id;
+                        Lugar.latitud = float.Parse(Lugar.lat);
+                        Lugar.longitud = float.Parse(Lugar.lng);
+                        Lugar.user = User.Identity.Name;
+                        Lugar = LugarDatos.AbcCatLugar(Lugar);
+                        if (Lugar.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se editó correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Lugar.listaPaises = LugarDatos.obtenerListaPaises(Lugar);
+                            Lugar.listaEstado = LugarDatos.obtenerListaEstados(Lugar);
+                            Lugar.listaMunicipio = LugarDatos.obtenerListaMunicipios(Lugar);
+                            Lugar.listaSucursal = LugarDatos.obtenerListaSucursales(Lugar);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar el registro.";
+                            return View(Lugar);
+                        }
+
                     }
                     else
                     {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        Lugar.conexion = Conexion;
+                        Lugar.listaPaises = LugarDatos.obtenerListaPaises(Lugar);
+                        Lugar.listaEstado = LugarDatos.obtenerListaEstados(Lugar);
+                        Lugar.listaMunicipio = LugarDatos.obtenerListaMunicipios(Lugar);
+                        Lugar.listaSucursal = LugarDatos.obtenerListaSucursales(Lugar);
                         return View(Lugar);
                     }
-                   
                 }
                 else
                 {
-                    Lugar.conexion = Conexion;
-                    Lugar.listaPaises = LugarDatos.obtenerListaPaises(Lugar);
-                    Lugar.listaEstado = LugarDatos.obtenerListaEstados(Lugar);
-                    Lugar.listaMunicipio = LugarDatos.obtenerListaMunicipios(Lugar);
-                    Lugar.listaSucursal = LugarDatos.obtenerListaSucursales(Lugar);
-                    return View(Lugar);
+                    return RedirectToAction("Index");
                 }
             }
             catch (Exception ex)
             {
-               
-
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
                 return View(Lugar);
@@ -240,17 +233,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["message"] = "El registro se ha eliminado correctamente";
                 return Json("");
                 // TODO: Add delete logic here
-
-
             }
             catch
             {
-                CatChoferModels Chofer = new CatChoferModels();
-               
+                CatLugarModels Lugar = new CatLugarModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
                 return Json("");
-
             }
         }
         //AJAX OBTIENE TODOS LOS COMBOS MEDIANTE JAVASCRIPT
@@ -274,16 +263,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Json("", JsonRequestBehavior.AllowGet);
             }
         }
+
         [HttpPost]
-       
         public ActionResult Municipio(string idPais, string id)
         {
             try
             {
                 CatLugarModels Lugar = new CatLugarModels();
                 _CatLugar_Datos LugarDatos = new _CatLugar_Datos();
-
-              
                 Lugar.id_estadoCodigo = id;
                 Lugar.id_pais = idPais;
                 Lugar.conexion = Conexion;

@@ -25,6 +25,7 @@ namespace CreativaSL.Web.Ganados.Models
             _bascula = false;
             _nombrePropietario = string.Empty;
             _observaciones = string.Empty;
+            Direccion = string.Empty;
             
             //Datos de control
             activo = false;
@@ -35,6 +36,9 @@ namespace CreativaSL.Web.Ganados.Models
             resultado = string.Empty;
 
         }
+
+        public string Direccion { get; set; }
+
         //Nombre del dueño 
         private string _nombrePropietario;
         [Required(ErrorMessage = "El nombre es obligatorio")]
@@ -109,8 +113,7 @@ namespace CreativaSL.Web.Ganados.Models
 
         //LISTA DE PAISES, ESTADOS Y MUNICIPIOS
         private List<CatPaisModels> _listaPaises;
-        [Required(ErrorMessage = "El País es obligatorio")]
-        [Display(Name = "Pais")]
+       
         
         
         public List<CatPaisModels> listaPaises
@@ -119,8 +122,7 @@ namespace CreativaSL.Web.Ganados.Models
             set { _listaPaises = value; }
         }
         private List<CatEstadoModels> _listaEstado;
-        [Required(ErrorMessage = "El Estado es obligatorio")]
-        [Display(Name = "Estado")]
+        
         
         public List<CatEstadoModels> listaEstado
         {

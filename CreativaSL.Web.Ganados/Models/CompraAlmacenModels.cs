@@ -20,6 +20,7 @@ namespace CreativaSL.Web.Ganados.Models
             this._Proveedor = new CatProveedorModels();
             this._NumFacturaNota = string.Empty;
             this._MontoTotal = 0;
+            this._fecha = DateTime.Today;//**+
             this._IDEstatusCompra = 0;
             this._IDDocumentoXPagar = string.Empty;
             this._ListaSucursales = new List<CatSucursalesModels>();
@@ -82,7 +83,6 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _MontoTotal; }
             set { _MontoTotal = value; }
         }
-
         //CultureInfo currentCulture = new CultureInfo("es-MX")
         /// <summary>
         /// Monto total de la compra en string con formato de moneda
@@ -102,7 +102,23 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _IDEstatusCompra; }
             set { _IDEstatusCompra = value; }
         }
-        
+
+        private string _statusCompra;
+
+        public string StatusCompra
+        {
+            get { return _statusCompra; }
+            set { _statusCompra = value; }
+        }
+        private DateTime _fecha;
+
+        public DateTime Fecha
+        {
+            get { return _fecha; }
+            set { _fecha = value; }
+        }
+
+
         private string _IDDocumentoXPagar;
         /// <summary>
         /// Identificador del documento por pagar generado a partir de la compra

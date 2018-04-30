@@ -6,12 +6,14 @@ using System.Web.Mvc;
 using System.Configuration;
 using CreativaSL.Web.Ganados.Models;
 using CreativaSL.Web.Ganados.Filters;
+using CreativaSL.Web.Ganados.App_Start;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     [Autorizado]
     public class CatRangoPesoCompraController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatRangoPesoCompra
         [HttpGet]
@@ -46,6 +48,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatRangoPesoCompraModels Rango = new CatRangoPesoCompraModels();
                 Rango.EsMacho = true;
                 return View(Rango);
@@ -61,42 +64,42 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatRangoPesoCompra/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CatRangoPesoCompraModels Rango)
         {
+           // CatRangoPesoCompraModels Rango = new CatRangoPesoCompraModels();
+            CatRangoPesoCompra_Datos RangoDatos = new CatRangoPesoCompra_Datos();
             try
             {
-                CatRangoPesoCompraModels Rango = new CatRangoPesoCompraModels();
-                CatRangoPesoCompra_Datos RangoDatos = new CatRangoPesoCompra_Datos();
-                
-                    Rango.Conexion = Conexion;
-                    Rango.Opcion = 1;
-                    Rango.Usuario = User.Identity.Name;
-                    Rango.EsMacho = collection["EsMacho"].StartsWith("true");
-                    decimal PesoMin = 0, PesoMax = 0, Precio = 0;
-                    decimal.TryParse(collection["PesoMinimo"].Replace('.', ','), out PesoMin);
-                    decimal.TryParse(collection["PesoMaximo"].Replace('.', ','), out PesoMax);
-                    decimal.TryParse(collection["Precio"].Replace('.', ','), out Precio);
-                    Rango.PesoMinimo = PesoMin;
-                    Rango.PesoMaximo = PesoMax;
-                    Rango.Precio = Precio;
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    Rango = RangoDatos.AbcCatRangoPesoCompra(Rango);
-                    if (Rango.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardarón correctamente.";
-                        return RedirectToAction("Index");
+                        Rango.Conexion = Conexion;
+                        Rango.Opcion = 1;
+                        Rango.Usuario = User.Identity.Name;
+                        Rango = RangoDatos.AbcCatRangoPesoCompra(Rango);
+                        if (Rango.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardarón correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Rango);
+                        }
                     }
                     else
                     {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(Rango);
                     }
                 }
-                else {
-                     return View(Rango);
+                else
+                {
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -113,6 +116,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatRangoPesoCompraModels Rango = new CatRangoPesoCompraModels();
                 CatRangoPesoCompra_Datos RangoDatos = new CatRangoPesoCompra_Datos();
                 Rango.Conexion = Conexion;
@@ -131,45 +135,42 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatRangoPesoCompra/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, CatRangoPesoCompraModels Rango)
         {
+           // CatRangoPesoCompraModels Rango = new CatRangoPesoCompraModels();
+            CatRangoPesoCompra_Datos RangoDatos = new CatRangoPesoCompra_Datos();
             try
             {
-                CatRangoPesoCompraModels Rango = new CatRangoPesoCompraModels();
-                CatRangoPesoCompra_Datos RangoDatos = new CatRangoPesoCompra_Datos();
-                Rango.Conexion = Conexion;
-                Rango.Opcion = 2;
-                Rango.Usuario = User.Identity.Name;
-                int Id = 0;
-                int.TryParse(collection["IDRango"], out Id);
-                Rango.IDRango = Id;
-                Rango.EsMacho = collection["EsMacho"].StartsWith("true");
-                decimal PesoMin = 0, PesoMax = 0, Precio = 0;
-                decimal.TryParse(collection["PesoMinimo"].Replace('.', ','), out PesoMin);
-                decimal.TryParse(collection["PesoMaximo"].Replace('.', ','), out PesoMax);
-                decimal.TryParse(collection["Precio"].Replace('.', ','), out Precio);
-                Rango.PesoMinimo = PesoMin;
-                Rango.PesoMaximo = PesoMax;
-                Rango.Precio = Precio;
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    Rango = RangoDatos.AbcCatRangoPesoCompra(Rango);
-                    if (Rango.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardarón correctamente.";
-                        return RedirectToAction("Index");
+                        Rango.Conexion = Conexion;
+                        Rango.Opcion = 2;
+                        Rango.Usuario = User.Identity.Name;
+                        Rango = RangoDatos.AbcCatRangoPesoCompra(Rango);
+                        if (Rango.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardarón correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Rango);
+                        }
                     }
                     else
                     {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(Rango);
                     }
                 }
                 else
                 {
-                    return View(Rango);
+                    return RedirectToAction("Index");
                 }
             }
             catch

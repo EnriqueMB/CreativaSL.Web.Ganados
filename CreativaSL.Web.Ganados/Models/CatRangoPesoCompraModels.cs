@@ -38,7 +38,7 @@ namespace CreativaSL.Web.Ganados.Models
         [Required(ErrorMessage = "El peso minimo es obligatorio")]
         [Display(Name = "peso minimo")]
         [Range(1, int.MaxValue, ErrorMessage = "Introduzca un número mayor a 0")]
-        [StringLength(20, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
+      //  [StringLength(20, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         [Peso(ErrorMessage = "Solo números enteros")]
         public decimal PesoMinimo
         {
@@ -50,7 +50,7 @@ namespace CreativaSL.Web.Ganados.Models
         [Required(ErrorMessage = "El peso maximo es obligatorio")]
         [Display(Name = "peso maximo")]
         [Range(1, int.MaxValue, ErrorMessage = "Introduzca un número mayor a 0")]
-        [StringLength(20, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
+       // [StringLength(20, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         [Peso(ErrorMessage = "Solo números enteros")]
         public decimal PesoMaximo
         {

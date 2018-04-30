@@ -5,5 +5,354 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+@section css
+{
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
+    <style>
+        table td {
+            border-color: #E5E5E5 !important;
+            border: 1px solid #E5E5E5;
+        }
+
+        table > thead > tr > th {
+            background: #f1f5f9;
+            color: #56688A;
+            font-size: 12px;
+            border: 1px solid #E5E5E5;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .transacciones {
+            background-color: #95b75d !important;
+            border-color: #95b75d !important;
+            color: white !important;
+        }
+        .recepcion {
+            background-color: orange !important;
+            border-color: orange !important;
+            color: white !important;
+        }
+    </style>
+}
+
+@section featured
+{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Fletes </h2>
+    </div>
+    <!-- END PAGE TITLE -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                        <ul class="panel-controls">
+                            <li><a href="@Url.Action("AC_Flete","Flete")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Flete</a></li>
+                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                            <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table id="tblIndexFlete" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Folio</th>
+                                        <th>Creado</th>
+                                        <th>Finalizado</th>
+                                        <th>Nombre cliente</th>
+                                        <th>Linea fletera</th>
+                                        <th>Vehiculo</th>
+                                        <th>Jaula</th>
+                                        <th>Remolque</th>
+                                        <th>Precio Flete</th>
+                                        <th>Impuestos</th>
+                                        <th>Total Flete</th>
+                                        <th>Estatus</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- END DEFAULT DATATABLE -->
+            </div>
+        </div>
+    </div>
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres eliminar esta fila?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-enviar">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-mail-forward"></span> Enviar el <strong>Flete</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que desea enviar el flete?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    var message = '@message';
+    var typemessage = '@typemessage';
+    </script>
+}
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+        });
+    </script>
+    <script>
+        var tblIndex = $("#tblIndexFlete").DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+            "ajax": {
+                "data": {
+
+                },
+                "url": "/Admin/Flete/JsonIndex/",
+                "type": "POST",
+                "datatype": "json",
+                "dataSrc": ''
+            },
+            "columns": [
+                { "data": "folio" },
+                {
+                    "data": "fecins",
+                    "render": function (data, type, row) {
+                        if (data === null)
+                            fecha = "Sin dato";
+                        else {
+                            var dateSplit = data.split('-');
+                            var dia = dateSplit[2];
+                            dia = dia.split('T');
+                            dia = dia[0];
+                            var mes = dateSplit[1];
+                            var año = dateSplit[0];
+                            var fecha = dia + '-' + mes + '-' + año;
+                        }
+
+                        return type === "display" || type === "filter" ?
+                            fecha :
+                            data;
+                    }
+                },
+                {
+                    "data": "fechaFinalizadoFlete",
+                    "render": function (data, type, row) {
+                        if (data === null)
+                            fecha = "Sin dato";
+                        else {
+                            var dateSplit = data.split('-');
+                            var dia = dateSplit[2];
+                            dia = dia.split('T');
+                            dia = dia[0];
+                            var mes = dateSplit[1];
+                            var año = dateSplit[0];
+                            var fecha = dia + '-' + mes + '-' + año;
+                        }
+
+                        return type === "display" || type === "filter" ?
+                            fecha :
+                            data;
+                    }
+                },
+                { "data": "cliente" },
+                { "data": "lineaFletera" },
+                { "data": "vehiculo" },
+                { "data": "jaula" },
+                { "data": "remolque" },
+                {
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                    "data": "precioFlete"
+                },
+                {
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                    "data": "impuesto"
+                },
+                {
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                    "data": "totalFlete"
+                },
+                {
+                    "data": null,
+                    "render": function (data, type, full) {
+                        return "<label class = '" + full["class"] + "'>" + full["estatus"] + "</label>";
+                    }
+                },
+                {
+                    "data": null,
+                    "render": function (data, type, full) {
+                        var botones = "<div class='visible-md visible-lg hidden-sm hidden-xs'>";
+
+                        if (full["estatus"] == "En curso") {
+                            botones = botones + "<a data-id='" + full["id_flete"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                "<a data-id='" + full["id_flete"] + "' class='btn btn-blue   tooltips btn-sm enviar' title='Enviar flete'  data-placement='top' data-original-title='Enviar flete'><i class='fa fa-truck'></i></a>" +
+                                "<a data-id='" + full["id_flete"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
+                                "<a data-id='" + full["id_flete"] + "' class='btn btn-yellow tooltips btn-sm edit' title='En curso'  data-placement='top' data-original-title='En curso'><i class='fa fa-clock-o'></i></a>" +
+                                "<a data-id='" + full["id_flete"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                                "</div>" +
+                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                "<div class='btn-group'>" +
+                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                                "</a>" +
+                                "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                                "<li>" +
+                                "<a class='details' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-eye'></i> Detalles" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a class='enviar' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-mail-forward'></i> Continuar" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a class='edit' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-clock-o'></i> En curso" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a role='menuitem' tabindex='-1' id='" + full["id_compra"] + "'>" +
+                                "<i class='fa fa-trash-o'></i> Eliminar" +
+                                "</a>" +
+                                "</li>" +
+                                "</ul>" +
+                                "</div>" +
+                                "</div>";
+
+                        } else if (full["estatus"] == "Enviado") {
+                            botones = botones + "<a data-id='" + full["id_flete"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                "<a data-id='" + full["id_flete"] + "' class='btn btn-blue   tooltips btn-sm finalizar' title='Finalizar'  data-placement='top' data-original-title='Finalizar'><i class='fa fa-check'></i></a>" +
+                                "<a data-id='" + full["id_flete"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
+                                "<a data-id='" + full["id_flete"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Recepción'  data-placement='top' data-original-title='Recepción'><i class='fa fa-book'></i></a>" +
+                                "<a data-id='" + full["id_flete"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                                "</div>" +
+                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                "<div class='btn-group'>" +
+                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                                "</a>" +
+                                "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                                "<li>" +
+                                "<a class='details' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-eye'></i> Detalles" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a class='transacciones' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-money'></i> Transacciones ($)" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a class='recepcion' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-mail-forward'></i> Recepción" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a class='edit' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-edit'></i> Editar" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a role='menuitem' tabindex='-1' id='" + full["id_compra"] + "'>" +
+                                "<i class='fa fa-trash-o'></i> Eliminar" +
+                                "</a>" +
+                                "</li>" +
+                                "</ul>" +
+                                "</div>" +
+                                "</div>";
+                        } else if (full["estatus"] == "Finalizado") {
+                            botones = botones + "<a data-id='" + full["id_flete"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                "</div>" +
+                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                "<div class='btn-group'>" +
+                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                                "</a>" +
+                                "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                                "<li>" +
+                                "<a class='details' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-eye'></i> Detalles" +
+                                "</a>" +
+                                "</li>" +
+                                "</ul>" +
+                                "</div>" +
+                                "</div>";
+                        }
+                        return botones;
+                    }
+                }
+            ],
+            responsive: true,
+            "drawCallback": function (settings) {
+                $(".edit").on("click", function () {
+                    var id = $(this).data("id")
+                    window.location.href = '/Admin/Flete/Edit?IDFlete=' + id;
+                });
+                $(".enviar").on("click", function () {
+                    var id = $(this).attr('data-id');
+                    var box = $("#mb-enviar");
+                    box.addClass("open");
+                    box.find(".mb-control-yes").on("click", function () {
+                        box.removeClass("open");
+                        window.location.href = '/Admin/Flete/EnviarFlete?IDFlete=' + id;
+                    });
+
+                });
+
+            },
+            "order": [[1, 'asc']]
+        });
+
+        tblIndex.on('page.dt', function () {
+            onresize(100);
+        });
+    </script>
+
+}
 

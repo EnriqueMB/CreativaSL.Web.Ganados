@@ -7,12 +7,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Filters;
+using CreativaSL.Web.Ganados.App_Start;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     [Autorizado]
     public class CatProveedorAlmacenController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatProveedorAlmacen
         [HttpGet]
@@ -48,6 +50,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatProveedorAlmacenModels proveedor = new CatProveedorAlmacenModels();
                 return View(proveedor);
             }
@@ -67,30 +70,37 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatProveedorAlmacen_Datos proveedorDatos = new _CatProveedorAlmacen_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    proveedor.Conexion = Conexion;
-                    proveedor.Opcion = 1;
-                    proveedor.Usuario = User.Identity.Name;
-                    proveedor = proveedorDatos.AbcCatProveedorAlmacen(proveedor);
-                    if (proveedor.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Index");
+                        proveedor.Conexion = Conexion;
+                        proveedor.Opcion = 1;
+                        proveedor.Usuario = User.Identity.Name;
+                        proveedor = proveedorDatos.AbcCatProveedorAlmacen(proveedor);
+                        if (proveedor.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.SaveToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar.";
+                            return View(proveedor);
+                        }
                     }
                     else
                     {
-
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al intentar guardar.";
+                        proveedor.Conexion = Conexion;
                         return View(proveedor);
                     }
                 }
                 else
                 {
-                    proveedor.Conexion = Conexion;
-                    return View(proveedor);
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -107,6 +117,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatProveedorAlmacenModels proveedor = new CatProveedorAlmacenModels();
                 _CatProveedorAlmacen_Datos proveedorDatos = new _CatProveedorAlmacen_Datos();
                 proveedor.Conexion = Conexion;
@@ -130,35 +141,41 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatProveedorAlmacen_Datos proveedorDatos = new _CatProveedorAlmacen_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    proveedor.Conexion = Conexion;
-                    proveedor.Opcion = 2;
-                    proveedor.Usuario = User.Identity.Name;
-                    proveedor = proveedorDatos.AbcCatProveedorAlmacen(proveedor);
-                    if (proveedor.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Index");
+                        proveedor.Conexion = Conexion;
+                        proveedor.Opcion = 2;
+                        proveedor.Usuario = User.Identity.Name;
+                        proveedor = proveedorDatos.AbcCatProveedorAlmacen(proveedor);
+                        if (proveedor.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar.";
+                            return RedirectToAction("Edit", "CatProveedorAlmacen");
+                        }
                     }
                     else
                     {
-
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al intentar guardar.";
-                        return RedirectToAction("Edit", "CatProveedorAlmacen");
+                        proveedor.Conexion = Conexion;
+                        return View(proveedor);
                     }
                 }
                 else
                 {
-                    proveedor.Conexion = Conexion;
-                    return View(proveedor);
+                    return RedirectToAction("Index");
                 }
             }
             catch
             {
-                proveedor.Conexion = Conexion;
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrió un error el intentar guardar. Contacte a soporte técnico";
                 return View(proveedor);
@@ -192,13 +209,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
                 else
                 {
-
                     TempData["typemessage"] = "2";
                     TempData["message"] = "Ocurrió un error al intentar eliminar.";
                     return View(proveedor);
                 }
-
-
             }
             catch
             {

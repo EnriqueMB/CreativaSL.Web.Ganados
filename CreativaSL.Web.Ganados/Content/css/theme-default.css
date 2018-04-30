@@ -3182,6 +3182,9 @@ blockquote.pull-right {
 }
 /* EOF TABS */
 /* TABLES */
+.table {
+    width: 100% !important;
+}
 .table > thead > tr > th,
 .table > tbody > tr > th,
 .table > tfoot > tr > th,

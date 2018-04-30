@@ -97,8 +97,9 @@
                                         </div>
                                         <span class="help-block text-center">Descripción del lugar</span>
                                         @Html.ValidationMessageFor(model => model.descripcion)
-                                    </div></div>
+                                    </div>
                                 </div>
+                            </div>
                             <div class="col-md-3">
                                 <label class="col-md-12 control-label text-center">Ejido del lugar</label>
                                 <div class="col-md-12 col-xs-12">
@@ -127,21 +128,36 @@
 
                         <div class="form-group">
                             <div class="col-md-12">
-                                <label class="col-md-12 control-label text-center">Observaciones</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"></span>
-                                        @Html.TextAreaFor(model => model.observaciones, new { id = "observaciones", @class = "form-control" ,@style=" resize:none;"})
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Dirección del lugar</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextAreaFor(model => model.Direccion, new { id = "Direccion", @class = "form-control", @style = " resize:none;" })
 
-
+                                        </div>
+                                        <span class="help-block text-center">Dirección del lugar</span>
+                                        @Html.ValidationMessageFor(model => model.Direccion)
                                     </div>
-                                    <span class="help-block text-center">Observaciones</span>
-                                    @Html.ValidationMessageFor(model => model.observaciones)
                                 </div>
                             </div>
-                          
+                        </div>
 
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Observaciones</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextAreaFor(model => model.observaciones, new { id = "observaciones", @class = "form-control", @style = " resize:none;" })
 
+                                        </div>
+                                        <span class="help-block text-center">Observaciones</span>
+                                        @Html.ValidationMessageFor(model => model.observaciones)
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">

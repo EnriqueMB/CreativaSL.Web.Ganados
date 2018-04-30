@@ -63,7 +63,11 @@
                                         <td style="text-align:center;">
                                             <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                 <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatEmpresa", new { id = Empresa.IDEmpresa })"><i class="fa fa-edit"></i></a>
-                                                <a title="Sucursales" class="btn btn-primary" href="@Url.Action("IndexSucursales", "CatEmpresa", new { id = Empresa.IDEmpresa, nombreEmpresa = Empresa.RazonFiscal })"><i class="fa fa-building-o"></i></a>
+                                                @if (Empresa.PermitirSucursales)
+                                                {
+                                                    <a title="Sucursales" class="btn btn-primary" href="@Url.Action("IndexSucursales", "CatEmpresa", new { id = Empresa.IDEmpresa, nombreEmpresa = Empresa.RazonFiscal })"><i class="fa fa-building-o"></i></a>
+                                                }
+
                                             </div>
                                             <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                 <div class="btn-group">
@@ -76,11 +80,14 @@
                                                                 <i class="fa fa-edit"></i> Editar
                                                             </a>
                                                         </li>
-                                                        <li>
-                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("IndexSucursales", "CatCliente", new { id = Empresa.IDEmpresa, nombreEmpresa = Empresa.RazonFiscal })">
-                                                                <i class="fa fa-edit"></i> Sucursal
-                                                            </a>
-                                                        </li>
+                                                        @if (Empresa.PermitirSucursales == true)
+                                                        {
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("IndexSucursales", "CatCliente", new { id = Empresa.IDEmpresa, nombreEmpresa = Empresa.RazonFiscal })">
+                                                                    <i class="fa fa-edit"></i> Sucursal
+                                                                </a>
+                                                            </li>
+                                                        }
                                                     </ul>
                                                 </div>
                                             </div>

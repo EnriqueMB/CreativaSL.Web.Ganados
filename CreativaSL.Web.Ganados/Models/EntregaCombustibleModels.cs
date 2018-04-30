@@ -171,6 +171,12 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _Total; }
             set { _Total = value; }
         }
+                
+        public string TotalFormat
+        {
+            get { return string.Format("{0:C}", _Total); }
+        }
+
 
         private string _UrlImagen64;
         /// <summary>
@@ -180,6 +186,27 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _UrlImagen64; }
             set { _UrlImagen64 = value; }
+        }
+
+        private string _Estatus;
+        /// <summary>
+        /// Descripción textual del estatus de la entrega de combustible
+        /// </summary>
+        public string Estatus
+        {
+            get { return _Estatus; }
+            set { _Estatus = value; }
+        }
+
+
+        private string _CssClassEstatus;
+        /// <summary>
+        /// Estilo para dibujado del texto del estatus de la entrega de combustible
+        /// </summary>
+        public string CssClassEstatus
+        {
+            get { return _CssClassEstatus; }
+            set { _CssClassEstatus = value; }
         }
 
 

@@ -29,7 +29,8 @@ namespace CreativaSL.Web.Ganados.Models
                         NumTelefonico1 = !dr.IsDBNull(dr.GetOrdinal("numTelefonico1")) ? dr.GetString(dr.GetOrdinal("numTelefonico1")) : string.Empty,
                         NumTelefonico2 = !dr.IsDBNull(dr.GetOrdinal("numTelefonico2")) ? dr.GetString(dr.GetOrdinal("numTelefonico2")) : string.Empty,
                         Email = !dr.IsDBNull(dr.GetOrdinal("email")) ? dr.GetString(dr.GetOrdinal("email")) : string.Empty,
-                        HorarioAtencion = !dr.IsDBNull(dr.GetOrdinal("horarioAtencion")) ? dr.GetString(dr.GetOrdinal("horarioAtencion")) : string.Empty
+                        HorarioAtencion = !dr.IsDBNull(dr.GetOrdinal("horarioAtencion")) ? dr.GetString(dr.GetOrdinal("horarioAtencion")) : string.Empty,
+                        PermitirSucursales = !dr.IsDBNull(dr.GetOrdinal("permitirSucursales")) ? dr.GetBoolean(dr.GetOrdinal("permitirSucursales")) : false,
                     };
                     ItemEmpresa.LogoEmpresa = ItemEmpresa.ValidarStringImage(ItemEmpresa.LogoEmpresa);
 
@@ -162,6 +163,11 @@ namespace CreativaSL.Web.Ganados.Models
                     Empresa.CuentaBancaria.NumCuenta = !dr.IsDBNull(dr.GetOrdinal("NumCuenta")) ? dr.GetString(dr.GetOrdinal("NumCuenta")) : string.Empty;
                     Empresa.CuentaBancaria.Clabe = !dr.IsDBNull(dr.GetOrdinal("ClabeInter")) ? dr.GetString(dr.GetOrdinal("ClabeInter")) : string.Empty;
                 }
+                Empresa.CuentaBancaria.Titular.Trim();
+                Empresa.CuentaBancaria.NumCuenta.Trim();
+                Empresa.CuentaBancaria.NumCuenta.Trim();
+                Empresa.CuentaBancaria.Clabe.Trim();
+
                 return Empresa;
             }
             catch (Exception ex)

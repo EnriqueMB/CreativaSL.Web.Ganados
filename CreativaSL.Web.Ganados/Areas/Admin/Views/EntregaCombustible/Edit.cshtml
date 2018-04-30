@@ -34,7 +34,9 @@
                 @Html.AntiForgeryToken()
                 <div class="field_error" id="validation_summary"></div>
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-                   @Html.HiddenFor(model => model.IDEntregaCombustible)
+                    @Html.HiddenFor(model => model.IDEntregaCombustible)
+                    @*@Html.HiddenFor(model => model.ImgTicketBand)*@
+                    @Html.HiddenFor(model => model.UrlImagen64)
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title"><strong>Entrega </strong> de combustible </h3>
@@ -185,6 +187,8 @@
         jQuery(document).ready(function () {
             var band = @Model.ImgTicketBand.ToString().ToLower();
             var img = '@Model.UrlImagen64';
+
+            console.log('IMG: ' + img);
           
 
             $('#ImgTicket').fileinput({

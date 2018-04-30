@@ -1,4 +1,5 @@
-﻿using CreativaSL.Web.Ganados.Filters;
+﻿using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     [Autorizado]
     public class CatRemolqueController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatRemolque
         public ActionResult Index()
@@ -44,14 +46,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatRemolqueModels Remolque = new CatRemolqueModels();
                 _CatRemolque_Datos RemolqueDatos = new _CatRemolque_Datos();
                 Remolque.Conexion = Conexion;
                 Remolque.listaSucursales = RemolqueDatos.obtenerListaSucursales(Remolque);
-                var listaSucursal = new SelectList(Remolque.listaSucursales, "IDSucursal", "NombreSucursal");
-
                 Remolque.ListaEmpresas = RemolqueDatos.ObtenerListaEmpresas(Remolque);
-              
                 return View(Remolque);
             }
             catch (Exception ex)
@@ -70,37 +70,41 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatRemolque_Datos RemolqueDatos = new _CatRemolque_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-
-                    Remolque.Conexion = Conexion;
-                    Remolque.IDRemolque = "-";
-                    Remolque.Opcion = 1;
-                    Remolque.Usuario = User.Identity.Name;
-                    Remolque = RemolqueDatos.AcCatRemolque(Remolque);
-
-                    if (Remolque.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "El registro se guardo correctamente.";
-                        return RedirectToAction("Index");
+                        Remolque.Conexion = Conexion;
+                        Remolque.Opcion = 1;
+                        Remolque.Usuario = User.Identity.Name;
+                        Remolque = RemolqueDatos.AcCatRemolque(Remolque);
+
+                        if (Remolque.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardo correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Remolque.Estatus = true;
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar el registro. Intente más tarde.";
+                            return View(Remolque);
+                        }
                     }
                     else
                     {
-                        Remolque.Estatus = true;
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al guardar el registro. Intente más tarde.";
+                        Remolque.Conexion = Conexion;
+                        Remolque.listaSucursales = RemolqueDatos.obtenerListaSucursales(Remolque);
                         return View(Remolque);
                     }
-                 
                 }
                 else
                 {
-                    Remolque.Conexion = Conexion;
-                    Remolque.listaSucursales = RemolqueDatos.obtenerListaSucursales(Remolque);
-                    return View(Remolque);
+                    return RedirectToAction("Index");
                 }
-               
             }
             catch
             {
@@ -118,6 +122,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatRemolqueModels Remolque = new CatRemolqueModels();
                 _CatRemolque_Datos RemolqueDatos = new _CatRemolque_Datos();
                 Remolque.Conexion = Conexion;
@@ -144,33 +149,39 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatRemolque_Datos RemolqueDatos = new _CatRemolque_Datos();
             try
             {
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-
-                    Remolque.Conexion = Conexion;
-                    Remolque.Opcion = 2;
-                    Remolque.IDRemolque = id;
-                    Remolque.Usuario = User.Identity.Name;
-                    Remolque = RemolqueDatos.AcCatRemolque(Remolque);
-
-                    if (Remolque.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "El registro se guardo correctamente.";
-                        return RedirectToAction("Index");
+                        Remolque.Conexion = Conexion;
+                        Remolque.Opcion = 2;
+                        Remolque.Usuario = User.Identity.Name;
+                        Remolque = RemolqueDatos.AcCatRemolque(Remolque);
+                        if (Remolque.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardo correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Remolque.Estatus = true;
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar el registro. Intente más tarde.";
+                            return View(Remolque);
+                        }
                     }
                     else
                     {
-                        Remolque.Estatus = true;
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al guardar el registro. Intente más tarde.";
+                        Remolque.Conexion = Conexion;
+                        Remolque.listaSucursales = RemolqueDatos.obtenerListaSucursales(Remolque);
                         return View(Remolque);
                     }
                 }
-                else {
-                    Remolque.Conexion = Conexion;
-                    Remolque.listaSucursales = RemolqueDatos.obtenerListaSucursales(Remolque);
-                    return View(Remolque);
+                else
+                {
+                    return RedirectToAction("Index");
                 }
             }
             catch

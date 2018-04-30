@@ -24,6 +24,7 @@ namespace CreativaSL.Web.Ganados.Models
             this._Descripcion = string.Empty;
             this._ListaSucursales = new List<CatSucursalesModels>();
             this._ListaAlmacen = new List<CatAlmacenModels>();
+            this._listInventario = new List<VerAlmacenInventarioModels>();
             this.Conexion = string.Empty;
             this.Resultado = 0;
             this.Completado = false;
@@ -113,6 +114,13 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _ListaAlmacen; }
             set { _ListaAlmacen = value; }
+        }
+        private List<VerAlmacenInventarioModels> _listInventario;
+
+        public List<VerAlmacenInventarioModels> ListaInventario
+        {
+            get { return _listInventario; }
+            set { _listInventario = value; }
         }
 
 

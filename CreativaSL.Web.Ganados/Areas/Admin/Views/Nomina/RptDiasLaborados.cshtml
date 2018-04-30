@@ -30,8 +30,9 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
+                            <li><a target="_blank" href="@Url.Action("PDF_RptDiasLaborados","Nomina", new { id = Model.IDNomina, id2 = Model.IDSucursal})" class="btn btn-green btnCrear"><span class="fa fa-file-pdf-o"></span> PDF</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                            <li><a href="@Url.Action("Index","Nomina")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span>Regresar</a></li>
+                            <li><a href="@Url.Action("Index","Nomina")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span> Regresar</a></li>
                         </ul>
                     </div>
                     <div class="panel-body">
@@ -39,34 +40,34 @@
                             <table class="table" id="Tbl50">
                                 <thead>
                                     <tr>
-                                        <th  class="text-center th-reports-img">@Html.Raw(HttpUtility.HtmlDecode(Model.DatosEmpresa.ImagenContruida))</th>
+                                        <th class="text-center th-reports-img">@Html.Raw(HttpUtility.HtmlDecode(Model.DatosEmpresa.ImagenContruida))</th>
                                         <th colspan="11" class="text-center">
-                                          <table class="table ">
-                                              <thead>
-                                                  <tr>
-                                                      <th>Nombre:</th>
-                                                      <th>@Model.DatosEmpresa.RazonFiscal</th>
-                                                  </tr>
-                                                  <tr >
-                                                      <th>Sucursal:</th>
-                                                      <th>@Model.DatosEmpresa.NombreSucursal</th>
-                                                  </tr>
-                                                  <tr>
-                                                      <th>Dirección:</th>
-                                                      <th>@Model.DatosEmpresa.DireccionFiscal</th>
-                                                  </tr>
-                                                  <tr>
-                                                      <th  colspan="2" class="text-center">DETALLES DE DÍAS LABORADOS</th>
-                                                      
-                                                  </tr>
-                                              </thead>
-                                          </table>
+                                            <table class="table ">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre:</th>
+                                                        <th>@Model.DatosEmpresa.RazonFiscal</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Sucursal:</th>
+                                                        <th>@Model.DatosEmpresa.NombreSucursal</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Dirección:</th>
+                                                        <th>@Model.DatosEmpresa.DireccionFiscal</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="2" class="text-center">DETALLES DE DÍAS LABORADOS</th>
+
+                                                    </tr>
+                                                </thead>
+                                            </table>
                                         </th>
                                     </tr>
-                                    <tr >
-                                       <th colspan="2">Nomina: <span>xxxxxxx</span>      </th>
-                                        <th colspan="6">Periodo Nomina : de <span>xxxxxxx</span> a <span>xxxxxxx</span> </th>
-                                        <th colspan="4"> Días del periodo: <span>X</span></th>
+                                    <tr>
+                                        <th colspan="2">NÓMINA: <span>@Model.ClaveNomina</span></th>
+                                        <th colspan="6">PERIODO NÓMINA : <span>@Model.PeriodoFechas </span> </th>
+                                        <th colspan="4"> DÍAS DEL PERIODO: <span>@Model.DiasPeriodo</span></th>
                                     </tr>
                                     <tr>
                                         <th>Empleado</th>
@@ -84,20 +85,174 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        <tr>
-                                            <td>Enrique Mendez Ballina</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                        </tr>
+                                    <tr>
+                                        <td>Enrique Mendez Ballina</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Eder Ramirez</td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>5</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Eder Ramirez</td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>5</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Eder Ramirez</td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>5</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Eder Ramirez</td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>5</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Eder Ramirez</td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>5</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Eder Ramirez</td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>5</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Eder Ramirez</td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>5</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Eder Ramirez</td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>5</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Eder Ramirez</td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>5</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Eder Ramirez</td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>5</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Eder Ramirez</td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>5</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
                                     <tr>
                                         <td>Eder Ramirez</td>
                                         <td>0</td>
@@ -211,27 +366,29 @@
                                         <td>0</td>
                                     </tr>
                                 </tbody>
-                                <tfoot >
+                                <tfoot>
                                     <tr>
-                                        
+
                                         <td colspan="12">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th colspan="1"> ABREVIATURAS:</th>
-                                                    <th colspan="11">DL: DIAS LABORADOS, DD: DÍAS DE DESCANSO, DF: DÍAS FALTADOS, DDF: DÍAS DE DESCUENTO POR FALTAS, RT: RETARDOS, FR: FALTAS POR RETARDOS,
-                                                                DDR: DÍAS DE DESCUENTO DE FALTAS POR RETARDO, DDT: DÍAS TOTALES DE DESCUENTO, DFE: DIAS FESTIVOS, DO: DÍAS DOMINGO, DV: DIAS DE VACACIONES.  
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                        </table>
-                                       </td>
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="1"> ABREVIATURAS:</th>
+                                                        <th colspan="11">
+                                                            DL: DIAS LABORADOS, DD: DÍAS DE DESCANSO, DF: DÍAS FALTADOS, DDF: DÍAS DE DESCUENTO POR FALTAS, RT: RETARDOS, FR: FALTAS POR RETARDOS,
+                                                            DDR: DÍAS DE DESCUENTO DE FALTAS POR RETARDO, DDT: DÍAS TOTALES DE DESCUENTO, DFE: DIAS FESTIVOS, DO: DÍAS DOMINGO, DV: DIAS DE VACACIONES.
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </td>
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
                     </div>
                 </div>
+
                 <!-- END DEFAULT DATATABLE -->
             </div>
         </div>
@@ -268,10 +425,12 @@
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
         $("#Tbl50").dataTable({
-            "iDisplayLength":25
+            "iDisplayLength": 100
         });
+
         });
     </script>
+
 }
 
 

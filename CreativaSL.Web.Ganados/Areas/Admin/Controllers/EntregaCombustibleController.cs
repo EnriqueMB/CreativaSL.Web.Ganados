@@ -1,4 +1,5 @@
-﻿using CreativaSL.Web.Ganados.Models;
+﻿using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Models;
 using CreativaSL.Web.Ganados.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     public class EntregaCombustibleController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/EntregaCombustible
         public ActionResult Index()
@@ -95,6 +97,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 EntregaCombustibleModels Entrega = new EntregaCombustibleModels();
                 _Combos_Datos Datos = new _Combos_Datos();
                 Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
@@ -119,49 +122,60 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _Combos_Datos Datos = new _Combos_Datos();
             try
             {
-                // TODO: Add insert logic here
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                    if (bannerImage != null && bannerImage.ContentLength > 0)
+                    // TODO: Add insert logic here
+                    if (ModelState.IsValid)
                     {
-                        Stream s = bannerImage.InputStream;
-                        Bitmap img = new Bitmap(s);
-                        Entrega.UrlImagen64 = img.ToBase64String(ImageFormat.Png);
-                    }
+                        HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                        if (bannerImage != null && bannerImage.ContentLength > 0)
+                        {
+                            Stream s = bannerImage.InputStream;
+                            Bitmap img = new Bitmap(s);
+                            Entrega.UrlImagen64 = img.ToBase64String(ImageFormat.Png);
+                        }
 
-                    Entrega.Conexion = Conexion;
-                    Entrega.Opcion = 1;
-                    Entrega.Precio = Entrega.Total / Entrega.Litros;
-                    Entrega.IDEntregaCombustible = "0";
-                    Entrega.Usuario = User.Identity.Name;
+                        Entrega.Conexion = Conexion;
+                        Entrega.Opcion = 1;
+                        Entrega.Precio = Entrega.Total / Entrega.Litros;
+                        Entrega.IDEntregaCombustible = "0";
+                        Entrega.Usuario = User.Identity.Name;
 
-                    Entrega = EntregaCombustibleDatos.AcEntregaCombustible(Entrega);
-                    if (Entrega.Completado == true)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "El registro se guardo correctamente.";
-                        return RedirectToAction("Index");
+                        Entrega = EntregaCombustibleDatos.AcEntregaCombustible(Entrega);
+                        if (Entrega.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardo correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
+                            Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Entrega.IDSucursal);
+                            Entrega.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar el registro.";
+                            return View(Entrega);
+                        }
                     }
                     else
                     {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        Entrega.Conexion = Conexion;
+                        Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
+                        Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Entrega.IDSucursal);
+                        Entrega.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
                         return View(Entrega);
                     }
                 }
                 else
                 {
-                    Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
-                    Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Entrega.IDSucursal);
-                    Entrega.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
-                    return View(Entrega);
+                    return RedirectToAction("Index");
                 }
-
-
             }
             catch
             {
+                Entrega.Conexion = Conexion;
                 Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
                 Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Entrega.IDSucursal);
                 Entrega.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
@@ -176,6 +190,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 EntregaCombustibleModels Entrega = new EntregaCombustibleModels();
                 _EntregaCombustible_Datos EntregaCombustibleDatos = new _EntregaCombustible_Datos();
                 _Combos_Datos Datos = new _Combos_Datos();
@@ -205,63 +220,65 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _Combos_Datos Datos = new _Combos_Datos();
             try
             {
-                // TODO: Add insert logic here
-                ModelState.Remove("ImgTicket");
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    
-
-
-                    HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                    if (!string.IsNullOrEmpty(bannerImage.FileName))
+                    // TODO: Add insert logic here
+                    ModelState.Remove("ImgTicket");
+                    if (ModelState.IsValid)
                     {
-                        if (bannerImage != null && bannerImage.ContentLength > 0)
+                        HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                        if (!string.IsNullOrEmpty(bannerImage.FileName))
                         {
-                            Stream s = bannerImage.InputStream;
-                            Bitmap img = new Bitmap(s);
-                            Entrega.UrlImagen64 = img.ToBase64String(ImageFormat.Png);
-                            
+                            if (bannerImage != null && bannerImage.ContentLength > 0)
+                            {
+                                Stream s = bannerImage.InputStream;
+                                Bitmap img = new Bitmap(s);
+                                Entrega.UrlImagen64 = img.ToBase64String(ImageFormat.Png);
+                            }
+                        }
+                        else
+                        {
+                            Entrega.BandImg = true;
+                        }
+                        Entrega.Conexion = Conexion;
+                        Entrega.Precio = Entrega.Total / Entrega.Litros;
+                        Entrega.Opcion = 2;
+                        Entrega.Usuario = User.Identity.Name;
+                        Entrega = EntregaCombustibleDatos.AcEntregaCombustible(Entrega);
+                        if (Entrega.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardo correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar el registro.";
+                            Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
+                            Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Entrega.IDSucursal);
+                            Entrega.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
+                            return View(Entrega);
                         }
                     }
                     else
                     {
-                        Entrega.BandImg = true;
-                    }
-
-
-                    Entrega.Conexion = Conexion;
-                    Entrega.Precio = Entrega.Total / Entrega.Litros;
-                    Entrega.Opcion = 2;
-                    Entrega.Usuario = User.Identity.Name;
-
-
-                    Entrega = EntregaCombustibleDatos.AcEntregaCombustible(Entrega);
-                    if (Entrega.Completado == true)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "El registro se guardo correctamente.";
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        Entrega.Conexion = Conexion;
+                        Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
+                        Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Entrega.IDSucursal);
+                        Entrega.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
                         return View(Entrega);
                     }
                 }
                 else
                 {
-                    Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
-                    Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Entrega.IDSucursal);
-                    Entrega.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
-                    return View(Entrega);
+                    return RedirectToAction("Index");
                 }
-
-
-
             }
             catch
             {
+                Entrega.Conexion = Conexion;
                 Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
                 Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Entrega.IDSucursal);
                 Entrega.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
@@ -276,6 +293,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 RendimientoCombustibleViewModels Rendimiento = new RendimientoCombustibleViewModels();
                 _EntregaCombustible_Datos EntregaCombustibleDatos = new _EntregaCombustible_Datos();
                 Rendimiento.IDEntregaCombustible = id;
@@ -291,33 +309,46 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Rendimiento(FormCollection collection)
+        public ActionResult Rendimiento(RendimientoCombustibleViewModels Rendimiento)
         {
-            
+            //RendimientoCombustibleViewModels Rendimiento = new RendimientoCombustibleViewModels();
+            _EntregaCombustible_Datos EntregaCombustibleDatos = new _EntregaCombustible_Datos();
             try
             {
-                RendimientoCombustibleViewModels Rendimiento = new RendimientoCombustibleViewModels();
-                _EntregaCombustible_Datos EntregaCombustibleDatos = new _EntregaCombustible_Datos();
-                Rendimiento.Usuario = User.Identity.Name;
-                Rendimiento.Conexion = Conexion;
-                Rendimiento.IDEntregaCombustible = collection["IDEntregaCombustible"];
-                Rendimiento.KMFinal = Convert.ToInt32(collection["KMFinal"]);
-                Rendimiento.Rendimiento= Convert.ToDecimal(collection["Rendimiento"]);
-                Rendimiento = EntregaCombustibleDatos.setRendimiento(Rendimiento);
-
-                if (Rendimiento.Completado == true)
+                if (Token.IsTokenValid())
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se guardo correctamente.";
-                    return RedirectToAction("Index");
+                    if (ModelState.IsValid)
+                    {
+                        Rendimiento.Usuario = User.Identity.Name;
+                        Rendimiento.Conexion = Conexion;
+                        //Rendimiento.IDEntregaCombustible = collection["IDEntregaCombustible"];
+                        //Rendimiento.KMFinal = Convert.ToInt32(collection["KMFinal"]);
+                        //Rendimiento.Rendimiento = Convert.ToDecimal(collection["Rendimiento"]);
+                        Rendimiento = EntregaCombustibleDatos.setRendimiento(Rendimiento);
+
+                        if (Rendimiento.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardo correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar el registro.";
+                            return View(Rendimiento);
+                        }
+                    }
+                    else
+                    {
+                        return View(Rendimiento);
+                    }
                 }
                 else
                 {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrió un error al guardar el registro.";
-                    return View(Rendimiento);
+                    return RedirectToAction("Index");
                 }
-               
             }
             catch (Exception)
             {
@@ -345,20 +376,42 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Entrega.IDEntregaCombustible = id;
                 Entrega.Usuario = User.Identity.Name;
                 Entrega = EntregaCombustibleDatos.EliminarEntregaCombustible(Entrega);
-
-                return Json("");
+                if (Entrega.Completado)
+                    return Json("true");
+                else
+                    return Json("false");
                 // TODO: Add delete logic here
-
-
             }
             catch
             {
-                CatProductosModels Producto = new CatProductosModels();
-
+                EntregaCombustibleModels Entrega = new EntregaCombustibleModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
                 return Json("");
 
+            }
+        }
+
+        // POST: Admin/EntregaCombustible/Delete/5
+        [HttpPost]
+        public ActionResult Procesar(string id)
+        {
+            try
+            {
+                EntregaCombustibleModels Entrega = new EntregaCombustibleModels();
+                _EntregaCombustible_Datos EntregaCombustibleDatos = new _EntregaCombustible_Datos();
+                Entrega.Conexion = Conexion;
+                Entrega.IDEntregaCombustible = id;
+                Entrega.Usuario = User.Identity.Name;
+                Entrega = EntregaCombustibleDatos.ProcesarEntregaCombustible(Entrega);
+                if (Entrega.Completado)
+                    return Json("true");
+                else
+                    return Json("false");
+            }
+            catch
+            {
+                return Json("false");
             }
         }
 

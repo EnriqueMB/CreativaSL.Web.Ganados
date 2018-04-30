@@ -43,8 +43,6 @@
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                             @Html.TextBoxFor(model => model.nombrePropietario, new { id = "nombrePropietario", @class = "form-control" })
-
-
                                         </div>
                                         <span class="help-block text-center">Nombre del Propietario</span>
                                         @Html.ValidationMessageFor(model => model.nombrePropietario)
@@ -58,8 +56,6 @@
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                             @Html.TextBoxFor(model => model.apellidoPaterno, new { id = "apellidoPaterno", @class = "form-control" })
-
-
                                         </div>
                                         <span class="help-block text-center">Apellido Paterno</span>
                                         @Html.ValidationMessageFor(model => model.apellidoPaterno)
@@ -73,18 +69,13 @@
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                             @Html.TextBoxFor(model => model.apellidoMaterno, new { id = "apellidoMaterno", @class = "form-control" })
-
-
                                         </div>
                                         <span class="help-block text-center">Apellido Materno</span>
                                         @Html.ValidationMessageFor(model => model.apellidoMaterno)
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
-
                         <div class="form-group">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -93,8 +84,6 @@
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                             @Html.TextBoxFor(model => model.descripcion, new { id = "descripcion", @class = "form-control" })
-
-
                                         </div>
                                         <span class="help-block text-center">Descripción del lugar</span>
                                         @Html.ValidationMessageFor(model => model.descripcion)
@@ -107,8 +96,6 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                         @Html.TextBoxFor(model => model.ejido, new { id = "ejido", @class = "form-control" })
-
-
                                     </div>
                                     <span class="help-block text-center">Ejido del lugar</span>
                                     @Html.ValidationMessageFor(model => model.ejido)
@@ -118,34 +105,41 @@
                                 <label class="col-md-12 control-label text-center">¿Tiene Báscula?</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group text-center" style="margin: auto;padding: 5px;">
-
                                         @Html.CheckBoxFor(model => model.bascula)
                                     </div>
-
                                 </div>
                             </div>
-
                         </div>
-
                         <div class="form-group">
                             <div class="col-md-12">
-                                <label class="col-md-12 control-label text-center">Observaciones</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"></span>
-                                        @Html.TextAreaFor(model => model.observaciones, new { id = "observaciones", @class = "form-control", @style = " resize:none;" })
-
-
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Dirección del lugar</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextAreaFor(model => model.Direccion, new { id = "Direccion", @class = "form-control", @style = " resize:none;" })
+                                        </div>
+                                        <span class="help-block text-center">Dirección del lugar</span>
+                                        @Html.ValidationMessageFor(model => model.Direccion)
                                     </div>
-                                    <span class="help-block text-center">Observaciones</span>
-                                    @Html.ValidationMessageFor(model => model.observaciones)
                                 </div>
                             </div>
-
-
-
                         </div>
-
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Observaciones</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"></span>
+                                            @Html.TextAreaFor(model => model.observaciones, new { id = "observaciones", @class = "form-control", @style = " resize:none;" })
+                                        </div>
+                                        <span class="help-block text-center">Observaciones</span>
+                                        @Html.ValidationMessageFor(model => model.observaciones)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -212,12 +206,8 @@
 
                                 </div>
                             </div>
-
                         </div>
-
                         <div class="form-group">
-
-
                             <div class="col-md-12">
                                 <!-- START GOOGLE MAP WITH MARKER -->
                                 <div class="panel panel-default">
@@ -230,11 +220,7 @@
                                 </div>
                                 <!-- END GOOGLE MAP WITH MARKER -->
                             </div>
-
-
-
                         </div>
-
                     </div>
                     <div class="panel-footer">
                         <input type="submit" value="Guardar" class="btn btn-primary pull-right">
@@ -261,8 +247,6 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/Lugar.js")"></script>
-
-
     <script src="@Url.Content("~/Content/js/plugins/config.map.places.js")"></script>
     <script>
     jQuery(document).ready(function () {
