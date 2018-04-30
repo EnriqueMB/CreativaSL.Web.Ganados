@@ -747,7 +747,7 @@
                 "data": {
                     "IDFlete": IDFlete
                 },
-                "url": "/Admin/Flete/TableJsonProductoGanado/",
+                "url": "/Admin/Flete/TableJsonProductoGanadoXIDFlete/",
                 "type": "POST",
                 "datatype": "json",
                 "dataSrc": ''
@@ -755,13 +755,13 @@
             "columns": [
                 { "data": "numArete" },
                 { "data": "genero" },
-                { "data": "peso" },
+                { "data": "pesoPagado" },
                 {
                     "data": null,
                     "render": function (data, type, full) {
 
                         return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-hrefa='/Admin/Flete/DEL_Producto/' title='Eliminar' data-id='" + full["id_producto"] + "' class='btn btn-danger tooltips btn-sm deleteDocumento' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "<a data-hrefa='/Admin/Flete/C_DEL_ProductoGanado/' title='Eliminar' data-id='" + full["id_ganado"] + "' class='btn btn-danger tooltips btn-sm deleteProductoGanado' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                             "<div class='btn-group'>" +
@@ -770,7 +770,7 @@
                             "</a>" +
                             "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
                             "<li>" +
-                            "<a data-hrefa='/Admin/Flete/DEL_Documento/' class='deleteDocumento' role='menuitem' tabindex='-1' data-id='" + full["id_documento"] + "'>" +
+                            "<a data-hrefa='/Admin/Flete/C_DEL_ProductoGanado/' class='deleteProductoGanado' role='menuitem' tabindex='-1' data-id='" + full["id_ganado"] + "'>" +
                             "<i class='fa fa-trash-o'></i> Eliminar" +
                             "</a>" +
                             "</li>" +
@@ -781,18 +781,29 @@
                 }
             ],
             "drawCallback": function (settings) {
-                $(".deleteProducto").on("click", function () {
+                $(".deleteProductoGanado").on("click", function () {
                     var url = $(this).attr('data-hrefa');
-                    var row = $(this).attr('data-id');
-                    var box = $("#mb-deleteProducto");
+                    //id del ganado seleccionado
+                    var idGanado = $(this).attr('data-id');
+                    var box = $("#mb-deleteProductoGanado");
+
+                    var idFlete = $("#id_flete").val();
+                    var formdata = new FormData();
+                    var listaGanado = new Array();
+                    listaGanado.unshift(idGanado);
+                    formdata.append("ganados", listaGanado);
+                    formdata.append("opcion", 2);
+                    formdata.append("idFlete", idFlete);
+
                     box.addClass("open");
                     box.find(".mb-control-yes").on("click", function () {
                         box.removeClass("open");
                         $.ajax({
                             url: url,
-                            data: { IDProducto: row },
+                            data: formdata,
                             type: 'POST',
-                            dataType: 'json',
+                            processData: false,
+                            contentType: false,
                             success: function (result) {
                                 if (result.Success) {
                                     box.find(".mb-control-yes").prop('onclick', null).off('click');
@@ -1032,15 +1043,38 @@
     function RunEventProducto() {
         //Seleccionar filas 
         $('#tblModalGanadoActual tbody').on('click', 'tr', function () {
-            console.log("click");
             $(this).toggleClass('selected');
         });
         $('#guardarProductoGanado').click(function () {
             var rows = tblModalGanadoActual.rows('.selected').data();
+            var listaGanado = new Array();
+            var idFlete = $("#id_flete").val();
 
             for (var i = 0; i < rows.length; i++) {
                 var d = rows[i];
-                console.log(d);
+                listaGanado.unshift(d.id_ganado);
+            }
+            if (listaGanado.length > 0) {
+                var formdata = new FormData();
+                formdata.append('opcion', 1);
+                formdata.append('ganados', listaGanado);
+                formdata.append('idFlete', idFlete);
+
+                $.ajax({
+                    url: '/Admin/Flete/C_DEL_ProductoGanado/',
+                    type: "POST",
+                    processData: false,
+                    contentType: false,
+                    data: formdata,
+                    error: function (result) {
+                        Mensaje(result.Mensaje, "2");
+                    },
+                    success: function (result) {
+                        Mensaje(result.Mensaje, "1");
+                        $("#ModalProducto").modal('hide');
+                        tableProductoGanado.ajax.reload();
+                    }
+                });
             }
         });
     }

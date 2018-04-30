@@ -355,51 +355,51 @@
                 </div>
                 <div role="tabpanel" class="tab-pane" id="documentacion">
                     <div class="col-md-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><strong>Documentación</strong> para el flete</h3>
-                                    <ul class="panel-controls"></ul>
-                                </div>
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <!-- START DEFAULT DATATABLE -->
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                    <h3 class="panel-title"></h3>
-                                                    <ul class="panel-controls">
-                                                        <li><a id="btnAddDocumento" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Documento</a></li>
-                                                        <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                                                        <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="panel-body">
-                                                    <div class="col-md-12">
-                                                        <h3></h3>
-                                                        <div class="table-responsive">
-                                                            <table id="tblDocumentos" class="table">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Tipo de documento</th>
-                                                                        <th>Clave</th>
-                                                                        <th>Imagen</th>
-                                                                        <th>Acción</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody></tbody>
-                                                            </table>
-                                                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><strong>Documentación</strong> para el flete</h3>
+                                <ul class="panel-controls"></ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <!-- START DEFAULT DATATABLE -->
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title"></h3>
+                                                <ul class="panel-controls">
+                                                    <li><a id="btnAddDocumento" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Documento</a></li>
+                                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div class="col-md-12">
+                                                    <h3></h3>
+                                                    <div class="table-responsive">
+                                                        <table id="tblDocumentos" class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Tipo de documento</th>
+                                                                    <th>Clave</th>
+                                                                    <th>Imagen</th>
+                                                                    <th>Acción</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- END DEFAULT DATATABLE -->
                                         </div>
+                                        <!-- END DEFAULT DATATABLE -->
                                     </div>
                                 </div>
-                                <div class="panel-footer">
-                                    <a href="@Url.Action("Index", "Flete")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
-                                </div>
                             </div>
+                            <div class="panel-footer">
+                                <a href="@Url.Action("Index", "Flete")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="producto">
@@ -433,6 +433,7 @@
                                                                     <th>Núm. arete</th>
                                                                     <th>Genero</th>
                                                                     <th>Peso</th>
+                                                                    <th>Eliminar</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody></tbody>
@@ -649,6 +650,23 @@
                     <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
                     <div class="mb-content">
                         <p>¿Seguro que quieres eliminar este documento?</p>
+                        <p>Presione "sí" si está seguro.</p>
+                    </div>
+                    <div class="mb-footer">
+                        <div class="pull-right">
+                            <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                            <button class="btn btn-default btn-lg mb-control-close">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="message-box animated fadeIn" data-sound="alert" id="mb-deleteProductoGanado">
+            <div class="mb-container">
+                <div class="mb-middle">
+                    <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                    <div class="mb-content">
+                        <p>¿Seguro que quieres eliminar este ganado?</p>
                         <p>Presione "sí" si está seguro.</p>
                     </div>
                     <div class="mb-footer">
