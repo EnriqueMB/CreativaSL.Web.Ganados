@@ -912,6 +912,7 @@
     <Content Include="Content\js\TipoServicio.js" />
     <Content Include="Content\js\TipoVehiculo.js" />
     <Content Include="Content\js\UnidadMedida.js" />
+    <Content Include="Content\js\UnidadProductoAlmacen.js" />
     <Content Include="Content\js\UPPProveedor.js" />
     <Content Include="Content\js\Usuario.js" />
     <Content Include="Content\js\validaciones\additionals.js" />
