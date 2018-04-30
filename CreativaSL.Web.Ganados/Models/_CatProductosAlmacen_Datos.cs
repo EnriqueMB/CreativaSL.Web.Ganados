@@ -169,5 +169,131 @@ namespace CreativaSL.Web.Ganados.Models
             }
 
         }
+
+        #region Unidad por producto
+        public UnidadesProductosAlmacenModels AbcUnidadesProductoAlmacen(UnidadesProductosAlmacenModels datos)
+        {
+            try
+            {
+                object[] parametros = { datos.Opcion, datos.id_unidadProducto, datos.id_producto, datos.id_unidad, datos.factor, datos.Usuario };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_ac_UnidadesProductosAlmacen", parametros);
+                datos.id_unidadProducto = aux.ToString();
+                if (!string.IsNullOrEmpty(datos.id_unidadProducto))
+                {
+                    datos.Completado = true;
+                }
+                else
+                {
+                    datos.Completado = false;
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public UnidadesProductosAlmacenModels EliminarUnidadAlmacen(UnidadesProductosAlmacenModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.id_unidadProducto, datos.Usuario
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_del_UnidadProductoAlmacen", parametros);
+                datos.id_unidadProducto = aux.ToString();
+                if (!string.IsNullOrEmpty(datos.id_unidadProducto))
+                {
+                    datos.Completado = true;
+                }
+                else
+                {
+                    datos.Completado = false;
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public UnidadesProductosAlmacenModels ObtenerInfoUnidadProductoxID(UnidadesProductosAlmacenModels datos)
+        {
+            try
+            {
+                object[] parametros = { datos.id_unidadProducto };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_get_UnidadProductoAlmacenXID", parametros);
+                while (dr.Read())
+                {
+                    datos.id_unidad = !dr.IsDBNull(dr.GetOrdinal("id_unidad")) ? dr.GetInt16(dr.GetOrdinal("id_unidad")) : 0;// Convert.ToInt32(dr["ID_UnidadMedida"].ToString());
+                    datos.factor = !dr.IsDBNull(dr.GetOrdinal("factor")) ? dr.GetDecimal(dr.GetOrdinal("factor")) : 0;
+
+
+                }
+                return datos;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public UnidadesProductosAlmacenModels ObtenerListaUnidadProducto(UnidadesProductosAlmacenModels datos)
+        {
+            try
+            {
+                List<UnidadesProductosAlmacenModels> Lista = new List<UnidadesProductosAlmacenModels>();
+                UnidadesProductosAlmacenModels Item;
+                SqlDataReader dr = null;
+                object[] parametros = { datos.id_producto };
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_get_UnidadProductoAlmacenAll", parametros);
+                while (dr.Read())
+                {
+                    Item = new UnidadesProductosAlmacenModels();
+                    Item.id_unidadProducto = !dr.IsDBNull(dr.GetOrdinal("id_unidadProducto")) ? dr.GetString(dr.GetOrdinal("id_unidadProducto")) : string.Empty;// Convert.ToInt32(dr["ID_UnidadMedida"].ToString());
+                    Item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+
+                    Lista.Add(Item);
+                }
+                datos.LUnidad = Lista;
+                return datos;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public UnidadesProductosAlmacenModels ObtenerComboUnidadProducto(UnidadesProductosAlmacenModels datos)
+        {
+            try
+            {
+                List<UnidadesProductosAlmacenModels> Lista = new List<UnidadesProductosAlmacenModels>();
+                UnidadesProductosAlmacenModels Item;
+                SqlDataReader dr = null;
+                object[] parametros = { datos.id_producto };
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_get_ComboUnidadProductoAlmacen", parametros);
+                while (dr.Read())
+                {
+                    Item = new UnidadesProductosAlmacenModels();
+                    Item.id_unidad = !dr.IsDBNull(dr.GetOrdinal("id_unidad")) ? dr.GetInt32(dr.GetOrdinal("id_unidad")) : 0;// Convert.ToInt32(dr["ID_UnidadMedida"].ToString());
+                    Item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+
+                    Lista.Add(Item);
+                }
+                datos.LUnidad = Lista;
+                return datos;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
     }
 }
