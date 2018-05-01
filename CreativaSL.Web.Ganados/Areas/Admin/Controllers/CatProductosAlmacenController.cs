@@ -138,7 +138,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Producto.Conexion = Conexion;
                 Producto.IDProductoAlmacen = id;
                 Producto.listaTipoCodigoProducto = ProductoDatos.obtenerComboCatTipoCodigo(Producto);
-                Producto.listaUnidadMedida = ProductoDatos.obtenerComboCatUnidadMedida(Producto);
+                Producto.listaUnidadMedida = ProductoDatos.obtenerComboCatUnidadMedidaEdit(Producto);
                 Producto= ProductoDatos.ObtenerDetalleCatProductoAlmacen(Producto);
                 return View(Producto);
             }
@@ -321,7 +321,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     }
                     else
                     {
-
+                        uniprod.Conexion = Conexion;
+                        uniprod = uniprodDatos.ObtenerComboUnidadProducto(uniprod);
                         TempData["typemessage"] = "2";
                         TempData["message"] = "Ocurrió un error al intentar guardar.";
                         return View(uniprod);
@@ -331,12 +332,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 else
                 {
                     uniprod.Conexion = Conexion;
+                    uniprod = uniprodDatos.ObtenerComboUnidadProducto(uniprod);
+                    uniprod.Conexion = Conexion;
                     return View(uniprod);
                 }
             }
             catch
             {
                 uniprod.Conexion = Conexion;
+                uniprod = uniprodDatos.ObtenerComboUnidadProducto(uniprod);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrió un error el intentar guardar. Contacte a soporte técnico";
                 return View(uniprod);

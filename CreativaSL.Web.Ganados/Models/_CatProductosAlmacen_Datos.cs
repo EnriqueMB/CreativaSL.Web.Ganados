@@ -146,6 +146,34 @@ namespace CreativaSL.Web.Ganados.Models
             }
 
         }
+        public List<CatUnidadMedidaModels> obtenerComboCatUnidadMedidaEdit(CatProductosAlmacenModels Datos)
+        {
+            try
+            {
+                List<CatUnidadMedidaModels> lista = new List<CatUnidadMedidaModels>();
+                CatUnidadMedidaModels item;
+                SqlDataReader dr = null;
+                object[] parametros =
+                {
+                    Datos.IDProductoAlmacen
+                };
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Combo_get_CatUnidadMedidaEdit",parametros);
+                while (dr.Read())
+                {
+                    item = new CatUnidadMedidaModels();
+                    item.IDUnidadMedida = Convert.ToInt32(dr["IDUnidadMedida"].ToString());
+                    item.Descripcion = dr["Descripcion"].ToString();
+
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         public List<CatTipoCodigoProductoModels> obtenerComboCatTipoCodigo(CatProductosAlmacenModels Datos)
         {
             try
