@@ -913,6 +913,7 @@
     <Content Include="Content\js\TipoServicio.js" />
     <Content Include="Content\js\TipoVehiculo.js" />
     <Content Include="Content\js\UnidadMedida.js" />
+    <Content Include="Content\js\UnidadProductoAlmacen.js" />
     <Content Include="Content\js\UPPProveedor.js" />
     <Content Include="Content\js\Usuario.js" />
     <Content Include="Content\js\validaciones\additionals.js" />
@@ -1158,6 +1159,10 @@
     <Content Include="Areas\Admin\Views\Almacen\Ver.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\ModalProductoGeneral.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProductosAlmacen\UnidadProducto.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProductosAlmacen\UnidadCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProductosAlmacen\UnidadEdit.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\Detail.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\AddProduct.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\Edit.cshtml" />

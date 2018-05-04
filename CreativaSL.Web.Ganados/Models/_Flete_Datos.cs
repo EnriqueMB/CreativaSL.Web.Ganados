@@ -54,6 +54,23 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public SqlDataReader GetProductoGanadoXIDFlete(FleteModels Flete)
+        {
+            try
+            {
+                object[] parametros =
+                    {
+                        Flete.id_flete
+                    };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_ProductosGanadoXIDFlete", parametros);
+                return dr;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         #region Get
         #region Get AC_Flete
@@ -741,7 +758,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
         #endregion
-        #region Flete_del_Documento
+        
         public Flete_TipoDocumentoModels Flete_del_DocumentoXIDDocumento(Flete_TipoDocumentoModels FleteTipo)
         {
             try
@@ -766,6 +783,57 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        #endregion
-       }
+        public Flete_ProductosServiciosModels Flete_c_ProductoGanado(Flete_ProductosServiciosModels ganado)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     ganado.ListaStringIDProductoSeleccionado
+                    ,ganado.IDFlete
+                    ,ganado.Usuario
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(ganado.Conexion, "spCSLDB_Flete_a_ProductoGanado", parametros);
+                ganado.RespuestaAjax = new RespuestaAjax();
+
+                while (dr.Read())
+                {
+                    ganado.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    ganado.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                return ganado;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public Flete_ProductosServiciosModels Flete_del_ProductoGanado(Flete_ProductosServiciosModels ganado)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     ganado.ListaStringIDProductoSeleccionado
+                    ,ganado.IDFlete
+                    ,ganado.Usuario
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(ganado.Conexion, "spCSLDB_Flete_del_ProductoGanadoXIDGanadoIDFlete", parametros);
+                ganado.RespuestaAjax = new RespuestaAjax();
+
+                while (dr.Read())
+                {
+                    ganado.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    ganado.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                return ganado;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+    }
 }

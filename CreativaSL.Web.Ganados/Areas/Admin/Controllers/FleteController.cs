@@ -83,7 +83,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
-        #region Funcion Json Documentos
+        #region Funcion Json GanadoActual
         [HttpPost]
         public ActionResult TableJsonGanadoActual()
         {
@@ -94,6 +94,30 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Flete.Conexion = Conexion;
 
                 Flete.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(FleteDatos.GetGanadoDataTable(Flete));
+                Flete.RespuestaAjax.Success = true;
+
+                return Content(Flete.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Flete.RespuestaAjax.Mensaje = ex.ToString();
+                Flete.RespuestaAjax.Success = false;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+        #region Funcion Json GanadoActualXIDFlete
+        [HttpPost]
+        public ActionResult TableJsonProductoGanadoXIDFlete(string IDFlete)
+        {
+            try
+            {
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                Flete.Conexion = Conexion;
+                Flete.id_flete = IDFlete;
+                Flete.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(FleteDatos.GetProductoGanadoXIDFlete(Flete));
                 Flete.RespuestaAjax.Success = true;
 
                 return Content(Flete.RespuestaAjax.Mensaje, "application/json");
@@ -185,10 +209,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 //Asigno valores para los querys
                 Flete.Conexion = Conexion;
                 Flete.id_flete = IDFlete;
+                Flete.Usuario = User.Identity.Name;
                 //Paso al siguiente paso
                 Flete = FleteDatos.Flete_a_CambiarEstatusFleteXIDFlete(Flete);
 
-                return RedirectToAction("AC_FleteRecepcion", "Flete", new { IDFlete = Flete.id_flete });
+                return RedirectToAction("Index", "Flete");
             }
             else
             {
@@ -198,7 +223,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         /********************************************************************/
-        //Funciones AC
+        //Funciones AC_DEL
+        #region Funciones AC_DEL
         #region AC_Cliente
         public ActionResult AC_Cliente(FleteModels Flete)
         {
@@ -304,7 +330,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
-        #region AC_Documento
+        #region AC_DEL_Documento
         public ActionResult AC_Documento(Flete_TipoDocumentoModels Documento)
         {
             try
@@ -344,10 +370,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
             }
         }
-        #endregion
-        /********************************************************************/
-        //Funciones DEL
-        #region DEL_Documento
         public ActionResult DEL_Documento(Flete_TipoDocumentoModels Documento)
         {
             try
@@ -384,8 +406,67 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
+        #region C_DEL_ProductoGanado
+        public ActionResult C_DEL_ProductoGanado(string[] ganados, int opcion, string idFlete)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    if (ganados.Length > 0)
+                    {
+                        string ListadoIDGanado = string.Empty;
+                        if (opcion == 1)
+                        {
+                            for (int i = 0; i < ganados.Length; i++)
+                            {
+                                ListadoIDGanado += ganados[i] + ",";
+                            }
+                        }
+                        else if (opcion == 2)
+                            ListadoIDGanado = ganados[0];
+                        
+                        FleteDatos = new _Flete_Datos();
+                        Flete_ProductosServiciosModels ProductoGanado = new Flete_ProductosServiciosModels
+                        {
+                            Usuario = User.Identity.Name,
+                            Conexion = Conexion,
+                            ListaStringIDProductoSeleccionado = ListadoIDGanado,
+                            IDFlete = idFlete
+                        };
+                        if(opcion == 1)
+                            ProductoGanado = FleteDatos.Flete_c_ProductoGanado(ProductoGanado);
+                        else if(opcion == 2)
+                            ProductoGanado = FleteDatos.Flete_del_ProductoGanado(ProductoGanado);
+
+                        Token.ResetToken();
+                        Token.SaveToken();
+                        return Content(ProductoGanado.RespuestaAjax.ToJSON(), "application/json");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Flete no válido.";
+                        return RedirectToAction("Index", "Flete");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Flete");
+                }
+            }
+            catch (Exception ex)
+            {
+                Flete.RespuestaAjax.Mensaje = ex.ToString();
+                Flete.RespuestaAjax.Success = false;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+        #endregion
         /********************************************************************/
         //Funciones Modal
+        #region Modales
         [HttpPost]
         public ActionResult ModalDocumento(string IDFlete, string IDDocumento)
         {
@@ -403,10 +484,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpPost]
-        public ActionResult ModalProductoGanado(string IDFlete)
+        public ActionResult ModalProductoGanado()
         {
             return PartialView("ModalProductoGanado");
         }
+        #endregion
         /********************************************************************/
         //Funciones Combo
         #region funciones combo

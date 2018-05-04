@@ -42,7 +42,9 @@ $.validator.addMethod("tarjetaCirculacion", function (value, element) {
 $.validator.addMethod("cuenta", function (value, element) {
     return this.optional(element) || /^[0-9]{13}$/i.test(value);
 }, "invalid bank account");
-
+$.validator.addMethod("numeros", function (value, element) {
+    return this.optional(element) || /^\d*\.?\d*$/i.test(value);
+}, "invalid entry");
 $.validator.addMethod("clabe", function (value, element) {
     return this.optional(element) || /^[0-9]{13}$/i.test(value);
 }, "invalid bank clabe ");
