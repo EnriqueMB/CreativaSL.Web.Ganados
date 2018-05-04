@@ -434,6 +434,7 @@
     <Content Include="Content\img\themes\light.jpg" />
     <Content Include="Content\js\actions.js" />
     <Content Include="Content\js\Bancos.js" />
+    <Content Include="Content\js\CompraAlmacenDetalle.js" />
     <Content Include="Content\js\EmpleadosSucursalFaltas.js" />
     <Content Include="Content\js\Puestos.js" />
     <Content Include="Content\js\CategoriaPuestos.js" />
@@ -915,6 +916,7 @@
     <Content Include="Content\js\UPPProveedor.js" />
     <Content Include="Content\js\Usuario.js" />
     <Content Include="Content\js\validaciones\additionals.js" />
+    <Content Include="Content\js\compraAlmacenLista.js" />
     <Content Include="Content\js\Vehiculo.js" />
     <Content Include="Content\js\venta.js" />
     <Content Include="Content\Ocampo.ico" />
@@ -1156,6 +1158,9 @@
     <Content Include="Areas\Admin\Views\Almacen\Ver.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CompraAlmacen\Detail.cshtml" />
+    <Content Include="Areas\Admin\Views\CompraAlmacen\AddProduct.cshtml" />
+    <Content Include="Areas\Admin\Views\CompraAlmacen\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

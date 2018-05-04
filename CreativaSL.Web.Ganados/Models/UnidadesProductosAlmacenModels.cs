@@ -35,6 +35,15 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _id_unidad; }
             set { _id_unidad = value; }
         }
+
+        private string _NombreUnidad;
+
+        public string NombreUnidad
+        {
+            get { return _NombreUnidad; }
+            set { _NombreUnidad = value; }
+        }
+
         private decimal _factor;
 
         public decimal factor

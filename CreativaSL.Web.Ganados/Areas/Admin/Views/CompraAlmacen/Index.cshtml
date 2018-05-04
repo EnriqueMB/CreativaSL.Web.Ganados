@@ -55,14 +55,32 @@
                                             <td>@compra.Sucursal.NombreSucursal</td>
                                             <td>@compra.NumFacturaNota</td>
                                             <td>@compra.Proveedor.nombreProveedor</td>
-                                            <td>@compra.StatusCompra</td>
-                                            <td>@compra.MontoTotal</td>
+                                            @if (compra.IDEstatusCompra == 1)
+                                        {
+                                            <td><span class="label label-warning">@compra.StatusCompra</span></td>
+                                        }
+                                        else if (compra.IDEstatusCompra == 2)
+                                        {
+                                            <td><span class="label label-danger">@compra.StatusCompra</span></td>
+                                        }
+                                        else if (compra.IDEstatusCompra == 3)
+                                        {
+                                            <td><span class="label label-success">@compra.StatusCompra</span></td>
+                                        }
+                                        <td>@compra.MontoTotal.ToString("0.00").Replace(',', '.')</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" href="@Url.Action("Edit", "ComprasAlmancen", new { id = compra.IDCompraAlmacen})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a title="Detalles" href="@Url.Action("Detail", "ComprasAlmancen", new { id = compra.IDCompraAlmacen})" class="btn btn-blue tooltips" data-placement="top" data-original-title="Detalles"><i class="fa fa-bars"></i></a>
-                                                    <a title="Procesar" href="@Url.Action("Process", "ComprasAlmancen", new { id = compra.IDCompraAlmacen})" class="btn btn-primary tooltips" data-placement="top" data-original-title="Procesar"><i class="fa fa-gear"></i></a>
-                                                    <a title="Cancelar" id="delete-@compra.IDCompraAlmacen" data-hrefa="@Url.Action("Cancel", "ComprasAlmacen", new { id =  compra.IDCompraAlmacen })" onClick="delete_row('@compra.IDCompraAlmacen');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Cancelar"><i class="fa fa-times"></i></a>
+                                                    @if (compra.IDEstatusCompra == 1)
+                                            {
+                                                <a title="Editar" href="@Url.Action("Edit", "CompraAlmacen", new { id = compra.IDCompraAlmacen})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                            }
+                                            else
+                                            {
+                                                <label title="No se puede Editar" href="#" class="btn" style="background-color:gray; " data-placement="top" data-original-title="Edit"><i class="fa fa-edit" style="color:white"></i></label>
+                                            }
+                                                    <a title="Detalles" href="@Url.Action("Detail", "CompraAlmacen", new { id = compra.IDCompraAlmacen})" class="btn btn-blue tooltips" data-placement="top" data-original-title="Detalles"><i class="fa fa-bars"></i></a>
+                                                    <a title="Procesar" class="btn btn-primary tooltips processRow" href="@Url.Action("Process", "CompraAlmacen", new { id = compra.IDCompraAlmacen})"  data-placement="top" data-original-title="Procesar"><i class="fa fa-gear"></i></a>
+                                                    <a title="Cancelar" class="btn btn-danger tooltips deleteRow" id="delete-@compra.IDCompraAlmacen" data-hrefa="@Url.Action("Cancel", "CompraAlmacen", new { id =  compra.IDCompraAlmacen })" onClick="delete_row('@compra.IDCompraAlmacen');" data-placement="top" data-original-title="Cancelar"><i class="fa fa-times"></i></a>
 
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
@@ -71,13 +89,37 @@
                                                             <i class="fa fa-cog"></i> <span class="caret"></span>
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                            @if(compra.IDEstatusCompra==1)
+                                                        {
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "ComprasAlmaen", new { id = compra.IDCompraAlmacen})">
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CompraAlmacen", new { id = compra.IDCompraAlmacen})">
                                                                     <i class="fa fa-edit"></i> Editar
                                                                 </a>
                                                             </li>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@compra.IDCompraAlmacen" data-hrefa="@Url.Action("Delete", "ComprasAlmacen", new { id = compra.IDCompraAlmacen})" onClick="delete_row('@compra.IDCompraAlmacen');">
+                                                                <a role="menuitem" tabindex="-1" href="#">
+                                                                    <i class="fa fa-edit"></i> No se puede editar
+                                                                </a>
+                                                            </li>
+                                                        }
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "CompraAlmacen", new { id = compra.IDCompraAlmacen })">
+                                                                    <i class="fa fa-gears"></i> Detalles
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" class="processRow" href="@Url.Action("Process", "CompraAlmacen", new { compra.IDCompraAlmacen })">
+                                                                    <i class="fa fa-caret-square-o-right"></i> Procesar
+                                                                </a>
+                                                            </li>
+
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" id="delete-@compra.IDCompraAlmacen" data-hrefa="@Url.Action("Delete", "CompraAlmacen", new { id = compra.IDCompraAlmacen})" onClick="delete_row('@compra.IDCompraAlmacen');">
                                                                     <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>
@@ -100,9 +142,9 @@
     <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
         <div class="mb-container">
             <div class="mb-middle">
-                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-title"><span class="fa fa-times"></span> Cancelar <strong>Registro</strong> ?</div>
                 <div class="mb-content">
-                    <p>¿Seguro que quieres eliminar esta fila?</p>
+                    <p>¿Seguro que quieres cancelar este registro?</p>
                     <p>Presione "sí" si está seguro.</p>
                 </div>
                 <div class="mb-footer">
@@ -114,6 +156,25 @@
             </div>
         </div>
     </div>
+
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-process-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Procesar <strong> Compra Almacen</strong></div>
+                <div class="mb-content">
+                    <p>¿Está seguro de procesar el servicio? Éste proceso NO es reversible. Se generará un documento por pagar.</p>
+                    <p>Presione "sí" para confirmar.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
     var message = '@message';
     var typemessage = '@typemessage';
@@ -121,12 +182,14 @@
 }
 @section script
 {
-    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    @*<script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>*@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/compraAlmacenLista.js")"></script>
     <script>
-    jQuery(document).ready(function () {
-        Mensaje(message, typemessage);
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            CompraAlmacen.init();
         });
     </script>
 }
