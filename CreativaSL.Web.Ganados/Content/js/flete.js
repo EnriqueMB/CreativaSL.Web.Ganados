@@ -755,13 +755,13 @@
             "columns": [
                 { "data": "numArete" },
                 { "data": "genero" },
-                { "data": "pesoPagado" },
+                { "data": "pesoAproximado" },
                 {
                     "data": null,
                     "render": function (data, type, full) {
 
                         return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-hrefa='/Admin/Flete/C_DEL_ProductoGanado/' title='Eliminar' data-id='" + full["id_ganado"] + "' class='btn btn-danger tooltips btn-sm deleteProductoGanado' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "<a data-hrefa='/Admin/Flete/C_DEL_ProductoGanado/' title='Eliminar' data-id='" + full["id_fleteProductoGanado"] + "' class='btn btn-danger tooltips btn-sm deleteProductoGanado' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                             "<div class='btn-group'>" +
@@ -770,7 +770,7 @@
                             "</a>" +
                             "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
                             "<li>" +
-                            "<a data-hrefa='/Admin/Flete/C_DEL_ProductoGanado/' class='deleteProductoGanado' role='menuitem' tabindex='-1' data-id='" + full["id_ganado"] + "'>" +
+                            "<a data-hrefa='/Admin/Flete/C_DEL_ProductoGanado/' class='deleteProductoGanado' role='menuitem' tabindex='-1' data-id='" + full["id_fleteProductoGanado"] + "'>" +
                             "<i class='fa fa-trash-o'></i> Eliminar" +
                             "</a>" +
                             "</li>" +

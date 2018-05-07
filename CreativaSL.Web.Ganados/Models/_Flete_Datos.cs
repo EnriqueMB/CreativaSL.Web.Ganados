@@ -63,7 +63,7 @@ namespace CreativaSL.Web.Ganados.Models
                         Flete.id_flete
                     };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_ProductosGanadoXIDFlete", parametros);
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_ProductoGanadoPropioXIDFlete", parametros);
                 return dr;
             }
             catch (Exception ex)
@@ -783,18 +783,18 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        public Flete_ProductosServiciosModels Flete_c_ProductoGanado(Flete_ProductosServiciosModels ganado)
+        public Flete_ProductoGanadoModels Flete_c_ProductoGanado(Flete_ProductoGanadoModels ganado)
         {
             try
             {
                 object[] parametros =
                 {
                      ganado.ListaStringIDProductoSeleccionado
-                    ,ganado.IDFlete
+                    ,ganado.ID_Flete
                     ,ganado.Usuario
                 };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(ganado.Conexion, "spCSLDB_Flete_a_ProductoGanado", parametros);
+                dr = SqlHelper.ExecuteReader(ganado.Conexion, "spCSLDB_Flete_a_ProductoGanadoPropio", parametros);
                 ganado.RespuestaAjax = new RespuestaAjax();
 
                 while (dr.Read())
@@ -809,14 +809,14 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        public Flete_ProductosServiciosModels Flete_del_ProductoGanado(Flete_ProductosServiciosModels ganado)
+        public Flete_ProductoGanadoModels Flete_del_ProductoGanado(Flete_ProductoGanadoModels ganado)
         {
             try
             {
                 object[] parametros =
                 {
                      ganado.ListaStringIDProductoSeleccionado
-                    ,ganado.IDFlete
+                    ,ganado.ID_Flete
                     ,ganado.Usuario
                 };
                 SqlDataReader dr = null;

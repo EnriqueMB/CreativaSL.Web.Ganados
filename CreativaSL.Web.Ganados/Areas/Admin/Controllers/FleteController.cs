@@ -225,7 +225,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         /********************************************************************/
         //Funciones AC_DEL
         #region Funciones AC_DEL
-        #region AC_Cliente
+        #region Cliente
         public ActionResult AC_Cliente(FleteModels Flete)
         {
             try
@@ -257,7 +257,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
-        #region AC_Trayecto
+        #region Trayecto
         public ActionResult AC_Trayecto(FleteModels Flete)
         {
             try
@@ -293,7 +293,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
-        #region A_Cobro
+        #region Cobro
         public ActionResult A_Cobro(FleteModels Flete)
         {
             try
@@ -330,7 +330,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
-        #region AC_DEL_Documento
+        #region Documento
         public ActionResult AC_Documento(Flete_TipoDocumentoModels Documento)
         {
             try
@@ -406,7 +406,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
-        #region C_DEL_ProductoGanado
+        #region Producto
+
+
+
+
+        #endregion
+        #region ProductoGanado
         public ActionResult C_DEL_ProductoGanado(string[] ganados, int opcion, string idFlete)
         {
             try
@@ -425,23 +431,23 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         }
                         else if (opcion == 2)
                             ListadoIDGanado = ganados[0];
-                        
+
                         FleteDatos = new _Flete_Datos();
-                        Flete_ProductosServiciosModels ProductoGanado = new Flete_ProductosServiciosModels
+                        Flete_ProductoGanadoModels Flete_ProductoGanado = new Flete_ProductoGanadoModels
                         {
                             Usuario = User.Identity.Name,
                             Conexion = Conexion,
                             ListaStringIDProductoSeleccionado = ListadoIDGanado,
-                            IDFlete = idFlete
+                            ID_Flete = idFlete
                         };
-                        if(opcion == 1)
-                            ProductoGanado = FleteDatos.Flete_c_ProductoGanado(ProductoGanado);
-                        else if(opcion == 2)
-                            ProductoGanado = FleteDatos.Flete_del_ProductoGanado(ProductoGanado);
+                        if (opcion == 1)
+                            Flete_ProductoGanado = FleteDatos.Flete_c_ProductoGanado(Flete_ProductoGanado);
+                        else if (opcion == 2)
+                            Flete_ProductoGanado = FleteDatos.Flete_del_ProductoGanado(Flete_ProductoGanado);
 
                         Token.ResetToken();
                         Token.SaveToken();
-                        return Content(ProductoGanado.RespuestaAjax.ToJSON(), "application/json");
+                        return Content(Flete_ProductoGanado.RespuestaAjax.ToJSON(), "application/json");
                     }
                     else
                     {

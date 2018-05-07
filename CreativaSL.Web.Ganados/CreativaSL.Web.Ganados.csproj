@@ -1157,6 +1157,7 @@
     <Content Include="Areas\Admin\Views\CompraAlmacen\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\ModalProductoGeneral.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\ModalEvento.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1313,7 +1314,10 @@
     <Compile Include="Models\FierroCompraModels.cs" />
     <Compile Include="Models\FleteImpuestoModels.cs" />
     <Compile Include="Models\FleteModels.cs" />
-    <Compile Include="Models\Flete_ProductosServiciosModels.cs" />
+    <Compile Include="Models\Flete_ProductoGanadoModels.cs" />
+    <Compile Include="Models\Flete_ProductoGanadoPropio.cs" />
+    <Compile Include="Models\Flete_ProductoModels.cs" />
+    <Compile Include="Models\Flete_ProductoPropioModels.cs" />
     <Compile Include="Models\Flete_TipoDocumentoModels.cs" />
     <Compile Include="Models\GanadoModels.cs" />
     <Compile Include="Models\GeneroGanadoModels.cs" />

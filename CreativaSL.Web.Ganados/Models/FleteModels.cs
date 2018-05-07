@@ -67,13 +67,13 @@ namespace CreativaSL.Web.Ganados.Models
         public List<CatRemolqueModels> ListaRemolque { get; set; }
         public List<CFDI_FormaPagoModels> ListaFormaPago { get; set; }
         public List<CFDI_MetodoPagoModels> ListaMetodoPago { get; set; }
-        public List<Flete_ProductosServiciosModels> ListaProductos { get; set; }
+        public List<Flete_ProductoModels> ListaProductos { get; set; }
 
         //TablaRelacionada
         public FleteImpuestoModels FleteImpuesto { get; set; }
         public TrayectoModels Trayecto { get; set; }
         public Flete_TipoDocumentoModels Documentos { get; set; }
-        public Flete_ProductosServiciosModels Producto { get; set; }
+        public Flete_ProductoModels Producto { get; set; }
         public RecepcionModels Recepcion { get; set; }
         #region Datos De Control
         public string Conexion { get; set; }
