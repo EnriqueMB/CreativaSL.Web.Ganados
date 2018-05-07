@@ -582,11 +582,14 @@
             },
             success: function (response) {
                 if (response.Success) {
-                    Mensaje(response.Mensaje, "1");
+                    $('#ModalGanado').modal("hide");
                     tableGanado.ajax.reload();
+                    Mensaje(response.Mensaje, "1");
                 }
-                else
+                else {
+                    $('#ModalGanado').modal("hide");
                     Mensaje(response.Mensaje, "2");
+                }
             }
         });
     }
@@ -910,11 +913,15 @@
         
     }
     function precioSugerido(jsonPrecioPeso, PesoSugerido, selectGenero) {
+        console.log(jsonPrecioPeso);
+        console.log(PesoSugerido);
+        console.log(selectGenero);
+
         var selectGenero = (selectGenero == "True") ? true : false;
         for (var item in jsonPrecioPeso) {
-            if (jsonPrecioPeso[item].esMacho == selectGenero) {
-                if ((jsonPrecioPeso[item].pesoMinimo <= PesoSugerido) && (PesoSugerido <= jsonPrecioPeso[item].pesoMaximo)) {
-                    return jsonPrecioPeso[item].precio;
+            if (jsonPrecioPeso[item].EsMacho == selectGenero) {
+                if ((jsonPrecioPeso[item].PesoMinimo <= PesoSugerido) && (PesoSugerido <= jsonPrecioPeso[item].PesoMaximo)) {
+                    return jsonPrecioPeso[item].Precio;
                 }
             }
         }
