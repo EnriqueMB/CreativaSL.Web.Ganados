@@ -56,6 +56,7 @@
                                             <td>@producto.UltimoCosto</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    <a title="Unidad Medida" href="@Url.Action("UnidadProducto", "CatProductosAlmacen", new { id =producto.IDProductoAlmacen  })" class="btn btn-green tooltips" data-placement="top" data-original-title="UM"><i class="fa fa-plus"></i></a>
                                                     <a title="Editar" href="@Url.Action("Edit", "CatProductosAlmacen", new { id =producto.IDProductoAlmacen  })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                                                     <a title="Eliminar" id="delete-@producto.IDProductoAlmacen" data-hrefa="@Url.Action("Delete", "CatProductosAlmacen", new { id =producto.IDProductoAlmacen  })" onClick="delete_row('@producto.IDProductoAlmacen');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>

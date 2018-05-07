@@ -7,6 +7,12 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class UnidadesProductosAlmacenModels
     {
+        public UnidadesProductosAlmacenModels()  {
+            id_unidadProducto = string.Empty;
+            id_unidad = 0;
+            id_unidadPrincipal = 0;
+            factor = 0;
+            }
         private string _id_unidadProducto;
 
         public string id_unidadProducto
@@ -35,6 +41,15 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _id_unidad; }
             set { _id_unidad = value; }
         }
+
+        private string _NombreUnidad;
+
+        public string NombreUnidad
+        {
+            get { return _NombreUnidad; }
+            set { _NombreUnidad = value; }
+        }
+
         private decimal _factor;
 
         public decimal factor
@@ -49,6 +64,22 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _principal; }
             set { _principal = value; }
         }
+        private string _descripcion;
+
+        public string Descripcion
+        {
+            get { return _descripcion; }
+            set { _descripcion = value; }
+        }
+
+        private List<UnidadesProductosAlmacenModels> _LUnidad;
+
+        public List<UnidadesProductosAlmacenModels> LUnidad
+        {
+            get { return _LUnidad; }
+            set { _LUnidad = value; }
+        }
+
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }

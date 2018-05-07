@@ -1,0 +1,140 @@
+﻿@model CreativaSL.Web.Ganados.ViewModels.CompraAlmacenDetallesViewModels
+
+@{
+    ViewBag.Title = "AddProduct";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("AddProduct", "CompraAlmacen", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off", @enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                <div id="validation_summary" class="field_error "></div> //JS
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Nuevo</strong> Producto Detalle</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Producto </label>
+                            <div class="col-md-6 col-xs-12">
+                                @Html.DropDownListFor(model => model.IDProductoAlmacen, new SelectList(Model.ListProducto, "IDProductoAlmacen", "Nombre"), new { id = "IDProductoAlmacen", @class = "form-control select", data_live_search = "true" })
+                                @Html.ValidationMessageFor(model => model.IDProductoAlmacen)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Cantidad</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.Cantidad, new { id = "Cantidad", @class = "form-control", placeholder = "Ingrese la cantidad" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Cantidad)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Unidad </label>
+                            <div class="col-md-6 col-xs-12">
+                                @Html.DropDownListFor(model => model.id_unidadProducto, new SelectList(Model.ListUnidadMedida, "id_unidadProducto", "NombreUnidad"), new { id = "id_unidadProducto", @class = "form-control select", data_live_search = "true" })
+                                @Html.ValidationMessageFor(model => model.id_unidadProducto)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Precio Unitario</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.PrecioUnitario, new { id = "PrecioUnitario", @class = "form-control", placeholder = "Ingrese el precio unitario del producto" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.PrecioUnitario)
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <div class="panel-footer">
+                    <a href="@Url.Action("Detail","CompraAlmacen", new { id = Model.IDCompraAlmacen})" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    <button form="form-dg" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/CompraAlmacenDetalle.js")"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            CompraAlmacenDetalle.init();
+
+            $("#IDProductoAlmacen").change(function () {
+
+                var id = $("#IDProductoAlmacen").val();
+                getUnidad(id);
+
+            });
+            function getUnidad(id) {
+
+                $.ajax({
+                    url: "/Admin/CompraAlmacen/Unidad",
+                    data: { id: id },
+                    dataType: "json",
+                    type: "POST",
+                    error: function () {
+                        $("#id_unidadProducto").html('');
+                    },
+                    success: function (unidad) {
+
+                        var items = "";
+                        for (var i = 0; i < unidad.length; i++) {
+
+                            items += "<option value=\"" + unidad[i].id_unidadProducto + "\">" + unidad[i].NombreUnidad + "</option>";
+                        }
+                        $("#id_unidadProducto").html(items);
+                        // getMunicipio($("#ListPaises").val(), $("#ListEstado").val());
+
+
+                        $('#id_unidadProducto.select').selectpicker('refresh');
+                    }
+                });
+            }
+
+        });
+        //LISTA DE ESTADOS CUANDO COMBO PRODUCTO CAMBIA
+            
+           
+      
+    </script>
+}
+

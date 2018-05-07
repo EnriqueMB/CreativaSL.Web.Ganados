@@ -1,0 +1,153 @@
+﻿@model CreativaSL.Web.Ganados.Models.CompraAlmacenDetalleModels
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section featured{
+    @{
+        /**/
+
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+        //var id_status = TempData["id_status"] ?? string.Empty;
+    }
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Detalle Compra </h2>
+    </div>
+    <!-- END PAGE TITLE -->
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                        <ul class="panel-controls">
+                            @if (Model.id_status == 1)
+                             {
+                                  <li><a href="@Url.Action("AddProduct","CompraAlmacen", new { id = Model.IDCompraAlmacen})" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar Producto</a></li>
+                             }
+            @*<li><a href="@Url.Action("AddProduct","CompraAlmacen", new { id = Model.IDCompraAlmacen})" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar Producto</a></li>*@
+                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                            <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
+                            <li><a href="@Url.Action("Index","CompraAlmacen")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span> Regresar</a></li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Unidad</th>
+                                        <th>Precio Unitario</th>
+                                        <th>Subtotal</th>
+                                        @if (Model.id_status == 1)
+                                         {
+                                            <th>Acciones</th>
+                                         }
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var detalle in Model.ListCompraDetalle)
+                                     {
+                                        <tr id="@detalle.IDCompraAlmacenDetalle">
+                                        <td>@detalle.Producto.Descripcion</td>
+                                        <td>@detalle.Cantidad</td>
+                                        <td>@detalle.UnidadMedida.Descripcion</td>
+                                        <td>@detalle.PrecioUnitario</td>
+                                        <td>@detalle.SubTotal</td>
+                                     @if (Model.id_status == 1)
+                                     {
+                                        <td style="text-align:center;">
+                                            <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                <a title="Editar" href="@Url.Action("Edit", "CompraAlmacen", new { id = detalle.IDCompraAlmacenDetalle })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                <a title="Cancelar" id="delete-@detalle.IDCompraAlmacen" data-hrefa="@Url.Action("Delete", "CompraAlmacen", new { id = detalle.IDCompraAlmacen, id_compraAlmacen = detalle.IDCompraAlmacenDetalle })" onClick="delete_row('@detalle.IDCompraAlmacenDetalle');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-times"></i></a>
+
+                                            </div>
+                                            <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                <div class="btn-group">
+                                                    <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                        <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                    </a>
+                                                    <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CompraAlmacen", new { id = detalle.IDCompraAlmacenDetalle })">
+                                                                <i class="fa fa-edit"></i> Editar
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" id="delete-@detalle.IDCompraAlmacenDetalle" data-hrefa="@Url.Action("Delete", "CompraAlmacen", new { id = detalle.IDCompraAlmacen, id_compraAlmacen = detalle.IDCompraAlmacenDetalle})" onClick="delete_row('@detalle.IDCompraAlmacenDetalle');">
+                                                                <i class="fa fa-trash-o"></i> Eliminar
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                                      }
+                                     </tr>
+                                     }@*FIN DEL FOREACH*@
+                                </tbody>
+                                </table>
+                                </div>
+                                </div>
+                                </div>
+                                <!-- END DEFAULT DATATABLE -->
+                                @if(Model.id_status == 1)
+                                {
+                                    <div class="panel-footer">
+                                        <a href="@Url.Action("Index","CompraAlmacen")" class="btn btn-primary pull-right">Finalizar <span class="fa fa-floppy-o fa-right"></span></a>
+                                    </div>
+                                }
+                                
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- PAGE CONTENT WRAPPER -->
+                        <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+                            <div class="mb-container">
+                                <div class="mb-middle">
+                                    <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                                    <div class="mb-content">
+                                        <p>¿Seguro que quieres eliminar esta fila?</p>
+                                        <p>Presione "sí" si está seguro.</p>
+                                    </div>
+                                    <div class="mb-footer">
+                                        <div class="pull-right">
+                                            <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                                            <button class="btn btn-default btn-lg mb-control-close">No</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    <script>
+    var message = '@message';
+    var typemessage = '@typemessage';
+    @*var id_status ='@id_status';*@
+    </script>
+}
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script>
+    jQuery(document).ready(function () {
+        Mensaje(message, typemessage);
+        });
+    </script>
+}
