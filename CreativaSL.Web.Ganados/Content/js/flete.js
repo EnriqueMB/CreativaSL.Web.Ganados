@@ -403,9 +403,6 @@
                     required: true,
                     min: 1
                 },
-                Clave: {
-                    required: true
-                },
                 ImagenPost: {
                     validarImgEdit2: true, validarImgEdit2: ["FlagImg"],
                     formatoPNG:true
@@ -415,10 +412,7 @@
                 IDTipoDocumento: {
                     required: "-Seleccione un tipo de documento.",
                     min: "-Seleccione un tipo de documento."
-                },
-                Clave: {
-                    required: "-Ingrese una clave o id."
-                },
+                }
             },
             invalidHandler: function (event, validator) {
                 successHandler1.hide();
