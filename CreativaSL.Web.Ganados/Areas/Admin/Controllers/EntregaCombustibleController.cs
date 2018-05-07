@@ -254,12 +254,24 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         }
                         else
                         {
-                            TempData["typemessage"] = "2";
-                            TempData["message"] = "Ocurrió un error al guardar el registro.";
-                            Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
-                            Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Entrega.IDSucursal);
-                            Entrega.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
-                            return View(Entrega);
+                            if (Entrega.Resultado == -1)
+                            {
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "El estatus no permite su modificación.";
+                                Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
+                                Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Entrega.IDSucursal);
+                                Entrega.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
+                                return View(Entrega);
+                            }
+                            else
+                            {
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "Ocurrió un error al guardar el registro.";
+                                Entrega.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
+                                Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Entrega.IDSucursal);
+                                Entrega.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
+                                return View(Entrega);
+                            }
                         }
                     }
                     else

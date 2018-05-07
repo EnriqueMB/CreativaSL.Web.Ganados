@@ -146,6 +146,7 @@ namespace CreativaSL.Web.Ganados.Models
                 }
                 else
                 {
+                    datos.Resultado = -1;
                     datos.Completado = false;
                 }
                 return datos;
