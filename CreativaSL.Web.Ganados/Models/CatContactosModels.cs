@@ -33,6 +33,15 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _IDContacto; }
             set { _IDContacto = value; }
         }
+
+        private string _IDCliente;
+
+        public string IDCliente
+        {
+            get { return _IDCliente; }
+            set { _IDCliente = value; }
+        }
+
         private string _nombreContacto;
 
         public string nombreContacto
