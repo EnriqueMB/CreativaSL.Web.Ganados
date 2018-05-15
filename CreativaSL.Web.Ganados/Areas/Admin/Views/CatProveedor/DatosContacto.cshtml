@@ -1,7 +1,6 @@
 ﻿@model CreativaSL.Web.Ganados.Models.CatProveedorModels
-
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "DatosContacto";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -47,19 +46,14 @@
                                 </thead>
                                 <tbody>
                                     @foreach (var proveedor in Model.listaProveedores)
-                               {
+                                    {
                                         <tr id="@proveedor.IDProveedor">
-                                            <td>@proveedor.NombreRazonSocial</td>
-                                            <td>@proveedor.RFC</td>
-                                            <td>@proveedor.nombreProveedor</td>
-                                            <td>@proveedor.nombreSucursal</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Precios Rango" class="btn btn-primary" href="@Url.Action("PrecioProveedor", "CatProveedor", new { id = proveedor.IDProveedor})"><i class="fa fa-dollar"></i></a>
-                                                    <a title="Lugar Proveedor" class="btn btn-primary" href="@Url.Action("LugarProveedor", "CatProveedor", new { id = proveedor.IDProveedor, id2 = proveedor.IDSucursal})"><i class="fa fa-map-marker"></i></a>
-                                                    <a title="Datos de contacto" class="btn btn-blue" href="@Url.Action("LugarProveedor", "CatProveedor", new { id = proveedor.IDProveedor, id2 = proveedor.IDSucursal})"><i class="fa fa-user"></i></a>
-                                                    <a title="Datos bancarios" class="btn btn-green" href="@Url.Action("Cuentas", "CatProveedor", new { id = proveedor.IDProveedor })"><i class="fa fa-money"></i></a>
-                                                    <a title="UPPProveedor" class="btn btn-green" href="@Url.Action("UPPProveedor", "CatProveedor", new { id = proveedor.IDProveedor })"><i class="fa fa-plus"></i></a>
                                                     <a title="Editar" href="@Url.Action("Edit", "CatProveedor", new { id = proveedor.IDProveedor})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                                                     <a title="Eliminar" id="delete-@proveedor.IDProveedor" data-hrefa="@Url.Action("Delete", "CatProveedor", new { id =  proveedor.IDProveedor })" onClick="delete_row('@proveedor.IDProveedor');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
@@ -69,26 +63,7 @@
                                                             <i class="fa fa-cog"></i> <span class="caret"></span>
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("PrecioProveedor", "CatProveedor", new { id = proveedor.IDProveedor})">
-                                                                    <i class="fa fa-dollar"></i> Precios Proveedor
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("LugarProveedor", "CatProveedor", new { id = proveedor.IDProveedor, id2 = proveedor.IDSucursal })">
-                                                                    <i class="fa fa-map-marker"></i> Lugar Proveedor
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Cuentas", "CatProveedor", new { id = proveedor.IDProveedor })">
-                                                                    <i class="fa fa-money"></i> Datos bancarios
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("UPPProveedor", "CatProveedor", new { id = proveedor.IDProveedor })">
-                                                                    <i class="fa fa-plus"></i> UPPProveedor
-                                                                </a>
-                                                            </li>
+                                                           
                                                             <li>
                                                                 <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatProveedor", new { id = proveedor.IDProveedor})">
                                                                     <i class="fa fa-edit"></i> Editar
@@ -104,7 +79,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                               }
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -148,4 +123,8 @@
         });
     </script>
 }
+
+
+
+
 
