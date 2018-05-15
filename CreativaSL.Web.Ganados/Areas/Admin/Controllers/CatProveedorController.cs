@@ -732,8 +732,96 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpGet]
-        public ActionResult DatosContacto(string id) {
-            return View();
+        public ActionResult DatosContacto(string id,string id2) {
+
+            try
+            {
+                CatProveedorModels Proveedor = new CatProveedorModels();
+                _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
+                Proveedor.IDProveedor = id;
+                Proveedor.IDSucursal = id2;
+                Proveedor.Conexion = Conexion;
+                Proveedor.listaDatosContactos = ProveedorDatos.obtenerDatosContacto(Proveedor);
+
+                return View(Proveedor);
+            }
+            catch(Exception ex)
+            {
+                CatProveedorModels Proveedor = new CatProveedorModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar cargar los datos. Contacte a soporte técnico.";
+                return View(Proveedor);
+
+            }
+        }
+        [HttpGet]
+        public ActionResult NuevoDatosContacto(string id, string id2) {
+            try
+            {
+                CatContactosModels Contactos = new CatContactosModels();
+                _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
+                Contactos.IDProveedor = id;
+                Contactos.IDSucursal = id2;
+                Contactos.Conexion = Conexion;
+               
+                return View(Contactos);
+            }
+            catch (Exception ex)
+            {
+                CatProveedorModels Proveedor = new CatProveedorModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar cargar los datos. Contacte a soporte técnico.";
+                return View(Proveedor);
+
+            }
+        }
+        [HttpPost]
+        public ActionResult NuevoDatosContacto(CatContactosModels Contactos)
+        {
+            try
+            {
+               
+                
+
+                if (ModelState.IsValid) {
+                    _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
+
+                    Contactos.Conexion = Conexion;
+                    Contactos.Usuario = User.Identity.Name;
+                    Contactos.Opcion = 1;
+                    Contactos = ProveedorDatos.AcContactoProveedor(Contactos);
+                    if (Contactos.Completado)
+                    {
+
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardaron correctamente.";
+                        Token.ResetToken();
+                        return RedirectToAction("DatosContacto", "CatProveedor", new { id = Contactos.IDProveedor, id2 = Contactos.IDSucursal });
+                    }
+                    else
+                    {
+
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                        return RedirectToAction("NuevoDatosContacto", "CatProveedor", new { id = Contactos.IDProveedor, id2 = Contactos.IDSucursal });
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                    return View(Contactos);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CatProveedorModels Proveedor = new CatProveedorModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar cargar los datos. Contacte a soporte técnico.";
+                return View(Proveedor);
+
+            }
         }
 
         [HttpGet]

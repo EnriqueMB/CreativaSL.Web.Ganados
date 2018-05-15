@@ -9,6 +9,71 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class _CatProveedor_Datos
     {
+        public CatContactosModels AcContactoProveedor(CatContactosModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                   datos.Opcion,
+                   datos.IDProveedor ?? string.Empty,
+                   datos.IDContacto ?? string.Empty,
+                   datos.IDSucursal ?? string.Empty,
+                   datos.nombreContacto ?? string.Empty,
+                   datos.apPaterno ?? string.Empty,
+                   datos.apMaterno?? string.Empty,
+                   datos.correo ?? string.Empty,
+                   datos.celularContacto ?? string.Empty,
+                   datos.telefonoContacto ?? string.Empty,
+                   datos.observacion ?? string.Empty,
+                    datos.direccion ?? string.Empty,
+                   datos.Usuario ?? string.Empty
+                  
+                    };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatContactoXproveedor", parametros);
+                datos.IDContacto = aux.ToString();
+
+                if (!string.IsNullOrEmpty(datos.IDContacto))
+                {
+                    datos.Completado = true;
+                }
+                else
+                {
+                    datos.Completado = false;
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<CatContactosModels> obtenerDatosContacto(CatProveedorModels datos) {
+            try
+            {
+                List<CatContactosModels> lista = new List<CatContactosModels>();
+                CatContactosModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_get_DatosContactoXProveedor",datos.IDProveedor);
+                while (dr.Read())
+                {
+                    item = new CatContactosModels();
+                    
+                    item.IDContacto = dr["id_contacto"].ToString();
+                    item.nombreContacto = dr["nombre"].ToString();
+                    item.correo = dr["correoElectronico"].ToString();
+                    item.telefonoContacto = dr["telefonoContacto"].ToString();
+                    item.celularContacto= !dr.IsDBNull(dr.GetOrdinal("celularContacto")) ? dr.GetString(dr.GetOrdinal("celularContacto")) : string.Empty;
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
+        }
         #region Proveedor
 
         public CatProveedorModels AcCatProveedor(CatProveedorModels datos)

@@ -93,6 +93,14 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _listaTipoProveedor; }
             set { _listaTipoProveedor = value; }
         }
+        private List<CatContactosModels> _listaDatosContactos;
+
+        public List<CatContactosModels> listaDatosContactos 
+        {
+            get { return _listaDatosContactos; }
+            set { _listaDatosContactos = value; }
+        }
+
         /// <summary>
         /// LISTA SUCURSAL
         /// </summary>
