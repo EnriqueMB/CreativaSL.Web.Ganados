@@ -15,7 +15,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                   datos.Opcion,datos.IDAlmacen,datos.IDSucursal,datos.ClaveAlmacen,datos.Descripcion,datos.Usuario
+                   datos.Opcion,datos.IDAlmacen,datos.IDSucursal,datos.ClaveAlmacen,datos.nombre,datos.Descripcion,datos.Usuario
                     };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatAlmacen", parametros);
                 datos.IDAlmacen = aux.ToString();
@@ -48,6 +48,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.IDSucursal = dr["id_sucursal"].ToString();
                     datos.ClaveAlmacen = dr["clave"].ToString();
                     datos.Descripcion = dr["descripcion"].ToString();
+                    datos.nombre = dr["nombre"].ToString();
 
                 }
                 return datos;

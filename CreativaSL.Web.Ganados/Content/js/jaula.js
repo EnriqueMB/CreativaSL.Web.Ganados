@@ -24,12 +24,14 @@
             },
             ignore: "",
             rules: {
-                ListaEmpresas: { required: true },
+                IDEmpresa: { required: true },
                 Matricula: { required: true, maxlength: 15 },
+                IDSucursal: { required: true },
             },
             messages: {
-                ListaEmpresas: { required: "Seleccione una empresa" },
-                Matricula: { required: "Ingrese la matrícula de la jaula.", maxlength: "El campo nombre admite máximo 15 caracteres." }
+                IDEmpresa: { required: "Seleccione una empresa" },
+                Matricula: { required: "Ingrese la matrícula de la jaula.", maxlength: "El campo nombre admite máximo 15 caracteres." },
+                IDSucursal: { required: "Seleccione una sucursal" },
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

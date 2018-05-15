@@ -35,20 +35,25 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <div class="col-md-6 classError">
-                                <label class="col-md-3 col-xs-12 control-label">Empresa</label>
-                                <div class="col-md-9 col-xs-12">
-                                    @Html.DropDownListFor(model => model.IDEmpresa, new SelectList(Model.ListaEmpresas, "IDEmpresa", "RazonFiscal"), new { @class = "form-control select", data_live_search = true, data_style = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.IDEmpresa)
-                                    <span class="help-block">Seleccione la empresa</span>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Empresa</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        @Html.DropDownListFor(model => model.IDEmpresa, new SelectList(Model.ListaEmpresas, "IDEmpresa", "RazonFiscal"), new { id = "IDEmpresa", @class = "form-control select", data_live_search = true, data_style = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.IDEmpresa)
+                                        <span class="help-block">Seleccione la empresa</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="col-md-3 col-xs-12 control-label">Sucursal</label>
-                                <div class="col-md-9 col-xs-12">
-                                    @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.listaSucursales, "IDSucursal", "NombreSucursal"), new { @class = "form-control select", data_live_search = true, data_style = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.IDSucursal)
-                                    <span class="help-block">Seleccione la sucursal</span>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-12 control-label">Sucursal</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.listaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = true, data_style = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.IDSucursal)
+                                        <span class="help-block">Seleccione la sucursal</span>
+                                    </div>
                                 </div>
+                              
                             </div>
                         </div>
                         <div class="form-group">

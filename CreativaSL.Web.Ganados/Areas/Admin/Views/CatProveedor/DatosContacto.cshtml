@@ -1,13 +1,11 @@
-﻿@model CreativaSL.Web.Ganados.Models.CatChoferModels
-
+﻿@model CreativaSL.Web.Ganados.Models.CatProveedorModels
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "DatosContacto";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 @section featured{
-    @{
-        var message = TempData["message"] ?? string.Empty;
+    @{        var message = TempData["message"] ?? string.Empty;
         var typemessage = TempData["typemessage"] ?? string.Empty;
     }
     <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
@@ -17,7 +15,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Lista de Empleados </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Proveedor </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -29,48 +27,40 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("Create","CatChofer")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Chófer</a></li>
+                            <li><a href="@Url.Action("NuevoDatosContacto","CatProveedor", new {id=Model.IDProveedor,id2=Model.IDSucursal})" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Dato Contacto Proveedor</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
+                            <li><a href="@Url.Action("Index","CatProveedor")" class="btn btn-danger btnCrear"><span class="fa fa-arrow-circle-o-left"></span> Regresar </a></li>
                         </ul>
                     </div>
+                    @Html.HiddenFor(model => model.IDProveedor)                                                                                                     <div id="validation_summary" class="field_error "></div> 
+                    @Html.HiddenFor(model => model.IDSucursal)
+                   
                     <div class="panel-body">
                         <div class="table-responsive">
                             <table class="table datatable">
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>
-                                        <th>Licencia</th>
-                                        <th>Estatus</th>
+                                        <th>Telefono</th>
+                                        <th>Celular</th>
+                                        <th>Correo</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var Chofer in Model.ListaChoferes)
+                                    @foreach (var proveedor in Model.listaDatosContactos)
                                     {
-                                        <tr id="@Chofer.IDChofer">
-                                            <td>@Chofer.Nombre</td>
-                                            @if (Chofer.Licencia == true)
-                                            {
-                                                <td>SI</td>
-                                            }
-                                            else
-                                            {
-                                                <td>NO</td>
-                                            }
-                                            @{ var estatus = Convert.ToBoolean(Chofer.Estatus); }
-                                            @if (estatus == true)
-                                            {
-                                                <td style="text-align:center"><div style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:red"></div></td>
-                                            }
-                                            else
-                                            {
-                                                <td style="text-align:center"><div style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:green"></div></td>
-                                            }
+                                        <tr id="@proveedor.IDContacto">
+                                            <td>@proveedor.nombreContacto</td>
+                                            <td>@proveedor.telefonoContacto</td>
+                                            <td>@proveedor.celularContacto</td>
+                                            <td>@proveedor.correo</td>
+                                            
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" href="@Url.Action("Edit", "CatChofer", new { id = Chofer.IDChofer })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" id="delete-@Chofer.IDChofer" data-hrefa="@Url.Action("Delete", "CatChofer", new { id = Chofer.IDChofer  })" onClick="delete_row('@Chofer.IDChofer');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Editar" href="@Url.Action("Edit", "CatProveedor", new { id = Model.IDProveedor,id2=Model.IDSucursal,id3=proveedor.IDContacto})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" id="delete-@proveedor.IDContacto" data-hrefa="@Url.Action("Delete", "CatProveedor", new { id =  Model.IDProveedor,id2=Model.IDSucursal,id3=proveedor.IDContacto })" onClick="delete_row('@proveedor.IDContacto');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -78,13 +68,14 @@
                                                             <i class="fa fa-cog"></i> <span class="caret"></span>
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                           
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatChofer", new { id = Chofer.IDChofer })">
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatProveedor", new { id = Model.IDProveedor,id2=Model.IDSucursal,id3=proveedor.IDContacto})">
                                                                     <i class="fa fa-edit"></i> Editar
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@Chofer.IDChofer" data-hrefa="@Url.Action("Delete", "CatChofer", new { id = Chofer.IDChofer  })" onClick="delete_row('@Chofer.IDChofer');">
+                                                                <a role="menuitem" tabindex="-1" id="delete-@proveedor.IDProveedor" data-hrefa="@Url.Action("Delete", "CatProveedor", new { id =  Model.IDProveedor,id2=proveedor.IDSucursal,id3=proveedor.IDContacto })" onClick="delete_row('@proveedor.IDContacto');">
                                                                     <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>
@@ -96,7 +87,7 @@
                                     }
                                 </tbody>
                             </table>
-                         </div>
+                        </div>
                     </div>
                 </div>
                 <!-- END DEFAULT DATATABLE -->
@@ -132,10 +123,13 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script>
-        jQuery(document).ready(function () {
+    jQuery(document).ready(function () {
         Mensaje(message, typemessage);
         });
     </script>
 }
+
+
+
 
 

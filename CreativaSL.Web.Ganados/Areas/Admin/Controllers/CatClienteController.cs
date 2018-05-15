@@ -66,7 +66,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
         }
-                 
+
         // POST: Admin/CatClientes/Create
         [HttpPost]
         public ActionResult Create(CatClienteModels clienteID)
@@ -120,7 +120,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
                 return View(clienteID);
             }
-        }     
+        }
 
         // GET: Admin/CatClientes/Edit/5
         [HttpGet]
@@ -199,7 +199,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
                 return View(clienteID);
-            }            
+            }
         }
 
         // GET: Admin/CatClientes/Cuentas/5
@@ -207,7 +207,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         public ActionResult Cuentas(string id)
         {
             try
-            {                
+            {
                 IEnumerable<CuentaBancariaModels> CuentasBanc = Enumerable.Empty<CuentaBancariaModels>();
                 CuentaBancariaModels Cuenta = new CuentaBancariaModels { Conexion = Conexion, Cliente = new CatClienteModels { IDCliente = id } };
                 CatCliente_Datos ClienteD = new CatCliente_Datos();
@@ -313,7 +313,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 Token.SaveToken();
-                CuentaBancariaModels Datos = new CuentaBancariaModels { Conexion = Conexion, IDDatosBancarios = id, Cliente = new CatClienteModels {IDCliente = idC } };
+                CuentaBancariaModels Datos = new CuentaBancariaModels { Conexion = Conexion, IDDatosBancarios = id, Cliente = new CatClienteModels { IDCliente = idC } };
                 ClienteDatos.ObtenerDetalleDatosBancariosCliente(Datos);
                 CuentaBancariaViewModels ViewCuenta = Datos.GetViewCB();
                 ViewCuenta.IDCliente = idC;
@@ -421,10 +421,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 CuentaBancariaModels Datos = new CuentaBancariaModels
-                    {   Cliente = new CatClienteModels {IDCliente = IDCliente },
-                        IDDatosBancarios = IDCuenta,
-                        Conexion = Conexion,
-                        Usuario = User.Identity.Name};
+                { Cliente = new CatClienteModels { IDCliente = IDCliente },
+                    IDDatosBancarios = IDCuenta,
+                    Conexion = Conexion,
+                    Usuario = User.Identity.Name };
                 CatCliente_Datos ClienteDatos = new CatCliente_Datos();
                 ClienteDatos.EliminarDatosBancarios(Datos);
                 if (Datos.Completado)
@@ -464,6 +464,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         //ASIGNAR LUGARES AL CLIENTE
+        [HttpPost]
         public ActionResult Lugares(string id,string id2)
         {
             try
@@ -579,6 +580,26 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
-
+        [HttpPost]
+        public ActionResult ContactosCliente(string id)
+        {
+            try
+            {
+                CatContactosModels clienteContactos = new CatContactosModels();
+                CatCliente_Datos ClienteD = new CatCliente_Datos();
+                clienteContactos.IDCliente = id;
+                clienteContactos.Conexion = Conexion;
+                clienteContactos = ClienteD.ObtenerContactosCliente(clienteContactos);
+                return View(clienteContactos);
+            }
+            catch (Exception)
+            {
+                CatClienteModels Cliente = new CatClienteModels();
+                Cliente.ListaClientes = new List<CatClienteModels>();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Cliente);
+            }
+        }
     }
 }

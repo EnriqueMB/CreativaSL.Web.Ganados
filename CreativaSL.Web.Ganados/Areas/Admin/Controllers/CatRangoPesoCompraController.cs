@@ -50,6 +50,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 Token.SaveToken();
                 CatRangoPesoCompraModels Rango = new CatRangoPesoCompraModels();
+                CatRangoPesoCompra_Datos RangoDatos = new CatRangoPesoCompra_Datos();
+                Rango.Conexion = Conexion;
+                Rango.ListaProveedor = RangoDatos.ObetenerListaTipoProveedor(Rango);
                 Rango.EsMacho = true;
                 return View(Rango);
             }
@@ -58,7 +61,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CatRangoPesoCompraModels RangoPeso = new CatRangoPesoCompraModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return View(RangoPeso);
+                return RedirectToAction("Index");
             }
         }
 
@@ -87,6 +90,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         }
                         else
                         {
+                            Rango.ListaProveedor = RangoDatos.ObetenerListaTipoProveedor(Rango);
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                             return View(Rango);
@@ -94,6 +98,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     }
                     else
                     {
+                        Rango.Conexion = Conexion;
+                        Rango.ListaProveedor = RangoDatos.ObetenerListaTipoProveedor(Rango);
                         return View(Rango);
                     }
                 }
@@ -122,6 +128,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Rango.Conexion = Conexion;
                 Rango.IDRango = id;
                 Rango = RangoDatos.ObtenerDetalleCatRangoPesoCompra(Rango);
+                Rango.ListaProveedor = RangoDatos.ObetenerListaTipoProveedor(Rango);
                 return View(Rango);
             }
             catch (Exception)
@@ -129,7 +136,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CatRangoPesoCompraModels RangoPeso = new CatRangoPesoCompraModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return View(RangoPeso);
+                return RedirectToAction("Index");
             }
         }
 
@@ -158,6 +165,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         }
                         else
                         {
+                            Rango.ListaProveedor = RangoDatos.ObetenerListaTipoProveedor(Rango);
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                             return View(Rango);
@@ -165,6 +173,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     }
                     else
                     {
+                        Rango.Conexion = Conexion;
+                        Rango.ListaProveedor = RangoDatos.ObetenerListaTipoProveedor(Rango);
                         return View(Rango);
                     }
                 }

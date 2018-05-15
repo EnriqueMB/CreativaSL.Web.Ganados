@@ -16,7 +16,7 @@ namespace CreativaSL.Web.Ganados.Models.Validaciones
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            string pattern = @"^-?(?!0)(?:\d+|\d{1,3}(?:\.\d{3})+)$";
+            string pattern = @"^(?!0)(?:\d+|\d{1,4}(?:\.\d{2})+)$";
             if (value != null)
             {
                 if (!Regex.IsMatch(value.ToString(), pattern))

@@ -39,6 +39,7 @@
                             <table id="tbl_RangoPesoCompra" class="table">
                                 <thead>
                                     <tr>
+                                        <th>Tipo Proveedor</th>
                                         <th>Género</th>
                                         <th>Peso Minimo (Kg.)</th>
                                         <th>Peso Maximo (Kg.)</th>
@@ -50,6 +51,7 @@
                                     @foreach (var Rango in Model.ListaRangoPeso)
                                     {
                                         <tr id="@Rango.IDRango">
+                                            <td>@Rango.TipoProveedor</td>
                                             @if (Rango.EsMacho)
                                             {
                                                 <td>MACHOS</td>
