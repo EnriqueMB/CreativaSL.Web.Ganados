@@ -783,7 +783,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        public Flete_ProductoGanadoModels Flete_c_ProductoGanado(Flete_ProductoGanadoModels ganado)
+        public Flete_ProductoModels Flete_c_ProductoGanado(Flete_ProductoModels ganado)
         {
             try
             {
@@ -794,7 +794,7 @@ namespace CreativaSL.Web.Ganados.Models
                     ,ganado.Usuario
                 };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(ganado.Conexion, "spCSLDB_Flete_a_ProductoGanadoPropio", parametros);
+                dr = SqlHelper.ExecuteReader(ganado.Conexion, "spCSLDB_Flete_c_ProductoGanadoPropio", parametros);
                 ganado.RespuestaAjax = new RespuestaAjax();
 
                 while (dr.Read())
@@ -809,7 +809,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        public Flete_ProductoGanadoModels Flete_del_ProductoGanado(Flete_ProductoGanadoModels ganado)
+        public Flete_ProductoModels Flete_del_ProductoGanado(Flete_ProductoModels ganado)
         {
             try
             {

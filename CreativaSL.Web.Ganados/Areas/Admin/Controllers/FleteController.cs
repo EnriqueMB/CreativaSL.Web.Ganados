@@ -433,7 +433,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             ListadoIDGanado = ganados[0];
 
                         FleteDatos = new _Flete_Datos();
-                        Flete_ProductoGanadoModels Flete_ProductoGanado = new Flete_ProductoGanadoModels
+                        Flete_ProductoModels Flete_ProductoGanado = new Flete_ProductoModels
                         {
                             Usuario = User.Identity.Name,
                             Conexion = Conexion,
@@ -463,7 +463,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                Flete.RespuestaAjax.Mensaje = ex.ToString();
+                Flete.RespuestaAjax = new RespuestaAjax();
+                Flete.RespuestaAjax.Mensaje = ex.ToString(); 
                 Flete.RespuestaAjax.Success = false;
                 return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
             }
@@ -493,6 +494,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         public ActionResult ModalProductoGanado()
         {
             return PartialView("ModalProductoGanado");
+        }
+        [HttpPost]
+        public ActionResult ModalProductoGanadoExterno()
+        {
+            return PartialView("ModalProductoGanadoExterno");
         }
         #endregion
         /********************************************************************/
