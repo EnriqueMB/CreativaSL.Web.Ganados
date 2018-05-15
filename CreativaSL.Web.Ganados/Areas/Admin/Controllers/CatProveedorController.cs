@@ -732,6 +732,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpGet]
+        public ActionResult DatosContacto(string id) {
+            return View();
+        }
+
+        [HttpGet]
         public ActionResult UPPProveedor(string id)
         {
             try
@@ -865,5 +870,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Json("", JsonRequestBehavior.AllowGet);
             }
         }
+
     }
 }

@@ -21,6 +21,7 @@ namespace CreativaSL.Web.Ganados.Models
             this._ClaveAlmacen = string.Empty;
             //Se da por hecho que CatSucursalModels tiene un constructor que inicializa sus datos
             this._Sucursal = new CatSucursalesModels();
+            this._nombre = string.Empty;
             this._Descripcion = string.Empty;
             this._ListaSucursales = new List<CatSucursalesModels>();
             this._ListaAlmacen = new List<CatAlmacenModels>();
@@ -57,8 +58,15 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _IDAlmacen; }
             set { _IDAlmacen = value; }
         }
+        private string _nombre;
 
-        
+        public string nombre
+        {
+            get { return _nombre; }
+            set { _nombre = value; }
+        }
+
+
         private string _ClaveAlmacen;
         /// <summary>
         /// Identificador interno del almacén
