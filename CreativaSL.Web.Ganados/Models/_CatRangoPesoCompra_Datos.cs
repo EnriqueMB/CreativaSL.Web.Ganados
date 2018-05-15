@@ -25,6 +25,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.PesoMinimo = !dr.IsDBNull(dr.GetOrdinal("PesoMinimo")) ? dr.GetDecimal(dr.GetOrdinal("PesoMinimo")) : 0;
                     Item.PesoMaximo = !dr.IsDBNull(dr.GetOrdinal("PesoMaximo")) ? dr.GetDecimal(dr.GetOrdinal("PesoMaximo")) : 0;
                     Item.Precio = !dr.IsDBNull(dr.GetOrdinal("Precio")) ? dr.GetDecimal(dr.GetOrdinal("Precio")) : 0;
+                    Item.TipoProveedor = !dr.IsDBNull(dr.GetOrdinal("TipoProveedor")) ? dr.GetString(dr.GetOrdinal("TipoProveedor")) : string.Empty;
                     Lista.Add(Item);
                 }
                 datos.ListaRangoPeso = Lista;
@@ -43,7 +44,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    datos.Opcion, datos.IDRango, datos.EsMacho, datos.PesoMinimo, datos.PesoMaximo, datos.Precio, datos.Usuario
+                    datos.Opcion, datos.IDRango, datos.EsMacho, datos.PesoMinimo, datos.PesoMaximo, datos.Precio, datos.IDTipoProveedor, datos.Usuario
                 };
                 object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatRangoPesoCompra", parametros);
                 if (Resultado != null)
@@ -108,6 +109,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.PesoMinimo = !dr.IsDBNull(dr.GetOrdinal("PesoMinimo")) ? dr.GetDecimal(dr.GetOrdinal("PesoMinimo")) : 0;
                     datos.PesoMaximo = !dr.IsDBNull(dr.GetOrdinal("PesoMaximo")) ? dr.GetDecimal(dr.GetOrdinal("PesoMaximo")) : 0;
                     datos.Precio = !dr.IsDBNull(dr.GetOrdinal("Precio")) ? dr.GetDecimal(dr.GetOrdinal("Precio")) : 0;
+                    datos.IDTipoProveedor = !dr.IsDBNull(dr.GetOrdinal("IDTipoProveedor")) ? dr.GetInt32(dr.GetOrdinal("IDTipoProveedor")) : 0;
                 }
                 return datos;
             }
@@ -118,5 +120,28 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public List<CatTipoProveedorModels> ObetenerListaTipoProveedor(CatRangoPesoCompraModels Datos)
+        {
+            try
+            {
+                List<CatTipoProveedorModels> lista = new List<CatTipoProveedorModels>();
+                CatTipoProveedorModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Combo_get_CatTipoProveedor");
+                while (dr.Read())
+                {
+                    item = new CatTipoProveedorModels();
+                    item.IDTipoProveedor = !dr.IsDBNull(dr.GetOrdinal("id_tipoProveedor")) ? dr.GetInt32(dr.GetOrdinal("id_tipoProveedor")) : 0;
+                    item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace CreativaSL.Web.Ganados.Models
         public CatRangoPesoCompraModels()
         {
             _ListaRangoPeso = new List<CatRangoPesoCompraModels>();
+            _ListaProveedor = new List<CatTipoProveedorModels>();
             IDRango = 0;
             _EsMacho = true;
             PesoMinimo = 0;
@@ -69,6 +70,24 @@ namespace CreativaSL.Web.Ganados.Models
             set { _Precio = value; }
         }
 
+        private int _IDTipoProveedor;
+        [Required(ErrorMessage = "Tipo Proveedor es obligatorio")]
+        [Display(Name = "tipo de proveedor")]
+        [CombosInt(ErrorMessage = "Seleccione un tipo de proveedor")]
+        public int IDTipoProveedor
+        {
+            get { return _IDTipoProveedor; }
+            set { _IDTipoProveedor = value; }
+        }
+
+        private string _TipoProveedor;
+
+        public string TipoProveedor
+        {
+            get { return _TipoProveedor; }
+            set { _TipoProveedor = value; }
+        }
+
 
         private List<CatRangoPesoCompraModels> _ListaRangoPeso;
 
@@ -76,6 +95,14 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _ListaRangoPeso; }
             set { _ListaRangoPeso = value; }
+        }
+
+        private List<CatTipoProveedorModels> _ListaProveedor;
+
+        public List<CatTipoProveedorModels> ListaProveedor
+        {
+            get { return _ListaProveedor; }
+            set { _ListaProveedor = value; }
         }
 
 

@@ -72,6 +72,13 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _Precio; }
             set { _Precio = value; }
         }
+        private List<CatContactosModels> _listaContactos;
+
+        public List<CatContactosModels> listaContactos
+        {
+            get { return _listaContactos; }
+            set { _listaContactos = value; }
+        }
 
         private List<RangoPrecioProveedorModels> _ListaRangoPrecioProveedor;
 

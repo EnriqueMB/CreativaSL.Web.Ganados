@@ -35,7 +35,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Peso Minimo</label>
                                     <div class="col-md-8 col-xs-12">
@@ -49,21 +49,21 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                               <div class="form-group">
-                                   <label class="col-md-3 control-label">Peso Maximo</label>
-                                   <div class="col-md-8 col-xs-12">
-                                       <div class="input-group">
-                                           <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                           @Html.TextBoxFor(model => model.PesoMaximo, new { id = "PesoMaximo", @class = "form-control" })
-                                           <span class="input-group-addon">Kg.</span>
-                                       </div>
-                                       @Html.ValidationMessageFor(model => model.PesoMaximo)
-                                       <span class="help-block">Ingrese el peso Maximo</span>
-                                   </div>
-                               </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Peso Maximo</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.PesoMaximo, new { id = "PesoMaximo", @class = "form-control" })
+                                            <span class="input-group-addon">Kg.</span>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.PesoMaximo)
+                                        <span class="help-block">Ingrese el peso Maximo</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Precio</label>
                                     <div class="col-md-8 col-xs-12">
@@ -77,10 +77,23 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6">
                                 <label class="col-md-3 control-label">¿Es Macho?</label>
                                 <div class="col-md-9">
                                     @Html.CheckBoxFor(model => model.EsMacho)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Seleccione un tipo proveedor</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="col-md-12">
+                                            @Html.DropDownListFor(model => model.IDTipoProveedor, new SelectList(Model.ListaProveedor, "IDTipoProveedor", "Descripcion"), new { id = "IDTipoProveedor", @class = "form-control select", data_live_search = "true" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.IDTipoProveedor)
+                                    </div>
                                 </div>
                             </div>
                         </div>
