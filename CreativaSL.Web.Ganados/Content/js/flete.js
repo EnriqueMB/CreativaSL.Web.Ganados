@@ -4,7 +4,7 @@
     var lugarDestino = document.getElementById('Trayecto_LugarDestino_id_lugar');
     var tableImpuesto, map, directionsDisplay, directionsService;
     var tableDocumentos, tableProductoGanado, tableProductoGeneral, tblModalGanadoActual, tblModalGanadoExterno;
-    var countRow = 1;
+    var numeroFila = 1;
 
     var InitMap = function () {
         directionsService = new google.maps.DirectionsService;
@@ -126,13 +126,6 @@
         });
     }
     var RunEventoProductoGanadoExterno = function () {
-        tblModalGanadoExterno = $('#tblGanadoExterno').DataTable({
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-            },
-            responsive: true
-        });
-
         $('#btnAddRowGanadoExterno').on('click', function () {
             var numero = document.getElementById("inputGanadoExterno").value;
             if (!/^([0-9])*$/.test(numero))
@@ -142,54 +135,148 @@
             }
             else {
                 for (var i = 0; i < numero; i++) {
-                    tblModalGanadoExterno.row.add([
-               '<input id="arete'+countRow +'" class="form-control fg" type="text">',
-               '<select id="genero' + countRow + '"class="selectpicker form-control fg"> <option value="Macho">Macho</option> <option value="Hembra">Hembra</option></select> ',
-               '<input id="peso' + countRow + '"class="fg form-control" type="text">',
-               ' <div class="visible-md visible-lg hidden-sm hidden-xs">' +
-                           '<a data-hrefa="/Admin/Flete/C_DEL_ProductoGanado/" title="Eliminar" data-id="" class="btn btn-danger tooltips btn-sm deleteProductoGanadoExterno" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>' +
-                           '</div>' +
-                           '<div class="visible-xs visible-sm hidden-md hidden-lg">' +
-                           '<div class="btn-group">' +
-                           '<a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#"' +
-                           '<i class="fa fa-cog"></i> <span class="caret"></span>' +
-                           '</a>' +
-                           '<ul role="menu" class="dropdown-menu pull-right dropdown-dark">' +
-                           '<li>' +
-                           '<a data-hrefa="/Admin/Flete/C_DEL_ProductoGanado/" class="deleteProductoGanadoExterno" role="menuitem" tabindex="-1" data-id="">' +
-                           '<i class="fa fa-trash-o"></i> Eliminar' +
-                           '</a>' +
-                           '</li>' +
-                           '</ul>' +
-                           '</div>' +
-                           '</div>'
-                    ]).draw(false);
-                    countRow++;
+                    AgergarFilasProductoGanadoExterno(false, 0, "macho", 0, "Sin registrar", numeroFila);
+                    numeroFila++;
                 }
             }
         });
-      
         $('#tblGanadoExterno tbody').on('click', '.deleteProductoGanadoExterno', function (e) {
             var data = tblModalGanadoExterno.row($(this).parents('tr')).data();
             tblModalGanadoExterno.row($(this).parents('tr')).remove().draw(false);
         });
         $('#btnSaveRowGanadoExterno').on('click', function () {
+            var mensaje_error, flag_error = false, flag_ok = false;
             var nNodes = tblModalGanadoExterno.rows().nodes().to$().find('input, select');
-            console.log(nNodes);
-            console.log(Object.values(nNodes));
-            console.log(nNodes["0"].id);
-            console.log(nNodes["2"].id);
-            
+            var id_flete, conteo = 1;
+
+            id_flete = document.getElementById("id_flete").value;
+
+            var data = tblModalGanadoExterno.rows().data();
+            //console.log(data);
+            console.log(nNodes[0]["id"]);
+            console.log(nNodes[0].value);
             for (var i = 0; i < nNodes.length; i++) {
-                var id = document.getElementById(nNodes[i].id).value;
-                console.log(id);
+                console.log(nNodes[i].value);
+                nNodes[i].value = "Nuevo value;}";
+                console.log(nNodes[i].value);
             }
             
-            //var a = tblModalGanadoExterno.rows().data().to$().find('input').val();
-            //console.log(nNodes);
-            //console.log(a);
+           
 
+            //for (var i = 0; i < nNodes.length; i += 3) {
+            //    //Estos 2 son el mismo input3
+            //    //console.log(nNodes);
+            //    console.log("Elemento: " + nNodes[i].id);
+            //    var id = document.getElementById(nNodes[i].id).dataset.id;
+            //    console.log("Valor de data-id: " + id);
+            //    console.log("---------------------------");
+            //    var arete = document.getElementById("arete_"+id);
+            //    var genero = document.getElementById("genero_"+id);
+            //    var peso = document.getElementById("peso_"+id);
+            //    var flag = true;
+                
+            //    if (arete.value.length == 0 || arete.value == '' || arete.value == null) {
+            //        arete.classList.remove('okCSLGanado');
+            //        arete.classList.add('errorCSLGanado');
+            //        flag = false;
+            //    }
+            //    else {
+            //        arete.classList.remove('errorCSLGanado');
+            //        arete.classList.add('okCSLGanado');
+            //    }
+
+            //    if (genero.value.length == 0 || genero.value == '' || genero.value == null) {
+            //        genero.classList.add('errorCSLGanado');
+            //        genero.classList.remove('okCSLGanado');
+            //        flag = false;
+            //    }
+            //    else {
+            //        genero.classList.add('okCSLGanado');
+            //        genero.classList.remove('errorCSLGanado');
+            //    }
+            //    if (peso.value.length == 0 || peso.value == '' || peso.value == null || peso.value == '0') {
+            //        peso.classList.add('errorCSLGanado');
+            //        peso.classList.remove('okCSLGanado');
+            //        flag = false;
+            //    }
+            //    else {
+            //        peso.classList.add('okCSLGanado');
+            //        peso.classList.remove('errorCSLGanado');
+            //    }
+            //    //si todo esta bien, envíamos
+            //    if (flag) {
+            //        $.ajax({
+            //            url: '/Admin/Flete/AC_ProductoGanadoExterno/',
+            //            type: "POST",
+            //            data: { IDFlete: id_flete, IDProducto: id, numArete: arete.value, genero: genero.value, peso: peso.value, id_input: id },
+            //            error: function (response) {
+            //                flag_error = true;
+            //                mensaje_error += "<ul>" + reponse.Mensaje + "</ul>";
+            //            },
+            //            success: function (response) {
+            //                if (response.Success) {
+            //                    flag_ok = true;
+            //                    var obj = JSON.parse(response.Mensaje);
+            //                    var refArete = "arete_" + obj.id_input;
+            //                    var refImagen = "img_" + obj.id_input;
+            //                    var refLabel = "lbl_" + obj.id_input;
+            //                    var refGenero = "genero_" + obj.id_input;
+            //                    var refPeso = "peso_"+ obj.id_input;
+
+            //                    //le pongo el id del producto generado
+            //                    document.getElementById(refArete).dataset.id = obj.IDProducto;
+            //                    //Cambio la imagen
+            //                    document.getElementById(refImagen).src = "/Content/img/tabla/ok.png";
+            //                    //cambiamos los ids
+            //                    document.getElementById(refArete).id    = "arete_" + obj.IDProducto;
+            //                    document.getElementById(refImagen).id   = "img_" + obj.IDProducto;
+            //                    document.getElementById(refLabel).id    = "lbl_" + obj.IDProducto;
+            //                    document.getElementById(refGenero).id   = "genero_" + obj.IDProducto;
+            //                    document.getElementById(refPeso).id     = "peso_" + obj.IDProducto;
+            //                }
+            //                else {
+            //                    flag_error = true;
+            //                    mensaje_error += "<ul>" + reponse.Mensaje + "</ul>";
+            //                }
+            //            }
+            //        });
+            //    }
+                
+            //    conteo++;
+            //}
+            //if (flag_error) {
+            //    Mensaje(mensaje_error, 2);
+            //}
+            //if (flag_ok) {
+            //    Mensaje('Ganado cargado satisfactoriamente.', 1);
+            //}
         });
+        //$('#tblGanadoExterno tbody').on('input', '.inputCSL', function (e) {
+        //    var $td = $(this).parent();
+        //    $td.find('input').attr('value', this.value);
+        //    console.log("valor:" + this.value);
+        //    //console.log($td);
+        //    var tr = $('#tblGanadoExterno tbody tr:eq(0)');
+        //    //console.log(tr);
+        //    tblModalGanadoExterno.rows().invalidate().draw(false);
+        //});
+        //$("#tblGanadoExterno td select").on('change', '.selectCSL', function () {
+        //    console.log("change select  input");
+        //    var $td = $(this).parent();
+        //    var value = this.value;
+        //    $td.find('option').each(function (i, o) {
+        //        $(o).removeAttr('selected');
+        //        if ($(o).val() == value) $(o).attr('selected', true);
+        //    })
+        //    tblModalGanadoExterno.cell($td).invalidate().draw();
+        //});
+        //$("#tblGanadoExterno tbody input").on('change', '.inputCSL', function (e) {
+        //    console.log("change input");
+        //    var $td = $(this).parent();
+        //    $td.find('input').attr('value', this.value);
+        //    console.log(this.value);
+        //    tblModalGanadoExterno.cell($td).invalidate().draw();
+        //});
     }
     //Validaciones
     var LoadValidation_AC_Cliente = function () {
@@ -796,6 +883,32 @@
             ModalDocumento(IDFlete, 0);
         });
     };
+    var LoadTableProductoGanadoNOPropio = function () {
+        var IDFlete = $("#id_flete").val();
+        //$.fn.dataTableExt.ofnSearch['html-input'] = function (value) {
+        //    return $(value).val();
+        //};
+        tblModalGanadoExterno = $('#tblGanadoExterno').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+            responsive: true,
+            columnDefs: [
+                { "type": "html-input", "targets": [1, 2, 3] }
+            ]
+        });
+        $.ajax({
+            url: '/Admin/Flete/TableJsonProductoGanadoNOPropioXIDFlete/',
+            type: "POST",
+            data: { IDFlete: IDFlete },
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    AgergarFilasProductoGanadoExterno(true, data[i].numArete, data[i].genero, data[i].pesoAproximado, "Registrado", data[i].id_producto);
+                }
+                RunEventoProductoGanadoExterno();
+            }
+        });
+    }
     var LoadTableProductos = function () {
         var IDFlete = $("#id_flete").val();
 
@@ -1177,7 +1290,44 @@
             ]
         });
     }
-  
+
+    function AgergarFilasProductoGanadoExterno(propio, numArete, genero, peso, mensaje, id_fila) {
+        if (propio)
+            var html_imagen = '<img id="img_'+id_fila+'" src="/Content/img/tabla/ok.png" alt="" height="42" width="42"> <label id="lbl_'+id_fila+'" for="' + mensaje + '">' + mensaje + '</label>';
+        else
+            var html_imagen = '<img id="img_' + id_fila + '" src="/Content/img/tabla/cancel.png" alt="" height="42" width="42"> <label id="lbl_' + id_fila + '" for="' + mensaje + '">' + mensaje + '</label>';
+
+        var html_arete = '<input id="arete_' + id_fila + '" data-id="' + id_fila + '" class="form-control inputCSL" type="text" maxlength="15" value="' + numArete + '">';
+        var html_genero = '<select id="genero_' + id_fila + '"class="selectpicker form-control selectCSL">' +
+                    '<option value="Macho">Macho</option>' +
+                    '<option value="Hembra">Hembra</option>' +
+                    '</select> ';
+        var html_peso = '<input id="peso_' + id_fila + '"class="form-control" type="number" min="1" max="1000" value="' + peso + '">';
+
+        tblModalGanadoExterno.row.add([
+              html_imagen,
+              html_arete,
+              html_genero,
+              html_peso,
+              ' <div class="visible-md visible-lg hidden-sm hidden-xs">' +
+                          '<a data-hrefa="/Admin/Flete/C_DEL_ProductoGanado/" title="Eliminar" data-id="" class="btn btn-danger tooltips btn-sm deleteProductoGanadoExterno" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>' +
+                          '</div>' +
+                          '<div class="visible-xs visible-sm hidden-md hidden-lg">' +
+                          '<div class="btn-group">' +
+                          '<a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#"' +
+                          '<i class="fa fa-cog"></i> <span class="caret"></span>' +
+                          '</a>' +
+                          '<ul role="menu" class="dropdown-menu pull-right dropdown-dark">' +
+                          '<li>' +
+                          '<a data-hrefa="/Admin/Flete/C_DEL_ProductoGanado/" class="deleteProductoGanadoExterno" role="menuitem" tabindex="-1" data-id="">' +
+                          '<i class="fa fa-trash-o"></i> Eliminar' +
+                          '</a>' +
+                          '</li>' +
+                          '</ul>' +
+                          '</div>' +
+                          '</div>'
+        ]).draw(false);
+    }
 
     function ObtenerImporte() {
         var Base = $('#Base').val();
@@ -1421,7 +1571,6 @@
             DesbloquearTabs();
             RunEventsGeneral();
             RunEventsCobro();
-            RunEventoProductoGanadoExterno();
             LoadValidation_AC_Cliente();
             LoadValidation_AC_Trayecto();
             LoadValidation_AC_Cobro();
@@ -1429,6 +1578,7 @@
             LoadTableImpuesto();
             LoadTableDocumentos();
             LoadTableProductos();
+            LoadTableProductoGanadoNOPropio();
         }
     };
 }();

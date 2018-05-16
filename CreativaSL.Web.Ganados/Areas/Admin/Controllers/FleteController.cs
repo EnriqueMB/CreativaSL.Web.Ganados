@@ -131,6 +131,30 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
+        #region Funcion Json GanadoActualXIDFlete
+        [HttpPost]
+        public ActionResult TableJsonProductoGanadoNOPropioXIDFlete(string IDFlete)
+        {
+            try
+            {
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                Flete.Conexion = Conexion;
+                Flete.id_flete = IDFlete;
+                Flete.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(FleteDatos.GetProductoGanadoNOPropioXIDFlete(Flete));
+                Flete.RespuestaAjax.Success = true;
+
+                return Content(Flete.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Flete.RespuestaAjax.Mensaje = ex.ToString();
+                Flete.RespuestaAjax.Success = false;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
         /********************************************************************/
         [HttpGet]
         public ActionResult AC_Flete(string IDFlete)
@@ -406,13 +430,51 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
-        #region Producto
+        #region Producto Ganado Externo
+        public ActionResult AC_ProductoGanadoExterno(string IDFlete, string IDProducto, string numArete, string genero, string peso, string id_input)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    FleteDatos = new _Flete_Datos();
+                    Flete_ProductoModels ganado = new Flete_ProductoModels();
+                    ganado.RespuestaAjax = new RespuestaAjax();
+                    ganado.Conexion = Conexion;
+                    ganado.Usuario = User.Identity.Name;
+                    ganado.ID_Flete = IDFlete;
+                    ganado.ID_Producto = IDProducto;
+                    ganado.NumArete = numArete;
+                    ganado.Genero = genero;
+                    ganado.PesoAproximado = double.Parse(peso);
 
+                    ganado = FleteDatos.AC_ProductoGanadoExterno(ganado);
+                    if(ganado.RespuestaAjax.Success)
+                        ganado.RespuestaAjax.Mensaje = "{\"IDProducto\": \""+ganado.ID_Producto+ "\", \"id_input\": \"" + id_input + "\"}";
+
+                    Token.ResetToken();
+                    Token.SaveToken();
+                    return Content(ganado.RespuestaAjax.ToJSON(), "application/json");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Flete");
+                }
+            }
+            catch (Exception ex)
+            {
+                Flete.RespuestaAjax = new RespuestaAjax();
+                Flete.RespuestaAjax.Mensaje = ex.ToString();
+                Flete.RespuestaAjax.Success = false;
+
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
 
 
 
         #endregion
-        #region ProductoGanado
+        #region Producto Ganado Propio (Grupo Ocampo)
         public ActionResult C_DEL_ProductoGanado(string[] ganados, int opcion, string idFlete)
         {
             try
@@ -494,11 +556,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         public ActionResult ModalProductoGanado()
         {
             return PartialView("ModalProductoGanado");
-        }
-        [HttpPost]
-        public ActionResult ModalProductoGanadoExterno()
-        {
-            return PartialView("ModalProductoGanadoExterno");
         }
         #endregion
         /********************************************************************/
