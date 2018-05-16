@@ -9,6 +9,36 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class _CatProveedor_Datos
     {
+        public CatContactosModels ObtenerDetalleCatDatosXProveedor(CatContactosModels datos)
+        {
+            try
+            {
+                object[] parametros = { datos.IDProveedor,datos.IDContacto };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_get_DatosContactoXProveedorXID", parametros);
+                while (dr.Read())
+                {
+                    datos.IDContacto = dr["id_contacto"].ToString();
+                    
+                    datos.nombreContacto= dr["nombreContacto"].ToString();
+                    datos.apMaterno= dr["apellidomaterno"].ToString();
+                    datos.apPaterno = dr["apellidoPaterno"].ToString();
+                   
+                    datos.telefonoContacto = dr["telefonoContacto"].ToString();
+                    datos.correo = dr["correoElectronico"].ToString();
+                    datos.celularContacto = dr["celularContacto"].ToString();
+                    datos.direccion= dr["direccion"].ToString();
+                    
+                    datos.observacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
+                }
+                return datos;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public CatContactosModels AcContactoProveedor(CatContactosModels datos)
         {
             try
