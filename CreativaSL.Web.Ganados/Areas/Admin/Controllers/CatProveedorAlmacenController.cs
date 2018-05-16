@@ -221,5 +221,213 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
+
+        //GET: Admin/CatProvvedorAlmacen/DatosBancarios/1
+        [HttpGet]
+        public ActionResult DatosBancarios(string id)
+        {
+            try
+            {
+                CuentaBancariasProveedorAlmacenModels CuentasBancarias = new CuentaBancariasProveedorAlmacenModels();
+                _CatProveedorAlmacen_Datos ProveddorDatos = new _CatProveedorAlmacen_Datos();
+                CuentasBancarias.Conexion = Conexion;
+                CuentasBancarias.IDProveedorAlmacen = id;
+                CuentasBancarias.ListaCuentaProveedorAlmacen = ProveddorDatos.ObtenerCuentasBancarias(CuentasBancarias);
+                return View(CuentasBancarias);
+            }
+            catch (Exception)
+            {
+                CuentaBancariasProveedorAlmacenModels CuentasBancarias = new CuentaBancariasProveedorAlmacenModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
+        }
+
+        //GET: Admin/CatProvvedorAlmacen/DatosBancariosCreate/3
+        [HttpGet]
+        public ActionResult DatosBancariosCreate(string id)
+        {
+            try
+            {
+                Token.SaveToken();
+                CuentaBancariasProveedorAlmacenModels Cuenta = new CuentaBancariasProveedorAlmacenModels();
+                _CatProveedorAlmacen_Datos ProveedorDatos = new _CatProveedorAlmacen_Datos();
+                Cuenta.IDProveedorAlmacen = id;
+                Cuenta.Conexion = Conexion;
+                Cuenta.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(Cuenta);
+                return View(Cuenta);
+            }
+            catch (Exception)
+            {
+                CuentaBancariasProveedorAlmacenModels Cuenta = new CuentaBancariasProveedorAlmacenModels();
+                Cuenta.IDProveedorAlmacen = id;
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Cuenta);
+                //return RedirectToAction("DatosBancarios", new { id = Cuenta.IDProveedorAlmacen });
+            }
+        }
+
+        //POST:Admin/CatProvvedorAlmacen/DatosBancariosCreate/3
+        [HttpPost]
+        public ActionResult DatosBancariosCreate(CuentaBancariasProveedorAlmacenModels IDCuentaBancoP)
+        {
+            _CatProveedorAlmacen_Datos ProveedorDatos = new _CatProveedorAlmacen_Datos();
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        IDCuentaBancoP.Conexion = Conexion;
+                        IDCuentaBancoP.Usuario = User.Identity.Name;
+                        IDCuentaBancoP.Opcion = 1;
+                        ProveedorDatos.ACDatosBancariosProveedorAlmacen(IDCuentaBancoP);
+                        if (IDCuentaBancoP.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("DatosBancarios", new { id = IDCuentaBancoP.IDProveedorAlmacen });
+                        }
+                        else
+                        {
+                            IDCuentaBancoP.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(IDCuentaBancoP);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                            return View(IDCuentaBancoP);
+                        }
+                    }
+                    else
+                    {
+                        IDCuentaBancoP.Conexion = Conexion;
+                        IDCuentaBancoP.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(IDCuentaBancoP);
+                        return View(IDCuentaBancoP);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("DatosBancarios", new { id = IDCuentaBancoP.IDProveedorAlmacen });
+                }
+            }
+            catch (Exception)
+            {
+                IDCuentaBancoP.Conexion = Conexion;
+                IDCuentaBancoP.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(IDCuentaBancoP);
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(IDCuentaBancoP);
+            }
+        }
+
+        //GET: Admin/CatProvvedorAlmacen/DatosBancariosEdit/3
+        [HttpGet]
+        public ActionResult DatosBancariosEdit(string id, string id2)
+        {
+            try
+            {
+                Token.SaveToken();
+                CuentaBancariasProveedorAlmacenModels Cuenta = new CuentaBancariasProveedorAlmacenModels();
+                _CatProveedorAlmacen_Datos ProveedorDatos = new _CatProveedorAlmacen_Datos();
+                Cuenta.IDDatosBancarios = id;
+                Cuenta.IDProveedorAlmacen = id2;
+                Cuenta.Conexion = Conexion;
+                Cuenta = ProveedorDatos.ObtenerDetalleCuentaBancaria(Cuenta);
+                Cuenta.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(Cuenta);
+                return View(Cuenta);
+            }
+            catch (Exception)
+            {
+                CuentaBancariasProveedorAlmacenModels Cuenta = new CuentaBancariasProveedorAlmacenModels();
+                Cuenta.IDProveedorAlmacen = id2;
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("DatosBancarios", new { id = Cuenta.IDProveedorAlmacen });
+            }
+        }
+
+        //POST: Admin/CatProveedor/EditarCuenta/3
+        [HttpPost]
+        public ActionResult DatosBancariosEdit(CuentaBancariasProveedorAlmacenModels IDCuentaBancoP)
+        {
+            _CatProveedorAlmacen_Datos ProveedorDatos = new _CatProveedorAlmacen_Datos();
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        IDCuentaBancoP.Conexion = Conexion;
+                        IDCuentaBancoP.Usuario = User.Identity.Name;
+                        IDCuentaBancoP.Opcion = 2;
+                        ProveedorDatos.ACDatosBancariosProveedorAlmacen(IDCuentaBancoP);
+                        if (IDCuentaBancoP.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("DatosBancarios", new { id = IDCuentaBancoP.IDProveedorAlmacen });
+                        }
+                        else
+                        {
+                            IDCuentaBancoP.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(IDCuentaBancoP);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                            return View(IDCuentaBancoP);
+                        }
+                    }
+                    else
+                    {
+                        IDCuentaBancoP.Conexion = Conexion;
+                        IDCuentaBancoP.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(IDCuentaBancoP);
+                        return View(IDCuentaBancoP);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("DatosBancarios", new { id = IDCuentaBancoP.IDProveedorAlmacen });
+                }
+            }
+            catch (Exception)
+            {
+                IDCuentaBancoP.Conexion = Conexion;
+                IDCuentaBancoP.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(IDCuentaBancoP);
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(IDCuentaBancoP);
+            }
+        }
+
+        // POST: Admin/CatProvedor/Delete/5
+        [HttpPost]
+        public ActionResult DatosBancariosDelete(string id, string id2)
+        {
+            try
+            {
+                CuentaBancariasProveedorAlmacenModels Datos = new CuentaBancariasProveedorAlmacenModels
+                {
+                    IDProveedorAlmacen = id2,
+                    IDDatosBancarios = id,
+                    Conexion = Conexion,
+                    Usuario = User.Identity.Name
+                };
+                _CatProveedorAlmacen_Datos ProveedorDatos = new _CatProveedorAlmacen_Datos();
+                ProveedorDatos.EliminarDatosBancariosProveedorAlmacen(Datos);
+                if (Datos.Completado)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "El registro se ha eliminado correctamente";
+                    return Json("");
+                }
+                else
+                { return Json(""); }
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
     }
 }

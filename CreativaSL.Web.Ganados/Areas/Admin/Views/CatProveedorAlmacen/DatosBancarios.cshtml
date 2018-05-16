@@ -1,11 +1,14 @@
-﻿@model CreativaSL.Web.Ganados.Models.CatProveedorModels
+﻿@model CreativaSL.Web.Ganados.Models.CuentaBancariasProveedorAlmacenModels
+
 @{
-    ViewBag.Title = "DatosContacto";
+    ViewBag.Title = "DatosBancarios";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-@section featured{
-    @{        var message = TempData["message"] ?? string.Empty;
+@section featured
+{
+    @{
+        var message = TempData["message"] ?? string.Empty;
         var typemessage = TempData["typemessage"] ?? string.Empty;
     }
     <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
@@ -15,7 +18,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Proveedor </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Proveedor de Almacén </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -27,40 +30,39 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("NuevoDatosContacto","CatProveedor", new {id=Model.IDProveedor,id2=Model.IDSucursal})" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Dato Contacto Proveedor</a></li>
+                            @{ string IDP = Model.IDProveedorAlmacen;}
+                            <li><a href="@Url.Action("DatosBancariosCreate","CatProveedorAlmacen", new { id = IDP})" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Datos Bancarios</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
-                            <li><a href="@Url.Action("Index","CatProveedor")" class="btn btn-danger btnCrear"><span class="fa fa-arrow-circle-o-left"></span> Regresar </a></li>
+                            <li><a href="@Url.Action("Index","CatProveedorAlmacen")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span> Regresar</a></li>
                         </ul>
                     </div>
-                    @Html.HiddenFor(model => model.IDProveedor)                                                                                                     <div id="validation_summary" class="field_error "></div> 
-                    @Html.HiddenFor(model => model.IDSucursal)
-                   
                     <div class="panel-body">
                         <div class="table-responsive">
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th>Nombre</th>
-                                        <th>Telefono</th>
-                                        <th>Celular</th>
-                                        <th>Correo</th>
+                                        <th>Banco</th>
+                                        <th>Titular</th>
+                                        <th>Núm. Tarjeta</th>
+                                        <th>Núm. Cuenta</th>
+                                        <th>Clabe Interbancaria</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var proveedor in Model.listaDatosContactos)
+                                    @foreach (var DatosBancarios in Model.ListaCuentaProveedorAlmacen)
                                     {
-                                        <tr id="@proveedor.IDContacto">
-                                            <td>@proveedor.nombreContacto</td>
-                                            <td>@proveedor.telefonoContacto</td>
-                                            <td>@proveedor.celularContacto</td>
-                                            <td>@proveedor.correo</td>
-                                            
+                                        <tr id="@DatosBancarios.IDDatosBancarios">
+                                            <td>@DatosBancarios.Banco.Descripcion</td>
+                                            <td>@DatosBancarios.Titular</td>
+                                            <td>@DatosBancarios.NumTarjeta</td>
+                                            <td>@DatosBancarios.NumCuenta</td>
+                                            <td>@DatosBancarios.ClabeInterbancaria</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" href="@Url.Action("NuevoDatosContactoEdit", "CatProveedor", new { id = Model.IDProveedor,id2=Model.IDSucursal,id3=proveedor.IDContacto})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" id="delete-@proveedor.IDContacto" data-hrefa="@Url.Action("Delete", "CatProveedor", new { id =  Model.IDProveedor,id2=Model.IDSucursal,id3=proveedor.IDContacto })" onClick="delete_row('@proveedor.IDContacto');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Editar" href="@Url.Action("DatosBancariosEdit", "CatProveedorAlmacen", new { id = DatosBancarios.IDDatosBancarios, id2 = IDP})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" id="delete-@DatosBancarios.IDDatosBancarios" data-hrefa="@Url.Action("DatosBancariosDelete", "CatProveedorAlmacen", new { id = DatosBancarios.IDDatosBancarios, id2 = IDP })" onClick="delete_row('@DatosBancarios.IDDatosBancarios');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -68,14 +70,13 @@
                                                             <i class="fa fa-cog"></i> <span class="caret"></span>
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                           
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("NuevoDatosContactoEdit", "CatProveedor", new { id = Model.IDProveedor,id2=Model.IDSucursal,id3=proveedor.IDContacto})">
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("DatosBancariosEdit", "CatProveedorAlmacen", new { id = DatosBancarios.IDDatosBancarios, id2 = IDP})">
                                                                     <i class="fa fa-edit"></i> Editar
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@proveedor.IDProveedor" data-hrefa="@Url.Action("Delete", "CatProveedor", new { id =  Model.IDProveedor,id2=proveedor.IDSucursal,id3=proveedor.IDContacto })" onClick="delete_row('@proveedor.IDContacto');">
+                                                                <a role="menuitem" tabindex="-1" id="delete-@DatosBancarios.IDDatosBancarios" data-hrefa="@Url.Action("DatosBancariosDelete", "CatProveedorAlmacen", new { id = DatosBancarios.IDDatosBancarios, id2 = IDP })" onClick="delete_row('@DatosBancarios.IDDatosBancarios');">
                                                                     <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>
@@ -94,7 +95,6 @@
             </div>
         </div>
     </div>
-    <!-- PAGE CONTENT WRAPPER -->
     <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
         <div class="mb-container">
             <div class="mb-middle">

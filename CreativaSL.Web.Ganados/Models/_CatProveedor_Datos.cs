@@ -9,6 +9,36 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class _CatProveedor_Datos
     {
+        public CatContactosModels ObtenerDetalleCatDatosXProveedor(CatContactosModels datos)
+        {
+            try
+            {
+                object[] parametros = { datos.IDProveedor,datos.IDContacto };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_get_DatosContactoXProveedorXID", parametros);
+                while (dr.Read())
+                {
+                    datos.IDContacto = dr["id_contacto"].ToString();
+                    
+                    datos.nombreContacto= dr["nombreContacto"].ToString();
+                    datos.apMaterno= dr["apellidomaterno"].ToString();
+                    datos.apPaterno = dr["apellidoPaterno"].ToString();
+                   
+                    datos.telefonoContacto = dr["telefonoContacto"].ToString();
+                    datos.correo = dr["correoElectronico"].ToString();
+                    datos.celularContacto = dr["celularContacto"].ToString();
+                    datos.direccion= dr["direccion"].ToString();
+                    
+                    datos.observacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
+                }
+                return datos;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public CatContactosModels AcContactoProveedor(CatContactosModels datos)
         {
             try
@@ -100,6 +130,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.FechaIngreso != null ? datos.FechaIngreso : DateTime.Today,
                     datos.EsEmpresa,
                     datos.Tolerancia,
+                    datos.merma,
                     datos.Observaciones ?? string.Empty,
                     datos.Usuario ?? string.Empty
                     };
@@ -171,6 +202,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.EsEmpresa = !dr.IsDBNull(dr.GetOrdinal("esEmpresa")) ? dr.GetBoolean(dr.GetOrdinal("esEmpresa")) : false;
                     datos.Tolerancia = !dr.IsDBNull(dr.GetOrdinal("tolerancia")) ? dr.GetInt32(dr.GetOrdinal("tolerancia")) : 0;
                     datos.Observaciones = !dr.IsDBNull(dr.GetOrdinal("observaciones")) ? dr.GetString(dr.GetOrdinal("observaciones")) : string.Empty;
+                    datos.merma= !dr.IsDBNull(dr.GetOrdinal("merma")) ? dr.GetInt32(dr.GetOrdinal("merma")) : 0;
                 }
                 return datos;
             }

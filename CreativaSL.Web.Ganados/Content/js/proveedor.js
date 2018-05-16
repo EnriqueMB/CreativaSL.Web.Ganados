@@ -52,6 +52,7 @@
                 FechaIngreso: { required: true },
                 IDTipoProveedor: { CMBINT: true }, //{ nombre: true, maxlenght: 300 },
                 Tolerancia: { number: true },
+                merma: { number: true },
                 telefonoCelular: { telefono: true },
                 telefonoCasa: { telefono: true },
                 correo: { required: true, email: true },
@@ -67,6 +68,7 @@
                 FechaIngreso: { required: "Ingrese la fecha de inicio de relación." },
                 IDTipoProveedor: { CMBINT: "Seleccione un tipo proveedor válido." }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
                 Tolerancia: { number: "Ingrese un número de tolerancia válido." },
+                merma: { number: "Ingrese un número de merma válido." },
                 telefonoCelular: { telefono: "Ingrese un número de teléfono celular válido." },
                 telefonoCasa: { telefono: "Ingrese un número de teléfono válido." },
                 correo: { required: "Ingrese el correo electrónico del proveedor.", email: "Ingrese un correo electrónico válido." },
