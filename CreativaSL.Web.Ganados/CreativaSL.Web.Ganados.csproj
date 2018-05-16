@@ -1171,6 +1171,7 @@
     <Content Include="Areas\Admin\Views\Flete\ModalEvento.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\DatosContacto.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\NuevoDatosContacto.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\NuevoDatosContactoEdit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
