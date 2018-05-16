@@ -3,7 +3,14 @@
     ViewBag.Title = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+@section css
+{
+    <!--FILEINPUT-->
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
+}
 @section featured{
 
     @{
@@ -20,7 +27,7 @@
         <div class="col-md-12">
             @*<form class="form-horizontal">*@
             @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("Edit", "CatVehiculo", FormMethod.Post, new { id = "form-vehiculo", @class = "form-horizontal", autocomplete = "off" }))
+            @using (Html.BeginForm("Edit", "CatVehiculo", FormMethod.Post, new { id = "form-vehiculo", @class = "form-horizontal", autocomplete = "off", @enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
                 @*@Html.ValidationSummary(true)*@
@@ -31,11 +38,8 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"><strong>Información</strong> Vehículo</h3>
-                        <ul class="panel-controls">
-                            @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
-                        </ul>
+                        <ul class="panel-controls"></ul>
                     </div>
-
                     <div class="panel-body">
                         <div class="form-group">
                             <div class="col-md-6">
@@ -190,6 +194,20 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Número de unidad</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                            @Html.TextBoxFor(model => model.numeroUnidad, new { id = "numeroUnidad", @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.numeroUnidad)
+                                        <span class="help-block">Ingrese Color del vehículo</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label class="col-md-12 control-label text-center">Propio</label>
                                     <div class="col-md-12 col-xs-12">
                                         <div class="input-group text-center" style="margin: auto;padding: 5px;">
@@ -200,25 +218,38 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
 
                         <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Ingrese imagen del vehículo</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Img, new { id = "Img", @type = "file", @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Img)
+                                        <span class="help-block">Ingrese por lo menos 1 imagen.</span>
+                                    </div>
+                                </div>
+                            </div>
                             @*<div class="col-md-6">
-                    <label class="col-md-4 control-label"> ¿Disponible? (Estatus)</label>
-                    <div class="col-md-8 col-xs-12">
-                        <div class="input-group">
+                                    <label class="col-md-4 control-label"> ¿Disponible? (Estatus)</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
 
-                            @Html.CheckBoxFor(model => model.Estatus)
+                                            @Html.CheckBoxFor(model => model.Estatus)
+                                        </div>
+
+
+                                    </div>
+                                </div>*@
+
                         </div>
-
-
                     </div>
-                </div>*@
-
-                        </div>
-                    </div>
-                   
-                     <div class="panel-footer">
+                    <div class="panel-footer">
                         <input type="submit" value="Guardar" class="btn btn-primary pull-right">
                         <a href="@Url.Action("Index","CatVehiculo")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                     </div>
@@ -233,6 +264,10 @@
     </script>
 }
 @section script{
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
+@*<script src="@Url.Content("~/Content/js/plugins/uploadFiles/fa/theme.js")" type="text/javascript"></script>*@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
@@ -249,6 +284,27 @@
 
         Mensaje(message, typemessage);
         Vehiculo.init();
+        $('#Img').fileinput({
+            theme: 'fa',
+            language: 'es',
+            maxFileCount: 1,
+            uploadUrl: "#",
+            overwriteInitial: true,
+            showUploadedThumbs: false,
+            allowedFileExtensions: ['png'],
+            initialPreview: [
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.img64" />'
+            ],
+            initialCaption: 'Ine.png',
+            initialPreviewConfig: [
+               { caption: 'INE.png' }
+            ],
+            initialPreviewShowDelete: false,
+            showRemove: false,
+            showClose: false,
+            showUpload: false,
+            layoutTemplates: { actionDelete: '' }
+        })
     });
     </script>
 }

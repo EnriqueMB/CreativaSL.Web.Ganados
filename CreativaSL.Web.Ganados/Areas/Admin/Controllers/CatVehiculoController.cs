@@ -5,7 +5,10 @@ using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -84,7 +87,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Vehiculo.Conexion = Conexion;
                         Vehiculo.Opcion = 1;
                         Vehiculo.IDVehiculo = "0";
-
+                        HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                        if (bannerImage != null && bannerImage.ContentLength > 0)
+                        {
+                            Stream s = bannerImage.InputStream;
+                            Bitmap img = new Bitmap(s);
+                            Vehiculo.img64 = img.ToBase64String(ImageFormat.Png);
+                        }
                         Vehiculo.Estatus = true;
                         Vehiculo = VehiculoDatos.AcCatVehiculo(Vehiculo);
                         if (Vehiculo.Completado == true)
@@ -169,8 +178,24 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 if (Token.IsTokenValid())
                 {
+                    ModelState.Remove("Img");
                     if (ModelState.IsValid)
                     {
+
+                        HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                        if (!string.IsNullOrEmpty(bannerImage.FileName))
+                        {
+                            if (bannerImage != null && bannerImage.ContentLength > 0)
+                            {
+                                Stream s = bannerImage.InputStream;
+                                Bitmap img = new Bitmap(s);
+                                Vehiculo.img64 = img.ToBase64String(ImageFormat.Png);
+                            }
+                        }
+                        else
+                        {
+                            Vehiculo.BandImg = true;
+                        }
                         Vehiculo.Conexion = Conexion;
                         Vehiculo.Opcion = 2;
                         Vehiculo.IDVehiculo = id;
