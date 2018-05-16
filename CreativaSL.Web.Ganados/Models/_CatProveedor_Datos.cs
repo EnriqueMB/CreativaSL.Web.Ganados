@@ -130,6 +130,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.FechaIngreso != null ? datos.FechaIngreso : DateTime.Today,
                     datos.EsEmpresa,
                     datos.Tolerancia,
+                    datos.merma,
                     datos.Observaciones ?? string.Empty,
                     datos.Usuario ?? string.Empty
                     };
@@ -201,6 +202,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.EsEmpresa = !dr.IsDBNull(dr.GetOrdinal("esEmpresa")) ? dr.GetBoolean(dr.GetOrdinal("esEmpresa")) : false;
                     datos.Tolerancia = !dr.IsDBNull(dr.GetOrdinal("tolerancia")) ? dr.GetInt32(dr.GetOrdinal("tolerancia")) : 0;
                     datos.Observaciones = !dr.IsDBNull(dr.GetOrdinal("observaciones")) ? dr.GetString(dr.GetOrdinal("observaciones")) : string.Empty;
+                    datos.merma= !dr.IsDBNull(dr.GetOrdinal("merma")) ? dr.GetInt32(dr.GetOrdinal("merma")) : 0;
                 }
                 return datos;
             }
