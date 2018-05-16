@@ -437,6 +437,7 @@
     <Content Include="Content\js\CalAlmacen.js" />
     <Content Include="Content\js\CatContactos.js" />
     <Content Include="Content\js\CompraAlmacenDetalle.js" />
+    <Content Include="Content\js\CuentaProveedorAlmacen.js" />
     <Content Include="Content\js\EmpleadosSucursalFaltas.js" />
     <Content Include="Content\js\Puestos.js" />
     <Content Include="Content\js\CategoriaPuestos.js" />
@@ -1172,6 +1173,9 @@
     <Content Include="Areas\Admin\Views\CatProveedor\DatosContacto.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\NuevoDatosContacto.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\ModalProductoGanadoExterno.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorAlmacen\DatosBancarios.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorAlmacen\DatosBancariosCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorAlmacen\DatosBancariosEdit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1315,6 +1319,7 @@
     <Compile Include="Models\ConciliacionAlmacenModels.cs" />
     <Compile Include="Models\CuentaBancariaModels.cs" />
     <Compile Include="Models\CuentaBancariaProveedorModels.cs" />
+    <Compile Include="Models\CuentaBancariasProveedorAlmacenModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
     <Compile Include="Models\DocumentoPorPagarModels.cs" />
     <Compile Include="Models\EntradaAlmacenDetalleModels.cs" />
