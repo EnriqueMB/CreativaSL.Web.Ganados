@@ -43,6 +43,13 @@
         .form-control[disabled], .form-control[readonly] {
             color: #000 !important;
         }
+
+       .btnCSL {
+            border-color: #999;
+            color: #1b1e24;
+            border-radius: 20%;
+       }
+
     </style>
 }
 @section featured
@@ -415,10 +422,13 @@
                                         <!-- START DEFAULT DATATABLE -->
                                         <div class="panel panel-default">
                                             <div class="panel-heading">
-                                                <h3 class="panel-title"></h3>
+                                                <h3 class="panel-title">
+                                                    <a id="btnAddProductoGanado" class="btn btn-default btnCrear btnCSL"><span class="fa fa-plus"></span> Agregar ganado Grupo Ocampo</a>
+                                                </h3>
                                                 <ul class="panel-controls">
-                                                    <li><a id="btnAddProductoGeneral" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar producto</a></li>
-                                                    <li><a id="btnAddProductoGanado" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar ganado Grupo Ocampo</a></li>
+                                                    <li><input id="inputGanadoExterno" type="text" class="form-control" placeholder="Cantidad de filas"/></li>
+                                                    <li><a id="btnAddRowGanadoExterno" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar ganado externo</a></li>
+                                                    <li><a id="btnSaveRowGanadoExterno" class="btn btn-green btnCrear"><span class="fa fa-save"></span> Guardar</a></li>
                                                     <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                                                     <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                                                 </ul>
@@ -441,15 +451,15 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <h3>Otros productos</h3>
+                                                    <h3>Ganado externo</h3>
                                                     <div class="table-responsive">
-                                                        <table id="tblProductoGeneral" class="table">
+                                                        <table id="tblGanadoExterno" class="table">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Clave</th>
-                                                                    <th>Descripción</th>
-                                                                    <th>Cantidad</th>
-                                                                    <th>Peso Aproximado</th>
+                                                                    <th>Núm. arete</th>
+                                                                    <th>Genero</th>
+                                                                    <th>Peso</th>
+                                                                    <th>Eliminar</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody></tbody>

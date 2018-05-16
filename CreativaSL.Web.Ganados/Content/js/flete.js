@@ -3,7 +3,8 @@
     var lugarOrigen = document.getElementById('Trayecto_LugarOrigen_id_lugar');
     var lugarDestino = document.getElementById('Trayecto_LugarDestino_id_lugar');
     var tableImpuesto, map, directionsDisplay, directionsService;
-    var tableDocumentos, tableProductoGanado, tableProductoGeneral, tblModalGanadoActual;
+    var tableDocumentos, tableProductoGanado, tableProductoGeneral, tblModalGanadoActual, tblModalGanadoExterno;
+    var countRow = 1;
 
     var InitMap = function () {
         directionsService = new google.maps.DirectionsService;
@@ -124,6 +125,72 @@
             ObtenerImporte();
         });
     }
+    var RunEventoProductoGanadoExterno = function () {
+        tblModalGanadoExterno = $('#tblGanadoExterno').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+            responsive: true
+        });
+
+        $('#btnAddRowGanadoExterno').on('click', function () {
+            var numero = document.getElementById("inputGanadoExterno").value;
+            if (!/^([0-9])*$/.test(numero))
+                Mensaje("Por favor, ingrese un número.", 2);
+            else if (numero.length == 0) {
+                Mensaje("Por favor, ingrese un número.", 2);
+            }
+            else {
+                for (var i = 0; i < numero; i++) {
+                    tblModalGanadoExterno.row.add([
+               '<input id="arete'+countRow +'" class="form-control fg" type="text">',
+               '<select id="genero' + countRow + '"class="selectpicker form-control fg"> <option value="Macho">Macho</option> <option value="Hembra">Hembra</option></select> ',
+               '<input id="peso' + countRow + '"class="fg form-control" type="text">',
+               ' <div class="visible-md visible-lg hidden-sm hidden-xs">' +
+                           '<a data-hrefa="/Admin/Flete/C_DEL_ProductoGanado/" title="Eliminar" data-id="" class="btn btn-danger tooltips btn-sm deleteProductoGanadoExterno" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>' +
+                           '</div>' +
+                           '<div class="visible-xs visible-sm hidden-md hidden-lg">' +
+                           '<div class="btn-group">' +
+                           '<a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#"' +
+                           '<i class="fa fa-cog"></i> <span class="caret"></span>' +
+                           '</a>' +
+                           '<ul role="menu" class="dropdown-menu pull-right dropdown-dark">' +
+                           '<li>' +
+                           '<a data-hrefa="/Admin/Flete/C_DEL_ProductoGanado/" class="deleteProductoGanadoExterno" role="menuitem" tabindex="-1" data-id="">' +
+                           '<i class="fa fa-trash-o"></i> Eliminar' +
+                           '</a>' +
+                           '</li>' +
+                           '</ul>' +
+                           '</div>' +
+                           '</div>'
+                    ]).draw(false);
+                    countRow++;
+                }
+            }
+        });
+      
+        $('#tblGanadoExterno tbody').on('click', '.deleteProductoGanadoExterno', function (e) {
+            var data = tblModalGanadoExterno.row($(this).parents('tr')).data();
+            tblModalGanadoExterno.row($(this).parents('tr')).remove().draw(false);
+        });
+        $('#btnSaveRowGanadoExterno').on('click', function () {
+            var nNodes = tblModalGanadoExterno.rows().nodes().to$().find('input, select');
+            console.log(nNodes);
+            console.log(Object.values(nNodes));
+            console.log(nNodes["0"].id);
+            console.log(nNodes["2"].id);
+            
+            for (var i = 0; i < nNodes.length; i++) {
+                var id = document.getElementById(nNodes[i].id).value;
+                console.log(id);
+            }
+            
+            //var a = tblModalGanadoExterno.rows().data().to$().find('input').val();
+            //console.log(nNodes);
+            //console.log(a);
+
+        });
+    }
     //Validaciones
     var LoadValidation_AC_Cliente = function () {
         var form1 = $('#Frm_AC_Cliente');
@@ -155,7 +222,7 @@
                 "Cliente.IDCliente": {
                     required: true
                 },
-                "Chofer_IDChofer": {
+                "Chofer.IDChofer": {
                     required: true
                 },
                 "Vehiculo.IDVehiculo": {
@@ -175,7 +242,7 @@
                 "Cliente.IDCliente": {
                     required: "-Seleccione un cliente."
                 },
-                "Chofer_IDChofer": {
+                "Chofer.IDChofer": {
                     required: "-Seleccione un chofer."
                 },
                 "Vehiculo.IDVehiculo": {
@@ -755,7 +822,7 @@
                     "render": function (data, type, full) {
 
                         return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-hrefa='/Admin/Flete/C_DEL_ProductoGanado/' title='Eliminar' data-id='" + full["id_fleteProductoGanado"] + "' class='btn btn-danger tooltips btn-sm deleteProductoGanado' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "<a data-hrefa='/Admin/Flete/C_DEL_ProductoGanado/' title='Eliminar' data-id='" + full["id_producto"] + "' class='btn btn-danger tooltips btn-sm deleteProductoGanado' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                             "<div class='btn-group'>" +
@@ -764,7 +831,7 @@
                             "</a>" +
                             "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
                             "<li>" +
-                            "<a data-hrefa='/Admin/Flete/C_DEL_ProductoGanado/' class='deleteProductoGanado' role='menuitem' tabindex='-1' data-id='" + full["id_fleteProductoGanado"] + "'>" +
+                            "<a data-hrefa='/Admin/Flete/C_DEL_ProductoGanado/' class='deleteProductoGanado' role='menuitem' tabindex='-1' data-id='" + full["id_producto"] + "'>" +
                             "<i class='fa fa-trash-o'></i> Eliminar" +
                             "</a>" +
                             "</li>" +
@@ -855,8 +922,6 @@
         var url;
         if (opcion == 1)
             url = '/Admin/Flete/ModalProductoGanado/';
-        else
-            url = '/Admin/Flete/ModalProductoGeneral/';
 
         $.ajax({
             url: url,
@@ -927,6 +992,14 @@
                     document.getElementById("tabCobro").dataset.toggle = "tab";
                     $('#tabCobro').data('toggle', "tab")
                     $("#liCobro").removeClass('disabled').addClass('pestaña');
+                    //Documentos
+                    document.getElementById("tabDocumentacion").dataset.toggle = "tab";
+                    $('#tabDocumentacion').data('toggle', "tab")
+                    $("#liDocumentacion").removeClass('disabled').addClass('pestaña');
+                    //Productos
+                    document.getElementById("tabProducto").dataset.toggle = "tab";
+                    $('#tabProducto').data('toggle', "tab")
+                    $("#liProducto").removeClass('disabled').addClass('pestaña');
                 }
                 else
                     Mensaje(response.Mensaje, "2");
@@ -1064,7 +1137,12 @@
                         Mensaje(result.Mensaje, "2");
                     },
                     success: function (result) {
-                        Mensaje(result.Mensaje, "1");
+                        if (result.Success) {
+                            Mensaje(result.Mensaje, "1");
+                        }
+                        else {
+                            Mensaje(result.Mensaje, "2");
+                        }
                         $("#ModalProducto").modal('hide');
                         tableProductoGanado.ajax.reload();
                     }
@@ -1099,6 +1177,8 @@
             ]
         });
     }
+  
+
     function ObtenerImporte() {
         var Base = $('#Base').val();
         var TasaCuota = $('#TasaCuota').val();
@@ -1341,6 +1421,7 @@
             DesbloquearTabs();
             RunEventsGeneral();
             RunEventsCobro();
+            RunEventoProductoGanadoExterno();
             LoadValidation_AC_Cliente();
             LoadValidation_AC_Trayecto();
             LoadValidation_AC_Cobro();

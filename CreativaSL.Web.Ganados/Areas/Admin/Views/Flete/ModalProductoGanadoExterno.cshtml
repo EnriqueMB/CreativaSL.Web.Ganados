@@ -1,0 +1,42 @@
+﻿<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Ganado extero</h4>
+    </div>
+    <div class="modal-body">
+        <!--INICIA CUERPO MODAL-->
+        <div class="table-responsive">
+            <div class="form-group">
+                <div class="col-md-12 controlError">
+                    <a id="btnAddRowGanadoExterno" class="col-md-offset-6 col-md-2 btn btn-default btnCrear btnCSL"><span class="fa fa-plus"></span> Agregar filas </a>
+                    <div class="col-md-4 col-xs-12">
+                        <input id="txtCantidadFilas" type="text" class="form-control" />            
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="col-md-12">
+                <table id="tblModalGanadoExterno" class="table datatable">
+                    <thead>
+                        <tr>
+                            <th>Núm. arete</th>
+                            <th>Genero</th>
+                            <th>Peso</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!--TERMINA CUERPO MODAL-->
+    </div>
+    <div class="form-group modal-footer">
+        <div class="controls">
+            <button id="guardarProductoGanadoExterno" type="button" class="btn btn-success green">Guardar</button>
+            <button type="button" class="btn btn-secondary red" data-dismiss="modal">Cancelar</button>
+        </div>
+    </div>
+</div>
