@@ -431,7 +431,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         #endregion
         #region Producto Ganado Externo
-        public ActionResult AC_ProductoGanadoExterno(string IDFlete, string IDProducto, string numArete, string genero, string peso, string id_input)
+        public ActionResult AC_ProductoGanadoExterno(string IDFlete, string IDProducto, string numArete, string genero, string peso, string posicionNode)
         {
             try
             {
@@ -450,7 +450,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                     ganado = FleteDatos.AC_ProductoGanadoExterno(ganado);
                     if(ganado.RespuestaAjax.Success)
-                        ganado.RespuestaAjax.Mensaje = "{\"IDProducto\": \""+ganado.ID_Producto+ "\", \"id_input\": \"" + id_input + "\"}";
+                        ganado.RespuestaAjax.Mensaje = "{\"IDProducto\": \""+ganado.ID_Producto+ "\", \"posicionNode\": \"" + posicionNode + "\"}";
 
                     Token.ResetToken();
                     Token.SaveToken();

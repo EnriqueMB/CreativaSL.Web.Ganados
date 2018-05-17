@@ -1173,7 +1173,6 @@
     <Content Include="Areas\Admin\Views\Flete\ModalEvento.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\DatosContacto.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\NuevoDatosContacto.cshtml" />
-    <Content Include="Areas\Admin\Views\Flete\ModalProductoGanadoExterno.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorAlmacen\DatosBancarios.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorAlmacen\DatosBancariosCreate.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorAlmacen\DatosBancariosEdit.cshtml" />
