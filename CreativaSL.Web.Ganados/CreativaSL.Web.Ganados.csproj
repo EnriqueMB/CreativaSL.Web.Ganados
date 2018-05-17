@@ -427,6 +427,8 @@
     <Content Include="Content\img\logoa.png" />
     <Content Include="Content\img\owl\AjaxLoader.gif" />
     <Content Include="Content\img\owl\grabbing.png" />
+    <Content Include="Content\img\tabla\cancel.png" />
+    <Content Include="Content\img\tabla\ok.png" />
     <Content Include="Content\img\themes\black.jpg" />
     <Content Include="Content\img\themes\blue.jpg" />
     <Content Include="Content\img\themes\brown.jpg" />
@@ -1162,7 +1164,6 @@
     <Content Include="Areas\Admin\Views\Almacen\Ver.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Flete\ModalProductoGeneral.cshtml" />
     <Content Include="Areas\Admin\Views\CatProductosAlmacen\UnidadProducto.cshtml" />
     <Content Include="Areas\Admin\Views\CatProductosAlmacen\UnidadCreate.cshtml" />
     <Content Include="Areas\Admin\Views\CatProductosAlmacen\UnidadEdit.cshtml" />
@@ -1172,10 +1173,11 @@
     <Content Include="Areas\Admin\Views\Flete\ModalEvento.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\DatosContacto.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\NuevoDatosContacto.cshtml" />
-    <Content Include="Areas\Admin\Views\Flete\ModalProductoGanadoExterno.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorAlmacen\DatosBancarios.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorAlmacen\DatosBancariosCreate.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorAlmacen\DatosBancariosEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\ContactosCliente.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\NuevoDatosContactoEdit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

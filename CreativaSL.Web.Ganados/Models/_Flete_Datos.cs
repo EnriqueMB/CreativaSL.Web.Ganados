@@ -71,6 +71,23 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public SqlDataReader GetProductoGanadoNOPropioXIDFlete(FleteModels Flete)
+        {
+            try
+            {
+                object[] parametros =
+                    {
+                        Flete.id_flete
+                    };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_ProductoGanadoNOPropioXIDFlete", parametros);
+                return dr;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         #region Get
         #region Get AC_Flete
@@ -757,8 +774,42 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
+        #region Producto Ganado Externo
+        public Flete_ProductoModels AC_ProductoGanadoExterno(Flete_ProductoModels ganado)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    ganado.ID_Producto,
+                    ganado.ID_Flete,
+                    ganado.NumArete,
+                    ganado.Genero,
+                    ganado.PesoAproximado,
+                    ganado.Usuario
+                };
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(ganado.Conexion, "spCSLDB_Flete_ac_ProductoGanadoExterno", parametros);
+
+                while (dr.Read())
+                {
+                    ganado.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    ganado.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+            }
+            catch (Exception ex)
+            {
+                ganado.RespuestaAjax.Mensaje = ex.ToString();
+                ganado.RespuestaAjax.Success = false;
+            }
+
+            return ganado;
+        }
         #endregion
-        
+
+        #endregion
+
         public Flete_TipoDocumentoModels Flete_del_DocumentoXIDDocumento(Flete_TipoDocumentoModels FleteTipo)
         {
             try
