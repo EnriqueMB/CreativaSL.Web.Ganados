@@ -1176,6 +1176,8 @@
     <Content Include="Areas\Admin\Views\CatProveedorAlmacen\DatosBancarios.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorAlmacen\DatosBancariosCreate.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorAlmacen\DatosBancariosEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\ContactosCliente.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\NuevoDatosContactoEdit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
