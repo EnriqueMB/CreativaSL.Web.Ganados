@@ -38,6 +38,7 @@
                                 <thead>
                                     <tr>
                                         <th>Folio de entrada</th>
+                                        <th>Estatus</th>
                                         <th>Almacén</th>
                                         <th>Fecha</th>
                                         <th>Factura o nota de compra</th>
@@ -50,6 +51,7 @@
                                     {
                                         <tr id="@Item.IDEntradaAlmacen">
                                             <td>@Item.FolioEntrada</td>
+                                            <td><span class="@Item.CssEstatus">@Item.Estatus</span></td>
                                             <td>@Item.Almacen.Descripcion</td>
                                             <td>@Item.FechaEntradaFormat</td>
                                             <td>@Item.CompraAlmacen.NumFacturaNota</td>
@@ -58,13 +60,28 @@
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     @if (Item.Finalizado)
                                                     {
+                                                        if (Item.IDEstatus == 1)
+                                                        {
                                                         <a title="Procesar" class="btn btn-primary processRow" href="@Url.Action("Procesar", "EntradasAlmacen", new { id = Item.IDEntradaAlmacen })"><i class="fa fa-caret-square-o-right"></i></a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <label title="No disponible" class="btn" style="background-color:gray; " data-placement="top" data-original-title="Procesar"><i class="fa fa-caret-square-o-right" style="color:white"></i></label>
+                                                        }
                                                     }
                                                     else
                                                     {
                                                         <a title="Continuar" class="btn btn-primary" href="@Url.Action("CreateDetail", "EntradasAlmacen", new { id = Item.IDEntradaAlmacen })"><i class="fa fa-mail-forward"></i></a>
                                                     }
-                                                    <a title="Editar" href="@Url.Action("Edit", "EntradasAlmacen", new { id = Item.IDEntradaAlmacen})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    @if (Item.IDEstatus == 1)
+                                                    {
+                                                        <a title="Editar" href="@Url.Action("Edit", "EntradasAlmacen", new { id = Item.IDEntradaAlmacen})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label title="No disponible" class="btn" style="background-color:gray; " data-placement="top" data-original-title="Edit"><i class="fa fa-edit" style="color:white"></i></label>
+                                                    }
+
                                                     <a title="Eliminar" id="delete-@Item.IDEntradaAlmacen" data-sku="@Item.IDEntradaAlmacen" href="@Url.Action("Delete", "EntradasAlmacen", new { id =  Item.IDEntradaAlmacen })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
@@ -76,12 +93,15 @@
 
                                                             @if (Item.Finalizado)
                                                             {
-                                                            <li>
-                                                                <a role="menuitem" class="processRow" tabindex="-1" href="@Url.Action("Procesar", "EntradasAlmacen", new { id = Item.IDEntradaAlmacen })">
-                                                                    <i class="fa fa-caret-square-o-right"></i> 
+                                                                if (Item.IDEstatus == 1)
+                                                                {
+                                                                    <li>
+                                                                        <a role="menuitem" class="processRow" tabindex="-1" href="@Url.Action("Procesar", "EntradasAlmacen", new { id = Item.IDEntradaAlmacen })">
+                                                                            <i class="fa fa-caret-square-o-right"></i> 
 
-                                                                </a>
-                                                            </li>
+                                                                        </a>
+                                                                    </li>
+                                                                }
                                                             }
                                                             else
                                                             {
@@ -92,11 +112,14 @@
                                                                 </a>
                                                             </li>
                                                             }
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "EntradasAlmacen", new { id = Item.IDEntradaAlmacen })">
-                                                                    <i class="fa fa-edit"></i> Editar
-                                                                </a>
-                                                            </li>
+                                                            @if (Item.IDEstatus == 1)
+                                                            {
+                                                                <li>
+                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "EntradasAlmacen", new { id = Item.IDEntradaAlmacen })">
+                                                                        <i class="fa fa-edit"></i> Editar
+                                                                    </a>
+                                                                </li>
+                                                            }
                                                             <li>
                                                                 <a role="menuitem" class="deleteRow" tabindex="-1" id="delete-@Item.IDEntradaAlmacen" data-sku="@Item.IDEntradaAlmacen" href="@Url.Action("Delete", "EntradasAlmacen", new { id =  Item.IDEntradaAlmacen })">
                                                                     <i class="fa fa-trash-o"></i> Eliminar
@@ -139,9 +162,9 @@
     <div class="message-box animated fadeIn" data-sound="alert" id="mb-process-row">
         <div class="mb-container">
             <div class="mb-middle">
-                <div class="mb-title"><span class="fa fa-times"></span> Procesar <strong> Entrega de combustible</strong></div>
+                <div class="mb-title"><span class="fa fa-times"></span> Procesar <strong> Entrada a almacén</strong></div>
                 <div class="mb-content">
-                    <p>¿Está seguro de procesar la entrega? Éste proceso NO es reversible. Se generará un documento por pagar.</p>
+                    <p>¿Está seguro de procesar la entrada? Éste proceso NO es reversible.</p>
                     <p>Presione "sí" para confirmar.</p>
                 </div>
                 <div class="mb-footer">

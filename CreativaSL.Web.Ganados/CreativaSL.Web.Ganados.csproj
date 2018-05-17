@@ -1167,6 +1167,7 @@
     <Content Include="Areas\Admin\Views\CompraAlmacen\AddProduct.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\ModalEvento.cshtml" />
+    <Content Include="Areas\Admin\Views\EntradasAlmacen\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1363,6 +1364,7 @@
     <Compile Include="Models\Validaciones\ClabeInterbancariaAttribute.cs" />
     <Compile Include="Models\Validaciones\CombosIntAttribute.cs" />
     <Compile Include="Models\Validaciones\CorreoAttribute.cs" />
+    <Compile Include="Models\Validaciones\DecimalMayor0Attribute.cs" />
     <Compile Include="Models\Validaciones\DescripcionAttribute.cs" />
     <Compile Include="Models\Validaciones\DireccionAttribute.cs" />
     <Compile Include="Models\Validaciones\IFEAttribute.cs" />

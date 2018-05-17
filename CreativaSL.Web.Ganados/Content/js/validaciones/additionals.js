@@ -31,7 +31,7 @@ $.validator.addMethod("telefono", function (value, element) {
 }, "invalid phone number");
 
 $.validator.addMethod("texto", function (value, element) {
-    return this.optional(element) || /^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\(\)\-\,\.\;\:\s]*$/i.test(value);
+    return this.optional(element) || /^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\(\)\-\,\#\.\;\:\[\]\*\?\¿\¡\!\+\_\s]*$/i.test(value);
 }, "invalid text");
 $.validator.addMethod("placa", function (value, element) {
     return this.optional(element) || /^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\-\s]*$/i.test(value);

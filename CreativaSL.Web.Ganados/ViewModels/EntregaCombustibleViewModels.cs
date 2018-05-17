@@ -1,4 +1,5 @@
 ﻿using CreativaSL.Web.Ganados.Models;
+using CreativaSL.Web.Ganados.Models.Validaciones;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,52 +15,21 @@ namespace CreativaSL.Web.Ganados.ViewModels
             _IDEntregaCombustible = string.Empty;
             _IDSucursal = string.Empty;
             _IDVehiculo = string.Empty;
+            _IDProveedor = string.Empty;
             _IDTipoCombustible = 0;
             _Fecha = DateTime.Today;
             _NoTicket = string.Empty;
             _KMInicial = 0;
-            _KMFinal = 0;
             _Litros = 0;
             _Total = 0;
             _UrlImagen64 = string.Empty;
             _ImgTicketBand = false;
-            _BandFechaEntrega = false;
-            _BandIDSucursal = false;
-            _BandIDVehiculo = false;
-            _Sucursal = string.Empty;
-            _Vehiculo = string.Empty;
-            //_ImgTicket = new HttpPostedFile
             _ListaVehiculos = new List<CatVehiculoModels>();
             _ListaTipoCombustible = new List<CatTipoCombustibleModels>();
             _ListaSucursales = new List<CatSucursalesModels>();
-            Conexion = string.Empty;
-            Resultado = 0;
-            Completado = false;
-            Usuario = string.Empty;
-            Opcion = 0;
+            _ListaProveedores = new List<CatProveedorModels>();            
         }
-        private bool _BandFechaEntrega;
-
-        public bool BandFechaEntrega
-        {
-            get { return _BandFechaEntrega; }
-            set { _BandFechaEntrega = value; }
-        }
-        private bool _BandIDSucursal;
-
-        public bool BandIDSucursal
-        {
-            get { return _BandIDSucursal; }
-            set { _BandIDSucursal = value; }
-        }
-        private bool _BandIDVehiculo;
-
-        public bool BandIDVehiuculo
-        {
-            get { return _BandIDVehiculo; }
-            set { _BandIDVehiculo = value; }
-        }
-
+       
         private string _IDEntregaCombustible;
         /// <summary>
         /// Identificador de la entrega de combustible
@@ -74,16 +44,32 @@ namespace CreativaSL.Web.Ganados.ViewModels
         /// <summary>
         /// Identificador de la sucursal a la que se cargará el documento por pagar
         /// </summary>
+        [Required(ErrorMessage = "Seleccione una sucursal.")]
+        [Display(Name = "Sucursal")]
         public string IDSucursal
         {
             get { return _IDSucursal; }
             set { _IDSucursal = value; }
         }
 
+        private string _IDProveedor;
+        /// <summary>
+        /// Identificador del proveedor al que se le compra el combustible
+        /// </summary>
+        [Required(ErrorMessage = "Seleccione un proveedor.")]
+        [Display(Name = "Proveedor")]
+        public string IDProveedor
+        {
+            get { return _IDProveedor; }
+            set { _IDProveedor = value; }
+        }
+        
         private string _IDVehiculo;
         /// <summary>
         /// Identificador del vehículo
         /// </summary>
+        [Required(ErrorMessage = "Seleccione un vehículo.")]
+        [Display(Name = "Vehículo")]
         public string IDVehiculo
         {
             get { return _IDVehiculo; }
@@ -94,6 +80,8 @@ namespace CreativaSL.Web.Ganados.ViewModels
         /// <summary>
         /// Identificador del tipo de combustible
         /// </summary>
+        [CombosInt(ErrorMessage = "Seleccione un tipo de combustible.")]
+        [Display(Name = "Tipo de combustible")]
         public int IDTipoCombustible
         {
             get { return _IDTipoCombustible; }
@@ -104,6 +92,10 @@ namespace CreativaSL.Web.Ganados.ViewModels
         /// <summary>
         /// Fecha en que se realiza la carga de combustible
         /// </summary>
+        [Required(ErrorMessage = "Debe seleccionar una fecha de carga")]
+        [Display(Name = "Fecha de carga")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Fecha
         {
             get { return _Fecha; }
@@ -114,6 +106,8 @@ namespace CreativaSL.Web.Ganados.ViewModels
         /// <summary>
         /// Número de ticket de compra de combustible
         /// </summary>
+        [Required(ErrorMessage = "Debe ingresar el número del ticket.")]
+        [Display(Name = "No. de ticket")]
         public string NoTicket
         {
             get { return _NoTicket; }
@@ -129,21 +123,13 @@ namespace CreativaSL.Web.Ganados.ViewModels
             get { return _KMInicial; }
             set { _KMInicial = value; }
         }
-
-        private int _KMFinal;
-        /// <summary>
-        /// Kilometraje final
-        /// </summary>
-        public int KMFinal
-        {
-            get { return _KMFinal; }
-            set { _KMFinal = value; }
-        }
-
+        
         private decimal _Litros;
         /// <summary>
         /// Cantidad de litros ingresados
         /// </summary>
+        [DecimalMayor0(ErrorMessage = "{0} debe ser mayor a 0")]
+        [Display(Name = "Litros")]
         public decimal Litros
         {
             get { return _Litros; }
@@ -154,6 +140,8 @@ namespace CreativaSL.Web.Ganados.ViewModels
         /// <summary>
         /// Monto total
         /// </summary>
+        [DecimalMayor0(ErrorMessage = "{0} debe ser mayor a 0")]
+        [Display(Name = "Total")]
         public decimal Total
         {
             get { return _Total; }
@@ -169,51 +157,33 @@ namespace CreativaSL.Web.Ganados.ViewModels
             get { return _UrlImagen64; }
             set { _UrlImagen64 = value; }
         }
-
-
-        private HttpPostedFile _ImgTicket;
-        [Required(ErrorMessage = "Seleccione la imagen de productos")]
-
-        [Display(Name = "Imagen Ticket")]
+        
+        private HttpPostedFile[] _ImgTicket;
         /// <summary>
         /// Imagen del ticket de la carga de combustible
         /// </summary>
-        public HttpPostedFile ImgTicket
+        public HttpPostedFile[] ImgTicket
+        {
+            get { return _ImgTicket; }
+            set { _ImgTicket = value; }
+        }
+
+        private HttpPostedFile[] _ImgTicket2;
+        /// <summary>
+        /// Imagen del ticket de la carga de combustible
+        /// </summary>
+        public HttpPostedFile[] ImgTicket2
         {
             get { return _ImgTicket; }
             set { _ImgTicket = value; }
         }
 
         private bool _ImgTicketBand;
-
         public bool ImgTicketBand
         {
             get { return _ImgTicketBand; }
             set { _ImgTicketBand = value; }
         }
-
-        private List<EntregaCombustibleViewModels> _listaEntregaCombustible;
-
-        public List<EntregaCombustibleViewModels> listaEntregaCombustible
-        {
-            get { return _listaEntregaCombustible; }
-            set { _listaEntregaCombustible = value; }
-        }
-        private string _Vehiculo;
-
-        public string Vehiculo
-        {
-            get { return _Vehiculo; }
-            set { _Vehiculo = value; }
-        }
-        private string _Sucursal;
-
-        public string Sucursal
-        {
-            get { return _Sucursal; }
-            set { _Sucursal = value; }
-        }
-
 
         private List<CatVehiculoModels> _ListaVehiculos;
         /// <summary>
@@ -244,45 +214,34 @@ namespace CreativaSL.Web.Ganados.ViewModels
             get { return _ListaSucursales; }
             set { _ListaSucursales = value; }
         }
-        private bool _BandImg;
+
+        private List<CatProveedorModels> _ListaProveedores;
         /// <summary>
-        /// BANDERA PARA ACTUALIZAR IMAGEN
+        /// Lista para llenar combo de proveedores
         /// </summary>
-        public bool BandImg
+        public List<CatProveedorModels> ListaProveedores
         {
-            get { return _BandImg; }
-            set { _BandImg = value; }
+            get { return _ListaProveedores; }
+            set { _ListaProveedores = value; }
         }
-        #region Datos De Control
-        public string Conexion { get; set; }
-        public int Resultado { get; set; }
-        public bool Completado { get; set; }
-        public string Usuario { get; set; }
-        public int Opcion { get; set; }
-        #endregion
-        public EntregaCombustibleViewModels GetViewCB()
+        
+        public EntregaCombustibleModels ObtenerModeloPersistencia()
         {
-            try
+            return new EntregaCombustibleModels
             {
-                return new EntregaCombustibleViewModels
-                {
-                    IDEntregaCombustible = this._IDEntregaCombustible,
-                    IDSucursal = this._IDSucursal,
-                    IDVehiculo = this._IDVehiculo,
-                    IDTipoCombustible = this._IDTipoCombustible,
-                    Fecha = this._Fecha,
-                    NoTicket = this._NoTicket,
-                   KMInicial= _KMInicial,
-                    KMFinal=this._KMFinal ,
-                    Litros=this._Litros,
-                    Total=this._Total,
-               UrlImagen64=this._UrlImagen64 
+                IDEntregaCombustible = _IDEntregaCombustible,
+                IDSucursal = _IDSucursal,
+                IDVehiculo = _IDVehiculo,
+                IDProveedor = _IDProveedor,
+                IDTipoCombustible = _IDTipoCombustible,
+                Fecha = _Fecha,
+                NoTicket = _NoTicket,
+                KMInicial = _KMInicial,
+                Litros = _Litros,
+                Total = _Total,
+                UrlImagen64 = _UrlImagen64,
+                ImgTicketBand = _ImgTicketBand
             };
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
         }
     }
 }
