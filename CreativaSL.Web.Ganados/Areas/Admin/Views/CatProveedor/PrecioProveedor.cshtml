@@ -45,7 +45,7 @@
                                         <th>Peso Minimo (Kg.)</th>
                                         <th>Peso Maximo (Kg.)</th>
                                         <th>Precio ($)</th>
-                                        <th>Acción</th>
+                                        @*<th>Acción</th>*@
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -63,7 +63,7 @@
                                             <td>@Rango.PesoMinimo.ToString("0").Replace(',', '.')</td>
                                             <td>@Rango.PesoMaximo.ToString("0").Replace(',', '.')</td>
                                             <td>@Rango.Precio.ToString("0.00").Replace(',', '.')</td>
-                                            <td style="text-align:center;">
+                                            @*<td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     <a title="Editar" href="@Url.Action("EditPrecio", "CatProveedor", new { id = Rango.IDRango, id2 = IDP})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                                                 </div>
@@ -81,7 +81,7 @@
                                                         </ul>
                                                     </div>
                                                 </div>
-                                            </td>
+                                            </td>*@
                                         </tr>
                                     }
                                 </tbody>

@@ -1,7 +1,7 @@
-﻿@model CreativaSL.Web.Ganados.Models.CatChoferModels
+﻿@model CreativaSL.Web.Ganados.Models.CatContactosModels
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "ContactosCliente";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -17,7 +17,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Lista de Empleados </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span>Contactos de Clientes </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -29,9 +29,10 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("Create","CatChofer")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Chófer</a></li>
+                            <li><a href="@Url.Action("CreateContacto","CatCliente", new { id = Model.IDCliente})" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Contacto del Cliente</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
+                            <li><a href="@Url.Action("Index","CatCliente")" class=" btn btn-danger btnCrear"><span class="fa fa-arrow-left"></span> Regresar</a></li>
                         </ul>
                     </div>
                     <div class="panel-body">
@@ -39,38 +40,29 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th>Nombre</th>
-                                        <th>Licencia</th>
-                                        <th>Estatus</th>
+                                        <th>Nombre Cliente</th>
+                                        <th>Correo Electronico</th>
+
+                                        <th>Telefono</th>
+
+
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var Chofer in Model.ListaChoferes)
+                                    @foreach (var Contacto in Model.listaContacto)
                                     {
-                                        <tr id="@Chofer.IDChofer">
-                                            <td>@Chofer.Nombre</td>
-                                            @if (Chofer.Licencia == true)
-                                            {
-                                                <td>SI</td>
-                                            }
-                                            else
-                                            {
-                                                <td>NO</td>
-                                            }
-                                            @{ var estatus = Convert.ToBoolean(Chofer.Estatus); }
-                                            @if (estatus == true)
-                                            {
-                                                <td style="text-align:center"><div style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:red"></div></td>
-                                            }
-                                            else
-                                            {
-                                                <td style="text-align:center"><div style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:green"></div></td>
-                                            }
+                                        <tr id="@Contacto.IDContacto">
+                                            <td>@Contacto.nombreContacto</td>
+                                            <td>@Contacto.correo</td>
+                                            <td>@Contacto.telefonoContacto</td>
+
+
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" href="@Url.Action("Edit", "CatChofer", new { id = Chofer.IDChofer })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" id="delete-@Chofer.IDChofer" data-hrefa="@Url.Action("Delete", "CatChofer", new { id = Chofer.IDChofer  })" onClick="delete_row('@Chofer.IDChofer');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+
+                                                    <a title="Editar" class="btn btn-yellow" href="@Url.Action("EditContacto", "CatCliente", new { id = Contacto.IDContacto })"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" id="delete-@Contacto.IDContacto" data-hrefa="@Url.Action("DeleteContacto", "CatCliente", new { id = Contacto.IDContacto })" onClick="delete_row('@Contacto.IDContacto');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -78,13 +70,14 @@
                                                             <i class="fa fa-cog"></i> <span class="caret"></span>
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+
+                                                            @*<li>
+                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("EditLugar", "CatCliente", new { id = Cliente.IDCliente })">
+                                                                        <i class="fa fa-edit"></i> Editar
+                                                                    </a>
+                                                                </li>*@
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatChofer", new { id = Chofer.IDChofer })">
-                                                                    <i class="fa fa-edit"></i> Editar
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@Chofer.IDChofer" data-hrefa="@Url.Action("Delete", "CatChofer", new { id = Chofer.IDChofer  })" onClick="delete_row('@Chofer.IDChofer');">
+                                                                <a role="menuitem" tabindex="-1" id="delete-@Contacto.IDCliente" data-hrefa="@Url.Action("DeleteLugar", "CatCliente", new { id = Contacto.IDCliente })" onClick="delete_row('@Contacto.IDCliente');">
                                                                     <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>
@@ -96,7 +89,7 @@
                                     }
                                 </tbody>
                             </table>
-                         </div>
+                        </div>
                     </div>
                 </div>
                 <!-- END DEFAULT DATATABLE -->
@@ -132,10 +125,18 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script>
-        jQuery(document).ready(function () {
+    jQuery(document).ready(function () {
         Mensaje(message, typemessage);
         });
     </script>
 }
+
+
+
+
+
+
+
+
 
 

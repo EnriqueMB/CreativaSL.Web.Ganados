@@ -70,7 +70,29 @@ namespace CreativaSL.Web.Ganados.Models
             set { _fechaIngreso = value; }
         }
 
+        private HttpPostedFileBase[] _Img;
+        [Required(ErrorMessage = "Seleccione la imagen de la manifestación del fierro")]
+        [Display(Name = "Manifestación Fierro")]
+        public HttpPostedFileBase[] Img 
+        {
+            get { return _Img; }
+            set { _Img = value; }
+        }
+        private string _img64;
 
+        public string img64
+        {
+            get { return _img64; }
+            set { _img64 = value; }
+        }
+        
+        private string _numeroUnidad;
+
+        public string numeroUnidad
+        {
+            get { return _numeroUnidad; }
+            set { _numeroUnidad = value; }
+        }
 
         private List<CatSucursalesModels> _listaSucursal;
         [Required(ErrorMessage = "La sucursal es obligatoria")]
@@ -106,7 +128,13 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _listaVehiculos; }
             set { _listaVehiculos = value; }
         }
+        private bool _BandImg;
 
+        public bool BandImg
+        {
+            get { return _BandImg; }
+            set { _BandImg = value; }
+        }
         private string _IDVehiculo;
 
         public string IDVehiculo

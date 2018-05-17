@@ -3,7 +3,8 @@
     var lugarOrigen = document.getElementById('Trayecto_LugarOrigen_id_lugar');
     var lugarDestino = document.getElementById('Trayecto_LugarDestino_id_lugar');
     var tableImpuesto, map, directionsDisplay, directionsService;
-    var tableDocumentos, tableProductoGanado, tableProductoGeneral, tblModalGanadoActual;
+    var tableDocumentos, tableProductoGanado, tableProductoGeneral, tblModalGanadoActual, tblModalGanadoExterno;
+    var numeroFila = 1;
 
     var InitMap = function () {
         directionsService = new google.maps.DirectionsService;
@@ -74,7 +75,7 @@
             $("#Trayecto_LugarDestino_descripcion").val(descripcion);
         });
     }
-    var RunEventsCobro= function () {
+    var RunEventsCobro = function () {
         $("#precioFlete").on("keyup keydown", function (e) {
             var value = $(this).val();
             if (!isNaN(value)) {
@@ -110,7 +111,7 @@
     }
     var RunEventsFleteimpuesto = function () {
         var option = $("#TipoFactor_Clave").val();
-        
+
         TipoFactor(option);
 
         $("#TipoFactor_Clave").on("change", function () {
@@ -119,10 +120,185 @@
         });
         $("#Base").on("keyup keydown", function (e) {
             ObtenerImporte();
-        }); 
+        });
         $("#TasaCuota").on("keyup keydown", function (e) {
             ObtenerImporte();
         });
+    }
+    var RunEventoProductoGanadoExterno = function () {
+        $('#btnAddRowGanadoExterno').on('click', function () {
+            var numero = document.getElementById("inputGanadoExterno").value;
+            if (!/^([0-9])*$/.test(numero)) {
+                Mensaje("Por favor, ingrese un número.", 2);
+            }
+            else if (numero.length == 0){
+                Mensaje("Por favor, ingrese un número.", 2);
+            }
+            else {
+                for (var i = 0; i < numero; i++) {
+                    AgergarFilasProductoGanadoExterno(false, 0, "macho", 0, "Sin registrar", numeroFila);
+                    numeroFila++;
+                }
+            }
+            //después de inserter muestra las nuevas filas
+            tblModalGanadoExterno.order([0, 'desc']).draw(false);
+        });
+        $('#tblGanadoExterno tbody').on('click', '.deleteProductoGanadoExterno', function (e) {
+            var data = tblModalGanadoExterno.row($(this).parents('tr')).data();
+            //tblModalGanadoExterno.row($(this).parents('tr')).remove().draw(false);
+
+            var url = $(this).attr('data-hrefa');
+            var row = $(this).attr('data-id');
+            var box = $("#mb-remove-ganadoExterno");
+            box.addClass("open");
+            box.find(".mb-control-yes").on("click", function () {
+                box.removeClass("open");
+
+                console.log(data);
+                console.log(url);
+                console.log(row);
+
+                console.log(row.length);
+
+                if (row.length == 36) {
+                    //eliminamos del servidor
+                } else {
+                    //solo eliminamos la fila de datatables
+                }
+
+                //$.ajax({
+                //    url: url,
+                //    data: { IDDocumento: row },
+                //    type: 'POST',
+                //    dataType: 'json',
+                //    success: function (result) {
+                //        if (result.Success) {
+                //            box.find(".mb-control-yes").prop('onclick', null).off('click');
+                //            Mensaje("Documento eliminado con éxito.", "1");
+                //            $("#ModalDocumento").modal('hide');
+                //            tableDocumentos.ajax.reload();
+                //        }
+                //        else
+                //            Mensaje(result.Mensaje, "2");
+                //    },
+                //    error: function (result) {
+                //        Mensaje(result.Mensaje, "2");
+                //    }
+                //});
+            });
+        });
+        $('#btnSaveRowGanadoExterno').on('click', function () {
+            var mensaje_error, flag_error = false, flag_ok = false, flag = true;
+            var nNodes = tblModalGanadoExterno.rows().nodes().to$().find('.cslElegido');
+            var id_flete, conteo = 1, NUM_ELEMENTOS_FILA = 7, mensaje_validacion;
+            id_flete = document.getElementById("id_flete").value;
+
+            //console.log(nNodes);
+            for (var i = 0; i < nNodes.length; i += NUM_ELEMENTOS_FILA) {
+                //1 = img, 2 = label, 3 = numArete, 4 = genero, 5 = peso
+                var nId = nNodes[i + 2].dataset.id;
+                var nArete = nNodes[i + 2].value;
+                var nGenero = nNodes[i + 3].value;
+                var nPeso = nNodes[i + 4].value;
+
+                /*INICIA VALIDACION*/
+                if (nArete.length == 0 || nArete == '' || nArete == null) {
+                    nNodes[i + 2].classList.remove('okCSLGanado');
+                    nNodes[i + 2].classList.add('errorCSLGanado');
+                    flag = false;
+                }
+                else {
+                    nNodes[i + 2].classList.remove('errorCSLGanado');
+                    nNodes[i + 2].classList.add('okCSLGanado');
+
+                }
+                if (nPeso.length == 0 || nPeso == '' || nPeso == null || nPeso == '0') {
+                    nNodes[i + 4].classList.add('errorCSLGanado');
+                    nNodes[i + 4].classList.remove('okCSLGanado');
+                    flag = false;
+                }
+                else {
+                    nNodes[i + 4].classList.add('okCSLGanado');
+                    nNodes[i + 4].classList.remove('errorCSLGanado');
+                }
+                /*TERMINA VALIDACION*/
+
+                /*SI TODO ESTA BIEN ENVIAMOS*/
+                if (flag) {
+                    $.ajax({
+                        url: '/Admin/Flete/AC_ProductoGanadoExterno/',
+                        type: "POST",
+                        data: { IDFlete: id_flete, IDProducto: nId, numArete: nArete, genero: nGenero, peso: nPeso, posicionNode: i },
+                        error: function (response) {
+                            flag_error = true;
+                            mensaje_error += "<ul>" + response.Mensaje + "</ul>";
+                            console.log("error: " + response.Mensaje);
+                        },
+                        success: function (response) {
+                            if (response.Success) {
+                                flag_ok = true;
+                                //var nNodes = tblModalGanadoExterno.rows().nodes().to$().find('input, select, img, label');
+                                var obj = JSON.parse(response.Mensaje);
+                                var indice = parseInt(obj.posicionNode);
+
+                                //imagen
+                                nNodes[indice].src = "/Content/img/tabla/ok.png";
+                                nNodes[indice].id = "img_" + obj.IDProducto;
+                                //label
+                                nNodes[indice + 1].id = "lbl_" + obj.IDProducto;
+                                nNodes[indice + 1].innerText = "Registrado";
+                                //numArete 
+                                nNodes[indice + 2].id = "arete_" + obj.IDProducto;
+                                nNodes[indice + 2].dataset.id = obj.IDProducto;
+                                //genero
+                                nNodes[indice + 3].id = "genero_" + obj.IDProducto;
+                                //peso
+                                nNodes[indice + 4].id = "peso_" + obj.IDProducto;
+                                //a (btn eliminar)
+                                nNodes[indice + 5].id = "a_" + obj.IDProducto;
+                                nNodes[indice + 5].dataset.id = obj.IDProducto;
+
+                                //amin (btn eliminar min)
+                                nNodes[indice + 6].id = "aMin_" + obj.IDProducto;
+                                nNodes[indice + 6].dataset.id = obj.IDProducto;
+                            }
+                            else {
+                                flag_error = true;
+                                mensaje_error += "<ul>" + response.Mensaje + "</ul>";
+                                console.log("error: " + mensaje_error);
+                            }
+                        }
+                    });
+                }
+
+            }
+
+        });
+        $('#tblGanadoExterno tbody').on('change', '.inputCSL', function (e) {
+            var $td = $(this).parent();
+            console.log($td);
+            $td.find('input').attr('value', this.value);
+            console.log("valor:" + this.value);
+            tblModalGanadoExterno.cell($td).invalidate('dom').draw();
+        });
+        //$("#tblGanadoExterno td select").on('change', '.selectCSL', function () {
+        //    console.log("change select  input");
+        //    var $td = $(this).parent();
+        //    var value = this.value;
+        //    $td.find('option').each(function (i, o) {
+        //        $(o).removeAttr('selected');
+        //        if ($(o).val() == value) $(o).attr('selected', true);
+        //    })
+        //    tblModalGanadoExterno.cell($td).invalidate().draw();
+        //});
+        //$("#tblGanadoExterno tbody input").on('change', '.inputCSL', function (e) {
+        //    console.log("change input");
+        //    var $td = $(this).parent();
+        //    $td.find('input').attr('value', this.value);
+        //    console.log(this.value);
+        //    tblModalGanadoExterno.cell($td).invalidate().draw();
+        //});
+
     }
     //Validaciones
     var LoadValidation_AC_Cliente = function () {
@@ -155,7 +331,7 @@
                 "Cliente.IDCliente": {
                     required: true
                 },
-                "Chofer_IDChofer": {
+                "Chofer.IDChofer": {
                     required: true
                 },
                 "Vehiculo.IDVehiculo": {
@@ -175,7 +351,7 @@
                 "Cliente.IDCliente": {
                     required: "-Seleccione un cliente."
                 },
-                "Chofer_IDChofer": {
+                "Chofer.IDChofer": {
                     required: "-Seleccione un chofer."
                 },
                 "Vehiculo.IDVehiculo": {
@@ -405,7 +581,7 @@
                 },
                 ImagenPost: {
                     validarImgEdit2: true, validarImgEdit2: ["FlagImg"],
-                    formatoPNG:true
+                    formatoPNG: true
                 }
             },
             messages: {
@@ -653,7 +829,8 @@
             "columns": [
                 { "data": "descripcion" },
                 { "data": "clave" },
-                { "data":  null,
+                {
+                    "data": null,
                     "render": function (data, type, full) {
                         return "<img class='file-preview-image' style='width: 150px; height: 150px;' src='data:image/png;base64," + full["imagen"] + "' />";
                     }
@@ -729,6 +906,33 @@
             ModalDocumento(IDFlete, 0);
         });
     };
+    var LoadTableProductoGanadoNOPropio = function () {
+        var IDFlete = $("#id_flete").val();
+        $.fn.dataTableExt.ofnSearch['html-input'] = function (value) {
+            return $(value).val();
+        };
+        tblModalGanadoExterno = $('#tblGanadoExterno').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+
+            columnDefs: [
+                { "type": "html-input", "targets": [1, 2, 3] },
+                { "width": "5%", "targets": [0] },
+            ]
+        });
+        $.ajax({
+            url: '/Admin/Flete/TableJsonProductoGanadoNOPropioXIDFlete/',
+            type: "POST",
+            data: { IDFlete: IDFlete },
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    AgergarFilasProductoGanadoExterno(true, data[i].numArete, data[i].genero, data[i].pesoAproximado, "Registrado", data[i].id_producto);
+                }
+                RunEventoProductoGanadoExterno();
+            }
+        });
+    }
     var LoadTableProductos = function () {
         var IDFlete = $("#id_flete").val();
 
@@ -755,7 +959,7 @@
                     "render": function (data, type, full) {
 
                         return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-hrefa='/Admin/Flete/C_DEL_ProductoGanado/' title='Eliminar' data-id='" + full["id_fleteProductoGanado"] + "' class='btn btn-danger tooltips btn-sm deleteProductoGanado' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "<a data-hrefa='/Admin/Flete/C_DEL_ProductoGanado/' title='Eliminar' data-id='" + full["id_producto"] + "' class='btn btn-danger tooltips btn-sm deleteProductoGanado' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                             "<div class='btn-group'>" +
@@ -764,7 +968,7 @@
                             "</a>" +
                             "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
                             "<li>" +
-                            "<a data-hrefa='/Admin/Flete/C_DEL_ProductoGanado/' class='deleteProductoGanado' role='menuitem' tabindex='-1' data-id='" + full["id_fleteProductoGanado"] + "'>" +
+                            "<a data-hrefa='/Admin/Flete/C_DEL_ProductoGanado/' class='deleteProductoGanado' role='menuitem' tabindex='-1' data-id='" + full["id_producto"] + "'>" +
                             "<i class='fa fa-trash-o'></i> Eliminar" +
                             "</a>" +
                             "</li>" +
@@ -822,7 +1026,7 @@
             ModalProducto(1);
         });
     };
-   //Funcion Modal
+    //Funcion Modal
     function ModalImpuesto(IDFlete, IDFleteImpuesto) {
         $.ajax({
             url: '/Admin/FleteImpuesto/ModalFleteImpuesto/',
@@ -855,13 +1059,11 @@
         var url;
         if (opcion == 1)
             url = '/Admin/Flete/ModalProductoGanado/';
-        else
-            url = '/Admin/Flete/ModalProductoGeneral/';
 
         $.ajax({
             url: url,
             type: "POST",
-            data: { },
+            data: {},
             success: function (data) {
                 $('#ContenidoModalProducto').html(data);
                 $('#ModalProducto').modal({ backdrop: 'static', keyboard: false });
@@ -927,6 +1129,14 @@
                     document.getElementById("tabCobro").dataset.toggle = "tab";
                     $('#tabCobro').data('toggle', "tab")
                     $("#liCobro").removeClass('disabled').addClass('pestaña');
+                    //Documentos
+                    document.getElementById("tabDocumentacion").dataset.toggle = "tab";
+                    $('#tabDocumentacion').data('toggle', "tab")
+                    $("#liDocumentacion").removeClass('disabled').addClass('pestaña');
+                    //Productos
+                    document.getElementById("tabProducto").dataset.toggle = "tab";
+                    $('#tabProducto').data('toggle', "tab")
+                    $("#liProducto").removeClass('disabled').addClass('pestaña');
                 }
                 else
                     Mensaje(response.Mensaje, "2");
@@ -1064,7 +1274,12 @@
                         Mensaje(result.Mensaje, "2");
                     },
                     success: function (result) {
-                        Mensaje(result.Mensaje, "1");
+                        if (result.Success) {
+                            Mensaje(result.Mensaje, "1");
+                        }
+                        else {
+                            Mensaje(result.Mensaje, "2");
+                        }
                         $("#ModalProducto").modal('hide');
                         tableProductoGanado.ajax.reload();
                     }
@@ -1080,7 +1295,7 @@
             responsive: true,
             "ajax": {
                 "data": {
-                   
+
                 },
                 "url": "/Admin/Flete/TableJsonGanadoActual/",
                 "type": "POST",
@@ -1099,11 +1314,60 @@
             ]
         });
     }
+
+    function AgergarFilasProductoGanadoExterno(propio, numArete, genero, peso, mensaje, id_fila) {
+        if (propio)
+            var html_imagen = '<img id="img_' + id_fila + '" class="cslElegido"  src="/Content/img/tabla/ok.png" alt="" height="42" width="42"> <label id="lbl_' + id_fila + '" class="cslElegido" for="' + mensaje + '">' + mensaje + '</label>';
+        else
+            var html_imagen = '<img id="img_' + id_fila + '" class="cslElegido" src="/Content/img/tabla/cancel.png" alt="" height="42" width="42"> <label id="lbl_' + id_fila + '" class="cslElegido" for="' + mensaje + '">' + mensaje + '</label>';
+        var html_macho = '<option value="Macho">Macho</option>';
+        var html_hembra = '<option value="Hembra">Hembra</option>';
+
+        if (genero == "Macho" || genero == "MACHO") {
+
+            html_macho = '<option value="Macho" selected="selected">Macho</option>';
+        }
+        else if (genero == "Hembra" || genero == "HEMBRA") {
+            html_hembra = '<option value="Hembra" selected="selected">Hembra</option>';
+        }
+
+        var html_arete = '<input id="arete_' + id_fila + '" data-id="' + id_fila + '" class="form-control inputCSL cslElegido" type="text" maxlength="15" value="' + numArete + '" data-toggle="tooltip" data-placement="top" title="Por favor, escriba el número de arete.">';
+        var html_genero = '<select id="genero_' + id_fila + '"class="selectpicker form-control selectCSL cslElegido" data-toggle="tooltip" data-placement="top" title="Por favor, seleccione el género del animal." >' +
+            html_macho +
+            html_hembra +
+            '</select> ';
+        var html_peso = '<input id="peso_' + id_fila + '"class="form-control cslElegido" type="number" min="1" max="1000" value="' + peso + '"  data-toggle="tooltip" data-placement="top" title="Por favor, escriba el peso del animal, debe ser mayor a 0.">';
+
+        tblModalGanadoExterno.row.add([
+            html_imagen,
+            html_arete,
+            html_genero,
+            html_peso,
+            ' <div class="visible-md visible-lg hidden-sm hidden-xs">' +
+            '<a id="a_' + id_fila +'" data-hrefa="/Admin/Flete/C_DEL_ProductoGanado/" title="Eliminar" data-id="' + id_fila +'" class="btn btn-danger tooltips btn-sm deleteProductoGanadoExterno cslElegido" data-toggle="tooltip" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>' +
+            '</div>' +
+            '<div class="visible-xs visible-sm hidden-md hidden-lg">' +
+            '<div class="btn-group">' +
+            '<a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#"' +
+            '<i class="fa fa-cog"></i> <span class="caret"></span>' +
+            '</a>' +
+            '<ul role="menu" class="dropdown-menu pull-right dropdown-dark">' +
+            '<li>' +
+             '<a id="aMin_' + id_fila +'" data-hrefa="/Admin/Flete/C_DEL_ProductoGanado/" data-id="' + id_fila +'" class="deleteProductoGanadoExterno cslElegido" role="menuitem" tabindex="-1" data-id="">' +
+            '<i class="fa fa-trash-o"></i> Eliminar' +
+            '</a>' +
+            '</li>' +
+            '</ul>' +
+            '</div>' +
+            '</div>'
+        ]).draw(false);
+    }
+
     function ObtenerImporte() {
         var Base = $('#Base').val();
         var TasaCuota = $('#TasaCuota').val();
         var Importe = $("#Importe");
-        
+
         if (isNaN(Base) || isNaN(TasaCuota)) {
             Importe.val("0");
         }
@@ -1113,18 +1377,18 @@
         }
     }
     function CalculateAndDisplayRoute(directionsService, directionsDisplay, map) {
-        var selectIndexInicio   = lugarOrigen.selectedIndex;
-        var optionInicio        = lugarOrigen.options.item(selectIndexInicio);
-        var latitudInicial      = optionInicio.dataset.latitud.replace(",", ".");
-        var longInicial         = optionInicio.dataset.longitud.replace(",", ".");
+        var selectIndexInicio = lugarOrigen.selectedIndex;
+        var optionInicio = lugarOrigen.options.item(selectIndexInicio);
+        var latitudInicial = optionInicio.dataset.latitud.replace(",", ".");
+        var longInicial = optionInicio.dataset.longitud.replace(",", ".");
 
-        var selectIndexFinal    = lugarDestino.selectedIndex;
-        var optionFinal         = lugarDestino.options.item(selectIndexFinal);
-        var latitudFinal        = optionFinal.dataset.latitud.replace(",", ".");
-        var longFinal           = optionFinal.dataset.longitud.replace(",", ".");
+        var selectIndexFinal = lugarDestino.selectedIndex;
+        var optionFinal = lugarDestino.options.item(selectIndexFinal);
+        var latitudFinal = optionFinal.dataset.latitud.replace(",", ".");
+        var longFinal = optionFinal.dataset.longitud.replace(",", ".");
 
-        var inicio  = new google.maps.LatLng(latitudInicial, longInicial);
-        var final   = new google.maps.LatLng(latitudFinal, longFinal);
+        var inicio = new google.maps.LatLng(latitudInicial, longInicial);
+        var final = new google.maps.LatLng(latitudFinal, longFinal);
 
         if ((latitudInicial != 0 && longInicial != 0) && (latitudFinal != 0 && longFinal != 0)) {
             directionsService.route({
@@ -1348,6 +1612,7 @@
             LoadTableImpuesto();
             LoadTableDocumentos();
             LoadTableProductos();
+            LoadTableProductoGanadoNOPropio();
         }
     };
 }();

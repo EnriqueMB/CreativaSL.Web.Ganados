@@ -66,7 +66,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
         }
-                 
+
         // POST: Admin/CatClientes/Create
         [HttpPost]
         public ActionResult Create(CatClienteModels clienteID)
@@ -120,7 +120,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
                 return View(clienteID);
             }
-        }     
+        }
 
         // GET: Admin/CatClientes/Edit/5
         [HttpGet]
@@ -199,7 +199,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
                 return View(clienteID);
-            }            
+            }
         }
 
         // GET: Admin/CatClientes/Cuentas/5
@@ -207,7 +207,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         public ActionResult Cuentas(string id)
         {
             try
-            {                
+            {
                 IEnumerable<CuentaBancariaModels> CuentasBanc = Enumerable.Empty<CuentaBancariaModels>();
                 CuentaBancariaModels Cuenta = new CuentaBancariaModels { Conexion = Conexion, Cliente = new CatClienteModels { IDCliente = id } };
                 CatCliente_Datos ClienteD = new CatCliente_Datos();
@@ -313,7 +313,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 Token.SaveToken();
-                CuentaBancariaModels Datos = new CuentaBancariaModels { Conexion = Conexion, IDDatosBancarios = id, Cliente = new CatClienteModels {IDCliente = idC } };
+                CuentaBancariaModels Datos = new CuentaBancariaModels { Conexion = Conexion, IDDatosBancarios = id, Cliente = new CatClienteModels { IDCliente = idC } };
                 ClienteDatos.ObtenerDetalleDatosBancariosCliente(Datos);
                 CuentaBancariaViewModels ViewCuenta = Datos.GetViewCB();
                 ViewCuenta.IDCliente = idC;
@@ -421,10 +421,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 CuentaBancariaModels Datos = new CuentaBancariaModels
-                    {   Cliente = new CatClienteModels {IDCliente = IDCliente },
-                        IDDatosBancarios = IDCuenta,
-                        Conexion = Conexion,
-                        Usuario = User.Identity.Name};
+                { Cliente = new CatClienteModels { IDCliente = IDCliente },
+                    IDDatosBancarios = IDCuenta,
+                    Conexion = Conexion,
+                    Usuario = User.Identity.Name };
                 CatCliente_Datos ClienteDatos = new CatCliente_Datos();
                 ClienteDatos.EliminarDatosBancarios(Datos);
                 if (Datos.Completado)
@@ -464,7 +464,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         //ASIGNAR LUGARES AL CLIENTE
-        public ActionResult Lugares(string id,string id2)
+        [HttpPost]
+        public ActionResult Lugares(string id, string id2)
         {
             try
             {
@@ -503,11 +504,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return RedirectToAction("Lugares", new { id = id,id2=id2 });
+                return RedirectToAction("Lugares", new { id = id, id2 = id2 });
             }
         }
         [HttpPost]
-        public ActionResult ClienteLugar( ClienteLugarModels ClienteLugar)
+        public ActionResult ClienteLugar(ClienteLugarModels ClienteLugar)
         {
             CatCliente_Datos ClienteDatos = new CatCliente_Datos();
             try
@@ -568,7 +569,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Cliente.Usuario = User.Identity.Name;
                 Cliente.IDClienteLugar = id;
                 //Cliente.IDSucursal = id2;
-             
+
                 ClienteDatos.EliminarLugarCliente(Cliente);
                 TempData["typemessage"] = "1";
                 TempData["message"] = "El registro se ha eliminado correctamente";
@@ -579,6 +580,182 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
+        [HttpGet]
+        public ActionResult ContactosCliente(string id)
+        {
+            try
+            {
+                CatContactosModels clienteContactos = new CatContactosModels();
+                CatCliente_Datos ClienteD = new CatCliente_Datos();
+                clienteContactos.IDCliente = id;
+                clienteContactos.Conexion = Conexion;
+                clienteContactos = ClienteD.ObtenerContactosCliente(clienteContactos);
+                return View(clienteContactos);
+            }
+            catch (Exception)
+            {
+                CatClienteModels Cliente = new CatClienteModels();
+                Cliente.ListaClientes = new List<CatClienteModels>();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Cliente);
+            }
+        }
 
+        [HttpGet]
+        public ActionResult CreateContacto(string id)
+        {
+            try
+            {
+                Token.SaveToken();
+                CatContactosModels contacto = new CatContactosModels();
+                CatCliente_Datos ClientesDatos = new CatCliente_Datos();
+                contacto.IDCliente = id;
+                contacto.Conexion = Conexion;
+                return View(contacto);
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
+        }
+
+        // POST: Admin/CatClientes/Create
+        [HttpPost]
+        public ActionResult CreateContacto(CatContactosModels contactoID)
+        {
+            CatCliente_Datos ClienteDatos = new CatCliente_Datos();
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        contactoID.Conexion = Conexion;
+                        contactoID.Opcion = 1;
+                        contactoID.Usuario = User.Identity.Name;
+                        contactoID = ClienteDatos.AcContactoCliente(contactoID);
+                        if (contactoID.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("ContactosCliente", new { id=contactoID.IDCliente});
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(contactoID);
+                        }
+                    }
+                    else
+                    {
+                        return View(contactoID);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("ContactosCliente", new { id = contactoID.IDCliente });
+                }
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(contactoID);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult EditContacto(string id)
+        {
+            try
+            {
+                Token.SaveToken();
+                CatContactosModels contacto = new CatContactosModels();
+                CatCliente_Datos ClienteDatos = new CatCliente_Datos();
+                contacto.Conexion = Conexion;
+                contacto.IDContacto = id;
+                contacto = ClienteDatos.ObtenerDetalleContactoCliente(contacto);
+                return View(contacto);
+            }
+            catch (Exception)
+            {
+                CatContactosModels contacto = new CatContactosModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(contacto);
+            }
+        }
+
+        // POST: Admin/CatClientes/Edit/5
+        [HttpPost]
+        public ActionResult EditContacto(CatContactosModels contactoID)
+        {
+            CatCliente_Datos ClienteDatos = new CatCliente_Datos();
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        contactoID.Conexion = Conexion;
+                        contactoID.Opcion = 2;
+                        contactoID.Usuario = User.Identity.Name;
+                        contactoID = ClienteDatos.AcContactoCliente(contactoID);
+                        if (contactoID.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("ContactosCliente", new { id = contactoID.IDCliente });
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(contactoID);
+                        }
+                    }
+                    else
+                    {
+                        return View(contactoID);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("ContactosCliente");
+                }
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(contactoID);
+            }
+        }
+        [HttpPost]
+        public ActionResult DeleteContacto(string id)
+        {
+            try
+            {
+                CatContactosModels Contacto = new CatContactosModels();
+                CatCliente_Datos ClienteDatos = new CatCliente_Datos();
+                Contacto.Conexion = Conexion;
+                Contacto.Usuario = User.Identity.Name;
+                Contacto.IDContacto = id;
+                ClienteDatos.EliminarContactoCliente(Contacto);
+                TempData["typemessage"] = "1";
+                TempData["message"] = "El registro se ha eliminado correctamente";
+                return Json("");
+            }
+            catch
+            {
+                return View();
+            }
+        }
     }
 }

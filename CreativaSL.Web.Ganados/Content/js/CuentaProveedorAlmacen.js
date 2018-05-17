@@ -1,15 +1,15 @@
-﻿var Jaula = function () {
+﻿var CuentasProveedorAlmacen = function () {
     "use strict";
     // Funcion para validar registrar
-    var runValidator1 = function () {
-        var form1 = $('#frmJaula');
+    var runValidator = function () {
+        var form1 = $('#form-cp');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
-        
-        $('#frmJaula').validate({
+
+        $('#form-cp').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
-            errorLabelContainer: $("#validation_summary"),
+            errorLabelContainer: "#validation_summary",  //$("#validation_summary"),
             errorPlacement: function (error, element) { // render error placement for each input type
                 if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
                     error.insertAfter($(element).closest('.form-group').children('div').children().last());
@@ -24,34 +24,39 @@
             },
             ignore: "",
             rules: {
-                IDEmpresa: { required: true },
-                Matricula: { required: true, maxlength: 15 },
-                IDSucursal: { required: true },
+                IDBanco: { CMBINT: true },
+                Titular: { required: true, nombre: true, maxlength: 300 },
+                NumTarjeta: { tarjetaCredito : true },
+                NumCuenta: { cuenta: true },
+                ClabeInterbancaria: { clabe: true }
             },
             messages: {
-                IDEmpresa: { required: "Seleccione una empresa" },
-                Matricula: { required: "Ingrese la matrícula de la jaula.", maxlength: "El campo nombre admite máximo 15 caracteres." },
-                IDSucursal: { required: "Seleccione una sucursal" },
+                IDBanco: { CMBINT: "Seleccione un banco." },
+                Titular: { required: "Ingrese el nombre del titular de la cuenta.", nombre: "Ingrese un nombre del titular válido.", maxlength: "El campo nombre del titular admite máximo 300 caracteres." },
+                NumTarjeta: { tarjetaCredito: "Ingrese un número de tarjeta válido." },
+                NumCuenta: { cuenta: "Ingrese un número de cuenta válido."},
+                ClabeInterbancaria: { clabe: "Ingrese una clabe interbancaria válida." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
                 errorHandler1.show();
+                //$("#validation_summary").text(validator.showErrors());
             },
             highlight: function (element) {
                 $(element).closest('.help-block').removeClass('valid');
                 // display OK icon
-                $(element).closest('.classError').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+                $(element).closest('.input-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
                 // add the Bootstrap error class to the control group
             },
             unhighlight: function (element) { // revert the change done by hightlight
-                $(element).closest('.classError').removeClass('has-error');
+                $(element).closest('.input-group').removeClass('has-error');
                 // set error class to the control group
             },
             success: function (label, element) {
                 label.addClass('help-block valid');
                 label.removeClass('color');
                 // mark the current input as valid and display OK icon
-                $(element).closest('.classError').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+                $(element).closest('.input-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
             },
             submitHandler: function (form) {
                 successHandler1.show();
@@ -61,37 +66,17 @@
         });
     };
 
-    var runEvents = function () {
-        $("#IDEmpresa").on("change", function () {
-            var IDEmpresa = $("#IDEmpresa").val();
-            GetSucursalesXIDEmpresa(IDEmpresa);
-        });
-    }
-    function GetSucursalesXIDEmpresa(IDEmpresa) {
-        $.ajax({
-            url: "/Admin/CatJaula/ObtenerSucursalesXIDEmpresa/",
-            data: { IDEmpresa: IDEmpresa },
-            async: false,
-            dataType: "json",
-            type: "POST",
-            error: function () {
-                Mensaje("Ocurrió un error al cargar el combo", "1");
-            },
-            success: function (result) {
-                $("#IDSucursal option").remove();
-                for (var i = 0; i < result.length; i++) {
-                    $("#IDSucursal").append('<option value="' + result[i].IDSucursal + '">' + result[i].NombreSucursal + '</option>');
-                }
-                $('#IDSucursal.select').selectpicker('refresh');
-            }
-        });
-    }
+    var runElements = function ()
+    {
+        $("input.mask_credit").mask('?9999-9999-9999-9999', {autoUnmask: true , showMaskOnFocus: false, showMaskOnHover: false});
+        
+    };
 
     return {
         //main function to initiate template pages
         init: function () {
-            runValidator1();
-            runEvents();
+            runValidator();
+            runElements();
         }
     };
 }();

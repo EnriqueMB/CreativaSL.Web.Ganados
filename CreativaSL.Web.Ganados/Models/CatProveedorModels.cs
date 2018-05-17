@@ -20,6 +20,7 @@ namespace CreativaSL.Web.Ganados.Models
             _listaProveedores = new List<CatProveedorModels>();
             _listaSucursal = new List<CatSucursalesModels>();
             _listaTipoProveedor = new List<CatTipoProveedorModels>();
+            _merma = 0;
             //Datos control
             Conexion = string.Empty;
             Resultado = 0;
@@ -33,6 +34,14 @@ namespace CreativaSL.Web.Ganados.Models
             _Direccion = string.Empty;
             _ListaGeneroCMB = new List<CatGeneroModels>();
         }
+        private int _merma;
+
+        public int merma
+        {
+            get { return _merma; }
+            set { _merma = value; }
+        }
+
         private string _telefonoCasa;
 
         public string telefonoCasa
@@ -93,6 +102,14 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _listaTipoProveedor; }
             set { _listaTipoProveedor = value; }
         }
+        private List<CatContactosModels> _listaDatosContactos;
+
+        public List<CatContactosModels> listaDatosContactos 
+        {
+            get { return _listaDatosContactos; }
+            set { _listaDatosContactos = value; }
+        }
+
         /// <summary>
         /// LISTA SUCURSAL
         /// </summary>
