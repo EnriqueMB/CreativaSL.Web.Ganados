@@ -130,7 +130,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.FechaIngreso != null ? datos.FechaIngreso : DateTime.Today,
                     datos.EsEmpresa,
                     datos.Tolerancia,
-                    datos.merma,
+                    //datos.merma,
                     datos.Observaciones ?? string.Empty,
                     datos.Usuario ?? string.Empty
                     };

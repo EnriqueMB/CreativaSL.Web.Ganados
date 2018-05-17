@@ -112,13 +112,13 @@
                                         @Html.ValidationMessageFor(model => model.Tolerancia)
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                @*<div class="form-group">
                                     <label class="col-md-2 col-xs-12 control-label"><span>* </span> Merma </label>
                                     <div class="col-md-6 col-xs-12">
                                         @Html.TextBoxFor(model => model.merma, new { id = "merma", @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.merma)
                                     </div>
-                                </div>
+                                </div>*@
                                 <div class="form-group">
                                     <label class="col-md-2 col-xs-12 control-label">Observaciones</label>
                                     <div class="col-md-6 col-xs-12">
@@ -146,13 +146,7 @@
                                         @Html.ValidationMessageFor(model => model.telefonoCelular)
                                     </div>
                                 </div>
-                               <div class="form-group">
-                                   <label class="col-md-2 col-xs-12 control-label"><span>* </span> Merma </label>
-                                   <div class="col-md-6 col-xs-12">
-                                       @Html.TextBoxFor(model => model.merma, new { id = "telefonoCasa", @class = "form-control" })
-                                       @Html.ValidationMessageFor(model => model.merma)
-                                   </div>
-                               </div>
+                               
                                 <div class="form-group">
                                     <label class="col-md-2 col-xs-12 control-label">Teléfono </label>
                                     <div class="col-md-6 col-xs-12">
