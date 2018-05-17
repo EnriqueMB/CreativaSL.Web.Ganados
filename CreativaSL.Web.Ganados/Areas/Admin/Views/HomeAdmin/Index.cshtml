@@ -50,7 +50,9 @@
 <script src="@Url.Content("~/Content/js/plugins/fullcalendar/lang/es.js")"></script>
     <script>
         jQuery(document).ready(function () {
-            $('#calendario').click(function () { });
+            $('#calendario').click(function () {
+                alert();
+            });
             $('#calendar').fullCalendar({
                 lang: 'es',
                 fixedWeekCount: false,
