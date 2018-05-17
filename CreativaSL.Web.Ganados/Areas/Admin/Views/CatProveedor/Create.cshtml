@@ -103,16 +103,22 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-2 col-xs-12 control-label"><span>* </span> Tolerancia</label>
+                                    <label class="col-md-2 col-xs-12 control-label"><span>* </span> Merma</label>
                                     <div class="col-md-6 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.Tolerancia, new { id = "Tolerancia", @class = "form-control", placeholder = "Ingrese la tolerancia del proveedor" })
+                                            @Html.TextBoxFor(model => model.Tolerancia, new { id = "Tolerancia", @class = "form-control", placeholder = "Ingrese la merma del proveedor" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.Tolerancia)
                                     </div>
                                 </div>
-
+                                @*<div class="form-group">
+                                    <label class="col-md-2 col-xs-12 control-label"><span>* </span> Merma </label>
+                                    <div class="col-md-6 col-xs-12">
+                                        @Html.TextBoxFor(model => model.merma, new { id = "merma", @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.merma)
+                                    </div>
+                                </div>*@
                                 <div class="form-group">
                                     <label class="col-md-2 col-xs-12 control-label">Observaciones</label>
                                     <div class="col-md-6 col-xs-12">
@@ -140,7 +146,7 @@
                                         @Html.ValidationMessageFor(model => model.telefonoCelular)
                                     </div>
                                 </div>
-
+                               
                                 <div class="form-group">
                                     <label class="col-md-2 col-xs-12 control-label">Teléfono </label>
                                     <div class="col-md-6 col-xs-12">
@@ -151,6 +157,7 @@
                                         @Html.ValidationMessageFor(model => model.telefonoCasa)
                                     </div>
                                 </div>
+                              
                                <div class="form-group">
                                    <label class="col-md-2 col-xs-12 control-label">¿Es persona Física?</label>
                                    <div class="col-md-6 col-xs-12">

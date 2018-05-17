@@ -427,6 +427,8 @@
     <Content Include="Content\img\logoa.png" />
     <Content Include="Content\img\owl\AjaxLoader.gif" />
     <Content Include="Content\img\owl\grabbing.png" />
+    <Content Include="Content\img\tabla\cancel.png" />
+    <Content Include="Content\img\tabla\ok.png" />
     <Content Include="Content\img\themes\black.jpg" />
     <Content Include="Content\img\themes\blue.jpg" />
     <Content Include="Content\img\themes\brown.jpg" />
@@ -438,6 +440,7 @@
     <Content Include="Content\js\CatContactos.js" />
     <Content Include="Content\js\CatContactosClientes.js" />
     <Content Include="Content\js\CompraAlmacenDetalle.js" />
+    <Content Include="Content\js\CuentaProveedorAlmacen.js" />
     <Content Include="Content\js\EmpleadosSucursalFaltas.js" />
     <Content Include="Content\js\Puestos.js" />
     <Content Include="Content\js\CategoriaPuestos.js" />
@@ -1162,7 +1165,6 @@
     <Content Include="Areas\Admin\Views\Almacen\Ver.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Flete\ModalProductoGeneral.cshtml" />
     <Content Include="Areas\Admin\Views\CatProductosAlmacen\UnidadProducto.cshtml" />
     <Content Include="Areas\Admin\Views\CatProductosAlmacen\UnidadCreate.cshtml" />
     <Content Include="Areas\Admin\Views\CatProductosAlmacen\UnidadEdit.cshtml" />
@@ -1172,9 +1174,11 @@
     <Content Include="Areas\Admin\Views\Flete\ModalEvento.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\DatosContacto.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\NuevoDatosContacto.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorAlmacen\DatosBancarios.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorAlmacen\DatosBancariosCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorAlmacen\DatosBancariosEdit.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\ContactosCliente.cshtml" />
-    <Content Include="Areas\Admin\Views\CatCliente\CreateContacto.cshtml" />
-    <Content Include="Areas\Admin\Views\CatCliente\EditContacto.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\NuevoDatosContactoEdit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1318,6 +1322,7 @@
     <Compile Include="Models\ConciliacionAlmacenModels.cs" />
     <Compile Include="Models\CuentaBancariaModels.cs" />
     <Compile Include="Models\CuentaBancariaProveedorModels.cs" />
+    <Compile Include="Models\CuentaBancariasProveedorAlmacenModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
     <Compile Include="Models\DocumentoPorPagarModels.cs" />
     <Compile Include="Models\EntradaAlmacenDetalleModels.cs" />
@@ -1332,10 +1337,7 @@
     <Compile Include="Models\FierroCompraModels.cs" />
     <Compile Include="Models\FleteImpuestoModels.cs" />
     <Compile Include="Models\FleteModels.cs" />
-    <Compile Include="Models\Flete_ProductoGanadoModels.cs" />
-    <Compile Include="Models\Flete_ProductoGanadoPropio.cs" />
     <Compile Include="Models\Flete_ProductoModels.cs" />
-    <Compile Include="Models\Flete_ProductoPropioModels.cs" />
     <Compile Include="Models\Flete_TipoDocumentoModels.cs" />
     <Compile Include="Models\GanadoModels.cs" />
     <Compile Include="Models\GeneroGanadoModels.cs" />

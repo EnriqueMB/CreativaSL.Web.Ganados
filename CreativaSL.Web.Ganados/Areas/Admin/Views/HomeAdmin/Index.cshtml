@@ -4,30 +4,90 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 @section featured{
-
-<div class="row">
-        <div class="col-md-3  col-md-offset-9">
-            <!-- START WIDGET CLOCK -->
-            <div class="widget widget-info widget-padding-sm">
-                <div class="widget-big-int plugin-clock">00:00</div>
-                <div class="widget-subtitle plugin-date">Loading...</div>
-                <div class="widget-controls">
-                    <a href="#" class="widget-control-right widget-remove" data-toggle="tooltip" data-placement="left" title="Remove Widget"><span class="fa fa-times"></span></a>
-                </div>
-                <div class="widget-buttons widget-c3">
-                    <div class="col">
-                        <a href="#"><span class="fa fa-clock-o"></span></a>
+<div class="page-title">
+    <h2><span class="fa fa-arrow-circle-o-left"></span> GRUPO OCAMPO </h2>
+</div>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="col-md-3  col-md-offset-9">
+                <!-- START WIDGET CLOCK -->
+                @*<div class="widget widget-info widget-padding-sm">
+                    <div class="widget-big-int plugin-clock">00:00</div>
+                    <div class="widget-subtitle plugin-date">Loading...</div>
+                    <div class="widget-controls">
+                        <a href="#" class="widget-control-right widget-remove" data-toggle="tooltip" data-placement="left" title="Remove Widget"><span class="fa fa-times"></span></a>
                     </div>
-                    <div class="col">
-                        <a href="#"><span class="fa fa-bell"></span></a>
+                    <div class="widget-buttons widget-c3">
+                        <div class="col">
+                            <a href="#"><span class="fa fa-clock-o"></span></a>
+                        </div>
+                        <div class="col">
+                            <a href="#"><span class="fa fa-bell"></span></a>
+                        </div>
+                        <div class="col">
+                            <a href="#" id="calendario"><span class="fa fa-calendar"></span></a>
+                        </div>
                     </div>
-                    <div class="col">
-                        <a href="#"><span class="fa fa-calendar"></span></a>
-                    </div>
-                </div>
+                </div>*@
+                <!-- END WIDGET CLOCK -->
             </div>
-            <!-- END WIDGET CLOCK -->
+           
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="alert_holder"></div>
+                        <div class="">
+                            <div id="calendar"></div>
+                        </div>
+                    </div>
+                </div>
+
+            
         </div>
+        </div>
+    <!-- END WIDGETS -->
     </div>
-<!-- END WIDGETS -->
+}
+@section script{
+
+    <script src="@Url.Content("~/Content/js/plugins/moment.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/fullcalendar/fullcalendar.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/fullcalendar/lang/es.js")"></script>
+    <script>
+        jQuery(document).ready(function () {
+            //$('#calendario').click(function () {
+            //    alert();
+            //});
+            $('#calendar').fullCalendar({
+                lang: 'es',
+                fixedWeekCount: false,
+                height: 600,
+                firstDay: 1,
+                handleWindowResize: true,
+                allDaySlot: false,
+                slotLabelFormat: 'H',
+                eventOverlap: false,
+                displayEventTime: true,
+                events: [
+         {
+             title: 'All Day Event',
+             start: '2018-05-16',
+             color: "#AAC440"
+         },
+          {
+              title: 'event2',
+              start: '2018-05-05',
+              end: '2018-05-07'
+          }, 
+          {
+              title: 'event2',
+              start: '2018-05-05',
+              end: '2018-05-08'
+          },
+
+                ]
+            });
+        });
+    </script>
 }
