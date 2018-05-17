@@ -15,7 +15,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Entregas de combustible </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Cargas de combustible </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -71,7 +71,7 @@
                                     <button class="btn btn-default btnCrear"><span class="fa fa-search"> </span> Filtrar</button>
                                     <ul class="panel-controls">
 
-                                        <li><a href="@Url.Action("Create", "EntregaCombustible")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva entrega</a></li>
+                                        <li><a href="@Url.Action("Create", "EntregaCombustible")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva carga</a></li>
                                         <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                                         <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
                                     </ul>
@@ -85,6 +85,7 @@
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>
+                                        <th>Proveedor</th>
                                         <th>Vehículo</th>
                                         <th>Gasto Total</th>
                                         <th>Sucursal</th>
@@ -97,6 +98,7 @@
                                     {
                                         <tr id="@Item.IDEntregaCombustible">
                                             <td>@Item.Fecha.ToShortDateString()</td>
+                                            <td>@Item.Proveedor</td>
                                             <td>@Item.Vehiculo</td>
                                             <td>@Item.TotalFormat</td>
                                             <td>@Item.Sucursal</td>

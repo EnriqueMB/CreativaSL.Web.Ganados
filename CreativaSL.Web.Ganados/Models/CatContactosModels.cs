@@ -10,6 +10,7 @@ namespace CreativaSL.Web.Ganados.Models
     public class CatContactosModels
     {
         public CatContactosModels() {
+            this._IDCliente = string.Empty;
             this._IDProveedor = string.Empty;
             this._IDSucursal = string.Empty;
             this._IDContacto = string.Empty;
@@ -22,7 +23,6 @@ namespace CreativaSL.Web.Ganados.Models
             this._correo = string.Empty;
             this._direccion = string.Empty;
             this._observacion = string.Empty;
-            //Datos de control
             Conexion = string.Empty;
             Resultado = 0;
             Completado = false;
@@ -123,7 +123,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
         private string _direccion;
         [Required(ErrorMessage = "La dirección es obligatoria")]
-        [Display(Name = "descripcion")]
+        [Display(Name = "direccion")]
         public string direccion
         {
             get { return _direccion; }

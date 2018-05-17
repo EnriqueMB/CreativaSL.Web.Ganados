@@ -6,6 +6,7 @@
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
         $.validator.addMethod("validarImagen", function () {
+            console.log(document.getElementById("Imagen").value);
             if (document.getElementById("Imagen").value === '') {
                 if ((document.getElementById("Imagen").value === ''))
                     return false;

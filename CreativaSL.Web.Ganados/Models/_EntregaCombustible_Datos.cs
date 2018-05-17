@@ -74,17 +74,18 @@ namespace CreativaSL.Web.Ganados.Models
                 dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Mantenimiento_get_EntregaCombustibleXID", parametros);
                 while (dr.Read())
                 {
-                    datos.IDEntregaCombustible = dr["id_entregaCombustible"].ToString();
-                    datos.IDSucursal= dr["id_sucursal"].ToString();
-                    datos.IDVehiculo = dr["id_vehiculo"].ToString();
-                    datos.IDTipoCombustible = Convert.ToInt32(dr["id_tipoCombustible"].ToString());
-                    datos.Fecha = Convert.ToDateTime(dr["fecha"].ToString());
-                    datos.NoTicket = dr["noTicket"].ToString();
-                    datos.KMInicial = Convert.ToInt32(dr["kmInicial"].ToString());
-                    datos.Litros =Convert.ToDecimal(dr["litros"].ToString());
-                    datos.Total= Convert.ToDecimal(dr["total"].ToString());
-                    datos.UrlImagen64 = dr["imgTicket"].ToString();
-                    
+                    datos.IDEntregaCombustible = !dr.IsDBNull(dr.GetOrdinal("id_entregaCombustible")) ? dr.GetString(dr.GetOrdinal("id_entregaCombustible")) : string.Empty;
+                    datos.IDProveedor = !dr.IsDBNull(dr.GetOrdinal("IDProveedor")) ? dr.GetString(dr.GetOrdinal("IDProveedor")) : string.Empty;
+                    datos.IDSucursal= !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty;
+                    datos.IDVehiculo = !dr.IsDBNull(dr.GetOrdinal("id_vehiculo")) ? dr.GetString(dr.GetOrdinal("id_vehiculo")) : string.Empty;
+                    datos.IDTipoCombustible = !dr.IsDBNull(dr.GetOrdinal("id_tipoCombustible")) ? dr.GetInt16(dr.GetOrdinal("id_tipoCombustible")) : 0;
+                    datos.Fecha = !dr.IsDBNull(dr.GetOrdinal("fecha")) ? dr.GetDateTime(dr.GetOrdinal("fecha")) : DateTime.Today;
+                    datos.NoTicket = !dr.IsDBNull(dr.GetOrdinal("noTicket")) ? dr.GetString(dr.GetOrdinal("noTicket")) : string.Empty;
+                    datos.KMInicial = !dr.IsDBNull(dr.GetOrdinal("kmInicial")) ? dr.GetInt32(dr.GetOrdinal("kmInicial")) : 0;
+                    datos.Litros = !dr.IsDBNull(dr.GetOrdinal("litros")) ? dr.GetDecimal(dr.GetOrdinal("litros")) : 0;
+                    datos.Total = !dr.IsDBNull(dr.GetOrdinal("total")) ? dr.GetDecimal(dr.GetOrdinal("total")) : 0;
+                    datos.UrlImagen64 = !dr.IsDBNull(dr.GetOrdinal("imgTicket")) ? dr.GetString(dr.GetOrdinal("imgTicket")) : string.Empty;
+                    break;
                 }
                 return datos;
             }
@@ -124,8 +125,9 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    datos.Opcion, datos.IDEntregaCombustible ?? string.Empty, 
+                    datos.NuevoRegistro, datos.IDEntregaCombustible ?? string.Empty, 
                     datos.IDSucursal ?? string.Empty,
+                    datos.IDProveedor ?? string.Empty,
                     datos.IDVehiculo ?? string.Empty,
                     datos.IDTipoCombustible,
                     datos.Fecha,
@@ -175,6 +177,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Sucursal = !dr.IsDBNull(dr.GetOrdinal("Sucursal")) ? dr.GetString(dr.GetOrdinal("Sucursal")) : string.Empty;
                     Item.Estatus = !dr.IsDBNull(dr.GetOrdinal("Estatus")) ? dr.GetString(dr.GetOrdinal("Estatus")) : string.Empty;
                     Item.CssClassEstatus = !dr.IsDBNull(dr.GetOrdinal("CssClass")) ? dr.GetString(dr.GetOrdinal("CssClass")) : string.Empty;
+                    Item.Proveedor = !dr.IsDBNull(dr.GetOrdinal("Proveedor")) ? dr.GetString(dr.GetOrdinal("Proveedor")) : string.Empty;
                     Lista.Add(Item);
 
                 }

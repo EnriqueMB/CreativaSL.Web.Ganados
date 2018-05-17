@@ -182,16 +182,16 @@ namespace CreativaSL.Web.Ganados.Models
             try
             {
                 //PENDIENTE
-                //object[] parametros = { Datos.IDCompraAlmacen, Datos.Usuario};
-                //object resultado = SqlHelper.ExecuteScalar(Datos.Conexion, "spCSLDB_Almacen_ProcesarCompraXID", parametros);
-                //if(resultado != null)
-                //{
-                //    int Resultado = 0;
-                //    int.TryParse(resultado.ToString(), out Resultado);
-                //    Datos.Resultado = Resultado;
-                //    if (Resultado == 1)
-                //        Datos.Completado = true;
-                //}
+                object[] parametros = { Datos.IDCompraAlmacen, Datos.Usuario };
+                object resultado = SqlHelper.ExecuteScalar(Datos.Conexion, "spCSLDB_Almacen_ProcesarCompraXID", parametros);
+                if (resultado != null)
+                {
+                    int Resultado = 0;
+                    int.TryParse(resultado.ToString(), out Resultado);
+                    Datos.Resultado = Resultado;
+                    if (Resultado == 1)
+                        Datos.Completado = true;
+                }
                 Datos.Completado = true;
             }
             catch (Exception ex)

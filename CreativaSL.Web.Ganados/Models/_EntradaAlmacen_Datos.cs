@@ -28,6 +28,9 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.FechaEntrada = !Dr.IsDBNull(Dr.GetOrdinal("FechaEntrada")) ? Dr.GetDateTime(Dr.GetOrdinal("FechaEntrada")) : DateTime.MinValue;
                     Item.Comentario = !Dr.IsDBNull(Dr.GetOrdinal("Comentarios")) ? Dr.GetString(Dr.GetOrdinal("Comentarios")) : string.Empty;
                     Item.Finalizado = !Dr.IsDBNull(Dr.GetOrdinal("Finalizado")) ? Dr.GetBoolean(Dr.GetOrdinal("Finalizado")) : false;
+                    Item.Estatus = !Dr.IsDBNull(Dr.GetOrdinal("Estatus")) ? Dr.GetString(Dr.GetOrdinal("Estatus")) : string.Empty;
+                    Item.CssEstatus = !Dr.IsDBNull(Dr.GetOrdinal("CssEstatus")) ? Dr.GetString(Dr.GetOrdinal("CssEstatus")) : string.Empty;
+                    Item.IDEstatus = !Dr.IsDBNull(Dr.GetOrdinal("IDEstatus")) ? Dr.GetInt32(Dr.GetOrdinal("IDEstatus")) : 0;
                     Lista.Add(Item);
                 }
                 return Lista;
@@ -58,6 +61,53 @@ namespace CreativaSL.Web.Ganados.Models
                     Lista.Add(Item);
                 }
                 return Lista;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public EntradaAlmacenViewModels ObtenerDatosEntradaXID(string Conexion, string IDEntrada)
+        {
+            try
+            {
+                EntradaAlmacenViewModels Result = new EntradaAlmacenViewModels();
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Inventario_get_DatosXIDEntrada", IDEntrada);
+                while(Dr.Read())
+                {
+                    Result.IDEntradaAlmacen = IDEntrada;
+                    Result.IDCompraAlmacen = !Dr.IsDBNull(Dr.GetOrdinal("IDCompraAlmacen")) ? Dr.GetString(Dr.GetOrdinal("IDCompraAlmacen")) : string.Empty;
+                    Result.IDAlmacen = !Dr.IsDBNull(Dr.GetOrdinal("IDAlmacen")) ? Dr.GetString(Dr.GetOrdinal("IDAlmacen")) : string.Empty;
+                    Result.FechaEntrada  = !Dr.IsDBNull(Dr.GetOrdinal("FechaEntrada")) ? Dr.GetDateTime(Dr.GetOrdinal("FechaEntrada")) : DateTime.MinValue;
+                    Result.Comentario = !Dr.IsDBNull(Dr.GetOrdinal("Comentarios")) ? Dr.GetString(Dr.GetOrdinal("Comentarios")) : string.Empty;
+                }
+                return Result;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public EntradaAlmacenModels ProcesarEntrada(string Conexion, string IDEntrada, string IDUsuario)
+        {
+            try
+            {
+                EntradaAlmacenModels Result = new EntradaAlmacenModels();
+                object[] Parametros = { IDEntrada, IDUsuario };
+                object Value = SqlHelper.ExecuteScalar(Conexion, "spCSLDB_Inventario_set_ProcesarEntrada", Parametros);
+                if (Value != null)
+                {
+                    int Resultado = 0;
+                    int.TryParse(Value.ToString(), out Resultado);
+                    if (Resultado == 1)
+                    {
+                        Result.Completado = true;
+                        Result.Resultado = Resultado;
+                    }
+                }
+                return Result;
             }
             catch(Exception ex)
             {

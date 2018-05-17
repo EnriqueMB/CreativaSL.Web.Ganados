@@ -113,6 +113,90 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
+        // GET: Admin/EntradasAlmacen/Edit
+        public ActionResult Edit(string id)
+        {
+            try
+            {
+                Token.SaveToken();
+                EntradaAlmacenViewModels Model = new EntradaAlmacenViewModels();
+                _Combos_Datos Datos = new _Combos_Datos();
+                _EntradaAlmacen_Datos DatosEntrada = new _EntradaAlmacen_Datos();
+                Model = DatosEntrada.ObtenerDatosEntradaXID(Conexion, id);
+                Model.ListaCompras = Datos.ObtenerComprasProcesadas(Conexion);
+                Model.ListaAlmacenes = Datos.ObtenerAlmacenesXIDCompra(Conexion, Model.IDCompraAlmacen);
+                return View(Model);
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
+        }
+
+        // POST: Admin/EntradasAlmacen/Edit
+        [HttpPost]
+        public ActionResult Edit(EntradaAlmacenViewModels Model)
+        {
+            _EntradaAlmacen_Datos Datos = new _EntradaAlmacen_Datos();
+            _Combos_Datos CDatos = new _Combos_Datos();
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        EntradaAlmacenModels ModelP = new EntradaAlmacenModels
+                        {
+                            NuevoRegistro = false,
+                            IDEntradaAlmacen = Model.IDEntradaAlmacen,
+                            Almacen = new CatAlmacenModels { IDAlmacen = Model.IDAlmacen },
+                            CompraAlmacen = new CompraAlmacenModels { IDCompraAlmacen = Model.IDCompraAlmacen },
+                            FechaEntrada = Model.FechaEntrada,
+                            Comentario = Model.Comentario,
+                            Conexion = Conexion,
+                            Usuario = User.Identity.Name
+                        };
+                        Datos.ACEntradaAlmacen(ModelP);
+                        if (ModelP.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("CreateDetail", new { id = ModelP.IDEntradaAlmacen });
+                        }
+                        else
+                        {
+                            Model.ListaCompras = CDatos.ObtenerComprasProcesadas(Conexion);
+                            Model.ListaAlmacenes = CDatos.ObtenerAlmacenesXIDCompra(Conexion, Model.IDCompraAlmacen);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Model);
+                        }
+                    }
+                    else
+                    {
+                        Model.ListaCompras = CDatos.ObtenerComprasProcesadas(Conexion);
+                        Model.ListaAlmacenes = CDatos.ObtenerAlmacenesXIDCompra(Conexion, Model.IDCompraAlmacen);
+                        return View(Model);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            catch
+            {
+                Model.ListaCompras = CDatos.ObtenerComprasProcesadas(Conexion);
+                Model.ListaAlmacenes = CDatos.ObtenerAlmacenesXIDCompra(Conexion, Model.IDCompraAlmacen);
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrió un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(Model);
+            }
+        }
+
         // GET: Admin/EntradasAlmacen/Create
         public ActionResult CreateDetail(string id)
         {
@@ -163,8 +247,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         }
                         else
                         {
+                            string mensaje = "Ocurrió un error al guardar los datos.";
+                            switch(ModelP.Resultado)
+                            {
+                                case -1: mensaje = "No se pudo realizar la entrada a almacén.";
+                                    break;
+                                case -2: mensaje = "Existe al menos un producto que no tiene existencia suficiente.";
+                                    break;
+                            }
                             TempData["typemessage"] = "2";
-                            TempData["message"] = "Ocurrió un error al guardar los datos.";
+                            TempData["message"] = mensaje;
                             return View(Model);
                         }
                     }
@@ -189,15 +281,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         // GET: Admin/EntradasAlmacen
-        public ActionResult Procesar(string id, string id2)
+        [HttpPost]
+        public ActionResult Procesar(string id)
         {
             try
             {
-                return View();
+                _EntradaAlmacen_Datos EntradaDatos = new _EntradaAlmacen_Datos();
+                EntradaAlmacenModels Entrada = EntradaDatos.ProcesarEntrada(Conexion, id, User.Identity.Name);
+                if (Entrada.Completado)
+                    return Json("true");
+                else
+                    return Json("");
             }
             catch (Exception)
             {
-                return View();
+                return Json("");
             }
         }
 
@@ -218,7 +316,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Json("", JsonRequestBehavior.AllowGet);
             }
         }
-
-
+        
     }
 }

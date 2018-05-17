@@ -2,21 +2,10 @@
     "use strict";
     // Funcion para validar registrar
     var runValidator = function () {
-        var form1 = $('#form-e2c');
+        var form1 = $('#form-ea');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
-        $.validator.addMethod("validarImagen", function () {
-
-            if (document.getElementById("ImgTicket").value === '') {
-                if ((document.getElementById("ImgTicket").value === ''))
-                    return false;
-                else
-                    return true;
-            }
-            else
-                return true;
-        }, 'Debe seleccionar una imagen.');
-        $('#form-e2c').validate({
+        $('#form-ea').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -34,43 +23,16 @@
             },
             ignore: "",
             rules: {
-                NoTicket: { required: true },
-                IDSucursal: { required: true },
-                Litros: {CMBINT:true, required: true },
-                KMInicial: { CMBINT:true,required: true },
-                Total: { required: true },
-                ImgTicket: { validarImagen: true, formatoPNG: true },
-                IDVehiculo: { required: true },
-                IDTipoCombustible: { CMBINT: true }
-                //NombreRazonSocial: { required: true, texto: true, maxlength: 300 },
-                //IDRegimenFiscal: { required: true },
-                //RFC: { required: true, rfc: true },
-                //Direccion: { direccion: true, maxlength: 300 },
-                //FechaIngreso: { required: true },
-                //NombreResponsable: { nombre: true, maxlength: 300 }, //{ nombre: true, maxlenght: 300 },
-                //Celular: { telefono: true },
-                //Telefono: { telefono: true },
-                //CorreoElectronico: { required: true, email: true }
-
+                IDCompraAlmacen: { required: true },
+                IDAlmacen: { required: true },
+                FechaEntrada: { required: true },
+                Comentario: { texto: true }
             },
             messages: {
-                NoTicket: { required: "Ingrese el número del ticket" },
-                IDSucursal: { required: "Seleccione una sucursal." },
-                Litros: {CMBINT:"Ingrese litros mayor que 0 ", required: "Ingrese la cantidad en litros" },
-                KMInicial: { CMBINT: "Ingrese Kilometraje inicial mayor que 0 ", required: "Ingrese el Kilometraje inicial" },
-                Total: { required: "Ingrese el importe total del ticket" },
-                ImgTicket: { validarImagen:"Ingrese una imagen correcta", formatoPNG: "El formato de la imagen debe ser png" },
-                IDVehiculo: { required: "Seleccione un vehículo" },
-                IDTipoCombustible: { CMBINT: "Seleccione un tipo de combustible" }
-                //NombreRazonSocial: { required: "Ingrese el nombre o Razón social.", texto: "Ingrese un nombre o razón social válido.", maxlength: "El campo nombre o razón social admite máximo 300 caracteres." },
-                //IDRegimenFiscal: { required: "Seleccione un régimen fiscal." },
-                //RFC: { required: "Ingrese el RFC del cliente.", rfc: "Ingrese un RFC válido." },
-                //Direccion: { direccion: "Ingrese un dirección válida.", maxlength: "El campo domicilio fiscal admite máximo 300 caracteres." },
-                //FechaIngreso: { required: "Ingrese la fecha de inicio de relación." },
-                //NombreResponsable: { nombre: "Ingrese un nombre de contacto válido.", maxlength: "El campo nombre de contacto admite máximo 300 caracteres." }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
-                //Celular: { telefono: "Ingrese un número de celular válido." },
-                //Telefono: { telefono: "Ingrese un número de teléfono válido." },
-                //CorreoElectronico: { required: "Ingrese el correo electrónico del cliente.", email: "Ingrese un correo electrónico válido." }
+                IDCompraAlmacen: { required: "Seleccione una compra." },
+                IDAlmacen: { required: "Seleccione una bodega." },
+                FechaEntrada: { required: "Ingrese una fecha." },
+                Comentario: { texto: "Ingrese un texto válido para comentarios adicionales." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
