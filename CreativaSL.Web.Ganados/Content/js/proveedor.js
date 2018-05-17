@@ -67,7 +67,7 @@
                 Direccion: { direccion: "Ingrese un dirección válida.", maxlength: "El campo domicilio fiscal admite máximo 300 caracteres." },
                 FechaIngreso: { required: "Ingrese la fecha de inicio de relación." },
                 IDTipoProveedor: { CMBINT: "Seleccione un tipo proveedor válido." }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
-                Tolerancia: { number: "Ingrese un número de tolerancia válido." },
+                Tolerancia: { number: "Ingrese un número de merma válido." },
                 merma: { number: "Ingrese un número de merma válido." },
                 telefonoCelular: { telefono: "Ingrese un número de teléfono celular válido." },
                 telefonoCasa: { telefono: "Ingrese un número de teléfono válido." },
