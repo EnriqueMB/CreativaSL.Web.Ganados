@@ -228,11 +228,11 @@
                     "render": function (data, type, full) {
                         var botones = "<div class='visible-md visible-lg hidden-sm hidden-xs'>";
 
-                        if (full["estatus"] == "En curso") {
+                        if (full["estatus"] == "Agendado") {
                             botones = botones + "<a data-id='" + full["id_flete"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
                                 "<a data-id='" + full["id_flete"] + "' class='btn btn-blue   tooltips btn-sm enviar' title='Enviar flete'  data-placement='top' data-original-title='Enviar flete'><i class='fa fa-truck'></i></a>" +
                                 "<a data-id='" + full["id_flete"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
-                                "<a data-id='" + full["id_flete"] + "' class='btn btn-yellow tooltips btn-sm edit' title='En curso'  data-placement='top' data-original-title='En curso'><i class='fa fa-clock-o'></i></a>" +
+                                "<a data-id='" + full["id_flete"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Agendado'  data-placement='top' data-original-title='Agendado'><i class='fa fa-clock-o'></i></a>" +
                                 "<a data-id='" + full["id_flete"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
@@ -265,7 +265,7 @@
                                 "</div>" +
                                 "</div>";
 
-                        } else if (full["estatus"] == "Enviado") {
+                        } else if (full["estatus"] == "En camino") {
                             botones = botones + "<a data-id='" + full["id_flete"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
                                 "<a data-id='" + full["id_flete"] + "' class='btn btn-blue   tooltips btn-sm finalizar' title='Finalizar'  data-placement='top' data-original-title='Finalizar'><i class='fa fa-check'></i></a>" +
                                 "<a data-id='" + full["id_flete"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +

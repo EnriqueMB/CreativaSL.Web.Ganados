@@ -155,6 +155,30 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
+        #region Funcion Json Evento
+        [HttpPost]
+        public ActionResult TableJsonFleteEventos(string IDFlete)
+        {
+            try
+            {
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                Flete.Conexion = Conexion;
+                Flete.id_flete = IDFlete;
+                Flete.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(FleteDatos.GetEventoXIDFlete(Flete));
+                Flete.RespuestaAjax.Success = true;
+
+                return Content(Flete.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Flete.RespuestaAjax.Mensaje = ex.ToString();
+                Flete.RespuestaAjax.Success = false;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
         /********************************************************************/
         [HttpGet]
         public ActionResult AC_Flete(string IDFlete)
@@ -450,7 +474,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                     ganado = FleteDatos.AC_ProductoGanadoExterno(ganado);
                     if(ganado.RespuestaAjax.Success)
-                        ganado.RespuestaAjax.Mensaje = "{\"IDProducto\": \""+ganado.ID_Producto+ "\", \"posicionNode\": \"" + posicionNode + "\"}";
+                        ganado.RespuestaAjax.Mensaje = "{\"IDProducto\": \""+ganado.RespuestaAjax.Mensaje+ "\", \"posicionNode\": \"" + posicionNode + "\"}";
+                    else
+                        ganado.RespuestaAjax.Mensaje = "{\"Mensaje\": \"" + ganado.RespuestaAjax.Mensaje + "\", \"posicionNode\": \"" + posicionNode + "\"}";
 
                     Token.ResetToken();
                     Token.SaveToken();
@@ -470,7 +496,39 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
             }
         }
+        public ActionResult DEL_ProductoGanadoExterno(string IDFlete, string IDProducto)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    FleteDatos = new _Flete_Datos();
+                    Flete_ProductoModels ganado = new Flete_ProductoModels();
+                    ganado.RespuestaAjax = new RespuestaAjax();
+                    ganado.Conexion = Conexion;
+                    ganado.Usuario = User.Identity.Name;
+                    ganado.ID_Flete = IDFlete;
+                    ganado.ID_Producto = IDProducto;
+                    ganado = FleteDatos.DEL_ProductoGanadoExterno(ganado);
 
+                    Token.ResetToken();
+                    Token.SaveToken();
+                    return Content(ganado.RespuestaAjax.ToJSON(), "application/json");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Flete");
+                }
+            }
+            catch (Exception ex)
+            {
+                Flete.RespuestaAjax = new RespuestaAjax();
+                Flete.RespuestaAjax.Mensaje = ex.ToString();
+                Flete.RespuestaAjax.Success = false;
+
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
 
 
         #endregion
@@ -556,6 +614,27 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         public ActionResult ModalProductoGanado()
         {
             return PartialView("ModalProductoGanado");
+        }
+        [HttpPost]
+        public ActionResult ModalEvento(string IDFlete, string IDEvento)
+        {
+            {
+                FleteDatos = new _Flete_Datos();
+                EventoEnvioModels Evento = new EventoEnvioModels();
+                Evento.IDEnvio = IDFlete;
+                Evento.IDEvento = int.Parse(IDEvento);
+                Evento.Conexion = Conexion;
+
+                Evento = FleteDatos.GetEventoXIDEventoXIDFlete(Evento);
+                Evento.ListaEventos = FleteDatos.GetListaTiposEventos(Evento);
+
+                if (string.IsNullOrEmpty(Evento.ImagenBase64))
+                    Evento.ImagenMostrar = Auxiliar.SetDefaultImage();
+
+                Evento.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Evento.ImagenMostrar);
+
+                return PartialView("ModalEvento", Evento);
+            }
         }
         #endregion
         /********************************************************************/

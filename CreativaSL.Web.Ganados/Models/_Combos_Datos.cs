@@ -206,5 +206,27 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public List<CatProveedorModels> ObtenerComboProveedoresCombustible(string Conexion, string IDSucursal)
+        {
+            try
+            {
+                List<CatProveedorModels> Lista = new List<CatProveedorModels>();
+                CatProveedorModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Combo_get_CatProveedorCombustible", IDSucursal);
+                while(Dr.Read())
+                {
+                    Item = new CatProveedorModels();
+                    Item.IDProveedor = !Dr.IsDBNull(Dr.GetOrdinal("IDProveedor")) ? Dr.GetString(Dr.GetOrdinal("IDProveedor")) : string.Empty;
+                    Item.NombreRazonSocial = !Dr.IsDBNull(Dr.GetOrdinal("NombreRazonSocial")) ? Dr.GetString(Dr.GetOrdinal("NombreRazonSocial")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                return Lista;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

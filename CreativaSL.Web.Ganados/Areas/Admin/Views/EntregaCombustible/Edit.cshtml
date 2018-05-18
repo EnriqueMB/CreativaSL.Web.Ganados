@@ -1,4 +1,4 @@
-﻿@model CreativaSL.Web.Ganados.Models.EntregaCombustibleModels
+﻿@model CreativaSL.Web.Ganados.ViewModels.EntregaCombustibleViewModels
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -39,7 +39,7 @@
                     @Html.HiddenFor(model => model.UrlImagen64)
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><strong>Entrega </strong> de combustible </h3>
+                            <h3 class="panel-title"><strong>Carga </strong> de combustible </h3>
                             <ul class="panel-controls"></ul>
                         </div>
                         <div class="panel-body">
@@ -52,6 +52,14 @@
                                         <div class="col-md-8 col-xs-12">
                                             @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
                                             @Html.ValidationMessageFor(model => model.IDSucursal)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 col-xs-12 control-label"><span>* </span> Proveedor </label>
+                                        <div class="col-md-8 col-xs-12">
+                                            @Html.DropDownListFor(model => model.IDProveedor, new SelectList(Model.ListaProveedores, "IDProveedor", "NombreRazonSocial"), new { id = "IDProveedor", @class = "form-control select", data_live_search = "true" })
+                                            @Html.ValidationMessageFor(model => model.IDProveedor)
                                         </div>
                                     </div>
 
@@ -72,7 +80,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-md-4 col-xs-12 control-label"> * Fecha de entrega</label>
+                                        <label class="col-md-4 col-xs-12 control-label"> * Fecha de carga</label>
                                         <div class="col-md-8 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
@@ -113,7 +121,6 @@
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                                 @Html.TextBoxFor(model => model.Litros, new { id = "Litros", @class = "form-control", placeholder = "Ingrese la cantidad de litros" })
-                                                @*<span class="glyphicon form-control-feedback"></span>*@
                                                 <span class="input-group-addon">L</span>
                                             </div>
                                             @Html.ValidationMessageFor(model => model.Litros)
@@ -126,7 +133,6 @@
                                             <div class="input-group">
                                                 <span class="input-group-addon">$</span>
                                                 @Html.TextBoxFor(model => model.Total, new { id = "Total", @class = "form-control", placeholder = "Ingrese el importe total del ticket" })
-                                                @*<span class="glyphicon form-control-feedback"></span>*@
                                                 <span class="input-group-addon">.00</span>
                                             </div>
                                             @Html.ValidationMessageFor(model => model.Total)
@@ -143,9 +149,9 @@
                                         <div class="col-md-8 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.Img2, new { id = "ImgTicket", @type = "file", @class = "form-control" })
+                                                @Html.TextBoxFor(model => model.ImgTicket2, new { id = "ImgTicket", @type = "file", @class = "form-control" })
                                             </div>
-                                            @Html.ValidationMessageFor(model => model.Img2)
+                                            @Html.ValidationMessageFor(model => model.ImgTicket)
                                             <span class="help-block">Ingrese por lo menos 1 imagen.</span>
                                         </div>
                                     </div>
@@ -188,24 +194,21 @@
             var band = @Model.ImgTicketBand.ToString().ToLower();
             var img = '@Model.UrlImagen64';
 
-            console.log('IMG: ' + img);
-          
-
             $('#ImgTicket').fileinput({
                 theme: 'fa',
                 language: 'es',
                 maxFileCount: 1,
-                uploadUrl: "#",
+                //uploadUrl: "#",
                 overwriteInitial: true,
                 showUploadedThumbs: false,
                 allowedFileExtensions: ['png'],
                 initialPreview: [
                     '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.UrlImagen64" />'
                 ],
-                initialCaption: 'Ine.png',
-                initialPreviewConfig: [
-                   { caption: 'INE.png' }
-                ],
+                //initialCaption: 'Ine.png',
+                //initialPreviewConfig: [
+                //   { caption: 'INE.png' }
+                //],
                 initialPreviewShowDelete: false,
                 showRemove: false,
                 showClose: false,

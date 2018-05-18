@@ -7,9 +7,9 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class EventoEnvioModels
     {
-        private string _IDEvento;
+        private int _IDEvento;
 
-        public string IDEvento
+        public int IDEvento
         {
             get { return _IDEvento; }
             set { _IDEvento = value; }
@@ -47,13 +47,38 @@ namespace CreativaSL.Web.Ganados.Models
             set { _Lugar = value; }
         }
 
-        private DateTime _FechaHoraDeteccion;
+        private TimeSpan _HoraDeteccion;
 
-        public DateTime FechaHoraDetecccion
+        public TimeSpan HoraDetecccion
         {
-            get { return _FechaHoraDeteccion; }
-            set { _FechaHoraDeteccion = value; }
+            get { return _HoraDeteccion; }
+            set { _HoraDeteccion = value; }
         }
+        private DateTime _FechaDeteccion;
+
+        public DateTime FechaDeteccion
+        {
+            get { return _FechaDeteccion; }
+            set { _FechaDeteccion = value; }
+        }
+
+
+        private string _Observacion;
+
+        public string Observacion
+        {
+            get { return _Observacion; }
+            set { _Observacion = value; }
+        }
+
+        public EventoEnvioDetalleModels DetalleEvento { get; set; }
+        public CatTipoEventoEnvioModels TipoEvento { get; set; }
+        public List<CatTipoEventoEnvioModels> ListaEventos { get; set; }
+        public string ImagenBase64 { get; set; }
+        public string ExtensionImagenBase64 { get; set; }
+        public string ImagenMostrar { get; set; }
+        public HttpPostedFile HttpImagen { get; set; }
+
 
         #region Datos De Control
         public string Conexion { get; set; }

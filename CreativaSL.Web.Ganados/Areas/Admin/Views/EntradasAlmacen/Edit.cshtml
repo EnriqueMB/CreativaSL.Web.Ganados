@@ -1,6 +1,6 @@
 ﻿@model CreativaSL.Web.Ganados.ViewModels.EntradaAlmacenViewModels
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 @section featured{
@@ -18,7 +18,7 @@
 
         <div class="col-md-12">
             @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("Create", "EntradasAlmacen", FormMethod.Post, new { @class = "form-horizontal", id = "form-ea", autocomplete = "off", @enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("Edit", "EntradasAlmacen", FormMethod.Post, new { @class = "form-horizontal", id = "form-ec", autocomplete = "off", @enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
                 <div class="field_error" id="validation_summary"></div>
@@ -32,7 +32,7 @@
                     <div class="panel-body">
                         <div class="row">
 
-                            
+
                             <div class="form-group">
                                 <label class="col-md-2 col-xs-12 control-label"><span>* </span> Compra </label>
                                 <div class="col-md-6 col-xs-12">
@@ -76,7 +76,7 @@
                     </div>
                     <div class="panel-footer">
                         <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
-                        <a href="@Url.Action("Index","EntradasAlmacen")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                        <a href="@Url.Action("Index", "EntradasAlmacen")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                     </div>
                 </div>
             }

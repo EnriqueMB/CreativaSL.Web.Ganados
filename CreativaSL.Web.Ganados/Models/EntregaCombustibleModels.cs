@@ -89,6 +89,25 @@ namespace CreativaSL.Web.Ganados.Models
             set { _IDSucursal = value; }
         }
 
+        private string _IDProveedor;
+        /// <summary>
+        /// Identificador del proveedor
+        /// </summary>
+        public string IDProveedor
+        {
+            get { return _IDProveedor; }
+            set { _IDProveedor = value; }
+        }
+
+        private string _Proveedor;
+
+        public string Proveedor
+        {
+            get { return _Proveedor; }
+            set { _Proveedor = value; }
+        }
+
+
         private string _IDVehiculo;
         /// <summary>
         /// Identificador del vehículo
@@ -298,6 +317,7 @@ namespace CreativaSL.Web.Ganados.Models
         public bool Completado { get; set; }
         public string Usuario { get; set; }
         public int Opcion { get; set; }
+        public bool NuevoRegistro { get; set; }
         #endregion
     }
 }
