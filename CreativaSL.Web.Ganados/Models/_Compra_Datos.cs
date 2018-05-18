@@ -13,7 +13,37 @@ namespace CreativaSL.Web.Ganados.Models
     public class _Compra_Datos
     {
         private CultureInfo CultureInfo = new CultureInfo("es-MX");
+        //LISTA DE COMPRAS NO FINALIZADAS
+        public List<CompraModels> GetListaComprasNofinalizadas(CompraModels Compra)
+        {
 
+            try
+            {
+                List<CompraModels> Lista = new List<CompraModels>();
+                CompraModels Item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Inicio_get_ComprasNoFinalizadas");
+                while (dr.Read())
+                {
+                    Item = new CompraModels();
+                    Item.IDProveedor = !dr.IsDBNull(dr.GetOrdinal("nombreRazonSocial")) ? dr.GetString(dr.GetOrdinal("nombreRazonSocial")) : string.Empty;
+                    Item.FechaHoraProgramada = !dr.IsDBNull(dr.GetOrdinal("fechaHoraProgramada")) ? dr.GetDateTime(dr.GetOrdinal("fechaHoraProgramada")) : DateTime.Now;
+                    Item.Estatus= !dr.IsDBNull(dr.GetOrdinal("estatus")) ? dr.GetInt16(dr.GetOrdinal("estatus")) : 0;
+                    Item.GanadosPactadoMachos= !dr.IsDBNull(dr.GetOrdinal("ganadoPactadoMachos")) ? dr.GetInt32(dr.GetOrdinal("ganadoPactadoMachos")) : 0;
+                    Item.GanadosPactadoHembras = !dr.IsDBNull(dr.GetOrdinal("ganadoPactadoHembras")) ? dr.GetInt32(dr.GetOrdinal("ganadoPactadoHembras")) : 0;
+                    Item.GuiaTransito= !dr.IsDBNull(dr.GetOrdinal("guiaTransito")) ? dr.GetString(dr.GetOrdinal("guiaTransito")) : string.Empty;
+                    Item.estatusDesc = !dr.IsDBNull(dr.GetOrdinal("estatusDesc")) ? dr.GetString(dr.GetOrdinal("estatusDesc")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                Compra.listaCompra = Lista;
+                return Compra.listaCompra;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #region Combos
         public List<CatSucursalesModels> GetListadoSucursales(CompraModels Compra)
         {
@@ -51,6 +81,7 @@ namespace CreativaSL.Web.Ganados.Models
                     {
                         IDProveedor = !dr.IsDBNull(dr.GetOrdinal("IDProveedor")) ? dr.GetString(dr.GetOrdinal("IDProveedor")) : string.Empty,
                         NombreRazonSocial = !dr.IsDBNull(dr.GetOrdinal("NombreProveedor")) ? dr.GetString(dr.GetOrdinal("NombreProveedor")) : string.Empty,
+
                     };
                     Compra.ListaProveedores.Add(Proveedor);
                 }
