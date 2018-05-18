@@ -20,6 +20,13 @@ namespace CreativaSL.Web.Ganados.Models
         public bool Completado { get; set; }
         public RespuestaAjax RespuestaAjax { get; set; }
         #endregion
+        private List<CompraModels> _listaCompra;
+
+        public List<CompraModels> listaCompra
+        {
+            get { return _listaCompra; }
+            set { _listaCompra = value; }
+        }
 
         public string ListadoPrecioRangoPeso { get; set; }
 
@@ -133,6 +140,7 @@ namespace CreativaSL.Web.Ganados.Models
         public List<CatTipoClasificacionModels> ListaTipoClasificacion { get; set; }
         public List<CFDI_FormaPagoModels> ListaFormasPagos { get; set; }
         public List<CatLugarModels> ListaLugaresProveedor { get; set; }
+        public object estatusDesc { get; internal set; }
 
         private CultureInfo CultureInfo = new CultureInfo("es-MX");
         #endregion
