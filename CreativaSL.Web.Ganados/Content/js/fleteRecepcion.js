@@ -126,21 +126,56 @@
         $("#btnAddEvento").on("click", function () {
             ModalEvento(IDFlete, 0);
         });
+
     }
+    function RunEventsEventoID() {
+        var Imagen = document.getElementById("ImagenMostrar").value;
+        var ExtensionImagen = document.getElementById("ExtensionImagenBase64").value;
+
+        $('#HttpImagen').fileinput({
+            theme: 'fa',
+            language: 'es',
+            showRemove: false,
+            showClose: false,
+            showUpload: false,
+            uploadUrl: "#",
+            autoReplace: true,
+            overwriteInitial: true,
+            showUploadedThumbs: false,
+            maxFileCount: 1,
+            initialPreview: [
+                '<img class="file-preview-image imgCSL"  src="data:' + ExtensionImagen + ' ;base64,' + Imagen + '" />'
+            ],
+            initialPreviewConfig: [
+                { caption: 'Imagen del evento' }
+            ],
+            initialPreviewShowDelete: false,
+            showRemove: false,
+            showClose: false,
+            layoutTemplates: { actionDelete: '' },
+            allowedFileExtensions: ["png", 'jpg', 'bmp', 'jpeg'],
+            required: true
+    })
+    }
+
     /*FUNCIONES MODALES*/
     function ModalEvento(IDFlete, IDEvento) {
+        $("body").css("cursor", "progress");
         $.ajax({
             url: '/Admin/Flete/ModalEvento/',
             type: "POST",
             data: { IDFlete: IDFlete, IDEvento: IDEvento },
             success: function (data) {
+                $("body").css("cursor", "default");
                 $('#ContenidoModalEvento').html(data);
                 $('#ModalEvento').modal({ backdrop: 'static', keyboard: false });
                 //LoadValidationFleteImpuesto();
-                //RunEventsFleteimpuesto();
+                RunEventsEventoID();
             }
         });
     }
+
+
     /*FUNCIONES VALIDACIONES*/
 
     return {

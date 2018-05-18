@@ -628,6 +628,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Evento = FleteDatos.GetEventoXIDEventoXIDFlete(Evento);
                 Evento.ListaEventos = FleteDatos.GetListaTiposEventos(Evento);
 
+                if (string.IsNullOrEmpty(Evento.ImagenBase64))
+                    Evento.ImagenMostrar = Auxiliar.SetDefaultImage();
+
+                Evento.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Evento.ImagenMostrar);
+
                 return PartialView("ModalEvento", Evento);
             }
         }

@@ -10,64 +10,106 @@
 
     <div class="modal-body">
         <!--INICIA CUERPO MODAL-->
-        
-            @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
-            <div id="validation_summary_evento" class="field_error "></div>
-            @Html.HiddenFor(model => model.IDEnvio)
-            <div class="form-group">
-                <div class="col-md-6 controlError">
-                    <label class="col-md-2 control-label">Lugar</label>
-                    <div class="controls">
-                        <div class="col-md-10 col-xs-12">
-                            <div class="input-group">
-                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                @Html.TextBoxFor(model => model.Lugar, new { @class = "form-control" })
+        <div class="panel panel-default tabs">
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
+                <li role="presentation"><a href="#estado" aria-controls="estado" role="tab" data-toggle="tab">Estado</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="general">
+                    @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
+                    <div id="validation_summary_evento" class="field_error "></div>
+                    @Html.HiddenFor(model => model.IDEnvio)
+                    @Html.HiddenFor(model => model.ImagenBase64)
+                    @Html.HiddenFor(model => model.ImagenMostrar)
+                    @Html.HiddenFor(model => model.ExtensionImagenBase64)
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label class="col-md-2 control-label">Tipo de evento</label>
+                                        <div class="controls">
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.DropDownListFor(model => model.IDTipoEvento, new SelectList(Model.ListaEventos, "IDTipoEventoEnvio", "Descripcion", "Clasificacion", 1), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                </div>
+                                                <span class="help-block">Tipo de evento.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12 controlError">
+                                        <label class="col-md-2 control-label">Lugar</label>
+                                        <div class="controls">
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.Lugar, new { @class = "form-control" })
+                                                </div>
+                                                <span class="help-block">Lugar del evento.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label class="col-md-2 control-label">Fecha</label>
+                                        <div class="controls">
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.FechaDeteccion, new { @class = "form-control" })
+                                                </div>
+                                                <span class="help-block">Fecha del evento.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label class="col-md-2 control-label">Hora</label>
+                                        <div class="controls">
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.HoraDetecccion, new { @class = "form-control" })
+                                                </div>
+                                                <span class="help-block">Hora del evento.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <span class="help-block">Lugar del evento.</span>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <div class="controlError col-md-12">
+                                        <label class="col-md-3 control-label">Ingrese una imagen</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+                                                @Html.TextBoxFor(model => model.HttpImagen, new { id = "HttpImagen", name = "HttpImagen[]", @type = "file", @class = "file form-control", @multiple = "multiple", data_show_upload = "false", data_show_caption = "true" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.HttpImagen)
+                                            <span class="help-block">Ingrese por lo menos 1 imagen.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <!--TERMINA CUERPO MODAL-->
                 </div>
-                <div class="col-md-6">
-                    <label class="col-md-2 control-label">Fecha</label>
-                    <div class="controls">
-                        <div class="col-md-10 col-xs-12">
-                            <div class="input-group">
-                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                @Html.TextBoxFor(model => model.FechaDeteccion, new { @class = "form-control" })
-                            </div>
-                            <span class="help-block">Fecha del evento.</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <label class="col-md-2 control-label">Hora</label>
-                    <div class="controls">
-                        <div class="col-md-10 col-xs-12">
-                            <div class="input-group">
-                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                @Html.TextBoxFor(model => model.HoraDetecccion, new { @class = "form-control" })
-                            </div>
-                            <span class="help-block">Hora del evento.</span>
-                        </div>
-                    </div>
+                <div role="tabpanel" class="tab-pane" id="estado">
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-6">
-                    <label class="col-md-2 control-label">Tipo de evento</label>
-                    <div class="controls">
-                        <div class="col-md-10 col-xs-12">
-                            <div class="input-group">
-                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                @Html.DropDownListFor(model => model.IDTipoEvento, new SelectList(Model.ListaEventos, "IDTipoEventoEnvio", "Descripcion", "Clasificacion", 1), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                            </div>
-                            <span class="help-block">Tipo de evento.</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-       
-        <!--TERMINA CUERPO MODAL-->
+        </div>
     </div>
     <div class="modal-footer">
         <div class="controls">
@@ -77,4 +119,4 @@
     </div>
 
 </div>
-}
+    }

@@ -244,12 +244,6 @@ namespace CreativaSL.Web.Ganados.Models
                     Evento.HoraDetecccion = !dr.IsDBNull(dr.GetOrdinal("horaDeteccion")) ? dr.GetTimeSpan(dr.GetOrdinal("horaDeteccion")) : DateTime.Now.TimeOfDay;
                     Evento.Observacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
                     Evento.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagenBase64")) ? dr.GetString(dr.GetOrdinal("imagenBase64")) : string.Empty;
-
-                    if (string.IsNullOrEmpty(Evento.ImagenBase64))
-                        Evento.ImagenBase64 = Auxiliar.SetDefaultImage();
-
-                    Evento.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Evento.ImagenBase64);
-
                 }
 
                 return Evento;

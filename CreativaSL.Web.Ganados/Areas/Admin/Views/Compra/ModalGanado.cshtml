@@ -225,39 +225,39 @@
                     </div>
                     <!--TERMINA CUERPO MODAL-->
                 </div>
-                    <div role="tabpanel" class="tab-pane" id="estado">
-                        <br />
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <label class="col-md-1 control-label">Estado del ganado</label>
-                                <div class="controls">
-                                    <div class="col-md-11 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.DropDownListFor(model => model.EstatusGanado.id_estatusGanado, new SelectList(Model.ListaEstatusGanado, "id_estatusGanado", "descripcion"), new { @class = "form-control" })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.EstatusGanado.id_estatusGanado)
-                                        <span class="help-block">Estado del ganado.</span>
+                <div role="tabpanel" class="tab-pane" id="estado">
+                    <br />
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="col-md-1 control-label">Estado del ganado</label>
+                            <div class="controls">
+                                <div class="col-md-11 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.DropDownListFor(model => model.EstatusGanado.id_estatusGanado, new SelectList(Model.ListaEstatusGanado, "id_estatusGanado", "descripcion"), new { @class = "form-control" })
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <label class="col-md-1 control-label">Nota</label>
-                                <div class="controls">
-                                    <div class="col-md-11 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextAreaFor(model => model.Ganado.observacion, new { @class = "form-control texArea", @rows="5" })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.Ganado.observacion)
-                                        <span class="help-block">Nota u observación.</span>
-                                    </div>
+                                    @Html.ValidationMessageFor(model => model.EstatusGanado.id_estatusGanado)
+                                    <span class="help-block">Estado del ganado.</span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="col-md-1 control-label">Nota</label>
+                            <div class="controls">
+                                <div class="col-md-11 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextAreaFor(model => model.Ganado.observacion, new { @class = "form-control texArea", @rows="5" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Ganado.observacion)
+                                    <span class="help-block">Nota u observación.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="form-group modal-footer">
