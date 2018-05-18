@@ -103,6 +103,41 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public CatContactosModels AcContactoCliente(CatContactosModels datos)
+        {
+            try
+            {
+                object[] parametros = {
+                    datos.Opcion,
+                    datos.IDContacto ?? string.Empty,
+                    datos.IDCliente ?? string.Empty,
+                    datos.nombreContacto ?? string.Empty,
+                    datos.apMaterno ?? string.Empty,
+                    datos.apPaterno ?? string.Empty,
+                    datos.correo ?? string.Empty,
+                    datos.telefonoContacto ?? string.Empty,
+                    datos.celularContacto ?? string.Empty,
+                    datos.direccion ?? string.Empty,
+                    datos.observacion ?? string.Empty,
+                    datos.Usuario ?? string.Empty
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogos_ac_ContactoCliente", parametros);
+                datos.IDContacto = aux.ToString();
+                if (!string.IsNullOrEmpty(datos.IDCliente))
+                {
+                    datos.Completado = true;
+                }
+                else
+                {
+                    datos.Completado = false;
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public CatClienteModels EliminarCliente(CatClienteModels datos)
         {
             try
@@ -128,6 +163,33 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public CatContactosModels EliminarContactoCliente(CatContactosModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.IDContacto, datos.Usuario
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_del_CatContactos", parametros);
+                datos.IDContacto = aux.ToString();
+                if (!string.IsNullOrEmpty(datos.IDCliente))
+                {
+                    datos.Completado = true;
+                }
+                else
+                {
+                    datos.Completado = false;
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public ClienteLugarModels EliminarLugarCliente(ClienteLugarModels datos)
         {
             try
@@ -251,7 +313,34 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public CatContactosModels ObtenerDetalleContactoCliente(CatContactosModels datos)
+        {
+            try
+            {
+                object[] parametros = { datos.IDContacto };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_get_CatContactosClienteDetalle", parametros);
+                while (dr.Read())
+                {
+                    datos.IDCliente = !dr.IsDBNull(dr.GetOrdinal("IDCliente")) ? dr.GetString(dr.GetOrdinal("IDCliente")) : string.Empty;
+                    datos.IDContacto = !dr.IsDBNull(dr.GetOrdinal("IDContacto")) ? dr.GetString(dr.GetOrdinal("IDContacto")) : string.Empty;
+                    datos.nombreContacto = !dr.IsDBNull(dr.GetOrdinal("NombreContacto")) ? dr.GetString(dr.GetOrdinal("NombreContacto")) : string.Empty;
+                    datos.apPaterno = !dr.IsDBNull(dr.GetOrdinal("ApellidoPaterno")) ? dr.GetString(dr.GetOrdinal("ApellidoPaterno")) : string.Empty;
+                    datos.apMaterno = !dr.IsDBNull(dr.GetOrdinal("ApellidoMaterno")) ? dr.GetString(dr.GetOrdinal("ApellidoMaterno")) : string.Empty;
+                    datos.correo = !dr.IsDBNull(dr.GetOrdinal("CorreoElectronico")) ? dr.GetString(dr.GetOrdinal("CorreoElectronico")) : string.Empty;
+                    datos.telefonoContacto = !dr.IsDBNull(dr.GetOrdinal("TelefonoContacto")) ? dr.GetString(dr.GetOrdinal("TelefonoContacto")) : string.Empty;
+                    datos.celularContacto = !dr.IsDBNull(dr.GetOrdinal("CelularContacto")) ? dr.GetString(dr.GetOrdinal("CelularContacto")) : string.Empty;
+                    datos.direccion = !dr.IsDBNull(dr.GetOrdinal("Direccion")) ? dr.GetString(dr.GetOrdinal("Direccion")) : string.Empty;
+                    datos.observacion = !dr.IsDBNull(dr.GetOrdinal("Observacion")) ? dr.GetString(dr.GetOrdinal("Observacion")) : string.Empty;
+                }
+                return datos;
+            }
 
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<CFDI_RegimenFiscalModels> ObtenerDatosRegimen(CatClienteModels datos)
         {
             try

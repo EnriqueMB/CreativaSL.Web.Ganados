@@ -1,4 +1,4 @@
-﻿var catcontactos = function () {
+﻿var catContactosClientes = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
@@ -25,31 +25,23 @@
             ignore: "",
             rules: {
 
-                nombreContacto: { required: true,nombre:true },
+                nombreContacto: { required: true, nombre: true },
                 apPaterno: { required: true, nombre: true },
                 apMaterno: { required: true, nombre: true },
                 correo: { required: true },
                 telefonoContacto: { required: true, telefono: true },
-                celularContacto: { required: true, telefono: true }
-
+                celularContacto: { required: true, maxlength: 10},
+                direccion: { required: true }
             },
             messages: {
 
-                nombreContacto: { required: "Ingrese un nombre de contacto",nombre:"Solo letras" },
-
+                nombreContacto: { required: "Ingrese un nombre de contacto", nombre: "Solo letras" },
                 apPaterno: { required: "Ingrese un apellido", nombre: "Solo letras" },
+                apMaterno: { required: "Ingrese un apellido", nombre: "Solo letras" },
                 correo: { required: "Ingrese un correo" },
-                telefonoContacto: { required: "Ingrese un telefono", telefono:"Ingrese un numero valido" },
-
-                //NombreRazonSocial: { required: "Ingrese el nombre o Razón social.", texto: "Ingrese un nombre o razón social válido.", maxlength: "El campo nombre o razón social admite máximo 300 caracteres." },
-                //IDRegimenFiscal: { required: "Seleccione un régimen fiscal." },
-                //RFC: { required: "Ingrese el RFC del cliente.", rfc: "Ingrese un RFC válido." },
-                //Direccion: { direccion: "Ingrese un dirección válida.", maxlength: "El campo domicilio fiscal admite máximo 300 caracteres." },
-                //FechaIngreso: { required: "Ingrese la fecha de inicio de relación." },
-                //NombreResponsable: { nombre: "Ingrese un nombre de contacto válido.", maxlength: "El campo nombre de contacto admite máximo 300 caracteres." }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
-                //Celular: { telefono: "Ingrese un número de celular válido." },
-                //Telefono: { telefono: "Ingrese un número de teléfono válido." },
-                //CorreoElectronico: { required: "Ingrese el correo electrónico del cliente.", email: "Ingrese un correo electrónico válido." }
+                telefonoContacto: { required: "Ingrese un número de teléfono", telefono: "Ingrese un número valido" },
+                celularContacto: { required: "Ingrese un numero celular", maxlength: "El número sobre pasa los 10 digitos" },
+                direccion: {required: "Ingrese la direccion"}
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -172,11 +164,8 @@
 
     return {
         //main function to initiate template pages
-        init: function (band, img64) {
+        init: function () {
             runValidator1();
-            runElements();
-            runCombos();
-            runFileInput();
         }
     };
 }();

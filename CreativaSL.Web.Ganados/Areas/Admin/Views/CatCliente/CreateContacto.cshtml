@@ -1,0 +1,182 @@
+﻿@model CreativaSL.Web.Ganados.Models.CatContactosModels
+
+@{
+    ViewBag.Title = "CreateContacto";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            @*<form class="form-horizontal">*@
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("CreateContacto", "CatCliente", FormMethod.Post, new { @class = "form-horizontal", id = "form-datoscontact", autocomplete = "off" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                @Html.HiddenFor(model => model.IDCliente) <div id="validation_summary" class="field_error "></div> //JS
+                @Html.HiddenFor(model => model.IDContacto)
+                <div id="validation_summary" class="field_error "></div> //JS
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Información</strong> Contacto</h3>
+                        <ul class="panel-controls">
+                            @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center"><span>* </span>Nombre Contacto</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.nombreContacto, new { id = "nombreContacto", @class = "form-control", placeholder = "Nombre del contacto" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.nombreContacto)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center"><span>* </span>Apellido Paterno</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.apPaterno, new { id = "apPaterno", @class = "form-control", placeholder = "Apellido Paterno" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.apPaterno)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center"><span>* </span>Apellido Materno</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.apMaterno, new { id = "apMaterno", @class = "form-control", placeholder = "Apellido Materno" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.apMaterno)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center"><span>* </span>Correo Electronico</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.correo, new { id = "correo", @class = "form-control", placeholder = "Ingrese el correo electronico" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.correo)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center"><span>* </span>Telefono Contacto</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.telefonoContacto, new { id = "telefonoContacto", @class = "form-control", placeholder = "Ingrese el telefono" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.telefonoContacto)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center"><span>* </span>Celular Contacto</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.celularContacto, new { id = "celularContacto", @class = "form-control", placeholder = "Ingrese el celular" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.celularContacto)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center"><span>* </span>Direccion</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextAreaFor(model => model.direccion, new { id = "direccion", @class = "form-control", placeholder = "Ingrese la direccion" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.direccion)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Observaciones</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextAreaFor(model => model.observacion, new { id = "observacion", @class = "form-control", placeholder = "Ingrese las observaciones" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.observacion)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("ContactosCliente","CatCliente", new { id = Model.IDCliente })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    </div>
+                </div>
+                @*</form>*@
+            }
+        </div>
+    </div>
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/CatContactosClientes.js")"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            catContactosClientes.init();
+        });
+    </script>
+}
+

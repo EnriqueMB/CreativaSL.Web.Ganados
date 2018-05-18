@@ -96,6 +96,29 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _Finalizado; }
             set { _Finalizado = value; }
         }
+        private string _Estatus;
+
+        public string Estatus
+        {
+            get { return _Estatus; }
+            set { _Estatus = value; }
+        }
+
+        private string _CssEstatus;
+
+        public string CssEstatus
+        {
+            get { return _CssEstatus; }
+            set { _CssEstatus = value; }
+        }
+
+        private int _IDEstatus;
+
+        public int IDEstatus
+        {
+            get { return _IDEstatus; }
+            set { _IDEstatus = value; }
+        }
 
 
         #region Datos De Control
