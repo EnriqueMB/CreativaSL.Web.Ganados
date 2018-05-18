@@ -1,7 +1,7 @@
 ﻿var FleteRecepcion = function () {
     "use strict"
     var IDFlete = document.getElementById("id_flete").value;
-    var tblEventos;
+    var tblEventos, tblGanadoCargado, tblGanadoSufrioEvento, IDEventoGeneral, IDEvento;
 
     /*TABLAS*/
     var LoadTableTiposEventos = function () {
@@ -79,10 +79,6 @@
                     //var IDFlete = $(this).data("idflete");
                     var id_flete = IDFlete;
                     var id_evento = $(this).data("id");
-                    console.log(id_flete);
-                    console.log(id_evento);
-
-                    //ModalImpuesto(IDFlete, IDFleteImpuesto);
                 });
                 $(".delete").on("click", function () {
                     var url = $(this).attr('data-hrefa');
@@ -120,46 +116,155 @@
             }
         });
     }   
+    function LoadTableGanadoCargado() {
+        tblGanadoCargado = $('#tblGanadoCargado').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+            responsive: true,
+            "ajax": {
+                "data": {
+                    "IDFlete": IDFlete, "IDEvento": IDEvento
+                },
+                "url": "/Admin/Flete/TableJsonProductoGanadoCargadoLibreEvento/",
+                "type": "POST",
+                "datatype": "json",
+                "dataSrc": ''
+            },
+            "columns": [
+                { "data": "id_producto" },
+                { "data": "numArete" },
+                { "data": "genero" },
+                { "data": "pesoAproximado" }
+            ],
+            "columnDefs": [
+                {
+                    "targets": [0],
+                    "visible": false,
+                    "searchable": false
+                }
+            ]
+        });
+    }
+    function LoadTableGanadoAccidentado() {
+        tblGanadoSufrioEvento = $('#tblGanadoSufrioEvento').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+            responsive: true,
+            "ajax": {
+                "data": {
+                    "IDFlete": IDFlete, "IDEvento": IDEvento
+                },
+                "url": "/Admin/Flete/TableJsonProductoGanadoCargadoConEvento/",
+                "type": "POST",
+                "datatype": "json",
+                "dataSrc": ''
+            },
+            "columns": [
+                { "data": "id_producto" },
+                { "data": "numArete" },
+                { "data": "genero" },
+                { "data": "pesoAproximado" }
+            ],
+            "columnDefs": [
+                {
+                    "targets": [0],
+                    "visible": false,
+                    "searchable": false
+                }
+            ]
+        });
+    }
 
     /*EVENTOS*/
     var RunEventsEvento = function () {
         $("#btnAddEvento").on("click", function () {
-            ModalEvento(IDFlete, 0);
+            ModalEvento(0);
         });
 
     }
     function RunEventsEventoID() {
         var Imagen = document.getElementById("ImagenMostrar").value;
         var ExtensionImagen = document.getElementById("ExtensionImagenBase64").value;
+        IDEvento = document.getElementById("IDEvento").value;
+        console.log(IDEvento);
+
+        $("#FechaDeteccion").datepicker({
+            format: 'dd/mm/yyyy',
+            language: 'es',
+            autoclose: true
+        });
+        $('#HoraDetecccion').timepicker();
 
         $('#HttpImagen').fileinput({
             theme: 'fa',
             language: 'es',
-            showRemove: false,
-            showClose: false,
-            showUpload: false,
+            fixedHeader: {
+                header: true,
+                footer: true,
+                select: true
+            },
             uploadUrl: "#",
             autoReplace: true,
             overwriteInitial: true,
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                '<img class="file-preview-image imgCSL"  src="data:' + ExtensionImagen + ' ;base64,' + Imagen + '" />'
+                '<img class="file-preview-image"  src="data:' + ExtensionImagen + ' ;base64,' + Imagen + '" />'
             ],
             initialPreviewConfig: [
                 { caption: 'Imagen del evento' }
             ],
             initialPreviewShowDelete: false,
-            showRemove: false,
-            showClose: false,
+            showRemove: true,
+            showClose: true,
             layoutTemplates: { actionDelete: '' },
             allowedFileExtensions: ["png", 'jpg', 'bmp', 'jpeg'],
             required: true
-    })
+        })
+        /*seleccionar filas*/
+        $('#tblGanadoCargado tbody').on('click', 'tr', function () {
+            $(this).toggleClass('selected');
+        });
+        $('#tblGanadoSufrioEvento tbody').on('click', 'tr', function () {
+            $(this).toggleClass('selected');
+        });
+        /*Pasar y regresar filas en las tablas*/
+        $('#enviar').click(function () {
+            var rows = tblGanadoCargado.rows('.selected').data();
+
+            for (var i = 0; i < rows.length; i++) {
+                var d = rows[i];
+
+                tblGanadoSufrioEvento.row.add({
+                    "id_producto": d.id_producto,           //id
+                    "numArete": d.numArete,                 //numArete
+                    "genero": d.genero,                     //genero
+                    "pesoAproximado": d.pesoAproximado      //peso
+                }).draw();
+            }
+            tblGanadoCargado.row('.selected').remove().draw(false);
+        });
+        $('#regresar').click(function () {
+            var rows = tblGanadoSufrioEvento.rows('.selected').data();
+
+            for (var i = 0; i < rows.length; i++) {
+                var d = rows[i];
+
+                tblGanadoCargado.row.add({
+                    "id_producto": d.id_producto,           //id
+                    "numArete": d.numArete,                 //numArete
+                    "genero": d.genero,                     //genero
+                    "pesoAproximado": d.pesoAproximado      //peso
+                }).draw();
+            }
+            tblGanadoSufrioEvento.row('.selected').remove().draw(false);
+        });
     }
 
-    /*FUNCIONES MODALES*/
-    function ModalEvento(IDFlete, IDEvento) {
+    /*MODALES*/
+    function ModalEvento(IDEvento) {
         $("body").css("cursor", "progress");
         $.ajax({
             url: '/Admin/Flete/ModalEvento/',
@@ -169,14 +274,144 @@
                 $("body").css("cursor", "default");
                 $('#ContenidoModalEvento').html(data);
                 $('#ModalEvento').modal({ backdrop: 'static', keyboard: false });
-                //LoadValidationFleteImpuesto();
                 RunEventsEventoID();
+                LoadTableGanadoCargado();
+                LoadTableGanadoAccidentado();
+                LoadValidation_AC_Evento();
             }
         });
     }
 
+    /*VALIDACIONES*/
+    function LoadValidation_AC_Evento() {
+        var form1 = $('#frmEvento');
+        var errorHandler1 = $('.errorHandler', form1);
+        var successHandler1 = $('.successHandler', form1);
 
-    /*FUNCIONES VALIDACIONES*/
+        form1.validate({ // initialize the plugin
+            //debug: true,
+            errorElement: "li",
+            errorClass: 'text-danger',
+            errorLabelContainer: $(".validation_summary_evento"),
+            errorPlacement: function (error, element) { // render error placement for each input type
+                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
+                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
+                    error.insertAfter($(element).closest('.form-group').children('div'));
+                } else if (element.attr("type") == "text") {
+                    error.insertAfter($(element).closest('.input-group').children('div'));
+                } else {
+                    error.insertAfter(element);
+                    // for other inputs, just perform default behavior
+                }
+            },
+            ignore: "",
+            rules: {
+                IDTipoEvento: {
+                    required: true,
+                    min: 1
+                },
+                Lugar: {
+                    required: true
+                },
+                FechaDeteccion: {
+                    required: true
+                },
+                HoraDetecccion: {
+                    required: true
+                }
+            },
+            messages: {
+                IDTipoEvento: {
+                    required: "-Seleccione un tipo de evento.",
+                    min: "-Seleccione un tipo de evento."
+                },
+                Lugar: {
+                    required: "-Seleccione un lugar."
+                },
+                FechaDeteccion: {
+                    required: "-Seleccione una fecha."
+                },
+                HoraDetecccion: {
+                    required: "-Seleccione una hora."
+                }
+            },
+            invalidHandler: function (event, validator) {
+                successHandler1.hide();
+                errorHandler1.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');
+                $(element).closest('.controlError').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.controlError').removeClass('has-error');
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                label.removeClass('color');
+                $(element).closest('.controlError').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler1.show();
+                errorHandler1.hide();
+                AC_Evento();
+            }
+        });
+    };
+
+    /*AC*/
+    function AC_Evento() {
+        //datos del formulario
+        var form = $("#frmEvento")[0];
+        var formData = new FormData(form);
+        //datos de las tablas
+        var ganadoAccidentado = tblGanadoSufrioEvento.rows().data();
+        var objGanado, cantidad = 0;
+        var listaGanado = new Array();
+
+        for (var i = 0 ; i < ganadoAccidentado.length ; i++)
+        {
+            listaGanado.unshift(ganadoAccidentado[i].id_producto);
+            cantidad = i + 1;
+        }
+        formData.append('ListaProductosEvento', listaGanado);
+        formData.append('Cantidad', cantidad);
+
+        formData.set('HoraDetecccion', ObtenerFecha(formData.get('HoraDetecccion')));
+
+        $.ajax({
+            type: 'POST',
+            data: formData,
+            url: '/Admin/Flete/AC_Evento/',
+            contentType: false,
+            processData: false,
+            cache: false,
+            error: function (response) {
+                Mensaje(response.Mensaje, "2");
+            },
+            success: function (response) {
+                if (response.Success) {
+                    Mensaje(response.Mensaje, "1");
+                }
+                else
+                    Mensaje(response.Mensaje, "2");
+            }
+        });
+    }
+
+    /*OTRAS FUNCIONES*/
+    function ObtenerFecha(fechaFormulario) {
+        var arrayTime = fechaFormulario.split(':');
+        var arrayAMPM = arrayTime[1].split(' ');
+        var intHora = parseInt(arrayTime[0]);
+        var hora = (arrayAMPM[1] == 'PM') ? intHora + 12 : intHora;
+        var minuto = arrayAMPM[0];
+        var nuevaHora = hora + ':' + minuto + ':00';
+
+        return nuevaHora;
+    }
+
 
     return {
         init: function (ID_Flete) {
