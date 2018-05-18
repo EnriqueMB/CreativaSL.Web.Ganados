@@ -51,7 +51,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 Token.SaveToken();
+                _Combos_Datos CMB = new _Combos_Datos();
                 CatProveedorAlmacenModels proveedor = new CatProveedorAlmacenModels();
+                proveedor.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
                 return View(proveedor);
             }
             catch (Exception)
@@ -67,6 +69,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Create(CatProveedorAlmacenModels proveedor)
         {
+            _Combos_Datos CMB = new _Combos_Datos();
             _CatProveedorAlmacen_Datos proveedorDatos = new _CatProveedorAlmacen_Datos();
             try
             {
@@ -82,11 +85,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
-                            Token.SaveToken();
+                            Token.ResetToken();
                             return RedirectToAction("Index");
                         }
                         else
                         {
+                            proveedor.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrió un error al intentar guardar.";
                             return View(proveedor);
@@ -95,6 +99,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     else
                     {
                         proveedor.Conexion = Conexion;
+                        proveedor.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
                         return View(proveedor);
                     }
                 }
@@ -105,7 +110,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch
             {
-                proveedor.Conexion = Conexion;
+                proveedor.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrió un error el intentar guardar. Contacte a soporte técnico";
                 return View(proveedor);
@@ -118,11 +123,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 Token.SaveToken();
+                _Combos_Datos CMB = new _Combos_Datos();
                 CatProveedorAlmacenModels proveedor = new CatProveedorAlmacenModels();
                 _CatProveedorAlmacen_Datos proveedorDatos = new _CatProveedorAlmacen_Datos();
                 proveedor.Conexion = Conexion;
                 proveedor.IDProveedorAlmacen = id;
                 proveedor = proveedorDatos.ObtenerDetalleProveedorAlmacenxID(proveedor);
+                proveedor.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
                 return View(proveedor);
             }
             catch (Exception)
@@ -160,7 +167,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrió un error al intentar guardar.";
-                            return RedirectToAction("Edit", "CatProveedorAlmacen");
+                            return View(proveedor);
                         }
                     }
                     else
@@ -347,7 +354,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        //POST: Admin/CatProveedor/EditarCuenta/3
+        //POST: Admin/CatProvvedorAlmacen/DatosBancariosEdit/3
         [HttpPost]
         public ActionResult DatosBancariosEdit(CuentaBancariasProveedorAlmacenModels IDCuentaBancoP)
         {
@@ -399,7 +406,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // POST: Admin/CatProvedor/Delete/5
+        // POST: Admin/CatProvvedorAlmacen/DatosBancariosDelete/5
         [HttpPost]
         public ActionResult DatosBancariosDelete(string id, string id2)
         {
@@ -426,6 +433,29 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             catch
             {
                 return View();
+            }
+        }
+
+        //GET: Admin/CatProvvedorAlmacen/ContactoPro/1
+        [HttpGet]
+        public ActionResult ContactoPro(string id)
+        {
+            try
+            {
+                //CuentaBancariasProveedorAlmacenModels CuentasBancarias = new CuentaBancariasProveedorAlmacenModels();
+                //_CatProveedorAlmacen_Datos ProveddorDatos = new _CatProveedorAlmacen_Datos();
+                //CuentasBancarias.Conexion = Conexion;
+                //CuentasBancarias.IDProveedorAlmacen = id;
+                //CuentasBancarias.ListaCuentaProveedorAlmacen = ProveddorDatos.ObtenerCuentasBancarias(CuentasBancarias);
+                return View();
+            }
+            catch (Exception)
+            {
+                return View();
+                //CuentaBancariasProveedorAlmacenModels CuentasBancarias = new CuentaBancariasProveedorAlmacenModels();
+                //TempData["typemessage"] = "2";
+                //TempData["message"] = "No se puede cargar la vista";
+                //return RedirectToAction("Index");
             }
         }
 

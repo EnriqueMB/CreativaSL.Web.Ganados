@@ -14,7 +14,18 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                object[] parametros = { datos.Opcion, datos.IDProveedorAlmacen, datos.Descripcion, datos.RFC,datos.Usuario };
+                object[] parametros = { datos.Opcion,
+                            datos.IDProveedorAlmacen ?? string.Empty,
+                            datos.IDSucursal ?? string.Empty,
+                            datos.RazonSocial ?? string.Empty,
+                            datos.RFC ?? string.Empty,
+                            datos.TelefonoCelular ?? string.Empty,
+                            datos.TelefonoCasa ?? string.Empty,
+                            datos.Correo ?? string.Empty,
+                            datos.FechaIngreso != null ? datos.FechaIngreso : DateTime.Today,
+                            datos.Direccion ?? string.Empty,
+                            datos.Observaciones ?? string.Empty,
+                            datos.Usuario ?? string.Empty };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatProveedorAlmacen", parametros);
                 datos.IDProveedorAlmacen =aux.ToString();
                 if (!string.IsNullOrEmpty(datos.IDProveedorAlmacen))
@@ -68,9 +79,15 @@ namespace CreativaSL.Web.Ganados.Models
                 while (dr.Read())
                 {
                     datos.IDProveedorAlmacen = !dr.IsDBNull(dr.GetOrdinal("IDProveedor")) ? dr.GetString(dr.GetOrdinal("IDProveedor")) : string.Empty;// Convert.ToInt32(dr["ID_UnidadMedida"].ToString());
-                    datos.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+                    datos.IDSucursal = !dr.IsDBNull(dr.GetOrdinal("IDSucursal")) ? dr.GetString(dr.GetOrdinal("IDSucursal")) : string.Empty;
+                    datos.RazonSocial = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
                     datos.RFC = !dr.IsDBNull(dr.GetOrdinal("Rfc")) ? dr.GetString(dr.GetOrdinal("Rfc")) : string.Empty;
-
+                    datos.TelefonoCelular = !dr.IsDBNull(dr.GetOrdinal("TelefonoCelular")) ? dr.GetString(dr.GetOrdinal("TelefonoCelular")) : string.Empty;
+                    datos.TelefonoCasa = !dr.IsDBNull(dr.GetOrdinal("TelefonoCasa")) ? dr.GetString(dr.GetOrdinal("TelefonoCasa")) : string.Empty;
+                    datos.Correo = !dr.IsDBNull(dr.GetOrdinal("Correo")) ? dr.GetString(dr.GetOrdinal("Correo")) : string.Empty;
+                    datos.FechaIngreso = !dr.IsDBNull(dr.GetOrdinal("FechaIngreso")) ? dr.GetDateTime(dr.GetOrdinal("FechaIngreso")) : DateTime.Today;
+                    datos.Direccion = !dr.IsDBNull(dr.GetOrdinal("Direccion")) ? dr.GetString(dr.GetOrdinal("Direccion")) : string.Empty;
+                    datos.Observaciones = !dr.IsDBNull(dr.GetOrdinal("Obsevaciones")) ? dr.GetString(dr.GetOrdinal("Obsevaciones")) : string.Empty;
                 }
                 return datos;
             }
@@ -92,8 +109,11 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     Item = new CatProveedorAlmacenModels();
                     Item.IDProveedorAlmacen = !dr.IsDBNull(dr.GetOrdinal("IDProveedor")) ? dr.GetString(dr.GetOrdinal("IDProveedor")) : string.Empty;
-                    Item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+                    Item.RazonSocial = !dr.IsDBNull(dr.GetOrdinal("RazonSocial")) ? dr.GetString(dr.GetOrdinal("RazonSocial")) : string.Empty;
+                    Item.Direccion = !dr.IsDBNull(dr.GetOrdinal("Direccion")) ? dr.GetString(dr.GetOrdinal("Direccion")) : string.Empty;
                     Item.RFC= !dr.IsDBNull(dr.GetOrdinal("Rfc")) ? dr.GetString(dr.GetOrdinal("Rfc")) : string.Empty;
+                    Item.Correo = !dr.IsDBNull(dr.GetOrdinal("Correo")) ? dr.GetString(dr.GetOrdinal("Correo")) : string.Empty;
+                    Item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
                     Lista.Add(Item);
                 }
                 datos.LProveedorA= Lista;
