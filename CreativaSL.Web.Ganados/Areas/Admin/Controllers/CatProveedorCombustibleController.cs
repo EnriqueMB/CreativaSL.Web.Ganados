@@ -24,7 +24,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CatProveedorCombustibleModels combustibleModels = new CatProveedorCombustibleModels();
                 _CatProveedorCombustible_Datos datos = new _CatProveedorCombustible_Datos();
                 combustibleModels.Conexion = Conexion;
-                combustibleModels = 
+                //combustibleModels = 
                 return View(combustibleModels);
             }
             catch (Exception)
