@@ -126,7 +126,7 @@
                                     <div class="col-md-12 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextAreaFor(model => model.direccion, new { id = "direccion", @class = "form-control" })
+                                            @Html.TextAreaFor(model => model.direccion, new { id = "direccion", @class = "form-control texArea", @rows="4" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.direccion)
                                         <span class="help-block">Dirección</span>
@@ -139,7 +139,7 @@
                                     <div class="col-md-12 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextAreaFor(model => model.observacion, new { id = "observacion", @class = "form-control" })
+                                            @Html.TextAreaFor(model => model.observacion, new { id = "observacion", @class = "form-control texArea", @rows = "4" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.observacion)
                                         <span class="help-block">Observación</span>
