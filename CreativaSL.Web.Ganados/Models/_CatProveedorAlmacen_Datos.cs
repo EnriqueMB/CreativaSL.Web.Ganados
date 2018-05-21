@@ -257,6 +257,122 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        #endregion
+
+        #region Contacto Proveedor Almacen
+
+        public List<CatContactosModels> ObtenerdatosContactosProveedor(CatContactosModels Datos)
+        {
+            try
+            {
+                List<CatContactosModels> lista = new List<CatContactosModels>();
+                CatContactosModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Catalogo_get_CatProveedorAlmacenCatContacto", Datos.IDProveedor);
+                while (dr.Read())
+                {
+                    item = new CatContactosModels();
+                    item.IDContacto = !dr.IsDBNull(dr.GetOrdinal("IDContacto")) ? dr.GetString(dr.GetOrdinal("IDContacto")) : string.Empty;
+                    item.nombreContacto = !dr.IsDBNull(dr.GetOrdinal("NombreContacto")) ? dr.GetString(dr.GetOrdinal("NombreContacto")) : string.Empty;
+                    item.correo = !dr.IsDBNull(dr.GetOrdinal("Correo")) ? dr.GetString(dr.GetOrdinal("Correo")) : string.Empty;
+                    item.direccion = !dr.IsDBNull(dr.GetOrdinal("Direccion")) ? dr.GetString(dr.GetOrdinal("Direccion")) : string.Empty;
+                    item.telefonoContacto = !dr.IsDBNull(dr.GetOrdinal("TelefonoCasa")) ? dr.GetString(dr.GetOrdinal("TelefonoCasa")) : string.Empty;
+                    item.celularContacto = !dr.IsDBNull(dr.GetOrdinal("TelefonoCelular")) ? dr.GetString(dr.GetOrdinal("TelefonoCelular")) : string.Empty;
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void ACDatosContactoProveedorAlmacen(CatContactosModels datos)
+        {
+            try
+            {
+                object[] parametros = { datos.Opcion,
+                                        datos.IDContacto ?? string.Empty,
+                                        datos.IDProveedor ?? string.Empty,
+                                        datos.nombreContacto ?? string.Empty,
+                                        datos.apMaterno ?? string.Empty,
+                                        datos.apPaterno ?? string.Empty,
+                                        datos.correo ?? string.Empty,
+                                        datos.telefonoContacto ?? string.Empty,
+                                        datos.celularContacto ?? string.Empty,
+                                        datos.direccion ?? string.Empty,
+                                        datos.observacion ?? string.Empty,
+                                        datos.Usuario ?? string.Empty};
+                object result = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogos_ac_CatContactoProveedorAlmacen", parametros);
+                if (result != null)
+                {
+                    if (!string.IsNullOrEmpty(result.ToString()))
+                    {
+                        datos.Completado = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CatContactosModels ObtenerDetalleCatcontactoProveedor(CatContactosModels datos)
+        {
+            try
+            {
+                object[] parametros = { datos.IDContacto, datos.IDProveedor };
+                SqlDataReader Dr = null;
+                Dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_get_CatProveedorAlmacenCatContactoXID", parametros);
+                while (Dr.Read())
+                {
+                    datos.IDContacto = !Dr.IsDBNull(Dr.GetOrdinal("IDContacto")) ? Dr.GetString(Dr.GetOrdinal("IDContacto")) : string.Empty;
+                    datos.nombreContacto = !Dr.IsDBNull(Dr.GetOrdinal("NombreContacto")) ? Dr.GetString(Dr.GetOrdinal("NombreContacto")) : string.Empty;
+                    datos.apMaterno = !Dr.IsDBNull(Dr.GetOrdinal("ApMaterno")) ? Dr.GetString(Dr.GetOrdinal("ApMaterno")) : string.Empty;
+                    datos.apPaterno = !Dr.IsDBNull(Dr.GetOrdinal("ApPaterno")) ? Dr.GetString(Dr.GetOrdinal("ApPaterno")) : string.Empty;
+                    datos.correo = !Dr.IsDBNull(Dr.GetOrdinal("Correo")) ? Dr.GetString(Dr.GetOrdinal("Correo")) : string.Empty;
+                    datos.telefonoContacto = !Dr.IsDBNull(Dr.GetOrdinal("TelefonoContacto")) ? Dr.GetString(Dr.GetOrdinal("TelefonoContacto")) : string.Empty;
+                    datos.celularContacto = !Dr.IsDBNull(Dr.GetOrdinal("TelefonoCelular")) ? Dr.GetString(Dr.GetOrdinal("TelefonoCelular")) : string.Empty;
+                    datos.direccion = !Dr.IsDBNull(Dr.GetOrdinal("Direccion")) ? Dr.GetString(Dr.GetOrdinal("Direccion")) : string.Empty;
+                    datos.observacion = !Dr.IsDBNull(Dr.GetOrdinal("Observaciones")) ? Dr.GetString(Dr.GetOrdinal("Observaciones")) : string.Empty;
+                    datos.Completado = true;
+                }
+                return datos;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CatContactosModels EliminarDatoContactoProveedorAlmacen(CatContactosModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.IDContacto, datos.Usuario
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_shared_del_CatContactoXID", parametros);
+                if (aux != null)
+                {
+                    int Resultado = 0;
+                    int.TryParse(aux.ToString(), out Resultado);
+                    if (Resultado == 1)
+                    {
+                        datos.Completado = true;
+                    }
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         #endregion
     }
