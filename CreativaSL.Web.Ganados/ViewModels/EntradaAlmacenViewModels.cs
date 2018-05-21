@@ -1,6 +1,8 @@
 ﻿using CreativaSL.Web.Ganados.Models;
+using CreativaSL.Web.Ganados.Models.Validaciones;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -28,6 +30,8 @@ namespace CreativaSL.Web.Ganados.ViewModels
         /// <summary>
         /// Objeto que contiene los datos de la compra de almacén
         /// </summary>
+        [Required(ErrorMessage = "Seleccione una compra")]
+        [Display(Name = "Compra")]
         public string IDCompraAlmacen
         {
             get { return _IDCompraAlmacen; }
@@ -38,6 +42,8 @@ namespace CreativaSL.Web.Ganados.ViewModels
         /// <summary>
         /// Objeto que contiene los datos del almacén al que se ingresarán los productos
         /// </summary>
+        [Required(ErrorMessage = "Seleccione un almacén")]
+        [Display(Name = "Almacén")]
         public string IDAlmacen
         {
             get { return _IDAlmacen; }
@@ -48,6 +54,10 @@ namespace CreativaSL.Web.Ganados.ViewModels
         /// <summary>
         /// Fecha en la que se realiza la entrada a almacén
         /// </summary>
+        [Required(ErrorMessage = "Debe seleccionar una fecha de entrada")]
+        [Display(Name = "Fecha de entrada")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime FechaEntrada
         {
             get { return _FechaEntrada; }
@@ -68,6 +78,8 @@ namespace CreativaSL.Web.Ganados.ViewModels
         /// <summary>
         /// Información adicional de la entrada de almacén
         /// </summary>
+        [Texto(ErrorMessage = "Ingrese un texto válido para {0}")]
+        [Display(Name = "Comentarios adicionales")]
         public string Comentario
         {
             get { return _Comentario; }

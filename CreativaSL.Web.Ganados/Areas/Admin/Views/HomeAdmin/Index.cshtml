@@ -1,4 +1,4 @@
-﻿
+﻿@model CreativaSL.Web.Ganados.Models.CompraModels
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -48,6 +48,21 @@
         </div>
     <!-- END WIDGETS -->
     </div>
+<div id="fullCalModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                <h4 id="modalTitle" class="modal-title"></h4>
+            </div>
+            <div id="modalBody" class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                @*<button class="btn btn-success"><a id="eventUrl" target="_blank">Event Page</a></button>*@
+            </div>
+        </div>
+    </div>
+</div>
 }
 @section script{
 
@@ -59,6 +74,53 @@
             //$('#calendario').click(function () {
             //    alert();
             //});
+
+
+
+            @{
+            string color = "";
+            int switchcase= 0;
+
+                  <text>  var a =[</text>
+                foreach (var item in Model.listaCompra) {
+                    switchcase = @item.Estatus;
+                     <text>
+
+          {
+        title: '@item.IDProveedor',
+              start: ' @item.FechaHoraProgramada.ToString("yyyy-MM-dd")',
+              //end: '@DateTime.Now.ToString("yyyy-MM-dd")',
+              @switch (switchcase)
+              {
+                  case 1:
+                      color = "#6699ff";
+                      break;
+                  case 2:
+                      color = "#ff5533";
+                      break;
+                  case 3:
+                      color = "#BBFF13";
+                      break;
+                  case 4:
+                      color = "#BB8866";
+                      break;
+                  default:
+                      color = "#ffcc00";
+
+                      break;
+              }
+              color: '@color',
+              description:'<p> <strong>Estatus : </strong> @item.estatusDesc</p>'+'<p><strong>Guia de transito : </strong> @item.GuiaTransito</p>'+
+                  '<p><strong>Hembras pactados : </strong>@item.GanadosPactadoHembras</p>' + '<p><strong>Machos pactados: </strong>@item.GanadosPactadoMachos</p>'
+
+          },
+
+
+            </text>
+                }
+                <text>]</text>
+            }
+
             $('#calendar').fullCalendar({
                 lang: 'es',
                 fixedWeekCount: false,
@@ -69,24 +131,14 @@
                 slotLabelFormat: 'H',
                 eventOverlap: false,
                 displayEventTime: true,
-                events: [
-         {
-             title: 'All Day Event',
-             start: '2018-05-16',
-             color: "#AAC440"
-         },
-          {
-              title: 'event2',
-              start: '2018-05-05',
-              end: '2018-05-07'
-          }, 
-          {
-              title: 'event2',
-              start: '2018-05-05',
-              end: '2018-05-08'
-          },
+                events: a,
+                eventClick: function (event, jsEvent, view) {
+                    $('#modalTitle').html(event.title);
+                    $('#modalBody').html(event.description);
+                    //$('#eventUrl').attr('href', event.url);
+                    $('#fullCalModal').modal();
+                },
 
-                ]
             });
         });
     </script>

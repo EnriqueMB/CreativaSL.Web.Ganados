@@ -7,9 +7,22 @@
 
 @section css
 {
+        <!--FILEINPUT-->
+<link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.5/css/select.bootstrap.min.css">
+
+<link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
     <style>
         .marginRow {
             margin-top: 15px !important;
+        }
+        img.file-preview-image.kv-preview-data.is-portrait-gt4.file-zoom-detail {
+            width: auto !important;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
         }
     </style>
 }
@@ -39,7 +52,7 @@
                 <li id="liEvento" role="presentation" class="active">  <a id="tabEvento" class="pestaña" href="#evento" aria-controls="evento" role="tab" data-toggle="tab">Evento</a></li>
                 <li id="liRecepcion" role="presentation" class="pestaña"><a id="tabRecepcion" class="pestaña" href="#recepcion" aria-controls="recepcion" role="tab" data-toggle="tab">Recepcion</a></li>
             </ul>
-
+            @Html.HiddenFor(model => model.id_flete)
             <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="evento">
@@ -66,14 +79,15 @@
                                                 <div class="col-md-12">
                                                     <h3></h3>
                                                     <div class="table-responsive">
-                                                        <table id="tblDocumentos" class="table">
+                                                        <table id="tblEventos" class="table">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Tipo de evento</th>
-                                                                    <th>Núm. Arete</th>
-                                                                    <th>Fecha</th>
+                                                                    <th>Tipo Evento</th>
+                                                                    <th>Cantidad</th>
                                                                     <th>Lugar</th>
+                                                                    <th>Fecha</th>
                                                                     <th>Hora</th>
+                                                                    <th>Acción</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody></tbody>
@@ -133,7 +147,7 @@
                                                         <div class="col-md-6">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                                                                @Html.TextBoxFor(model=>model.Recepcion.recibidoPor, new { id="Recepcion_recibidoPor", @class = "form-control" })
+                                                                @Html.TextBoxFor(model => model.Recepcion.recibidoPor, new { id = "Recepcion_recibidoPor", @class = "form-control" })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -216,36 +230,9 @@
 
 
         <!--TERMINA TABS-->
-        <div id="ModalImpuesto" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog modal-lg" id="ContenidoModalImpuesto">
+        <div id="ModalEvento" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
+            <div class="modal-dialog modal-lg" id="ContenidoModalEvento">
 
-            </div>
-        </div>
-        <div id="ModalDocumento" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog modal-lg" id="ContenidoModalDocumento">
-
-            </div>
-        </div>
-        <div id="ModalProducto" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog modal-lg" id="ContenidoModalProducto">
-
-            </div>
-        </div>
-        <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
-            <div class="mb-container">
-                <div class="mb-middle">
-                    <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
-                    <div class="mb-content">
-                        <p>¿Seguro que quieres eliminar este impuesto?</p>
-                        <p>Presione "sí" si está seguro.</p>
-                    </div>
-                    <div class="mb-footer">
-                        <div class="pull-right">
-                            <button class="btn btn-success btn-lg mb-control-yes">Si</button>
-                            <button class="btn btn-default btn-lg mb-control-close">No</button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="message-box animated fadeIn" data-sound="alert" id="mb-deleteDocumento">
@@ -254,23 +241,6 @@
                     <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
                     <div class="mb-content">
                         <p>¿Seguro que quieres eliminar este documento?</p>
-                        <p>Presione "sí" si está seguro.</p>
-                    </div>
-                    <div class="mb-footer">
-                        <div class="pull-right">
-                            <button class="btn btn-success btn-lg mb-control-yes">Si</button>
-                            <button class="btn btn-default btn-lg mb-control-close">No</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="message-box animated fadeIn" data-sound="alert" id="mb-deleteProductoGanado">
-            <div class="mb-container">
-                <div class="mb-middle">
-                    <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
-                    <div class="mb-content">
-                        <p>¿Seguro que quieres eliminar este ganado?</p>
                         <p>Presione "sí" si está seguro.</p>
                     </div>
                     <div class="mb-footer">
@@ -300,18 +270,23 @@
     <!--SELECT PICKER-->
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <!--FUNCIONES DE FLETE JS-->
-    <script type="text/javascript" src="@Url.Content("~/Content/js/flete.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/fleteRecepcion.js")"></script>
     <!--FILEINPUT-->
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")" type="text/javascript"></script>
+    <!--TIMEPICKER-->
+    <script src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-timepicker.min.js")"></script>
+    <!--DATEPIKER-->
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
 
     <script>
         jQuery(document).ready(function () {
 
             Mensaje(message, typemessage);
-            Flete.init();
+            FleteRecepcion.init();
         });
     </script>
 }

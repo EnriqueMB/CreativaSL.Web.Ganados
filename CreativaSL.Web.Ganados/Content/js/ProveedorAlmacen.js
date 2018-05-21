@@ -24,12 +24,24 @@
             },
             ignore: "",
             rules: {
-                Descripcion: { required: true, texto: true, maxlength: 100 },
-                RFC:{required: true, rfc: true}
+                IDSucursal: { required: true },
+                RazonSocial: { required: true, texto: true, maxlength: 300 },
+                Direccion: { direccion: true, maxlength: 300 },
+                RFC:{required: true, rfc: true},
+                FechaIngreso: { required: true },
+                TelefonoCelular: { telefono: true },
+                TelefonoCasa: { telefono: true },
+                Correo: { required: true, email: true }
             },
             messages: {
-                Descripcion: { required: "Ingrese el nombre del Proveedor.", texto: "Ingrese un formato válido", maxlength: "El campo nombre admite máximo 100 caracteres." },
-                RFC: { required: "Ingrese el RFC del proveedor.", rfc: "Ingrese un RFC válido." }
+                IDSucursal: { required: "Seleccione una sucursal." },
+                RazonSocial: { required: "Ingrese la razón social del proveedor almacén.", texto: "Ingrese un formato válido", maxlength: "El campo razón social admite máximo 300 caracteres." },
+                Direccion: { direccion: "Ingrese un dirección válida.", maxlength: "El campo domicilio fiscal admite máximo 300 caracteres." },
+                RFC: { required: "Ingrese el RFC del proveedor almacén.", rfc: "Ingrese un RFC válido." },
+                FechaIngreso: { required: "Ingrese la fecha de inicio de relación." },
+                TelefonoCelular: { telefono: "Ingrese un número de teléfono celular válido." },
+                TelefonoCasa: { telefono: "Ingrese un número de teléfono válido." },
+                Correo: { required: "Ingrese el correo electrónico del proveedor almacén.", email: "Ingrese un correo electrónico válido." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -60,10 +72,17 @@
             }
         });
     };
+
+    var runDatePicker = function () {
+        $('#FechaIngreso').datepicker({
+            format: 'dd/mm/yyyy'
+        });
+    };
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
+            runDatePicker();
         }
     };
 }();

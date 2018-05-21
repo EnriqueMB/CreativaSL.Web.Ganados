@@ -81,6 +81,36 @@ namespace CreativaSL.Web.Ganados.Models
                 return sw.ToString();
             }
         }
+        public static string ObtenerExtensionImagenBase64(string imagen64)
+        {
+            string extension = string.Empty;
+            int position = 0;
+
+            position = imagen64.IndexOf("iVBOR");
+            if (position == 0)
+                return extension = "image/png";
+
+            position = imagen64.IndexOf("/9j/4");
+            if (position == 0)
+                return extension = "image/jpeg";
+
+            //bmp de 256 colores
+            position = imagen64.IndexOf("Qk3");
+            if (position == 0)
+                return extension = "image/bmp";
+
+            //bmp de monocromatico colores
+            position = imagen64.IndexOf("Qk2");
+            if (position == 0)
+                return extension = "image/bmp";
+
+            //bmp de 16 colores
+            position = imagen64.IndexOf("Qk1");
+            if (position == 0)
+                return extension = "image/bmp";
+
+            return extension;
+        }
         public static IEnumerable<ErrorModelState> AllErrors(this ModelStateDictionary modelState)
         {
             var result = from ms in modelState

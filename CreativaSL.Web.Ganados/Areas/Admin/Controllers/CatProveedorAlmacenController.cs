@@ -51,7 +51,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 Token.SaveToken();
+                _Combos_Datos CMB = new _Combos_Datos();
                 CatProveedorAlmacenModels proveedor = new CatProveedorAlmacenModels();
+                proveedor.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
                 return View(proveedor);
             }
             catch (Exception)
@@ -67,6 +69,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Create(CatProveedorAlmacenModels proveedor)
         {
+            _Combos_Datos CMB = new _Combos_Datos();
             _CatProveedorAlmacen_Datos proveedorDatos = new _CatProveedorAlmacen_Datos();
             try
             {
@@ -82,11 +85,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
-                            Token.SaveToken();
+                            Token.ResetToken();
                             return RedirectToAction("Index");
                         }
                         else
                         {
+                            proveedor.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrió un error al intentar guardar.";
                             return View(proveedor);
@@ -95,6 +99,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     else
                     {
                         proveedor.Conexion = Conexion;
+                        proveedor.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
                         return View(proveedor);
                     }
                 }
@@ -105,7 +110,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch
             {
-                proveedor.Conexion = Conexion;
+                proveedor.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrió un error el intentar guardar. Contacte a soporte técnico";
                 return View(proveedor);
@@ -118,11 +123,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 Token.SaveToken();
+                _Combos_Datos CMB = new _Combos_Datos();
                 CatProveedorAlmacenModels proveedor = new CatProveedorAlmacenModels();
                 _CatProveedorAlmacen_Datos proveedorDatos = new _CatProveedorAlmacen_Datos();
                 proveedor.Conexion = Conexion;
                 proveedor.IDProveedorAlmacen = id;
                 proveedor = proveedorDatos.ObtenerDetalleProveedorAlmacenxID(proveedor);
+                proveedor.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
                 return View(proveedor);
             }
             catch (Exception)
@@ -160,7 +167,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrió un error al intentar guardar.";
-                            return RedirectToAction("Edit", "CatProveedorAlmacen");
+                            return View(proveedor);
                         }
                     }
                     else
@@ -347,7 +354,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        //POST: Admin/CatProveedor/EditarCuenta/3
+        //POST: Admin/CatProvvedorAlmacen/DatosBancariosEdit/3
         [HttpPost]
         public ActionResult DatosBancariosEdit(CuentaBancariasProveedorAlmacenModels IDCuentaBancoP)
         {
@@ -399,7 +406,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // POST: Admin/CatProvedor/Delete/5
+        // POST: Admin/CatProvvedorAlmacen/DatosBancariosDelete/5
         [HttpPost]
         public ActionResult DatosBancariosDelete(string id, string id2)
         {
@@ -429,5 +436,198 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
+        //GET: Admin/CatProvvedorAlmacen/ContactoPro/1
+        [HttpGet]
+        public ActionResult ContactoPro(string id)
+        {
+            try
+            {
+                CatContactosModels Contacto = new CatContactosModels();
+                _CatProveedorAlmacen_Datos ProveddorDatos = new _CatProveedorAlmacen_Datos();
+                Contacto.Conexion = Conexion;
+                Contacto.IDProveedor = id;
+                Contacto.listaContacto = ProveddorDatos.ObtenerdatosContactosProveedor(Contacto);
+                return View(Contacto);
+            }
+            catch (Exception)
+            {
+
+                CatContactosModels Contacto = new CatContactosModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
+        }
+
+        //GET: Admin/CatProveedorAlmacen/ContactoProCreate/3
+        [HttpGet]
+        public ActionResult ContactoProCreate(string id)
+        {
+            try
+            {
+                Token.SaveToken();
+                CatContactosModels Contacto = new CatContactosModels();
+                Contacto.IDProveedor = id;
+                return View(Contacto);
+            }
+            catch (Exception)
+            {
+                CatContactosModels Contacto = new CatContactosModels();
+                Contacto.IDProveedor = id;
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Contacto);
+                //return RedirectToAction("ContactoPro", "CatProvvedorAlmacen", new { id = Contacto.IDProveedor });
+            }
+        }
+
+        //POST: Admin/CatProveedorAlmacen/ContactoProCreate/3
+        [HttpPost]
+        public ActionResult ContactoProCreate(CatContactosModels Contacto)
+        {
+            _CatProveedorAlmacen_Datos ProveedorDatos = new _CatProveedorAlmacen_Datos();
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        Contacto.Conexion = Conexion;
+                        Contacto.Usuario = User.Identity.Name;
+                        Contacto.Opcion = 1;
+                        ProveedorDatos.ACDatosContactoProveedorAlmacen(Contacto);
+                        if (Contacto.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("ContactoPro", new { id = Contacto.IDProveedor });
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Contacto);
+                        }
+                    }
+                    else
+                    {
+                        return View(Contacto);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("ContactoPro", new { id = Contacto.IDProveedor });
+                }
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(Contacto);
+            }
+        }
+
+        //GET: Admin/CatProvvedorAlmacen/ContactoProEdit/3
+        [HttpGet]
+        public ActionResult ContactoProEdit(string id, string id2)
+        {
+            try
+            {
+                Token.SaveToken();
+                CatContactosModels Contacto = new CatContactosModels();
+                _CatProveedorAlmacen_Datos ProveedorDatos = new _CatProveedorAlmacen_Datos();
+                Contacto.IDContacto = id;
+                Contacto.IDProveedor = id2;
+                Contacto.Conexion = Conexion;
+                Contacto = ProveedorDatos.ObtenerDetalleCatcontactoProveedor(Contacto);
+                return View(Contacto);
+            }
+            catch (Exception)
+            {
+                CatContactosModels Contacto = new CatContactosModels();
+                Contacto.IDProveedor = id2;
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("ContactoPro", new { id = Contacto.IDProveedor });
+            }
+        }
+
+        //POST: Admin/CatProvvedorAlmacen/ContactoProEdit/3
+        [HttpPost]
+        public ActionResult ContactoProEdit(CatContactosModels Contacto)
+        {
+            _CatProveedorAlmacen_Datos ProveedorDatos = new _CatProveedorAlmacen_Datos();
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        Contacto.Conexion = Conexion;
+                        Contacto.Usuario = User.Identity.Name;
+                        Contacto.Opcion = 2;
+                        ProveedorDatos.ACDatosContactoProveedorAlmacen(Contacto);
+                        if (Contacto.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("ContactoPro", new { id = Contacto.IDProveedor });
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Contacto);
+                        }
+                    }
+                    else
+                    {                       
+                        return View(Contacto);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("ContactoPro", new { id = Contacto.IDProveedor });
+                }
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(Contacto);
+            }
+        }
+
+        // POST: Admin/CatProvvedorAlmacen/ContactoProDelete/5
+        [HttpPost]
+        public ActionResult ContactoProDelete(string id, string id2)
+        {
+            try
+            {
+                CatContactosModels Datos = new CatContactosModels
+                {
+                    IDProveedor = id2,
+                    IDContacto = id,
+                    Conexion = Conexion,
+                    Usuario = User.Identity.Name
+                };
+                _CatProveedorAlmacen_Datos ProveedorDatos = new _CatProveedorAlmacen_Datos();
+                ProveedorDatos.EliminarDatoContactoProveedorAlmacen(Datos);
+                if (Datos.Completado)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "El registro se ha eliminado correctamente";
+                    return Json("");
+                }
+                else
+                { return Json(""); }
+            }
+            catch
+            {
+                return View();
+            }
+        }
     }
 }

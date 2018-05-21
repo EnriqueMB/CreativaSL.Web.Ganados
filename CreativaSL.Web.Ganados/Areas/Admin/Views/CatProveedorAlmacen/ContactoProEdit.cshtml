@@ -1,9 +1,9 @@
 ﻿@model CreativaSL.Web.Ganados.Models.CatContactosModels
+
 @{
-    ViewBag.Title = "NuevoDatosContactoEdit";
+    ViewBag.Title = "ContactoProEdit";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
 
 @section featured{
 
@@ -21,26 +21,23 @@
         <div class="col-md-12">
             @*<form class="form-horizontal">*@
             @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("NuevoDatosContactoEdit", "CatProveedor", FormMethod.Post, new { id = "form-datoscontact", @class = "form-horizontal", autocomplete = "off" }))
+            @using (Html.BeginForm("ContactoProEdit", "CatProveedorAlmacen", FormMethod.Post, new { id = "form-datoscontact", @class = "form-horizontal", autocomplete = "off" }))
             {
 
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-                @Html.HiddenFor(model => model.IDProveedor)                                                                                                     <div id="validation_summary" class="field_error "></div> //JS
-                @Html.HiddenFor(model => model.IDSucursal)
+                <div id="validation_summary" class="field_error "></div> //JS
+                @Html.HiddenFor(model => model.IDProveedor)
                 @Html.HiddenFor(model => model.IDContacto)
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Información</strong> Almacén</h3>
+                        <h3 class="panel-title"><strong>Información</strong> Proveedor Almacén Contacto</h3>
                         <ul class="panel-controls">
                             @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
                         </ul>
                     </div>
                     <div class="panel-body">
                         <div class="col-md-12">
-
-
-
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-12 control-label text-center">Nombre contacto</label>
@@ -50,7 +47,7 @@
                                             @Html.TextBoxFor(model => model.nombreContacto, new { id = "nombreContacto", @class = "form-control" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.nombreContacto)
-                                        <span class="help-block">Nombre Contacto</span>
+                                        <span class="help-block">Ingrese el nombre del Contacto</span>
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +61,7 @@
                                             @Html.TextBoxFor(model => model.apPaterno, new { id = "apPaterno", @class = "form-control" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.apPaterno)
-                                        <span class="help-block">Apellido Paterno</span>
+                                        <span class="help-block">Ingrese el apellido paterno</span>
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +75,7 @@
                                             @Html.TextBoxFor(model => model.apMaterno, new { id = "apMaterno", @class = "form-control" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.apMaterno)
-                                        <span class="help-block">Apellido Materno</span>
+                                        <span class="help-block">Ingrese el apellido materno</span>
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +88,7 @@
                                             @Html.TextBoxFor(model => model.correo, new { id = "correo", @class = "form-control", @type = "email" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.correo)
-                                        <span class="help-block">Correo electrónico</span>
+                                        <span class="help-block">Ingrese su correo electrónico</span>
                                     </div>
                                 </div>
                             </div>
@@ -104,7 +101,7 @@
                                             @Html.TextBoxFor(model => model.telefonoContacto, new { id = "telefonoContacto", @class = "form-control" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.telefonoContacto)
-                                        <span class="help-block">Teléfono contacto</span>
+                                        <span class="help-block">Ingrese un teledono de casa</span>
                                     </div>
                                 </div>
                             </div>
@@ -117,7 +114,7 @@
                                             @Html.TextBoxFor(model => model.celularContacto, new { id = "celularContacto", @class = "form-control" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.celularContacto)
-                                        <span class="help-block">Celular</span>
+                                        <span class="help-block">Ingrese un teléfono celular</span>
                                     </div>
                                 </div>
                             </div>
@@ -127,10 +124,10 @@
                                     <div class="col-md-12 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextAreaFor(model => model.direccion, new { id = "direccion", @class = "form-control" })
+                                            @Html.TextAreaFor(model => model.direccion, new { id = "direccion", @class = "form-control texArea", @rows = "4" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.direccion)
-                                        <span class="help-block">Dirección</span>
+                                        <span class="help-block">Ingrese la dirección de contacto</span>
                                     </div>
                                 </div>
                             </div>
@@ -140,10 +137,10 @@
                                     <div class="col-md-12 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextAreaFor(model => model.observacion, new { id = "observacion", @class = "form-control" })
+                                            @Html.TextAreaFor(model => model.observacion, new { id = "observacion", @class = "form-control texArea", @rows = "4" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.observacion)
-                                        <span class="help-block">Observación</span>
+                                        <span class="help-block">Ingrese una observación</span>
                                     </div>
                                 </div>
                             </div>
@@ -153,10 +150,10 @@
                     </div>
                     <div class="panel-footer">
                         <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                        <a href="@Url.Action("DatosContacto","CatProveedor",new {id=Model.IDProveedor,id2=Model.IDSucursal})" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                        <a href="@Url.Action("ContactoPro","CatProveedorAlmacen",new { id = Model.IDProveedor })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                     </div>
                 </div>
-@*</form>*@
+                @*</form>*@
             }
         </div>
     </div>
@@ -177,13 +174,12 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/CatContactos.js")"></script>
     <script>
     jQuery(document).ready(function () {
-
         Mensaje(message, typemessage);
         catcontactos.init();
-
     });
     </script>
 }
+
 
 
 
