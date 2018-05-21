@@ -1178,6 +1178,9 @@
     <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosR.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosV.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Test.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorAlmacen\ContactoPro.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorAlmacen\ContactoProCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorAlmacen\ContactoProEdit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

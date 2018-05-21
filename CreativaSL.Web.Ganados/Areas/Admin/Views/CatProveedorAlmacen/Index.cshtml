@@ -57,6 +57,7 @@
                                         <td>@Proveedor.Correo</td>
                                         <td style="text-align:center;">
                                             <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                <a title="Datos Contacto" href="@Url.Action("ContactoPro", "CatProveedorAlmacen", new { id =Proveedor.IDProveedorAlmacen  })" class="btn btn-blue tooltips" data-placement="top" data-original-title="Contatos"><i class="fa fa-user"></i></a>
                                                 <a title="Datos Bancarios" href="@Url.Action("DatosBancarios", "CatProveedorAlmacen", new { id =Proveedor.IDProveedorAlmacen  })" class="btn btn-green tooltips" data-placement="top" data-original-title="Datos Bancarios"><i class="fa fa-credit-card"></i></a>
                                                 <a title="Editar" href="@Url.Action("Edit", "CatProveedorAlmacen", new { id = Proveedor.IDProveedorAlmacen })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                                                 <a title="Eliminar" id="delete-@Proveedor.IDProveedorAlmacen" data-hrefa="@Url.Action("Delete", "CatProveedorAlmacen", new { id = Proveedor.IDProveedorAlmacen })" onClick="delete_row('@Proveedor.IDProveedorAlmacen');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
@@ -67,6 +68,11 @@
                                                         <i class="fa fa-cog"></i> <span class="caret"></span>
                                                     </a>
                                                     <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("ContactoPro", "CatProveedorAlmacen", new { id =Proveedor.IDProveedorAlmacen  })">
+                                                                <i class="fa fa-user"></i> Datos Contacto
+                                                            </a>
+                                                        </li>
                                                         <li>
                                                             <a role="menuitem" tabindex="-1" href="@Url.Action("DatosBancarios", "CatProveedorAlmacen", new { id =Proveedor.IDProveedorAlmacen  })">
                                                                 <i class="fa fa-credit-card"></i> Datos Bancarios
