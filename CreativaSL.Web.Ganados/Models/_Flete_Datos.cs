@@ -105,6 +105,42 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public SqlDataReader GetProductoGanadoNoAccidentadoXIDEvento(EventoEnvioModels Evento)
+        {
+            try
+            {
+                object[] parametros =
+                    {
+                        Evento.IDEnvio,
+                        Evento.IDEvento
+                    };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Evento.Conexion, "spCSLDB_Flete_get_ProductoGanadoCargadoSINEventoXIDFleteXIDEvento", parametros);
+                return dr;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public SqlDataReader GetProductoGanadoAccidentadoXIDEvento(EventoEnvioModels Evento)
+        {
+            try
+            {
+                object[] parametros =
+                    {
+                        Evento.IDEnvio,
+                        Evento.IDEvento
+                    };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Evento.Conexion, "spCSLDB_Flete_get_ProductoGanadoCargadoCONEventoXIDFleteXIDEvento", parametros);
+                return dr;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         #region Get
         #region Get AC_Flete
@@ -913,7 +949,64 @@ namespace CreativaSL.Web.Ganados.Models
             return ganado;
         }
         #endregion
+        #region Producto Ganado Externo
+        public EventoEnvioModels AC_Evento(EventoEnvioModels Evento)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                   Evento.IDEvento      ,Evento.IDEnvio                 ,Evento.IDTipoEvento        ,Evento.Cantidad
+                  ,Evento.Lugar         ,Evento.FechaDeteccion          ,Evento.HoraDetecccion      ,Evento.Observacion
+                  ,Evento.ImagenBase64  ,Evento.ListaProductosEvento    ,Evento.Usuario
+                };
 
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Evento.Conexion, "spCSLDB_Flete_ac_Evento", parametros);
+
+                while (dr.Read())
+                {
+                    Evento.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Evento.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Evento.RespuestaAjax.Mensaje = ex.ToString();
+                Evento.RespuestaAjax.Success = false;
+            }
+
+            return Evento;
+        }
+        //public Flete_ProductoModels DEL_ProductoGanadoExterno(Flete_ProductoModels ganado)
+        //{
+        //    try
+        //    {
+        //        object[] parametros =
+        //        {
+        //            ganado.ID_Producto,
+        //            ganado.ID_Flete,
+        //            ganado.Usuario
+        //        };
+
+        //        SqlDataReader dr = null;
+        //        dr = SqlHelper.ExecuteReader(ganado.Conexion, "spCSLDB_Flete_del_ProductoGanadoExterno", parametros);
+
+        //        while (dr.Read())
+        //        {
+        //            ganado.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+        //            ganado.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ganado.RespuestaAjax.Mensaje = ex.ToString();
+        //        ganado.RespuestaAjax.Success = false;
+        //    }
+
+        //    return ganado;
+        //}
+        #endregion
         #endregion
 
         public Flete_TipoDocumentoModels Flete_del_DocumentoXIDDocumento(Flete_TipoDocumentoModels FleteTipo)

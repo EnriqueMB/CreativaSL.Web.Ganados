@@ -1308,8 +1308,8 @@
             var html_imagen = '<img id="img_' + id_fila + '" class="cslElegido"  src="/Content/img/tabla/ok.png" alt="" height="42" width="42"> <label id="lbl_' + id_fila + '" class="cslElegido" for="' + mensaje + '">' + mensaje + '</label>';
         else
             var html_imagen = '<img id="img_' + id_fila + '" class="cslElegido" src="/Content/img/tabla/cancel.png" alt="" height="42" width="42"> <label id="lbl_' + id_fila + '" class="cslElegido" for="' + mensaje + '">' + mensaje + '</label>';
-        var html_macho = '<option value="Macho">Macho</option>';
-        var html_hembra = '<option value="Hembra">Hembra</option>';
+        var html_macho = '<option value="MACHO">Macho</option>';
+        var html_hembra = '<option value="HEMBRA">Hembra</option>';
 
         if (genero == "Macho" || genero == "MACHO") {
 
