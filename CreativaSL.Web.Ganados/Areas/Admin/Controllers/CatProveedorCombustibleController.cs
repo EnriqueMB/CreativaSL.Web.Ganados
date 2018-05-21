@@ -24,6 +24,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CatProveedorCombustibleModels combustibleModels = new CatProveedorCombustibleModels();
                 _CatProveedorCombustible_Datos datos = new _CatProveedorCombustible_Datos();
                 combustibleModels.Conexion = Conexion;
+                combustibleModels.listaProveedoresCombustible = datos.ObtenerCatProveedores(combustibleModels);
                 //combustibleModels = 
                 return View(combustibleModels);
             }
@@ -44,44 +45,164 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         // GET: Admin/CatProveedorCombustible/Create
         public ActionResult Create()
         {
-            return View();
+            try
+            {
+                Token.SaveToken();
+                _Combos_Datos cmb = new _Combos_Datos();
+                CatProveedorCombustibleModels combustibleModels = new CatProveedorCombustibleModels();
+                _CatProveedorCombustible_Datos datos = new _CatProveedorCombustible_Datos();
+                combustibleModels.Conexion = Conexion;
+                combustibleModels.listaSucursal = cmb.ObtenerComboSucursales(combustibleModels.Conexion);
+               
+                return View(combustibleModels);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // POST: Admin/CatProveedorCombustible/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CatProveedorCombustibleModels combustibleModels)
         {
+            _CatProveedorCombustible_Datos Proovedordatos = new _CatProveedorCombustible_Datos();
+            _Combos_Datos cmb = new _Combos_Datos();
+            combustibleModels.Conexion = Conexion;
             try
             {
-                // TODO: Add insert logic here
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
 
-                return RedirectToAction("Index");
+                        
+                        combustibleModels.Usuario = User.Identity.Name;
+                        combustibleModels.Opcion = 1;
+                        combustibleModels = Proovedordatos.acCatProveedorCombustible(combustibleModels);
+                        if (combustibleModels.Completado)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            
+                            combustibleModels.listaSucursal = cmb.ObtenerComboSucursales(combustibleModels.Conexion);
+
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(combustibleModels);
+                        }
+                    }
+                    else
+                    {
+                        
+                        combustibleModels.listaSucursal = cmb.ObtenerComboSucursales(combustibleModels.Conexion);
+
+                        return View(combustibleModels);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+              
+                combustibleModels.listaSucursal = cmb.ObtenerComboSucursales(combustibleModels.Conexion);
+                
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(combustibleModels);
             }
         }
 
         // GET: Admin/CatProveedorCombustible/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            return View();
+            try
+            {
+                Token.SaveToken();
+                _Combos_Datos cmb = new _Combos_Datos();
+                CatProveedorCombustibleModels combustibleModels = new CatProveedorCombustibleModels();
+                _CatProveedorCombustible_Datos datos = new _CatProveedorCombustible_Datos();
+                combustibleModels.Conexion = Conexion;
+                combustibleModels.IDProveedor = id;
+                combustibleModels.listaSucursal = cmb.ObtenerComboSucursales(combustibleModels.Conexion);
+                combustibleModels = datos.ObtenerDetalleCatProveedor(combustibleModels);
+
+                return View(combustibleModels);
+            }
+            catch (Exception ex)
+            {
+                CatProveedorModels Proveedor = new CatProveedorModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
         }
 
         // POST: Admin/CatProveedorCombustible/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(CatProveedorCombustibleModels combustibleModels)
         {
+            _CatProveedorCombustible_Datos Proovedordatos = new _CatProveedorCombustible_Datos();
+            _Combos_Datos cmb = new _Combos_Datos();
+            combustibleModels.Conexion = Conexion;
             try
             {
-                // TODO: Add update logic here
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
 
-                return RedirectToAction("Index");
+
+                        combustibleModels.Usuario = User.Identity.Name;
+                        combustibleModels.Opcion = 2;
+                        combustibleModels = Proovedordatos.acCatProveedorCombustible(combustibleModels);
+                        if (combustibleModels.Completado)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+
+                            combustibleModels.listaSucursal = cmb.ObtenerComboSucursales(combustibleModels.Conexion);
+
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(combustibleModels);
+                        }
+                    }
+                    else
+                    {
+
+                        combustibleModels.listaSucursal = cmb.ObtenerComboSucursales(combustibleModels.Conexion);
+
+                        return View(combustibleModels);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+
+                combustibleModels.listaSucursal = cmb.ObtenerComboSucursales(combustibleModels.Conexion);
+
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(combustibleModels);
             }
         }
 

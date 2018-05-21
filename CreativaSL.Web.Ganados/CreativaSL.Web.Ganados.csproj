@@ -443,6 +443,7 @@
     <Content Include="Content\js\CuentaProveedorAlmacen.js" />
     <Content Include="Content\js\EmpleadosSucursalFaltas.js" />
     <Content Include="Content\js\fleteRecepcion.js" />
+    <Content Include="Content\js\ProveedorCombustible.js" />
     <Content Include="Content\js\Puestos.js" />
     <Content Include="Content\js\CategoriaPuestos.js" />
     <Content Include="Content\js\Chofer.js" />
@@ -1182,6 +1183,8 @@
     <Content Include="Areas\Admin\Views\CatProveedorAlmacen\ContactoProCreate.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorAlmacen\ContactoProEdit.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

@@ -41,5 +41,79 @@ namespace CreativaSL.Web.Ganados.Models
             }
 
         }
+        public CatProveedorCombustibleModels acCatProveedorCombustible(CatProveedorCombustibleModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                   datos.Opcion,
+                   datos.IDProveedor ?? string.Empty,
+
+                   datos.IDSucursal ?? string.Empty,
+
+                   datos.NombreRazonSocial?? string.Empty,
+                   datos.Direccion?? string.Empty,
+                   datos.RFC ?? string.Empty,
+                   datos.correo ?? string.Empty,
+                   datos.telefonoCasa ?? string.Empty,
+                   datos.telefonoCelular ?? string.Empty,
+                   datos.observaciones ?? string.Empty,
+                   
+                    datos.fechaIngreso !=null? datos.fechaIngreso:DateTime.Now,
+                   datos.Usuario ?? string.Empty
+
+                    };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatProveedorCombustible", parametros);
+                datos.IDProveedor = aux.ToString();
+
+                if (!string.IsNullOrEmpty(datos.IDProveedor))
+                {
+                    datos.Completado = true;
+                }
+                else
+                {
+                    datos.Completado = false;
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public CatProveedorCombustibleModels ObtenerDetalleCatProveedor(CatProveedorCombustibleModels datos)
+        {
+            try
+            {
+                object[] parametros = { datos.IDProveedor };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_get_CatProveedorCombustibleXID", parametros);
+                while (dr.Read())
+                {
+                    datos.IDProveedor = dr["id_proveedorCombustible"].ToString();
+                   
+                    datos.IDSucursal = dr["id_sucursal"].ToString();
+                    datos.NombreRazonSocial = dr["nombreRazonSocial"].ToString();
+                    datos.RFC = dr["rfc"].ToString();
+                   
+                    datos.Direccion = dr["direccion"].ToString();
+                    datos.correo = dr["correo"].ToString();
+                    datos.telefonoCasa = dr["telefonoCasa"].ToString();
+                    datos.telefonoCelular = dr["telefonoCelular"].ToString();
+                    
+                    datos.fechaIngreso = !dr.IsDBNull(dr.GetOrdinal("FechaIngreso")) ? dr.GetDateTime(dr.GetOrdinal("FechaIngreso")) : DateTime.Now;
+                    
+                    datos.observaciones = !dr.IsDBNull(dr.GetOrdinal("observaciones")) ? dr.GetString(dr.GetOrdinal("observaciones")) : string.Empty;
+                    // datos.merma= !dr.IsDBNull(dr.GetOrdinal("merma")) ? dr.GetInt32(dr.GetOrdinal("merma")) : 0;
+                }
+                return datos;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
