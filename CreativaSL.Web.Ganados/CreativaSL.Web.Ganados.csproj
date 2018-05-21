@@ -1181,6 +1181,7 @@
     <Content Include="Areas\Admin\Views\CatProveedorAlmacen\ContactoPro.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorAlmacen\ContactoProCreate.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorAlmacen\ContactoProEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
