@@ -76,9 +76,8 @@
             ],
             "drawCallback": function (settings) {
                 $(".edit").on("click", function () {
-                    //var IDFlete = $(this).data("idflete");
-                    var id_flete = IDFlete;
                     var id_evento = $(this).data("id");
+                    ModalEvento(id_evento);
                 });
                 $(".delete").on("click", function () {
                     var url = $(this).attr('data-hrefa');
@@ -188,14 +187,17 @@
         var Imagen = document.getElementById("ImagenMostrar").value;
         var ExtensionImagen = document.getElementById("ExtensionImagenBase64").value;
         IDEvento = document.getElementById("IDEvento").value;
-        console.log(IDEvento);
+        //console.log(IDEvento);
 
         $("#FechaDeteccion").datepicker({
             format: 'dd/mm/yyyy',
             language: 'es',
             autoclose: true
         });
-        $('#HoraDetecccion').timepicker();
+        $('#HoraDetecccion').timepicker({
+            minuteStep: 1,
+            showMeridian: false
+        });
 
         $('#HttpImagen').fileinput({
             theme: 'fa',
@@ -211,7 +213,7 @@
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                '<img class="file-preview-image"  src="data:' + ExtensionImagen + ' ;base64,' + Imagen + '" />'
+                '<img class="file-preview-image"  style=" width: auto !important; height: auto; max-width: 100%; max-height: 100%;" src="data:' + ExtensionImagen + ' ;base64,' + Imagen + '" />'
             ],
             initialPreviewConfig: [
                 { caption: 'Imagen del evento' }
@@ -278,6 +280,7 @@
                 LoadTableGanadoCargado();
                 LoadTableGanadoAccidentado();
                 LoadValidation_AC_Evento();
+                
             }
         });
     }
@@ -389,13 +392,18 @@
             cache: false,
             error: function (response) {
                 Mensaje(response.Mensaje, "2");
+                $("#ModalEvento").modal('hide');
             },
             success: function (response) {
                 if (response.Success) {
                     Mensaje(response.Mensaje, "1");
+                    $("#ModalEvento").modal('hide');
+                    tblEventos.ajax.reload();
                 }
-                else
+                else {
                     Mensaje(response.Mensaje, "2");
+                    $("#ModalEvento").modal('hide');
+                }
             }
         });
     }

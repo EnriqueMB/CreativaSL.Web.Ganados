@@ -662,6 +662,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             Evento.ImagenBase64 = Auxiliar.ImageToBase64(Evento.HttpImagen);
                         }
+                        else
+                        {
+                            //ya que no es obligatorio la imagen
+                            Evento.ImagenBase64 = null;
+                        }
 
                         Evento = FleteDatos.AC_Evento(Evento);
                         Token.ResetToken();
@@ -728,6 +733,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 if (string.IsNullOrEmpty(Evento.ImagenBase64))
                     Evento.ImagenMostrar = Auxiliar.SetDefaultImage();
+                else
+                    Evento.ImagenMostrar = Evento.ImagenBase64;
 
                 if (string.Equals(IDEvento, "0"))
                 {
