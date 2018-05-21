@@ -81,36 +81,31 @@
                 });
                 $(".delete").on("click", function () {
                     var url = $(this).attr('data-hrefa');
-                    var row = $(this).attr('data-id');
-                    var box = $("#mb-remove-row");
+                    var id = $(this).attr('data-id');
+                    var box = $("#mb-delete-evento");
                     box.addClass("open");
-                    //box.find(".mb-control-yes").on("click", function () {
-                    //    box.removeClass("open");
-                    //    $.ajax({
-                    //        url: url,
-                    //        data: { IDFleteImpuesto: row },
-                    //        type: 'POST',
-                    //        dataType: 'json',
-                    //        success: function (result) {
-                    //            if (result.Success) {
-                    //                box.find(".mb-control-yes").prop('onclick', null).off('click');
-                    //                Mensaje("Impuesto eliminado con éxito.", "1");
-                    //                //Recogo los valores
-                    //                var json = JSON.parse(result.Mensaje);
-                    //                $("#TotalFlete").val(json.totalFlete);
-                    //                $("#TotalImpuestoTrasladado").val(json.totalImpuestoTrasladados);
-                    //                $("#TotalImpuestoRetenido").val(json.totalImpuestoRetenido);
-                    //                $("#ModalImpuesto").modal('hide');
-                    //                tableImpuesto.ajax.reload();
-                    //            }
-                    //            else
-                    //                Mensaje(result.Mensaje, "2");
-                    //        },
-                    //        error: function (result) {
-                    //            Mensaje(result.Mensaje, "2");
-                    //        }
-                    //    });
-                    //});
+                    box.find(".mb-control-yes").on("click", function () {
+                        box.removeClass("open");
+                        $.ajax({
+                            url: url,
+                            data: { IDEvento: id, IDFlete: IDFlete },
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (result) {
+                                if (result.Success) {
+                                    box.find(".mb-control-yes").prop('onclick', null).off('click');
+                                    $("#ModalImpuesto").modal('hide');
+                                    Mensaje(result.Mensaje, "1");
+                                    tblEventos.ajax.reload();
+                                }
+                                else
+                                    Mensaje(result.Mensaje, "2");
+                            },
+                            error: function (result) {
+                                Mensaje(result.Mensaje, "2");
+                            }
+                        });
+                    });
                 });
             }
         });
@@ -181,13 +176,15 @@
         $("#btnAddEvento").on("click", function () {
             ModalEvento(0);
         });
-
+        $('.Hora24hrs').timepicker({
+            minuteStep: 1,
+            showMeridian: false
+        });
     }
     function RunEventsEventoID() {
         var Imagen = document.getElementById("ImagenMostrar").value;
         var ExtensionImagen = document.getElementById("ExtensionImagenBase64").value;
         IDEvento = document.getElementById("IDEvento").value;
-        //console.log(IDEvento);
 
         $("#FechaDeteccion").datepicker({
             format: 'dd/mm/yyyy',
@@ -198,7 +195,6 @@
             minuteStep: 1,
             showMeridian: false
         });
-
         $('#HttpImagen').fileinput({
             theme: 'fa',
             language: 'es',
@@ -225,6 +221,10 @@
             allowedFileExtensions: ["png", 'jpg', 'bmp', 'jpeg'],
             required: true
         })
+        $('#HttpImagen').on('fileclear', function (event) {
+            document.getElementById("ImagenMostrar").value = "";
+        });
+
         /*seleccionar filas*/
         $('#tblGanadoCargado tbody').on('click', 'tr', function () {
             $(this).toggleClass('selected');
@@ -293,7 +293,7 @@
 
         form1.validate({ // initialize the plugin
             //debug: true,
-            errorElement: "li",
+            errorElement: "dd",
             errorClass: 'text-danger',
             errorLabelContainer: $(".validation_summary_evento"),
             errorPlacement: function (error, element) { // render error placement for each input type
@@ -362,6 +362,162 @@
             }
         });
     };
+    var LoadValidation_AC_RecepcionDestino = function () {
+        var form1 = $('#Frm_AC_RecepcionDestino');
+        var errorHandler1 = $('.errorHandler', form1);
+        var successHandler1 = $('.successHandler', form1);
+
+        form1.validate({ // initialize the plugin
+            debug: true,
+            errorElement: "dd",
+            errorClass: 'text-danger',
+            errorLabelContainer: $("#validation_summary_AC_RecepciónDestino"),
+            errorPlacement: function (error, element) { // render error placement for each input type
+                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
+                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
+                    error.insertAfter($(element).closest('.form-group').children('div'));
+                } else if (element.attr("type") == "text") {
+                    error.insertAfter($(element).closest('.input-group').children('div'));
+                } else {
+                    error.insertAfter(element);
+                    // for other inputs, just perform default behavior
+                }
+            },
+            ignore: "",
+            rules: {
+                "RecepcionDestino.fechaLlegada": {
+                    required: true
+                },
+                "RecepcionDestino.HoraLlegada": {
+                    required: true
+                },
+                "RecepcionDestino.recibidoPor": {
+                    required: true
+                },
+                "RecepcionDestino.HoraDescarga": {
+                    required: true
+                },
+                "RecepcionDestino.kiloTotalRecibido": {
+                    min: 1
+                },
+                "RecepcionDestino.GanadosTotal": {
+                    min: 1
+                }
+            },
+            messages: {
+                "RecepcionDestino.fechaLlegada": {
+                    required: "Seleccione una fecha de llegada."
+                },
+                "RecepcionDestino.HoraLlegada": {
+                    required: "Seleccione una hora de llegada."
+                },
+                "RecepcionDestino.recibidoPor": {
+                    required: "Escriba el nombre de la persona que recibio la mercancia."
+                },
+                "RecepcionDestino.HoraDescarga": {
+                    required: "Seleccione una hora de descarga"
+                },
+                "RecepcionDestino.kiloTotalRecibido": {
+                    min: "Escriba la cantidad de kilos que recibio el lugar destino"
+                },
+                "RecepcionDestino.GanadosTotal": {
+                    min: "Escriba la cantidad de ganados que recibio el lugar destino"
+                }
+            },
+            invalidHandler: function (event, validator) {
+                successHandler1.hide();
+                errorHandler1.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');
+                $(element).closest('.controlError').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.controlError').removeClass('has-error');
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                label.removeClass('color');
+                $(element).closest('.controlError').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler1.show();
+                errorHandler1.hide();
+                AC_RecepcionDestino();
+            }
+        });
+    };
+    var LoadValidation_AC_RecepcionOrigen = function () {
+        var form1 = $('#Frm_AC_RecepcionOrigen');
+        var errorHandler1 = $('.errorHandler', form1);
+        var successHandler1 = $('.successHandler', form1);
+
+        form1.validate({ // initialize the plugin
+            debug: true,
+            errorElement: "dd",
+            errorClass: 'text-danger',
+            errorLabelContainer: $("#validation_summary_AC_RecepciónOrigen"),
+            errorPlacement: function (error, element) { // render error placement for each input type
+                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
+                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
+                    error.insertAfter($(element).closest('.form-group').children('div'));
+                } else if (element.attr("type") == "text") {
+                    error.insertAfter($(element).closest('.input-group').children('div'));
+                } else {
+                    error.insertAfter(element);
+                    // for other inputs, just perform default behavior
+                }
+            },
+            ignore: "",
+            rules: {
+                "RecepcionOrigen.FechaLlegada": {
+                    required: true
+                },
+                "RecepcionOrigen.HoraLlegada": {
+                    required: true
+                },
+                "RecepcionOrigen.KilometrajeFinal": {
+                    required: true,
+                    min: 1
+                }
+            },
+            messages: {
+                "RecepcionOrigen.FechaLlegada": {
+                    required: "Seleccione una fecha de llegada"
+                },
+                "RecepcionOrigen.HoraLlegada": {
+                    required: "Seleccione una hora de llegada"
+                },
+                "RecepcionOrigen.KilometrajeFinal": {
+                    required: "Ingrese el kilometraje final",
+                    min: "Ingrese el kilometraje final"
+                }
+            },
+            invalidHandler: function (event, validator) {
+                successHandler1.hide();
+                errorHandler1.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');
+                $(element).closest('.controlError').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.controlError').removeClass('has-error');
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                label.removeClass('color');
+                $(element).closest('.controlError').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler1.show();
+                errorHandler1.hide();
+                AC_RecepcionOrigen();
+            }
+        });
+    };
 
     /*AC*/
     function AC_Evento() {
@@ -407,6 +563,54 @@
             }
         });
     }
+    function AC_RecepcionDestino() {
+        //datos del formulario
+        var form = $("#Frm_AC_RecepcionDestino")[0];
+        var formData = new FormData(form);
+
+        $.ajax({
+            type: 'POST',
+            data: formData,
+            url: '/Admin/Flete/AC_RecepcionDestino/',
+            contentType: false,
+            processData: false,
+            cache: false,
+            success: function (response) {
+                var json = JSON.parse(response.Mensaje);
+                if (response.Success) {
+                    Mensaje(json.Mensaje, "1");
+                    document.getElementById("RecepcionDestino_id_recepcion").value = json.id;
+                }
+                else {
+                    Mensaje(json.Mensaje, "2");
+                }
+            }
+        });
+    }
+    function AC_RecepcionOrigen() {
+        //datos del formulario
+        var form = $("#Frm_AC_RecepcionOrigen")[0];
+        var formData = new FormData(form);
+
+        $.ajax({
+            type: 'POST',
+            data: formData,
+            url: '/Admin/Flete/AC_RecepcionOrigen/',
+            contentType: false,
+            processData: false,
+            cache: false,
+            success: function (response) {
+                 var json = JSON.parse(response.Mensaje);
+                if (response.Success) {
+                    Mensaje(json.Mensaje, "1");
+                    document.getElementById("RecepcionOrigen_IDRecepcionOrigen").value = json.id;
+                }
+                else {
+                    Mensaje(json.Mensaje, "2");
+                }
+            }
+        });
+    }
 
     /*OTRAS FUNCIONES*/
     function ObtenerFecha(fechaFormulario) {
@@ -425,6 +629,8 @@
         init: function (ID_Flete) {
             LoadTableTiposEventos();
             RunEventsEvento();
+            LoadValidation_AC_RecepcionDestino();
+            LoadValidation_AC_RecepcionOrigen();
         }
     };
 }();
