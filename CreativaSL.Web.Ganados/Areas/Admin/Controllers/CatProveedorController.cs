@@ -17,7 +17,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     public class CatProveedorController : Controller
     {
         private TokenProcessor Token = TokenProcessor.GetInstance();
-        string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
+        string Conexion = ConfigurationManager.AppSettings.Get("strConnection");    
         // GET: Admin/CatProveedor
         public ActionResult Index()
         {
