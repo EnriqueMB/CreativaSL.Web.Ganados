@@ -1365,7 +1365,8 @@
     <Compile Include="Models\ProductorAlmacenSucursalModels.cs" />
     <Compile Include="Models\ProveedorLugarModels.cs" />
     <Compile Include="Models\RangoPrecioProveedorModels.cs" />
-    <Compile Include="Models\RecepcionModels.cs" />
+    <Compile Include="Models\RecepcionOrigenModels.cs" />
+    <Compile Include="Models\RecepcionDestinoModels.cs" />
     <Compile Include="Models\RespuestaAjax.cs" />
     <Compile Include="Models\ResumenGastosAjustesModels.cs" />
     <Compile Include="Models\ResumenGastosModels.cs" />
