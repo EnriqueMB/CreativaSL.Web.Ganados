@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ICollection<CreativaSL.Web.Ganados.Models.ServiciosMantenimientoModels>
+@{
     ViewBag.Title = "Servicios";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
@@ -26,34 +27,44 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("Create","Mantenimiento", new { id = "IDVehiculo", tipo = "1" })" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo servicio</a></li>
+                            <li><a href="@Url.Action("Create","Mantenimiento", new { id = ViewBag.IDVehiculo})" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo servicio</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
+                            <li><a href="@Url.Action("Index","Mantenimiento")" class="btn btn-default btnCrear"><span class="fa fa-mail-reply"></span> Regresar</a></li>
                         </ul>
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table class="table datatable">
+                            <table class="table datatable2">
                                 <thead>
                                     <tr>
                                         <th>Fecha </th>
                                         <th>Sucursal</th>
+                                        <th>Proveedor</th>
                                         <th>Gasto Total</th>
                                         <th>Servicios realizados</th>
+                                        <th>Estatus</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                
-                                        <tr id="IDServicio">
-                                            <td>02/03/2018</td>
-                                            <td>Sucursal centro</td>
-                                            <td>$ 3540.32</td>
-                                            <td>Cambio de llantas, cambio de aceite</td>
+                                    @foreach (var Item in Model)
+                                    {
+                                        <tr id="@Item.IDServicio">
+                                            <td>@Item.FechaFormat</td>
+                                            <td>@Item.Sucursal.NombreSucursal</td>
+                                            <td>@Item.Proveedor.NombreRazonSocial</td>
+                                            <td class="pull-right">@Item.ImporteTotalFormat</td>
+                                            <td>@Item.ServiciosRealizados</td>
+                                            <td>
+                                                <span class="@Item.CssClassEstatus">@Item.Estatus</span>
+                                            </td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "Mantenimiento", new { id = "IDServicio" })"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" class="btn delete btn-danger deleteRow" id="delete-IDServicio" data-hrefa="@Url.Action("Delete", "Mantenimiento", new { id = "IDServicio"})" onClick="delete_row('IDServicio');"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Procesar" class="btn btn-success processRow" href="@Url.Action("Process", "Mantenimiento", new { id = Item.IDServicio })"><i class="fa fa-caret-square-o-right"></i></a>
+                                                    <a title="Detalles" class="btn btn-blue" href="@Url.Action("Details", "Mantenimiento", new { id = Item.IDServicio })"><i class="fa fa-gears"></i></a>
+                                                    <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "Mantenimiento", new { id = Item.IDServicio})"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" class="btn delete btn-danger deleteRow" data-sku="@Item.IDServicio" id="delete-@Item.IDServicio" href="@Url.Action("Delete", "Mantenimiento", new { id = Item.IDServicio })"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -62,12 +73,22 @@
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "Mantenimiento", new { id = "IDServicio" })">
+                                                                <a role="menuitem" tabindex="-1" class="processRow" href="@Url.Action("Process", "Mantenimiento", new { id = Item.IDServicio })">
+                                                                    <i class="fa fa-caret-square-o-right"></i> Procesar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "Mantenimiento", new { id = Item.IDServicio})">
+                                                                    <i class="fa fa-gears"></i> Detalles
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "Mantenimiento", new { id = Item.IDServicio})">
                                                                     <i class="fa fa-edit"></i> Editar
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-IDServicio" data-hrefa="@Url.Action("Delete", "Mantenimiento", new { id = "IDServicio" })" onClick="delete_row('IDServicio');">
+                                                                <a role="menuitem" tabindex="-1" id="delete-@Item.IDServicio" data-sku="@Item.IDServicio" href="@Url.Action("Delete", "Mantenimiento", new { id = Item.IDServicio })">
                                                                     <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>
@@ -76,7 +97,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                    
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -104,6 +125,26 @@
             </div>
         </div>
     </div>
+
+
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-process-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Procesar <strong> Servicio de mantenimiento</strong></div>
+                <div class="mb-content">
+                    <p>¿Está seguro de procesar el servicio? Éste proceso NO es reversible. Se generará un documento por pagar.</p>
+                    <p>Presione "sí" para confirmar.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
     var message = '@message';
     var typemessage = '@typemessage';
@@ -111,16 +152,14 @@
 }
 @section script
 {
-    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/servicioslista.js")"></script>
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
+        Servicios.init();
     });
     </script>
 }
-
-
-
-

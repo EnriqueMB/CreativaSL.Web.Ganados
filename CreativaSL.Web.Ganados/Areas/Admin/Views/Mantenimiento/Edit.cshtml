@@ -1,6 +1,6 @@
 ﻿@model CreativaSL.Web.Ganados.ViewModels.ServiciosMantenimientoViewModels
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "EditV";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 @section featured{
@@ -34,53 +34,57 @@
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(model => model.ID)
                         @Html.HiddenFor(model => model.IDServicio)
-                        @Html.HiddenFor(model => model.Tipo)
                         <div class="field_error" id="validation_summary"></div>
                         @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><strong>Datos generales </strong> del servicio</h3>
-                                <ul class="panel-controls"></ul>
-                            </div>
-                            <div class="panel-body">
-
-                                <div class="form-group">
-                                    <label class="col-md-2 col-xs-12 control-label"><span>* </span> Sucursal </label>
-                                    <div class="col-md-6 col-xs-12">
-                                        @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.IDSucursal)
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 col-xs-12 control-label"> * Fecha de servicio</label>
-                                    <div class="col-md-6 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                            @Html.TextBoxFor(model => model.Fecha, "{0:dd/MM/yyyy}", new { id = "Fecha", @class = "form-control datepicker", @readonly = "readonly" })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.Fecha)
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="panel-footer">
-                                <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
-                                @switch (Model.Tipo)
-                                {
-                                    case 1:
-                                        <a href="@Url.Action("ServiciosV", "Mantenimiento", new { id = Model.ID })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                                        break;
-                                }
-                            </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><strong>Datos generales </strong> del servicio</h3>
+                            <ul class="panel-controls"></ul>
                         </div>
+                        <div class="panel-body">
+
+                            <div class="form-group">
+                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Sucursal </label>
+                                <div class="col-md-6 col-xs-12">
+                                    @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.IDSucursal)
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Proveedor </label>
+                                <div class="col-md-6 col-xs-12">
+                                    @Html.DropDownListFor(model => model.IDProveedor, new SelectList(Model.ListaProveedores, "IDProveedor", "NombreRazonSocial"), new { id = "IDProveedor", @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.IDProveedor)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 col-xs-12 control-label"> * Fecha de servicio</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                        @Html.TextBoxFor(model => model.Fecha, "{0:dd/MM/yyyy}", new { id = "Fecha", @class = "form-control datepicker", @readonly = "readonly" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Fecha)
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="panel-footer">
+                            <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
+                            <a href="@Url.Action("Servicios", "Mantenimiento", new { id = Model.ID })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                        </div>
+                    </div>
                     }
                 </div>
             </div>
         </div>
     </div>
     <script>
-            var message = '@message';
-                                var typemessage = '@typemessage';
+        var message = '@message';
+        var typemessage = '@typemessage';
     </script>
 }
 @section script{
@@ -94,9 +98,9 @@
 
     <script>
         jQuery(document).ready(function () {
-                                        Mensaje(message, typemessage);
-                                        Servicios.init();
-                                    });
+            Mensaje(message, typemessage);
+            Servicios.init();
+        });
     </script>
 }
 
