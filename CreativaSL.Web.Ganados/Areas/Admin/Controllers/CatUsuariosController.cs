@@ -11,6 +11,7 @@ using CreativaSL.Web.Ganados.App_Start;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
+    [Autorizado]
     public class CatUsuariosController : Controller
     {
         private TokenProcessor Token = TokenProcessor.GetInstance();
