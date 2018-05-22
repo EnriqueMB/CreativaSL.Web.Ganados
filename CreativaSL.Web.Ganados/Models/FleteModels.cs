@@ -74,7 +74,8 @@ namespace CreativaSL.Web.Ganados.Models
         public TrayectoModels Trayecto { get; set; }
         public Flete_TipoDocumentoModels Documentos { get; set; }
         public Flete_ProductoModels Producto { get; set; }
-        public RecepcionModels Recepcion { get; set; }
+        public RecepcionDestinoModels RecepcionDestino { get; set; }
+        public RecepcionOrigenModels RecepcionOrigen { get; set; }
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }

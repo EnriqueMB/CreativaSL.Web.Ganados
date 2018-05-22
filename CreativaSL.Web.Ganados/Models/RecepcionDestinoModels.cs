@@ -1,15 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class RecepcionModels
+    public class RecepcionDestinoModels
     {
         public string IDFlete { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
         public TimeSpan HoraLlegada { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
         public TimeSpan HoraDescarga { get; set; }
+
+        public bool RecepcionDocumentos { get; set; }
+        public bool ValijaSellada { get; set; }
+        public string Conexion { get; set; }
+        public string Usuario { get; set; }
+        public RespuestaAjax RespuestaAjax { get; set; }
 
         private string _id_recepcion;
         public string id_recepcion
@@ -65,6 +76,23 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _observacion; }
             set { _observacion = value; }
+        }
+
+        public void Inicializar()
+        {
+            observacion = string.Empty;
+            recibidoPor = string.Empty;
+            fechaLlegada = DateTime.Now;
+            GanadosHembras = 0;
+            GanadosMachos = 0;
+            GanadosTotal = 0;
+            kiloTotalRecibido = 0;
+            id_recepcion = string.Empty;
+            IDFlete = string.Empty;
+            HoraLlegada = DateTime.Now.TimeOfDay;
+            HoraDescarga = DateTime.Now.TimeOfDay;
+            RecepcionDocumentos = false;
+            ValijaSellada = false;
         }
 
     }

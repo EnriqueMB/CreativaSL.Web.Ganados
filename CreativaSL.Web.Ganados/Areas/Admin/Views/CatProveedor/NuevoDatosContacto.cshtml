@@ -49,7 +49,7 @@
                                             @Html.TextBoxFor(model => model.nombreContacto, new { id = "nombreContacto", @class = "form-control" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.nombreContacto)
-                                        <span class="help-block">Clave del Almacén</span>
+                                        <span class="help-block">Nombre Contacto</span>
                                     </div>
                                 </div>
                             </div>
@@ -63,7 +63,7 @@
                                             @Html.TextBoxFor(model => model.apPaterno, new { id = "apPaterno", @class = "form-control" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.apPaterno)
-                                        <span class="help-block">Ingrese la descripción del producto</span>
+                                        <span class="help-block">Apellido Paterno</span>
                                     </div>
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
                                             @Html.TextBoxFor(model => model.apMaterno, new { id = "apMaterno", @class = "form-control" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.apMaterno)
-                                        <span class="help-block">Ingrese la descripción del producto</span>
+                                        <span class="help-block">Apellido Materno</span>
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                                             @Html.TextBoxFor(model => model.correo, new { id = "correo", @class = "form-control",@type="email" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.correo)
-                                        <span class="help-block">Clave del Almacén</span>
+                                        <span class="help-block">Correo electrónico</span>
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +103,7 @@
                                             @Html.TextBoxFor(model => model.telefonoContacto, new { id = "telefonoContacto", @class = "form-control" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.telefonoContacto)
-                                        <span class="help-block">Clave del Almacén</span>
+                                        <span class="help-block">Teléfono</span>
                                     </div>
                                 </div>
                             </div>
@@ -116,7 +116,7 @@
                                             @Html.TextBoxFor(model => model.celularContacto, new { id = "celularContacto", @class = "form-control" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.celularContacto)
-                                        <span class="help-block">Clave del Almacén</span>
+                                        <span class="help-block">Celular</span>
                                     </div>
                                 </div>
                             </div>
@@ -126,10 +126,10 @@
                                     <div class="col-md-12 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextAreaFor(model => model.direccion, new { id = "direccion", @class = "form-control" })
+                                            @Html.TextAreaFor(model => model.direccion, new { id = "direccion", @class = "form-control texArea", @rows="4" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.direccion)
-                                        <span class="help-block">Clave del Almacén</span>
+                                        <span class="help-block">Dirección</span>
                                     </div>
                                 </div>
                             </div>
@@ -139,10 +139,10 @@
                                     <div class="col-md-12 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextAreaFor(model => model.observacion, new { id = "observacion", @class = "form-control" })
+                                            @Html.TextAreaFor(model => model.observacion, new { id = "observacion", @class = "form-control texArea", @rows = "4" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.observacion)
-                                        <span class="help-block">Clave del Almacén</span>
+                                        <span class="help-block">Observación</span>
                                     </div>
                                 </div>
                             </div>

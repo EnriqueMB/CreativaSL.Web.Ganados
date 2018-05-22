@@ -30,6 +30,8 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _MarcarMerma; }
             set { _MarcarMerma = value; }
         }
+        public bool ParaGanado { get; set; }
+        public string Clasificacion { get; set; }
 
         #region Datos De Control
         public string Conexion { get; set; }

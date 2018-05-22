@@ -1,12 +1,13 @@
-﻿var ProveedorAlmacen = function () {
+﻿var Proveedor = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
-        var form1 = $('#form-ProveedorAlmacen');
+        var form1 = $('#form-dg');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
-
-        $('#form-ProveedorAlmacen').validate({
+       
+       
+        $('#form-dg').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -25,23 +26,28 @@
             ignore: "",
             rules: {
                 IDSucursal: { required: true },
-                RazonSocial: { required: true, texto: true, maxlength: 300 },
+                NombreRazonSocial: { required: true, texto: true, maxlength: 300 },
+              
+                RFC: { required: true, rfc: true },
                 Direccion: { direccion: true, maxlength: 300 },
-                RFC:{required: true, rfc: true},
-                FechaIngreso: { required: true },
-                TelefonoCelular: { telefono: true },
-                TelefonoCasa: { telefono: true },
-                Correo: { required: true, email: true }
+                fechaIngreso: { required: true },
+                
+                telefonoCelular: { telefono: true },
+                telefonoCasa: { telefono: true },
+                correo: { required: true, email: true },
+              
             },
             messages: {
                 IDSucursal: { required: "Seleccione una sucursal." },
-                RazonSocial: { required: "Ingrese la razón social del proveedor almacén.", texto: "Ingrese un formato válido", maxlength: "El campo razón social admite máximo 300 caracteres." },
+                NombreRazonSocial: { required: "Ingrese el nombre o Razón social.", texto: "Ingrese un nombre o razón social válido.", maxlength: "El campo nombre o razón social admite máximo 300 caracteres." },
+                RFC: { required: "Ingrese el RFC del cliente.", rfc: "Ingrese un RFC válido." },
                 Direccion: { direccion: "Ingrese un dirección válida.", maxlength: "El campo domicilio fiscal admite máximo 300 caracteres." },
-                RFC: { required: "Ingrese el RFC del proveedor almacén.", rfc: "Ingrese un RFC válido." },
                 FechaIngreso: { required: "Ingrese la fecha de inicio de relación." },
-                TelefonoCelular: { telefono: "Ingrese un número de teléfono celular válido." },
-                TelefonoCasa: { telefono: "Ingrese un número de teléfono válido." },
-                Correo: { required: "Ingrese el correo electrónico del proveedor almacén.", email: "Ingrese un correo electrónico válido." }
+                
+                telefonoCelular: { telefono: "Ingrese un número de teléfono celular válido." },
+                telefonoCasa: { telefono: "Ingrese un número de teléfono válido." },
+                correo: { required: "Ingrese el correo electrónico del proveedor.", email: "Ingrese un correo electrónico válido." },
+               
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -78,11 +84,38 @@
             format: 'dd/mm/yyyy'
         });
     };
+
+    var runImagenes = function () {
+
+    };
+
+    var runCombos = function () {
+        var isChecked = $("#EsEmpresa").prop("checked");
+        if (isChecked == true) {
+            $('#Genero').css('display', 'block')
+        }
+        else {
+            $('#Genero').css('display', 'none')
+        }
+        $('input').on('ifChanged', function (event) {
+            console.log("Entre")
+            var esPersonaFisica = $(this).prop('checked');
+            if (esPersonaFisica == true) {
+                $('#Genero').css('display', 'block')
+            }
+            else {
+                $('#Genero').css('display', 'none')
+            }
+        });
+    };
+
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
             runDatePicker();
+            runImagenes();
+            runCombos();
         }
     };
 }();

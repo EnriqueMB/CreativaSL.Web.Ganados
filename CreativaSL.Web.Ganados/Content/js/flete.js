@@ -144,58 +144,52 @@
             tblModalGanadoExterno.order([0, 'desc']).draw(false);
         });
         $('#tblGanadoExterno tbody').on('click', '.deleteProductoGanadoExterno', function (e) {
-            var data = tblModalGanadoExterno.row($(this).parents('tr')).data();
-            //tblModalGanadoExterno.row($(this).parents('tr')).remove().draw(false);
-
+            //var data = tblModalGanadoExterno.row($(this).parents('tr')).data();
+            var tr = $(this).parents('tr');
             var url = $(this).attr('data-hrefa');
-            var row = $(this).attr('data-id');
+            var id = $(this).attr('data-id');
             var box = $("#mb-remove-ganadoExterno");
             box.addClass("open");
             box.find(".mb-control-yes").on("click", function () {
                 box.removeClass("open");
-
-                console.log(data);
-                console.log(url);
-                console.log(row);
-
-                console.log(row.length);
-
-                if (row.length == 36) {
+                if (id.length == 36) {
                     //eliminamos del servidor
+                    var id_flete = document.getElementById("id_flete").value;
+                    $.ajax({
+                        url: url,
+                        data: { IDProducto: id, IDFlete: id_flete },
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function (result) {
+                            if (result.Success) {
+                                box.find(".mb-control-yes").prop('onclick', null).off('click');
+                                Mensaje(result.Mensaje, "1");
+                                //eliminamos del datatable
+                                tblModalGanadoExterno.row(tr).remove().draw(false);
+                            }
+                            else
+                                Mensaje(result.Mensaje, "2");
+                        },
+                        error: function (result) {
+                            Mensaje(result.Mensaje, "2");
+                        }
+                    });
+
                 } else {
                     //solo eliminamos la fila de datatables
+                    tblModalGanadoExterno.row(tr).remove().draw(false);
                 }
-
-                //$.ajax({
-                //    url: url,
-                //    data: { IDDocumento: row },
-                //    type: 'POST',
-                //    dataType: 'json',
-                //    success: function (result) {
-                //        if (result.Success) {
-                //            box.find(".mb-control-yes").prop('onclick', null).off('click');
-                //            Mensaje("Documento eliminado con éxito.", "1");
-                //            $("#ModalDocumento").modal('hide');
-                //            tableDocumentos.ajax.reload();
-                //        }
-                //        else
-                //            Mensaje(result.Mensaje, "2");
-                //    },
-                //    error: function (result) {
-                //        Mensaje(result.Mensaje, "2");
-                //    }
-                //});
             });
         });
         $('#btnSaveRowGanadoExterno').on('click', function () {
-            var mensaje_error, flag_error = false, flag_ok = false, flag = true;
+            var flag_error = false, flag_ok = false, flag = true;
             var nNodes = tblModalGanadoExterno.rows().nodes().to$().find('.cslElegido');
-            var id_flete, conteo = 1, NUM_ELEMENTOS_FILA = 7, mensaje_validacion;
+            var id_flete, conteo = 1, NUM_ELEMENTOS_FILA = 7, mensaje_error_general;
             id_flete = document.getElementById("id_flete").value;
 
             //console.log(nNodes);
             for (var i = 0; i < nNodes.length; i += NUM_ELEMENTOS_FILA) {
-                //1 = img, 2 = label, 3 = numArete, 4 = genero, 5 = peso
+                //1 = img, 2 = label, 3 = numArete, 4 = genero, 5 = peso, 6 = eliminar, 7 = eliminar responsive
                 var nId = nNodes[i + 2].dataset.id;
                 var nArete = nNodes[i + 2].value;
                 var nGenero = nNodes[i + 3].value;
@@ -225,22 +219,18 @@
 
                 /*SI TODO ESTA BIEN ENVIAMOS*/
                 if (flag) {
+                    nNodes[i].src = "/Content/img/tabla/loading.gif";
+                    nNodes[i + 1].innerText = "Guardando";
                     $.ajax({
                         url: '/Admin/Flete/AC_ProductoGanadoExterno/',
                         type: "POST",
                         data: { IDFlete: id_flete, IDProducto: nId, numArete: nArete, genero: nGenero, peso: nPeso, posicionNode: i },
-                        error: function (response) {
-                            flag_error = true;
-                            mensaje_error += "<ul>" + response.Mensaje + "</ul>";
-                            console.log("error: " + response.Mensaje);
-                        },
                         success: function (response) {
+                            var obj = JSON.parse(response.Mensaje);
+                            var indice = parseInt(obj.posicionNode);
+
                             if (response.Success) {
                                 flag_ok = true;
-                                //var nNodes = tblModalGanadoExterno.rows().nodes().to$().find('input, select, img, label');
-                                var obj = JSON.parse(response.Mensaje);
-                                var indice = parseInt(obj.posicionNode);
-
                                 //imagen
                                 nNodes[indice].src = "/Content/img/tabla/ok.png";
                                 nNodes[indice].id = "img_" + obj.IDProducto;
@@ -257,18 +247,17 @@
                                 //a (btn eliminar)
                                 nNodes[indice + 5].id = "a_" + obj.IDProducto;
                                 nNodes[indice + 5].dataset.id = obj.IDProducto;
-
                                 //amin (btn eliminar min)
                                 nNodes[indice + 6].id = "aMin_" + obj.IDProducto;
                                 nNodes[indice + 6].dataset.id = obj.IDProducto;
                             }
                             else {
-                                flag_error = true;
-                                mensaje_error += "<ul>" + response.Mensaje + "</ul>";
-                                console.log("error: " + mensaje_error);
+                                nNodes[indice].src = "/Content/img/tabla/cancel.png";
+                                nNodes[indice + 1].innerText = obj.Mensaje;
                             }
                         }
                     });
+                   
                 }
 
             }
@@ -276,29 +265,22 @@
         });
         $('#tblGanadoExterno tbody').on('change', '.inputCSL', function (e) {
             var $td = $(this).parent();
-            console.log($td);
             $td.find('input').attr('value', this.value);
-            console.log("valor:" + this.value);
             tblModalGanadoExterno.cell($td).invalidate('dom').draw();
         });
-        //$("#tblGanadoExterno td select").on('change', '.selectCSL', function () {
-        //    console.log("change select  input");
-        //    var $td = $(this).parent();
-        //    var value = this.value;
-        //    $td.find('option').each(function (i, o) {
-        //        $(o).removeAttr('selected');
-        //        if ($(o).val() == value) $(o).attr('selected', true);
-        //    })
-        //    tblModalGanadoExterno.cell($td).invalidate().draw();
-        //});
-        //$("#tblGanadoExterno tbody input").on('change', '.inputCSL', function (e) {
-        //    console.log("change input");
-        //    var $td = $(this).parent();
-        //    $td.find('input').attr('value', this.value);
-        //    console.log(this.value);
-        //    tblModalGanadoExterno.cell($td).invalidate().draw();
-        //});
-
+        $("#tblGanadoExterno tbody").on('change', '.selectCSL', function (e) {
+            var $td = $(this).parent();
+            var value = this.value;
+            $td.find('option').each(function (i, o) {
+                if ($(o).val() == value) {
+                    $(o).attr('selected', "selected");
+                }
+                else {
+                    $(o).removeAttr('selected');
+                }
+            })
+            tblModalGanadoExterno.cell($td).invalidate('dom').draw();
+        });
     }
     //Validaciones
     var LoadValidation_AC_Cliente = function () {
@@ -915,10 +897,16 @@
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
             },
-
+            "orderFixed": {
+                "pre": [ 3, 'asc' ],
+                "post": [ 0, 'asc' ]
+            },
+            //"order": ([[4, 'asc'], [3, 'asc'], [2, 'asc'], [1, 'asc'], [0, 'asc']]),
+            //"ordering": false,
             columnDefs: [
                 { "type": "html-input", "targets": [1, 2, 3] },
-                { "width": "5%", "targets": [0] },
+                { "width": "5%", "targets": [0] }
+                //{ "orderable": false, "targets": [0,1,2,3,4]}
             ]
         });
         $.ajax({
@@ -1320,15 +1308,15 @@
             var html_imagen = '<img id="img_' + id_fila + '" class="cslElegido"  src="/Content/img/tabla/ok.png" alt="" height="42" width="42"> <label id="lbl_' + id_fila + '" class="cslElegido" for="' + mensaje + '">' + mensaje + '</label>';
         else
             var html_imagen = '<img id="img_' + id_fila + '" class="cslElegido" src="/Content/img/tabla/cancel.png" alt="" height="42" width="42"> <label id="lbl_' + id_fila + '" class="cslElegido" for="' + mensaje + '">' + mensaje + '</label>';
-        var html_macho = '<option value="Macho">Macho</option>';
-        var html_hembra = '<option value="Hembra">Hembra</option>';
+        var html_macho = '<option value="MACHO">Macho</option>';
+        var html_hembra = '<option value="HEMBRA">Hembra</option>';
 
         if (genero == "Macho" || genero == "MACHO") {
 
-            html_macho = '<option value="Macho" selected="selected">Macho</option>';
+            html_macho = '<option value="Macho" selected>Macho</option>';
         }
         else if (genero == "Hembra" || genero == "HEMBRA") {
-            html_hembra = '<option value="Hembra" selected="selected">Hembra</option>';
+            html_hembra = '<option value="Hembra" selected>Hembra</option>';
         }
 
         var html_arete = '<input id="arete_' + id_fila + '" data-id="' + id_fila + '" class="form-control inputCSL cslElegido" type="text" maxlength="15" value="' + numArete + '" data-toggle="tooltip" data-placement="top" title="Por favor, escriba el número de arete.">';
@@ -1336,7 +1324,7 @@
             html_macho +
             html_hembra +
             '</select> ';
-        var html_peso = '<input id="peso_' + id_fila + '"class="form-control cslElegido" type="number" min="1" max="1000" value="' + peso + '"  data-toggle="tooltip" data-placement="top" title="Por favor, escriba el peso del animal, debe ser mayor a 0.">';
+        var html_peso = '<input id="peso_' + id_fila + '"class="form-control cslElegido inputCSL" type="number" min="1" value="' + peso + '"  data-toggle="tooltip" data-placement="top" title="Por favor, escriba el peso del animal, debe ser mayor a 0.">';
 
         tblModalGanadoExterno.row.add([
             html_imagen,
@@ -1344,7 +1332,7 @@
             html_genero,
             html_peso,
             ' <div class="visible-md visible-lg hidden-sm hidden-xs">' +
-            '<a id="a_' + id_fila +'" data-hrefa="/Admin/Flete/C_DEL_ProductoGanado/" title="Eliminar" data-id="' + id_fila +'" class="btn btn-danger tooltips btn-sm deleteProductoGanadoExterno cslElegido" data-toggle="tooltip" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>' +
+            '<a id="a_' + id_fila +'" data-hrefa="/Admin/Flete/DEL_ProductoGanadoExterno/" title="Eliminar" data-id="' + id_fila +'" class="btn btn-danger tooltips btn-sm deleteProductoGanadoExterno cslElegido" data-toggle="tooltip" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>' +
             '</div>' +
             '<div class="visible-xs visible-sm hidden-md hidden-lg">' +
             '<div class="btn-group">' +
@@ -1353,7 +1341,7 @@
             '</a>' +
             '<ul role="menu" class="dropdown-menu pull-right dropdown-dark">' +
             '<li>' +
-             '<a id="aMin_' + id_fila +'" data-hrefa="/Admin/Flete/C_DEL_ProductoGanado/" data-id="' + id_fila +'" class="deleteProductoGanadoExterno cslElegido" role="menuitem" tabindex="-1" data-id="">' +
+             '<a id="aMin_' + id_fila + '" data-hrefa="/Admin/Flete/DEL_ProductoGanadoExterno/" data-id="' + id_fila + '" class="deleteProductoGanadoExterno cslElegido" role="menuitem" tabindex="-1" data-id="">' +
             '<i class="fa fa-trash-o"></i> Eliminar' +
             '</a>' +
             '</li>' +

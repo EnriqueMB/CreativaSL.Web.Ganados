@@ -17,7 +17,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            try
+            {
+                CompraModels Compra = new CompraModels();
+                _Compra_Datos CompraDatos = new _Compra_Datos();
+                Compra.Conexion = Conexion;
+                Compra.listaCompra = CompraDatos.GetListaComprasNofinalizadas(Compra);
+                return View(Compra);
+            }
+            catch (Exception)
+            {
+                CompraModels Compra = new CompraModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Compra);
+            }
         }
 
         public ActionResult LoadMenu()
