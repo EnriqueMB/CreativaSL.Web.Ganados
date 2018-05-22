@@ -31,6 +31,7 @@
                             <li><a href="@Url.Action("CreateDetail","Mantenimiento", new { id = ViewBag.IDServicio})" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo servicio</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
+                            <li><a href="@Url.Action("Servicios","Mantenimiento", new { id = ViewBag.IDVehiculo})" class="btn btn-default btnCrear"><span class="fa fa-mail-reply"></span> Finalizar</a></li>
                         </ul>
                     </div>
                     <div class="panel-body">
@@ -85,7 +86,7 @@
                         </div>
                     </div>
                     <div class="panel-footer">
-                        @*<a href="@Url.Action("Details","Mantenimiento", new { id = ViewBag.IDServicio})" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>*@
+                        @*<a href="@Url.Action("Servicios","Mantenimiento", new { id = ViewBag.IDVehiculo})" class="btn btn-primary pull-right"><i class="icon-prev"></i>Finalizar</a>*@
                     </div>
                 </div>
                 <!-- END DEFAULT DATATABLE -->
