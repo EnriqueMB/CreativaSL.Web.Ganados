@@ -24,10 +24,12 @@
             ignore: "",
             rules: {
                 IDSucursal: { required: true },
+                IDProveedor: { required: true },
                 Fecha: { required: true }
             },
             messages: {
                 IDSucursal: { required: "Seleccione una sucursal." },
+                IDProveedor: { required: "Seleccione un proveedor." },
                 Fecha: { required: "Ingrese la fecha del servicio." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
@@ -60,6 +62,38 @@
         });
     };
 
+
+    var runCombos = function () {
+
+        $('#IDSucursal').on('change', function (event) {
+            $("#IDProveedor option").remove();
+            var IdSucursal = $(this).val();
+            getCatProveedores(IdSucursal);
+            //$(this).trigger("focusout");
+        });
+        
+        function getCatProveedores(IdSucursal) {
+            $.ajax({
+                url: "/Admin/Mantenimiento/ObtenerComboProveedores",
+                data: { IDSucursal: IdSucursal },
+                async: false,
+                dataType: "json",
+                type: "POST",
+                error: function () {
+                    Mensaje("Ocurrió un error al cargar el combo", "2");
+                },
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $("#IDProveedor").append('<option value="' + result[i].IDProveedor + '">' + result[i].NombreRazonSocial + '</option>');
+                    }
+                    $('#IDProveedor.select').selectpicker('refresh');
+                }
+            });
+        }
+
+    };
+
+
     var runDatePicker = function () {
         $('#Fecha').datepicker({
             format: 'dd/mm/yyyy'
@@ -69,6 +103,7 @@
         //main function to initiate template pages
         init: function () {
             runValidator1();
+            runCombos();
             runDatePicker();
         }
     };

@@ -361,6 +361,32 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public CatContactosModels EliminarProveedorDatosContacto(CatContactosModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.IDContacto, datos.Usuario
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_shared_del_CatContactoXID", parametros);
+                if (aux != null)
+                {
+                    int Resultado = 0;
+                    int.TryParse(aux.ToString(), out Resultado);
+                    if (Resultado == 1)
+                    {
+                        datos.Completado = true;
+                    }
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
     }
 }

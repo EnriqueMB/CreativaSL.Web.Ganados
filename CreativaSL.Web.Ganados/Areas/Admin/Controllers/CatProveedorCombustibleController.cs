@@ -627,6 +627,35 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
             }
         }
+        // POST: Admin/CatProvedor/Delete/5
+        [HttpPost]
+        public ActionResult DeleteDatosContacto(string id, string id2,string id3)
+        {
+            try
+            {
+                CatContactosModels Datos = new CatContactosModels
+                {
+                    IDProveedor = id,
+                    IDContacto = id3,
+                    Conexion = Conexion,
+                    Usuario = User.Identity.Name
+                };
+                _CatProveedorCombustible_Datos ProveedorDatos = new _CatProveedorCombustible_Datos();
+                ProveedorDatos.EliminarProveedorDatosContacto(Datos);
+                if (Datos.Completado)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "El registro se ha eliminado correctamente";
+                    return Json("");
+                }
+                else
+                { return Json(""); }
+            }
+            catch
+            {
+                return View();
+            }
+        }
 
     }
 }

@@ -1167,13 +1167,9 @@
     <Content Include="Areas\Admin\Views\EntradasAlmacen\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\CreateDetail.cshtml" />
-    <Content Include="Areas\Admin\Views\Mantenimiento\CreateR.cshtml" />
-    <Content Include="Areas\Admin\Views\Mantenimiento\CreateV.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\EditDetail.cshtml" />
-    <Content Include="Areas\Admin\Views\Mantenimiento\EditR.cshtml" />
-    <Content Include="Areas\Admin\Views\Mantenimiento\EditV.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Servicios.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosR.cshtml" />

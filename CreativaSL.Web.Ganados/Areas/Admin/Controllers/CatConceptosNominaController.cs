@@ -8,9 +8,11 @@ using CreativaSL.Web.Ganados.Models;
 using System.Data;
 using CreativaSL.Web.Ganados.ViewModels;
 using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Filters;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
+    [Autorizado]
     public class CatConceptosNominaController : Controller
     {
         private TokenProcessor Token = TokenProcessor.GetInstance();
