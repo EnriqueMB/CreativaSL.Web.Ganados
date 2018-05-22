@@ -1185,6 +1185,12 @@
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\Cuentas.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\CreateCuenta.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\EditCuenta.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\DatosContacto.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\NuevoDatosContactoEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\NuevoDatosContacto.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
