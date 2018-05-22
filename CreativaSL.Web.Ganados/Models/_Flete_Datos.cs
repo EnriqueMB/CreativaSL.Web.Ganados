@@ -289,6 +289,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Flete_Tipo.FlagImg = true;
                 }
 
+                Flete_Tipo.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Flete_Tipo.MostrarImagen);
+
                     return Flete_Tipo;
             }
             catch (Exception ex)

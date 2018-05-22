@@ -21,6 +21,16 @@
             border-color: #95b75d !important;
             color: white !important;
         }
+         .transacciones {
+            background-color: #95b75d !important;
+            border-color: #95b75d !important;
+            color: white !important;
+        }
+        .recepcion {
+            background-color: orange !important;
+            border-color: orange !important;
+            color: white !important;
+        }
     </style>
 }
 
@@ -48,7 +58,7 @@
                         <div class="panel-heading">
                             <h3 class="panel-title"></h3>
                             <ul class="panel-controls">
-                                <li><a href="@Url.Action("ProgramarCompra","Compra")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva Compra</a></li>
+                                <li><a href="@Url.Action("AgendarCompra","Compra")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva Compra</a></li>
                                 <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                                 <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                             </ul>
@@ -188,51 +198,114 @@
                             return "<label class = '" + full["ClassEstatus"] + "'>"+ full["Estatus"] +"</label>";
                         }
                     },
-                    {
-                        "data": null,
-                        "render": function (data, type, full) {
-                            var botones = "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transaccionesCompra' title='Transacciones ($)'  data-placement='top' data-original-title='continueCompra'><i class='fa fa-money'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm continueCompra' title='Continuar'  data-placement='top' data-original-title='continueCompra'><i class='fa fa-mail-forward'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm editCompra' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
-                                "</div>" +
-                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
-                                "<div class='btn-group'>" +
-                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
-                                "<i class='fa fa-cog'></i> <span class='caret'></span>" +
-                                "</a>" +
-                                "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
-                                "<li>" +
-                                "<a class='transaccionesCompra' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                                "<i class='fa fa-edit'></i> Transacciones ($)" +
-                                "</a>" +
-                                "</li>" +
-                                "<li>" +
-                                "<a class='continueCompra' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                                "<i class='fa fa-edit'></i> Continuar" +
-                                "</a>" +
-                                "</li>" +
-                                "<li>" +
-                                "<a class='editCompra' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                                "<i class='fa fa-edit'></i> Editar" +
-                                "</a>" +
-                                "</li>" +
-                                "<li>" +
-                                "<a role='menuitem' tabindex='-1' id='" + full["id_compra"] + "'>" +
-                                "<i class='fa fa-trash-o'></i> Eliminar" +
-                                "</a>" +
-                                "</li>" +
-                                "</ul>" +
-                                "</div>" +
-                                "</div>";
-                            return botones;
-                        }
+                {
+                    "data": null,
+                "render": function (data, type, full) {
+                    var botones = "<div class='visible-md visible-lg hidden-sm hidden-xs'>";
+
+                    if (full["Estatus"] == "Agendado") {
+                        botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                            "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm enviar' title='Enviar'  data-placement='top' data-original-title='Enviar'><i class='fa fa-truck'></i></a>" +
+                            "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
+                            "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Agendado'  data-placement='top' data-original-title='Agendado'><i class='fa fa-clock-o'></i></a>" +
+                            "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                            "</div>" +
+                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                            "<div class='btn-group'>" +
+                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                            "</a>" +
+                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                            "<li>" +
+                            "<a class='details' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                            "<i class='fa fa-eye'></i> Detalles" +
+                            "</a>" +
+                            "</li>" +
+                            "<li>" +
+                            "<a class='enviar' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                            "<i class='fa fa-mail-forward'></i> Continuar" +
+                            "</a>" +
+                            "</li>" +
+                            "<li>" +
+                            "<a class='edit' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                            "<i class='fa fa-clock-o'></i> Agendado" +
+                            "</a>" +
+                            "</li>" +
+                            "<li>" +
+                            "<a role='menuitem' tabindex='-1' id='" + full["id_compra"] + "'>" +
+                            "<i class='fa fa-trash-o'></i> Eliminar" +
+                            "</a>" +
+                            "</li>" +
+                            "</ul>" +
+                            "</div>" +
+                            "</div>";
+
+                    } else if (full["estatus"] == "En camino") {
+                        botones = botones + "<a data-id='" + full["id_flete"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                            "<a data-id='" + full["id_flete"] + "' class='btn btn-blue   tooltips btn-sm finalizar' title='Finalizar'  data-placement='top' data-original-title='Finalizar'><i class='fa fa-check'></i></a>" +
+                            "<a data-id='" + full["id_flete"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
+                            "<a data-id='" + full["id_flete"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Recepción'  data-placement='top' data-original-title='Recepción'><i class='fa fa-book'></i></a>" +
+                            "<a data-id='" + full["id_flete"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                            "</div>" +
+                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                            "<div class='btn-group'>" +
+                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                            "</a>" +
+                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                            "<li>" +
+                            "<a class='details' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
+                            "<i class='fa fa-eye'></i> Detalles" +
+                            "</a>" +
+                            "</li>" +
+                            "<li>" +
+                            "<a class='transacciones' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
+                            "<i class='fa fa-money'></i> Transacciones ($)" +
+                            "</a>" +
+                            "</li>" +
+                            "<li>" +
+                            "<a class='recepcion' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
+                            "<i class='fa fa-mail-forward'></i> Recepción" +
+                            "</a>" +
+                            "</li>" +
+                            "<li>" +
+                            "<a class='edit' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
+                            "<i class='fa fa-edit'></i> Editar" +
+                            "</a>" +
+                            "</li>" +
+                            "<li>" +
+                            "<a role='menuitem' tabindex='-1' id='" + full["id_compra"] + "'>" +
+                            "<i class='fa fa-trash-o'></i> Eliminar" +
+                            "</a>" +
+                            "</li>" +
+                            "</ul>" +
+                            "</div>" +
+                            "</div>";
+                    } else if (full["estatus"] == "Finalizado") {
+                        botones = botones + "<a data-id='" + full["id_flete"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                            "</div>" +
+                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                            "<div class='btn-group'>" +
+                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                            "</a>" +
+                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                            "<li>" +
+                            "<a class='details' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
+                            "<i class='fa fa-eye'></i> Detalles" +
+                            "</a>" +
+                            "</li>" +
+                            "</ul>" +
+                            "</div>" +
+                            "</div>";
                     }
+                    return botones;
+                }
+            }
                 ],
                 responsive: true,
                 "drawCallback": function (settings) {
-                    $(".editCompra").on("click", function () {
+                    $(".edit").on("click", function () {
                         var IDCompra = $(this).data("id")
                         window.location.href = '/Admin/Compra/Edit?IDCompra=' + IDCompra;
                     });
