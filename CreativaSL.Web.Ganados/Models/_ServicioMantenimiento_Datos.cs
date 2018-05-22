@@ -22,7 +22,7 @@ namespace CreativaSL.Web.Ganados.Models
                 DataSet Ds = SqlHelper.ExecuteDataset(Conexion, "spCSLDB_Mantenimiento_get_IndexServicios", IdSucursal);
                 if (Ds != null)
                 {
-                    if (Ds.Tables.Count == 2)
+                    if (Ds.Tables.Count == 1)
                     {
                         DataTableReader Dr01 = Ds.Tables[0].CreateDataReader();
                         List<CatVehiculoModels> ListaV = new List<CatVehiculoModels>();
@@ -36,20 +36,20 @@ namespace CreativaSL.Web.Ganados.Models
                             ListaV.Add(ItemV);
                         }
                         //Obtener el listado de remolques
-                        DataTableReader Dr02 = Ds.Tables[1].CreateDataReader();
-                        List<CatRemolqueModels> ListaR = new List<CatRemolqueModels>();
-                        CatRemolqueModels ItemR;
-                        while (Dr02.Read())
-                        {
-                            ItemR = new CatRemolqueModels();
-                            ItemR.IDRemolque = !Dr02.IsDBNull(Dr02.GetOrdinal("IDRemolque")) ? Dr02.GetString(Dr02.GetOrdinal("IDRemolque")) : string.Empty;
-                            ItemR.placa = !Dr02.IsDBNull(Dr02.GetOrdinal("Descripcion")) ? Dr02.GetString(Dr02.GetOrdinal("Descripcion")) : string.Empty;
-                            ItemR.DateLastService = !Dr02.IsDBNull(Dr02.GetOrdinal("LastDate")) ? Dr02.GetDateTime(Dr02.GetOrdinal("LastDate")) : DateTime.MinValue;
-                            ListaR.Add(ItemR);
-                        }
+                        //DataTableReader Dr02 = Ds.Tables[1].CreateDataReader();
+                        //List<CatRemolqueModels> ListaR = new List<CatRemolqueModels>();
+                        //CatRemolqueModels ItemR;
+                        //while (Dr02.Read())
+                        //{
+                        //    ItemR = new CatRemolqueModels();
+                        //    ItemR.IDRemolque = !Dr02.IsDBNull(Dr02.GetOrdinal("IDRemolque")) ? Dr02.GetString(Dr02.GetOrdinal("IDRemolque")) : string.Empty;
+                        //    ItemR.placa = !Dr02.IsDBNull(Dr02.GetOrdinal("Descripcion")) ? Dr02.GetString(Dr02.GetOrdinal("Descripcion")) : string.Empty;
+                        //    ItemR.DateLastService = !Dr02.IsDBNull(Dr02.GetOrdinal("LastDate")) ? Dr02.GetDateTime(Dr02.GetOrdinal("LastDate")) : DateTime.MinValue;
+                        //    ListaR.Add(ItemR);
+                        //}
                         // Asignar listas a objeto principal y retornar
                         Result.ListaVehiculos = ListaV;
-                        Result.ListaRemolques = ListaR;
+                        //Result.ListaRemolques = ListaR;
                     }
                 }
                 return Result;
@@ -77,6 +77,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.ServiciosRealizados = !Dr.IsDBNull(Dr.GetOrdinal("Servicios")) ? Dr.GetString(Dr.GetOrdinal("Servicios")) : string.Empty;
                     Item.Estatus = !Dr.IsDBNull(Dr.GetOrdinal("Estatus")) ? Dr.GetString(Dr.GetOrdinal("Estatus")) : string.Empty;
                     Item.CssClassEstatus = !Dr.IsDBNull(Dr.GetOrdinal("CssClass")) ? Dr.GetString(Dr.GetOrdinal("CssClass")) : string.Empty;
+                    Item.Proveedor = new CatProveedorModels();
+                    Item.Proveedor.NombreRazonSocial = !Dr.IsDBNull(Dr.GetOrdinal("nombreRazonSocial")) ? Dr.GetString(Dr.GetOrdinal("nombreRazonSocial")) : string.Empty;
                     Lista.Add(Item);
                 }
                 return Lista;
@@ -114,24 +116,43 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public List<ServiciosMantenimientoDetalleModels> ObtenerDetalleServicioXID(string Conexion, string IDServicio)
+        public ServiciosMantenimientoModels ObtenerDetalleServicioXID(string Conexion, string IDServicio)
         {
             try
             {
+                ServiciosMantenimientoModels Result = new ServiciosMantenimientoModels();
+
                 List<ServiciosMantenimientoDetalleModels> Lista = new List<ServiciosMantenimientoDetalleModels>();
                 ServiciosMantenimientoDetalleModels Item;
-                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Mantenimiento_get_DetalleServicioXID", IDServicio);
-                while(Dr.Read())
+                 DataSet Ds = SqlHelper.ExecuteDataset(Conexion, "spCSLDB_Mantenimiento_get_DetalleServicioXID", IDServicio);
+                if(Ds!= null)
                 {
-                    Item = new ServiciosMantenimientoDetalleModels();
-                    Item.IDServicioDetalle = !Dr.IsDBNull(Dr.GetOrdinal("IDServicioDetalle")) ? Dr.GetString(Dr.GetOrdinal("IDServicioDetalle")) : string.Empty;
-                    Item.TipoServicio.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("TipoServicio")) ? Dr.GetString(Dr.GetOrdinal("TipoServicio")) : string.Empty;
-                    Item.Encargado = !Dr.IsDBNull(Dr.GetOrdinal("Encargado")) ? Dr.GetString(Dr.GetOrdinal("Encargado")) : string.Empty;
-                    Item.Observaciones = !Dr.IsDBNull(Dr.GetOrdinal("Observaciones")) ? Dr.GetString(Dr.GetOrdinal("Observaciones")) : string.Empty;
-                    Item.Importe =  !Dr.IsDBNull(Dr.GetOrdinal("Importe")) ? Dr.GetDecimal(Dr.GetOrdinal("Importe")) : 0;
-                    Lista.Add(Item);
+                    if (Ds.Tables.Count == 2)
+                    {
+                        if (Ds.Tables[0] != null)
+                        {
+                            if(Ds.Tables[0].Rows[0][0] != null)
+                            {
+                                Result.Vehiculo = new CatVehiculoModels { IDVehiculo = Ds.Tables[0].Rows[0][0].ToString() };
+                            }
+                        }
+
+                        DataTableReader Dr = Ds.Tables[1].CreateDataReader();
+                        while (Dr.Read())
+                        {
+                            Item = new ServiciosMantenimientoDetalleModels();
+                            Item.IDServicioDetalle = !Dr.IsDBNull(Dr.GetOrdinal("IDServicioDetalle")) ? Dr.GetString(Dr.GetOrdinal("IDServicioDetalle")) : string.Empty;
+                            Item.TipoServicio.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("TipoServicio")) ? Dr.GetString(Dr.GetOrdinal("TipoServicio")) : string.Empty;
+                            Item.Encargado = !Dr.IsDBNull(Dr.GetOrdinal("Encargado")) ? Dr.GetString(Dr.GetOrdinal("Encargado")) : string.Empty;
+                            Item.Observaciones = !Dr.IsDBNull(Dr.GetOrdinal("Observaciones")) ? Dr.GetString(Dr.GetOrdinal("Observaciones")) : string.Empty;
+                            Item.Importe = !Dr.IsDBNull(Dr.GetOrdinal("Importe")) ? Dr.GetDecimal(Dr.GetOrdinal("Importe")) : 0;
+                            Lista.Add(Item);
+                        }
+                    }
                 }
-                return Lista;
+                
+                Result.ListaDetalle = Lista;
+                return Result;
             }
             catch(Exception ex)
             {
@@ -144,8 +165,9 @@ namespace CreativaSL.Web.Ganados.Models
             try
             {
                 object[] Parametros = { Datos.NuevoRegistro,
-                                        Datos.Opcion,
+                                        //Datos.Opcion,
                                         Datos.IDServicio ?? string.Empty,
+                                        Datos.Proveedor.IDProveedor ?? string.Empty,
                                         Datos.Vehiculo.IDVehiculo ?? string.Empty,
                                         Datos.Sucursal.IDSucursal ?? string.Empty,
                                         Datos.Fecha,
@@ -218,17 +240,18 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public ServiciosMantenimientoViewModels ObtenerDatosServicio(string Conexion, string IDServicio, int Tipo)
+        public ServiciosMantenimientoViewModels ObtenerDatosServicio(string Conexion, string IDServicio)
         {
             try
             {
                 ServiciosMantenimientoViewModels Resultado = new ServiciosMantenimientoViewModels();
-                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Mantenimiento_get_DetalleServicio", IDServicio, Tipo);
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Mantenimiento_get_DetalleServicio", IDServicio);
                 while (Dr.Read())
                 {
                     Resultado.IDServicio = IDServicio;
                     Resultado.ID = !Dr.IsDBNull(Dr.GetOrdinal("ID")) ? Dr.GetString(Dr.GetOrdinal("ID")) : string.Empty;
                     Resultado.IDSucursal = !Dr.IsDBNull(Dr.GetOrdinal("IDSucursal")) ? Dr.GetString(Dr.GetOrdinal("IDSucursal")) : string.Empty;
+                    Resultado.IDProveedor = !Dr.IsDBNull(Dr.GetOrdinal("IDProveedor")) ? Dr.GetString(Dr.GetOrdinal("IDProveedor")) : string.Empty;
                     Resultado.Fecha = !Dr.IsDBNull(Dr.GetOrdinal("Fecha")) ? Dr.GetDateTime(Dr.GetOrdinal("Fecha")) : DateTime.MinValue;
                     break;
                 }

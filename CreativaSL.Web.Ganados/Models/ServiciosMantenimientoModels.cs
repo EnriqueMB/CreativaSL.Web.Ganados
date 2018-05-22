@@ -21,6 +21,7 @@ namespace CreativaSL.Web.Ganados.Models
             _IDEstatus = 0;
             _ListaRemolques = new List<CatRemolqueModels>();
             _ListaVehiculos = new List<CatVehiculoModels>();
+            _ListaDetalle = new List<ServiciosMantenimientoDetalleModels>();
         }
 
         private CatVehiculoModels _Vehiculo;
@@ -57,7 +58,15 @@ namespace CreativaSL.Web.Ganados.Models
             set { _Fecha = value; }
         }
 
-        
+        private CatProveedorModels _Proveedor;
+
+        public CatProveedorModels Proveedor
+        {
+            get { return _Proveedor; }
+            set { _Proveedor = value; }
+        }
+
+
         public string FechaFormat
         {
             get { return _Fecha.ToShortDateString(); }
@@ -131,6 +140,13 @@ namespace CreativaSL.Web.Ganados.Models
             set { _ListaRemolques = value; }
         }
 
+        private List<ServiciosMantenimientoDetalleModels> _ListaDetalle;
+
+        public List<ServiciosMantenimientoDetalleModels> ListaDetalle
+        {
+            get { return _ListaDetalle; }
+            set { _ListaDetalle = value; }
+        }
 
 
         #region Datos De Control

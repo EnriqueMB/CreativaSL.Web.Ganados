@@ -24,183 +24,53 @@
         <div class="row">
             <div class="col-md-12">
 
-                <div class="panel panel-default tabs">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="active"><a href="#tab-first" role="tab" data-toggle="tab">Vehículos</a></li>
-                        @*<li><a href="#tab-second" role="tab" data-toggle="tab">Jaulas</a></li>*@
-                        <li><a href="#tab-third" role="tab" data-toggle="tab">Remolques</a></li>
-                    </ul>
-                    <div class="panel-body tab-content">
-                        <div class="tab-pane active" id="tab-first">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    
-                                    <!-- START DEFAULT DATATABLE -->
-                                    <div class="panel panel-default">
-                                        
-                                        <div class="panel-body">
-                                            <div class="table-responsive">
-                                                <table class="table datatable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Vehículo</th>
-                                                            <th>Fecha último servicio</th>
-                                                            <th>Servicios</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach (var ItemV in Model.ListaVehiculos)
-                                                        {
-                                                        <tr id="@ItemV.IDVehiculo">
-                                                            <td>@ItemV.Modelo</td>
-                                                            <td>@ItemV.DateLastServiceFormat</td>
-                                                            <td style="text-align:center;">
-                                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                                    <a title="Servicios" class="btn btn-green" href="@Url.Action("ServiciosV", "Mantenimiento", new { id = ItemV.IDVehiculo})"><i class="fa fa-cogs"></i></a>
-                                                                </div>
-                                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                                    <div class="btn-group">
-                                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                                        </a>
-                                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                                            <li>
-                                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("ServiciosV", "Mantenimiento", new { id = ItemV.IDVehiculo, tipo = 1 })">
-                                                                                    <i class="fa fa-cogs"></i> Servicios
-                                                                                </a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
+                <div class="panel panel-default">
+                    <div class="panel-body">                        
+                        <div class="table-responsive">
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Vehículo</th>
+                                        <th>Fecha último servicio</th>
+                                        <th>Servicios</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var ItemV in Model.ListaVehiculos)
+                                    {
+                                    <tr id="@ItemV.IDVehiculo">
+                                        <td>@ItemV.Modelo</td>
+                                        <td>@ItemV.DateLastServiceFormat</td>
+                                        <td style="text-align:center;">
+                                            <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                <a title="Servicios" class="btn btn-green" href="@Url.Action("Servicios", "Mantenimiento", new { id = ItemV.IDVehiculo})"><i class="fa fa-cogs"></i></a>
+                                            </div>
+                                            <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                <div class="btn-group">
+                                                    <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                        <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                    </a>
+                                                    <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Servicios", "Mantenimiento", new { id = ItemV.IDVehiculo, tipo = 1 })">
+                                                                <i class="fa fa-cogs"></i> Servicios
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
                                                             
-                                                        </tr>
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- END DEFAULT DATATABLE -->    
-
-                                </div>
-                            </div>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
-                        @*<div class="tab-pane" id="tab-second">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-
-                                    <!-- START DEFAULT DATATABLE -->
-                                    <div class="panel panel-default">
-
-                                        <div class="panel-body">
-                                            <div class="table-responsive">
-                                                <table class="table datatable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Vehículo</th>
-                                                            <th>Fecha último servicio</th>
-                                                            <th>Servicios</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr id="IDVehiculo">
-                                                            <td>Chevrolet AVEO 2015 BHC-762-32</td>
-                                                            <td>08/01/2018</td>
-                                                            <td style="text-align:center;">
-                                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                                    <a title="Servicios" class="btn btn-green" href="@Url.Action("Servicios", "Mantenimiento", new { id = "IDVehiculo", tipo = 1 })"><i class="fa fa-cogs"></i></a>
-                                                                </div>
-                                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                                    <div class="btn-group">
-                                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                                        </a>
-                                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                                            <li>
-                                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Servicios", "Mantenimiento", new { id = "IDVehiculo", tipo = 1 })">
-                                                                                    <i class="fa fa-cogs"></i> Rendimiento
-                                                                                </a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- END DEFAULT DATATABLE -->   
-
-                                </div>
-                            </div>
-                        </div>*@
-                        <div class="tab-pane" id="tab-third">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-
-                                    <!-- START DEFAULT DATATABLE -->
-                                    <div class="panel panel-default">
-                                        <div class="panel-body">
-                                            <div class="table-responsive">
-                                                <table class="table datatable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Remolque</th>
-                                                            <th>Fecha de último servicio</th>
-                                                            <th>Servicios</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach (var ItemR in Model.ListaRemolques)
-                                                        {
-                                                        <tr id="@ItemR.IDRemolque">
-                                                            <td>@ItemR.placa</td>
-                                                            <td>@ItemR.DateLastServiceFormat</td>
-                                                            <td style="text-align:center;">
-                                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                                    <a title="Servicios" class="btn btn-green" href="@Url.Action("ServiciosR", "Mantenimiento", new { id = ItemR.IDRemolque })"><i class="fa fa-cogs"></i></a>
-                                                                </div>
-                                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                                    <div class="btn-group">
-                                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                                        </a>
-                                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                                            <li>
-                                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("ServiciosR", "Mantenimiento", new { id = ItemR.IDRemolque })">
-                                                                                    <i class="fa fa-cogs"></i> Servicios
-                                                                                </a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- END DEFAULT DATATABLE -->   
-
-                                </div>
-                            </div>
-                        </div>
+                                        
                     </div>
-
                     <div class="panel-footer">
                     </div>
                 </div>
-
-
-                
-
-
-
             </div>
         </div>
     </div>

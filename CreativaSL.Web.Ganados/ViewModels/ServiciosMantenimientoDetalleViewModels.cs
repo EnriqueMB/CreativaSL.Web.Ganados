@@ -1,6 +1,8 @@
 ﻿using CreativaSL.Web.Ganados.Models;
+using CreativaSL.Web.Ganados.Models.Validaciones;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -14,7 +16,8 @@ namespace CreativaSL.Web.Ganados.ViewModels
         }
 
         private string _IDServicio;
-
+        [Required(ErrorMessage = "Se requiere el identificador del servicio.")]
+        [Display(Name = "IDServicio")]
         public string IDServicio
         {
             get { return _IDServicio; }
@@ -30,7 +33,8 @@ namespace CreativaSL.Web.Ganados.ViewModels
         }
 
         private string _IDTipoServicio;
-
+        [Required(ErrorMessage = "Seleccione un servicio.")]
+        [Display(Name = "Servicio")]
         public string IDTipoServicio
         {
             get { return _IDTipoServicio; }
@@ -38,7 +42,8 @@ namespace CreativaSL.Web.Ganados.ViewModels
         }
 
         private string _Encargado;
-
+        [Required(ErrorMessage = "Se require el nombre del responsable.")]
+        [Display(Name = "Encargado")]
         public string Encargado
         {
             get { return _Encargado; }
@@ -46,7 +51,8 @@ namespace CreativaSL.Web.Ganados.ViewModels
         }
 
         private decimal _Importe;
-
+        [DecimalMayor0(ErrorMessage = "{0} debe ser mayor a 0")]
+        [Display(Name = "Importe")]
         public decimal Importe
         {
             get { return _Importe; }

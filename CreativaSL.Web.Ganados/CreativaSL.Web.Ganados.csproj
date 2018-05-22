@@ -1168,13 +1168,9 @@
     <Content Include="Areas\Admin\Views\EntradasAlmacen\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\CreateDetail.cshtml" />
-    <Content Include="Areas\Admin\Views\Mantenimiento\CreateR.cshtml" />
-    <Content Include="Areas\Admin\Views\Mantenimiento\CreateV.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\EditDetail.cshtml" />
-    <Content Include="Areas\Admin\Views\Mantenimiento\EditR.cshtml" />
-    <Content Include="Areas\Admin\Views\Mantenimiento\EditV.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Servicios.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosR.cshtml" />
@@ -1186,6 +1182,12 @@
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\Cuentas.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\CreateCuenta.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\EditCuenta.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\DatosContacto.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\NuevoDatosContactoEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\NuevoDatosContacto.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1534,7 +1536,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50240</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

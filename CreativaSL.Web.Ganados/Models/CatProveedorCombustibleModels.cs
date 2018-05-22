@@ -24,6 +24,14 @@ namespace CreativaSL.Web.Ganados.Models
             _listaProveedoresCombustible = new List<CatProveedorCombustibleModels>();
             _listaSucursal = new List<CatSucursalesModels>();
         }
+        private List<CatContactosModels> _listaDatosContactos;
+
+        public List<CatContactosModels> listaDatosContactos
+        {
+            get { return _listaDatosContactos; }
+            set { _listaDatosContactos = value; }
+        }
+
         private string _telefonoCasa;
 
         public string telefonoCasa
