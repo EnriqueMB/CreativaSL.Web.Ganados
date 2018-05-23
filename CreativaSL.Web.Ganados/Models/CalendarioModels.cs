@@ -7,6 +7,12 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CalendarioModels
     {
+
+        public CalendarioModels()
+        {
+            _IDProveedor = string.Empty;
+        }
+
         private string _IDProveedor;
 
         public string IDProveedor
