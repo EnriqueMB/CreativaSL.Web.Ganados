@@ -439,6 +439,7 @@
     <Content Include="Content\js\CalAlmacen.js" />
     <Content Include="Content\js\CatContactos.js" />
     <Content Include="Content\js\CatContactosClientes.js" />
+    <Content Include="Content\js\compraAgendar.js" />
     <Content Include="Content\js\CompraAlmacenDetalle.js" />
     <Content Include="Content\js\CuentaProveedorAlmacen.js" />
     <Content Include="Content\js\EmpleadosSucursalFaltas.js" />
@@ -1124,7 +1125,7 @@
     <Content Include="Areas\Admin\Views\Nomina\DetalleEmpleado.cshtml" />
     <Content Include="Areas\Admin\Views\Nomina\RptDiasLaborados.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\EmbarqueCompra.cshtml" />
-    <Content Include="Areas\Admin\Views\Compra\ProgramarCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\AgendarCompra.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\RecepcionCompra.cshtml" />
     <Content Include="Areas\Admin\Views\Nomina\RptSaldos.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalListadoPrecios.cshtml" />
@@ -1336,6 +1337,8 @@
     <Compile Include="Models\CuentaBancariasProveedorAlmacenModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
     <Compile Include="Models\DocumentoPorPagarModels.cs" />
+    <Compile Include="Models\DocumentosPorCobrarDetalleImpuestoModels.cs" />
+    <Compile Include="Models\DocumentosPorCobrarModels.cs" />
     <Compile Include="Models\EntradaAlmacenDetalleModels.cs" />
     <Compile Include="Models\EntradaAlmacenModels.cs" />
     <Compile Include="Models\EntregaCombustibleModels.cs" />

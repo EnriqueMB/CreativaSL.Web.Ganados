@@ -1,6 +1,8 @@
 ﻿var Sucursal = function () {
     "use strict"
-     
+    var map, marker;
+    var selectLugar = document.getElementById('IDLugar');
+
     var Validaciones = function () {
         var form1 = $('#frmSucursal');
         var errorHandler1 = $('.errorHandler', form1);
@@ -85,10 +87,41 @@
             }
         });
     }
-     
+    var InitMap = function (option) {
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 10,
+            center: { lat: 17.6063149, lng: -93.204288 },
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+        var onChangeHandler = function () {
+            AddMarcador(map);
+        };
+        selectLugar.addEventListener('change', onChangeHandler);
+        if (option == 2) {
+            AddMarcador(map);
+        }
+    };
+    function AddMarcador(map) {
+        var selectIndexInicio = selectLugar.selectedIndex;
+        var optionInicio = selectLugar.options.item(selectIndexInicio);
+        var latitudInicial = optionInicio.dataset.latitud.replace(",", ".");
+        var longInicial = optionInicio.dataset.longitud.replace(",", ".");
+
+        var inicio = new google.maps.LatLng(latitudInicial, longInicial);
+        if (marker != null)
+            marker.setMap(null);
+
+        marker = new google.maps.Marker({
+            position: inicio,
+            map: map
+        });
+        map.setCenter(marker.getPosition());
+
+    }
     return {
-        init: function () {
+        init: function (option) {
             Validaciones();
+            InitMap(option);
         }
     };
 }();

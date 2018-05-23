@@ -10,6 +10,7 @@ using CreativaSL.Web.Ganados.Models;
 using System.IO;
 using System.Net;
 using Newtonsoft.Json;
+using CreativaSL.Web.Ganados.App_Start;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -17,8 +18,69 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     public class CompraController : Controller
     {
         private string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         private CompraModels Compra;
         private _Compra_Datos CompraDatos;
+
+        #region AgendarCompra
+        [HttpGet]
+        public ActionResult AgendarCompra(string IDCompra)
+        {
+            try
+            {
+                Token.SaveToken();
+                Compra = new CompraModels();
+                CompraDatos = new _Compra_Datos();
+                Compra.Conexion = Conexion;
+
+                if (!string.IsNullOrEmpty(IDCompra))
+                {
+                    Compra.IDCompra = IDCompra;
+                    Compra = CompraDatos.GetCompraProgramada(Compra);
+                    Compra = CompraDatos.GetCompraEmbarque(Compra);
+                }
+                Compra.ListaEmpresas = CompraDatos.GetListadoEmpresas(Compra);
+                Compra.ListaSucursales = CompraDatos.GetListadoSucursales(Compra);
+                Compra.ListaProveedores = CompraDatos.GetListaProveedores(Compra);
+                Compra.ListaLugares = CompraDatos.GetListadoLugaresLugarXIDEmpresa(Compra);
+                Compra.ListaChoferes = CompraDatos.GetChoferesXIDEmpresa(Compra);
+                Compra.ListaVehiculos = CompraDatos.GetVehiculosXIDEmpresa(Compra);
+                Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + ex.ToString();
+            }
+            return View(Compra);
+        }
+        #endregion
+        #region Funcion Json Documentos
+        [HttpPost]
+        public ActionResult TableJsonDocumentos(string IDFlete)
+        {
+            try
+            {
+                Compra = new CompraModels();
+                CompraDatos = new _Compra_Datos();
+                Compra.Conexion = Conexion;
+                Compra.IDFlete = IDFlete;
+
+                Compra.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(CompraDatos.GetDocumentosDataTable(Compra));
+                Compra.RespuestaAjax.Success = true;
+
+                return Content(Compra.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Compra.RespuestaAjax.Mensaje = ex.ToString();
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+
 
         // GET: Admin/Compra
         public ActionResult Index()
@@ -47,7 +109,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             switch (Compra.Estatus)
             {
                 case 0:
-                    return RedirectToAction("ProgramarCompra", "Compra", new { IDCompra = Compra.IDCompra });
+                    return RedirectToAction("AgendarCompra", "Compra", new { IDCompra = Compra.IDCompra });
                 case 1:
                     return RedirectToAction("EmbarqueCompra", "Compra", new { IDCompra = Compra.IDCompra });
                 default:
@@ -75,87 +137,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     return View(Compra);
             }
         }
-        /********************************************************************/
-        [HttpGet]
-        public ActionResult ProgramarCompra(string IDCompra)
-        {
-            try
-            {
-                Compra = new CompraModels();
-                CompraDatos = new _Compra_Datos();
-                Compra.Conexion = Conexion;
-                Compra.ListaSucursales = CompraDatos.GetListadoSucursales(Compra);
-                Compra.ListaProveedores = CompraDatos.GetListaProveedores(Compra);
-                Compra.ListaLugares = CompraDatos.GetListadoLugares(Compra);
-           
-                if (!string.IsNullOrEmpty(IDCompra))
-                {
-                    Compra.IDCompra = IDCompra;
-                    Compra = CompraDatos.GetCompraProgramada(Compra);
-                }
-                Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
-            }
-            catch (Exception ex)
-            {
-                TempData["typemessage"] = "2";
-                TempData["message"] = "No se puede cargar la vista, error: " + ex.ToString();
-            }
-            return View(Compra);
-        }
-        [HttpPost]
-        public ActionResult ProgramarCompra(CompraModels Compra)
-        {
-            try
-            {
-                CompraDatos = new _Compra_Datos();
-                ModelState.Remove("IDCostoFlete");
-                if (ModelState.IsValid)
-                {
-                    Compra.Conexion = Conexion;
-                    Compra.Usuario = User.Identity.Name;
-                    Compra = CompraDatos.Compras_ac_Proveedor(Compra);
-
-                    //Si abc fue completado correctamente
-                    if (Compra.Completado == true)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "El registro se guardo correctamente.";
-                        Compra.IDCompra = Compra.Mensaje;
-                        return RedirectToAction("Index", "Compra", new { Compra.IDCompra });
-                    }
-                    else
-                    {
-                        Compra.ListaSucursales = CompraDatos.GetListadoSucursales(Compra);
-                        Compra.ListaProveedores = CompraDatos.GetListaProveedores(Compra);
-                        Compra.ListaLugares = CompraDatos.GetListadoLugares(Compra);
-                        Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al guardar el registro. Error: " + Compra.Mensaje;
-                        return View(Compra);
-                    }
-                }
-                else
-                {
-                    Compra.ListaSucursales = CompraDatos.GetListadoSucursales(Compra);
-                    Compra.ListaProveedores = CompraDatos.GetListaProveedores(Compra);
-                    Compra.ListaLugares = CompraDatos.GetListadoLugares(Compra);
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Verifique su formulario.";
-                    return View(Compra);
-                }
-            }
-            catch (Exception ex)
-            {
-                Compra.ListaSucursales = CompraDatos.GetListadoSucursales(Compra);
-                Compra.ListaProveedores = CompraDatos.GetListaProveedores(Compra);
-                Compra.ListaLugares = CompraDatos.GetListadoLugares(Compra);
-                Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
-                TempData["typemessage"] = "2";
-                TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico, error: " + ex.ToString();
-                return View(Compra);
-            }
-        }
-        /********************************************************************/
         [HttpGet]
         public ActionResult EmbarqueCompra(string IDCompra)
         {
@@ -179,12 +160,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Compra.ListaSucursales = CompraDatos.GetListadoSucursales(Compra);
                     Compra.ListaProveedores = CompraDatos.GetListaProveedores(Compra);
                     Compra.ListaEmpresas = CompraDatos.GetListadoEmpresas(Compra);
-                    Compra.ListaLugares = CompraDatos.GetListadoLugares(Compra);
                     Compra.ListaChoferes = CompraDatos.GetChoferesXIDEmpresa(Compra);
                     Compra.ListaVehiculos = CompraDatos.GetVehiculosXIDEmpresa(Compra);
                     Compra.ListaRemolques = CompraDatos.GetRemolquesXIDEmpresa(Compra);
                     Compra.ListaJaulas = CompraDatos.GetJaulasXIDEmpresa(Compra);
                     Compra.ListaFierros = CompraDatos.GetListadoFierrosXIDCompra(Compra);
+                    Compra.ListaLugares = CompraDatos.GetListadoLugaresLugarXIDEmpresa(Compra);
                     Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
                     Compra.ListaCostoFlete = CompraDatos.GetListadoCostoFlete(Compra);
 
@@ -339,23 +320,59 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Json("");
             }
         }
-        #endregion
-        /********************************************************************/
-        //Funciones SaveUpdPestañas
-        #region Funciones SaveUpdPestañas
         [HttpPost]
-        public ActionResult AC_Flete(CompraModels Compra)
+        public ActionResult GetLugaresXIDEmpresa(string IDEmpresa)
         {
             try
             {
-                ModelState.Remove("IDPLugarProveedor");
-                ModelState.Remove("IDProveedor");
-                if (ModelState.IsValid)
+                Compra = new CompraModels();
+                CompraDatos = new _Compra_Datos();
+                Compra.Conexion = Conexion;
+                Compra.IDEmpresa = IDEmpresa;
+                Compra.Usuario = User.Identity.Name;
+                Compra.ListaLugares = CompraDatos.GetListadoLugaresLugarXIDEmpresa(Compra);
+
+                return Content(Compra.ListaLugares.ToJSON(), "application/json");
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error. Por favor contacte a soporte técnico";
+                return Json("");
+            }
+        }
+        #endregion
+        /********************************************************************/
+        //Funciones SaveUpdPestañas
+        #region Funciones AC DEL
+        #region Proveedor
+        [HttpPost]
+        public ActionResult AC_Proveedor(CompraModels Compra)
+        {
+            try
+            {
+                string[] camposValidar = { "IDProveedor", "IDSucursal", "IDPLugarProveedor", "GanadosPactadoMachos", "GanadosPactadoHembras", "FechaHoraProgramada" };
+                bool formularioValido = true;
+                var errors = ModelState.Keys.Where(k => ModelState[k].Errors.Count > 0).Select(k => new { propertyName = k, errorMessage = ModelState[k].Errors[0].ErrorMessage });
+
+                foreach (var item in errors)
+                {
+                    for (int j = 0; j < camposValidar.Count(); j++)
+                    {
+                        
+                        if(string.Equals(item.propertyName, camposValidar[j])){
+                            formularioValido = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (formularioValido)
                 {
                     CompraDatos = new _Compra_Datos();
                     Compra.Conexion = Conexion;
                     Compra.Usuario = User.Identity.Name;
-                    Compra = CompraDatos.Compras_ac_Flete(Compra);
+                    Compra = CompraDatos.Compras_ac_Proveedor(Compra);
 
                     Compra.RespuestaAjax.Mensaje = Compra.Mensaje;
                     Compra.RespuestaAjax.Success = Compra.Completado;
@@ -376,6 +393,60 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
             }
         }
+        #endregion
+        #region Flete
+        [HttpPost]
+        public ActionResult AC_Flete(CompraModels Compra)
+        {
+            try
+            {
+                string[] camposValidar = { "IDEmpresa", "IDSucursal", "IDChofer", "IDVehiculo", "Flete.kmInicialVehiculo" };
+                bool formularioValido = true;
+                var errors = ModelState.Keys.Where(k => ModelState[k].Errors.Count > 0).Select(k => new { propertyName = k, errorMessage = ModelState[k].Errors[0].ErrorMessage });
+
+                foreach (var item in errors)
+                {
+                    for (int j = 0; j < camposValidar.Count(); j++)
+                    {
+
+                        if (string.Equals(item.propertyName, camposValidar[j]))
+                        {
+                            formularioValido = false;
+                            break;
+                        }
+                    }
+                }
+                if (formularioValido)
+                {
+                    CompraDatos = new _Compra_Datos();
+                    Compra.Conexion = Conexion;
+                    Compra.Usuario = User.Identity.Name;
+                    Compra = CompraDatos.Compras_ac_Flete(Compra);
+
+                    return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+                }
+                else
+                {
+                    Compra.RespuestaAjax.Mensaje = "Verifique su formulario.";
+                    Compra.RespuestaAjax.Success = false;
+                    return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+                }
+            }
+            catch (Exception ex)
+            {
+                Compra.RespuestaAjax.Mensaje = ex.ToString();
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+
+
+
+
+
+
+
         [HttpPost]
         public ActionResult A_Documentos(CompraModels Compra)
         {
