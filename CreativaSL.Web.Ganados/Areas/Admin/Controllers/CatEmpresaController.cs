@@ -258,6 +258,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 };
                 SucursalDatos = new _CatSucursal_Datos();
                 Sucursal.Conexion = Conexion;
+                Sucursal.ListaLugares = SucursalDatos.GetLugares(Sucursal);
                 return View(Sucursal);
             }
             catch (Exception ex)
@@ -325,6 +326,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     SucursalDatos = new _CatSucursal_Datos();
                     Sucursal.Conexion = Conexion;
                     Sucursal = SucursalDatos.GetSucursalXIDSucursal(Sucursal);
+                    Sucursal.ListaLugares = SucursalDatos.GetLugares(Sucursal);
                     return View(Sucursal);
                 }
                 catch (Exception ex)

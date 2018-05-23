@@ -146,6 +146,7 @@
             GetVehiculosXIDEmpresa(IDEmpresa);
             GetJaulasXIDEmpresa(IDEmpresa);
             GetRemolquesXIDEmpresa(IDEmpresa);
+            GetLugaresXIDEmpresa(IDEmpresa);
         });
     }
     var LoadValidationFlete = function () {
@@ -365,6 +366,23 @@
             }
         });
     }
+    function GetLugaresXIDEmpresa(IDEmpresa) {
+        $.ajax({
+            url: '/Admin/Compra/GetLugaresXIDEmpresa/',
+            type: "POST",
+            dataType: 'json',
+            data: { IDEmpresa: IDEmpresa },
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "1");
+            },
+            success: function (result) {
+                $("#Trayecto_id_lugarOrigen option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#Trayecto_id_lugarOrigen").append('<option value="' + result[i].id_lugar + '" data-latitud="' + result[i].latitud + '" data-longitud="' + result[i].longitud + '">' + result[i].descripcion + '</option>');
+                }
+            }
+        });
+    }
     var InitMap = function () {
         directionsDisplay = new google.maps.DirectionsRenderer;
         directionsService = new google.maps.DirectionsService;
@@ -377,15 +395,15 @@
         var onChangeHandler = function () {
             CalculateAndDisplayRoute(directionsService, directionsDisplay);
         };
-        document.getElementById("Trayecto.id_lugarOrigen").addEventListener('change', onChangeHandler);
+        document.getElementById("Trayecto_id_lugarOrigen").addEventListener('change', onChangeHandler);
         document.getElementById("Trayecto.id_lugarDestino").addEventListener('change', onChangeHandler);
 
         CalculateAndDisplayRoute(directionsService, directionsDisplay);
         
     };
     function CalculateAndDisplayRoute(directionsService, directionsDisplay) {
-        var selectIndexInicio = document.getElementById('Trayecto.id_lugarOrigen').selectedIndex;
-        var optionInicio = document.getElementById('Trayecto.id_lugarOrigen').options.item(selectIndexInicio);
+        var selectIndexInicio = document.getElementById('Trayecto_id_lugarOrigen').selectedIndex;
+        var optionInicio = document.getElementById('Trayecto_id_lugarOrigen').options.item(selectIndexInicio);
         var latitudInicial = optionInicio.dataset.latitud.replace(",", ".");
         var longInicial = optionInicio.dataset.longitud.replace(",", ".");
 
@@ -443,32 +461,40 @@
                     "data": null,
                     "render": function (data, type, full) {
                         var imagen64 = full["imagen"];
-                        var extension = "";
+                        var img = "";
+                        if (imagen64 != null) {
 
-                        var position = imagen64.indexOf("iVBOR");
-                        //imagen png
-                        if ( position != -1) 
-                            extension = "image/png";
+                            var extension = "";
 
-                        position = imagen64.indexOf("/9j/4");
-                        if (position != -1)
-                            extension = "image/jpeg";
-                        //bmp de 256 colores
-                        position = imagen64.indexOf("Qk3");
-                        if (position == 0)
-                            extension = "image/bmp";
+                            var position = imagen64.indexOf("iVBOR");
+                            //imagen png
+                            if (position != -1)
+                                extension = "image/png";
 
-                        //bmp de monocromatico colores
-                        position = imagen64.indexOf("Qk2");
-                        if (position == 0)
-                            extension = "image/bmp";
+                            position = imagen64.indexOf("/9j/4");
+                            if (position != -1)
+                                extension = "image/jpeg";
+                            //bmp de 256 colores
+                            position = imagen64.indexOf("Qk3");
+                            if (position == 0)
+                                extension = "image/bmp";
 
-                        //bmp de 16 colores
-                        position = imagen64.indexOf("Qk1");
-                        if (position == 0)
-                            extension = "image/bmp";
+                            //bmp de monocromatico colores
+                            position = imagen64.indexOf("Qk2");
+                            if (position == 0)
+                                extension = "image/bmp";
 
-                        return "<img class='file-preview-image' style='width: 150px; height: 150px;' src='data:" + extension + ";base64," + full["imagen"] + "' />";
+                            //bmp de 16 colores
+                            position = imagen64.indexOf("Qk1");
+                            if (position == 0)
+                                extension = "image/bmp";
+
+                            img = "<img class='file-preview-image' style='width: 150px; height: 150px;' src='data:" + extension + ";base64," + full["imagen"] + "' />";
+                        }
+                        else {
+                            img = "<img class='file-preview-image' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
+                        }
+                        return img;
                     }
                 },
                 {
@@ -583,6 +609,9 @@
             allowedFileExtensions: ["png", 'jpg', 'bmp', 'jpeg'],
             required: true
         })
+        $('#ImagenPost').on('fileclear', function (event) {
+            document.getElementById("MostrarImagen").value = "";
+        });
     }
     var LoadValidation_AC_Documento = function () {
         var form1 = $('#frm_AC_Documentos');

@@ -1336,6 +1336,8 @@
     <Compile Include="Models\CuentaBancariasProveedorAlmacenModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
     <Compile Include="Models\DocumentoPorPagarModels.cs" />
+    <Compile Include="Models\DocumentosPorCobrarDetalleImpuestoModels.cs" />
+    <Compile Include="Models\DocumentosPorCobrarModels.cs" />
     <Compile Include="Models\EntradaAlmacenDetalleModels.cs" />
     <Compile Include="Models\EntradaAlmacenModels.cs" />
     <Compile Include="Models\EntregaCombustibleModels.cs" />

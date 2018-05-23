@@ -218,7 +218,7 @@
                                             <div id="floating-panel">
                                                 <b>Origen: </b>
 
-                                                <select id="Trayecto.id_lugarOrigen" name="Trayecto.id_lugarOrigen">
+                                                <select id="Trayecto_id_lugarOrigen" name="Trayecto.id_lugarOrigen">
                                                     @foreach (var lugar in Model.ListaLugares)
                                                     {
                                                         <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud"
@@ -307,10 +307,10 @@
                         </div>
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane" id="cobro">
+                <div role="tabpanel" class="tab-pane" id="costoFlete">
                     <div class="col-md-12">
                         @{ Html.EnableClientValidation(false); }
-                        @using (Html.BeginForm("A_Cobro", "Compra", FormMethod.Post, new { id = "frm_AC_Cobro", @class = "form-horizontal", autocomplete = "off" }))
+                        @using (Html.BeginForm("A_Cobro", "Flete", FormMethod.Post, new { id = "frm_AC_Cobro", @class = "form-horizontal", autocomplete = "off" }))
                         {
                             @Html.HiddenFor(model => model.IDFlete);
                             @Html.AntiForgeryToken()
@@ -323,7 +323,7 @@
                                 <div class="panel-body">
                                     @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
                                     <div id="validation_summary_AC_Cobro" class="field_error "></div><br />
-                                    @*<div class="row">
+                                    <div class="row">
                                         <div class="form-group">
                                             <div class="col-md-6 controlError">
                                                 <label class="col-md-2 control-label">Precio del flete</label>
@@ -339,7 +339,7 @@
                                                 <div class="col-md-10 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        @Html.TextBoxFor(model => model.CondicionPago, new { @class = "form-control" })
+                                                        @Html.TextBoxFor(model => model.Flete.CondicionPago, new { @class = "form-control" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -350,7 +350,7 @@
                                                 <div class="col-md-10 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        @Html.TextBoxFor(model => model.TotalImpuestoRetenido, "{0:f2}", new { @class = "form-control", @readonly = "readonly" })
+                                                        @Html.TextBoxFor(model => model.Flete.TotalImpuestoRetenido, "{0:f2}", new { @class = "form-control", @readonly = "readonly" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -359,7 +359,7 @@
                                                 <div class="col-md-10 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        @Html.DropDownListFor(model => model.MetodoPago.Clave, new SelectList(Model.ListaMetodoPago, "Clave", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                        @Html.DropDownListFor(model => model.Flete.MetodoPago.Clave, new SelectList(Model.Flete.ListaMetodoPago, "Clave", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -370,7 +370,7 @@
                                                 <div class="col-md-10 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        @Html.TextBoxFor(model => model.TotalImpuestoTrasladado, "{0:f2}", new { @class = "form-control", @readonly = "readonly" })
+                                                        @Html.TextBoxFor(model => model.Flete.TotalImpuestoTrasladado, "{0:f2}", new { @class = "form-control", @readonly = "readonly" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -380,7 +380,7 @@
                                                 <div class="col-md-10 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        @Html.DropDownListFor(model => model.FormaPago.Clave, new SelectList(Model.ListaFormaPago, "Clave", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                        @Html.DropDownListFor(model => model.FormaPago.Clave, new SelectList(Model.Flete.ListaFormaPago, "Clave", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -391,12 +391,12 @@
                                                 <div class="col-md-10 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        @Html.TextBoxFor(model => model.TotalFlete, "{0:f2}", new { @class = "form-control", @readonly = "readonly" })
+                                                        @Html.TextBoxFor(model => model.Flete.TotalFlete, "{0:f2}", new { @class = "form-control", @readonly = "readonly" })
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>*@
+                                    </div>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <!-- START DEFAULT DATATABLE -->

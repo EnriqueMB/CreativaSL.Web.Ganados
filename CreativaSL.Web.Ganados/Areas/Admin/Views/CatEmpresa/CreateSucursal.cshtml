@@ -8,6 +8,13 @@
 @section css
 {
     <link href="@Url.Content("~/Content/css/validator.css")" rel="stylesheet" />
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+
 }
 @section featured{
 
@@ -22,84 +29,107 @@
         <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
             <h3></h3>
         </div>
-       <div class="col-md-12">
-           @{ Html.EnableClientValidation(false); }
-        @using (Html.BeginForm("CreateSucursal", "CatEmpresa", FormMethod.Post, new { id="frmSucursal", @class = "form-horizontal", autocomplete = "off" }))
-        {
-            @Html.AntiForgeryToken()
+        <div class="col-md-12">
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("CreateSucursal", "CatEmpresa", FormMethod.Post, new { id = "frmSucursal", @class = "form-horizontal", autocomplete = "off" }))
+            {
+                @Html.AntiForgeryToken()
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><strong>Nueva</strong> Sucursal</h3>
-                    <ul class="panel-controls">
-                    </ul>
-                </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
-                            <div id="validation_summary" class="field_error "></div>
-                        </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Nueva</strong> Sucursal</h3>
+                        <ul class="panel-controls"></ul>
                     </div>
-                    @Html.HiddenFor(model => model.IDEmpresa)
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
+                                <div id="validation_summary" class="field_error "></div>
+                            </div>
+                        </div>
+                        @Html.HiddenFor(model => model.IDEmpresa)
 
-                    <div class="form-group">
-                        <div class="col-md-12 controlError">
-                            <label class="col-md-3 control-label">Nombre de la empresa</label>
-                            <div class="col-md-8 col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.TextBoxFor(model => model.NombreSucursalMatriz, new { id = "NombreSucursalMatriz", @class = "form-control", placeholder = "Nombre de la empresa", @readonly= "readonly" })
+                        <div class="form-group">
+                            <div class="col-md-12 controlError">
+                                <label class="col-md-3 control-label">Nombre de la empresa</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.NombreSucursalMatriz, new { id = "NombreSucursalMatriz", @class = "form-control", placeholder = "Nombre de la empresa", @readonly = "readonly" })
+                                    </div>
+                                    <span class="help-block"></span>
                                 </div>
-                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 controlError">
+                                <label class="col-md-3 control-label">Nombre de la sucursal</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.NombreSucursal, new { id = "NombreSucursal", @class = "form-control", placeholder = "Ingrese el nombre de la sucursal" })
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 controlError">
+                                <label class="col-md-3 control-label">Dirección</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextAreaFor(model => model.Direccion, new { id = "Direccion", @class = "form-control texarea", placeholder = "Ingrese la dirección de la sucursal" })
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 controlError">
+                                <label class="col-md-3 control-label">Merma predeterminada</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.MermaPredeterminada, new { id = "MermaPredeterminada", @class = "form-control", placeholder = "Ingrese la merma predeterminada para esta sucursal. (%)" })
+                                    </div>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 controlError">
+                                <label class="col-md-3 control-label">Ubicación</label>
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <select id="IDLugar" name="IDLugar" class="form-control">
+                                            @foreach (var lugar in Model.ListaLugares)
+                                            {
+                                                <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud" data-direccion="@lugar.Direccion"
+                                                        @if (Model.IDLugar == lugar.id_lugar) { <text>
+                                                        selected="selected"
+                                                        </text> }>
+                                                    @lugar.descripcion
+                                                </option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <br />
+                                    <span class="help-block"></span>
+                                </div>
+                                <div id="map"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-12 controlError">
-                            <label class="col-md-3 control-label">Nombre de la sucursal</label>
-                            <div class="col-md-8 col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.TextBoxFor(model => model.NombreSucursal, new { id = "NombreSucursal", @class = "form-control", placeholder= "Ingrese el nombre de la sucursal" })
-                                </div>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12 controlError">
-                            <label class="col-md-3 control-label">Dirección</label>
-                            <div class="col-md-8 col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.TextAreaFor(model => model.Direccion, new { id = "Direccion", @class = "form-control texarea", placeholder = "Ingrese la dirección de la sucursal" })
-                                </div>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12 controlError">
-                            <label class="col-md-3 control-label">Merma predeterminada</label>
-                            <div class="col-md-8 col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.TextBoxFor(model => model.MermaPredeterminada, new { id = "MermaPredeterminada", @class = "form-control", placeholder = "Ingrese la merma predeterminada para esta sucursal. (%)" })
-                                </div>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("IndexSucursales","CatEmpresa", new { id =  Model.IDEmpresa,nombreEmpresa = Model.NombreSucursalMatriz })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                     </div>
                 </div>
-                <div class="panel-footer">
-                    <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                    <a href="@Url.Action("IndexSucursales","CatEmpresa", new { id =  Model.IDEmpresa,nombreEmpresa = Model.NombreSucursalMatriz })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                </div>
-            </div>
-        }
+            }
 
-       </div>
+        </div>
     </div>
     <script>
         var message = '@message';
@@ -113,9 +143,11 @@
 
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-   <!--VALIDACIONES-->
+    <!--VALIDACIONES-->
     <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/sucursal.js")"></script>
+    <!--SELECT PICKER-->
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);

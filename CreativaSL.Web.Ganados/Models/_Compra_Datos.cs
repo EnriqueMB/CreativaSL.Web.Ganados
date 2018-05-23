@@ -123,7 +123,7 @@ namespace CreativaSL.Web.Ganados.Models
                 CatLugarModels Lugar = new CatLugarModels();
 
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_AllCatLugar");
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_CatLugarXIDEmpresa");
                 while (dr.Read())
                 {
                     Lugar = new CatLugarModels
@@ -168,6 +168,36 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.ListaLugaresProveedor.Add(Lugar);
                 }
                 return Compra.ListaLugaresProveedor;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<CatLugarModels> GetListadoLugaresLugarXIDEmpresa(CompraModels Compra)
+        {
+            try
+            {
+                CatLugarModels Lugar = new CatLugarModels();
+                List<CatLugarModels> listaLugares = new List<CatLugarModels>();
+                object[] parametros =
+                {
+                    Compra.IDEmpresa
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_CatLugarXIDEmpresa", parametros);
+                while (dr.Read())
+                {
+                    Lugar = new CatLugarModels();
+
+                    Lugar.id_lugar = !dr.IsDBNull(dr.GetOrdinal("IDLugar")) ? dr.GetString(dr.GetOrdinal("IDLugar")) : string.Empty;
+                    Lugar.descripcion = !dr.IsDBNull(dr.GetOrdinal("NombreLugar")) ? dr.GetString(dr.GetOrdinal("NombreLugar")) : string.Empty;
+                    Lugar.latitud = float.Parse(dr["GpsLatitud"].ToString());
+                    Lugar.longitud = float.Parse(dr["GpsLongitud"].ToString());
+
+                    listaLugares.Add(Lugar);
+                }
+                return listaLugares;
             }
             catch (Exception ex)
             {

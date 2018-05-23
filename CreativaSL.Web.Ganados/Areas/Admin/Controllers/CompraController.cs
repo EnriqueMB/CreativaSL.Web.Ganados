@@ -42,7 +42,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra.ListaEmpresas = CompraDatos.GetListadoEmpresas(Compra);
                 Compra.ListaSucursales = CompraDatos.GetListadoSucursales(Compra);
                 Compra.ListaProveedores = CompraDatos.GetListaProveedores(Compra);
-                Compra.ListaLugares = CompraDatos.GetListadoLugares(Compra);
+                Compra.ListaLugares = CompraDatos.GetListadoLugaresLugarXIDEmpresa(Compra);
                 Compra.ListaChoferes = CompraDatos.GetChoferesXIDEmpresa(Compra);
                 Compra.ListaVehiculos = CompraDatos.GetVehiculosXIDEmpresa(Compra);
                 Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
@@ -160,12 +160,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Compra.ListaSucursales = CompraDatos.GetListadoSucursales(Compra);
                     Compra.ListaProveedores = CompraDatos.GetListaProveedores(Compra);
                     Compra.ListaEmpresas = CompraDatos.GetListadoEmpresas(Compra);
-                    Compra.ListaLugares = CompraDatos.GetListadoLugares(Compra);
                     Compra.ListaChoferes = CompraDatos.GetChoferesXIDEmpresa(Compra);
                     Compra.ListaVehiculos = CompraDatos.GetVehiculosXIDEmpresa(Compra);
                     Compra.ListaRemolques = CompraDatos.GetRemolquesXIDEmpresa(Compra);
                     Compra.ListaJaulas = CompraDatos.GetJaulasXIDEmpresa(Compra);
                     Compra.ListaFierros = CompraDatos.GetListadoFierrosXIDCompra(Compra);
+                    Compra.ListaLugares = CompraDatos.GetListadoLugaresLugarXIDEmpresa(Compra);
                     Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
                     Compra.ListaCostoFlete = CompraDatos.GetListadoCostoFlete(Compra);
 
@@ -312,6 +312,27 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
 
                 return Content(Compra.ListaLugaresProveedor.ToJSON(), "application/json");
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error. Por favor contacte a soporte técnico";
+                return Json("");
+            }
+        }
+        [HttpPost]
+        public ActionResult GetLugaresXIDEmpresa(string IDEmpresa)
+        {
+            try
+            {
+                Compra = new CompraModels();
+                CompraDatos = new _Compra_Datos();
+                Compra.Conexion = Conexion;
+                Compra.IDEmpresa = IDEmpresa;
+                Compra.Usuario = User.Identity.Name;
+                Compra.ListaLugares = CompraDatos.GetListadoLugaresLugarXIDEmpresa(Compra);
+
+                return Content(Compra.ListaLugares.ToJSON(), "application/json");
             }
             catch
             {
