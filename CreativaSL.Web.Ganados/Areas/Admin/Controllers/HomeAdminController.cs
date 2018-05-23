@@ -19,7 +19,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                CompraModels Compra = new CompraModels();
+                CalendarioModels Compra = new CalendarioModels();
                 _Compra_Datos CompraDatos = new _Compra_Datos();
                 Compra.Conexion = Conexion;
                 Compra.listaCompra = CompraDatos.GetListaComprasNofinalizadas(Compra);

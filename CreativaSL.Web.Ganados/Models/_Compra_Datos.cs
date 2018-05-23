@@ -14,18 +14,18 @@ namespace CreativaSL.Web.Ganados.Models
     {
         private CultureInfo CultureInfo = new CultureInfo("es-MX");
         //LISTA DE COMPRAS NO FINALIZADAS
-        public List<CompraModels> GetListaComprasNofinalizadas(CompraModels Compra)
+        public List<CalendarioModels> GetListaComprasNofinalizadas(CalendarioModels Compra)
         {
 
             try
             {
-                List<CompraModels> Lista = new List<CompraModels>();
-                CompraModels Item;
+                List<CalendarioModels> Lista = new List<CalendarioModels>();
+                CalendarioModels Item;
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Inicio_get_ComprasNoFinalizadas");
                 while (dr.Read())
                 {
-                    Item = new CompraModels();
+                    Item = new CalendarioModels();
                     Item.IDProveedor = !dr.IsDBNull(dr.GetOrdinal("nombreRazonSocial")) ? dr.GetString(dr.GetOrdinal("nombreRazonSocial")) : string.Empty;
                     Item.FechaHoraProgramada = !dr.IsDBNull(dr.GetOrdinal("fechaHoraProgramada")) ? dr.GetDateTime(dr.GetOrdinal("fechaHoraProgramada")) : DateTime.Now;
                     Item.Estatus= !dr.IsDBNull(dr.GetOrdinal("estatus")) ? dr.GetInt16(dr.GetOrdinal("estatus")) : 0;

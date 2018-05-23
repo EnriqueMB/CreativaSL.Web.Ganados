@@ -1267,6 +1267,7 @@
     <Compile Include="Models\AlmacenEntradaModels.cs" />
     <Compile Include="Models\AsistenciaEmpleadoModels.cs" />
     <Compile Include="Models\Auxiliar.cs" />
+    <Compile Include="Models\CalendarioModels.cs" />
     <Compile Include="Models\CatAlmacenModels.cs" />
     <Compile Include="Models\CatBancoModels.cs" />
     <Compile Include="Models\CatCategoriaPuestoModels.cs" />
