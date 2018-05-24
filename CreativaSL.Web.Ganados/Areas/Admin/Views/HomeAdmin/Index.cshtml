@@ -1,4 +1,4 @@
-﻿@model CreativaSL.Web.Ganados.Models.CompraModels
+﻿@model CreativaSL.Web.Ganados.Models.CalendarioModels
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -89,7 +89,7 @@
           {
         title: '@item.IDProveedor',
               start: ' @item.FechaHoraProgramada.ToString("yyyy-MM-dd")',
-              //end: '@DateTime.Now.ToString("yyyy-MM-dd")',
+              @*//end: '@DateTime.Now.ToString("yyyy-MM-dd")',*@
               @switch (switchcase)
               {
                   case 1:
