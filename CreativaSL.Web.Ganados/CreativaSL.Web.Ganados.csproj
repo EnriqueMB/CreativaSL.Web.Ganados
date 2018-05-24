@@ -437,6 +437,7 @@
     <Content Include="Content\js\actions.js" />
     <Content Include="Content\js\Bancos.js" />
     <Content Include="Content\js\CalAlmacen.js" />
+    <Content Include="Content\js\Canvas.js" />
     <Content Include="Content\js\CatContactos.js" />
     <Content Include="Content\js\CatContactosClientes.js" />
     <Content Include="Content\js\compraAgendar.js" />
@@ -1190,6 +1191,7 @@
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\DatosContacto.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\NuevoDatosContactoEdit.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\NuevoDatosContacto.cshtml" />
+    <Content Include="Areas\Admin\Views\CompraAlmacen\EditProducto.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Transacciones.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalRegistrarComprobante.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalAgregarServicioProducto.cshtml" />
@@ -1299,6 +1301,7 @@
     <Compile Include="Models\CatMotivoBajaModels.cs" />
     <Compile Include="Models\CatMunicipioModels.cs" />
     <Compile Include="Models\CatPaisModels.cs" />
+    <Compile Include="Models\CatPeriodoModels.cs" />
     <Compile Include="Models\CatProductosAlmacenModels.cs" />
     <Compile Include="Models\CatProductosModels.cs" />
     <Compile Include="Models\CatProveedorCombustibleModels.cs" />
