@@ -22,7 +22,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CalendarioModels Compra = new CalendarioModels();
                 _Compra_Datos CompraDatos = new _Compra_Datos();
                 Compra.Conexion = Conexion;
-                Compra.listaCompra = CompraDatos.GetListaComprasNofinalizadas(Compra);
+                //Compra.listaCompra = CompraDatos.GetListaComprasNofinalizadas(Compra);
                 return View(Compra);
             }
             catch (Exception)
@@ -31,6 +31,25 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return View(Compra);
+            }
+        }
+        [HttpPost]
+        public ActionResult Eventos(string start,string end)
+        {
+            try
+            {
+                CalendarioModels Compra = new CalendarioModels();
+                _Compra_Datos CompraDatos = new _Compra_Datos();
+                Compra.Conexion = Conexion;
+                Compra.listaCompra = CompraDatos.GetListaComprasNofinalizadas(Compra);
+
+
+                return Json(Compra.listaCompra, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                ex.Message.ToString();
+                return Json("", JsonRequestBehavior.AllowGet);
             }
         }
 

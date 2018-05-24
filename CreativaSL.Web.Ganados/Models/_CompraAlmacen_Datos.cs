@@ -210,8 +210,8 @@ namespace CreativaSL.Web.Ganados.Models
                 while(dr.Read())
                 {
                     item = new CompraAlmacenDetalleModels();
-                    item.IDCompraAlmacen = !dr.IsDBNull(dr.GetOrdinal("id_compraAlmacenDetalle")) ? dr.GetString(dr.GetOrdinal("id_compraAlmacenDetalle")) : string.Empty;
-                    item.IDCompraAlmacenDetalle = !dr.IsDBNull(dr.GetOrdinal("id_compraAlmacen")) ? dr.GetString(dr.GetOrdinal("id_compraAlmacen")) : string.Empty;
+                    item.IDCompraAlmacenDetalle = !dr.IsDBNull(dr.GetOrdinal("id_compraAlmacenDetalle")) ? dr.GetString(dr.GetOrdinal("id_compraAlmacenDetalle")) : string.Empty;
+                    item.IDCompraAlmacen = !dr.IsDBNull(dr.GetOrdinal("id_compraAlmacen")) ? dr.GetString(dr.GetOrdinal("id_compraAlmacen")) : string.Empty;
                     item.IDProductoAlmacen = !dr.IsDBNull(dr.GetOrdinal("id_productoAlmacen")) ? dr.GetString(dr.GetOrdinal("id_productoAlmacen")) : string.Empty;
                     item.IDUnidadProducto = !dr.IsDBNull(dr.GetOrdinal("id_unidadProducto")) ? dr.GetString(dr.GetOrdinal("id_unidadProducto")) : string.Empty;
                     item.Producto.Descripcion = !dr.IsDBNull(dr.GetOrdinal("producto")) ? dr.GetString(dr.GetOrdinal("producto")) : string.Empty;
@@ -229,6 +229,31 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public CompraAlmacenDetallesViewModels ObtenerCompraAlmacenDetalle(CompraAlmacenDetallesViewModels Datos)
+        {
+            try
+            {
+                object[] parametros = { Datos.IDCompraAlmacen, Datos.IDCompraAlmacenDetalle };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_get_CompraDetalleXIDCompraXIDDetalle", parametros);
+                while (dr.Read())
+                {
+                    Datos.IDProductoAlmacen = !dr.IsDBNull(dr.GetOrdinal("id_productoAlmacen")) ? dr.GetString(dr.GetOrdinal("id_productoAlmacen")) : string.Empty;
+                    Datos.Cantidad = !dr.IsDBNull(dr.GetOrdinal("cantidad")) ? dr.GetDecimal(dr.GetOrdinal("cantidad")) : 0;
+                    Datos.id_unidadProducto = !dr.IsDBNull(dr.GetOrdinal("id_unidadProducto")) ? dr.GetString(dr.GetOrdinal("id_unidadProducto")) : string.Empty;
+                    Datos.PrecioUnitario = !dr.IsDBNull(dr.GetOrdinal("precioUnitario")) ? dr.GetDecimal(dr.GetOrdinal("precioUnitario")) : 0;
+
+                }
+                return Datos;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
         public int ObtenerIdStatus(CompraAlmacenDetalleModels Datos)
         {
             try

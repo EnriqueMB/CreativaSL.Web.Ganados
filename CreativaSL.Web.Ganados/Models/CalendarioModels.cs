@@ -24,6 +24,28 @@ namespace CreativaSL.Web.Ganados.Models
             Opcion = 0;
             Usuario = string.Empty;
         }
+        private string _fecha;
+
+        public string start
+        {
+            get { return _fecha; }
+            set { _fecha = value; }
+        }
+        private string _descripcionEvento;
+
+        public string description
+        {
+            get { return _descripcionEvento; }
+            set { _descripcionEvento = value; }
+        }
+        private string _tituloEvento;
+
+        public string title
+        {
+            get { return _tituloEvento; }
+            set { _tituloEvento = value; }
+        }
+
 
         private string _IDProveedor;
 

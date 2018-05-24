@@ -1190,6 +1190,7 @@
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\DatosContacto.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\NuevoDatosContactoEdit.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\NuevoDatosContacto.cshtml" />
+    <Content Include="Areas\Admin\Views\CompraAlmacen\EditProducto.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Transacciones.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
