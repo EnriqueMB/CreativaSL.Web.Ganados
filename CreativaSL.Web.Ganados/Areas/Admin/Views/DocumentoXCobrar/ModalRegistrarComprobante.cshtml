@@ -1,0 +1,203 @@
+﻿@model CreativaSL.Web.Ganados.Models.DocumentosPorCobrarDetallePagosModels
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Registrar Cobro</h4>
+    </div>
+    <div class="modal-body">
+        <!--INICIA CUERPO MODAL-->
+        @using (Html.BeginForm("SaveCobro", "Compra", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off" }))
+        {
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label class="col-md-2 control-label">Asignar:</label>
+                    <div class="controls">
+                        <div class="col-md-10 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                @Html.DropDownListFor(model => model.Id_documentoPorCobrar, new SelectList(Model.ListaAsignar, "Id", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                            </div>
+                            <span class="help-block">Asignar pago.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="col-md-2 control-label">Forma de pago:</label>
+                    <div class="controls">
+                        <div class="col-md-10 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                <select id="Id_formaPago" name="Id_formaPago" class="form-control select" data-live-search="true" , data-style="form-control">
+                                    @foreach (var formaPago in Model.ListaFormaPagos)
+                                    {
+                                        <option value="@formaPago.Clave" data-bancarizado="@formaPago.Bancarizado"
+                                                @if (Model.Id_formaPago == formaPago.Clave) { <text>
+                                                selected="selected"
+                                                </text>  }>
+                                            @formaPago.Descripcion
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+                            <span class="help-block">Forma de pago.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="divBancarizado">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="col-md-2 control-label">Cuentas bancarias:</label>
+                        <div class="controls">
+                            <div class="col-md-10 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @*@Html.DropDownListFor(model => model.DocumentoPorCobrarDetallePagosBancarizado.Id_cuentaBancariaBeneficiante, new SelectList(Model.DocumentoPorCobrarDetallePagosBancarizado.ListaCuentasBancarias, "IDDatosBancarios", "Titular"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })*@
+                                </div>
+                                <span class="help-block">Cuenta bancaria.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    <div class="col-md-4">
+                        <label class="col-md-3 control-label">Banco</label>
+                        <div class="controls">
+                            <div class="col-md-9 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @*@Html.DropDownListFor(model => model.Empresa.IDEmpresa, new SelectList(Model.ListaEmpresa, "IDEmpresa", "RazonFiscal"), new { id = "Empresa_IDEmpresa", @class = "form-control select", data_live_search = "true", data_style = "form-control" })*@
+                                </div>
+                                <span class="help-block">Banco.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="col-md-3 control-label">Núm. Cuenta</label>
+                        <div class="controls">
+                            <div class="col-md-9 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.Monto, new { @class = "form-control" })
+                                </div>
+                                <span class="help-block">Núm. cuenta</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="col-md-3 control-label">Clabe</label>
+                        <div class="controls">
+                            <div class="col-md-9 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.Monto, new { @class = "form-control" })
+                                </div>
+                                <span class="help-block">Clabe interbancaria.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <label class="col-md-3 control-label">Banco</label>
+                        <div class="controls">
+                            <div class="col-md-9 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @*@Html.DropDownListFor(model => model.Empresa.IDEmpresa, new SelectList(Model.ListaEmpresa, "IDEmpresa", "RazonFiscal"), new { id = "Empresa_IDEmpresa", @class = "form-control select", data_live_search = "true", data_style = "form-control" })*@
+                                </div>
+                                <span class="help-block">Banco.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="col-md-3 control-label">Núm. Cuenta</label>
+                        <div class="controls">
+                            <div class="col-md-9 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.Monto, new { @class = "form-control" })
+                                </div>
+                                <span class="help-block">Núm. cuenta</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="col-md-3 control-label">Clabe</label>
+                        <div class="controls">
+                            <div class="col-md-9 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.Monto, new { @class = "form-control" })
+                                </div>
+                                <span class="help-block">Clabe interbancaria.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label class="col-md-2 control-label">Monto:</label>
+                    <div class="controls">
+                        <div class="col-md-10 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                @Html.TextBoxFor(model => model.Monto, new { @class = "form-control" })
+                            </div>
+                            <span class="help-block">Monto o cantidad.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="col-md-2 control-label">Fecha de pago:</label>
+                    <div class="controls">
+                        <div class="col-md-10 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                @Html.TextBoxFor(model => model.fecha, new { @class = "form-control datepicker" })
+                            </div>
+                            <span class="help-block">Fecha de pago.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    <label class="col-md-1 control-label">Nota</label>
+                    <div class="controls">
+                        <div class="col-md-11 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                @Html.TextAreaFor(model => model.Observacion, new { @class = "form-control" })
+                            </div>
+                            <span class="help-block">Nota u observación.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group modal-footer">
+                <div class="controls">
+                    <button type="submit" class="btn btn-success green">Registrar pago</button>
+                    <button type="button" class="btn btn-secondary red" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+
+        }
+        <!--TERMINA CUERPO MODAL-->
+    </div>
+</div>
+

@@ -133,31 +133,35 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 case 0:
                     return RedirectToAction("AgendarCompra", "Compra", new { IDCompra = Compra.IDCompra });
                 case 1:
+                    return RedirectToAction("AgendarCompra", "Compra", new { IDCompra = Compra.IDCompra });
+                case 2:
                     return RedirectToAction("GanadoCompra", "Compra", new { IDCompra = Compra.IDCompra });
                 default:
                     return View(Compra);
             }
         }
+        
         [HttpGet]
-        public ActionResult Continue(string IDCompra)
+        public ActionResult CambiarEstatus(string IDCompra)
         {
             Compra = new CompraModels();
             CompraDatos = new _Compra_Datos();
-            //Asigno valores para los querys
             Compra.Conexion = Conexion;
             Compra.IDCompra = IDCompra;
-            //Obtengo los datos de la compra
-            Compra.Estatus = CompraDatos.GetEstatusCompra(Compra);
+            Compra = CompraDatos.CambiarEstatusCompra(Compra);
 
-            switch (Compra.Estatus)
+            if (Compra.RespuestaAjax.Success)
             {
-                case 0:
-                    return RedirectToAction("EmbarqueCompra", "Compra", new { IDCompra = Compra.IDCompra });
-                case 1:
-                    return RedirectToAction("RecepcionCompra", "Compra", new { IDCompra = Compra.IDCompra });
-                default:
-                    return View(Compra);
+                TempData["typemessage"] = "1";
+                TempData["message"] = "Estatus cambiado con éxito";
             }
+            else
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se pudo cambiar el estatus de la compra";
+            }
+
+            return RedirectToAction("Index", "Compra");
         }
         [HttpGet]
         public ActionResult GanadoCompra(string IDCompra)
