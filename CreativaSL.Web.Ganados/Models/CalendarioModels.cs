@@ -11,6 +11,18 @@ namespace CreativaSL.Web.Ganados.Models
         public CalendarioModels()
         {
             _IDProveedor = string.Empty;
+            _listaCalendario = new List<CalendarioModels>();
+            _GuiaTransito = string.Empty;
+            _FechaHoraProgramada = DateTime.Now;
+            _Estatus = 0;
+            _estatusDesc = string.Empty;
+            _GanadosPactadoHembras = 0;
+            _GanadosPactadoMachos = 0;
+            Conexion = string.Empty;
+            Resultado = 0;
+            Completado = false;
+            Opcion = 0;
+            Usuario = string.Empty;
         }
 
         private string _IDProveedor;

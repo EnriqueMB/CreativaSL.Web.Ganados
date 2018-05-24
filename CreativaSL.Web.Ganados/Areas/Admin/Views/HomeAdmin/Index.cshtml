@@ -43,6 +43,24 @@
                     </div>
                 </div>
 
+            <div class="row">
+                <div class="col-md-12">
+
+                    
+                    <div class="form-group">
+                        <canvas id="canvas">Su navegador no soporta canvas :( </canvas>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12 text-center">
+                            <button id="limpiar" class=" btn btn-group"><i class="fa fa-eraser"></i> Limpiar</button>
+                            <button id="guardar-img" class="btn btn-group"><i class="fa fa-save"></i> Guardar Imagen</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
             
         </div>
         </div>
@@ -65,7 +83,7 @@
 </div>
 }
 @section script{
-
+    <script src="@Url.Content("~/Content/js/Canvas.js")"></script>
     <script src="@Url.Content("~/Content/js/plugins/moment.min.js")"></script>
     <script src="@Url.Content("~/Content/js/plugins/fullcalendar/fullcalendar.min.js")"></script>
     <script src="@Url.Content("~/Content/js/plugins/fullcalendar/lang/es.js")"></script>
@@ -74,7 +92,13 @@
             //$('#calendario').click(function () {
             //    alert();
             //});
-
+            $('#guardar-img').click(function () {
+                var canvas = document.getElementById('canvas');
+                var dataURL = canvas.toDataURL();
+               //imprime base64 de imagen
+                console.log(dataURL);
+            });
+            
 
 
             @{

@@ -6,7 +6,7 @@
     var tableDocumentos;
 
     /*INICIA PROVEEDOR*/
-    var RunEventsFechaProgramada = function () {
+    var RunEventsProveedor = function () {
         $("#IDProveedor").on("change", function () {
             var IDProveedor = $(this).val();
             GetLugaresProveedorXIDProveedor(IDProveedor);
@@ -127,7 +127,8 @@
                 var json = JSON.parse(response.Mensaje);
                 if (response.Success) {
                     Mensaje(json.Mensaje, "1");
-                    $("#IDCompra").val(json.IDCompra);
+                    $('input[name=IDCompra]').val(json.IDCompra);
+
                     $("#Folio").text("Folio de la compra: " + json.Folio);
                     DesbloquearTabs();
                 }
@@ -234,6 +235,9 @@
     function AC_Flete() {
         var form = $("#frmFlete")[0];
         var formData = new FormData(form);
+        var IDSucursal = $("#IDSucursal").val();
+        formData.append("IDSucursal", IDSucursal);
+
         $("body").css("cursor", "progress");
         $.ajax({
             type: 'POST',
@@ -247,8 +251,10 @@
                 var json = JSON.parse(response.Mensaje);
                 if (response.Success) {
                     Mensaje(json.Mensaje, "1");
-                    $("#IDFlete").val(json.IDFlete);
+                    $('input[name=IDFlete]').val(json.IDFlete);
+                    $('input[name=Id_documentoPorCobrar]').val(json.Id_documentoPorCobrar);
                     DesbloquearTabs();
+                    LoadTableDocumentos();
                 }
                 else
                     Mensaje(json.Mensaje, "2");
@@ -271,6 +277,11 @@
                     $("#IDPLugarProveedor").append('<option value="' + result[i].id_lugar + '">' + result[i].descripcion + '</option>');
                 }
                 $('#IDPLugarProveedor.select').selectpicker('refresh');
+
+                $("#Trayecto_id_lugarDestino option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#Trayecto_id_lugarDestino").append('<option value="' + result[i].id_lugar + '" data-latitud="' + result[i].latitud + '" data-longitud="' + result[i].longitud + '">' + result[i].descripcion + '</option>');
+                }
             }
         });
     }
@@ -396,7 +407,7 @@
             CalculateAndDisplayRoute(directionsService, directionsDisplay);
         };
         document.getElementById("Trayecto_id_lugarOrigen").addEventListener('change', onChangeHandler);
-        document.getElementById("Trayecto.id_lugarDestino").addEventListener('change', onChangeHandler);
+        document.getElementById("Trayecto_id_lugarDestino").addEventListener('change', onChangeHandler);
 
         CalculateAndDisplayRoute(directionsService, directionsDisplay);
         
@@ -407,8 +418,8 @@
         var latitudInicial = optionInicio.dataset.latitud.replace(",", ".");
         var longInicial = optionInicio.dataset.longitud.replace(",", ".");
 
-        var selectIndexFinal = document.getElementById('Trayecto.id_lugarDestino').selectedIndex;
-        var optionFinal = document.getElementById('Trayecto.id_lugarDestino').options.item(selectIndexFinal);
+        var selectIndexFinal = document.getElementById('Trayecto_id_lugarDestino').selectedIndex;
+        var optionFinal = document.getElementById('Trayecto_id_lugarDestino').options.item(selectIndexFinal);
         var latitudFinal = optionFinal.dataset.latitud.replace(",", ".");
         var longFinal = optionFinal.dataset.longitud.replace(",", ".");
 
@@ -565,10 +576,12 @@
         });
 
         $("#btnAddDocumento").on("click", function () {
+            var IDFlete = $("#IDFlete").val();
             ModalDocumento(IDFlete, 0);
         });
     };
     function ModalDocumento(IDFlete, IDDocumento) {
+        console.log(IDFlete);
         $("body").css("cursor", "progress");
         $.ajax({
             url: '/Admin/Flete/ModalDocumento/',
@@ -674,6 +687,22 @@
     function AC_Documento() {
         var form = $("#frm_AC_Documentos")[0];
         var formData = new FormData(form);
+
+        var arrayKeys = new Array();
+        var arrayValues = new Array();
+
+        for (var key of formData.keys()) {
+            arrayKeys.push("Documento." + key);
+            console.log(key);
+        }
+        for (var value of formData.values()) {
+            arrayValues.push(value);
+            console.log(value);
+        }
+        for (var i = 0; i < arrayKeys.length; i++) {
+            formData.append(key[i], value[i]);
+        }
+
         $("body").css("cursor", "progress");
         $.ajax({
             type: 'POST',
@@ -712,10 +741,6 @@
             document.getElementById("tabDocumentos").dataset.toggle = "tab";
             $('#tabDocumentos').data('toggle', "tab")
             $("#liDocumentos").removeClass('disabled').addClass('pestaña');
-
-            document.getElementById("tabCostoFlete").dataset.toggle = "tab";
-            $('#tabCostoFlete').data('toggle', "tab")
-            $("#liTabCostoFlete").removeClass('disabled').addClass('pestaña');
         }
     }
     /*TERMINA FUNCIONES MIXTAS*/
@@ -727,12 +752,11 @@
     return {
         init: function () {
             DesbloquearTabs();
-            RunEventsFechaProgramada();
+            RunEventsProveedor();
             RunEventsFlete();
             InitMap();
             LoadValidationProveedor();
             LoadValidationFlete();
-            LoadTableDocumentos();
         }
     };
 }();

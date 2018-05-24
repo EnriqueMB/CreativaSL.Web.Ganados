@@ -79,6 +79,28 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
             }
         }
+        public ActionResult TableJsonDocumentosDetalles(string IDCompra)
+        {
+            try
+            {
+                Compra = new CompraModels();
+                CompraDatos = new _Compra_Datos();
+                Compra.Conexion = Conexion;
+                Compra.IDCompra = IDCompra;
+
+                Compra.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(CompraDatos.GetDocumentosPorCobrarDetalles(Compra));
+                Compra.RespuestaAjax.Success = true;
+
+                return Content(Compra.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Compra.RespuestaAjax.Mensaje = ex.ToString();
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
         #endregion
 
 
@@ -111,7 +133,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 case 0:
                     return RedirectToAction("AgendarCompra", "Compra", new { IDCompra = Compra.IDCompra });
                 case 1:
-                    return RedirectToAction("EmbarqueCompra", "Compra", new { IDCompra = Compra.IDCompra });
+                    return RedirectToAction("GanadoCompra", "Compra", new { IDCompra = Compra.IDCompra });
                 default:
                     return View(Compra);
             }
@@ -138,7 +160,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpGet]
-        public ActionResult EmbarqueCompra(string IDCompra)
+        public ActionResult GanadoCompra(string IDCompra)
         {
             if (string.IsNullOrEmpty(IDCompra))
             {
@@ -155,20 +177,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Compra.IDCompra = IDCompra;
                     Compra.Conexion = Conexion;
                     //Obtengo los datos de la compra
-                    Compra = CompraDatos.GetCompraEmbarque(Compra);
+                    //Compra = CompraDatos.GetCompraEmbarque(Compra);
                     //Obteno los listados
-                    Compra.ListaSucursales = CompraDatos.GetListadoSucursales(Compra);
-                    Compra.ListaProveedores = CompraDatos.GetListaProveedores(Compra);
-                    Compra.ListaEmpresas = CompraDatos.GetListadoEmpresas(Compra);
-                    Compra.ListaChoferes = CompraDatos.GetChoferesXIDEmpresa(Compra);
-                    Compra.ListaVehiculos = CompraDatos.GetVehiculosXIDEmpresa(Compra);
-                    Compra.ListaRemolques = CompraDatos.GetRemolquesXIDEmpresa(Compra);
-                    Compra.ListaJaulas = CompraDatos.GetJaulasXIDEmpresa(Compra);
-                    Compra.ListaFierros = CompraDatos.GetListadoFierrosXIDCompra(Compra);
-                    Compra.ListaLugares = CompraDatos.GetListadoLugaresLugarXIDEmpresa(Compra);
-                    Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
-                    Compra.ListaCostoFlete = CompraDatos.GetListadoCostoFlete(Compra);
-
+                    
                     return View(Compra);
                 }
                 catch (Exception ex)
@@ -178,6 +189,20 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     return View(Compra);
                 }
             }
+        }
+        [HttpGet]
+        public ActionResult Transacciones(string IDCompra)
+        {
+            Compra = new CompraModels();
+            CompraDatos = new _Compra_Datos();
+            //Asigno valores para los querys
+            Compra.Conexion = Conexion;
+            Compra.IDCompra = IDCompra;
+            //obtengo los generales
+            Compra.DocumentoPorCobrar = CompraDatos.GetGeneralesDocumentoPorCobrar(Compra);
+
+
+            return View(Compra);
         }
         /********************************************************************/
         [HttpGet]
@@ -441,46 +466,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         #endregion
 
-
-
-
-
-
-
-        [HttpPost]
-        public ActionResult A_Documentos(CompraModels Compra)
-        {
-            try
-            {
-                ModelState.Remove("IDCostoFlete");
-                ModelState.Remove("IDPLugarProveedor");
-                ModelState.Remove("IDProveedor");
-                if (ModelState.IsValid)
-                {
-                    CompraDatos = new _Compra_Datos();
-                    Compra.Conexion = Conexion;
-                    Compra.Usuario = User.Identity.Name;
-                    Compra = CompraDatos.Compras_a_Documentos(Compra);
-
-                    Compra.RespuestaAjax.Mensaje = Compra.Mensaje;
-                    Compra.RespuestaAjax.Success = Compra.Completado;
-
-                    return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
-                }
-                else
-                {
-                    Compra.RespuestaAjax.Mensaje = "Verifique su formulario.";
-                    Compra.RespuestaAjax.Success = false;
-                    return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
-                }
-            }
-            catch (Exception ex)
-            {
-                Compra.RespuestaAjax.Mensaje = ex.ToString();
-                Compra.RespuestaAjax.Success = false;
-                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
-            }
-        }
+       
         [HttpPost]
         public ActionResult AC_Ganado(CompraModels Compra)
         {
