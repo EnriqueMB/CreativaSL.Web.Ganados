@@ -1297,6 +1297,7 @@
     <Compile Include="Models\CatMotivoBajaModels.cs" />
     <Compile Include="Models\CatMunicipioModels.cs" />
     <Compile Include="Models\CatPaisModels.cs" />
+    <Compile Include="Models\CatPeriodoModels.cs" />
     <Compile Include="Models\CatProductosAlmacenModels.cs" />
     <Compile Include="Models\CatProductosModels.cs" />
     <Compile Include="Models\CatProveedorCombustibleModels.cs" />
