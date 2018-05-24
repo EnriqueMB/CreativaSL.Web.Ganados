@@ -89,19 +89,17 @@
     <script src="@Url.Content("~/Content/js/plugins/fullcalendar/lang/es.js")"></script>
     <script>
         jQuery(document).ready(function () {
-            //$('#calendario').click(function () {
-            //    alert();
-            //});
+           
             $('#guardar-img').click(function () {
                 var canvas = document.getElementById('canvas');
                 var dataURL = canvas.toDataURL();
                //imprime base64 de imagen
-                console.log(dataURL);
+               alert(dataURL);
             });
             
 
 
-            @{
+            @*@{
             string color = "";
             int switchcase= 0;
 
@@ -113,7 +111,7 @@
           {
         title: '@item.IDProveedor',
               start: ' @item.FechaHoraProgramada.ToString("yyyy-MM-dd")',
-              @*//end: '@DateTime.Now.ToString("yyyy-MM-dd")',*@
+             
               @switch (switchcase)
               {
                   case 1:
@@ -143,25 +141,79 @@
             </text>
                 }
                 <text>]</text>
-            }
+            }*@
 
             $('#calendar').fullCalendar({
                 lang: 'es',
-                fixedWeekCount: false,
+               
                 height: 600,
                 firstDay: 1,
                 handleWindowResize: true,
-                allDaySlot: false,
-                slotLabelFormat: 'H',
+                timezone: 'UTC',
                 eventOverlap: false,
                 displayEventTime: true,
-                events: a,
+                events: function (start, end, timezone, callback) {
+                   
+                    
+                    $.ajax({
+                        url: '/Admin/HomeAdmin/Eventos',
+                        dataType: 'json',
+                        method: 'post',
+                        data: {
+                           
+                            start: start.unix(),
+                            end: end.unix()
+                        },
+                        success: function (doc) {
+                            var events = [];
+                            $(doc).each(function (item, value) {
+                                events.push({
+                                    id: value.id,
+                                    title: value.title,
+                                    start: value.start,
+                                    description:"<p> <strong>Estatus : </strong>"+ value.estatusDesc+"</p>" + "<p><strong>Guia de transito : </strong>" + value.GuiaTransito+"</p>" + "<p><strong>Hembras pactados : </strong>"+value.GanadosPactadoHembras+"</p>"+
+                       " <p><strong> Machos pactados: </strong>"+ value.GanadosPactadoMachos+" </p>",
+                                });
+                            });
+                            callback(events);
+                        },
+
+                        error: function (xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
+                    });
+                },
+    //            eventSources: [
+
+    //// your event source
+    //{
+    //    url: "/Admin/HomeAdmin/Eventos",
+    //    type: 'POST',
+    //    data: {
+    //        id: 'something',
+          
+    //    },
+    //    success: function (municipio) {
+    //        console.log(municipio);
+           
+
+    //    },
+    //    error: function() {
+    //        alert('there was an error while fetching events!');
+    //    }
+    //}
+
+    //// any other sources...
+
+    //            ],
+                //events: a,
                 eventClick: function (event, jsEvent, view) {
                     $('#modalTitle').html(event.title);
                     $('#modalBody').html(event.description);
                     //$('#eventUrl').attr('href', event.url);
                     $('#fullCalModal').modal();
                 },
+
 
             });
         });
