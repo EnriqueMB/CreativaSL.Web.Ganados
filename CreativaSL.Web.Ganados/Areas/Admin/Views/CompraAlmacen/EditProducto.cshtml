@@ -1,9 +1,10 @@
 ﻿@model CreativaSL.Web.Ganados.ViewModels.CompraAlmacenDetallesViewModels
 
 @{
-    ViewBag.Title = "AddProduct";
+    ViewBag.Title = "EditProducto";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+
 
 @section featured{
     @{
@@ -19,7 +20,7 @@
         </div>
         <div class="col-md-12">
             @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("AddProduct", "CompraAlmacen", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off", @enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("EditProducto", "CompraAlmacen", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off", @enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
@@ -133,9 +134,11 @@
 
         });
         //LISTA DE ESTADOS CUANDO COMBO PRODUCTO CAMBIA
-            
-           
-      
+
+
+
     </script>
 }
+
+
 
