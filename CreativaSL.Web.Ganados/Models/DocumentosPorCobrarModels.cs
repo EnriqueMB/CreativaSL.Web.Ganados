@@ -7,18 +7,18 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class DocumentosPorCobrarModels
     {
-        public string id_documentoCobrar { get; set; }
-        public string id_sucursal { get; set; }
-        public string id_metodoPago { get; set; }
-        public DateTime fecha { get; set; }
-        public bool esSistema { get; set; }
-        public decimal impuesto_retenido { get; set; }
-        public decimal impuesto_trasladado { get; set; }
-        public decimal impuestos { get; set; }
-        public decimal total { get; set; }
-        public decimal cambio { get; set; }
-        public decimal pagos { get; set; }
-        public decimal pendiente { get; set; }
+        public string Id_documentoCobrar { get; set; }
+        public string Id_sucursal { get; set; }
+        public string Id_metodoPago { get; set; }
+        public DateTime Fecha { get; set; }
+        public bool EsSistema { get; set; }
+        public decimal Impuesto_retenido { get; set; }
+        public decimal Impuesto_trasladado { get; set; }
+        public decimal Impuestos { get; set; }
+        public decimal Total { get; set; }
+        public decimal Cambio { get; set; }
+        public decimal Pagos { get; set; }
+        public decimal Pendiente { get; set; }
 
 
     }

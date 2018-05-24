@@ -442,6 +442,7 @@
     <Content Include="Content\js\CatContactosClientes.js" />
     <Content Include="Content\js\compraAgendar.js" />
     <Content Include="Content\js\CompraAlmacenDetalle.js" />
+    <Content Include="Content\js\compraTransacciones.js" />
     <Content Include="Content\js\CuentaProveedorAlmacen.js" />
     <Content Include="Content\js\EmpleadosSucursalFaltas.js" />
     <Content Include="Content\js\fleteRecepcion.js" />
@@ -1125,7 +1126,7 @@
     <Content Include="Areas\Admin\Views\CatEmpleado\BajaNomina.cshtml" />
     <Content Include="Areas\Admin\Views\Nomina\DetalleEmpleado.cshtml" />
     <Content Include="Areas\Admin\Views\Nomina\RptDiasLaborados.cshtml" />
-    <Content Include="Areas\Admin\Views\Compra\EmbarqueCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\GanadoCompra.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\AgendarCompra.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\RecepcionCompra.cshtml" />
     <Content Include="Areas\Admin\Views\Nomina\RptSaldos.cshtml" />
@@ -1189,6 +1190,7 @@
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\DatosContacto.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\NuevoDatosContactoEdit.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\NuevoDatosContacto.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\Transacciones.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

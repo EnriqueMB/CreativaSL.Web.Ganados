@@ -20,7 +20,10 @@ namespace CreativaSL.Web.Ganados.Models
         public bool Completado { get; set; }
         public RespuestaAjax RespuestaAjax { get; set; }
         #endregion
-
+        public DocumentosPorCobrarModels DocumentoPorCobrar { get; set; }
+        public DocumentoPorPagarModels DocumentoPorPagar { get; set; }
+        public string Id_documentoPorPagar { get; set; }
+        public string Id_documentoPorCobrar { get; set; }
         public string Folio { get; set; }
 
         private List<CompraModels> _listaCompra;

@@ -313,6 +313,10 @@
                         var IDCompra = $(this).data("id")
                         window.location.href = '/Admin/Compra/Continue?IDCompra=' + IDCompra;
                     });
+                    $(".transacciones").on("click", function () {
+                        var IDCompra = $(this).data("id")
+                        window.location.href = '/Admin/Compra/Transacciones?IDCompra=' + IDCompra;
+                    });
 
                 },
                 "order": [[1, 'asc']]
