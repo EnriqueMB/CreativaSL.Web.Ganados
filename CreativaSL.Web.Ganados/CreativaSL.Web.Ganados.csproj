@@ -437,6 +437,7 @@
     <Content Include="Content\js\actions.js" />
     <Content Include="Content\js\Bancos.js" />
     <Content Include="Content\js\CalAlmacen.js" />
+    <Content Include="Content\js\Canvas.js" />
     <Content Include="Content\js\CatContactos.js" />
     <Content Include="Content\js\CatContactosClientes.js" />
     <Content Include="Content\js\compraAgendar.js" />
