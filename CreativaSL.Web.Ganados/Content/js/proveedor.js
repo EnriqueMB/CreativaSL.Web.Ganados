@@ -57,7 +57,9 @@
                 telefonoCasa: { telefono: true },
                 correo: { required: true, email: true },
                 ImgINEE: { validarImagen: true },
-                ImgManifestacionFierros: { validarImagen2: true }
+                ImgManifestacionFierros: { validarImagen2: true },
+                CantidadPeriodo: { required: true, number: true },
+                IDPeriodo: { CMBINT: true }
             },
             messages: {
                 IDSucursal: { required: "Seleccione una sucursal." },
@@ -73,7 +75,9 @@
                 telefonoCasa: { telefono: "Ingrese un número de teléfono válido." },
                 correo: { required: "Ingrese el correo electrónico del proveedor.", email: "Ingrese un correo electrónico válido." },
                 ImgINEE: { validarImagen: "Seleccione una imagén válida del ine" },
-                ImgManifestacionFierros: { validarImagen2: "Seleccione una imagén válida de manifestación de fierro" }
+                ImgManifestacionFierros: { validarImagen2: "Seleccione una imagén válida de manifestación de fierro" },
+                CantidadPeriodo: { required: "Ingrese una cantidad estimada de compra", number: "Ingrese un dato válido" },
+                IDPeriodo: { CMBINT: "Seleccione un tipo de periodo." }
 
             },
             invalidHandler: function (event, validator) { //display error alert on form submit

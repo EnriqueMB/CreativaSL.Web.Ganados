@@ -19,7 +19,5 @@ namespace CreativaSL.Web.Ganados.Models
         public decimal Cambio { get; set; }
         public decimal Pagos { get; set; }
         public decimal Pendiente { get; set; }
-
-
     }
 }

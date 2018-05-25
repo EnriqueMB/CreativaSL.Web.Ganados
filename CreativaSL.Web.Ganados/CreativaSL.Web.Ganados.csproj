@@ -442,6 +442,7 @@
     <Content Include="Content\js\CatContactosClientes.js" />
     <Content Include="Content\js\compraAgendar.js" />
     <Content Include="Content\js\CompraAlmacenDetalle.js" />
+    <Content Include="Content\js\CompraGanado.js" />
     <Content Include="Content\js\compraTransacciones.js" />
     <Content Include="Content\js\CuentaProveedorAlmacen.js" />
     <Content Include="Content\js\EmpleadosSucursalFaltas.js" />
@@ -1192,6 +1193,8 @@
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\NuevoDatosContacto.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\EditProducto.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Transacciones.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalRegistrarComprobante.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalAgregarServicioProducto.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1298,6 +1301,7 @@
     <Compile Include="Models\CatMotivoBajaModels.cs" />
     <Compile Include="Models\CatMunicipioModels.cs" />
     <Compile Include="Models\CatPaisModels.cs" />
+    <Compile Include="Models\CatPeriodoModels.cs" />
     <Compile Include="Models\CatProductosAlmacenModels.cs" />
     <Compile Include="Models\CatProductosModels.cs" />
     <Compile Include="Models\CatProveedorCombustibleModels.cs" />
@@ -1307,6 +1311,7 @@
     <Compile Include="Models\CatRangoPesoCompraModels.cs" />
     <Compile Include="Models\CatRemolqueModels.cs" />
     <Compile Include="Models\CatSucursalesModels.cs" />
+    <Compile Include="Models\CatTipoClasificacionCobroModels.cs" />
     <Compile Include="Models\CatTipoClasificacionModels.cs" />
     <Compile Include="Models\CatTipoCodigoProductoModels.cs" />
     <Compile Include="Models\CatTipoCombustibleModels.cs" />
@@ -1342,6 +1347,9 @@
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
     <Compile Include="Models\DocumentoPorPagarModels.cs" />
     <Compile Include="Models\DocumentosPorCobrarDetalleImpuestoModels.cs" />
+    <Compile Include="Models\DocumentosPorCobrarDetalleModels.cs" />
+    <Compile Include="Models\DocumentosPorCobrarDetallePagosBancarizadoModels.cs" />
+    <Compile Include="Models\DocumentosPorCobrarDetallePagosModels.cs" />
     <Compile Include="Models\DocumentosPorCobrarModels.cs" />
     <Compile Include="Models\EntradaAlmacenDetalleModels.cs" />
     <Compile Include="Models\EntradaAlmacenModels.cs" />
@@ -1384,6 +1392,7 @@
     <Compile Include="Models\SalidaAlmacenDetalleModels.cs" />
     <Compile Include="Models\ServiciosMantenimientoDetalleModels.cs" />
     <Compile Include="Models\ServiciosMantenimientoModels.cs" />
+    <Compile Include="Models\ListaGenerica.cs" />
     <Compile Include="Models\TelefonosContactoSucursalModels.cs" />
     <Compile Include="Models\TipoUsuarioModels.cs" />
     <Compile Include="Models\TrayectoModels.cs" />
@@ -1445,6 +1454,7 @@
     <Compile Include="Models\_Combos_Datos.cs" />
     <Compile Include="Models\_CompraAlmacen_Datos.cs" />
     <Compile Include="Models\_Compra_Datos.cs" />
+    <Compile Include="Models\_DocumentoXCobrar_Datos.cs" />
     <Compile Include="Models\_EntradaAlmacen_Datos.cs" />
     <Compile Include="Models\_DocumentoXPagar_Datos.cs" />
     <Compile Include="Models\_EntregaCombustible_Datos.cs" />

@@ -31,8 +31,8 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#docPorCobrar" aria-controls="docPorCobrar" role="tab" data-toggle="tab">Cobros</a></li>
-            <li role="presentation" class="disabled"><a href="#docPorPagar" aria-controls="docPorPagar" role="tab" data-toggle="tab">Pagos</a></li>
-            <li role="presentation" class="disabled"><a href="#impuesto" aria-controls="impuesto" role="tab" data-toggle="tab">Impuestos</a></li>
+            <li role="presentation" class="pestaña"><a href="#docPorPagar" aria-controls="docPorPagar" role="tab" data-toggle="tab">Pagos</a></li>
+            <li role="presentation" class="pestaña"><a href="#impuesto" aria-controls="impuesto" role="tab" data-toggle="tab">Impuestos</a></li>
         </ul>
 
         <!-- Tab panes -->
@@ -155,7 +155,8 @@
                                                 <div class="panel-heading">
                                                     <h3 class="panel-title"></h3>
                                                     <ul class="panel-controls">
-                                                        <li><a id="btnAddGanado" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar cobro </a></li>
+                                                        <li><a id="btnAddCobroDetalles" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar articulo o servicio </a></li>
+                                                        <li><a id="btnAddCobroDetallesPagos" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar cobro </a></li>
                                                         @*<li><a id="btnListadoPrecio" class="btn btn-default btnCrear"><span class="fa fa-eye"></span> Ver listado de precios </a></li>*@
                                                         <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                                                         <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
@@ -163,14 +164,12 @@
                                                 </div>
                                                 <div class="panel-body">
                                                     <div class="table-responsive">
-                                                        <table id="tbl_documentosPorCobrarDetalles" class="table">
+                                                        <table id="tbl_documentosPorCobrarDetallesPagos" class="table">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Tipo</th>
-                                                                    <th>Producto/servicio</th>
-                                                                    <th>Cantidad</th>
-                                                                    <th>Precio unitario</th>
-                                                                    <th>Subtotal</th>
+                                                                    <th>Forma de pago</th>
+                                                                    <th>Monto</th>
+                                                                    <th>Obsevación</th>
                                                                     <th>Acción</th>
                                                                 </tr>
                                                             </thead>
@@ -195,70 +194,92 @@
             <div role="tabpanel" class="tab-pane" id="docPorPagar">
                 <div class="col-md-12">
                     @{ Html.EnableClientValidation(false); }
-                    @using (Html.BeginForm("AC_Flete", "Compra", FormMethod.Post, new { id = "frmFlete", @class = "form-horizontal", autocomplete = "off" }))
+                    @using (Html.BeginForm("AC_DetallesDocPorPagar", "DocumentoXPagar", FormMethod.Post, new { id = "frmPago", @class = "form-horizontal", autocomplete = "off" }))
                     {
-                        @Html.HiddenFor(model => model.IDFlete);
-                        @Html.HiddenFor(model => model.IDCompra);
                         @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        @Html.HiddenFor(model => model.IDCompra)
+                        @Html.HiddenFor(model => model.IDFlete)
 
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Información del <strong>Flete</strong></h3>
+                                <h3 class="panel-title"><strong>Pagos</strong></h3>
                                 <ul class="panel-controls"></ul>
                             </div>
                             <div class="panel-body">
                                 @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
-                                <div id="validation_summary_flete" class="field_error "></div><br />
+                                <div id="validation_summary_pago" class="field_error "></div>
+                                <br />
                                 <div class="form-group">
-                                    <div class="col-md-12 controlError">
-                                        <label class="col-md-1 control-label">Linea fletera</label>
-                                        <div class="col-md-11 col-xs-12">
+                                    <div class="col-md-4 controlError">
+                                        <label class="col-md-3 control-label">Pendiente</label>
+                                        <div class="col-md-9 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.DropDownListFor(model => model.IDEmpresa, new SelectList(Model.ListaEmpresas, "IDEmpresa", "RazonFiscal"), new { id = "Empresa_IDEmpresa", @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                @Html.TextBoxFor(model => model.DocumentoPorCobrar.Cambio, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                             </div>
-                                            @Html.ValidationMessageFor(model => model.IDEmpresa)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 controlError">
+                                        <label class="col-md-3 control-label">Pagos</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-building-o"></span></span>
+                                                @Html.TextBoxFor(model => model.DocumentoPorCobrar.Pagos, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 controlError">
+                                        <div class="controlError">
+                                            <label class="col-md-3 control-label">Total</label>
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                                    @Html.TextBoxFor(model => model.DocumentoPorCobrar.Total, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="col-md-6 controlError">
-                                        <label class="col-md-2 control-label">Chofer</label>
-                                        <div class="col-md-10 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.DropDownListFor(model => model.IDChofer, new SelectList(Model.ListaChoferes, "IDChofer", "Nombre"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.IDChofer)
-                                        </div>
-                                    </div>
 
-                                    <div class="col-md-6 controlError">
-                                        <label class="col-md-2 control-label">Vehículo</label>
-                                        <div class="col-md-10 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.DropDownListFor(model => model.IDVehiculo, new SelectList(Model.ListaVehiculos, "IDVehiculo", "nombreMarca", "nombreTipoVehiculo", 1), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                <div class="page-content-wrap">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <!-- START DEFAULT DATATABLE -->
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title"></h3>
+                                                    <ul class="panel-controls">
+                                                        <li><a id="btnAddPago" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar pago </a></li>
+                                                        @*<li><a id="btnListadoPrecio" class="btn btn-default btnCrear"><span class="fa fa-eye"></span> Ver listado de precios </a></li>*@
+                                                        <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                                        <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div class="table-responsive">
+                                                        <table id="tbl_documentosPorCobrarDetalles" class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Tipo</th>
+                                                                    <th>Cantidad</th>
+                                                                    <th>Precio unitario</th>
+                                                                    <th>Subtotal</th>
+                                                                    <th>Acción</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            @Html.ValidationMessageFor(model => model.IDVehiculo)
+                                            <!-- END DEFAULT DATATABLE -->
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="col-md-6 controlError">
-                                        <label class="col-md-2 control-label">Kilómetraje Inicial</label>
-                                        <div class="col-md-10 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.Flete.kmInicialVehiculo, new { id = "KmInicial", @class = "form-control", placeholder = "Introduzca el km. inicial del vehículo." })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Flete.kmInicialVehiculo)
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
                             <div class="panel-footer">
-                                <input type="submit" value="Guardar" class="btn btn-primary pull-right">
                                 <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                             </div>
                         </div>
@@ -267,51 +288,99 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="impuesto">
                 <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title"><strong>Documentación</strong> para la compra</h3>
-                            <ul class="panel-controls"></ul>
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <!-- START DEFAULT DATATABLE -->
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title"></h3>
-                                            <ul class="panel-controls">
-                                                <li><a id="btnAddDocumento" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Documento</a></li>
-                                                <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                                                <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
-                                            </ul>
+                    @{ Html.EnableClientValidation(false); }
+                    @using (Html.BeginForm("AC_Impuesto", "Impuesto", FormMethod.Post, new { id = "frmImpuesto", @class = "form-horizontal", autocomplete = "off" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        @Html.HiddenFor(model => model.IDCompra)
+                        @Html.HiddenFor(model => model.IDFlete)
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><strong>Impuesto</strong></h3>
+                                <ul class="panel-controls"></ul>
+                            </div>
+                            <div class="panel-body">
+                                @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
+                                <div id="validation_summary_pago" class="field_error "></div>
+                                <br />
+                                <div class="form-group">
+                                    <div class="col-md-4 controlError">
+                                        <label class="col-md-3 control-label">Impuesto trasladado</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.DocumentoPorCobrar.Cambio, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                            </div>
                                         </div>
-                                        <div class="panel-body">
-                                            <div class="col-md-12">
-                                                <h3></h3>
-                                                <div class="table-responsive">
-                                                    <table id="tblDocumentos" class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Tipo de documento</th>
-                                                                <th>Producto</th>
-                                                                <th>Imagen</th>
-                                                                <th>Acción</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody></tbody>
-                                                    </table>
+                                    </div>
+                                    <div class="col-md-4 controlError">
+                                        <label class="col-md-3 control-label">Impuesto retenido</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-building-o"></span></span>
+                                                @Html.TextBoxFor(model => model.DocumentoPorCobrar.Pagos, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 controlError">
+                                        <div class="controlError">
+                                            <label class="col-md-3 control-label">Total Impuesto</label>
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                                    @Html.TextBoxFor(model => model.DocumentoPorCobrar.Total, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- END DEFAULT DATATABLE -->
                                 </div>
+
+                                <div class="page-content-wrap">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <!-- START DEFAULT DATATABLE -->
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title"></h3>
+                                                    <ul class="panel-controls">
+                                                        <li><a id="btnAddImpuesto" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar impuesto</a></li>
+                                                        @*<li><a id="btnListadoPrecio" class="btn btn-default btnCrear"><span class="fa fa-eye"></span> Ver listado de precios </a></li>*@
+                                                        <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                                        <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div class="table-responsive">
+                                                        <table id="tbl_impuesto" class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Tipo de impuesto</th>
+                                                                    <th>Impuesto</th>
+                                                                    <th>Tipo de factor</th>
+                                                                    <th>Base</th>
+                                                                    <th>Tasa o cuota</th>
+                                                                    <th>Importe</th>
+                                                                    <th>Acción</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- END DEFAULT DATATABLE -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="panel-footer">
+                                <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                             </div>
                         </div>
-                        <div class="panel-footer">
-                            <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
         </div>
