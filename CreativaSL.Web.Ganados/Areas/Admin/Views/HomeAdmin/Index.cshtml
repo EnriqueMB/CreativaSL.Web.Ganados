@@ -169,8 +169,8 @@
                         method: 'post',
                         data: {
                            
-                            start: '' + start.format('YYYY-MM-DD') + '',
-                            end: '' + end.format('YYYY-MM-DD') + ''
+                            start:start.format('YYYY-MM-DD'),
+                            end:  end.format('YYYY-MM-DD') 
                         },
                         success: function (doc) {
                             var color = "";
