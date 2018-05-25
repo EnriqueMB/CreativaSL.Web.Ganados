@@ -1393,6 +1393,8 @@
     <Compile Include="Models\RespuestaAjax.cs" />
     <Compile Include="Models\ResumenGastosAjustesModels.cs" />
     <Compile Include="Models\ResumenGastosModels.cs" />
+    <Compile Include="Models\RptProveedorMermaAltaModels.cs" />
+    <Compile Include="Models\RptUltCompraProveedorModels.cs" />
     <Compile Include="Models\SalidaAlmacenDetalle.cs" />
     <Compile Include="Models\SalidaAlmacenDetalleModels.cs" />
     <Compile Include="Models\ServiciosMantenimientoDetalleModels.cs" />
