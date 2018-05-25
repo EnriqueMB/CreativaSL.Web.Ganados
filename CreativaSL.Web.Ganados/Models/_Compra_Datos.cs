@@ -407,6 +407,33 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
 
+        #region Otras funciones
+        public CompraModels CambiarEstatusCompra(CompraModels Compra)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     Compra.IDCompra
+                    ,Compra.Usuario
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_CambiarStatus", parametros);
+
+                while (dr.Read())
+                {
+                    Compra.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Compra.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                return Compra;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
         #region Get
         public int GetEstatusCompra(CompraModels Compra)
         {
@@ -521,7 +548,7 @@ namespace CreativaSL.Web.Ganados.Models
     
 
         }
-
+    
 
 
 
