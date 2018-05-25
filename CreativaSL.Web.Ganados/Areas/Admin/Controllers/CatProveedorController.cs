@@ -109,6 +109,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
                             Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
                             Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                            Proveedor.ListaPeriodo = ProveedorDatos.ObteneComboCatPeriodo(Proveedor);
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                             return View(Proveedor);
@@ -120,6 +121,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
                         Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
                         Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                        Proveedor.ListaPeriodo = ProveedorDatos.ObteneComboCatPeriodo(Proveedor);
                         return View(Proveedor);
                     }
                 }
@@ -134,6 +136,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
                 Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
                 Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                Proveedor.ListaPeriodo = ProveedorDatos.ObteneComboCatPeriodo(Proveedor);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
                 return View(Proveedor);
@@ -154,6 +157,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
                 Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
                 Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                Proveedor.ListaPeriodo = ProveedorDatos.ObteneComboCatPeriodo(Proveedor);
                 return View(Proveedor);
             }
             catch (Exception ex)
@@ -222,6 +226,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
                             Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
                             Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                            Proveedor.ListaPeriodo = ProveedorDatos.ObteneComboCatPeriodo(Proveedor);
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                             return View(Proveedor);
@@ -233,6 +238,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
                         Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
                         Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                        Proveedor.ListaPeriodo = ProveedorDatos.ObteneComboCatPeriodo(Proveedor);
                         return View(Proveedor);
                     }
                 }
@@ -247,6 +253,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
                 Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
                 Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                Proveedor.ListaPeriodo = ProveedorDatos.ObteneComboCatPeriodo(Proveedor);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
                 return View(Proveedor);
