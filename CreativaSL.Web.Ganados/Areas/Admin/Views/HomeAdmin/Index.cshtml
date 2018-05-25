@@ -149,20 +149,20 @@
                 height: 600,
                 firstDay: 1,
                 handleWindowResize: true,
-                timezone: 'UTC',
+                timezone: 'America/Mexico city',
                 eventOverlap: false,
                 displayEventTime: true,
                 events: function (start, end, timezone, callback) {
-                   
                     
+                   
                     $.ajax({
                         url: '/Admin/HomeAdmin/Eventos',
                         dataType: 'json',
                         method: 'post',
                         data: {
                            
-                            start: start.unix(),
-                            end: end.unix()
+                            start: '' + start.format('YYYY-MM-DD') + '',
+                            end: '' + end.format('YYYY-MM-DD') + ''
                         },
                         success: function (doc) {
                             var events = [];

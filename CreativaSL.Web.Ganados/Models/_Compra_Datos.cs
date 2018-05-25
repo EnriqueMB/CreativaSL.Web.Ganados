@@ -22,7 +22,7 @@ namespace CreativaSL.Web.Ganados.Models
                 List<CalendarioModels> Lista = new List<CalendarioModels>();
                 CalendarioModels Item;
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Inicio_get_ComprasNoFinalizadas");
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Inicio_get_ComprasNoFinalizadas",Compra.fechaStart,Compra.fechaEnd);
                 while (dr.Read())
                 {
                     Item = new CalendarioModels();

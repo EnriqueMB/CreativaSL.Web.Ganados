@@ -40,6 +40,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 CalendarioModels Compra = new CalendarioModels();
                 _Compra_Datos CompraDatos = new _Compra_Datos();
+                Compra.fechaStart = Convert.ToDateTime(start);
+                Compra.fechaEnd = Convert.ToDateTime(end);
                 Compra.Conexion = Conexion;
                 Compra.listaCompra = CompraDatos.GetListaComprasNofinalizadas(Compra);
 
