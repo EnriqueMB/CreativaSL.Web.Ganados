@@ -112,42 +112,56 @@
                                         @Html.ValidationMessageFor(model => model.Tolerancia)
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 col-xs-12 control-label"><span>* </span> Cantidad Periodo</label>
-                                    <div class="col-md-6 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.CantidadPeriodo, new { id = "CantidadPeriodo", @class = "form-control", placeholder = "Ingrese la cantidad estimada de compra" })
+                               
+                                <div class="col-md-12">
+                                   <div class="col-md-10">
+                                       <div class="panel panel-info">
+                                          
+                                          <div class="row">
+                                              <div class="col-md-12"><br /></div>
+                                              <div class="form-group">
+                                                  <label class="col-md-2 col-xs-12 control-label"><span>* </span> Frecuencia de compra</label>
+                                                  <div class="col-md-8 col-xs-12">
+                                                      <div class="input-group">
+                                                          <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                          @Html.TextBoxFor(model => model.CantidadPeriodo, new { id = "CantidadPeriodo", @class = "form-control", placeholder = "Ingrese la cantidad estimada de compra" })
+                                                      </div>
+                                                      @Html.ValidationMessageFor(model => model.CantidadPeriodo)
+                                                  </div>
+                                              </div>
+                                              <div class="form-group">
+                                                  <label class="col-md-2 col-xs-12 control-label"><span>* </span> Tipo de Periodo </label>
+                                                  <div class="col-md-8 col-xs-12">
+                                                      @Html.DropDownListFor(model => model.IDPeriodo, new SelectList(Model.ListaPeriodo, "IDPeriodo", "Descripcion"), new { id = "IDPeriodo", @class = "form-control select", data_live_search = "true" })
+                                                      @Html.ValidationMessageFor(model => model.IDPeriodo)
+                                                  </div>
+                                                 
+                                                 
+                                              </div>
+                                              <div class="col-md-12"></div>
+                                          </div>
+                                       </div>
+                                   </div>
+                                </div>
+                                
+                                    @*<div class="form-group">
+                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Merma </label>
+                <div class="col-md-6 col-xs-12">
+                    @Html.TextBoxFor(model => model.merma, new { id = "merma", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.merma)
+                </div>
+            </div>*@
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label">Observaciones</label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextAreaFor(model => model.Observaciones, new { id = "Observaciones", @class = "form-control texArea", placeholder = "Ingrese las observaciones del proveedor", @rows = "5" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Observaciones)
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.CantidadPeriodo)
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 col-xs-12 control-label"><span>* </span> Tipo de Periodo </label>
-                                    <div class="col-md-6 col-xs-12">
-                                        @Html.DropDownListFor(model => model.IDPeriodo, new SelectList(Model.ListaPeriodo, "IDPeriodo", "Descripcion"), new { id = "IDPeriodo", @class = "form-control select", data_live_search = "true" })
-                                        @Html.ValidationMessageFor(model => model.IDPeriodo)
-                                    </div>
-                                </div>
-
-                                @*<div class="form-group">
-                                    <label class="col-md-2 col-xs-12 control-label"><span>* </span> Merma </label>
-                                    <div class="col-md-6 col-xs-12">
-                                        @Html.TextBoxFor(model => model.merma, new { id = "merma", @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.merma)
-                                    </div>
-                                </div>*@
-                                <div class="form-group">
-                                    <label class="col-md-2 col-xs-12 control-label">Observaciones</label>
-                                    <div class="col-md-6 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextAreaFor(model => model.Observaciones, new { id = "Observaciones", @class = "form-control texArea", placeholder = "Ingrese las observaciones del proveedor", @rows = "5" })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.Observaciones)
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="tab-pane" id="tab-second">

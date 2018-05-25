@@ -916,6 +916,7 @@
     <Content Include="Content\js\RegistrarFaltas.js" />
     <Content Include="Content\js\Remolques.js" />
     <Content Include="Content\js\rendimiento.js" />
+    <Content Include="Content\js\rptUltCompraProveedor.js" />
     <Content Include="Content\js\servicioslista.js" />
     <Content Include="Content\js\serviciosMtto.js" />
     <Content Include="Content\js\serviciosMttoDetalle.js" />
@@ -1195,6 +1196,8 @@
     <Content Include="Areas\Admin\Views\Compra\Transacciones.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalRegistrarComprobante.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalAgregarServicioProducto.cshtml" />
+    <Content Include="Areas\Admin\Views\RptUltCompraProveedor\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\RptProveedorMermaAlta\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1263,6 +1266,8 @@
     <Compile Include="Areas\Admin\Controllers\MantenimientoController.cs" />
     <Compile Include="Areas\Admin\Controllers\NominaController.cs" />
     <Compile Include="Areas\Admin\Controllers\NominaDiasFestivosController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RptProveedorMermaAltaController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RptUltCompraProveedorController.cs" />
     <Compile Include="Areas\Admin\Controllers\TablaController.cs" />
     <Compile Include="Areas\Admin\Controllers\TestController.cs" />
     <Compile Include="Areas\Admin\Controllers\VentaController.cs" />
@@ -1389,6 +1394,8 @@
     <Compile Include="Models\RespuestaAjax.cs" />
     <Compile Include="Models\ResumenGastosAjustesModels.cs" />
     <Compile Include="Models\ResumenGastosModels.cs" />
+    <Compile Include="Models\RptProveedorMermaAltaModels.cs" />
+    <Compile Include="Models\RptUltCompraProveedorModels.cs" />
     <Compile Include="Models\SalidaAlmacenDetalle.cs" />
     <Compile Include="Models\SalidaAlmacenDetalleModels.cs" />
     <Compile Include="Models\ServiciosMantenimientoDetalleModels.cs" />
@@ -1455,6 +1462,7 @@
     <Compile Include="Models\_Combos_Datos.cs" />
     <Compile Include="Models\_CompraAlmacen_Datos.cs" />
     <Compile Include="Models\_Compra_Datos.cs" />
+    <Compile Include="Models\_DatosRptUltCompraProveedor_Datos.cs" />
     <Compile Include="Models\_DocumentoXCobrar_Datos.cs" />
     <Compile Include="Models\_EntradaAlmacen_Datos.cs" />
     <Compile Include="Models\_DocumentoXPagar_Datos.cs" />
@@ -1465,6 +1473,7 @@
     <Compile Include="Models\_Menu_Datos.cs" />
     <Compile Include="Models\_NominaDiasFestivos_Datos.cs" />
     <Compile Include="Models\_Nomina_Datos.cs" />
+    <Compile Include="Models\_RptProveedorMermaAlta_Datos.cs" />
     <Compile Include="Models\_ServicioMantenimiento_Datos.cs" />
     <Compile Include="Models\_Usuario_Datos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

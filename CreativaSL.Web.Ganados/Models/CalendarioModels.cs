@@ -24,6 +24,21 @@ namespace CreativaSL.Web.Ganados.Models
             Opcion = 0;
             Usuario = string.Empty;
         }
+        private DateTime _fechaStart;
+
+        public DateTime fechaStart
+        {
+            get { return _fechaStart; }
+            set { _fechaStart = value; }
+        }
+        private DateTime _fechaEnd;
+
+        public DateTime fechaEnd
+        {
+            get { return _fechaEnd; }
+            set { _fechaEnd = value; }
+        }
+
         private string _fecha;
 
         public string start
