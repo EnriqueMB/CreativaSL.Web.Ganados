@@ -102,8 +102,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
-
-
+        #region Index
         // GET: Admin/Compra
         public ActionResult Index()
         {
@@ -117,6 +116,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 throw ex;
             }
         }
+        #endregion
+        #region Edit
         [HttpGet]
         public ActionResult Edit(string IDCompra)
         {
@@ -140,7 +141,45 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     return View(Compra);
             }
         }
-        
+        #endregion
+        #region CompraGanado
+        [HttpGet]
+        public ActionResult GanadoCompra(string IDCompra)
+        {
+            if (string.IsNullOrEmpty(IDCompra))
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista.";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                try
+                {
+                    Compra = new CompraModels();
+                    CompraDatos = new _Compra_Datos();
+                    Compra.IDCompra = IDCompra;
+                    Compra.Conexion = Conexion;
+                    Compra = CompraDatos.GetGanadoCompra(Compra);
+                    Compra.ListadoPrecioRangoPesoString = CompraDatos.GetListadoPrecioRangoPeso(Compra).ToJSON();
+                    Compra.ListaEstatusGanadoString = CompraDatos.GetListadoEstatusGanado(Compra).ToJSON();
+                    Compra.ListaCorralesString = CompraDatos.GetListaCorrales(Compra).ToJSON();
+                    //Obtengo los datos de la compra
+                    //Compra = CompraDatos.GetCompraEmbarque(Compra);
+                    //Obtengo los listados
+
+                    return View(Compra);
+                }
+                catch (Exception ex)
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista, error: " + ex.ToString();
+                    return View(Compra);
+                }
+            }
+        }
+        #endregion
+
         [HttpGet]
         public ActionResult CambiarEstatus(string IDCompra)
         {
@@ -163,37 +202,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
             return RedirectToAction("Index", "Compra");
         }
-        [HttpGet]
-        public ActionResult GanadoCompra(string IDCompra)
-        {
-            if (string.IsNullOrEmpty(IDCompra))
-            {
-                TempData["typemessage"] = "2";
-                TempData["message"] = "No se puede cargar la vista.";
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                try
-                {
-                    Compra = new CompraModels();
-                    CompraDatos = new _Compra_Datos();
-                    Compra.IDCompra = IDCompra;
-                    Compra.Conexion = Conexion;
-                    //Obtengo los datos de la compra
-                    //Compra = CompraDatos.GetCompraEmbarque(Compra);
-                    //Obteno los listados
-                    
-                    return View(Compra);
-                }
-                catch (Exception ex)
-                {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "No se puede cargar la vista, error: " + ex.ToString();
-                    return View(Compra);
-                }
-            }
-        }
+
+       
         [HttpGet]
         public ActionResult Transacciones(string IDCompra)
         {
@@ -227,9 +237,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Compra.IDCompra = IDCompra;
                     Compra.Conexion = Conexion;
                     //Obtengo los datos de la compra
-                    Compra = CompraDatos.GetCompra(Compra);
+                    //Compra = CompraDatos.GetCompra(Compra);
                     //Obtengo el listado de precios
-                    Compra.ListadoPrecioRangoPeso = Auxiliar.SqlReaderToJson(CompraDatos.GetSqlDataReaderListadoPrecioRangoPeso(Compra));
+                    //Compra.ListadoPrecioRangoPeso = Auxiliar.SqlReaderToJson(CompraDatos.GetSqlDataReaderListadoPrecioRangoPeso(Compra));
 
                     return View(Compra);
                 }
@@ -372,7 +382,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         #endregion
         /********************************************************************/
-        //Funciones SaveUpdPestañas
+        //Funciones AC_DEL
         #region Funciones AC DEL
         #region Proveedor
         [HttpPost]
@@ -615,36 +625,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
             }
         }
-        #endregion
-        /********************************************************************/
-        //Llamado de modales
-        #region Modales
-        #region Ganado
-        [HttpPost]
-        public ActionResult ModalGanado(string IDGanado, decimal Merma, string IDCompra)
-        {
-            Compra = new CompraModels();
-            CompraDatos = new _Compra_Datos();
-            Compra.Ganado.id_Ganados = IDGanado;
-            Compra.IDCompra = IDCompra;
-            Compra.Sucursal.MermaPredeterminada = Merma;
-            Compra.Conexion = Conexion;
-            Compra = CompraDatos.GetCompraGanadoXIDGanado(Compra);
-            Compra.ListaEstatusGanado = CompraDatos.GetListadoEstatusGanado(Compra);
-            Compra.InicializarComboGeneroGanado();
-            return PartialView("ModalGanado", Compra);
-        }
-        public ActionResult ModalListadoPrecios(string IDProveedor, string NombreProveedor)
-        {
-            Compra = new CompraModels();
-            CompraDatos = new _Compra_Datos();
-            Compra.IDProveedor = IDProveedor;
-            Compra.Conexion = Conexion;
-            Compra.Proveedor.NombreRazonSocial = NombreProveedor;
-            Compra.ListaRangoPrecio = CompraDatos.GetListadoPrecioRangoPeso(Compra);
-            return PartialView("ModalListadoPrecios", Compra);
-        }
-        #endregion
         #endregion
         /********************************************************************/
         //Llenado de tablas Json 

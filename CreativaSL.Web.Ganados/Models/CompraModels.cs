@@ -33,11 +33,12 @@ namespace CreativaSL.Web.Ganados.Models
             set { _listaCompra = value; }
         }
 
-        public string ListadoPrecioRangoPeso { get; set; }
+        public string ListadoPrecioRangoPesoString { get; set; }
+        public string ListaEstatusGanadoString { get; set; }
+        public string ListaCorralesString { get; set; }
 
         //Para el index
         public DataTable TablaCompra { get; set; }
-
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
@@ -49,11 +50,6 @@ namespace CreativaSL.Web.Ganados.Models
         [Display(Name = "Fecha programada")]
         [Required(ErrorMessage = "Seleccione una fecha")]
         public DateTime FechaHoraProgramada { get; set; }
-
-        public string GuiaTransito { get; set; }
-        public string CertZoosanitario { get; set; }
-        public string CertTuberculosis { get; set; }
-        public string CertBrucelosis { get; set; }
 
         [RegularExpression("^[0-9]*$",
             ErrorMessage = "Solo número enteros positivos.")]
@@ -79,15 +75,18 @@ namespace CreativaSL.Web.Ganados.Models
             ErrorMessage = "Solo número enteros positivos.")]
         public int GanadosCompradoTotal { get; set; }
 
-
-
-        public decimal MontoTotal { get; set; }
-        public decimal MontoPagado { get; set; }
-        public decimal MontoPorPagar { get; set; }
-
+        public decimal KilosMachos { get; set; }
+        public decimal KilosHembras { get; set; }
         public decimal KilosTotal { get; set; }
-        public decimal MermaPromedio { get; set; }
+
+        public decimal MermaMachos { get; set; }
+        public decimal MermaHembras { get; set; }
+        public decimal MermaTotal { get; set; }
+
+        public decimal Tolerancia { get; set; }
+        public decimal MontoTotalGanado { get; set; }
         public int Estatus { get; set; }
+
         public HttpPostedFileBase[] ImgFierros { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Seleccione un proveedor.")]
@@ -139,9 +138,7 @@ namespace CreativaSL.Web.Ganados.Models
         public List<CatProveedorModels> ListaProveedores { get; set; }
         public List<CatSucursalesModels> ListaSucursales { get; set; }
         public List<CatVehiculoModels> ListaVehiculos { get; set; }
-        public List<CatRangoPesoCompraModels> ListaRangoPrecio { get; set; }
         public List<CatRemolqueModels> ListaRemolques { get; set; }
-        public List<CatEstatusGanadoModels> ListaEstatusGanado { get; set; }
         public List<CatTipoClasificacionModels> ListaTipoClasificacion { get; set; }
         public List<CFDI_FormaPagoModels> ListaFormasPagos { get; set; }
         public List<CatLugarModels> ListaLugaresProveedor { get; set; }
@@ -179,7 +176,6 @@ namespace CreativaSL.Web.Ganados.Models
             ListaChoferes = new List<CatChoferModels>();
             ListaCostoFlete = new List<CatCostoFlete>();
             ListaCompraGanado = new List<CompraGanadosModels>();
-            ListaEstatusGanado = new List<CatEstatusGanadoModels>();
             ListaEmpresas = new List<CatEmpresaModels>();
             ListaFierros = new List<CatFierroModels>();
             ListaFormasPagos = new List<CFDI_FormaPagoModels>();
@@ -188,7 +184,6 @@ namespace CreativaSL.Web.Ganados.Models
             ListaLugares = new List<CatLugarModels>();
             ListaLugaresProveedor = new List<CatLugarModels>();
             ListaProveedores = new List<CatProveedorModels>();
-            ListaRangoPrecio = new List<CatRangoPesoCompraModels>();
             ListaRemolques = new List<CatRemolqueModels>();
             ListaSucursales = new List<CatSucursalesModels>();
             ListaVehiculos = new List<CatVehiculoModels>();
@@ -210,14 +205,10 @@ namespace CreativaSL.Web.Ganados.Models
             IDSucursal = string.Empty;
             IDUsuario = string.Empty;
             IDVehiculo = string.Empty;
-            CertZoosanitario = string.Empty;
-            CertTuberculosis = string.Empty;
-            CertBrucelosis = string.Empty;
             Conexion = string.Empty;
             Estatus = -1;
             FechaHoraProgramada = DateTime.Now;
             FechaHoraTerminada = DateTime.Now;
-            GuiaTransito = string.Empty;
             GanadosCompradoMachos = 0;
             GanadosCompradoHembras = 0;
             GanadosCompradoTotal = 0;
@@ -225,12 +216,6 @@ namespace CreativaSL.Web.Ganados.Models
             GanadosPactadoHembras = 0;
             GanadosPactadoTotal = 0;
             KilosTotal = 0;
-            ListadoPrecioRangoPeso = string.Empty;
-            MermaPromedio = 0;
-            Mensaje = string.Empty;
-            MontoPagado = 0;
-            MontoPorPagar = 0;
-            MontoTotal = 0;
             Completado = false;
             Mensaje = string.Empty;
             Usuario = string.Empty;

@@ -12,6 +12,14 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" rel="stylesheet" type="text/css" />
     <!--CSS GENERAL-->
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
+    <style>
+         .errorCSLGanado{
+            border-color: #E04B4A !important;
+       }
+        .okCSLGanado{
+            border-color: #95b75d !important;
+       }
+    </style>
 }
 @section featured
 {
@@ -45,9 +53,8 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.GanadosCompradoMachos, new { id = "GanadosCompradoMachos", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.GanadosCompradoMachos, new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.GanadosCompradoMachos)
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -55,9 +62,8 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.GanadosCompradoHembras, new { id = "GanadosCompradoHembras", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.GanadosCompradoHembras, new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.GanadosCompradoHembras)
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -65,9 +71,8 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.GanadosCompradoTotal, new { id = "GanadosCompradoTotal", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.GanadosCompradoTotal, new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.GanadosCompradoTotal)
                                     </div>
                                 </div>
                             </div>
@@ -77,9 +82,8 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.MermaPromedio, new { id = "MermaPromedio", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.MermaMachos, new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.MermaPromedio)
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -87,19 +91,17 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.MermaPromedio, new { id = "MermaPromedio", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.MermaHembras, new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.MermaPromedio)
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="col-md-3 control-label">Merma promedio</label>
+                                    <label class="col-md-3 control-label">Merma total</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.MermaPromedio, new { id = "MermaPromedio", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.MermaTotal, new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.MermaPromedio)
                                     </div>
                                 </div>
                             </div>
@@ -109,9 +111,8 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.MermaPromedio, new { id = "MermaPromedio", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.KilosMachos, new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.MermaPromedio)
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -119,9 +120,8 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.MermaPromedio, new { id = "MermaPromedio", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.KilosHembras, new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.MermaPromedio)
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -129,21 +129,19 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.MermaPromedio, new { id = "MermaPromedio", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.KilosTotal, new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.MermaPromedio)
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-4">
-                                    <label class="col-md-3 control-label">Merma sugerida</label>
+                                    <label class="col-md-3 control-label">Tolerancia</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.Sucursal.MermaPredeterminada, new { id = "MermaPredeterminada", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.Tolerancia, new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.Sucursal.MermaPredeterminada)
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -151,9 +149,8 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.MontoTotal, new { id = "MontoTotal", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.MontoTotalGanado, new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.MontoTotal)
                                     </div>
                                 </div>
                             
@@ -182,6 +179,7 @@
                                                                     <th></th>
                                                                     <th>Núm. arete</th>
                                                                     <th>Genero</th>
+                                                                    <th>Estado</th>
                                                                     <th>Peso</th>
                                                                     <th>Repeso</th>
                                                                     <th>Merma</th>
@@ -189,6 +187,7 @@
                                                                     <th>Costo por kilo</th>
                                                                     <th>Corral</th>
                                                                     <th>Total</th>
+                                                                    <th>Eliminar</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody></tbody>
@@ -240,7 +239,22 @@
     <script>
 
         jQuery(document).ready(function () {
+            var listaPrecioPesoProveedor = @Html.Raw(Json.Encode(Model.ListadoPrecioRangoPesoString))
+            listaPrecioPesoProveedor = listaPrecioPesoProveedor.replace("\\", "");
+            listaPrecioPesoProveedor = $.parseJSON(listaPrecioPesoProveedor);
+
+            var listaEstadoGanado = @Html.Raw(Json.Encode(Model.ListaEstatusGanadoString))
+            listaEstadoGanado = listaEstadoGanado.replace("\\", "");
+            listaEstadoGanado = $.parseJSON(listaEstadoGanado);
+
+            var listaCorrales = @Html.Raw(Json.Encode(Model.ListaCorralesString))
+            listaCorrales = listaCorrales.replace("\\", "");
+            listaCorrales = $.parseJSON(listaCorrales);
+
+            var tolerancia = @Model.Tolerancia
+
             Mensaje(message, typemessage);
-            CompraGanado.init();
+            CompraGanado.init(listaPrecioPesoProveedor, tolerancia, listaEstadoGanado, listaCorrales);
+        });
     </script>
 }
