@@ -76,7 +76,7 @@
                 correo: { required: "Ingrese el correo electrónico del proveedor.", email: "Ingrese un correo electrónico válido." },
                 ImgINEE: { validarImagen: "Seleccione una imagén válida del ine" },
                 ImgManifestacionFierros: { validarImagen2: "Seleccione una imagén válida de manifestación de fierro" },
-                CantidadPeriodo: { required: "Ingrese una cantidad estimada de compra", number: "Ingrese un dato válido" },
+                CantidadPeriodo: { required: "Ingrese una frecuancia estimada de compra", number: "Ingrese un dato válido" },
                 IDPeriodo: { CMBINT: "Seleccione un tipo de periodo." }
 
             },
