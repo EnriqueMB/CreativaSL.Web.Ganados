@@ -12,6 +12,34 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" rel="stylesheet" type="text/css" />
     <!--CSS GENERAL-->
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
+    <style>
+        .errorCSLGanado {
+            border-color: #E04B4A !important;
+        }
+
+        .okCSLGanado {
+            border-color: #95b75d !important;
+        }
+
+        .btnCSL {
+            border-color: #999;
+            color: #1b1e24;
+            border-radius: 20%;
+        }
+
+        table {
+            margin: 0 auto;
+            width: 100%;
+            clear: both;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        div.dataTables_wrapper {
+            width: 1425px;
+            margin: 0 auto;
+        }
+    </style>
 }
 @section featured
 {
@@ -31,12 +59,13 @@
             @using (Html.BeginForm("AC_Ganado", "Compra", FormMethod.Post, new { id = "frmGanado", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.HiddenFor(model => model.IDCompra);
+                @Html.HiddenFor(model => model.Proveedor.IDTipoProveedor)
                 @Html.AntiForgeryToken()
 
                 <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><strong>Generales del ganado</strong></h3>                   
+                            <h3 class="panel-title"><strong>Generales del ganado</strong></h3>
                         </div>
                         <div class="panel-body">
                             <div class="form-group">
@@ -45,9 +74,8 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.GanadosCompradoMachos, new { id = "GanadosCompradoMachos", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.GanadosCompradoMachos, new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.GanadosCompradoMachos)
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -55,9 +83,8 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.GanadosCompradoHembras, new { id = "GanadosCompradoHembras", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.GanadosCompradoHembras, new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.GanadosCompradoHembras)
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -65,9 +92,8 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.GanadosCompradoTotal, new { id = "GanadosCompradoTotal", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.GanadosCompradoTotal, new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.GanadosCompradoTotal)
                                     </div>
                                 </div>
                             </div>
@@ -77,9 +103,8 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.MermaPromedio, new { id = "MermaPromedio", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.MermaMachos, "{0:f2}", new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.MermaPromedio)
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -87,19 +112,17 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.MermaPromedio, new { id = "MermaPromedio", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.MermaHembras, "{0:f2}", new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.MermaPromedio)
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="col-md-3 control-label">Merma promedio</label>
+                                    <label class="col-md-3 control-label">Merma total</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.MermaPromedio, new { id = "MermaPromedio", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.MermaTotal, "{0:f2}", new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.MermaPromedio)
                                     </div>
                                 </div>
                             </div>
@@ -109,9 +132,8 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.MermaPromedio, new { id = "MermaPromedio", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.KilosMachos, "{0:f2}", new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.MermaPromedio)
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -119,9 +141,8 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.MermaPromedio, new { id = "MermaPromedio", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.KilosHembras, "{0:f2}", new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.MermaPromedio)
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -129,21 +150,19 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.MermaPromedio, new { id = "MermaPromedio", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.KilosTotal, "{0:f2}", new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.MermaPromedio)
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-4">
-                                    <label class="col-md-3 control-label">Merma sugerida</label>
+                                    <label class="col-md-3 control-label">Tolerancia</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.Sucursal.MermaPredeterminada, new { id = "MermaPredeterminada", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.Tolerancia, "{0:f2}", new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.Sucursal.MermaPredeterminada)
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -151,57 +170,60 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.MontoTotal, new { id = "MontoTotal", @class = "form-control", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.MontoTotalGanado, "{0:f2}", new { @class = "form-control", disabled = "disabled" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.MontoTotal)
                                     </div>
                                 </div>
-                            
+
                             </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <!-- START DEFAULT DATATABLE -->
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <h3 class="panel-title"></h3>
-                                                <ul class="panel-controls">
-                                                    <li><input id="inputGanado" type="text" class="form-control" placeholder="Cantidad de filas" /></li>
-                                                    <li><a id="btnAddRowGanado" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar filas</a></li>
-                                                    <li><a id="btnSaveRowGanado" class="btn btn-green btnCrear"><span class="fa fa-save"></span> Guardar ganado</a></li>
-                                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="panel-body">
-                                                <div class="col-md-12">
-                                                    <h3></h3>
-                                                    <div class="table-responsive">
-                                                        <table id="tblGanado" class="table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th></th>
-                                                                    <th>Núm. arete</th>
-                                                                    <th>Genero</th>
-                                                                    <th>Peso</th>
-                                                                    <th>Repeso</th>
-                                                                    <th>Merma</th>
-                                                                    <th>Peso a pagar</th>
-                                                                    <th>Costo por kilo</th>
-                                                                    <th>Corral</th>
-                                                                    <th>Total</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody></tbody>
-                                                        </table>
-                                                    </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <!-- START DEFAULT DATATABLE -->
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">
+                                                <a id="btnVerListaPrecios" class="btn btn-default btnCrear btnCSL"><span class="glyphicon glyphicon-usd"></span> Lista de precios </a>
+                                            </h3>
+                                            <ul class="panel-controls">
+                                                <li><input id="inputGanado" type="text" class="form-control" placeholder="Cantidad de filas" /></li>
+                                                <li><a id="btnAddRowGanado" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar filas</a></li>
+                                                <li><a id="btnSaveRowGanado" class="btn btn-green btnCrear"><span class="fa fa-save"></span> Guardar ganado</a></li>
+                                                <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                                <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="col-md-12">
+                                                <h3></h3>
+                                                <div class="table-responsive">
+                                                    <table id="tblGanado" class="display nowrap table" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                                <th>Núm. arete</th>
+                                                                <th>Genero</th>
+                                                                <th>Estado</th>
+                                                                <th>Peso</th>
+                                                                <th>Repeso</th>
+                                                                <th>Merma</th>
+                                                                <th>Peso a pagar</th>
+                                                                <th>Costo por kilo</th>
+                                                                <th>Corral</th>
+                                                                <th>Total</th>
+                                                                <th>Eliminar</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- END DEFAULT DATATABLE -->
                                     </div>
+                                    <!-- END DEFAULT DATATABLE -->
                                 </div>
                             </div>
-                 
+                        </div>
+
                         <div class="panel-footer">
                             <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                         </div>
@@ -209,10 +231,30 @@
                 </div>
             }
         </div>
-
-
-
     </div>
+    <div id="Modal" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
+        <div class="modal-dialog modal-lg" id="ContenidoModal">
+
+        </div>
+    </div>
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-delete-ganado">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Ganado</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres eliminar este ganado?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         var message     = "@message";
         var typemessage = "@typemessage";
@@ -240,7 +282,22 @@
     <script>
 
         jQuery(document).ready(function () {
+            var listaPrecioPesoProveedor = @Html.Raw(Json.Encode(Model.ListadoPrecioRangoPesoString))
+            listaPrecioPesoProveedor = listaPrecioPesoProveedor.replace("\\", "");
+            listaPrecioPesoProveedor = $.parseJSON(listaPrecioPesoProveedor);
+
+            var listaEstadoGanado = @Html.Raw(Json.Encode(Model.ListaEstatusGanadoString))
+            listaEstadoGanado = listaEstadoGanado.replace("\\", "");
+            listaEstadoGanado = $.parseJSON(listaEstadoGanado);
+
+            var listaCorrales = @Html.Raw(Json.Encode(Model.ListaCorralesString))
+            listaCorrales = listaCorrales.replace("\\", "");
+            listaCorrales = $.parseJSON(listaCorrales);
+
+            var tolerancia = @Model.Tolerancia
+
             Mensaje(message, typemessage);
-            CompraGanado.init();
+            CompraGanado.init(listaPrecioPesoProveedor, tolerancia, listaEstadoGanado, listaCorrales);
+        });
     </script>
 }

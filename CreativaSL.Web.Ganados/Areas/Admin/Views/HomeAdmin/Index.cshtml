@@ -169,8 +169,8 @@
                         method: 'post',
                         data: {
                            
-                            start: '' + start.format('YYYY-MM-DD') + '',
-                            end: '' + end.format('YYYY-MM-DD') + ''
+                            start:start.format('YYYY-MM-DD'),
+                            end:  end.format('YYYY-MM-DD') 
                         },
                         success: function (doc) {
                             var color = "";
@@ -187,7 +187,7 @@
                                         break;
                                 }
                                 events.push({
-                                    id: value.id,
+                                    //id: value.id,
                                     title: value.title,
                                     start: value.start,
                                     description:"<p> <strong>Estatus : </strong>"+ value.estatusDesc+"</p>" + "<p><strong>Guia de transito : </strong>" + value.GuiaTransito+"</p>" + "<p><strong>Hembras pactados : </strong>"+value.GanadosPactadoHembras+"</p>"+

@@ -6,7 +6,7 @@
 }
 @section css
 {
-<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
     <style>
         td.details-control {
             background: url("@Url.Content("~/Content/img/details_open.png")") no-repeat center center;
@@ -34,444 +34,511 @@
     </style>
 }
 
-    @section featured
+@section featured
 {
-        @{
-            var message = TempData["message"] ?? string.Empty;
-            var typemessage = TempData["typemessage"] ?? string.Empty;
-        }
-        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
-            <h3></h3>
-        </div>
-        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
-            <h3></h3>
-        </div>
-        <div class="page-title">
-            <h2><span class="fa fa-arrow-circle-o-left"></span> Compras </h2>
-        </div>
-        <!-- END PAGE TITLE -->
-        <div class="page-content-wrap">
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- START DEFAULT DATATABLE -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title"></h3>
-                            <ul class="panel-controls">
-                                <li><a href="@Url.Action("AgendarCompra","Compra")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva Compra</a></li>
-                                <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                                <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table id="tblIndexCompra" class="table tCompra">
-                                    <thead>
-                                        <tr>
-                                            <th rowspan="2"></th>
-                                            <th rowspan="2">Folio</th>
-                                            <th rowspan="2">Nombre cliente</th>
-                                            <th rowspan="2">Lugar</th>
-                                            <th colspan="3">Ganado pactado</th>
-                                            <th colspan="4">Ganado comprado</th>
-                                            <th colspan="3">Transacciones</th>
-                                            <th rowspan="2">Merma(%)</th>
-                                            <th rowspan="2">Estatus</th>
-                                            <th rowspan="2">Acción</th>
-                                        </tr>
-                                        <tr>
-                                            <th>Machos</th>
-                                            <th>Hembras</th>
-                                            <th>Total ganado</th>
-                                            <th>Machos</th>
-                                            <th>Hembras</th>
-                                            <th>Total ganado</th>
-                                            <th>Total kilos</th>
-                                            <th>Total de ingreso</th>
-                                            <th>Total de egreso</th>
-                                            <th>Monto total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="panel-footer">
-                            <br />
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Compras </h2>
+    </div>
+    <!-- END PAGE TITLE -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                        <ul class="panel-controls">
+                            <li><a href="@Url.Action("AgendarCompra","Compra")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva Compra</a></li>
+                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                            <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table id="tblIndexCompra" class="table tCompra">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2"></th>
+                                        <th rowspan="2">Folio</th>
+                                        <th rowspan="2">Nombre cliente</th>
+                                        <th rowspan="2">Lugar</th>
+                                        <th colspan="3">Ganado pactado</th>
+                                        <th colspan="4">Ganado comprado</th>
+                                        <th colspan="3">Transacciones</th>
+                                        <th rowspan="2">Merma(%)</th>
+                                        <th rowspan="2">Estatus</th>
+                                        <th rowspan="2">Acción</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Machos</th>
+                                        <th>Hembras</th>
+                                        <th>Total ganado</th>
+                                        <th>Machos</th>
+                                        <th>Hembras</th>
+                                        <th>Total ganado</th>
+                                        <th>Total kilos</th>
+                                        <th>Total de ingreso</th>
+                                        <th>Total de egreso</th>
+                                        <th>Monto total</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
                         </div>
                     </div>
-                    <!-- END DEFAULT DATATABLE -->
-                </div>
-            </div>
-        </div>
-        <!-- PAGE CONTENT WRAPPER -->
-        <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
-            <div class="mb-container">
-                <div class="mb-middle">
-                    <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
-                    <div class="mb-content">
-                        <p>¿Seguro que quieres eliminar esta fila?</p>
-                        <p>Presione "sí" si está seguro.</p>
-                    </div>
-                    <div class="mb-footer">
-                        <div class="pull-right">
-                            <button class="btn btn-success btn-lg mb-control-yes">Si</button>
-                            <button class="btn btn-default btn-lg mb-control-close">No</button>
-                        </div>
+                    <div class="panel-footer">
+                        <br />
                     </div>
                 </div>
+                <!-- END DEFAULT DATATABLE -->
             </div>
         </div>
-<div class="message-box animated fadeIn" data-sound="alert" id="mb-enviar">
-    <div class="mb-container">
-        <div class="mb-middle">
-            <div class="mb-title"><span class="fa fa-mail-forward"></span><strong>¿Desea enviar el flete?</strong></div>
-            <div class="mb-content">
-                <p>¿Seguro que desea enviar el flete?</p>
-                <p>Presione "sí" si está seguro.</p>
-            </div>
-            <div class="mb-footer">
-                <div class="pull-right">
-                    <button class="btn btn-success btn-lg mb-control-yes">Si</button>
-                    <button class="btn btn-default btn-lg mb-control-close">No</button>
+    </div>
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres eliminar esta fila?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="message-box animated fadeIn" data-sound="alert" id="mb-ganado">
-    <div class="mb-container">
-        <div class="mb-middle">
-            <div class="mb-title"><span class="fa fa-mail-forward"></span><strong>¿Desea registrar el ganado?</strong></div>
-            <div class="mb-content">
-                <p>¿Seguro que desea registrar el ganado?</p>
-                <p>Presione "sí" si está seguro.</p>
-            </div>
-            <div class="mb-footer">
-                <div class="pull-right">
-                    <button class="btn btn-success btn-lg mb-control-yes">Si</button>
-                    <button class="btn btn-default btn-lg mb-control-close">No</button>
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-enviar">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-mail-forward"></span><strong>¿Seguro que desea continuar con la compra?</strong></div>
+                <div class="mb-content">
+                    <p>¿Desea continuar con la compra, la siguiente etapa es: ENVIAR EL FLETE?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-        <script>
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-ganado">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-mail-forward"></span><strong>¿Seguro que desea continuar con la compra?</strong></div>
+                <div class="mb-content">
+                    <p>¿Desea continuar con la compra, la siguiente etapa es: REGISTRO DE GANADO?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-evento_recepcion">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-mail-forward"></span><strong>¿Seguro que desea continuar con la compra?</strong></div>
+                <div class="mb-content">
+                    <p>¿Desea continuar con la compra, la siguiente etapa es: EVENTOS Y RECEPCION?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-terminar">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-mail-forward"></span><strong>¿Seguro que desea concluir esta compra?</strong></div>
+                <div class="mb-content">
+                    <p>¿Desea dar por concluido esta compra?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
     var message = '@message';
     var typemessage = '@typemessage';
-        </script>
-    }
-    @section script
+    </script>
+}
+@section script
 {
-        <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
-        <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
-        <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-        <script>
-            jQuery(document).ready(function () {
-                Mensaje(message, typemessage);
-            });
-        </script>
-        <script>
-            function format(d) {
-                return '<table class="table" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
-                    '<tr>' +
-                    '<td>Full name:</td>' +
-                    '<td>' + d.NombreProveedor + '</td>' +
-                    '</tr>' +
-                    '<tr>' +
-                    '<td>Extension number:</td>' +
-                    '<td>' + d.Estatus + '</td>' +
-                    '</tr>' +
-                    '<tr>' +
-                    '<td>Extra info:</td>' +
-                    '<td>And any further details here (images etc)...</td>' +
-                    '</tr>' +
-                    '</table>';
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+        });
+    </script>
+    <script>
+        function format(d) {
+            var fechaProgramada;
+
+            if (d.FechaProgramada === null)
+                fechaProgramada = "Sin dato";
+            else {
+                var dateSplit = d.FechaProgramada.split('-');
+                var dia = dateSplit[2];
+                dia = dia.split('T');
+                dia = dia[0];
+                var mes = dateSplit[1];
+                var año = dateSplit[0];
+                fechaProgramada = dia + '-' + mes + '-' + año;
             }
 
-            var tblIndexCompra1 = $("#tblIndexCompra").DataTable({
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-                },
-                "ajax": {
-                    "data": {
+            var fechaTerminada;
+            if (d.FechaTerminada === null)
+                fechaTerminada = "Sin concluir";
+            else {
+                var dateSplit = d.FechaTerminada.split('-');
+                var dia = dateSplit[2];
+                dia = dia.split('T');
+                dia = dia[0];
+                var mes = dateSplit[1];
+                var año = dateSplit[0];
+                fechaTerminada = dia + '-' + mes + '-' + año;
+            }
 
-                    },
-                    "url": "/Admin/Compra/JsonIndex/",
-                    "type": "POST",
-                    "datatype": "json",
-                    "dataSrc": ''
+            return '<table class="table" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                '<tr>' +
+                '<td>Fecha programada:</td>' +
+                '<td>' + fechaProgramada + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>Fecha concluida:</td>' +
+                '<td>' + fechaTerminada + '</td>' +
+                '</tr>' +
+                '</table>';
+        }
+
+        var tblIndexCompra1 = $("#tblIndexCompra").DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+            "ajax": {
+                "data": {
+
                 },
-                "columns": [
-                    {
-                        "class": "details-control",
-                        "orderable": false,
-                        "data": null,
-                        "defaultContent": "",
-                        "width": "5%"
-                    },
-                    { "data": "Folio" },
-                    { "data": "NombreProveedor" },
-                    { "data": "LugarDestino" },
-                    { "data": "GanadoPactadoMachos" },
-                    { "data": "GanadoPactadoHembras" },
-                    { "data": "GanadoPactadoTotal" },
-                    { "data": "GanadoCompradoMachos" },
-                    { "data": "GanadoCompradoHembras" },
-                    { "data": "GanadoCompradoTotal" },
-                    { "data": "GanadoKilosTotal" },
-                    { "data": "TotalIngreso" },
-                    { "data": "TotalEgreso" },
-                    { "data": "MontoTotal" },
-                    { "data": "MermaPromedio" },
-                    {
-                        "data": null,
-                        "render": function (data, type, full) {
-                            return "<label class = '" + full["ClassEstatus"] + "'>"+ full["Estatus"] +"</label>";
-                        }
-                    },
+                "url": "/Admin/Compra/JsonIndex/",
+                "type": "POST",
+                "datatype": "json",
+                "dataSrc": ''
+            },
+            "columns": [
+                {
+                    "class": "details-control",
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": "",
+                    "width": "5%"
+                },
+                { "data": "Folio" },
+                { "data": "NombreProveedor" },
+                { "data": "LugarDestino" },
+                { "data": "GanadoPactadoMachos" },
+                { "data": "GanadoPactadoHembras" },
+                { "data": "GanadoPactadoTotal" },
+                { "data": "GanadoCompradoMachos" },
+                { "data": "GanadoCompradoHembras" },
+                { "data": "GanadoCompradoTotal" },
+                { "data": "GanadoKilosTotal" },
+                { "data": "TotalIngreso" },
+                { "data": "TotalEgreso" },
+                { "data": "MontoTotal" },
+                { "data": "MermaPromedio" },
                 {
                     "data": null,
-                "render": function (data, type, full) {
-                    var botones = "<div class='visible-md visible-lg hidden-sm hidden-xs'>";
-                    var status_actual = full["Estatus"];
-                    var agendado = "Agendado";
-                    var en_camino = "En camino";
-                    var ganado = "Ganado";
-                    var igual = status_actual.localeCompare(agendado);
-
-                    if (igual == 0) {
-                        botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                            "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm enviar' title='Enviar'  data-placement='top' data-original-title='Enviar'><i class='fa fa-truck'></i></a>" +
-                            "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
-                            "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Agendado'  data-placement='top' data-original-title='Agendado'><i class='fa fa-clock-o'></i></a>" +
-                            "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
-                            "</div>" +
-                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
-                            "<div class='btn-group'>" +
-                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
-                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
-                            "</a>" +
-                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
-                            "<li>" +
-                            "<a class='details' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-eye'></i> Detalles" +
-                            "</a>" +
-                            "</li>" +
-                            "<li>" +
-                            "<a class='enviar' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-mail-forward'></i> Continuar" +
-                            "</a>" +
-                            "</li>" +
-                            "<li>" +
-                            "<a class='edit' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-clock-o'></i> Agendado" +
-                            "</a>" +
-                            "</li>" +
-                            "<li>" +
-                            "<a role='menuitem' tabindex='-1' id='" + full["id_compra"] + "'>" +
-                            "<i class='fa fa-trash-o'></i> Eliminar" +
-                            "</a>" +
-                            "</li>" +
-                            "</ul>" +
-                            "</div>" +
-                            "</div>";
-                        return botones;
+                    "render": function (data, type, full) {
+                        return "<label class = '" + full["ClassEstatus"] + "'>" + full["Estatus"] + "</label>";
                     }
-                    igual = status_actual.localeCompare(en_camino);
-                    if (igual == 0) {
-                        botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                            "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm ganado' title='Ganado'  data-placement='top' data-original-title='Ganado'><i class='fa fa-github-alt'></i></a>" +
-                            "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
-                            "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
-                            "</div>" +
-                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
-                            "<div class='btn-group'>" +
-                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
-                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
-                            "</a>" +
-                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
-                            "<li>" +
-                            "<a class='details' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-eye'></i> Detalles" +
-                            "</a>" +
-                            "</li>" +
-                            "<li>" +
-                            "<a class='ganado' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-edit'></i> Ganado" +
-                            "</a>" +
-                            "</li>" +
-                            "<li>" +
-                            "<a class='transacciones' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-money'></i> Transacciones ($)" +
-                            "</a>" +
-                            "</li>" +
-                            "<li>" +
-                            "<a role='menuitem' tabindex='-1' id='" + full["id_compra"] + "'>" +
-                            "<i class='fa fa-trash-o'></i> Eliminar" +
-                            "</a>" +
-                            "</li>" +
-                            "</ul>" +
-                            "</div>" +
-                            "</div>";
-                        return botones;
-                    }
-                    igual = status_actual.localeCompare(ganado);
-                    if (igual == 0) {
-                        botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                            "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm Eventos_documentos' title=''  data-placement='top' data-original-title='Eventos y documentos' title='Eventos y documentos'><i class='fa fa-book'></i></a>" +
-                            "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
-                            "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Ganado'  data-placement='top' data-original-title='Ganado'><i class='fa fa-github-alt'></i></a>" +
-                            "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
-                            "</div>" +
-                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
-                            "<div class='btn-group'>" +
-                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
-                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
-                            "</a>" +
-                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
-                            "<li>" +
-                            "<a class='details' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-eye'></i> Detalles" +
-                            "</a>" +
-                            "</li>" +
-                            "<li>" +
-                            "<a class='ganado' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-edit'></i> Ganado" +
-                            "</a>" +
-                            "</li>" +
-                            "<li>" +
-                            "<a class='transacciones' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-money'></i> Transacciones ($)" +
-                            "</a>" +
-                            "</li>" +
-                            "<li>" +
-                            "<a role='menuitem' tabindex='-1' id='" + full["id_compra"] + "'>" +
-                            "<i class='fa fa-trash-o'></i> Eliminar" +
-                            "</a>" +
-                            "</li>" +
-                            "</ul>" +
-                            "</div>" +
-                            "</div>";
-
-                    } else if (full["estatus"] == "Eventos y documentos") {
-                        botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                            "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm ganado' title=''  data-placement='top' data-original-title='Ganado'><i class='fa fa-github-alt'></i></a>" +
-                            "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
-                            "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Recepcion'  data-placement='top' data-original-title='Recepción'><i class='fa fa-book'></i></a>" +
-                            "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
-                            "</div>" +
-                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
-                            "<div class='btn-group'>" +
-                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
-                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
-                            "</a>" +
-                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
-                            "<li>" +
-                            "<a class='details' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-eye'></i> Detalles" +
-                            "</a>" +
-                            "</li>" +
-                            "<li>" +
-                            "<a class='ganado' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-edit'></i> Ganado" +
-                            "</a>" +
-                            "</li>" +
-                            "<li>" +
-                            "<a class='transacciones' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-money'></i> Transacciones ($)" +
-                            "</a>" +
-                            "</li>" +
-                            "<li>" +
-                            "<a role='menuitem' tabindex='-1' id='" + full["id_compra"] + "'>" +
-                            "<i class='fa fa-trash-o'></i> Eliminar" +
-                            "</a>" +
-                            "</li>" +
-                            "</ul>" +
-                            "</div>" +
-                            "</div>";
-                    } else if (full["estatus"] == "Finalizado") {
-                        botones = botones + "<a data-id='" + full["id_flete"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                            "</div>" +
-                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
-                            "<div class='btn-group'>" +
-                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
-                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
-                            "</a>" +
-                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
-                            "<li>" +
-                            "<a class='details' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-eye'></i> Detalles" +
-                            "</a>" +
-                            "</li>" +
-                            "</ul>" +
-                            "</div>" +
-                            "</div>";
-                    }
-                    return botones;
-                }
-            }
-                ],
-                responsive: true,
-                "drawCallback": function (settings) {
-                    $(".edit").on("click", function () {
-                        //edito el estado actual de la compra
-                        var IDCompra = $(this).data("id")
-                        window.location.href = '/Admin/Compra/Edit?IDCompra=' + IDCompra;
-                    });
-                    $(".transacciones").on("click", function () {
-                        //para agregar nuevos servicios o productos y/o para registrar los pagos o cobros realizados
-                        var IDCompra = $(this).data("id")
-                        window.location.href = '/Admin/Compra/Transacciones?IDCompra=' + IDCompra;
-                    });
-                    $(".enviar").on("click", function () {
-                        var id = $(this).attr('data-id');
-                        var box = $("#mb-enviar");
-                        box.addClass("open");
-                        box.find(".mb-control-yes").on("click", function () {
-                            box.removeClass("open");
-                            window.location.href = '/Admin/Compra/CambiarEstatus?IDCompra=' + id;
-                        });
-
-                    });
-                    $(".ganado").on("click", function () {
-                        var id = $(this).attr('data-id');
-                        var box = $("#mb-ganado");
-                        box.addClass("open");
-                        box.find(".mb-control-yes").on("click", function () {
-                            box.removeClass("open");
-                            window.location.href = '/Admin/Compra/CambiarEstatus?IDCompra=' + id;
-                        });
-
-                    });
-
                 },
-                "order": [[1, 'asc']]
-            });
+                {
+                    "data": null,
+                    "render": function (data, type, full) {
+                        var botones = "<div class='visible-md visible-lg hidden-sm hidden-xs'>";
+                        var status_actual = full["Estatus"];
+                        var agendado = "Agendado";
+                        var en_camino = "En camino";
+                        var ganado = "Ganado";
+                        var eventos_recepcion = "Eventos y recepción"
+                        var igual = status_actual.localeCompare(agendado);
 
-            tblIndexCompra1.on('page.dt', function () {
-                onresize(100);
-            });
+                        if (igual == 0) {
+                            botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm enviar' title='Enviar'  data-placement='top' data-original-title='Enviar'><i class='fa fa-truck'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Agendado'  data-placement='top' data-original-title='Agendado'><i class='fa fa-clock-o'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                                "</div>" +
+                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                "<div class='btn-group'>" +
+                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                                "</a>" +
+                                "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                                "<li>" +
+                                "<a class='details' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-eye'></i> Detalles" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a class='enviar' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-mail-forward'></i> Continuar" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a class='edit' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-clock-o'></i> Agendado" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a role='menuitem' tabindex='-1' id='" + full["id_compra"] + "'>" +
+                                "<i class='fa fa-trash-o'></i> Eliminar" +
+                                "</a>" +
+                                "</li>" +
+                                "</ul>" +
+                                "</div>" +
+                                "</div>";
+                            return botones;
+                        }
+                        igual = status_actual.localeCompare(en_camino);
+                        if (igual == 0) {
+                            botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm ganado' title='Ganado'  data-placement='top' data-original-title='Ganado'><i class='fa fa-github-alt'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                                "</div>" +
+                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                "<div class='btn-group'>" +
+                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                                "</a>" +
+                                "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                                "<li>" +
+                                "<a class='details' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-eye'></i> Detalles" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a class='ganado' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-edit'></i> Ganado" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a class='transacciones' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-money'></i> Transacciones ($)" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a role='menuitem' tabindex='-1' id='" + full["id_compra"] + "'>" +
+                                "<i class='fa fa-trash-o'></i> Eliminar" +
+                                "</a>" +
+                                "</li>" +
+                                "</ul>" +
+                                "</div>" +
+                                "</div>";
+                            return botones;
+                        }
+                        igual = status_actual.localeCompare(ganado);
+                        if (igual == 0) {
+                            botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm eventos_recepcion' title='Eventos y recepción'  data-placement='top' data-original-title='Eventos y recepción'><i class='fa fa-book'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Ganado'  data-placement='top' data-original-title='Ganado'><i class='fa fa-github-alt'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                                "</div>" +
+                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                "<div class='btn-group'>" +
+                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                                "</a>" +
+                                "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                                "<li>" +
+                                "<a class='details' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-eye'></i> Detalles" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a class='ganado' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-edit'></i> Ganado" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a class='transacciones' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-money'></i> Transacciones ($)" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a role='menuitem' tabindex='-1' id='" + full["id_compra"] + "'>" +
+                                "<i class='fa fa-trash-o'></i> Eliminar" +
+                                "</a>" +
+                                "</li>" +
+                                "</ul>" +
+                                "</div>" +
+                                "</div>";
 
-            // Add event listener for opening and closing details
-            $('#tblIndexCompra tbody').on('click', 'td.details-control', function () {
-                var tr = $(this).closest('tr');
-                var row = tblIndexCompra1.row(tr);
-
-                if (row.child.isShown()) {
-                    // This row is already open - close it
-                    row.child.hide();
-                    tr.removeClass('shown');
+                        }
+                        igual = status_actual.localeCompare(eventos_recepcion);
+                        if (igual == 0) {
+                            botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm concluir' title='Concluir'  data-placement='top' data-original-title='Concluir'><i class='fa fa-check'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Eventos y recepción'  data-placement='top' data-original-title='Eventos y recepción'><i class='fa fa-book'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                                "</div>" +
+                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                "<div class='btn-group'>" +
+                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                                "</a>" +
+                                "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                                "<li>" +
+                                "<a class='details' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-eye'></i> Detalles" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a class='ganado' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-edit'></i> Ganado" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a class='transacciones' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-money'></i> Transacciones ($)" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a role='menuitem' tabindex='-1' id='" + full["id_compra"] + "'>" +
+                                "<i class='fa fa-trash-o'></i> Eliminar" +
+                                "</a>" +
+                                "</li>" +
+                                "</ul>" +
+                                "</div>" +
+                                "</div>";
+                        } else if (full["estatus"] == "Finalizado") {
+                            botones = botones + "<a data-id='" + full["id_flete"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                "</div>" +
+                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                "<div class='btn-group'>" +
+                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                                "</a>" +
+                                "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                                "<li>" +
+                                "<a class='details' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-eye'></i> Detalles" +
+                                "</a>" +
+                                "</li>" +
+                                "</ul>" +
+                                "</div>" +
+                                "</div>";
+                        }
+                        return botones;
+                    }
                 }
-                else {
-                    // Open this row
-                    row.child(format(row.data())).show();
-                    tr.addClass('shown');
-                }
-            });
+            ],
+            responsive: true,
+            "drawCallback": function (settings) {
+                $(".edit").on("click", function () {
+                    //edito el estado actual de la compra
+                    var IDCompra = $(this).data("id")
+                    window.location.href = '/Admin/Compra/Edit?IDCompra=' + IDCompra;
+                });
+                $(".transacciones").on("click", function () {
+                    //para agregar nuevos servicios o productos y/o para registrar los pagos o cobros realizados
+                    var IDCompra = $(this).data("id")
+                    window.location.href = '/Admin/Compra/Transacciones?IDCompra=' + IDCompra;
+                });
+                $(".enviar").on("click", function () {
+                    var id = $(this).attr('data-id');
+                    var box = $("#mb-enviar");
+                    box.addClass("open");
+                    box.find(".mb-control-yes").on("click", function () {
+                        box.removeClass("open");
+                        window.location.href = '/Admin/Compra/CambiarEstatus?IDCompra=' + id;
+                    });
 
-        </script>
+                });
+                $(".ganado").on("click", function () {
+                    var id = $(this).attr('data-id');
+                    var box = $("#mb-ganado");
+                    box.addClass("open");
+                    box.find(".mb-control-yes").on("click", function () {
+                        box.removeClass("open");
+                        window.location.href = '/Admin/Compra/CambiarEstatus?IDCompra=' + id;
+                    });
 
-    }
+                });
+                $(".eventos_recepcion").on("click", function () {
+                    var id = $(this).attr('data-id');
+                    var box = $("#mb-evento_recepcion");
+                    box.addClass("open");
+                    box.find(".mb-control-yes").on("click", function () {
+                        box.removeClass("open");
+                        window.location.href = '/Admin/Compra/CambiarEstatus?IDCompra=' + id;
+                    });
+                });
+
+            },
+            "order": [[1, 'asc']]
+        });
+
+        tblIndexCompra1.on('page.dt', function () {
+            onresize(100);
+        });
+
+        // Add event listener for opening and closing details
+        $('#tblIndexCompra tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = tblIndexCompra1.row(tr);
+
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+
+    </script>
+
+}
