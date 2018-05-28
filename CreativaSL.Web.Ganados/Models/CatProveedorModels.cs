@@ -33,6 +33,7 @@ namespace CreativaSL.Web.Ganados.Models
             _Observaciones = string.Empty;
             _Direccion = string.Empty;
             _ListaGeneroCMB = new List<CatGeneroModels>();
+            _ListaPeriodo = new List<CatPeriodoModels>();
         }
         private int _merma;
 
@@ -160,7 +161,9 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private int _IDTipoProveedor;
-
+        [Required(ErrorMessage = "Seleccione un tipo proveedor")]
+        [Display(Name = "Proveedor")]
+        [CombosInt(ErrorMessage = "Seleccione un tipo proveedor")]
         public int IDTipoProveedor
         {
             get { return _IDTipoProveedor; }
@@ -168,7 +171,8 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _IDSucursal;
-
+        [Required(ErrorMessage = "Seleccione una sucursal")]
+        [Display(Name = "Sucursal")]
         public string IDSucursal
         {
             get { return _IDSucursal; }
@@ -303,6 +307,32 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _Observaciones; }
             set { _Observaciones = value; }
+        }
+
+        private int _CantidadPeriodo;
+
+        public int CantidadPeriodo
+        {
+            get { return _CantidadPeriodo; }
+            set { _CantidadPeriodo = value; }
+        }
+
+        private int _IDPeriodo;
+        [Required(ErrorMessage = "Seleccione un periodo")]
+        [Display(Name = "Periodo")]
+        [CombosInt(ErrorMessage = "Seleccione un tipo periodo")]
+        public int IDPeriodo
+        {
+            get { return _IDPeriodo; }
+            set { _IDPeriodo = value; }
+        }
+
+        private List<CatPeriodoModels> _ListaPeriodo;
+
+        public List<CatPeriodoModels> ListaPeriodo
+        {
+            get { return _ListaPeriodo; }
+            set { _ListaPeriodo = value; }
         }
 
 

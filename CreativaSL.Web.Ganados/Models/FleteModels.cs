@@ -47,6 +47,7 @@ namespace CreativaSL.Web.Ganados.Models
         public DateTime FechaTentativaEntrega { get; set; }
         public string CondicionPago { get; set; }
         public int Estatus { get; set; }
+        public string Id_documentoPorCobrar { get; set; }
 
         //ID
         public CatEmpresaModels Empresa { get; set; }
@@ -74,7 +75,10 @@ namespace CreativaSL.Web.Ganados.Models
         public TrayectoModels Trayecto { get; set; }
         public Flete_TipoDocumentoModels Documentos { get; set; }
         public Flete_ProductoModels Producto { get; set; }
-        public RecepcionModels Recepcion { get; set; }
+        public RecepcionDestinoModels RecepcionDestino { get; set; }
+        public RecepcionOrigenModels RecepcionOrigen { get; set; }
+
+        //doc por cobrar
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }

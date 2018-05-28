@@ -1,4 +1,5 @@
 ﻿using CreativaSL.Web.Ganados.Filters;
+using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -89,5 +90,29 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
+
+
+        [HttpPost]
+        public ActionResult ModalRegistrarComprobantePago(int opcion, string id)
+        {
+            {
+                DocumentosPorCobrarDetallePagosModels registrarPago = new DocumentosPorCobrarDetallePagosModels();
+                _DocumentoXCobrar_Datos DocCobrarDatos = new _DocumentoXCobrar_Datos();
+                registrarPago.Id_documentoPorCobrar = id;
+                registrarPago.Usuario = User.Identity.Name;
+                registrarPago.Conexion = Conexion;
+                registrarPago.ListaAsignar = DocCobrarDatos.GetListadoAsignar(registrarPago);
+                registrarPago.ListaFormaPagos = DocCobrarDatos.GetListadoCFDIFormaPago(registrarPago);
+                //registrarPago.DocumentoPorCobrarDetallePagosBancarizado.ListaCuentasBancarias;
+                
+                return PartialView("ModalRegistrarComprobantePago", registrarPago);
+            }
+        }
+
+
+
+
+
+
     }
 }

@@ -9,26 +9,28 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class _CatProveedor_Datos
     {
+        #region Proveedor Contactos
+
         public CatContactosModels ObtenerDetalleCatDatosXProveedor(CatContactosModels datos)
         {
             try
             {
-                object[] parametros = { datos.IDProveedor,datos.IDContacto };
+                object[] parametros = { datos.IDProveedor, datos.IDContacto };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_get_DatosContactoXProveedorXID", parametros);
                 while (dr.Read())
                 {
                     datos.IDContacto = dr["id_contacto"].ToString();
-                    
-                    datos.nombreContacto= dr["nombreContacto"].ToString();
-                    datos.apMaterno= dr["apellidomaterno"].ToString();
+
+                    datos.nombreContacto = dr["nombreContacto"].ToString();
+                    datos.apMaterno = dr["apellidomaterno"].ToString();
                     datos.apPaterno = dr["apellidoPaterno"].ToString();
-                   
+
                     datos.telefonoContacto = dr["telefonoContacto"].ToString();
                     datos.correo = dr["correoElectronico"].ToString();
                     datos.celularContacto = dr["celularContacto"].ToString();
-                    datos.direccion= dr["direccion"].ToString();
-                    
+                    datos.direccion = dr["direccion"].ToString();
+
                     datos.observacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
                 }
                 return datos;
@@ -58,7 +60,7 @@ namespace CreativaSL.Web.Ganados.Models
                    datos.observacion ?? string.Empty,
                     datos.direccion ?? string.Empty,
                    datos.Usuario ?? string.Empty
-                  
+
                     };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatContactoXproveedor", parametros);
                 datos.IDContacto = aux.ToString();
@@ -78,22 +80,23 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        public List<CatContactosModels> obtenerDatosContacto(CatProveedorModels datos) {
+        public List<CatContactosModels> obtenerDatosContacto(CatProveedorModels datos)
+        {
             try
             {
                 List<CatContactosModels> lista = new List<CatContactosModels>();
                 CatContactosModels item;
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_get_DatosContactoXProveedor",datos.IDProveedor);
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_get_DatosContactoXProveedor", datos.IDProveedor);
                 while (dr.Read())
                 {
                     item = new CatContactosModels();
-                    
+
                     item.IDContacto = dr["id_contacto"].ToString();
                     item.nombreContacto = dr["nombre"].ToString();
                     item.correo = dr["correoElectronico"].ToString();
                     item.telefonoContacto = dr["telefonoContacto"].ToString();
-                    item.celularContacto= !dr.IsDBNull(dr.GetOrdinal("celularContacto")) ? dr.GetString(dr.GetOrdinal("celularContacto")) : string.Empty;
+                    item.celularContacto = !dr.IsDBNull(dr.GetOrdinal("celularContacto")) ? dr.GetString(dr.GetOrdinal("celularContacto")) : string.Empty;
                     lista.Add(item);
                 }
                 return lista;
@@ -102,8 +105,36 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 throw ex;
             }
-           
+
         }
+        public CatContactosModels EliminarProveedorDatosContacto(CatContactosModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.IDContacto, datos.Usuario
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_shared_del_CatContactoXID", parametros);
+                if (aux != null)
+                {
+                    int Resultado = 0;
+                    int.TryParse(aux.ToString(), out Resultado);
+                    if (Resultado == 1)
+                    {
+                        datos.Completado = true;
+                    }
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        #endregion
+
         #region Proveedor
 
         public CatProveedorModels AcCatProveedor(CatProveedorModels datos)
@@ -132,6 +163,8 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Tolerancia,
                     //datos.merma,
                     datos.Observaciones ?? string.Empty,
+                    datos.CantidadPeriodo,
+                    datos.IDPeriodo,
                     datos.Usuario ?? string.Empty
                     };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatProveedor", parametros);
@@ -202,6 +235,8 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.EsEmpresa = !dr.IsDBNull(dr.GetOrdinal("esEmpresa")) ? dr.GetBoolean(dr.GetOrdinal("esEmpresa")) : false;
                     datos.Tolerancia = !dr.IsDBNull(dr.GetOrdinal("tolerancia")) ? dr.GetInt32(dr.GetOrdinal("tolerancia")) : 0;
                     datos.Observaciones = !dr.IsDBNull(dr.GetOrdinal("observaciones")) ? dr.GetString(dr.GetOrdinal("observaciones")) : string.Empty;
+                    datos.CantidadPeriodo = !dr.IsDBNull(dr.GetOrdinal("cantidadPeriodo")) ? dr.GetInt32(dr.GetOrdinal("cantidadPeriodo")) : 0;
+                    datos.IDPeriodo = !dr.IsDBNull(dr.GetOrdinal("id_periodo")) ? dr.GetInt32(dr.GetOrdinal("id_periodo")) : 0;
                    // datos.merma= !dr.IsDBNull(dr.GetOrdinal("merma")) ? dr.GetInt32(dr.GetOrdinal("merma")) : 0;
                 }
                 return datos;
@@ -302,6 +337,29 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     item = new CatGeneroModels();
                     item.IDGenero = !dr.IsDBNull(dr.GetOrdinal("IDGenero")) ? dr.GetInt32(dr.GetOrdinal("IDGenero")) : 0;
+                    item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CatPeriodoModels> ObteneComboCatPeriodo(CatProveedorModels Datos)
+        {
+            try
+            {
+                List<CatPeriodoModels> lista = new List<CatPeriodoModels>();
+                CatPeriodoModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Combo_get_CatPeriodo");
+                while (dr.Read())
+                {
+                    item = new CatPeriodoModels();
+                    item.IDPeriodo = !dr.IsDBNull(dr.GetOrdinal("IDPeriodo")) ? dr.GetInt32(dr.GetOrdinal("IDPeriodo")) : 0;
                     item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
                     lista.Add(item);
                 }

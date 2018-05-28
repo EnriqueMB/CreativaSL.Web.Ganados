@@ -42,6 +42,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CapturarCompraViewModels Model = new CapturarCompraViewModels();
                 _CompraAlmacen_Datos CompraDatos = new _CompraAlmacen_Datos();
                 Model.ListaSucursal = CompraDatos.ObtenerComboSucursales(Conexion);
@@ -66,37 +67,46 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 _CompraAlmacen_Datos CompraDatos = new _CompraAlmacen_Datos();
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    CompraAlmacenModels Compra = new CompraAlmacenModels
+                    if (ModelState.IsValid)
                     {
-                        Sucursal = new CatSucursalesModels { IDSucursal = Model.IDSucursal },
-                        Proveedor = new CatProveedorModels { IDProveedor = Model.IDProveedorAlmacen },
-                        NumFacturaNota = Model.NumFactNota,
-                        Fecha = Model.FechaCompra,
-                        Conexion = Conexion,
-                        Opcion = 1,
-                        Usuario = User.Identity.Name
-                    };
-                    Compra = CompraDatos.ACCompraAlmacen(Compra);
-                    if (Compra.Completado)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "El registro se guardó correctamente.";
-                        return RedirectToAction("Detail", new { id = Compra.IDCompraAlmacen});
+                        CompraAlmacenModels Compra = new CompraAlmacenModels
+                        {
+                            Sucursal = new CatSucursalesModels { IDSucursal = Model.IDSucursal },
+                            Proveedor = new CatProveedorModels { IDProveedor = Model.IDProveedorAlmacen },
+                            NumFacturaNota = Model.NumFactNota,
+                            Fecha = Model.FechaCompra,
+                            Conexion = Conexion,
+                            Opcion = 1,
+                            Usuario = User.Identity.Name
+                        };
+                        Compra = CompraDatos.ACCompraAlmacen(Compra);
+                        if (Compra.Completado)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardó correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Detail", new { id = Compra.IDCompraAlmacen });
+                        }
+                        else
+                        {
+                            Model.ListaProveedor = CompraDatos.ObtenerComboProveedores(Conexion);
+                            Model.ListaSucursal = CompraDatos.ObtenerComboSucursales(Conexion);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar el registro.";
+                            return View(Model);
+                        }
                     }
                     else
                     {
-                        Model.ListaProveedor = CompraDatos.ObtenerComboProveedores(Conexion);
-                        Model.ListaSucursal = CompraDatos.ObtenerComboSucursales(Conexion);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al guardar el registro.";
                         return View(Model);
                     }
+
                 }
                 else
                 {
-                    return View(Model);
+                    return RedirectToAction("Detail", new { id = Model.IDCompraAlmacen });
                 }
 
             }
@@ -144,39 +154,47 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 _CompraAlmacen_Datos CompraDatos = new _CompraAlmacen_Datos();
-
-                if (ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    CompraAlmacenModels Compra = new CompraAlmacenModels
+                    if (ModelState.IsValid)
                     {
-                        Sucursal = new CatSucursalesModels { IDSucursal = Model.IDSucursal },
-                        Proveedor = new CatProveedorModels { IDProveedor = Model.IDProveedorAlmacen },
-                        NumFacturaNota = Model.NumFactNota,
-                        Fecha = Model.FechaCompra,
-                        Conexion = Conexion,
-                        IDCompraAlmacen = id,
-                        Opcion = 2,
-                        Usuario = User.Identity.Name
-                    };
-                    Compra = CompraDatos.ACCompraAlmacen(Compra);
-                    if (Compra.Completado)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "El registro se guardó correctamente.";
-                        return RedirectToAction("Index", new { id = Compra.IDCompraAlmacen });
+                        CompraAlmacenModels Compra = new CompraAlmacenModels
+                        {
+                            Sucursal = new CatSucursalesModels { IDSucursal = Model.IDSucursal },
+                            Proveedor = new CatProveedorModels { IDProveedor = Model.IDProveedorAlmacen },
+                            NumFacturaNota = Model.NumFactNota,
+                            Fecha = Model.FechaCompra,
+                            Conexion = Conexion,
+                            IDCompraAlmacen = id,
+                            Opcion = 2,
+                            Usuario = User.Identity.Name
+                        };
+                        Compra = CompraDatos.ACCompraAlmacen(Compra);
+                        if (Compra.Completado)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardó correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index", new { id = Compra.IDCompraAlmacen });
+                        }
+                        else
+                        {
+                            Model.ListaProveedor = CompraDatos.ObtenerComboProveedores(Conexion);
+                            Model.ListaSucursal = CompraDatos.ObtenerComboSucursales(Conexion);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar el registro.";
+                            return View(Model);
+                        }
                     }
                     else
                     {
-                        Model.ListaProveedor = CompraDatos.ObtenerComboProveedores(Conexion);
-                        Model.ListaSucursal = CompraDatos.ObtenerComboSucursales(Conexion);
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al guardar el registro.";
                         return View(Model);
                     }
+
                 }
                 else
                 {
-                    return View(Model);
+                    return RedirectToAction("Index", new { id = Model.IDCompraAlmacen });
                 }
 
             }
@@ -216,6 +234,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CompraAlmacenDetallesViewModels DetalleCompra = new CompraAlmacenDetallesViewModels();
                 _CompraAlmacen_Datos DetalleCompraDatos = new _CompraAlmacen_Datos();
                 DetalleCompra.IDCompraAlmacen = id;
@@ -238,52 +257,158 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 _CompraAlmacen_Datos datos = new _CompraAlmacen_Datos();
-                if(ModelState.IsValid)
+                if (Token.IsTokenValid())
                 {
-                    CompraAlmacenDetalleModels detalle = new CompraAlmacenDetalleModels
+                    if (ModelState.IsValid)
                     {
-                        Producto = new CatProductosAlmacenModels { IDProductoAlmacen = Model.IDProductoAlmacen },
-                        Cantidad = Model.Cantidad,
-                        IDUnidadProducto = Model.id_unidadProducto,
-                        PrecioUnitario = Model.PrecioUnitario,
-                        IDCompraAlmacen = id,
-                        Conexion = Conexion,
-                        Usuario = User.Identity.Name,
-                        Opcion = 1
-                    };
-                    detalle = datos.ABCCompraAlmacenDetalle(detalle);
-                    if(detalle.Completado)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "El registro se guardó correctamente.";
-                        return RedirectToAction("Detail", new { id = detalle.IDCompraAlmacen });
-                    }
-                    else
-                    {
-                        Model.Conexion = Conexion;
-                        if (detalle.Resultado == 2)
+                        CompraAlmacenDetalleModels detalle = new CompraAlmacenDetalleModels
                         {
-                            Model.Conexion = Conexion;
-                            Model.ListProducto = datos.ObtenerComboProducto(Model);
-                            Model.ListUnidadMedida = datos.ObtenerComboUnidadMedida(Model);
-                            TempData["typemessage"] = "2";
-                            TempData["message"] = "Ya existe un producto con esa unidad de medida seleccionada";
-                            return View(Model);
+                            Producto = new CatProductosAlmacenModels { IDProductoAlmacen = Model.IDProductoAlmacen },
+                            Cantidad = Model.Cantidad,
+                            IDUnidadProducto = Model.id_unidadProducto,
+                            PrecioUnitario = Model.PrecioUnitario,
+                            IDCompraAlmacen = id,
+                            Conexion = Conexion,
+                            Usuario = User.Identity.Name,
+                            Opcion = 1
+                        };
+                        detalle = datos.ABCCompraAlmacenDetalle(detalle);
+                        if (detalle.Completado)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardó correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Detail", new { id = detalle.IDCompraAlmacen });
                         }
                         else
                         {
-                            Model.ListProducto = datos.ObtenerComboProducto(Model);
-                            Model.ListUnidadMedida = datos.ObtenerComboUnidadMedida(Model);
-                            TempData["typemessage"] = "2";
-                            TempData["message"] = "Ocurrió un error al guardar el registro.";
-                            return View(Model);
+                            Model.Conexion = Conexion;
+                            if (detalle.Resultado == 2)
+                            {
+                                Model.Conexion = Conexion;
+                                Model.ListProducto = datos.ObtenerComboProducto(Model);
+                                Model.ListUnidadMedida = datos.ObtenerComboUnidadMedida(Model);
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "Ya existe un producto con esa unidad de medida seleccionada";
+                                return View(Model);
+                            }
+                            else
+                            {
+                                Model.ListProducto = datos.ObtenerComboProducto(Model);
+                                Model.ListUnidadMedida = datos.ObtenerComboUnidadMedida(Model);
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "Ocurrió un error al guardar el registro.";
+                                return View(Model);
+                            }
                         }
+                    }
+                    else
+                    {
+                        return View(Model);
                     }
                 }
                 else
                 {
-                    return View(Model);
+                    return RedirectToAction("Detail", new { id = Model.IDCompraAlmacen });
                 }
+               
+            }
+            catch (Exception)
+            {
+                CompraAlmacenDetallesViewModels Almacen = new CompraAlmacenDetallesViewModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
+                return View(Almacen);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult EditProducto(string id, string id2)
+        {
+            try
+            {
+                Token.SaveToken();
+                CompraAlmacenDetallesViewModels DetalleCompra = new CompraAlmacenDetallesViewModels();
+                _CompraAlmacen_Datos DetalleCompraDatos = new _CompraAlmacen_Datos();
+                DetalleCompra.IDCompraAlmacen = id;
+                DetalleCompra.IDCompraAlmacenDetalle = id2;
+                DetalleCompra.Conexion = Conexion;
+                DetalleCompra = DetalleCompraDatos.ObtenerCompraAlmacenDetalle(DetalleCompra);
+                DetalleCompra.ListProducto = DetalleCompraDatos.ObtenerComboProducto(DetalleCompra);
+                DetalleCompra.ListUnidadMedida = DetalleCompraDatos.ObtenerComboUnidadMedida(DetalleCompra);
+                return View(DetalleCompra);
+            }
+            catch (Exception)
+            {
+                CapturarCompraViewModels Model = new CapturarCompraViewModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Model);
+            }
+
+        }
+        [HttpPost]
+        public ActionResult EditProducto(string id,string id2, CompraAlmacenDetallesViewModels Model)
+        {
+            try
+            {
+                _CompraAlmacen_Datos datos = new _CompraAlmacen_Datos();
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        CompraAlmacenDetalleModels detalle = new CompraAlmacenDetalleModels
+                        {
+                            Producto = new CatProductosAlmacenModels { IDProductoAlmacen = Model.IDProductoAlmacen },
+                            Cantidad = Model.Cantidad,
+                            IDUnidadProducto = Model.id_unidadProducto,
+                            PrecioUnitario = Model.PrecioUnitario,
+                            IDCompraAlmacen = id,
+                            IDCompraAlmacenDetalle = id2,
+                            Conexion = Conexion,
+                            Usuario = User.Identity.Name,
+                            Opcion = 2
+                        };
+                        detalle = datos.ABCCompraAlmacenDetalle(detalle);
+                        if (detalle.Completado)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardó correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Detail", new { id = detalle.IDCompraAlmacen });
+                        }
+                        else
+                        {
+                            Model.Conexion = Conexion;
+                            if (detalle.Resultado == 2)
+                            {
+                                Model.Conexion = Conexion;
+                                Model.ListProducto = datos.ObtenerComboProducto(Model);
+                                Model.ListUnidadMedida = datos.ObtenerComboUnidadMedida(Model);
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "Ya existe un producto con esa unidad de medida seleccionada";
+                                return View(Model);
+                            }
+                            else
+                            {
+                                Model.ListProducto = datos.ObtenerComboProducto(Model);
+                                Model.ListUnidadMedida = datos.ObtenerComboUnidadMedida(Model);
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "Ocurrió un error al guardar el registro.";
+                                return View(Model);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return View(Model);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Detail", new { id = Model.IDCompraAlmacen });
+                }
+
             }
             catch (Exception)
             {
@@ -368,8 +493,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 _CompraAlmacen_Datos CompraDatos = new _CompraAlmacen_Datos();
-                Compra.IDCompraAlmacenDetalle = id;
-                Compra.IDCompraAlmacen = id_compraAlmacen;
+                Compra.IDCompraAlmacen = id;
+                Compra.IDCompraAlmacenDetalle = id_compraAlmacen;
                 Compra.Conexion = Conexion;
                 Compra.Usuario = User.Identity.Name;
                 Compra = CompraDatos.DeleteCompraAlmacenDetalle(Compra);

@@ -30,9 +30,10 @@
 
                 <div class="col-md-12">
                     @{ Html.EnableClientValidation(false); }
-                    @using (Html.BeginForm("AgregarCuenta", "CatCliente", FormMethod.Post, new { @class = "form-horizontal", id = "form-cb", autocomplete = "off" }))
+                    @using (Html.BeginForm("Create", "Mantenimiento", FormMethod.Post, new { @class = "form-horizontal", id = "form-SMV", autocomplete = "off" }))
                     {
                         @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.ID)
                         <div class="field_error" id="validation_summary"></div>
                         @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
                         <div class="panel panel-default">
@@ -49,6 +50,15 @@
                                         @Html.ValidationMessageFor(model => model.IDSucursal)
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-2 col-xs-12 control-label"><span>* </span> Proveedor </label>
+                                    <div class="col-md-6 col-xs-12">
+                                        @Html.DropDownListFor(model => model.IDProveedor, new SelectList(Model.ListaProveedores, "IDProveedor", "NombreRazonSocial"), new { id = "IDProveedor", @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.IDProveedor)
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <label class="col-md-2 col-xs-12 control-label"> * Fecha de servicio</label>
                                     <div class="col-md-6 col-xs-12">
@@ -59,11 +69,10 @@
                                         @Html.ValidationMessageFor(model => model.Fecha)
                                     </div>
                                 </div>
-
                             </div>
                             <div class="panel-footer">
                                 <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
-                                <a href="@Url.Action("Servicios","Mantenimiento", new { id = "IDVehiculo"})" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                                <a href="@Url.Action("Servicios","Mantenimiento", new { id = Model.ID })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                             </div>
                         </div>
                     }
@@ -82,8 +91,8 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/smartwizard/jquery.smartWizard-2.0.min.js")"></script>    
-    <script type="text/javascript" src="@Url.Content("~/Content/js/serviciosMtto.js")"></script>    
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/smartwizard/jquery.smartWizard-2.0.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/serviciosMtto.js")"></script>
 
     <script>
         jQuery(document).ready(function () {

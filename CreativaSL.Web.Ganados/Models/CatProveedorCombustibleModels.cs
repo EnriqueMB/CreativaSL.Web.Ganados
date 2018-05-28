@@ -21,7 +21,17 @@ namespace CreativaSL.Web.Ganados.Models
             _correo = string.Empty;
             _fechaIngreso = DateTime.Now;
             _observaciones = string.Empty;
+            _listaProveedoresCombustible = new List<CatProveedorCombustibleModels>();
+            _listaSucursal = new List<CatSucursalesModels>();
         }
+        private List<CatContactosModels> _listaDatosContactos;
+
+        public List<CatContactosModels> listaDatosContactos
+        {
+            get { return _listaDatosContactos; }
+            set { _listaDatosContactos = value; }
+        }
+
         private string _telefonoCasa;
 
         public string telefonoCasa
@@ -72,9 +82,9 @@ namespace CreativaSL.Web.Ganados.Models
             set { _nombreSucursal = value; }
         }
 
-        private List<CatProveedorModels> _listaProveedoresCombustible;
+        private List<CatProveedorCombustibleModels> _listaProveedoresCombustible;
 
-        public List<CatProveedorModels> listaProveedoresCombustible
+        public List<CatProveedorCombustibleModels> listaProveedoresCombustible
         {
             get { return _listaProveedoresCombustible; }
             set { _listaProveedoresCombustible = value; }

@@ -10,9 +10,7 @@
         <!--FILEINPUT-->
 <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.5/css/select.bootstrap.min.css">
-
 <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
     <style>
         .marginRow {
@@ -50,7 +48,8 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
                 <li id="liEvento" role="presentation" class="active">  <a id="tabEvento" class="pestaña" href="#evento" aria-controls="evento" role="tab" data-toggle="tab">Evento</a></li>
-                <li id="liRecepcion" role="presentation" class="pestaña"><a id="tabRecepcion" class="pestaña" href="#recepcion" aria-controls="recepcion" role="tab" data-toggle="tab">Recepcion</a></li>
+                <li id="liRecepcionDestino" role="presentation" class="pestaña"><a id="tabRecepcionDestino" class="pestaña" href="#recepcionDestino" aria-controls="recepcionDestino" role="tab" data-toggle="tab">Recepción Destino</a></li>
+                <li id="liRecepcionOrigen" role="presentation" class="pestaña"><a id="tabRecepcionOrigen" class="pestaña" href="#recepcionOrigen" aria-controls="recepcionOrigen" role="tab" data-toggle="tab">Recepción Origen</a></li>
             </ul>
             @Html.HiddenFor(model => model.id_flete)
             <!-- Tab panes -->
@@ -106,95 +105,96 @@
                         </div>
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane" id="recepcion">
+                <div role="tabpanel" class="tab-pane" id="recepcionDestino">
                     <div class="col-md-12">
                         @{ Html.EnableClientValidation(false); }
-                        @using (Html.BeginForm("AC_Recepcion", "Flete", FormMethod.Post, new { id = "Frm_AC_Recepcion", @class = "form-horizontal", autocomplete = "off" }))
+                        @using (Html.BeginForm("AC_RecepcionDestino", "Flete", FormMethod.Post, new { id = "Frm_AC_RecepcionDestino", @class = "form-horizontal", autocomplete = "off" }))
                         {
-                            @Html.HiddenFor(model => model.id_flete);
+                            @Html.HiddenFor(model => model.RecepcionDestino.IDFlete);
+                            @Html.HiddenFor(model => model.RecepcionDestino.id_recepcion);
                             @Html.AntiForgeryToken()
 
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">Información de la <strong>Recepción</strong></h3>
+                                    <h3 class="panel-title">Información de la <strong>Recepción - destino</strong></h3>
                                     <ul class="panel-controls"></ul>
                                 </div>
                                 <div class="panel-body">
                                     @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
-                                    <div id="validation_summary_AC_Recepción" class="field_error "></div><br />
+                                    <div id="validation_summary_AC_RecepciónDestino" class="field_error "></div><br />
                                     <div class="panel-body">
                                         <form class="form-horizontal">
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-md-6 controlError">
                                                     <div class="form-group">
                                                         <label class="col-md-6 control-label">Recepcion de doc. de origen de embarque</label>
                                                         <div class="col-md-6">
-                                                            <label class="radio-inline"><input type="radio" name="optradio">SI</label>
-                                                            <label class="radio-inline"><input type="radio" name="optradio">NO</label>
+                                                            @Html.RadioButton("RecepcionDestino.RecepcionDocumentos", true, (Model.RecepcionDestino.RecepcionDocumentos) ? true : false , new { @class = "radio-inline" }) SI
+                                                            @Html.RadioButton("RecepcionDestino.RecepcionDocumentos", false, (!Model.RecepcionDestino.RecepcionDocumentos) ? true : false, new { @class = "radio-inline" }) NO
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group controlError">
                                                         <label class="col-md-6 control-label">Fecha de llegada de la unidad</label>
                                                         <div class="col-md-6">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                                                @Html.TextBoxFor(model => model.Recepcion.fechaLlegada, "{0:dd/MM/yyyy}", new { id = "Recepcion_fechaLlegada", autocomplete = "off", @class = "form-control datepicker", @readonly = "readonly" })
+                                                                @Html.TextBoxFor(model => model.RecepcionDestino.fechaLlegada, "{0:dd/MM/yyyy}", new { id = "Recepcion_fechaLlegada", autocomplete = "off", @class = "form-control datepicker", @readonly = "readonly" })
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group controlError">
                                                         <label class="col-md-6 control-label">Nombre del recepcionista</label>
                                                         <div class="col-md-6">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                                                                @Html.TextBoxFor(model => model.Recepcion.recibidoPor, new { id = "Recepcion_recibidoPor", @class = "form-control" })
+                                                                @Html.TextBoxFor(model => model.RecepcionDestino.recibidoPor, new { id = "Recepcion_recibidoPor", @class = "form-control" })
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group controlError">
                                                         <label class="col-md-6 control-label">Cantidad total de kilos</label>
                                                         <div class="col-md-6">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                @Html.TextBoxFor(model => model.Recepcion.kiloTotalRecibido, new { id = "Recepcion_kiloTotalRecibido", @class = "form-control" })
+                                                                @Html.TextBoxFor(model => model.RecepcionDestino.kiloTotalRecibido, new { id = "Recepcion_kiloTotalRecibido", @class = "form-control" })
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group controlError">
                                                         <label class="col-md-4 control-label">Valija sellada</label>
                                                         <div class="col-md-8">
                                                             <div class="input-group">
-                                                                <label class="radio-inline"><input type="radio" name="optradio">SI</label>
-                                                                <label class="radio-inline"><input type="radio" name="optradio">NO</label>
+                                                                @Html.RadioButton("RecepcionDestino.ValijaSellada", true, (Model.RecepcionDestino.ValijaSellada) ? true : false, new { @class = "radio-inline" }) SI
+                                                                @Html.RadioButton("RecepcionDestino.ValijaSellada", false, (!Model.RecepcionDestino.ValijaSellada) ? true: false, new { @class = "radio-inline" }) NO
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group controlError">
                                                         <label class="col-md-4 control-label">Hora llegada de la unidad</label>
                                                         <div class="col-md-8">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                                                @Html.TextBoxFor(model => model.Recepcion.HoraLlegada, new { id = "Recepcion_HoraLlegada", @class = "form-control timepicker" })
+                                                                @Html.TextBoxFor(model => model.RecepcionDestino.HoraLlegada, new { id = "Recepcion_HoraLlegada", @class = "form-control Hora24hrs", @readonly = "readonly" })
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group controlError">
                                                         <label class="col-md-4 control-label">Hora de descargar</label>
                                                         <div class="col-md-8">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                                                @Html.TextBoxFor(model => model.Recepcion.HoraDescarga, new { id = "Recepcion_HoraDescarga", @class = "form-control timepicker" })
+                                                                @Html.TextBoxFor(model => model.RecepcionDestino.HoraDescarga, new { id = "Recepcion_HoraDescarga", @class = "form-control Hora24hrs", @readonly = "readonly" })
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group controlError">
                                                         <label class="col-md-4 control-label">Cantidad total de ganado</label>
                                                         <div class="col-md-8">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                @Html.TextBoxFor(model => model.Recepcion.GanadosTotal, new { id = "Recepcion_GanadosTotal", @class = "form-control timepicker" })
+                                                                @Html.TextBoxFor(model => model.RecepcionDestino.GanadosTotal, new { id = "Recepcion_GanadosTotal", @class = "form-control" })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -202,12 +202,90 @@
                                             </div>
                                             <div class="row marginRow">
                                                 <div class="col-md-12">
-                                                    <div class="form-group">
+                                                    <div class="form-group controlError">
                                                         <label class="col-md-3 control-label">Observaciones</label>
                                                         <div class="col-md-9">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><span class="fa fa-eye"></span></span>
-                                                                <textarea class="form-control texArea" rows="5"></textarea>
+                                                                @Html.TextAreaFor(model => model.RecepcionDestino.observacion, new { @class = "form-control texArea", @rows = "5" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                    <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                                    <a href="@Url.Action("Index", "Flete")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="recepcionOrigen">
+                    <div class="col-md-12">
+                        @{ Html.EnableClientValidation(false); }
+                        @using (Html.BeginForm("AC_RecepcionOrigen", "Flete", FormMethod.Post, new { id = "Frm_AC_RecepcionOrigen", @class = "form-horizontal", autocomplete = "off" }))
+                        {
+                            @Html.HiddenFor(model => model.RecepcionOrigen.IDFlete);
+                            @Html.HiddenFor(model => model.RecepcionOrigen.IDRecepcionOrigen);
+                            @Html.AntiForgeryToken()
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Información de la <strong>Recepción - origen</strong></h3>
+                                    <ul class="panel-controls"></ul>
+                                </div>
+                                <div class="panel-body">
+                                    @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
+                                    <div id="validation_summary_AC_RecepciónOrigen" class="field_error "></div><br />
+                                    <div class="panel-body">
+                                        <form class="form-horizontal">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group controlError">
+                                                        <label class="col-md-6 control-label">Fecha de llegada de la unidad</label>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                                                @Html.TextBoxFor(model => model.RecepcionOrigen.FechaLlegada, "{0:dd/MM/yyyy}", new { autocomplete = "off", @class = "form-control datepicker", @readonly = "readonly" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group controlError">
+                                                        <label class="col-md-4 control-label">Hora llegada de la unidad</label>
+                                                        <div class="col-md-8">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                                @Html.TextBoxFor(model => model.RecepcionOrigen.HoraLlegada, new { @class = "form-control Hora24hrs", @readonly = "readonly" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group controlError">
+                                                        <label class="col-md-4 control-label">Kilometraje final</label>
+                                                        <div class="col-md-8">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><span class="fa fa-tachometer"></span></span>
+                                                                @Html.TextBoxFor(model => model.RecepcionOrigen.KilometrajeFinal, new {@class = "form-control" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group controlError">
+                                                        <label class="col-md-2 control-label">Observaciones</label>
+                                                        <div class="col-md-10">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><span class="fa fa-eye"></span></span>
+                                                                @Html.TextAreaFor(model => model.RecepcionOrigen.Observacion, new { @class = "form-control texArea", @rows = "5" })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -235,12 +313,12 @@
 
             </div>
         </div>
-        <div class="message-box animated fadeIn" data-sound="alert" id="mb-deleteDocumento">
+        <div class="message-box animated fadeIn" data-sound="alert" id="mb-delete-evento">
             <div class="mb-container">
                 <div class="mb-middle">
-                    <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                    <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Evento</strong> ?</div>
                     <div class="mb-content">
-                        <p>¿Seguro que quieres eliminar este documento?</p>
+                        <p>¿Seguro que quieres eliminar este evento?</p>
                         <p>Presione "sí" si está seguro.</p>
                     </div>
                     <div class="mb-footer">

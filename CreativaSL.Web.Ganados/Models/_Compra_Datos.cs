@@ -13,38 +13,80 @@ namespace CreativaSL.Web.Ganados.Models
     public class _Compra_Datos
     {
         private CultureInfo CultureInfo = new CultureInfo("es-MX");
-        //LISTA DE COMPRAS NO FINALIZADAS
-        public List<CompraModels> GetListaComprasNofinalizadas(CompraModels Compra)
+
+
+        #region Json Datatables
+        public SqlDataReader GetDocumentosDataTable(CompraModels Compra)
         {
+            object[] parametros =
+            {
+                Compra.IDFlete
+            };
 
             try
             {
-                List<CompraModels> Lista = new List<CompraModels>();
-                CompraModels Item;
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Inicio_get_ComprasNoFinalizadas");
-                while (dr.Read())
-                {
-                    Item = new CompraModels();
-                    Item.IDProveedor = !dr.IsDBNull(dr.GetOrdinal("nombreRazonSocial")) ? dr.GetString(dr.GetOrdinal("nombreRazonSocial")) : string.Empty;
-                    Item.FechaHoraProgramada = !dr.IsDBNull(dr.GetOrdinal("fechaHoraProgramada")) ? dr.GetDateTime(dr.GetOrdinal("fechaHoraProgramada")) : DateTime.Now;
-                    Item.Estatus= !dr.IsDBNull(dr.GetOrdinal("estatus")) ? dr.GetInt16(dr.GetOrdinal("estatus")) : 0;
-                    Item.GanadosPactadoMachos= !dr.IsDBNull(dr.GetOrdinal("ganadoPactadoMachos")) ? dr.GetInt32(dr.GetOrdinal("ganadoPactadoMachos")) : 0;
-                    Item.GanadosPactadoHembras = !dr.IsDBNull(dr.GetOrdinal("ganadoPactadoHembras")) ? dr.GetInt32(dr.GetOrdinal("ganadoPactadoHembras")) : 0;
-                    Item.GuiaTransito= !dr.IsDBNull(dr.GetOrdinal("guiaTransito")) ? dr.GetString(dr.GetOrdinal("guiaTransito")) : string.Empty;
-                    Item.estatusDesc = !dr.IsDBNull(dr.GetOrdinal("estatusDesc")) ? dr.GetString(dr.GetOrdinal("estatusDesc")) : string.Empty;
-                    Lista.Add(Item);
-                }
-                Compra.listaCompra = Lista;
-                return Compra.listaCompra;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Flete_get_DocumentosXIDFlete", parametros);
+                return dr;
             }
-
             catch (Exception ex)
             {
                 throw ex;
             }
         }
+        public SqlDataReader GetDocumentosPorCobrarDetalles(CompraModels Compra)
+        {
+            object[] parametros =
+            {
+                Compra.IDCompra
+            };
+
+            try
+            {
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_DocumentoPorCobrarDetalles", parametros);
+                return dr;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #region Index
+        public SqlDataReader ObtenerCompraIndexDataTable(CompraModels CompraModels)
+        {
+            try
+            {
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(CompraModels.Conexion, "spCSLDB_Compras_IndexVentas");
+                return dr;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region Ganado
+        public SqlDataReader TableJsonGanadoCompra(CompraModels Compra)
+        {
+            try
+            {
+                object[] parametros = { Compra.IDCompra };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_Ganado", parametros);
+                return dr;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #endregion
+
         #region Combos
+        #region Sucursales
         public List<CatSucursalesModels> GetListadoSucursales(CompraModels Compra)
         {
             CatSucursalesModels Sucursal;
@@ -68,6 +110,8 @@ namespace CreativaSL.Web.Ganados.Models
             }
             return Compra.ListaSucursales;
         }
+        #endregion
+        #region Proveedores
         public List<CatProveedorModels> GetListaProveedores(CompraModels Compra)
         {
             try
@@ -92,6 +136,8 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        #endregion
+        #region Lugares
         public List<CatLugarModels> GetListadoLugares(CompraModels Compra)
         {
             try
@@ -100,7 +146,7 @@ namespace CreativaSL.Web.Ganados.Models
                 CatLugarModels Lugar = new CatLugarModels();
 
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_AllCatLugar");
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_CatLugarXIDEmpresa");
                 while (dr.Read())
                 {
                     Lugar = new CatLugarModels
@@ -125,7 +171,7 @@ namespace CreativaSL.Web.Ganados.Models
             try
             {
                 CatLugarModels Lugar = new CatLugarModels();
-                object[] parametros = 
+                object[] parametros =
                 {
                     Compra.IDProveedor
                 };
@@ -151,6 +197,38 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public List<CatLugarModels> GetListadoLugaresLugarXIDEmpresa(CompraModels Compra)
+        {
+            try
+            {
+                CatLugarModels Lugar = new CatLugarModels();
+                List<CatLugarModels> listaLugares = new List<CatLugarModels>();
+                object[] parametros =
+                {
+                    Compra.IDEmpresa
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_CatLugarXIDEmpresa", parametros);
+                while (dr.Read())
+                {
+                    Lugar = new CatLugarModels();
+
+                    Lugar.id_lugar = !dr.IsDBNull(dr.GetOrdinal("IDLugar")) ? dr.GetString(dr.GetOrdinal("IDLugar")) : string.Empty;
+                    Lugar.descripcion = !dr.IsDBNull(dr.GetOrdinal("NombreLugar")) ? dr.GetString(dr.GetOrdinal("NombreLugar")) : string.Empty;
+                    Lugar.latitud = float.Parse(dr["GpsLatitud"].ToString());
+                    Lugar.longitud = float.Parse(dr["GpsLongitud"].ToString());
+
+                    listaLugares.Add(Lugar);
+                }
+                return listaLugares;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region Empresa
         public List<CatEmpresaModels> GetListadoEmpresas(CompraModels Compra)
         {
             try
@@ -176,6 +254,8 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        #endregion
+        #region Choferes
         public List<CatChoferModels> GetChoferesXIDEmpresa(CompraModels Compra)
         {
             try
@@ -205,6 +285,8 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        #endregion
+        #region Vehiculos
         public List<CatVehiculoModels> GetVehiculosXIDEmpresa(CompraModels Compra)
         {
             try
@@ -235,6 +317,8 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        #endregion
+        #region Jaulas
         public List<CatJaulaModels> GetJaulasXIDEmpresa(CompraModels Compra)
         {
             try
@@ -264,6 +348,8 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        #endregion
+        #region Remolques
         public List<CatRemolqueModels> GetRemolquesXIDEmpresa(CompraModels Compra)
         {
             try
@@ -293,11 +379,14 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        #endregion
+        #region Estatus del Ganado
         public List<CatEstatusGanadoModels> GetListadoEstatusGanado(CompraModels Compra)
         {
+            List<CatEstatusGanadoModels> listaEstatusGanado = new List<CatEstatusGanadoModels>();
             CatEstatusGanadoModels EstatusGanado;
             SqlDataReader dr = null;
-            
+
             dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_CatEstatusGanado");
 
             while (dr.Read())
@@ -308,33 +397,127 @@ namespace CreativaSL.Web.Ganados.Models
                     descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty,
                 };
 
-                Compra.ListaEstatusGanado.Add(EstatusGanado);
+                listaEstatusGanado.Add(EstatusGanado);
             }
-            return Compra.ListaEstatusGanado;
+            return listaEstatusGanado;
         }
-        public List<CatCostoFlete> GetListadoCostoFlete(CompraModels Compra)
+        #endregion
+        #region Corrales
+        public List<CatCorralesModels> GetListaCorrales(CompraModels Compra)
         {
-            CatCostoFlete CostoFlete;
+            CatCorralesModels item;
+            List<CatCorralesModels> lista = new List<CatCorralesModels>();
             SqlDataReader dr = null;
 
-            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_CatCostoFlete");
+            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_CatCorrales");
 
             while (dr.Read())
             {
-                CostoFlete = new CatCostoFlete
-                {
-                    IDCostoFlete = !dr.IsDBNull(dr.GetOrdinal("IDCostoFlete")) ? dr.GetInt16(dr.GetOrdinal("IDCostoFlete")) : 0,
-                    Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty,
-                };
+                item = new CatCorralesModels();
 
-                Compra.ListaCostoFlete.Add(CostoFlete);
+
+                item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+
+                item.Rango_inferior = !dr.IsDBNull(dr.GetOrdinal("RangoInferior")) ? dr.GetInt32(dr.GetOrdinal("RangoInferior")) : 0;
+                item.Rango_superior = !dr.IsDBNull(dr.GetOrdinal("RangoSuperior")) ? dr.GetInt32(dr.GetOrdinal("RangoSuperior")) : 0;
+                item.Id_corral = !dr.IsDBNull(dr.GetOrdinal("IDCorral")) ? dr.GetInt32(dr.GetOrdinal("IDCorral")) : 0;
+                item.Genero = !dr.IsDBNull(dr.GetOrdinal("Genero")) ? dr.GetString(dr.GetOrdinal("Genero")) : string.Empty;
+                lista.Add(item);
             }
-            return Compra.ListaCostoFlete;
+            return lista;
+        }
+        #endregion
+
+
+       
+      
+        #endregion
+
+        #region Otras funciones
+        public CompraModels CambiarEstatusCompra(CompraModels Compra)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     Compra.IDCompra
+                    ,Compra.Usuario
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_CambiarStatus", parametros);
+
+                while (dr.Read())
+                {
+                    Compra.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Compra.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                return Compra;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //LISTA DE COMPRAS NO FINALIZADAS
+        public List<CalendarioModels> GetListaComprasNofinalizadas(CalendarioModels Compra)
+        {
+
+            try
+            {
+                List<CalendarioModels> Lista = new List<CalendarioModels>();
+                CalendarioModels Item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Inicio_get_ComprasNoFinalizadas");
+                while (dr.Read())
+                {
+                    Item = new CalendarioModels();
+                    Item.IDProveedor = !dr.IsDBNull(dr.GetOrdinal("nombreRazonSocial")) ? dr.GetString(dr.GetOrdinal("nombreRazonSocial")) : string.Empty;
+                    DateTime FechaHoraProgramada = !dr.IsDBNull(dr.GetOrdinal("fechaHoraProgramada")) ? dr.GetDateTime(dr.GetOrdinal("fechaHoraProgramada")) : DateTime.Now;
+                    Item.start = FechaHoraProgramada.ToString("yyyy-MM-dd");
+                    Item.title = Item.IDProveedor;
+                    Item.Estatus = !dr.IsDBNull(dr.GetOrdinal("estatus")) ? dr.GetInt16(dr.GetOrdinal("estatus")) : 0;
+                    Item.GanadosPactadoMachos = !dr.IsDBNull(dr.GetOrdinal("ganadoPactadoMachos")) ? dr.GetInt32(dr.GetOrdinal("ganadoPactadoMachos")) : 0;
+                    Item.GanadosPactadoHembras = !dr.IsDBNull(dr.GetOrdinal("ganadoPactadoHembras")) ? dr.GetInt32(dr.GetOrdinal("ganadoPactadoHembras")) : 0;
+                    Item.GuiaTransito = !dr.IsDBNull(dr.GetOrdinal("guiaTransito")) ? dr.GetString(dr.GetOrdinal("guiaTransito")) : string.Empty;
+                    Item.estatusDesc = !dr.IsDBNull(dr.GetOrdinal("estatusDesc")) ? dr.GetString(dr.GetOrdinal("estatusDesc")) : string.Empty;
+
+                    Lista.Add(Item);
+                }
+                Compra.listaCompra = Lista;
+                return Compra.listaCompra;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         #endregion
 
         #region Get
 
+        public int GetEstatusCompra(CompraModels Compra)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Compra.IDCompra,
+                };
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_EstatusCompra", parametros);
+                while (dr.Read())
+                {
+                    Compra.Estatus = !dr.IsDBNull(dr.GetOrdinal("estatus")) ? dr.GetInt16(dr.GetOrdinal("estatus")) : -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Compra.Estatus;
+        }
         public CompraModels GetCompraProgramada(CompraModels Compra)
         {
             try
@@ -348,13 +531,13 @@ namespace CreativaSL.Web.Ganados.Models
 
                 while (dr.Read())
                 {
-
                     Compra.IDSucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty;
                     Compra.FechaHoraProgramada = !dr.IsDBNull(dr.GetOrdinal("fechaHoraProgramada")) ? dr.GetDateTime(dr.GetOrdinal("fechaHoraProgramada")) : DateTime.Now;
                     Compra.IDProveedor = !dr.IsDBNull(dr.GetOrdinal("id_proveedor")) ? dr.GetString(dr.GetOrdinal("id_proveedor")) : string.Empty;
                     Compra.IDPLugarProveedor = !dr.IsDBNull(dr.GetOrdinal("id_lugar_proveedor")) ? dr.GetString(dr.GetOrdinal("id_lugar_proveedor")) : string.Empty;
                     Compra.GanadosPactadoMachos = !dr.IsDBNull(dr.GetOrdinal("ganadoPactadoMachos")) ? dr.GetInt32(dr.GetOrdinal("ganadoPactadoMachos")) : 0;
                     Compra.GanadosPactadoHembras = !dr.IsDBNull(dr.GetOrdinal("ganadoPactadoHembras")) ? dr.GetInt32(dr.GetOrdinal("ganadoPactadoHembras")) : 0;
+                    Compra.Folio = !dr.IsDBNull(dr.GetOrdinal("folio")) ? dr.GetString(dr.GetOrdinal("folio")) : string.Empty;
                 }
                 return Compra;
             }
@@ -384,15 +567,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.IDJaula = !dr.IsDBNull(dr.GetOrdinal("id_jaula")) ? dr.GetString(dr.GetOrdinal("id_jaula")) : string.Empty;
                     Compra.IDRemolque = !dr.IsDBNull(dr.GetOrdinal("id_remolque")) ? dr.GetString(dr.GetOrdinal("id_remolque")) : string.Empty;
                     Compra.Flete.kmInicialVehiculo = !dr.IsDBNull(dr.GetOrdinal("kmInicialVehiculo")) ? dr.GetInt32(dr.GetOrdinal("kmInicialVehiculo")) : 0;
-                    Compra.IDCostoFlete = !dr.IsDBNull(dr.GetOrdinal("id_costoFlete")) ? dr.GetInt16(dr.GetOrdinal("id_costoFlete")) : 0;
-                    Compra.Proveedor.NombreRazonSocial = !dr.IsDBNull(dr.GetOrdinal("nombreRazonSocial")) ? dr.GetString(dr.GetOrdinal("nombreRazonSocial")) : string.Empty;
-                    Compra.Proveedor.RFC = !dr.IsDBNull(dr.GetOrdinal("rfc")) ? dr.GetString(dr.GetOrdinal("rfc")) : string.Empty;
                     Compra.Trayecto.id_lugarOrigen = !dr.IsDBNull(dr.GetOrdinal("id_lugarOrigen")) ? dr.GetString(dr.GetOrdinal("id_lugarOrigen")) : string.Empty;
                     Compra.Trayecto.id_lugarDestino = !dr.IsDBNull(dr.GetOrdinal("id_lugarDestino")) ? dr.GetString(dr.GetOrdinal("id_lugarDestino")) : string.Empty;
-                    Compra.GuiaTransito = !dr.IsDBNull(dr.GetOrdinal("guiaTransito")) ? dr.GetString(dr.GetOrdinal("guiaTransito")) : string.Empty;
-                    Compra.CertZoosanitario = !dr.IsDBNull(dr.GetOrdinal("certZoosanitario")) ? dr.GetString(dr.GetOrdinal("certZoosanitario")) : string.Empty;
-                    Compra.CertTuberculosis = !dr.IsDBNull(dr.GetOrdinal("certTuberculosis")) ? dr.GetString(dr.GetOrdinal("certTuberculosis")) : string.Empty;
-                    Compra.CertBrucelosis = !dr.IsDBNull(dr.GetOrdinal("certBrucelosis")) ? dr.GetString(dr.GetOrdinal("certBrucelosis")) : string.Empty;
                     Compra.IDPLugarProveedor = !dr.IsDBNull(dr.GetOrdinal("id_lugar_proveedor")) ? dr.GetString(dr.GetOrdinal("id_lugar_proveedor")) : string.Empty;
                 }
                 return Compra;
@@ -402,10 +578,52 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public List<CFDI_FormaPagoModels> GetListadoFormaPago(CompraModels Compra)
+        {
+            CFDI_FormaPagoModels FormaPago;
+            SqlDataReader dr = null;
+            object[] parametros =
+               {
+                    Compra.Sucursal.IDSucursal
+                };
+            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_COMPRAS_GetListadoFormaPago", parametros);
 
+            while (dr.Read())
+            {
+                FormaPago = new CFDI_FormaPagoModels
+                {
+                    Clave = !dr.IsDBNull(dr.GetOrdinal("clave")) ? dr.GetInt16(dr.GetOrdinal("clave")) : 0,
+                    Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty,
+                    Bancarizado = !dr.IsDBNull(dr.GetOrdinal("bancarizado")) ? dr.GetInt32(dr.GetOrdinal("bancarizado")) : 0,
+                };
 
+                Compra.ListaFormasPagos.Add(FormaPago);
+            }
+            return Compra.ListaFormasPagos;
+        }
+        public List<CatTipoClasificacionModels> GetListadoTipoClasificacion(CompraModels Compra)
+        {
+            CatTipoClasificacionModels TipoClasificacion;
+            SqlDataReader dr = null;
+            object[] parametros =
+               {
+                    Compra.Sucursal.IDSucursal
+                };
+            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_COMPRAS_GetListadoTipoClasificacion", parametros);
 
-        public CompraModels GetCompra(CompraModels Compra)
+            while (dr.Read())
+            {
+                TipoClasificacion = new CatTipoClasificacionModels
+                {
+                    IDTipoClasificacionGasto = !dr.IsDBNull(dr.GetOrdinal("id_tipoClasificacionGasto")) ? dr.GetInt16(dr.GetOrdinal("id_tipoClasificacionGasto")) : 0,
+                    Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty,
+                };
+
+                Compra.ListaTipoClasificacion.Add(TipoClasificacion);
+            }
+            return Compra.ListaTipoClasificacion;
+        }
+        public CompraModels GetGanadoCompra(CompraModels Compra)
         {
             try
             {
@@ -414,38 +632,22 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.IDCompra
                 };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_Compra", parametros);
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_GeneralesCompra", parametros);
 
                 while (dr.Read())
                 {
-                    Compra.IDProveedor = !dr.IsDBNull(dr.GetOrdinal("id_proveedor")) ? dr.GetString(dr.GetOrdinal("id_proveedor")) : string.Empty;
-                    Compra.IDSucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty;
-                    Compra.IDFlete = !dr.IsDBNull(dr.GetOrdinal("id_flete")) ? dr.GetString(dr.GetOrdinal("id_flete")) : string.Empty;
-                    Compra.GanadosPactadoMachos = !dr.IsDBNull(dr.GetOrdinal("ganadoPactadoMachos")) ? dr.GetInt32(dr.GetOrdinal("ganadoPactadoMachos")) : 0;
-                    Compra.GanadosPactadoHembras = !dr.IsDBNull(dr.GetOrdinal("ganadoPactadoHembras")) ? dr.GetInt32(dr.GetOrdinal("ganadoPactadoHembras")) : 0;
-                    Compra.GanadosPactadoTotal = !dr.IsDBNull(dr.GetOrdinal("ganadoTotalPactado")) ? dr.GetInt32(dr.GetOrdinal("ganadoTotalPactado")) : 0;
-                    Compra.FechaHoraProgramada = !dr.IsDBNull(dr.GetOrdinal("fechaHoraProgramada")) ? dr.GetDateTime(dr.GetOrdinal("fechaHoraProgramada")) : DateTime.Now;
-                    Compra.GuiaTransito = !dr.IsDBNull(dr.GetOrdinal("guiaTransito")) ? dr.GetString(dr.GetOrdinal("guiaTransito")) : string.Empty;
-                    Compra.CertZoosanitario = !dr.IsDBNull(dr.GetOrdinal("certZoosanitario")) ? dr.GetString(dr.GetOrdinal("certZoosanitario")) : string.Empty;
-                    Compra.CertTuberculosis = !dr.IsDBNull(dr.GetOrdinal("certTuberculosis")) ? dr.GetString(dr.GetOrdinal("certTuberculosis")) : string.Empty;
-                    Compra.CertBrucelosis = !dr.IsDBNull(dr.GetOrdinal("certBrucelosis")) ? dr.GetString(dr.GetOrdinal("certBrucelosis")) : string.Empty;
-                    Compra.IDEmpresa = !dr.IsDBNull(dr.GetOrdinal("id_empresa")) ? dr.GetString(dr.GetOrdinal("id_empresa")) : string.Empty;
-                    Compra.IDChofer = !dr.IsDBNull(dr.GetOrdinal("id_chofer")) ? dr.GetString(dr.GetOrdinal("id_chofer")) : string.Empty;
-                    Compra.IDJaula = !dr.IsDBNull(dr.GetOrdinal("id_jaula")) ? dr.GetString(dr.GetOrdinal("id_jaula")) : string.Empty;
-                    Compra.IDRemolque = !dr.IsDBNull(dr.GetOrdinal("id_remolque")) ? dr.GetString(dr.GetOrdinal("id_remolque")) : string.Empty;
-                    Compra.IDVehiculo = !dr.IsDBNull(dr.GetOrdinal("id_vehiculo")) ? dr.GetString(dr.GetOrdinal("id_vehiculo")) : string.Empty;
-                    Compra.Flete.kmInicialVehiculo = !dr.IsDBNull(dr.GetOrdinal("kmInicialVehiculo")) ? dr.GetInt32(dr.GetOrdinal("kmInicialVehiculo")) : 0;
-                    Compra.Trayecto.id_lugarOrigen = !dr.IsDBNull(dr.GetOrdinal("id_lugarOrigen")) ? dr.GetString(dr.GetOrdinal("id_lugarOrigen")) : string.Empty;
-                    Compra.Trayecto.id_lugarDestino = !dr.IsDBNull(dr.GetOrdinal("id_lugarDestino")) ? dr.GetString(dr.GetOrdinal("id_lugarDestino")) : string.Empty;
-                    Compra.Flete.kmInicialVehiculo = !dr.IsDBNull(dr.GetOrdinal("kmInicialVehiculo")) ? dr.GetInt32(dr.GetOrdinal("kmInicialVehiculo")) : 0;
-                    Compra.Sucursal.MermaPredeterminada = !dr.IsDBNull(dr.GetOrdinal("mermaPredeterminada")) ? dr.GetDecimal(dr.GetOrdinal("mermaPredeterminada")) : 0;
-                    Compra.MontoTotal = !dr.IsDBNull(dr.GetOrdinal("montoTotal")) ? dr.GetDecimal(dr.GetOrdinal("montoTotal")) : 0;
-                    Compra.MermaPromedio = !dr.IsDBNull(dr.GetOrdinal("mermaPromedio")) ? dr.GetDecimal(dr.GetOrdinal("mermaPromedio")) : 0;
                     Compra.GanadosCompradoMachos = !dr.IsDBNull(dr.GetOrdinal("ganadoCompradoMachos")) ? dr.GetInt32(dr.GetOrdinal("ganadoCompradoMachos")) : 0;
                     Compra.GanadosCompradoHembras = !dr.IsDBNull(dr.GetOrdinal("ganadoCompradoHembras")) ? dr.GetInt32(dr.GetOrdinal("ganadoCompradoHembras")) : 0;
                     Compra.GanadosCompradoTotal = !dr.IsDBNull(dr.GetOrdinal("ganadoCompradoTotal")) ? dr.GetInt32(dr.GetOrdinal("ganadoCompradoTotal")) : 0;
-                    Compra.IDPLugarProveedor = !dr.IsDBNull(dr.GetOrdinal("id_lugar_proveedor")) ? dr.GetString(dr.GetOrdinal("id_lugar_proveedor")) : string.Empty;
-                    Compra.Proveedor.NombreRazonSocial = !dr.IsDBNull(dr.GetOrdinal("nombreRazonSocial")) ? dr.GetString(dr.GetOrdinal("nombreRazonSocial")) : string.Empty;
+                    Compra.MermaMachos = !dr.IsDBNull(dr.GetOrdinal("mermaMachos")) ? dr.GetDecimal(dr.GetOrdinal("mermaMachos")) : 0;
+                    Compra.MermaHembras = !dr.IsDBNull(dr.GetOrdinal("mermaHembras")) ? dr.GetDecimal(dr.GetOrdinal("mermaHembras")) : 0;
+                    Compra.MermaTotal = !dr.IsDBNull(dr.GetOrdinal("mermaTotal")) ? dr.GetDecimal(dr.GetOrdinal("mermaTotal")) : 0;
+                    Compra.KilosMachos = !dr.IsDBNull(dr.GetOrdinal("kilosMachos")) ? dr.GetDecimal(dr.GetOrdinal("kilosMachos")) : 0;
+                    Compra.KilosHembras = !dr.IsDBNull(dr.GetOrdinal("kilosHembras")) ? dr.GetDecimal(dr.GetOrdinal("kilosHembras")) : 0;
+                    Compra.KilosTotal = !dr.IsDBNull(dr.GetOrdinal("kilosTotal")) ? dr.GetDecimal(dr.GetOrdinal("kilosTotal")) : 0;
+                    Compra.Tolerancia = !dr.IsDBNull(dr.GetOrdinal("tolerancia")) ? dr.GetDecimal(dr.GetOrdinal("tolerancia")) : 0;
+                    Compra.MontoTotalGanado = !dr.IsDBNull(dr.GetOrdinal("montoTotalGanado")) ? dr.GetDecimal(dr.GetOrdinal("montoTotalGanado")) : 0;
+                    Compra.Proveedor.IDTipoProveedor = !dr.IsDBNull(dr.GetOrdinal("id_tipoProveedor")) ? dr.GetInt16(dr.GetOrdinal("id_tipoProveedor")) : 0;
                 }
                 return Compra;
             }
@@ -454,72 +656,43 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        public int GetEstatusCompra(CompraModels Compra)
-        {
-            try
-            {
-                object[] parametros =
-                {
-                    Compra.IDCompra,
-                };
-
-                SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_EstatusCompra", parametros);
-                while (dr.Read())
-                {
-                    Compra.Estatus = !dr.IsDBNull(dr.GetOrdinal("estatus")) ? dr.GetInt16(dr.GetOrdinal("estatus")) : -1;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return Compra.Estatus;
-        }
-        public SqlDataReader GetSqlDataReaderListadoPrecioRangoPeso(CompraModels Compra)
-        {
-            SqlDataReader dr = null;
-            object[] parametros =
-               {
-                    Compra.IDProveedor
-                };
-            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_ListadoPrecioRangoPesoXIDProveedor", parametros);
-
-            return dr;
-        }
         public List<CatRangoPesoCompraModels> GetListadoPrecioRangoPeso(CompraModels Compra)
         {
             try
             {
                 object[] parametros =
                 {
-                    Compra.IDEmpresa
+                    Compra.Proveedor.IDTipoProveedor
                 };
                 CatRangoPesoCompraModels RangoPeso;
+                List<CatRangoPesoCompraModels> listaRangoPeso = new List<CatRangoPesoCompraModels>();
 
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_ListadoPrecioRangoPesoXIDProveedor", parametros);
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_ListadoPrecioRangoPesoXIDTipoProveedor", parametros);
                 while (dr.Read())
                 {
                     RangoPeso = new CatRangoPesoCompraModels
                     {
-                        IDRango = !dr.IsDBNull(dr.GetOrdinal("IDRango")) ? dr.GetInt16(dr.GetOrdinal("IDRango")) : 0,
-                        PesoMinimo = !dr.IsDBNull(dr.GetOrdinal("PesoMinimo")) ? dr.GetDecimal(dr.GetOrdinal("PesoMinimo")) : 0,
-                        PesoMaximo = !dr.IsDBNull(dr.GetOrdinal("PesoMaximo")) ? dr.GetDecimal(dr.GetOrdinal("PesoMaximo")) : 0,
-                        EsMacho = !dr.IsDBNull(dr.GetOrdinal("EsMacho")) ? dr.GetBoolean(dr.GetOrdinal("EsMacho")) : false,
-                        Precio = !dr.IsDBNull(dr.GetOrdinal("Precio")) ? dr.GetDecimal(dr.GetOrdinal("Precio")) : 0
+                        IDRango = !dr.IsDBNull(dr.GetOrdinal("id_rango")) ? dr.GetInt16(dr.GetOrdinal("id_rango")) : 0,
+                        PesoMinimo = !dr.IsDBNull(dr.GetOrdinal("pesoMinimo")) ? dr.GetDecimal(dr.GetOrdinal("pesoMinimo")) : 0,
+                        PesoMaximo = !dr.IsDBNull(dr.GetOrdinal("pesoMaximo")) ? dr.GetDecimal(dr.GetOrdinal("pesoMaximo")) : 0,
+                        EsMacho = !dr.IsDBNull(dr.GetOrdinal("esMacho")) ? dr.GetBoolean(dr.GetOrdinal("esMacho")) : false,
+                        Precio = !dr.IsDBNull(dr.GetOrdinal("precio")) ? dr.GetDecimal(dr.GetOrdinal("precio")) : 0
                     };
 
-                    Compra.ListaRangoPrecio.Add(RangoPeso);
+                    listaRangoPeso.Add(RangoPeso);
                 }
-                return Compra.ListaRangoPrecio;
+                return listaRangoPeso;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public CompraModels GetCompraGanadoXIDGanado(CompraModels Compra)
+
+
+        //checar
+        public CompraModels GetGanado(CompraModels Compra)
         {
             try
             {
@@ -556,6 +729,48 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public DocumentosPorCobrarModels GetGeneralesDocumentoPorCobrar(CompraModels Compra)
+        {
+            try
+            {
+                DocumentosPorCobrarModels documentosPorCobrar = new DocumentosPorCobrarModels();
+                object[] parametros =
+                {
+                    Compra.IDCompra
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_GeneralesDocumentoPorCobrar", parametros);
+
+                while (dr.Read())
+                {
+                    documentosPorCobrar.Pagos = !dr.IsDBNull(dr.GetOrdinal("pagos")) ? dr.GetDecimal(dr.GetOrdinal("pagos")) : 0;
+                    documentosPorCobrar.Impuestos = !dr.IsDBNull(dr.GetOrdinal("impuesto")) ? dr.GetDecimal(dr.GetOrdinal("impuesto")) : 0;
+                    documentosPorCobrar.Total = !dr.IsDBNull(dr.GetOrdinal("total")) ? dr.GetDecimal(dr.GetOrdinal("total")) : 0;
+                    documentosPorCobrar.Impuesto_retenido = !dr.IsDBNull(dr.GetOrdinal("impuesto_retenido")) ? dr.GetDecimal(dr.GetOrdinal("impuesto_retenido")) : 0;
+                    documentosPorCobrar.Impuesto_trasladado = !dr.IsDBNull(dr.GetOrdinal("impuesto_trasladado")) ? dr.GetDecimal(dr.GetOrdinal("impuesto_trasladado")) : 0;
+                    documentosPorCobrar.Cambio = !dr.IsDBNull(dr.GetOrdinal("cambio")) ? dr.GetDecimal(dr.GetOrdinal("cambio")) : 0;
+                    documentosPorCobrar.Pendiente = !dr.IsDBNull(dr.GetOrdinal("pendiente")) ? dr.GetDecimal(dr.GetOrdinal("pendiente")) : 0;
+                }
+                return documentosPorCobrar;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+        }
+        public SqlDataReader GetSqlDataReaderListadoPrecioRangoPeso(CompraModels Compra)
+        {
+            SqlDataReader dr = null;
+            object[] parametros =
+               {
+                    Compra.IDProveedor
+                };
+            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_ListadoPrecioRangoPesoXIDProveedor", parametros);
+
+            return dr;
+        }
         public string GetGanadoXGanadoDetalle(CompraModels Compra)
         {
             try
@@ -577,7 +792,8 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
 
-        #region ABC
+        #region AC DEL
+        #region Proveedor
         public CompraModels Compras_ac_Proveedor(CompraModels Compra)
         {
             try
@@ -608,6 +824,8 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        #endregion
+        #region Flete
         public CompraModels Compras_ac_Flete(CompraModels Compra)
         {
             try
@@ -622,17 +840,18 @@ namespace CreativaSL.Web.Ganados.Models
                     ,Compra.IDJaula= string.IsNullOrEmpty(Compra.IDJaula) ? null : Compra.IDJaula
                     ,Compra.IDRemolque= string.IsNullOrEmpty(Compra.IDRemolque) ? null : Compra.IDRemolque
                     ,Compra.Flete.kmInicialVehiculo
-                    ,Compra.Usuario= string.IsNullOrEmpty(Compra.Usuario) ? null : Compra.IDCompra
+                    ,Compra.Usuario= string.IsNullOrEmpty(Compra.Usuario) ? null : Compra.Usuario
                     ,Compra.Trayecto.id_lugarOrigen = string.IsNullOrEmpty(Compra.Trayecto.id_lugarOrigen) ? null : Compra.Trayecto.id_lugarOrigen
                     ,Compra.Trayecto.id_lugarDestino = string.IsNullOrEmpty(Compra.Trayecto.id_lugarDestino) ? null : Compra.Trayecto.id_lugarDestino
+                    ,Compra.IDSucursal
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_ac_Flete", parametros);
 
                 while (dr.Read())
                 {
-                    Compra.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
-                    Compra.Completado = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                    Compra.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                    Compra.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                 }
                 return Compra;
             }
@@ -641,66 +860,37 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        public CompraModels Compras_a_Documentos(CompraModels Compra)
+        #endregion
+        #region Ganado
+        public CompraModels Compras_ac_Ganado(CompraModels Compra, int indiceActual)
         {
             try
             {
                 object[] parametros =
                 {
-                     Compra.IDCompra = string.IsNullOrEmpty(Compra.IDCompra) ? null : Compra.IDCompra
-                    ,Compra.GuiaTransito = string.IsNullOrEmpty(Compra.GuiaTransito) ? null : Compra.GuiaTransito
-                    ,Compra.CertTuberculosis= string.IsNullOrEmpty(Compra.CertTuberculosis) ? null : Compra.CertTuberculosis
-                    ,Compra.CertBrucelosis= string.IsNullOrEmpty(Compra.CertBrucelosis) ? null : Compra.CertBrucelosis
-                    ,Compra.CertZoosanitario= string.IsNullOrEmpty(Compra.CertZoosanitario) ? null : Compra.CertZoosanitario
-                    ,Compra.Usuario= string.IsNullOrEmpty(Compra.Usuario) ? null : Compra.Usuario
+                    Compra.IDCompra,
+                    Compra.Ganado.id_Ganados,
+                    Compra.Ganado.numArete,
+                    Compra.Ganado.genero,
+                    Compra.Ganado.IDEstatusGanado,
+                    Compra.Ganado.CompraGanado.PesoInicial,
+                    Compra.Ganado.CompraGanado.PesoFinal,
+                    Compra.Ganado.CompraGanado.Merma,
+                    Compra.Ganado.CompraGanado.PesoPagado,
+                    Compra.Ganado.CompraGanado.PrecioKilo,
+                    Compra.Ganado.IDCorral,
+                    Compra.Usuario,
+                    Compra.Ganado.CompraGanado.Id_detalleDocumentoPorCobrar,
+                    indiceActual
                 };
-                SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_a_Documentos", parametros);
 
-                while (dr.Read())
-                {
-                    Compra.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
-                    Compra.Completado = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
-                }
-                return Compra;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public CompraModels Compras_ac_Ganado(CompraModels Compra)
-        {
-            try
-            {
-                object[] parametros =
-                {
-                //--TABLA GANADO
-
-                     Compra.Ganado.id_Ganados //@id_ganado char(36)
-                    ,Compra.IDCompra//,@id_compra CHAR(36)
-                    ,Compra.IDSucursal//,@id_sucursal CHAR(36)
-                    ,Compra.EstatusGanado.id_estatusGanado//,@id_estatusGanado SMALLINT
-                    ,Compra.Ganado.observacion//,@observacion TEXT
-                    ,Compra.Ganado.numArete//,@numArete NVARCHAR(15)
-                    ,Compra.Ganado.Repeso//,@repeso BIT
-                    ,Compra.Ganado.genero//,@genero BIT
-                    //--TABLA COMPRA-GANADO
-                    ,Compra.CompraGanado.PesoInicial//,@pesoInicial DECIMAL(7,3)
-                    ,Compra.CompraGanado.PesoFinal//,@pesoFinal DECIMAL(7,3)
-                    ,Compra.CompraGanado.Merma//,@merma DECIMAL(7,3)
-                    ,Compra.CompraGanado.PesoPagado//,@pesoPagado DECIMAL(7,3)
-                    ,Compra.CompraGanado.PrecioKilo//,@precioKilo MONEY
-                    //--OTROS
-                    ,Compra.Usuario//,@id_usuario CHAR(36)
-                };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_ac_Ganado", parametros);
 
                 while (dr.Read())
                 {
-                    Compra.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
-                    Compra.Completado = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                    Compra.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Compra.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                 }
                 return Compra;
             }
@@ -709,6 +899,34 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public CompraModels Compras_del_Ganado(CompraModels Compra)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Compra.IDCompra,
+                    Compra.Ganado.id_Ganados,
+                    Compra.Usuario,
+                    Compra.Ganado.CompraGanado.Id_detalleDocumentoPorCobrar
+                };
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_del_Ganado", parametros);
+
+                while (dr.Read())
+                {
+                    Compra.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Compra.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                return Compra;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
         #endregion
 
         #region Imagenes
@@ -787,155 +1005,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
 
-        #region Index
-        public SqlDataReader ObtenerCompraIndexDataTable(CompraModels CompraModels)
-        {
-            try
-            {
-                SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(CompraModels.Conexion, "spCSLDB_Compras_IndexVentas");
-                return dr;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        #endregion
-
       
-
-
-
-
-
-
-
-
-
-
-
-        
-       
-        public List<CatTipoClasificacionModels> GetListadoTipoClasificacion(CompraModels Compra)
-        {
-            CatTipoClasificacionModels TipoClasificacion;
-            SqlDataReader dr = null;
-            object[] parametros =
-               {
-                    Compra.Sucursal.IDSucursal
-                };
-            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_COMPRAS_GetListadoTipoClasificacion", parametros);
-
-            while (dr.Read())
-            {
-                TipoClasificacion = new CatTipoClasificacionModels
-                {
-                    IDTipoClasificacionGasto = !dr.IsDBNull(dr.GetOrdinal("id_tipoClasificacionGasto")) ? dr.GetInt16(dr.GetOrdinal("id_tipoClasificacionGasto")) : 0,
-                    Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty,
-                };
-
-                Compra.ListaTipoClasificacion.Add(TipoClasificacion);
-            }
-            return Compra.ListaTipoClasificacion;
-        }
-        public List<CFDI_FormaPagoModels> GetListadoFormaPago(CompraModels Compra)
-        {
-            CFDI_FormaPagoModels FormaPago;
-            SqlDataReader dr = null;
-            object[] parametros =
-               {
-                    Compra.Sucursal.IDSucursal
-                };
-            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_COMPRAS_GetListadoFormaPago", parametros);
-
-            while (dr.Read())
-            {
-                FormaPago = new CFDI_FormaPagoModels
-                {
-                    Clave = !dr.IsDBNull(dr.GetOrdinal("clave")) ? dr.GetInt16(dr.GetOrdinal("clave")) : 0,
-                    Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty,
-                    Bancarizado = !dr.IsDBNull(dr.GetOrdinal("bancarizado")) ? dr.GetInt32(dr.GetOrdinal("bancarizado")) : 0,
-                };
-
-                Compra.ListaFormasPagos.Add(FormaPago);
-            }
-            return Compra.ListaFormasPagos;
-        }
-
-
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        #region Insert
-        public CompraModels CreateCompra(CompraModels Compra)
-        {
-            //Sumamos ganado macho y hembra para obtener el total;
-            Compra.SumarGanadoPactado();
-            object[] parametros =
-            {
-                //Sucursal seleccionada
-                Compra.Sucursal.IDSucursal,
-                //Compra
-                Compra.IDUsuario,
-                Compra.IDProveedor,
-                Compra.GuiaTransito,
-                //Ganado
-                Compra.GanadosPactadoMachos,
-                Compra.GanadosPactadoHembras,
-                Compra.GanadosPactadoTotal,
-                Compra.FechaHoraProgramada,
-                //Certificados
-                Compra.CertZoosanitario,
-                Compra.CertTuberculosis,
-                Compra.CertBrucelosis,
-                //Datos del flete
-                Compra.Flete.id_chofer,
-                Compra.Flete.id_vehiculo,
-                Compra.Flete.id_jaula,
-                Compra.Flete.IDRemolque,
-                Compra.Flete.kmInicialVehiculo,
-                //Datos del trayecto
-                Compra.Trayecto.id_lugarOrigen,
-                Compra.Trayecto.id_lugarDestino
-            };
-
-            SqlDataReader dr = null;
-            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_COMPRAS_CreateCompra", parametros);
-            while (dr.Read())
-            {
-                Compra.IDCompra = !dr.IsDBNull(dr.GetOrdinal("id_compra")) ? dr.GetString(dr.GetOrdinal("id_compra")) : string.Empty;
-            }
-            return Compra;
-        }
-        #endregion
-       
-              
-     
-       
-     
-      
-
-
-
-       
-
-
 
         public string GetRangoPeso(CompraModels Compra)
         {
@@ -956,7 +1026,24 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public List<CatCostoFlete> GetListadoCostoFlete(CompraModels Compra)
+        {
+            CatCostoFlete CostoFlete;
+            SqlDataReader dr = null;
 
-        
+            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_CatCostoFlete");
+
+            while (dr.Read())
+            {
+                CostoFlete = new CatCostoFlete
+                {
+                    IDCostoFlete = !dr.IsDBNull(dr.GetOrdinal("IDCostoFlete")) ? dr.GetInt16(dr.GetOrdinal("IDCostoFlete")) : 0,
+                    Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty,
+                };
+
+                Compra.ListaCostoFlete.Add(CostoFlete);
+            }
+            return Compra.ListaCostoFlete;
+        }
     }
 }
