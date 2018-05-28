@@ -19,14 +19,15 @@ namespace CreativaSL.Web.Ganados.Models
                 while (dr.Read())
                 {
                     item = new RptProveedorMermaAltaModels();
+                    item.IDProveedor= !dr.IsDBNull(dr.GetOrdinal("nombreRazonSocial")) ? dr.GetString(dr.GetOrdinal("nombreRazonSocial")) : string.Empty;
                     item.nombreProveedor = !dr.IsDBNull(dr.GetOrdinal("nombreRazonSocial")) ? dr.GetString(dr.GetOrdinal("nombreRazonSocial")) : string.Empty;
                     item.toleranciaCompra = !dr.IsDBNull(dr.GetOrdinal("toleranciaCompra")) ? dr.GetDecimal(dr.GetOrdinal("toleranciaCompra")) : 0;
                     item.merma = !dr.IsDBNull(dr.GetOrdinal("toleranciaProveedor")) ? dr.GetInt32(dr.GetOrdinal("toleranciaProveedor")) : 0;
-                    item.mermaTotal = !dr.IsDBNull(dr.GetOrdinal("mermaTotal")) ? dr.GetInt16(dr.GetOrdinal("mermaTotal")) : 0;
-
+                    item.mermaTotal = !dr.IsDBNull(dr.GetOrdinal("mermaTotal")) ? dr.GetDecimal(dr.GetOrdinal("mermaTotal")) : 0;
                     lista.Add(item);
                 }
                 Datos.listaRptProveedorMerma = lista;
+                Datos.listaProveedores = lista;
                 return Datos.listaRptProveedorMerma;
             }
             catch(Exception ex)

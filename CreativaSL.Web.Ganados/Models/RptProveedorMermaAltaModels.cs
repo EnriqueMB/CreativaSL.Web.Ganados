@@ -18,6 +18,14 @@ namespace CreativaSL.Web.Ganados.Models
             Opcion = 0;
             Usuario = string.Empty;
         }
+        private string _IDProveedor;
+
+        public string IDProveedor
+        {
+            get { return _IDProveedor; }
+            set { _IDProveedor = value; }
+        }
+
         private decimal _toleranciaCompra;
 
         public decimal toleranciaCompra
@@ -40,13 +48,21 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _merma; }
             set { _merma = value; }
         }
-        private int _mermaTotal;
+        private decimal _mermaTotal;
 
-        public int mermaTotal
+        public decimal mermaTotal
         {
             get { return _mermaTotal; }
             set { _mermaTotal = value; }
         }
+        private List<RptProveedorMermaAltaModels> _listaProveedores;
+
+        public List<RptProveedorMermaAltaModels> listaProveedores
+        {
+            get { return _listaProveedores; }
+            set { _listaProveedores = value; }
+        }
+
         private List<RptProveedorMermaAltaModels> _listaRptProveedorMerma;
 
         public List<RptProveedorMermaAltaModels> listaRptProveedorMerma

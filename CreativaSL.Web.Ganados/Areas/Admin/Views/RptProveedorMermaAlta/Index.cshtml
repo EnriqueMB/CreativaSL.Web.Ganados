@@ -43,15 +43,35 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Model.listaRptProveedorMerma)
-                                    {
-                                        <tr id="">
-                                            <td>@item.nombreProveedor</td>
-                                            <td>@item.merma</td>
-                                            
-                                            <td>@item.toleranciaCompra</td>
-                                            <td>@item.mermaTotal</td>
-                                        </tr>
+                                    @{ string proveedor = "";
+                                        foreach (var item in Model.listaRptProveedorMerma)
+                                        {
+                                            if (item.IDProveedor != proveedor)
+                                            {
+                                                proveedor = item.IDProveedor;
+                                                <tr id="">
+                                                    <td>@item.nombreProveedor</td>
+                                                    <td colspan="3">
+                                                        <table class="table">
+                                                            <tbody>
+                                                                @foreach (var item2 in Model.listaProveedores)
+                                                                {
+                                                               <tr>
+                                                                   <td class="text-right">@item2.merma</td>
+
+                                                                   <td class="text-right">@item2.toleranciaCompra</td>
+                                                                   <td class="text-right">@item2.mermaTotal</td>
+                                                               </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                    <td style="display:none;"></td>
+                                                    <td style="display:none;"></td>
+                                                </tr>
+                                            }
+
+                                        }
                                     }
                                 </tbody>
                             </table>
