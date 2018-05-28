@@ -9,12 +9,14 @@ using CreativaSL.Web.Ganados.Models;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using CreativaSL.Web.Ganados.App_Start;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     [Autorizado]
     public class CatFierroController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatFierro
         public ActionResult Index()
@@ -48,6 +50,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatFierroModels Fierro = new CatFierroModels();
                 return View(Fierro);
             }
@@ -66,31 +69,39 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                CatFierroModels Fierro = new CatFierroModels();
-                CatFierro_Datos FierroDatos = new CatFierro_Datos();
-                Fierro.Conexion = Conexion;
-                Fierro.Opcion = 1;
-                Fierro.Usuario = User.Identity.Name;
-                Fierro.NombreFierro = collection["NombreFierro"];
-                Fierro.Observaciones = collection["Observaciones"];
-                HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                if (bannerImage != null && bannerImage.ContentLength > 0)
+                if(Token.IsTokenValid())
                 {
-                    Stream s = bannerImage.InputStream;
-                    Bitmap img = new Bitmap(s);
-                    Fierro.ImgFierro = img.ToBase64String(ImageFormat.Png);
+                    CatFierroModels Fierro = new CatFierroModels();
+                    CatFierro_Datos FierroDatos = new CatFierro_Datos();
+                    Fierro.Conexion = Conexion;
+                    Fierro.Opcion = 1;
+                    Fierro.Usuario = User.Identity.Name;
+                    Fierro.NombreFierro = collection["NombreFierro"];
+                    Fierro.Observaciones = collection["Observaciones"];
+                    HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                    if (bannerImage != null && bannerImage.ContentLength > 0)
+                    {
+                        Stream s = bannerImage.InputStream;
+                        Bitmap img = new Bitmap(s);
+                        Fierro.ImgFierro = img.ToBase64String(ImageFormat.Png);
+                    }
+                    Fierro = FierroDatos.AbcCatFierro(Fierro);
+                    if (Fierro.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardarón correctamente.";
+                        Token.ResetToken();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        return RedirectToAction("Create");
+                    }
                 }
-                Fierro = FierroDatos.AbcCatFierro(Fierro);
-                if (Fierro.Completado == true)
+               else
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "Los datos se guardarón correctamente.";
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                     return RedirectToAction("Create");
                 }
             }
@@ -108,6 +119,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatFierroModels Fierro = new CatFierroModels();
                 CatFierro_Datos FierroDatos = new CatFierro_Datos();
                 Fierro.IDFierro = id;
@@ -130,32 +142,39 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                CatFierroModels Fierro = new CatFierroModels();
-                CatFierro_Datos FierroDatos = new CatFierro_Datos();
-                Fierro.Conexion = Conexion;
-                Fierro.Opcion = 2;
-                Fierro.Usuario = User.Identity.Name;
-                Fierro.IDFierro = collection["IDFierro"];
-                Fierro.NombreFierro = collection["NombreFierro"];
-                Fierro.Observaciones = collection["Observaciones"];
-                HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                if (bannerImage != null && bannerImage.ContentLength > 0)
+                if(Token.IsTokenValid())
                 {
-                    Stream s = bannerImage.InputStream;
-                    Bitmap img = new Bitmap(s);
-                    Fierro.ImgFierro = img.ToBase64String(ImageFormat.Png);
-                }
-                Fierro = FierroDatos.AbcCatFierro(Fierro);
-                if (Fierro.Completado == true)
-                {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "Los datos se guardarón correctamente.";
-                    return RedirectToAction("Index");
+                    CatFierroModels Fierro = new CatFierroModels();
+                    CatFierro_Datos FierroDatos = new CatFierro_Datos();
+                    Fierro.Conexion = Conexion;
+                    Fierro.Opcion = 2;
+                    Fierro.Usuario = User.Identity.Name;
+                    Fierro.IDFierro = collection["IDFierro"];
+                    Fierro.NombreFierro = collection["NombreFierro"];
+                    Fierro.Observaciones = collection["Observaciones"];
+                    HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                    if (bannerImage != null && bannerImage.ContentLength > 0)
+                    {
+                        Stream s = bannerImage.InputStream;
+                        Bitmap img = new Bitmap(s);
+                        Fierro.ImgFierro = img.ToBase64String(ImageFormat.Png);
+                    }
+                    Fierro = FierroDatos.AbcCatFierro(Fierro);
+                    if (Fierro.Completado == true)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardarón correctamente.";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        return RedirectToAction("Create");
+                    }
                 }
                 else
                 {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                     return RedirectToAction("Create");
                 }
             }

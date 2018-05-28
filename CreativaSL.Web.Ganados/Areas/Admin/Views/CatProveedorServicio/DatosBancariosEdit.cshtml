@@ -1,0 +1,123 @@
+﻿@model CreativaSL.Web.Ganados.Models.CuentaBancariasProveedorAlmacenModels
+@{
+    ViewBag.Title = "DatosBancariosEdit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section featured{
+
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            @*<form class="form-horizontal">*@
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("DatosBancariosEdit", "CatProveedorServicio", FormMethod.Post, new { id = "form-cp", @class = "form-horizontal", autocomplete = "off" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                <div class="field_error" id="validation_summary"></div>
+                @Html.HiddenFor(model => model.IDProveedorAlmacen)
+                @Html.HiddenFor(model => model.IDDatosBancarios)
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Información</strong> Cuenta Bancarias</h3>
+                        <ul class="panel-controls">
+                            @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Banco </label>
+                            <div class="col-md-6 col-xs-12">
+                                @Html.DropDownListFor(model => model.IDBanco, new SelectList(Model.ListaCmbBancos, "IDBanco", "Descripcion"), new { id = "IDBanco", @class = "form-control select", data_live_search = "true" })
+                                @Html.ValidationMessageFor(model => model.IDBanco)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Titular </label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.Titular, new { id = "Titular", @class = "form-control", placeholder = "Ingrese el nombre del titular de la cuenta bancaria" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Titular)
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span> </span> Número de cuenta</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.NumCuenta, new { id = "NumCuenta", @class = "form-control", placeholder = "Ingrese el número de cuenta" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.NumCuenta)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span></span> Número de tarjeta</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.NumTarjeta, new { id = "NumTarjeta", @class = "form-control mask_credit", placeholder = "Ingrese el número de tarjeta" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.NumTarjeta)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span></span> CLABE</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.ClabeInterbancaria, new { id = "ClabeInterbancaria", @class = "form-control", placeholder = "Ingrese la CLABE interbancaria" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ClabeInterbancaria)
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("DatosBancarios","CatProveedorServicio", new { id = Model.IDProveedorAlmacen })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    </div>
+                </div>
+                @*</form>*@
+            }
+        </div>
+    </div>
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/maskedinput/jquery.maskedinput.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/cuentaProveedorAlmacen.js")"></script>
+    <script>
+    jQuery(document).ready(function () {
+        Mensaje(message, typemessage);
+        CuentasProveedorAlmacen.init();
+    });
+    </script>
+}
+
+
