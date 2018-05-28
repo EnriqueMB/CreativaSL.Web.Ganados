@@ -40,8 +40,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Reporte.fechaEnd = Convert.ToDateTime(end);
                 Reporte.Conexion = Conexion;
                 Reporte.ListaSiguienteCompras = RPTDatos.GetListaProximaCompras(Reporte);
-
-
                 return Json(Reporte.ListaSiguienteCompras, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

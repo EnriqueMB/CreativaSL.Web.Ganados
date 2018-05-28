@@ -207,6 +207,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             TempData["typemessage"] = "1";
                             TempData["message"] = "El registro se guardo correctamente.";
+                            Token.ResetToken();
                             return RedirectToAction("Index");
                         }
                         else

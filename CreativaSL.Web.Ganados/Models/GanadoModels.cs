@@ -20,6 +20,8 @@ namespace CreativaSL.Web.Ganados.Models
             genero = string.Empty;
             CompraGanado = new CompraGanadosModels();
         }
+        public int IDEstatusGanado { get; set; }
+        public int IDCorral { get; set; }
 
         private string _id_Ganados;
 

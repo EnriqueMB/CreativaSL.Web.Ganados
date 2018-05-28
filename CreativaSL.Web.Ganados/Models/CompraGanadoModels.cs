@@ -23,6 +23,7 @@ namespace CreativaSL.Web.Ganados.Models
             TotalPagado = 0;
             TotalSugerido = 0;
         }
+        public string Id_detalleDocumentoPorCobrar { get; set; }
         public decimal TotalPagado { get; set; }
         public bool Repeso { get; set; }
         public decimal DiferenciaPeso { get; set; }
