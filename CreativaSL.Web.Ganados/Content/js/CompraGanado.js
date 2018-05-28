@@ -168,7 +168,9 @@
                             if (result.Success) {
                                 box.find(".mb-control-yes").prop('onclick', null).off('click');
                                 $("#Modal").modal('hide');
-                                Mensaje(result.Mensaje, "1");
+                                Mensaje("Ganado eliminado correctamente", "1");
+                                var obj = JSON.parse(result.Mensaje);
+                                ActualizarGenerales(obj.CantidadMachos, obj.CantidadHembras, obj.CantidadTotal, obj.MermaMachos, obj.MermaHembras, obj.MermaTotal, obj.KilosMachos, obj.KilosHembras, obj.KilosTotal, obj.MontoTotalGanado)
                                 tblGanado.row(tr).remove().draw(false);
                             }
                             else
@@ -348,11 +350,12 @@
                                         nNodes[indice + 13].id = "aMin_" + obj.id_ganado;
                                         nNodes[indice + 13].dataset.id = obj.id_ganado;
                                         nNodes[indice + 13].dataset.iddetalledocumento = obj.id_detalleDoctoCobrar
+
+                                        ActualizarGenerales(obj.CantidadMachos, obj.CantidadHembras, obj.CantidadTotal, obj.MermaMachos, obj.MermaHembras, obj.MermaTotal, obj.KilosMachos, obj.KilosHembras, obj.KilosTotal, obj.MontoTotalGanado)
                                     }
                                     else {
                                         nNodes[indice].src = "/Content/img/tabla/cancel.png";
                                         nNodes[indice + 1].innerText = obj.Mensaje;
-
                                     }
                                 }
                             });
@@ -437,6 +440,31 @@
             }
             return out;
         }
+    }
+
+    function ActualizarGenerales(CantidadMachos, CantidadHembras, CantidadTotal, MermaMachos, MermaHembras, MermaTotal, KilosMachos, KilosHembras, KilosTotal, MontoTotalGanado) {
+        var cantidadMachos = CantidadMachos;
+        var cantidadHembras = CantidadHembras;
+        var cantidadTotal = CantidadTotal
+        var mermaMachos = parseFloat(MermaMachos);
+        var mermaHembras = parseFloat(MermaHembras);
+        var mermaTotal = parseFloat(MermaTotal);
+        var kilosMachos = parseFloat(KilosMachos);
+        var kilosHembras = parseFloat(KilosHembras);
+        var kilosTotal = parseFloat(KilosTotal);
+        var montoTotalGanado = parseFloat(MontoTotalGanado);
+
+        //actualizamos los generales
+        $("#GanadosCompradoMachos").val(cantidadMachos);
+        $("#GanadosCompradoHembras").val(cantidadHembras);
+        $("#GanadosCompradoTotal").val(cantidadTotal);
+        $("#MermaMachos").val(mermaMachos.toFixed(2));
+        $("#MermaHembras").val(mermaHembras.toFixed(2));
+        $("#MermaTotal").val(mermaTotal.toFixed(2));
+        $("#KilosMachos").val(kilosMachos.toFixed(2));
+        $("#KilosHembras").val(kilosHembras.toFixed(2));
+        $("#KilosTotal").val(kilosTotal.toFixed(2));
+        $("#MontoTotalGanado").val(montoTotalGanado.toFixed(2));
     }
     
 
