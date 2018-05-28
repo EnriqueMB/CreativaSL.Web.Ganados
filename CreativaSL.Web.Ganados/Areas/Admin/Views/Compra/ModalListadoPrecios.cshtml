@@ -3,7 +3,7 @@
 <div class="modal-content">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Lista de precios para el proveedor: @Model.Proveedor.NombreRazonSocial</h4>
+        <h4 class="modal-title">Lista de precios para el proveedor</h4>
     </div>
     <div class="modal-body">
         <div class="table-responsive">
@@ -17,7 +17,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var RangoPrecio in Model.ListaRangoPrecio)
+                    @foreach (var RangoPrecio in Model.ListaRangoPeso)
                 {
                     <tr>
                         <td>

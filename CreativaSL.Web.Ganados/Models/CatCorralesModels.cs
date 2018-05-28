@@ -11,5 +11,6 @@ namespace CreativaSL.Web.Ganados.Models
         public string Descripcion { get; set; }
         public int Rango_inferior { get; set; }
         public int Rango_superior { get; set; }
+        public string Genero { get; set; }
     }
 }
