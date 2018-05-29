@@ -35,14 +35,27 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Index(RptProveedorMunicipioModels reporte)
         {
-            _RptProveedorMunicipio_Datos reporteDatos = new _RptProveedorMunicipio_Datos();
-          
-           
-            reporte.conexion = Conexion;
+            try
+            {
 
-            reporte.listaProveedor = reporteDatos.obtenerListaProveedoresFecha(reporte);
+                _RptProveedorMunicipio_Datos reporteDatos = new _RptProveedorMunicipio_Datos();
+                
 
-            return View(reporte);
+                reporte.conexion = Conexion;
+                reporte.listaEstado = reporteDatos.obtenerListaEstados(reporte);
+                reporte.listaMunicipio = reporteDatos.obtenerListaMunicipios(reporte);
+                reporte.listaProveedor = reporteDatos.obtenerListaProveedoresFecha(reporte);
+
+                return View(reporte);
+            }
+            catch (Exception ex)
+            {
+                RptProveedorMermaAltaModels Proveedor = new RptProveedorMermaAltaModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Proveedor);
+            }
+
         }
 
         // GET: Admin/RptProveedorMunicipio/Details/5
