@@ -20,7 +20,7 @@
     <div class="col-md-12">
         @*<form class="form-horizontal">*@
         @{ Html.EnableClientValidation(false); }
-        @using (Html.BeginForm("Edit", "CatProveedorServicio", FormMethod.Post, new { id = "form-ProveedorServicio", @class = "form-horizontal", autocomplete = "off" }))
+        @using (Html.BeginForm("Create", "CatProveedorServicio", FormMethod.Post, new { id = "form-ProveedorServicio", @class = "form-horizontal", autocomplete = "off" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
@@ -41,8 +41,8 @@
                                 <div class="form-group">
                                     <label class="col-md-3 col-xs-12 control-label"><span>* </span> Sucursal </label>
                                     <div class="col-md-8 col-xs-12">
-                                        @Html.DropDownListFor(model => model.id_sucursal, new SelectList(Model.ListaSucursal, "IDSucursal", "NombreSucursal"), new { id = "id_sucursal", @class = "form-control select", data_live_search = "true" })
-                                        @Html.ValidationMessageFor(model => model.id_sucursal)
+                                        @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursal, "IDSucursal", "NombreSucursal"), new { id = "id_sucursal", @class = "form-control select", data_live_search = "true" })
+                                        @Html.ValidationMessageFor(model => model.IDSucursal)
                                     </div>
                                 </div>
                             </div>
@@ -68,8 +68,8 @@
                                     <div class="col-md-8 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.direccion, new { id = "direccion", @class = "form-control", placeholder = "Dirección del proveedor almacén" })
-                                        </div> model.direccion)
+                                            @Html.TextBoxFor(model => model.Direccion, new { id = "Direccion", @class = "form-control", placeholder = "Dirección del proveedor almacén" })
+                                        </div> model.Direccion)
                                     </div>
                                 </div>
                             </div>
@@ -81,9 +81,9 @@
                                     <div class="col-md-8 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.rfc, new { id = "rfc", @class = "form-control", placeholder = "Capture el RFC del proveedor almacén" })
+                                            @Html.TextBoxFor(model => model.RFC, new { id = "RFC", @class = "form-control", placeholder = "Capture el RFC del proveedor servicio" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.rfc)
+                                        @Html.ValidationMessageFor(model => model.RFC)
                                     </div>
                                 </div>
                             </div>
@@ -151,7 +151,7 @@
                                     <div class="col-md-8 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextAreaFor(model => model.observaciones, new { id = "observaciones", @class = "form-control texArea", placeholder = "Ingrese las observaciones del proveedor almacén", @rows = "5" })
+                                            @Html.TextAreaFor(model => model.observaciones, new { id = "observaciones", @class = "form-control texArea", placeholder = "Ingrese las observaciones del proveedor servicio", @rows = "5" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.observaciones)
                                     </div>
@@ -169,6 +169,8 @@
         }
     </div>
 </div>
+
+
 <script>
         var message = '@message';
         var typemessage = '@typemessage';
@@ -183,13 +185,13 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/ProveedorAlmacen.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/ProveedorServicio.js")"></script>
 
     <script>
     jQuery(document).ready(function () {
 
         Mensaje(message, typemessage);
-        proveedoralmacen.init();
+        ProveedorServicio.init();
     });
     </script>
 }
