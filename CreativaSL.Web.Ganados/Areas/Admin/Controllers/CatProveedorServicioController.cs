@@ -76,9 +76,40 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatProveedorServicio_Datos proveedorDatos = new _CatProveedorServicio_Datos();
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        provserv.Conexion = Conexion;
+                        provserv.Opcion = 1;
+                        provserv.Usuario = User.Identity.Name;
+                        provserv = proveedorDatos.AbcCatProveedorServicio(provserv);
+                        if (provserv.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            provserv.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar.";
+                            return View(provserv);
+                        }
+                    }
+                    else
+                    {
+                        provserv.Conexion = Conexion;
+                        provserv.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
+                        return View(provserv);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
             catch
             {

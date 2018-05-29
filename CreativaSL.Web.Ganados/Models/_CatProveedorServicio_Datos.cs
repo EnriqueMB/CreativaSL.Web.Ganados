@@ -45,13 +45,13 @@ namespace CreativaSL.Web.Ganados.Models
                             datos.id_proveedorServicio ?? string.Empty,
                             datos.IDSucursal ?? string.Empty,
                             datos.nombreRazonsocial ?? string.Empty,
-                            datos.RFC ?? string.Empty,
-                            datos.telefonoCelular ?? string.Empty,
-                            datos.telefonoCasa ?? string.Empty,
-                            datos.correo ?? string.Empty,
-                            datos.fechaIngreso != null ? datos.fechaIngreso : DateTime.Today,
                             datos.Direccion ?? string.Empty,
+                            datos.RFC ?? string.Empty,
+                            datos.correo ?? string.Empty,
+                            datos.telefonoCasa ?? string.Empty,
+                            datos.telefonoCelular ?? string.Empty,
                             datos.observaciones ?? string.Empty,
+                            datos.fechaIngreso != null ? datos.fechaIngreso : DateTime.Today,
                             datos.Usuario ?? string.Empty };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatProveedorServicio", parametros);
                 datos.id_proveedorServicio = aux.ToString();

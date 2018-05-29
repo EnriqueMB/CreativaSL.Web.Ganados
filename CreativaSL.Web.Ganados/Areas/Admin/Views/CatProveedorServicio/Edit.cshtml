@@ -20,7 +20,7 @@
     <div class="col-md-12">
         @*<form class="form-horizontal">*@
         @{ Html.EnableClientValidation(false); }
-        @using (Html.BeginForm("Create", "CatProveedorServicio", FormMethod.Post, new { id = "form-ProveedorServicio", @class = "form-horizontal", autocomplete = "off" }))
+        @using (Html.BeginForm("Edit", "CatProveedorServicio", FormMethod.Post, new { id = "form-ProveedorServicio", @class = "form-horizontal", autocomplete = "off" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
@@ -69,7 +69,8 @@
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                             @Html.TextBoxFor(model => model.Direccion, new { id = "Direccion", @class = "form-control", placeholder = "Dirección del proveedor almacén" })
-                                        </div> model.Direccion)
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Direccion)
                                     </div>
                                 </div>
                             </div>
