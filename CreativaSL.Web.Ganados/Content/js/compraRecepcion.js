@@ -493,7 +493,7 @@
                  var json = JSON.parse(response.Mensaje);
                 if (response.Success) {
                     Mensaje(json.Mensaje, "1");
-                    document.getElementById("RecepcionOrigen_IDRecepcionOrigen").value = json.id;
+                    document.getElementById("IDRecepcion").value = json.Id_recepcionOrigenCompra;
                 }
                 else {
                     Mensaje(json.Mensaje, "2");

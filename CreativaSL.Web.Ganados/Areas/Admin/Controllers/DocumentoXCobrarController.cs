@@ -92,27 +92,72 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
 
+
+        #region JSON tablas
+        #region Json Documentos Detalles
         [HttpPost]
-        public ActionResult ModalRegistrarComprobantePago(int opcion, string id)
+        public ActionResult JsonDocumentosDetallesCompra(DocumentosPorCobrarDetalleModels Documento)
         {
+            try
             {
-                DocumentosPorCobrarDetallePagosModels registrarPago = new DocumentosPorCobrarDetallePagosModels();
-                _DocumentoXCobrar_Datos DocCobrarDatos = new _DocumentoXCobrar_Datos();
-                registrarPago.Id_documentoPorCobrar = id;
-                registrarPago.Usuario = User.Identity.Name;
-                registrarPago.Conexion = Conexion;
-                registrarPago.ListaAsignar = DocCobrarDatos.GetListadoAsignar(registrarPago);
-                registrarPago.ListaFormaPagos = DocCobrarDatos.GetListadoCFDIFormaPago(registrarPago);
-                //registrarPago.DocumentoPorCobrarDetallePagosBancarizado.ListaCuentasBancarias;
-                
-                return PartialView("ModalRegistrarComprobantePago", registrarPago);
+                _DocumentoXCobrar_Datos DocumentoDatos = new _DocumentoXCobrar_Datos();
+                Documento.Conexion = Conexion;
+                Documento.Usuario = User.Identity.Name;
+                Documento.RespuestaAjax = new RespuestaAjax();
+
+                Documento.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(DocumentoDatos.GetDocumentosDetallesCompra(Documento));
+                Documento.RespuestaAjax.Success = true;
+
+                return Content(Documento.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Documento.RespuestaAjax = new RespuestaAjax();
+                Documento.RespuestaAjax.Mensaje = ex.ToString();
+                Documento.RespuestaAjax.Success = false;
+                return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
             }
         }
+        #endregion
+        #endregion
 
+        #region Modal
+        #region ModalArticuloServicio
+        [HttpPost]
+        public ActionResult ModalArticuloServicio(DocumentosPorCobrarDetalleModels DocumentoPorCobrarDetalle)
+        {
+            {
+                _DocumentoXCobrar_Datos DocumentoDatos = new _DocumentoXCobrar_Datos();
+                DocumentoPorCobrarDetalle.Conexion = Conexion;
+                DocumentoPorCobrarDetalle.Usuario = User.Identity.Name;
 
+                DocumentoPorCobrarDetalle.ListaAsignar = DocumentoDatos.GetListadoAsignar(DocumentoPorCobrarDetalle);
+                DocumentoPorCobrarDetalle.ListaProductosServiciosCFDI = DocumentoDatos.GetListadoCFDIProductosServiciosCompra(DocumentoPorCobrarDetalle);
+                DocumentoPorCobrarDetalle.ListaTipoClasificacionCobro = DocumentoDatos.GetListadoTipoClasificacion(DocumentoPorCobrarDetalle);
 
+                //registrarPago.DocumentoPorCobrarDetallePagosBancarizado.ListaCuentasBancarias;
 
+                return PartialView("ModalServicioProducto", DocumentoPorCobrarDetalle);
+            }
+        }
+        #endregion
+        #region ModalComprobante
+        [HttpPost]
+        public ActionResult ModalRegistrarComprobantePago(DocumentosPorCobrarDetallePagosModels DocumentoPorCobrarPago)
+        {
+            {
+                _DocumentoXCobrar_Datos DocCobrarDatos = new _DocumentoXCobrar_Datos();
+                DocumentoPorCobrarPago.Usuario = User.Identity.Name;
+                DocumentoPorCobrarPago.Conexion = Conexion;
+                DocumentoPorCobrarPago.ListaAsignar = DocCobrarDatos.GetListadoAsignar(DocumentoPorCobrarPago);
+                DocumentoPorCobrarPago.ListaFormaPagos = DocCobrarDatos.GetListadoCFDIFormaPago(DocumentoPorCobrarPago);
+                //registrarPago.DocumentoPorCobrarDetallePagosBancarizado.ListaCuentasBancarias;
 
-
+                return PartialView("ModalRegistrarComprobantePago", DocumentoPorCobrarPago);
+            }
+        }
+        #endregion
+        #endregion
     }
 }

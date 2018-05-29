@@ -19,5 +19,8 @@ namespace CreativaSL.Web.Ganados.Models
         public decimal Cambio { get; set; }
         public decimal Pagos { get; set; }
         public decimal Pendiente { get; set; }
+
+        public string Conexion { get; set; }
+        public string Usuario { get; set; }
     }
 }
