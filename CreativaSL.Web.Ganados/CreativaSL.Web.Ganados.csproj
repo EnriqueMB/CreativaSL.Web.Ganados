@@ -916,6 +916,7 @@
     <Content Include="Content\js\RegistrarFaltas.js" />
     <Content Include="Content\js\Remolques.js" />
     <Content Include="Content\js\rendimiento.js" />
+    <Content Include="Content\js\RptProveedorMunicipio.js" />
     <Content Include="Content\js\rptUltCompraProveedor.js" />
     <Content Include="Content\js\servicioslista.js" />
     <Content Include="Content\js\serviciosMtto.js" />
@@ -1206,6 +1207,7 @@
     <Content Include="Areas\Admin\Views\CatProveedorServicio\ContactoPro.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorServicio\ContactoProCreate.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorServicio\ContactoProEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\RptProveedorMunicipio\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1276,6 +1278,7 @@
     <Compile Include="Areas\Admin\Controllers\NominaController.cs" />
     <Compile Include="Areas\Admin\Controllers\NominaDiasFestivosController.cs" />
     <Compile Include="Areas\Admin\Controllers\RptProveedorMermaAltaController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RptProveedorMunicipioController.cs" />
     <Compile Include="Areas\Admin\Controllers\RptUltCompraProveedorController.cs" />
     <Compile Include="Areas\Admin\Controllers\TablaController.cs" />
     <Compile Include="Areas\Admin\Controllers\TestController.cs" />
@@ -1405,6 +1408,7 @@
     <Compile Include="Models\ResumenGastosAjustesModels.cs" />
     <Compile Include="Models\ResumenGastosModels.cs" />
     <Compile Include="Models\RptProveedorMermaAltaModels.cs" />
+    <Compile Include="Models\RptProveedorMunicipioModels.cs" />
     <Compile Include="Models\RptUltCompraProveedorModels.cs" />
     <Compile Include="Models\SalidaAlmacenDetalle.cs" />
     <Compile Include="Models\SalidaAlmacenDetalleModels.cs" />
@@ -1485,6 +1489,7 @@
     <Compile Include="Models\_NominaDiasFestivos_Datos.cs" />
     <Compile Include="Models\_Nomina_Datos.cs" />
     <Compile Include="Models\_RptProveedorMermaAlta_Datos.cs" />
+    <Compile Include="Models\_RptProveedorMunicipio_Datos.cs" />
     <Compile Include="Models\_ServicioMantenimiento_Datos.cs" />
     <Compile Include="Models\_Usuario_Datos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
