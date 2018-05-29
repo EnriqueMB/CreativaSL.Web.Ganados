@@ -83,6 +83,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
                             return RedirectToAction("Index");
                         }
                         else

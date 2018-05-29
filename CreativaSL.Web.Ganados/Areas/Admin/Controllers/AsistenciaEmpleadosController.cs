@@ -33,7 +33,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Index(AsistenciaEmpleadoModels Asistencia)
         {
-            
             _AsistenciaEmpleados_Datos AsistenciaDatos = new _AsistenciaEmpleados_Datos();
             _Combos_Datos Combo = new _Combos_Datos();
             Asistencia.ListaSucursales = Combo.ObtenerComboSucursales(Conexion);
