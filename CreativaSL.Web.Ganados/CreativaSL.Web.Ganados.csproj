@@ -443,11 +443,13 @@
     <Content Include="Content\js\compraAgendar.js" />
     <Content Include="Content\js\CompraAlmacenDetalle.js" />
     <Content Include="Content\js\CompraGanado.js" />
+    <Content Include="Content\js\compraRecepcion.js" />
     <Content Include="Content\js\compraTransacciones.js" />
     <Content Include="Content\js\CuentaProveedorAlmacen.js" />
     <Content Include="Content\js\EmpleadosSucursalFaltas.js" />
     <Content Include="Content\js\fleteRecepcion.js" />
     <Content Include="Content\js\ProveedorCombustible.js" />
+    <Content Include="Content\js\ProveedorServicio.js" />
     <Content Include="Content\js\Puestos.js" />
     <Content Include="Content\js\CategoriaPuestos.js" />
     <Content Include="Content\js\Chofer.js" />

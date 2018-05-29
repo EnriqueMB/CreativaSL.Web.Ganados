@@ -30,7 +30,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
         private string _id_sucursal;
 
-        public string id_sucursal
+        public string IDSucursal
         {
             get { return _id_sucursal; }
             set { _id_sucursal = value; }
@@ -52,7 +52,7 @@ namespace CreativaSL.Web.Ganados.Models
         [StringLength(20, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s]*$", ErrorMessage = "Solo Letras, Números")]
 
-        public string rfc
+        public string RFC
         {
             get { return _rfc; }
             set { _rfc = value; }
@@ -60,7 +60,7 @@ namespace CreativaSL.Web.Ganados.Models
         private string _direccion;
         [Display(Name = "Dirección")]
         [Direccion(ErrorMessage = "Ingrese un datos válido para {0}")]
-        public string direccion
+        public string Direccion
         {
             get { return _direccion; }
             set { _direccion = value; }

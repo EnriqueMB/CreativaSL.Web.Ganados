@@ -37,7 +37,7 @@
                                         <div class="col-md-10 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.DropDownListFor(model => model.IDTipoEvento, new SelectList(Model.ListaEventos, "IDTipoEventoEnvio", "Descripcion", "Clasificacion", 1), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                @Html.DropDownListFor(model => model.IDTipoEvento, new SelectList(Model.ListaEventos, "IDTipoEventoEnvio", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
                                             </div>
                                             <span class="help-block">Tipo de evento.</span>
                                         </div>
