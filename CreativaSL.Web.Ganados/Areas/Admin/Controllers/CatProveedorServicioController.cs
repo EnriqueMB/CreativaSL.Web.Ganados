@@ -76,9 +76,40 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatProveedorServicio_Datos proveedorDatos = new _CatProveedorServicio_Datos();
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        provserv.Conexion = Conexion;
+                        provserv.Opcion = 1;
+                        provserv.Usuario = User.Identity.Name;
+                        provserv = proveedorDatos.AbcCatProveedorServicio(provserv);
+                        if (provserv.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            provserv.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar.";
+                            return View(provserv);
+                        }
+                    }
+                    else
+                    {
+                        provserv.Conexion = Conexion;
+                        provserv.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
+                        return View(provserv);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
             catch
             {
@@ -100,7 +131,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 _CatProveedorServicio_Datos proveedorDatos = new _CatProveedorServicio_Datos();
                 provservr.Conexion = Conexion;
                 provservr.id_proveedorServicio = id;
-                //provservr = proveedorDatos.ObtenerDetalleProveedorAlmacenxID(proveedor);
+                provservr = proveedorDatos.ObtenerDetalleProveedorServicioxID(provservr);
                 provservr.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
                 return View(provservr);
 
@@ -119,7 +150,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Edit(string id, CatProveedorServicioModels provserv)
         {
-            _CatProveedorAlmacen_Datos proveedorDatos = new _CatProveedorAlmacen_Datos();
+            _CatProveedorServicio_Datos proveedorDatos = new _CatProveedorServicio_Datos();
             try
             {
                 if (Token.IsTokenValid())
@@ -129,7 +160,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         provserv.Conexion = Conexion;
                         provserv.Opcion = 2;
                         provserv.Usuario = User.Identity.Name;
-                       // provserv = proveedorDatos.AbcCatProveedorAlmacen(provserv);
+                        provserv = proveedorDatos.AbcCatProveedorServicio(provserv);
                         if (provserv.Completado == true)
                         {
                             TempData["typemessage"] = "1";
@@ -181,7 +212,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 provserv.id_proveedorServicio = id;
                 provserv.Opcion = 3;
                 provserv.Usuario = User.Identity.Name;
-                //provserv = proveedorDatos.EliminarProveedorAlmacen(proveedor);
+                provserv = proveedorDatos.EliminarProveedorServicio(provserv);
                 if (provserv.Completado == true)
                 {
                     TempData["typemessage"] = "1";

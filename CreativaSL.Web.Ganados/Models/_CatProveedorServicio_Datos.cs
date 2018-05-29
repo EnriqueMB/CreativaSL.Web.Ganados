@@ -24,8 +24,8 @@ namespace CreativaSL.Web.Ganados.Models
 
                     item.nombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
                     item.nombreRazonsocial = !dr.IsDBNull(dr.GetOrdinal("RazonSocial")) ? dr.GetString(dr.GetOrdinal("RazonSocial")) : string.Empty;
-                    item.rfc = !dr.IsDBNull(dr.GetOrdinal("Rfc")) ? dr.GetString(dr.GetOrdinal("Rfc")) : string.Empty;
-                    item.direccion = !dr.IsDBNull(dr.GetOrdinal("Direccion")) ? dr.GetString(dr.GetOrdinal("Direccion")) : string.Empty;
+                    item.RFC = !dr.IsDBNull(dr.GetOrdinal("Rfc")) ? dr.GetString(dr.GetOrdinal("Rfc")) : string.Empty;
+                    item.Direccion = !dr.IsDBNull(dr.GetOrdinal("Direccion")) ? dr.GetString(dr.GetOrdinal("Direccion")) : string.Empty;
                     item.correo = !dr.IsDBNull(dr.GetOrdinal("Correo")) ? dr.GetString(dr.GetOrdinal("Correo")) : string.Empty;
                     lista.Add(item);
                 }
@@ -43,15 +43,15 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros = { datos.Opcion,
                             datos.id_proveedorServicio ?? string.Empty,
-                            datos.id_sucursal ?? string.Empty,
+                            datos.IDSucursal ?? string.Empty,
                             datos.nombreRazonsocial ?? string.Empty,
-                            datos.rfc ?? string.Empty,
-                            datos.telefonoCelular ?? string.Empty,
-                            datos.telefonoCasa ?? string.Empty,
+                            datos.Direccion ?? string.Empty,
+                            datos.RFC ?? string.Empty,
                             datos.correo ?? string.Empty,
-                            datos.fechaIngreso != null ? datos.fechaIngreso : DateTime.Today,
-                            datos.direccion ?? string.Empty,
+                            datos.telefonoCasa ?? string.Empty,
+                            datos.telefonoCelular ?? string.Empty,
                             datos.observaciones ?? string.Empty,
+                            datos.fechaIngreso != null ? datos.fechaIngreso : DateTime.Today,
                             datos.Usuario ?? string.Empty };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatProveedorServicio", parametros);
                 datos.id_proveedorServicio = aux.ToString();
@@ -106,14 +106,14 @@ namespace CreativaSL.Web.Ganados.Models
                 while (dr.Read())
                 {
                     datos.id_proveedorServicio = !dr.IsDBNull(dr.GetOrdinal("IDProveedor")) ? dr.GetString(dr.GetOrdinal("IDProveedor")) : string.Empty;// Convert.ToInt32(dr["ID_UnidadMedida"].ToString());
-                    datos.id_sucursal = !dr.IsDBNull(dr.GetOrdinal("IDSucursal")) ? dr.GetString(dr.GetOrdinal("IDSucursal")) : string.Empty;
+                    datos.IDSucursal = !dr.IsDBNull(dr.GetOrdinal("IDSucursal")) ? dr.GetString(dr.GetOrdinal("IDSucursal")) : string.Empty;
                     datos.nombreRazonsocial = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
-                    datos.rfc = !dr.IsDBNull(dr.GetOrdinal("Rfc")) ? dr.GetString(dr.GetOrdinal("Rfc")) : string.Empty;
+                    datos.RFC = !dr.IsDBNull(dr.GetOrdinal("Rfc")) ? dr.GetString(dr.GetOrdinal("Rfc")) : string.Empty;
                     datos.telefonoCelular = !dr.IsDBNull(dr.GetOrdinal("TelefonoCelular")) ? dr.GetString(dr.GetOrdinal("TelefonoCelular")) : string.Empty;
                     datos.telefonoCasa = !dr.IsDBNull(dr.GetOrdinal("TelefonoCasa")) ? dr.GetString(dr.GetOrdinal("TelefonoCasa")) : string.Empty;
                     datos.correo = !dr.IsDBNull(dr.GetOrdinal("Correo")) ? dr.GetString(dr.GetOrdinal("Correo")) : string.Empty;
                     datos.fechaIngreso = !dr.IsDBNull(dr.GetOrdinal("FechaIngreso")) ? dr.GetDateTime(dr.GetOrdinal("FechaIngreso")) : DateTime.Today;
-                    datos.direccion = !dr.IsDBNull(dr.GetOrdinal("Direccion")) ? dr.GetString(dr.GetOrdinal("Direccion")) : string.Empty;
+                    datos.Direccion = !dr.IsDBNull(dr.GetOrdinal("Direccion")) ? dr.GetString(dr.GetOrdinal("Direccion")) : string.Empty;
                     datos.observaciones = !dr.IsDBNull(dr.GetOrdinal("Obsevaciones")) ? dr.GetString(dr.GetOrdinal("Obsevaciones")) : string.Empty;
                 }
                 return datos;
