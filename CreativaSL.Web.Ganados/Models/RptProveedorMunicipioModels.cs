@@ -131,8 +131,8 @@ namespace CreativaSL.Web.Ganados.Models
         public int opcion { get; set; }
         public bool Completado { get; set; }
         public DateTime fechaProgramada { get;  set; }
-        public string Estado { get; internal set; }
-        public decimal municipio { get; internal set; }
+        public string Estado { get;  set; }
+        public string municipio { get;  set; }
         #endregion
     }
 }
