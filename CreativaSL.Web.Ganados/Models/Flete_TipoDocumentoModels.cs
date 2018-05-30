@@ -20,7 +20,8 @@ namespace CreativaSL.Web.Ganados.Models
         public string Imagen { get; set; }
         //imagen para mostrar
         public string MostrarImagen { get; set; }
-
+        //extension de la imagen
+        public string ExtensionImagenBase64 { get; set; }
         //File input
         [DisplayName("Imagen")]
         public HttpPostedFileBase ImagenPost { get; set; }

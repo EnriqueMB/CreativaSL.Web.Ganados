@@ -1,0 +1,57 @@
+﻿@model CreativaSL.Web.Ganados.Models.RptUltCompraProveedorModels
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section featured{
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Reporte Próxima Compras </h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="col-md-3  col-md-offset-9">
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="alert_holder"></div>
+                        <div class="">
+                            <div id="calendar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END WIDGETS -->
+    </div>
+    <div id="fullCalModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                    <h4 id="modalTitle" class="modal-title"></h4>
+                </div>
+                <div id="modalBody" class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    @*<button class="btn btn-success"><a id="eventUrl" target="_blank">Event Page</a></button>*@
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section script{
+    @*<script src="@Url.Content("~/Content/js/Canvas.js")"></script>*@
+    <script src="@Url.Content("~/Content/js/plugins/moment.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/fullcalendar/fullcalendar.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/fullcalendar/lang/es.js")"></script>
+    <script src="@Url.Content("~/Content/js/rptUltCompraProveedor.js")"></script>
+    <script>
+        jQuery(document).ready(function () {
+            rptProximaCompra.init();
+        });
+    </script>
+}

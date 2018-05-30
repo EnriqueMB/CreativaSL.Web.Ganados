@@ -65,6 +65,8 @@ namespace CreativaSL.Web.Ganados.Models
             set { _NombreSucursal = value; }
         }
 
+        public List<CatLugarModels> ListaLugares { get; set; }
+
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }

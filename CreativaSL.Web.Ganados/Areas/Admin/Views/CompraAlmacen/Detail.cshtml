@@ -72,7 +72,7 @@
                                      {
                                         <td style="text-align:center;">
                                             <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                <a title="Editar" href="@Url.Action("Edit", "CompraAlmacen", new { id = detalle.IDCompraAlmacenDetalle })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                <a title="Editar" href="@Url.Action("EditProducto", "CompraAlmacen", new {id=detalle.IDCompraAlmacen, id2 = detalle.IDCompraAlmacenDetalle })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                                                 <a title="Cancelar" id="delete-@detalle.IDCompraAlmacen" data-hrefa="@Url.Action("Delete", "CompraAlmacen", new { id = detalle.IDCompraAlmacen, id_compraAlmacen = detalle.IDCompraAlmacenDetalle })" onClick="delete_row('@detalle.IDCompraAlmacenDetalle');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-times"></i></a>
 
                                             </div>

@@ -9,6 +9,34 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class _CatSucursal_Datos
     {
+        public List<CatLugarModels> GetLugares(CatSucursalesModels Sucursal)
+        {
+            try
+            {
+                SqlDataReader dr = null;
+                CatLugarModels lugar;
+                List<CatLugarModels> listaLugares = new List<CatLugarModels>();
+
+                dr = SqlHelper.ExecuteReader(Sucursal.Conexion, "spCSLDB_Combo_get_AllCatLugar");
+                while (dr.Read())
+                {
+                    lugar = new CatLugarModels
+                    {
+                        id_lugar = !dr.IsDBNull(dr.GetOrdinal("IDLugar")) ? dr.GetString(dr.GetOrdinal("IDLugar")) : string.Empty,
+                        descripcion = !dr.IsDBNull(dr.GetOrdinal("NombreLugar")) ? dr.GetString(dr.GetOrdinal("NombreLugar")) : string.Empty,
+                        latitud = float.Parse(dr["GpsLatitud"].ToString()),
+                        longitud = float.Parse(dr["GpsLongitud"].ToString())
+                    };
+                    listaLugares.Add(lugar);
+                }
+                return listaLugares;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         public List<CatSucursalesModels> GetSucursalesXIDEmpresa(CatSucursalesModels Sucursal)
         {
             try
@@ -51,7 +79,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Sucursal.NombreSucursal,
                     Sucursal.Direccion,
                     Sucursal.MermaPredeterminada,
-                    Sucursal.Usuario
+                    Sucursal.Usuario,
+                    Sucursal.IDLugar
                 };
                 SqlDataReader dr = null;
 
@@ -86,6 +115,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Sucursal.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("nombreSuc")) ? dr.GetString(dr.GetOrdinal("nombreSuc")) : string.Empty;
                     Sucursal.Direccion = !dr.IsDBNull(dr.GetOrdinal("direccion")) ? dr.GetString(dr.GetOrdinal("direccion")) : string.Empty;
                     Sucursal.MermaPredeterminada = !dr.IsDBNull(dr.GetOrdinal("mermaPredeterminada")) ? dr.GetDecimal(dr.GetOrdinal("mermaPredeterminada")) : 0;
+                    Sucursal.IDLugar = !dr.IsDBNull(dr.GetOrdinal("id_lugar")) ? dr.GetString(dr.GetOrdinal("id_lugar")) : string.Empty;
 
                 }
                 return Sucursal;

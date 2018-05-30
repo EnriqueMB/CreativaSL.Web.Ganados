@@ -437,13 +437,19 @@
     <Content Include="Content\js\actions.js" />
     <Content Include="Content\js\Bancos.js" />
     <Content Include="Content\js\CalAlmacen.js" />
+    <Content Include="Content\js\Canvas.js" />
     <Content Include="Content\js\CatContactos.js" />
     <Content Include="Content\js\CatContactosClientes.js" />
+    <Content Include="Content\js\compraAgendar.js" />
     <Content Include="Content\js\CompraAlmacenDetalle.js" />
+    <Content Include="Content\js\CompraGanado.js" />
+    <Content Include="Content\js\compraRecepcion.js" />
+    <Content Include="Content\js\compraTransacciones.js" />
     <Content Include="Content\js\CuentaProveedorAlmacen.js" />
     <Content Include="Content\js\EmpleadosSucursalFaltas.js" />
     <Content Include="Content\js\fleteRecepcion.js" />
     <Content Include="Content\js\ProveedorCombustible.js" />
+    <Content Include="Content\js\ProveedorServicio.js" />
     <Content Include="Content\js\Puestos.js" />
     <Content Include="Content\js\CategoriaPuestos.js" />
     <Content Include="Content\js\Chofer.js" />
@@ -912,6 +918,8 @@
     <Content Include="Content\js\RegistrarFaltas.js" />
     <Content Include="Content\js\Remolques.js" />
     <Content Include="Content\js\rendimiento.js" />
+    <Content Include="Content\js\RptProveedorMunicipio.js" />
+    <Content Include="Content\js\rptUltCompraProveedor.js" />
     <Content Include="Content\js\salidaAlmacen.js" />
     <Content Include="Content\js\salidaAlmacenDetalle.js" />
     <Content Include="Content\js\salidaAlmacenDetalleLista.js" />
@@ -1045,7 +1053,6 @@
     <Content Include="Areas\Admin\Views\CatAlmacen\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatAlmacen\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatAlmacen\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Compra\ModalGanado.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalCobro.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Create.cshtml" />
@@ -1127,8 +1134,8 @@
     <Content Include="Areas\Admin\Views\CatEmpleado\BajaNomina.cshtml" />
     <Content Include="Areas\Admin\Views\Nomina\DetalleEmpleado.cshtml" />
     <Content Include="Areas\Admin\Views\Nomina\RptDiasLaborados.cshtml" />
-    <Content Include="Areas\Admin\Views\Compra\EmbarqueCompra.cshtml" />
-    <Content Include="Areas\Admin\Views\Compra\ProgramarCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\GanadoCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\AgendarCompra.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\RecepcionCompra.cshtml" />
     <Content Include="Areas\Admin\Views\Nomina\RptSaldos.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalListadoPrecios.cshtml" />
@@ -1176,6 +1183,37 @@
     <Content Include="Areas\Admin\Views\Mantenimiento\EditDetail.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Servicios.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosR.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosV.cshtml" />
+    <Content Include="Areas\Admin\Views\Mantenimiento\Test.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorAlmacen\ContactoPro.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorAlmacen\ContactoProCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorAlmacen\ContactoProEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\Cuentas.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\CreateCuenta.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\EditCuenta.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\DatosContacto.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\NuevoDatosContactoEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorCombustible\NuevoDatosContacto.cshtml" />
+    <Content Include="Areas\Admin\Views\CompraAlmacen\EditProducto.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\Transacciones.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalComprobante.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalServicioProducto.cshtml" />
+    <Content Include="Areas\Admin\Views\RptUltCompraProveedor\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\RptProveedorMermaAlta\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorServicio\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorServicio\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorServicio\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorServicio\DatosBancarios.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorServicio\DatosBancariosCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorServicio\DatosBancariosEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorServicio\ContactoPro.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorServicio\ContactoProCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorServicio\ContactoProEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\RptProveedorMunicipio\Index.cshtml" />
     <Content Include="Areas\Admin\Views\SalidaAlmacen\Index.cshtml" />
     <Content Include="Areas\Admin\Views\SalidaAlmacen\Create.cshtml" />
     <Content Include="Content\assets\json\Spanish.json" />
@@ -1230,6 +1268,7 @@
     <Compile Include="Areas\Admin\Controllers\CatProveedorAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatProveedorCombustibleController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatProveedorController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatProveedorServicioController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatPuestosController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatRangoPesoCompraController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatRemolqueController.cs" />
@@ -1252,6 +1291,9 @@
     <Compile Include="Areas\Admin\Controllers\MantenimientoController.cs" />
     <Compile Include="Areas\Admin\Controllers\NominaController.cs" />
     <Compile Include="Areas\Admin\Controllers\NominaDiasFestivosController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RptProveedorMermaAltaController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RptProveedorMunicipioController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RptUltCompraProveedorController.cs" />
     <Compile Include="Areas\Admin\Controllers\SalidaAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\TablaController.cs" />
     <Compile Include="Areas\Admin\Controllers\TestController.cs" />
@@ -1265,6 +1307,7 @@
     <Compile Include="Models\AlmacenEntradaModels.cs" />
     <Compile Include="Models\AsistenciaEmpleadoModels.cs" />
     <Compile Include="Models\Auxiliar.cs" />
+    <Compile Include="Models\CalendarioModels.cs" />
     <Compile Include="Models\CatAlmacenModels.cs" />
     <Compile Include="Models\CatBancoModels.cs" />
     <Compile Include="Models\CatCategoriaPuestoModels.cs" />
@@ -1274,6 +1317,7 @@
     <Compile Include="Models\CatConceptoNominaModels.cs" />
     <Compile Include="Models\CatConceptosNominaModels.cs" />
     <Compile Include="Models\CatContactosModels.cs" />
+    <Compile Include="Models\CatCorralesModels.cs" />
     <Compile Include="Models\CatCostoFlete.cs" />
     <Compile Include="Models\CatEmpleadoAltaNominaModels.cs" />
     <Compile Include="Models\CatEmpleadoBajaNominaModels.cs" />
@@ -1290,15 +1334,18 @@
     <Compile Include="Models\CatMotivoBajaModels.cs" />
     <Compile Include="Models\CatMunicipioModels.cs" />
     <Compile Include="Models\CatPaisModels.cs" />
+    <Compile Include="Models\CatPeriodoModels.cs" />
     <Compile Include="Models\CatProductosAlmacenModels.cs" />
     <Compile Include="Models\CatProductosModels.cs" />
     <Compile Include="Models\CatProveedorCombustibleModels.cs" />
     <Compile Include="Models\CatProveedorModels.cs" />
     <Compile Include="Models\CatProveedorAlmacenModels.cs" />
+    <Compile Include="Models\CatProveedorServicioModels.cs" />
     <Compile Include="Models\CatPuestoModels.cs" />
     <Compile Include="Models\CatRangoPesoCompraModels.cs" />
     <Compile Include="Models\CatRemolqueModels.cs" />
     <Compile Include="Models\CatSucursalesModels.cs" />
+    <Compile Include="Models\CatTipoClasificacionCobroModels.cs" />
     <Compile Include="Models\CatTipoClasificacionModels.cs" />
     <Compile Include="Models\CatTipoCodigoProductoModels.cs" />
     <Compile Include="Models\CatTipoCombustibleModels.cs" />
@@ -1333,6 +1380,11 @@
     <Compile Include="Models\CuentaBancariasProveedorAlmacenModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
     <Compile Include="Models\DocumentoPorPagarModels.cs" />
+    <Compile Include="Models\DocumentosPorCobrarDetalleImpuestoModels.cs" />
+    <Compile Include="Models\DocumentosPorCobrarDetalleModels.cs" />
+    <Compile Include="Models\DocumentosPorCobrarDetallePagosBancarizadoModels.cs" />
+    <Compile Include="Models\DocumentosPorCobrarDetallePagosModels.cs" />
+    <Compile Include="Models\DocumentosPorCobrarModels.cs" />
     <Compile Include="Models\EntradaAlmacenDetalleModels.cs" />
     <Compile Include="Models\EntradaAlmacenModels.cs" />
     <Compile Include="Models\EntregaCombustibleModels.cs" />
@@ -1370,11 +1422,15 @@
     <Compile Include="Models\RespuestaAjax.cs" />
     <Compile Include="Models\ResumenGastosAjustesModels.cs" />
     <Compile Include="Models\ResumenGastosModels.cs" />
+    <Compile Include="Models\RptProveedorMermaAltaModels.cs" />
+    <Compile Include="Models\RptProveedorMunicipioModels.cs" />
+    <Compile Include="Models\RptUltCompraProveedorModels.cs" />
     <Compile Include="Models\SalidaAlmacenDetalle.cs" />
     <Compile Include="Models\SalidaAlmacenDetalleModels.cs" />
     <Compile Include="Models\SalidaAlmacenModels.cs" />
     <Compile Include="Models\ServiciosMantenimientoDetalleModels.cs" />
     <Compile Include="Models\ServiciosMantenimientoModels.cs" />
+    <Compile Include="Models\ListaGenerica.cs" />
     <Compile Include="Models\TelefonosContactoSucursalModels.cs" />
     <Compile Include="Models\TipoUsuarioModels.cs" />
     <Compile Include="Models\TrayectoModels.cs" />
@@ -1423,6 +1479,7 @@
     <Compile Include="Models\_CatProductos_Datos.cs" />
     <Compile Include="Models\_CatProveedorAlmacen_Datos.cs" />
     <Compile Include="Models\_CatProveedorCombustible_Datos.cs" />
+    <Compile Include="Models\_CatProveedorServicio_Datos.cs" />
     <Compile Include="Models\_CatProveedor_Datos.cs" />
     <Compile Include="Models\_CatPuestos_Datos.cs" />
     <Compile Include="Models\_CatRangoPesoCompra_Datos.cs" />
@@ -1436,6 +1493,8 @@
     <Compile Include="Models\_Combos_Datos.cs" />
     <Compile Include="Models\_CompraAlmacen_Datos.cs" />
     <Compile Include="Models\_Compra_Datos.cs" />
+    <Compile Include="Models\_DatosRptUltCompraProveedor_Datos.cs" />
+    <Compile Include="Models\_DocumentoXCobrar_Datos.cs" />
     <Compile Include="Models\_EntradaAlmacen_Datos.cs" />
     <Compile Include="Models\_DocumentoXPagar_Datos.cs" />
     <Compile Include="Models\_EntregaCombustible_Datos.cs" />
@@ -1445,6 +1504,8 @@
     <Compile Include="Models\_Menu_Datos.cs" />
     <Compile Include="Models\_NominaDiasFestivos_Datos.cs" />
     <Compile Include="Models\_Nomina_Datos.cs" />
+    <Compile Include="Models\_RptProveedorMermaAlta_Datos.cs" />
+    <Compile Include="Models\_RptProveedorMunicipio_Datos.cs" />
     <Compile Include="Models\_SalidaAlmacen_Datos.cs" />
     <Compile Include="Models\_ServicioMantenimiento_Datos.cs" />
     <Compile Include="Models\_Usuario_Datos.cs" />
@@ -1537,7 +1598,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50240</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

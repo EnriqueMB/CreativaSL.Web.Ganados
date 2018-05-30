@@ -56,6 +56,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
                 Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
                 Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                Proveedor.ListaPeriodo = ProveedorDatos.ObteneComboCatPeriodo(Proveedor);
                 return View(Proveedor);
             }
             catch (Exception ex)
@@ -108,6 +109,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
                             Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
                             Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                            Proveedor.ListaPeriodo = ProveedorDatos.ObteneComboCatPeriodo(Proveedor);
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                             return View(Proveedor);
@@ -119,6 +121,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
                         Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
                         Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                        Proveedor.ListaPeriodo = ProveedorDatos.ObteneComboCatPeriodo(Proveedor);
                         return View(Proveedor);
                     }
                 }
@@ -133,6 +136,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
                 Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
                 Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                Proveedor.ListaPeriodo = ProveedorDatos.ObteneComboCatPeriodo(Proveedor);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
                 return View(Proveedor);
@@ -153,6 +157,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
                 Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
                 Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                Proveedor.ListaPeriodo = ProveedorDatos.ObteneComboCatPeriodo(Proveedor);
                 return View(Proveedor);
             }
             catch (Exception ex)
@@ -221,6 +226,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
                             Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
                             Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                            Proveedor.ListaPeriodo = ProveedorDatos.ObteneComboCatPeriodo(Proveedor);
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                             return View(Proveedor);
@@ -232,6 +238,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
                         Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
                         Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                        Proveedor.ListaPeriodo = ProveedorDatos.ObteneComboCatPeriodo(Proveedor);
                         return View(Proveedor);
                     }
                 }
@@ -246,6 +253,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
                 Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
                 Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                Proveedor.ListaPeriodo = ProveedorDatos.ObteneComboCatPeriodo(Proveedor);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
                 return View(Proveedor);
@@ -913,12 +921,41 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
             }
         }
-
+        // POST: Admin/CatProvedor/Delete/5
+        [HttpPost]
+        public ActionResult DeleteDatosContacto(string id, string id2, string id3)
+        {
+            try
+            {
+                CatContactosModels Datos = new CatContactosModels
+                {
+                    IDProveedor = id,
+                    IDContacto = id3,
+                    Conexion = Conexion,
+                    Usuario = User.Identity.Name
+                };
+                _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
+                ProveedorDatos.EliminarProveedorDatosContacto(Datos);
+                if (Datos.Completado)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "El registro se ha eliminado correctamente";
+                    return Json("");
+                }
+                else
+                { return Json(""); }
+            }
+            catch
+            {
+                return View();
+            }
+        }
         [HttpGet]
         public ActionResult UPPProveedor(string id)
         {
             try
             {
+                Token.SaveToken();
                 UPPProvedorModels uPPProvedor = new UPPProvedorModels();
                 _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
                 uPPProvedor.Conexion = Conexion;
@@ -942,32 +979,47 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
             try
             {
-                HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                if (!string.IsNullOrEmpty(bannerImage.FileName))
+                if(Token.IsTokenValid())
                 {
-                    if (bannerImage != null && bannerImage.ContentLength > 0)
+                    HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                    if (!string.IsNullOrEmpty(bannerImage.FileName))
                     {
-                        Stream s = bannerImage.InputStream;
-                        Bitmap img = new Bitmap(s);
-                        uPPProvedor.Imagen = img.ToBase64String(ImageFormat.Png);
+                        if (bannerImage != null && bannerImage.ContentLength > 0)
+                        {
+                            Stream s = bannerImage.InputStream;
+                            Bitmap img = new Bitmap(s);
+                            uPPProvedor.Imagen = img.ToBase64String(ImageFormat.Png);
+                        }
                     }
-                }
-                else
-                {
-                    uPPProvedor.BandImg = true;
-                    ModelState.AddModelError(string.Empty, "Cargar imagen UPPProveedor");
-                }
-                if (ModelState.IsValid)
-                {
-                    uPPProvedor.Conexion = Conexion;
-                    uPPProvedor.id_proveedor = id;
-                    uPPProvedor.Usuario = User.Identity.Name;
-                    uPPProvedor = ProveedorDatos.CUPPProveedor(uPPProvedor);
-                    if (uPPProvedor.Completado)
+                    else
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardaron correctamente.";
-                        return RedirectToAction("Index");
+                        uPPProvedor.BandImg = true;
+                        ModelState.AddModelError(string.Empty, "Cargar imagen UPPProveedor");
+                    }
+                    if (ModelState.IsValid)
+                    {
+                        uPPProvedor.Conexion = Conexion;
+                        uPPProvedor.id_proveedor = id;
+                        uPPProvedor.Usuario = User.Identity.Name;
+                        uPPProvedor = ProveedorDatos.CUPPProveedor(uPPProvedor);
+                        if (uPPProvedor.Completado)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            uPPProvedor.Conexion = Conexion;
+                            uPPProvedor.id_proveedor = id;
+                            uPPProvedor.listaPaises = ProveedorDatos.obtenerListaPaises(uPPProvedor);
+                            uPPProvedor.listaEstado = ProveedorDatos.obtenerListaEstados(uPPProvedor);
+                            uPPProvedor.listaMunicipio = ProveedorDatos.obtenerListaMunicipios(uPPProvedor);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(uPPProvedor);
+                        }
                     }
                     else
                     {
@@ -980,18 +1032,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(uPPProvedor);
                     }
+                   
                 }
                 else
                 {
-                    uPPProvedor.Conexion = Conexion;
-                    uPPProvedor.id_proveedor = id;
-                    uPPProvedor.listaPaises = ProveedorDatos.obtenerListaPaises(uPPProvedor);
-                    uPPProvedor.listaEstado = ProveedorDatos.obtenerListaEstados(uPPProvedor);
-                    uPPProvedor.listaMunicipio = ProveedorDatos.obtenerListaMunicipios(uPPProvedor);
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                    return View(uPPProvedor);
+                    return RedirectToAction("Index");
                 }
+
             }
             catch (Exception ex)
             {

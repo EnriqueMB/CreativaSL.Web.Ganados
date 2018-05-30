@@ -1,0 +1,140 @@
+﻿@model CreativaSL.Web.Ganados.Models.CatProveedorServicioModels
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section featured
+{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+<div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+    <h3></h3>
+</div>
+<div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+    <h3></h3>
+</div>
+<div class="page-title">
+    <h2><span class="fa fa-arrow-circle-o-left"></span> Proveedor de Servicio </h2>
+</div>
+<!-- END PAGE TITLE -->
+<!-- PAGE CONTENT WRAPPER -->
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- START DEFAULT DATATABLE -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"></h3>
+                    <ul class="panel-controls">
+                        <li><a href="@Url.Action("Create","CatProveedorServicio")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Proveedor Servicio</a></li>
+                        <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                        <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
+                    </ul>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table datatable">
+                            <thead>
+                                <tr>
+                                    <th>Sucursal</th>
+                                    <th>Razón Social</th>
+                                    <th>RFC</th>
+                                    <th>Dirección</th>
+                                    <th>Correo</th>
+                                    <th style="text-align:center">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var Proveedor in Model.listaProveedorServicio)
+                                {
+                                    <tr id="@Proveedor.id_proveedorServicio">
+                                        <td>@Proveedor.nombreSucursal</td>
+                                        <td>@Proveedor.nombreRazonsocial</td>
+                                        <td>@Proveedor.RFC</td>
+                                        <td>@Proveedor.Direccion</td>
+                                        <td>@Proveedor.correo</td>
+                                        <td style="text-align:center;">
+                                            <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                <a title="Datos Contacto" href="@Url.Action("ContactoPro", "CatProveedorServicio", new { id =Proveedor.id_proveedorServicio  })" class="btn btn-blue tooltips" data-placement="top" data-original-title="Contatos"><i class="fa fa-user"></i></a>
+                                                <a title="Datos Bancarios" href="@Url.Action("DatosBancarios", "CatProveedorServicio", new { id =Proveedor.id_proveedorServicio  })" class="btn btn-green tooltips" data-placement="top" data-original-title="Datos Bancarios"><i class="fa fa-credit-card"></i></a>
+                                                <a title="Editar" href="@Url.Action("Edit", "CatProveedorServicio", new { id = Proveedor.id_proveedorServicio })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                <a title="Eliminar" id="delete-@Proveedor.id_proveedorServicio" data-hrefa="@Url.Action("Delete", "CatProveedorServicio", new { id = Proveedor.id_proveedorServicio })" onClick="delete_row('@Proveedor.id_proveedorServicio');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                            </div>
+                                            <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                <div class="btn-group">
+                                                    <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                        <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                    </a>
+                                                    <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("ContactoPro", "CatProveedorServicio", new { id =Proveedor.id_proveedorServicio  })">
+                                                                <i class="fa fa-user"></i> Datos Contacto
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("DatosBancarios", "CatProveedorServicio", new { id =Proveedor.id_proveedorServicio  })">
+                                                                <i class="fa fa-credit-card"></i> Datos Bancarios
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatProveedorServicio", new { id = Proveedor.id_proveedorServicio })">
+                                                                <i class="fa fa-edit"></i> Editar
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" id="delete-@Proveedor.id_proveedorServicio" data-hrefa="@Url.Action("Delete", "CatProveedorServicio", new { id = Proveedor.id_proveedorServicio })" onClick="delete_row('@Proveedor.id_proveedorServicio');">
+                                                                <i class="fa fa-trash-o"></i> Eliminar
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- END DEFAULT DATATABLE -->
+        </div>
+    </div>
+</div>
+<div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+            <div class="mb-content">
+                <p>¿Seguro que quieres eliminar esta fila?</p>
+                <p>Presione "sí" si está seguro.</p>
+            </div>
+            <div class="mb-footer">
+                <div class="pull-right">
+                    <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                    <button class="btn btn-default btn-lg mb-control-close">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var message = '@message';
+    var typemessage = '@typemessage';
+</script>
+}
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script>
+    jQuery(document).ready(function () {
+        Mensaje(message, typemessage);
+        });
+    </script>
+}
+
+

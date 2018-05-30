@@ -1,0 +1,376 @@
+﻿@model CreativaSL.Web.Ganados.Models.CompraModels
+@{
+    ViewBag.Title = "Agendar compra";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section css
+{
+    <!--FILEINPUT-->
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.5/css/select.bootstrap.min.css">
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
+    <!--CSS GENERAL-->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
+}
+@section featured
+{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="col-md-12">
+    <h3>
+        @Html.Label("Folio de la compra: " + Model.Folio, new { id = "Folio", style = "float: right" })
+    </h3>
+    </div>
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <!--INICIA TABS-->
+        <div class="panel panel-default tabs">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#proveedor" aria-controls="proveedor" role="tab" data-toggle="tab">Proveedor</a></li>
+                <li id="liFlete" role="presentation" class="disabled"><a id="tabFlete" href="#flete" aria-controls="flete" role="tab" data-toggle="">Flete</a></li>
+                <li id="liDocumentos" role="presentation" class="disabled"><a id="tabDocumentos" href="#documentos" aria-controls="documentos" role="tab" data-toggle="">Documentos</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="proveedor">
+                    <div class="col-md-12">
+                        @{ Html.EnableClientValidation(false); }
+                        @using (Html.BeginForm("AC_Proveedor", "Compra", FormMethod.Post, new { id = "frmProveedor", @class = "form-horizontal", autocomplete = "off" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+                            @Html.HiddenFor(model => model.IDCompra)
+                            @Html.HiddenFor(model => model.IDFlete)
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><strong>Información</strong> Compra </h3>
+                                    <ul class="panel-controls"></ul>
+                                </div>
+                                <div class="panel-body">
+                                    @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
+                                    <div id="validation_summary_proveedor" class="field_error "></div>
+                                    <br />
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <div class="controlError">
+                                                <label class="col-md-2 control-label">Sucursal</label>
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-building-o"></span></span>
+                                                        @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { @class = "form-control select classSelect", data_live_search = "true", data_style = "form-control" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.IDSucursal)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="controlError col-md-6">
+                                            <div class="controlError">
+                                                <label class="col-md-2 control-label">Fecha programada</label>
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                                        @Html.TextBoxFor(model => model.FechaHoraProgramada, "{0:dd/MM/yyyy}", new { id = "FechaProgramada", autocomplete = "off", @class = "form-control datepicker", @readonly = "readonly" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.FechaHoraProgramada)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <div class="controlError">
+                                                <label class="col-md-2 control-label">Nombre del proveedor</label>
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.DropDownListFor(model => model.IDProveedor, new SelectList(Model.ListaProveedores, "IDProveedor", "NombreRazonSocial"), new { @class = "form-control select classSelect", data_live_search = "true", data_style = "form-control" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.IDProveedor)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="controlError">
+                                                <label class="col-md-2 control-label">Lugares del proveedor</label>
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.DropDownListFor(model => model.IDPLugarProveedor, new SelectList(Model.ListaLugaresProveedor, "id_lugar", "descripcion"), new { @class = "form-control select classSelect", data_live_search = "true", data_style = "form-control" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.IDPLugarProveedor)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <div class="controlError">
+                                                <label class="col-md-2 control-label">Ganado agendado machos</label>
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.GanadosPactadoMachos, new { id = "GanadoPactadoMachos", @class = "form-control", placeholder = "Ingrese una cantidad de ganado Machos" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.GanadosPactadoMachos)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="controlError col-md-6">
+                                            <div class="controlError">
+                                                <label class="col-md-2 control-label">Ganado agendado hembras</label>
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.GanadosPactadoHembras, new { id = "GanadoPactadoHembras", @class = "form-control", placeholder = "Ingrese una cantidad de ganado Hembras" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.GanadosPactadoHembras)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                    <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
+                                    <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="flete">
+                    <div class="col-md-12">
+                        @{ Html.EnableClientValidation(false); }
+                        @using (Html.BeginForm("AC_Flete", "Compra", FormMethod.Post, new { id = "frmFlete", @class = "form-horizontal", autocomplete = "off" }))
+                        {
+                            @Html.HiddenFor(model => model.IDFlete);
+                            @Html.HiddenFor(model => model.IDCompra);
+                            @Html.AntiForgeryToken()
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Información del <strong>Flete</strong></h3>
+                                    <ul class="panel-controls"></ul>
+                                </div>
+                                <div class="panel-body">
+                                    @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
+                                    <div id="validation_summary_flete" class="field_error "></div><br />
+                                    <div class="form-group">
+                                        <div class="col-md-12 controlError">
+                                            <label class="col-md-1 control-label">Linea fletera</label>
+                                            <div class="col-md-11 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.DropDownListFor(model => model.IDEmpresa, new SelectList(Model.ListaEmpresas, "IDEmpresa", "RazonFiscal"), new { id = "Empresa_IDEmpresa", @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.IDEmpresa)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-6 controlError">
+                                            <label class="col-md-2 control-label">Chofer</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.DropDownListFor(model => model.IDChofer, new SelectList(Model.ListaChoferes, "IDChofer", "Nombre"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.IDChofer)
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 controlError">
+                                            <label class="col-md-2 control-label">Vehículo</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.DropDownListFor(model => model.IDVehiculo, new SelectList(Model.ListaVehiculos, "IDVehiculo", "nombreMarca", "nombreTipoVehiculo", 1), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.IDVehiculo)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-6 controlError">
+                                            <label class="col-md-2 control-label">Kilómetraje Inicial</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.Flete.kmInicialVehiculo, new { id = "KmInicial", @class = "form-control", placeholder = "Introduzca el km. inicial del vehículo." })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Flete.kmInicialVehiculo)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 controlError">
+                                            <label class="col-md-2 control-label">Costo del flete</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.Flete.precioFlete, "{0:f2}",new { @class = "form-control", placeholder = "Introduzca el precio del flete." })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Flete.precioFlete)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div id="floating-panel">
+                                                <b>Origen: </b>
+
+                                                <select id="Trayecto_id_lugarOrigen" name="Trayecto.id_lugarOrigen">
+                                                    @foreach (var lugar in Model.ListaLugares)
+                                                    {
+                                                        <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud"
+                                                                @if (Model.Trayecto.id_lugarOrigen == lugar.id_lugar) { <text>
+                                                                selected="selected"
+                                                                </text>    }>
+                                                            @lugar.descripcion
+                                                        </option>
+                                                    }
+                                                </select>
+
+                                                <b>Destino: </b>
+
+                                                <select id="Trayecto_id_lugarDestino" name="Trayecto.id_lugarDestino">
+                                                    @foreach (var lugar in Model.ListaLugaresProveedor)
+                                                    {
+                                                        <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud" data-direccion="@lugar.Direccion"
+                                                                @if (Model.Trayecto.id_lugarDestino == lugar.id_lugar) { <text>
+                                                                selected="selected"
+                                                                </text>    } else if (Model.IDPLugarProveedor == lugar.id_lugar) { <text>
+                                                                selected="selected"
+                                                                </text>    }>
+                                                            @lugar.descripcion
+                                                        </option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div id="map"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                    <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                                    <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="documentos">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><strong>Documentación</strong> para la compra</h3>
+                                <ul class="panel-controls"></ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <!-- START DEFAULT DATATABLE -->
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title"></h3>
+                                                <ul class="panel-controls">
+                                                    <li><a id="btnAddDocumento" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Documento</a></li>
+                                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div class="col-md-12">
+                                                    <h3></h3>
+                                                    <div class="table-responsive">
+                                                        <table id="tblDocumentos" class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Tipo de documento</th>
+                                                                    <th>Clave</th>
+                                                                    <th>Imagen</th>
+                                                                    <th>Acción</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END DEFAULT DATATABLE -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--TERMINA TABS-->
+    <div id="ModalDocumento" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
+        <div class="modal-dialog modal-lg" id="ContenidoModalDocumento">
+
+        </div>
+    </div>
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-deleteDocumento">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres eliminar este documento?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var message     = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+
+@section script
+{
+    <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+    <script src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/compraAgendar.js")"></script>
+    <!--FILEINPUT-->
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")" type="text/javascript"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            CompraAgendar.init();
+        });
+    </script>
+}

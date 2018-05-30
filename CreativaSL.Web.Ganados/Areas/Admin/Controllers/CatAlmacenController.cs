@@ -129,6 +129,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                Token.SaveToken();
                 CatAlmacenModels Almacen = new CatAlmacenModels();
                 _CatAlmacen_Datos AlmacenDatos = new _CatAlmacen_Datos();
                 Almacen.Conexion = Conexion;
@@ -157,33 +158,40 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
 
-
-
-                if (ModelState.IsValid)
+                if(Token.IsTokenValid())
                 {
-                    Almacen.Conexion = Conexion;
-
-                    Almacen.Usuario = User.Identity.Name;
-                    Almacen.Opcion = 2;
-                    Almacen = AlmacenDatos.AcCatAlmacen(Almacen);
-                    //Si abc fue completado correctamente
-                    if (Almacen.Completado == true)
+                    if (ModelState.IsValid)
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "El registro se guardo correctamente.";
-                        return RedirectToAction("Index");
+                        Almacen.Conexion = Conexion;
+
+                        Almacen.Usuario = User.Identity.Name;
+                        Almacen.Opcion = 2;
+                        Almacen = AlmacenDatos.AcCatAlmacen(Almacen);
+                        //Si abc fue completado correctamente
+                        if (Almacen.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "El registro se guardo correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al guardar el registro.";
+                            return View(Almacen);
+                        }
                     }
                     else
                     {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrió un error al guardar el registro.";
+                        Almacen.Conexion = Conexion;
+                        Almacen.ListaSucursales = AlmacenDatos.obtenerListaSucursales(Almacen);
                         return View(Almacen);
                     }
                 }
-                else {
-                    Almacen.Conexion = Conexion;
-                    Almacen.ListaSucursales = AlmacenDatos.obtenerListaSucursales(Almacen);
-                    return View(Almacen);
+                else
+                {
+                    return RedirectToAction("Index");
                 }
             }
             catch (Exception)

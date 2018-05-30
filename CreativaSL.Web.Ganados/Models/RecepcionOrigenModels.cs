@@ -15,9 +15,9 @@ namespace CreativaSL.Web.Ganados.Models
         [Required(ErrorMessage ="Ingrese un kilómetraje final")]
         public int KilometrajeFinal { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
-        [Required(ErrorMessage = "Seleccione una hora de detección")]
-        private TimeSpan _HoraDeteccion;
+        //[DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
+        //[Required(ErrorMessage = "Seleccione una hora de detección")]
+        //private TimeSpan _HoraDeteccion;
 
         [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "Seleccione una hora de llegada")]

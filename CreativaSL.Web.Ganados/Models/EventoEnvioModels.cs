@@ -8,6 +8,8 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class EventoEnvioModels
     {
+        public string IDCompra { get; set; }
+
         private int _IDEvento;
 
         public int IDEvento

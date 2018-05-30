@@ -462,7 +462,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         //Verifico input
                         if (Documento.ImagenPost != null)
                             Documento.Imagen = Auxiliar.ImageToBase64(Documento.ImagenPost);
-
+                        else
+                        {
+                            //ya que no es obligatorio la imagen
+                            Documento.Imagen = Documento.MostrarImagen;
+                        }
                         Documento = FleteDatos.Flete_ac_Documento(Documento);
                         Token.ResetToken();
                         Token.SaveToken();

@@ -289,6 +289,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Flete_Tipo.FlagImg = true;
                 }
 
+                Flete_Tipo.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Flete_Tipo.MostrarImagen);
+
                     return Flete_Tipo;
             }
             catch (Exception ex)
@@ -762,7 +764,6 @@ namespace CreativaSL.Web.Ganados.Models
                     {
                         IDTipoEventoEnvio = !dr.IsDBNull(dr.GetOrdinal("idTipoEvento")) ? dr.GetInt32(dr.GetOrdinal("idTipoEvento")) : 0,
                         Descripcion = !dr.IsDBNull(dr.GetOrdinal("nombreEvento")) ? dr.GetString(dr.GetOrdinal("nombreEvento")) : string.Empty,
-                        Clasificacion = !dr.IsDBNull(dr.GetOrdinal("clasificacion")) ? dr.GetString(dr.GetOrdinal("clasificacion")) : string.Empty
                     };
 
                     ListaTiposEventos.Add(TipoEvento);
