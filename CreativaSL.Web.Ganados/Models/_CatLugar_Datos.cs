@@ -217,7 +217,7 @@ namespace CreativaSL.Web.Ganados.Models
                 List<CatMunicipioModels> lista = new List<CatMunicipioModels>();
                 CatMunicipioModels item;
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Datos.conexion, "spCSLDB_get_ComboMunicipio", Datos.id_pais,Datos.id_estadoCodigo,0);
+                dr = SqlHelper.ExecuteReader(Datos.conexion, "spCSLDB_get_ComboMunicipio2", Datos.id_pais,Datos.id_estadoCodigo,0);
                 while (dr.Read())
                 {
                     item = new CatMunicipioModels();

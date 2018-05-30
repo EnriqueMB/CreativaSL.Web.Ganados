@@ -20,8 +20,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 RptProveedorMunicipioModels reporte = new RptProveedorMunicipioModels();
                 _RptProveedorMunicipio_Datos reporteDatos = new _RptProveedorMunicipio_Datos();
                 reporte.conexion = Conexion;
+                reporte.DatosEmpresa = reporteDatos.ObtenerDatosEmpresaTipo1(reporte);
                 reporte.listaEstado = reporteDatos.obtenerListaEstados(reporte);
-               
+              
                 return View(reporte);
             }
             catch (Exception ex)
@@ -39,11 +40,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
 
                 _RptProveedorMunicipio_Datos reporteDatos = new _RptProveedorMunicipio_Datos();
-                
 
+               
                 reporte.conexion = Conexion;
                 reporte.listaEstado = reporteDatos.obtenerListaEstados(reporte);
                 reporte.listaMunicipio = reporteDatos.obtenerListaMunicipios(reporte);
+                reporte.DatosEmpresa = reporteDatos.ObtenerDatosEmpresaTipo1(reporte);
                 reporte.listaProveedor = reporteDatos.obtenerListaProveedoresFecha(reporte);
 
                 return View(reporte);

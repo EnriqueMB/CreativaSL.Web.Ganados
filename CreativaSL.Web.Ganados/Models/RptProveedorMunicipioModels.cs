@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,7 @@ namespace CreativaSL.Web.Ganados.Models
             _fechaFin = DateTime.Now;
             _listaEstado = new List<CatEstadoModels>();
             _listaMunicipio = new List<CatMunicipioModels>();
+            _DatosEmpresa = new DatosEmpresaViewModels();
             _IDEstado = 0;
             _IDMunicipio = 0;
             _ganadoCompradoHembra = 0;
@@ -28,6 +30,16 @@ namespace CreativaSL.Web.Ganados.Models
             opcion = 0;
             resultado = string.Empty;
         }
+
+        private DatosEmpresaViewModels _DatosEmpresa;
+
+        public DatosEmpresaViewModels DatosEmpresa
+        {
+            get { return _DatosEmpresa; }
+            set { _DatosEmpresa = value; }
+        }
+
+
         private List<RptProveedorMunicipioModels> _listaProveedor;
 
         public List<RptProveedorMunicipioModels> listaProveedor

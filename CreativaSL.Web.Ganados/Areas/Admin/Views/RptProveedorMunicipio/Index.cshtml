@@ -91,42 +91,69 @@
                         {
                             <div class="table-responsive">
                                 <table class="table" >
-                                    <thead>
-                                        <tr>
-                                            <th> Estado</th>
-                                            <th colspan="3">Ganado Pactado</th>
-                                            <th colspan="3">Ganado Comprado</th>
-                                            
-                                        </tr>
-                                        <tr>
-                                            <th>Estado / Municipio</th>
-                                            <th>Ganado Pactado Machos</th>
-                                            <th>Ganado Pactado Hembras</th>
-                                            <th>Total</th>
-                                            <th>Ganado Comprado Machos</th>
-                                            <th>Ganado Comprado Hembras</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        
-                                        @foreach (var item in Model.listaProveedor)
-                                        {
+                                    
+                                    
+                                        <thead>
                                             <tr>
-                                                <td>@item.Estado + "/" + @item.municipio</td>
-                                                <td>@item.ganadoPactadoMacho</td>
-                                                <td>@item.ganadoPactadoHembra</td>
-                                                <td>@item.totalPactado</td>
-                                                <td>@item.ganadoCompradoMacho</td>
-                                                <td>@item.ganadoCompradoHembra</td>
-                                                <td>@item.totalComprado</td>
-                                                
+                                                <th class="text-center th-reports-img">@Html.Raw(HttpUtility.HtmlDecode(Model.DatosEmpresa.ImagenContruida))</th>
+                                                <th colspan="6" class="text-center">
+                                                    <table class="table ">
+                                                        <thead>
+                                                            <tr>
+                                                                <th >Nombre:</th>
+                                                                <th>@Model.DatosEmpresa.RazonFiscal</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Sucursal:</th>
+                                                                <th>@Model.DatosEmpresa.NombreSucursal</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Dirección:</th>
+                                                                <th>@Model.DatosEmpresa.DireccionFiscal</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <th colspan="2" class="text-center">RESUMEN DE DEDUCIONES Y PERCEPCIONES DE NOMINA</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </th>
                                             </tr>
-                                        }
+                                            <tr>
+                                                <th> Estado</th>
+                                                <th colspan="3" class="text-center">Ganado Pactado</th>
+                                                <th colspan="3" class="text-center">Ganado Comprado</th>
 
-                                    </tbody>
+                                            </tr>
+                                            <tr>
+                                                <th>Municipio, Estado</th>
+                                                <th>Ganado Pactado Machos</th>
+                                                <th>Ganado Pactado Hembras</th>
+                                                <th>Total</th>
+                                                <th>Ganado Comprado Machos</th>
+                                                <th>Ganado Comprado Hembras</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
-                                </table>
+                                            @foreach (var item in Model.listaProveedor)
+                                            {
+                                                <tr>
+                                                    <td>@item.municipio, @item.Estado </td>
+                                                    <td>@item.ganadoPactadoMacho</td>
+                                                    <td>@item.ganadoPactadoHembra</td>
+                                                    <td>@item.totalPactado</td>
+                                                    <td>@item.ganadoCompradoMacho</td>
+                                                    <td>@item.ganadoCompradoHembra</td>
+                                                    <td>@item.totalComprado</td>
+
+                                                </tr>
+                                            }
+
+                                        </tbody>
+
+                                    </table>
                             </div>
                         }
                         else
@@ -135,13 +162,38 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
+                                            <th class="text-center th-reports-img">@Html.Raw(HttpUtility.HtmlDecode(Model.DatosEmpresa.ImagenContruida))</th>
+                                            <th colspan="6" class="text-center">
+                                                <table class="table ">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nombre:</th>
+                                                            <th>@Model.DatosEmpresa.RazonFiscal</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Sucursal:</th>
+                                                            <th>@Model.DatosEmpresa.NombreSucursal</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Dirección:</th>
+                                                            <th>@Model.DatosEmpresa.DireccionFiscal</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th colspan="2" class="text-center">RESUMEN DE DEDUCIONES Y PERCEPCIONES DE NOMINA</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </th>
+                                        </tr>
+                                        <tr>
                                             <th> Estado</th>
-                                            <th colspan="3">Ganado Pactado</th>
-                                            <th colspan="3">Ganado Comprado</th>
+                                            <th colspan="3" class="text-center">Ganado Pactado</th>
+                                            <th colspan="3" class="text-center">Ganado Comprado</th>
 
                                         </tr>
                                         <tr>
-                                            <th></th>
+                                            <th>Municipio, Estado</th>
                                             <th>Ganado Pactado Machos</th>
                                             <th>Ganado Pactado Hembras</th>
                                             <th>Total</th>
