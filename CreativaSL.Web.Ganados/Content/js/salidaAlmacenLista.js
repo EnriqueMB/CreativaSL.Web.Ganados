@@ -1,5 +1,6 @@
-﻿var Servicios = function () {
+﻿var Salida = function () {
     "use strict";
+
     var uiDatatable = function () {
         if ($(".datatable2").length > 0) {
             $(".datatable2").dataTable({
@@ -27,24 +28,22 @@
                 e.preventDefault();
                 box.removeClass('open');
                 $.ajax({
-                        url: url,
-                        type: 'POST',
-                        dataType: 'json',
-                        success: function (result) {
-                            if(result == 'true')
-                            {
-                                Mensaje("Servicio procesado correctamente", "1");
-                                location.reload(true);
-                            }
-                            else
-                            {
-                                Mensaje("Error al procesar el servicio. Intente nuevamente.", "2");
-                            }
-                        },
-                        error: function () {
-                            Mensaje("Error al procesar el servicio. Intente nuevamente.", "2");
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result == 'true') {
+                            Mensaje("Servicio procesado correctamente", "1");
+                            location.reload(true);
                         }
-                    });
+                        else {
+                            Mensaje("Error al procesar el registro. Intente nuevamente.", "2");
+                        }
+                    },
+                    error: function () {
+                        Mensaje("Error al procesar el rregistro. Intente nuevamente.", "2");
+                    }
+                });
             });
         });
     };
@@ -89,6 +88,7 @@
         });
 
     };
+
 
     return {
         //main function to initiate template pages

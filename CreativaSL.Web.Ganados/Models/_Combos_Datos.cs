@@ -23,6 +23,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Modelo = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty;
                     Lista.Add(Item);
                 }
+                Dr.Close();
                 return Lista;
             }
             catch(Exception ex)
@@ -45,6 +46,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Modelo = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty;
                     Lista.Add(Item);
                 }
+                Dr.Close();
                 return Lista;
             }
             catch (Exception ex)
@@ -67,6 +69,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty;
                     Lista.Add(Item);
                 }
+                Dr.Close();
                 return Lista;
             }
             catch (Exception ex)
@@ -89,6 +92,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.NombreSucursal = !Dr.IsDBNull(Dr.GetOrdinal("NombreSucursal")) ? Dr.GetString(Dr.GetOrdinal("NombreSucursal")) : string.Empty;
                     Lista.Add(Item);
                 }
+                Dr.Close();
                 return Lista;
             }
             catch (Exception ex)
@@ -111,6 +115,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty;
                     Lista.Add(Item);
                 }
+                Dr.Close();
                 return Lista;
             }
             catch(Exception ex)
@@ -133,6 +138,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.NumFacturaNota = !Dr.IsDBNull(Dr.GetOrdinal("NumFacturaNota")) ? Dr.GetString(Dr.GetOrdinal("NumFacturaNota")) : string.Empty;
                     Lista.Add(Item);
                 }
+                Dr.Close();
                 return Lista;
             }
             catch(Exception ex)
@@ -155,6 +161,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty;
                     Lista.Add(Item);
                 }
+                Dr.Close();
                 return Lista;
             }
             catch(Exception ex)
@@ -177,6 +184,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty;
                     Lista.Add(Item);
                 }
+                Dr.Close();
                 return Lista;
             }
             catch (Exception ex)
@@ -199,6 +207,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty;
                     Lista.Add(Item);
                 }
+                Dr.Close();
                 return Lista;
             }
             catch (Exception ex)
@@ -221,6 +230,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.NombreRazonSocial = !Dr.IsDBNull(Dr.GetOrdinal("NombreRazonSocial")) ? Dr.GetString(Dr.GetOrdinal("NombreRazonSocial")) : string.Empty;
                     Lista.Add(Item);
                 }
+                Dr.Close();
                 return Lista;
             }
             catch(Exception ex)
@@ -243,9 +253,102 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.NombreRazonSocial = !Dr.IsDBNull(Dr.GetOrdinal("NombreRazonSocial")) ? Dr.GetString(Dr.GetOrdinal("NombreRazonSocial")) : string.Empty;
                     Lista.Add(Item);
                 }
+                Dr.Close();
                 return Lista;
             }
             catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CatEmpleadoModels> ObtenerComboEmpleadosSalidaAlmacen(string Conexion, string IDSucursal)
+        {
+            try
+            {
+                List<CatEmpleadoModels> Lista = new List<CatEmpleadoModels>();
+                CatEmpleadoModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Combo_get_EmpleadosSalidaAlmacen", IDSucursal);
+                while(Dr.Read())
+                {
+                    Item = new CatEmpleadoModels();
+                    Item.IDEmpleado = !Dr.IsDBNull(Dr.GetOrdinal("IDEmpleado")) ? Dr.GetString(Dr.GetOrdinal("IDEmpleado")) : string.Empty;
+                    Item.NombreCompleto = !Dr.IsDBNull(Dr.GetOrdinal("NombreEmpleado")) ? Dr.GetString(Dr.GetOrdinal("NombreEmpleado")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                Dr.Close();
+                return Lista;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CatProductosAlmacenModels> ObtenerComboProductosAlmacenXIDSalida(string Conexion, string IDSalida)
+        {
+            try
+            {
+                List<CatProductosAlmacenModels> Lista = new List<CatProductosAlmacenModels>();
+                CatProductosAlmacenModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Combo_get_ProductosAlmacenXIDSalida", IDSalida);
+                while (Dr.Read())
+                {
+                    Item = new CatProductosAlmacenModels();
+                    Item.IDProductoAlmacen = !Dr.IsDBNull(Dr.GetOrdinal("IDProductoAlmacen")) ? Dr.GetString(Dr.GetOrdinal("IDProductoAlmacen")) : string.Empty;
+                    Item.Nombre = !Dr.IsDBNull(Dr.GetOrdinal("NombreProducto")) ? Dr.GetString(Dr.GetOrdinal("NombreProducto")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                Dr.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CatProductosAlmacenModels> ObtenerComboProductosAlmacenXIDAlmacen(string Conexion, string IDAlmacen)
+        {
+            try
+            {
+                List<CatProductosAlmacenModels> Lista = new List<CatProductosAlmacenModels>();
+                CatProductosAlmacenModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Combo_get_ProductosAlmacenXIDAlmacen", IDAlmacen);
+                while (Dr.Read())
+                {
+                    Item = new CatProductosAlmacenModels();
+                    Item.IDProductoAlmacen = !Dr.IsDBNull(Dr.GetOrdinal("IDProductoAlmacen")) ? Dr.GetString(Dr.GetOrdinal("IDProductoAlmacen")) : string.Empty;
+                    Item.Nombre = !Dr.IsDBNull(Dr.GetOrdinal("NombreProducto")) ? Dr.GetString(Dr.GetOrdinal("NombreProducto")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                Dr.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
+        public List<UnidadesProductosAlmacenModels> ObtenerComboUnidadesXIDProducto(string Conexion, string IDProducto)
+        {
+            try
+            {
+                List<UnidadesProductosAlmacenModels> Lista = new List<UnidadesProductosAlmacenModels>();
+                UnidadesProductosAlmacenModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Combo_get_UnidadesXIDProducto", IDProducto);
+                while(Dr.Read())
+                {
+                    Item = new UnidadesProductosAlmacenModels();
+                    Item.id_unidadProducto = !Dr.IsDBNull(Dr.GetOrdinal("IDUnidad")) ? Dr.GetString(Dr.GetOrdinal("IDUnidad")) : string.Empty;
+                    Item.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("UnidadMedida")) ? Dr.GetString(Dr.GetOrdinal("UnidadMedida")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                Dr.Close();
+                return Lista;
+            }
+            catch(Exception ex)
             {
                 throw ex;
             }

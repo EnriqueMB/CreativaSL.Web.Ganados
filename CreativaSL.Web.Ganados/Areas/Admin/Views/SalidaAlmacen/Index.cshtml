@@ -1,0 +1,171 @@
+﻿@model ICollection<CreativaSL.Web.Ganados.Models.SalidaAlmacenModels>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Salidas de Almacén </h2>
+    </div>
+    <!-- END PAGE TITLE -->
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                        <ul class="panel-controls">
+                            <li><a href="@Url.Action("Create", "SalidaAlmacen")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva salida</a></li>
+                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                            @*<li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>*@
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table datatable2">
+                                <thead>
+                                    <tr>
+                                        <th>Folio de salida</th>
+                                        <th>Estatus</th>
+                                        <th>Sucursal</th>
+                                        <th>Almacén</th>
+                                        <th>Fecha</th>
+                                        <th>Observaciones</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var Item in Model)
+                                    {
+                                        <tr id="@Item.IDSalidaAlmacen">
+                                            <td>@Item.FolioSalida</td>
+                                            <td><span class="@Item.CssEstatus">@Item.Estatus</span></td>
+                                            <td>@Item.Sucursal.NombreSucursal</td>
+                                            <td>@Item.Almacen.nombreAlmacen</td>
+                                            <td>@Item.FechaSalidaFormat</td>
+                                            <td>@Item.Comentario</td>
+                                            <td style="text-align:center;">
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    <a title="Detalles" class="btn btn-blue" href="@Url.Action("Details", "SalidaAlmacen", new { id = Item.IDSalidaAlmacen })"><i class="fa fa-gears"></i></a>
+                                                    @if (Item.IDEstatus == 1)
+                                                    {
+                                                        <a title="Procesar" class="btn btn-primary processRow" href="@Url.Action("Procesar", "SalidaAlmacen", new { id = Item.IDSalidaAlmacen })"><i class="fa fa-caret-square-o-right"></i></a>
+                                                        <a title="Editar" href="@Url.Action("Edit", "SalidaAlmacen", new { id = Item.IDSalidaAlmacen})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label title="No disponible" class="btn" style="background-color:gray; " data-placement="top" data-original-title="Procesar"><i class="fa fa-caret-square-o-right" style="color:white"></i></label>
+                                                        <label title="No disponible" class="btn" style="background-color:gray; " data-placement="top" data-original-title="Edit"><i class="fa fa-edit" style="color:white"></i></label>
+                                                    }
+                                                    <a title="Eliminar" id="delete-@Item.IDSalidaAlmacen" data-sku="@Item.IDSalidaAlmacen" href="@Url.Action("Delete", "SalidaAlmacen", new { id =  Item.IDSalidaAlmacen })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                </div>
+                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                        </a>
+                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                            <li>
+                                                                <a role="menuitem" class="readonly" tabindex="-1" href="@Url.Action("Details", "SalidaAlmacen", new { id = Item.IDSalidaAlmacen })">
+                                                                    <i class="fa fa-gears"></i> Detalles
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" class="processRow readonly"  tabindex="-1" href="@Url.Action("Procesar", "SalidaAlmacen", new { id = Item.IDSalidaAlmacen })">
+                                                                    <i class="fa fa-caret-square-o-right"></i> Procesar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" class="readonly" tabindex="-1" href="@Url.Action("Edit", "SalidaAlmacen", new { id = Item.IDSalidaAlmacen })">
+                                                                    <i class="fa fa-edit"></i> Editar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" class="deleteRow readonly" tabindex="-1" id="delete-@Item.IDSalidaAlmacen" data-sku="@Item.IDSalidaAlmacen" href="@Url.Action("Delete", "SalidaAlmacen", new { id =  Item.IDSalidaAlmacen })">
+                                                                    <i class="fa fa-trash-o"></i> Eliminar
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- END DEFAULT DATATABLE -->
+            </div>
+        </div>
+    </div>
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres eliminar esta fila?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-process-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Procesar <strong> Entrada a almacén</strong></div>
+                <div class="mb-content">
+                    <p>¿Está seguro de procesar la entrada? Éste proceso NO es reversible.</p>
+                    <p>Presione "sí" para confirmar.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    var message = '@message';
+    var typemessage = '@typemessage';
+    </script>
+}
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/salidaAlmacenLista.js")"></script>
+    <script>
+    jQuery(document).ready(function () {
+        Mensaje(message, typemessage);
+        Salida.init();
+        });
+    </script>
+}
+

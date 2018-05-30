@@ -912,6 +912,10 @@
     <Content Include="Content\js\RegistrarFaltas.js" />
     <Content Include="Content\js\Remolques.js" />
     <Content Include="Content\js\rendimiento.js" />
+    <Content Include="Content\js\salidaAlmacen.js" />
+    <Content Include="Content\js\salidaAlmacenDetalle.js" />
+    <Content Include="Content\js\salidaAlmacenDetalleLista.js" />
+    <Content Include="Content\js\salidaAlmacenLista.js" />
     <Content Include="Content\js\servicioslista.js" />
     <Content Include="Content\js\serviciosMtto.js" />
     <Content Include="Content\js\serviciosMttoDetalle.js" />
@@ -1172,6 +1176,14 @@
     <Content Include="Areas\Admin\Views\Mantenimiento\EditDetail.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Servicios.cshtml" />
+    <Content Include="Areas\Admin\Views\SalidaAlmacen\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\SalidaAlmacen\Create.cshtml" />
+    <Content Include="Content\assets\json\Spanish.json" />
+    <Content Include="Areas\Admin\Views\SalidaAlmacen\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\SalidaAlmacen\CreateDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\SalidaAlmacen\VerListaTest.cshtml" />
+    <Content Include="Areas\Admin\Views\SalidaAlmacen\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\SalidaAlmacen\EditDetails.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1240,6 +1252,7 @@
     <Compile Include="Areas\Admin\Controllers\MantenimientoController.cs" />
     <Compile Include="Areas\Admin\Controllers\NominaController.cs" />
     <Compile Include="Areas\Admin\Controllers\NominaDiasFestivosController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SalidaAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\TablaController.cs" />
     <Compile Include="Areas\Admin\Controllers\TestController.cs" />
     <Compile Include="Areas\Admin\Controllers\VentaController.cs" />
@@ -1359,6 +1372,7 @@
     <Compile Include="Models\ResumenGastosModels.cs" />
     <Compile Include="Models\SalidaAlmacenDetalle.cs" />
     <Compile Include="Models\SalidaAlmacenDetalleModels.cs" />
+    <Compile Include="Models\SalidaAlmacenModels.cs" />
     <Compile Include="Models\ServiciosMantenimientoDetalleModels.cs" />
     <Compile Include="Models\ServiciosMantenimientoModels.cs" />
     <Compile Include="Models\TelefonosContactoSucursalModels.cs" />
@@ -1431,6 +1445,7 @@
     <Compile Include="Models\_Menu_Datos.cs" />
     <Compile Include="Models\_NominaDiasFestivos_Datos.cs" />
     <Compile Include="Models\_Nomina_Datos.cs" />
+    <Compile Include="Models\_SalidaAlmacen_Datos.cs" />
     <Compile Include="Models\_ServicioMantenimiento_Datos.cs" />
     <Compile Include="Models\_Usuario_Datos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1444,6 +1459,8 @@
     <Compile Include="ViewModels\EntradaAlmacenViewModels.cs" />
     <Compile Include="ViewModels\EntregaCombustibleViewModels.cs" />
     <Compile Include="ViewModels\RendimientoCombustibleViewModels.cs" />
+    <Compile Include="ViewModels\SalidaAlmacenDetalleViewModels.cs" />
+    <Compile Include="ViewModels\SalidaAlmacenViewModels.cs" />
     <Compile Include="ViewModels\ServiciosMantenimientoDetalleViewModels.cs" />
     <Compile Include="ViewModels\ServiciosMantenimientoViewModels.cs" />
   </ItemGroup>

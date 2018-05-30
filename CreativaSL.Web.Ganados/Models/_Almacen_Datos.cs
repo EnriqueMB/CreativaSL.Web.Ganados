@@ -20,10 +20,11 @@ namespace CreativaSL.Web.Ganados.Models
                 while (dr.Read())
                 {
                     item = new CatAlmacenModels();
-                    item.IDAlmacen = dr["id_almacen"].ToString();
-                    item.nombreAlmacen = dr["nombreSuc"].ToString();
-                    item.ClaveAlmacen = dr["clave"].ToString();
-                    item.Descripcion = dr["descripcion"].ToString();
+                    
+                    item.IDAlmacen = !dr.IsDBNull(dr.GetOrdinal("id_almacen")) ? dr.GetString(dr.GetOrdinal("id_almacen")) : string.Empty;
+                    item.nombreAlmacen = !dr.IsDBNull(dr.GetOrdinal("nombreSuc")) ? dr.GetString(dr.GetOrdinal("nombreSuc")) : string.Empty;
+                    item.ClaveAlmacen = !dr.IsDBNull(dr.GetOrdinal("clave")) ? dr.GetString(dr.GetOrdinal("clave")) : string.Empty;
+                    item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
 
                     Lista.Add(item);
                 }
@@ -46,11 +47,11 @@ namespace CreativaSL.Web.Ganados.Models
                 while (dr.Read())
                 {
                     item = new VerAlmacenInventarioModels();
-                    item.ID_almacen = dr["id_unidadProducto"].ToString();
-                    item.Clave = dr["clave"].ToString();
-                    item.Nombre_producto = dr["producto"].ToString();
-                    item.Existencia = dr["existencia"].ToString();
-                    item.Unidad_medida = dr["unidadMedida"].ToString();
+                    item.ID_almacen = !dr.IsDBNull(dr.GetOrdinal("id_unidadProducto")) ? dr.GetString(dr.GetOrdinal("id_unidadProducto")) : string.Empty;
+                    item.Clave = !dr.IsDBNull(dr.GetOrdinal("clave")) ? dr.GetString(dr.GetOrdinal("clave")) : string.Empty;
+                    item.Nombre_producto = !dr.IsDBNull(dr.GetOrdinal("producto")) ? dr.GetString(dr.GetOrdinal("producto")) : string.Empty;
+                    item.Existencia = !dr.IsDBNull(dr.GetOrdinal("existencia")) ? dr.GetDecimal(dr.GetOrdinal("existencia")) : 0;
+                    item.Unidad_medida = !dr.IsDBNull(dr.GetOrdinal("unidadMedida")) ? dr.GetString(dr.GetOrdinal("unidadMedida")) : string.Empty;
                     lista.Add(item);
                 }
                 return lista;

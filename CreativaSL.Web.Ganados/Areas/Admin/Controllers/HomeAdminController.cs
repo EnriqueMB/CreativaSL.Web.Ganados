@@ -28,6 +28,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             catch (Exception)
             {
                 CompraModels Compra = new CompraModels();
+                Compra.listaCompra = new List<CompraModels>();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return View(Compra);

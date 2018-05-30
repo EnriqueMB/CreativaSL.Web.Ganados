@@ -64,10 +64,10 @@
                                      {
                                         <tr id="@detalle.IDCompraAlmacenDetalle">
                                         <td>@detalle.Producto.Descripcion</td>
-                                        <td>@detalle.Cantidad</td>
+                                        <td><span class="">@string.Format("{0:F3}", detalle.Cantidad)</span></td>
                                         <td>@detalle.UnidadMedida.Descripcion</td>
-                                        <td>@detalle.PrecioUnitario</td>
-                                        <td>@detalle.SubTotal</td>
+                                        <td><span class="pull-right">@string.Format("{0:c}", detalle.PrecioUnitario) </span></td>
+                                        <td><span class="pull-right">@string.Format("{0:c}", detalle.SubTotal)</span></td>
                                      @if (Model.id_status == 1)
                                      {
                                         <td style="text-align:center;">

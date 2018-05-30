@@ -12,7 +12,6 @@ namespace CreativaSL.Web.Ganados.Models
             _Id_almacen = string.Empty;
             _clave = string.Empty;
             _nombre_producto = string.Empty;
-            _existencia = string.Empty;
             _unidad_medida = string.Empty;
         }
         private string _Id_almacen;
@@ -39,12 +38,17 @@ namespace CreativaSL.Web.Ganados.Models
             set { _nombre_producto = value; }
         }
 
-        private string _existencia;
+        private decimal _Existencia;
 
-        public string Existencia
+        public decimal Existencia
         {
-            get { return _existencia; }
-            set { _existencia = value; }
+            get { return _Existencia; }
+            set { _Existencia = value; }
+        }
+
+        public string ExistenciaFormat
+        {
+            get { return string.Format("{0:F3}", _Existencia); }
         }
         private string _unidad_medida;
 

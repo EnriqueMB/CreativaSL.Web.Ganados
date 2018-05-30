@@ -176,7 +176,7 @@ $(function() {
             if($(".datatable").length > 0){                
                 $(".datatable").dataTable({
                     "language": {
-                        "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                        "url": "/Content/assets/json/Spanish.json"
                     },
                     responsive: true
                 });
