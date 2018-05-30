@@ -1183,8 +1183,6 @@
     <Content Include="Areas\Admin\Views\Mantenimiento\EditDetail.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Servicios.cshtml" />
-    <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosR.cshtml" />
-    <Content Include="Areas\Admin\Views\Mantenimiento\ServiciosV.cshtml" />
     <Content Include="Areas\Admin\Views\Mantenimiento\Test.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorAlmacen\ContactoPro.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorAlmacen\ContactoProCreate.cshtml" />
