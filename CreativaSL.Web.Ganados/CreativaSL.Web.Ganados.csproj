@@ -1196,8 +1196,8 @@
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\NuevoDatosContacto.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\EditProducto.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Transacciones.cshtml" />
-    <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalRegistrarComprobante.cshtml" />
-    <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalAgregarServicioProducto.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalComprobante.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalServicioProducto.cshtml" />
     <Content Include="Areas\Admin\Views\RptUltCompraProveedor\Index.cshtml" />
     <Content Include="Areas\Admin\Views\RptProveedorMermaAlta\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorServicio\Index.cshtml" />

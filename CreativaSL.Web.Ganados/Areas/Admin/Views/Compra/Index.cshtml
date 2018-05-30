@@ -74,7 +74,7 @@
                                         <th rowspan="2">Lugar</th>
                                         <th colspan="3">Ganado pactado</th>
                                         <th colspan="4">Ganado comprado</th>
-                                        <th colspan="3">Transacciones</th>
+                                        <th colspan="2">Transacciones</th>
                                         <th rowspan="2">Merma(%)</th>
                                         <th rowspan="2">Estatus</th>
                                         <th rowspan="2">Acción</th>
@@ -87,9 +87,8 @@
                                         <th>Hembras</th>
                                         <th>Total ganado</th>
                                         <th>Total kilos</th>
-                                        <th>Total de ingreso</th>
-                                        <th>Total de egreso</th>
-                                        <th>Monto total</th>
+                                        <th>Total por cobrar</th>
+                                        <th>Total por pagar</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -277,9 +276,14 @@
                 { "data": "GanadoCompradoHembras" },
                 { "data": "GanadoCompradoTotal" },
                 { "data": "GanadoKilosTotal" },
-                { "data": "TotalIngreso" },
-                { "data": "TotalEgreso" },
-                { "data": "MontoTotal" },
+                {
+                    "data": "TotalCobros",
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                },
+                {
+                    "data": "TotalPagos",
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                },
                 { "data": "MermaPromedio" },
                 {
                     "data": null,

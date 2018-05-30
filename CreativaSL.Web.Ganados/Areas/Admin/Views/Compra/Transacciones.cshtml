@@ -45,7 +45,7 @@
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true)
                         @Html.HiddenFor(model => model.IDCompra)
-                        @Html.HiddenFor(model => model.IDFlete)
+                        @Html.HiddenFor(model => model.Id_documentoPorCobrar)
 
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -149,15 +149,44 @@
 
                                 <div class="page-content-wrap">
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-6">
                                             <!-- START DEFAULT DATATABLE -->
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
                                                     <h3 class="panel-title"></h3>
                                                     <ul class="panel-controls">
-                                                        <li><a id="btnAddCobroDetalles" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar articulo o servicio </a></li>
-                                                        <li><a id="btnAddCobroDetallesPagos" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar cobro </a></li>
-                                                        @*<li><a id="btnListadoPrecio" class="btn btn-default btnCrear"><span class="fa fa-eye"></span> Ver listado de precios </a></li>*@
+                                                        <li><a id="btnAddCobroArticuloServicio" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar cobro articulo o servicio </a></li>
+                                                        <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                                        <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div class="table-responsive">
+                                                        <table id="tbl_articulosServiciosCobro" class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Asignado a</th>
+                                                                    <th>Tipo de cobro</th>
+                                                                    <th>Cantidad</th>
+                                                                    <th>Precio unitario</th>
+                                                                    <th>Subtotal</th>
+                                                                    <th>Acción</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- END DEFAULT DATATABLE -->
+                                        </div>
+                                        <div class="col-md-6">
+                                            <!-- START DEFAULT DATATABLE -->
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title"></h3>
+                                                    <ul class="panel-controls">
+                                                        <li><a id="btnAddCobroComprobante" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar comprobante de cobro </a></li>
                                                         <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                                                         <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                                                     </ul>
@@ -392,6 +421,7 @@
 
         </div>
     </div>
+
     <div class="message-box animated fadeIn" data-sound="alert" id="mb-delete-">
         <div class="mb-container">
             <div class="mb-middle">

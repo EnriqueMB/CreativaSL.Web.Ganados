@@ -7,7 +7,7 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CatTipoClasificacionCobroModels
     {
-        public string Id_tipoClasificacionCobro { get; set; }
+        public int Id_tipoClasificacionCobro { get; set; }
         public string Descripcion { get; set; }
         public bool Sistema { get; set; }
     }

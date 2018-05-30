@@ -562,6 +562,8 @@ namespace CreativaSL.Web.Ganados.Models
 
                 while (dr.Read())
                 {
+                    Compra.IDRecepcion = !dr.IsDBNull(dr.GetOrdinal("id_recepcionOrigenCompra")) ? dr.GetString(dr.GetOrdinal("id_recepcionOrigenCompra")) : string.Empty;
+                    Compra.RecepcionOrigen = new RecepcionOrigenModels();
                     Compra.RecepcionOrigen.KilometrajeFinal = !dr.IsDBNull(dr.GetOrdinal("kilometrajeFinal")) ? dr.GetInt32(dr.GetOrdinal("kilometrajeFinal")) : 0;
                     Compra.RecepcionOrigen.FechaLlegada = !dr.IsDBNull(dr.GetOrdinal("fechaLlegada")) ? dr.GetDateTime(dr.GetOrdinal("fechaLlegada")) : DateTime.Now;
                     Compra.RecepcionOrigen.HoraLlegada = !dr.IsDBNull(dr.GetOrdinal("horaLlegada")) ? dr.GetTimeSpan(dr.GetOrdinal("horaLlegada")) : DateTime.Now.TimeOfDay;
@@ -648,6 +650,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.Trayecto.id_lugarOrigen = !dr.IsDBNull(dr.GetOrdinal("id_lugarOrigen")) ? dr.GetString(dr.GetOrdinal("id_lugarOrigen")) : string.Empty;
                     Compra.Trayecto.id_lugarDestino = !dr.IsDBNull(dr.GetOrdinal("id_lugarDestino")) ? dr.GetString(dr.GetOrdinal("id_lugarDestino")) : string.Empty;
                     Compra.IDPLugarProveedor = !dr.IsDBNull(dr.GetOrdinal("id_lugar_proveedor")) ? dr.GetString(dr.GetOrdinal("id_lugar_proveedor")) : string.Empty;
+                    Compra.Flete.precioFlete = !dr.IsDBNull(dr.GetOrdinal("precioFlete")) ? dr.GetDecimal(dr.GetOrdinal("precioFlete")) : 0;
                 }
                 return Compra;
             }
@@ -881,6 +884,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                 while (dr.Read())
                 {
+                    documentosPorCobrar.Id_documentoCobrar = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorCobrarCompra")) ? dr.GetString(dr.GetOrdinal("id_documentoPorCobrarCompra")) : string.Empty;
                     documentosPorCobrar.Pagos = !dr.IsDBNull(dr.GetOrdinal("pagos")) ? dr.GetDecimal(dr.GetOrdinal("pagos")) : 0;
                     documentosPorCobrar.Impuestos = !dr.IsDBNull(dr.GetOrdinal("impuesto")) ? dr.GetDecimal(dr.GetOrdinal("impuesto")) : 0;
                     documentosPorCobrar.Total = !dr.IsDBNull(dr.GetOrdinal("total")) ? dr.GetDecimal(dr.GetOrdinal("total")) : 0;
@@ -982,6 +986,7 @@ namespace CreativaSL.Web.Ganados.Models
                     ,Compra.Trayecto.id_lugarOrigen = string.IsNullOrEmpty(Compra.Trayecto.id_lugarOrigen) ? null : Compra.Trayecto.id_lugarOrigen
                     ,Compra.Trayecto.id_lugarDestino = string.IsNullOrEmpty(Compra.Trayecto.id_lugarDestino) ? null : Compra.Trayecto.id_lugarDestino
                     ,Compra.IDSucursal
+                    ,Compra.Flete.precioFlete
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_ac_Flete", parametros);
@@ -1131,7 +1136,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     Compra.IDCompra,                             Compra.RecepcionOrigen.FechaLlegada,
                     Compra.RecepcionOrigen.HoraLlegada,          Compra.RecepcionOrigen.KilometrajeFinal,
-                    Compra.RecepcionOrigen.Observacion,          Compra.RecepcionOrigen.IDRecepcionOrigen,
+                    Compra.RecepcionOrigen.Observacion,          Compra.IDRecepcion,
                     Compra.Usuario
                 };
 

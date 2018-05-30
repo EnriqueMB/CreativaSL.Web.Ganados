@@ -93,6 +93,7 @@
                         @using (Html.BeginForm("Recepcion", "Compra", FormMethod.Post, new { id = "frmRecepcionCompra", @class = "form-horizontal", autocomplete = "off" }))
                     {
                         @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.IDRecepcion)
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title"><strong>Recepción de la compra</strong></h3>

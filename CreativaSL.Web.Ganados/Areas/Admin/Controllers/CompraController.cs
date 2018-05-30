@@ -847,7 +847,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             Compra.IDCompra = IDCompra;
             //obtengo los generales
             Compra.DocumentoPorCobrar = CompraDatos.GetGeneralesDocumentoPorCobrar(Compra);
-
+            Compra.Id_documentoPorCobrar = Compra.DocumentoPorCobrar.Id_documentoCobrar;
 
             return View(Compra);
         }
