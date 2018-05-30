@@ -35,13 +35,13 @@
             },
             messages: {
                 IDSucursal: { required: "Seleccione una sucursal." },
-                nombreRazonsocial: { required: "Ingrese la razón social del proveedor almacén.", texto: "Ingrese un formato válido", maxlength: "El campo razón social admite máximo 300 caracteres." },
+                nombreRazonsocial: { required: "Ingrese la razón social del proveedor servicio.", texto: "Ingrese un formato válido", maxlength: "El campo razón social admite máximo 300 caracteres." },
                 Direccion: { direccion: "Ingrese un dirección válida.", maxlength: "El campo domicilio fiscal admite máximo 300 caracteres." },
-                RFC: { required: "Ingrese el RFC del proveedor almacén.", rfc: "Ingrese un RFC válido." },
+                RFC: { required: "Ingrese el RFC del proveedor servicio.", rfc: "Ingrese un RFC válido." },
                 fechaIngreso: { required: "Ingrese la fecha de inicio de relación." },
                 telefonoCelular: { telefono: "Ingrese un número de teléfono celular válido." },
                 telefonoCasa: { telefono: "Ingrese un número de teléfono válido." },
-                correo: { required: "Ingrese el correo electrónico del proveedor almacén.", email: "Ingrese un correo electrónico válido." }
+                correo: { required: "Ingrese el correo electrónico del proveedor servicio.", email: "Ingrese un correo electrónico válido." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
