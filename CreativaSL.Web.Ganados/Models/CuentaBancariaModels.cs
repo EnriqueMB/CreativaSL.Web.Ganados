@@ -19,7 +19,7 @@ namespace CreativaSL.Web.Ganados.Models
             _NumCuenta = string.Empty;
             _Clabe = string.Empty;
         }
-        
+
         private string _IDDatosBancarios;
         /// <summary>
         /// Identificador de los datos bancarios del cliente

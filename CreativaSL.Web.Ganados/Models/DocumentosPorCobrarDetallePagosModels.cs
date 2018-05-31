@@ -7,6 +7,7 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class DocumentosPorCobrarDetallePagosModels
     {
+
         public string Id_documentoPorCobrarDetallePagos { get; set; }
         public string Id_documentoPorCobrar { get; set; }
         public int Id_formaPago { get; set; }
@@ -14,13 +15,57 @@ namespace CreativaSL.Web.Ganados.Models
         public string Observacion { get; set; }
         public DateTime fecha { get; set; }
 
-        public DocumentosPorCobrarDetallePagosBancarizadoModels DocumentoPorCobrarDetallePagosBancarizado;
+        //public DocumentosPorCobrarDetallePagosBancarizadoModels DocumentoPorCobrarDetallePagosBancarizado;
 
         public List<CFDI_FormaPagoModels> ListaFormaPagos;
         public List<ListaGenerica> ListaAsignar { get; set; }
 
         public string Conexion { get; set; }
         public string Usuario { get; set; }
+        public RespuestaAjax RespuestaAjax { get; set; }
+        public int TipoServicio { get; set; }
+        public string Id_padre { get; set; }
+        public bool Bancarizado { get; set; }
+
+        //Para desplegar las cuentas bancarias de cada uno
+        public string IDProveedor { get; set; }
+        public string IDEmpresa { get; set; }
+        public int TipoCuentaBancaria { get; set; }
+
+        //imagen
+        public string ImagenBase64 { get; set; }
+        public string ExtensionImagenBase64 { get; set; }
+        public string ImagenMostrar { get; set; }
+        public HttpPostedFileBase HttpImagen { get; set; }
+
+
+        //agregamos los campos de DocumentosPorCobrarDetallePagosBancarizadoModels, ya que no los recibe el controlador??
+        public string Id_documentoPorCobrarDetallePagosBancarizado { get; set; }
+
+        public string NombreBancoOrdenante { get; set; }
+        public string RfcEmisorOrdenante { get; set; }
+        public string NumCuentaOrdenante { get; set; }
+        public string NumClabeOrdenante { get; set; }
+        public string NumTarjetaOrdenante { get; set; }
+
+        public string NombreBancoBeneficiante { get; set; }
+        public string RfcEmisorBeneficiario { get; set; }
+        public string NumCuentaBeneficiante { get; set; }
+        public string NumClabeBeneficiante { get; set; }
+        public string NumTarjetaBeneficiante { get; set; }
+
+        public string NumeroAutorizacion { get; set; }
+        public string TipoCadenaPago { get; set; }
+        public string FolioIFE { get; set; }
+
+        public string Id_cuentaBancariaOrdenante { get; set; }
+        public string Id_cuentaBancariaBeneficiante { get; set; }
+
+        public string NombreEmpresa { get; set; }
+        public string NombreProveedor_Cliente { get; set; }
+
+        public List<CuentaBancariaModels> ListaCuentasBancariasEmpresa { get; set; }
+        public List<CuentaBancariaModels> ListaCuentasBancariasProveedor { get; set; }
 
     }
 }

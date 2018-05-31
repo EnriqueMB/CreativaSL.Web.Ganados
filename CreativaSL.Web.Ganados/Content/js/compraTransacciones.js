@@ -1,152 +1,13 @@
 ﻿var CompraTransaccion = function () {
     "use strict"
     //datatables
-    var tblDocumentoPorCobrarDetalles;
-    var tbl_articulosServiciosCobro, tbl_documentosPorCobrarDetallesPagos;
+    var tblDocumentoPorCobrarDetalles, tbl_articulosServiciosCobro, tbl_documentosPorCobrarDetallesPagos;
     //otros
     var IDCompra = $("#IDCompra").val();
     var Id_documentoPorCobrar = $("#Id_documentoPorCobrar").val();
+    //1 por ser una compra
     var TipoServicio = 1;
 
-    var RunEventsComprobantePago = function () {
-        //var Imagen = document.getElementById("MostrarImagen").value;
-        //var ExtensionImagen = document.getElementById("ExtensionImagenBase64").value;
-        //$('#ImagenPost').fileinput({
-        //    theme: 'fa',
-        //    language: 'es',
-        //    showUpload: false,
-        //    uploadUrl: "#",
-        //    autoReplace: true,
-        //    overwriteInitial: true,
-        //    showUploadedThumbs: false,
-        //    maxFileCount: 1,
-        //    initialPreview: [
-        //        '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64,' + Imagen + '" />'
-        //    ],
-        //    initialPreviewConfig: [
-        //        { caption: 'Imagen del documento' }
-        //    ],
-        //    initialPreviewShowDelete: false,
-        //    showRemove: true,
-        //    showClose: true,
-        //    layoutTemplates: { actionDelete: '' },
-        //    allowedFileExtensions: ["png", 'jpg', 'bmp', 'jpeg'],
-        //    required: true
-        //})
-        //$('#ImagenPost').on('fileclear', function (event) {
-        //    document.getElementById("MostrarImagen").value = "";
-        //});
-
-
-        $('#divBancarizado').hide(0);
-        $("#Id_formaPago").on("change", function () {
-            var bancarizado = $(this).find(":selected").data("bancarizado");
-            if (bancarizado == 1) {
-                $('#divBancarizado').show(1000);
-            }
-            else{
-                $('#divBancarizado').hide(1000);
-            }
-        });
-    }
-    var LoadValidation_AC_Documento = function () {
-        var form1 = $('#frm_AC_Documentos');
-        var errorHandler1 = $('.errorHandler', form1);
-        var successHandler1 = $('.successHandler', form1);
-
-        form1.validate({ // initialize the plugin
-            //debug: true,
-            errorElement: "dd",
-            errorClass: 'text-danger',
-            errorLabelContainer: $("#validation_summary_AC_FleteDocumentos"),
-            errorPlacement: function (error, element) { // render error placement for each input type
-                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
-                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
-                } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
-                    error.insertAfter($(element).closest('.form-group').children('div'));
-                } else if (element.attr("type") == "text") {
-                    error.insertAfter($(element).closest('.input-group').children('div'));
-                } else {
-                    error.insertAfter(element);
-                    // for other inputs, just perform default behavior
-                }
-            },
-            ignore: "",
-            rules: {
-                IDTipoDocumento: {
-                    required: true,
-                    min: 1
-                }
-            },
-            messages: {
-                IDTipoDocumento: {
-                    required: "-Seleccione un tipo de documento.",
-                    min: "-Seleccione un tipo de documento."
-                }
-            },
-            invalidHandler: function (event, validator) {
-                successHandler1.hide();
-                errorHandler1.show();
-            },
-            highlight: function (element) {
-                $(element).closest('.help-block').removeClass('valid');
-                $(element).closest('.controlError').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
-            },
-            unhighlight: function (element) {
-                $(element).closest('.controlError').removeClass('has-error');
-            },
-            success: function (label, element) {
-                label.addClass('help-block valid');
-                label.removeClass('color');
-                $(element).closest('.controlError').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
-            },
-            submitHandler: function (form) {
-                successHandler1.show();
-                errorHandler1.hide();
-                AC_Documento();
-            }
-        });
-    };
-    function AC_Documento() {
-        var form = $("#frm_AC_Documentos")[0];
-        var formData = new FormData(form);
-
-        var arrayKeys = new Array();
-        var arrayValues = new Array();
-
-        for (var key of formData.keys()) {
-            arrayKeys.push("Documento." + key);
-            console.log(key);
-        }
-        for (var value of formData.values()) {
-            arrayValues.push(value);
-            console.log(value);
-        }
-        for (var i = 0; i < arrayKeys.length; i++) {
-            formData.append(key[i], value[i]);
-        }
-
-        $("body").css("cursor", "progress");
-        $.ajax({
-            type: 'POST',
-            data: formData,
-            url: '/Admin/Flete/AC_Documento/',
-            contentType: false,
-            processData: false,
-            cache: false,
-            success: function (response) {
-                $("body").css("cursor", "default");
-                if (response.Success) {
-                    Mensaje("Datos guardados con éxito.", "1");
-                    $("#ModalDocumento").modal('hide');
-                    tableDocumentos.ajax.reload();
-                }
-                else
-                    Mensaje(response.Mensaje, "2");
-            }
-        });
-    }
-    
     /*INICIA COBROS*/
     var Load_tbl_articulosServiciosCobro = function () {
         tbl_articulosServiciosCobro = $('#tbl_articulosServiciosCobro').DataTable({
@@ -250,7 +111,7 @@
             responsive: true,
             "ajax": {
                 "data": {
-                    "Id_documentoPorCobrar": Id_documentoPorCobrar
+                    "Id_documentoPorCobrar": Id_documentoPorCobrar , "TipoServicio" : TipoServicio
                 },
                 "url": "/Admin/DocumentoXCobrar/JsonDocumentosDetallesCompraPagos/",
                 "type": "POST",
@@ -260,22 +121,37 @@
             "columns": [
                 { "data": "asignadoA" },
                 { "data": "descripcion" },
-                { "data": "cantidad" },
                 {
-                    "data": "precioUnitario",
+                    "data": "monto",
                     "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
                 },
                 {
-                    "data": "subtotal",
-                    "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                    "data": "fecha",
+                    "render": function (data, type, row) {
+                        if (data === null)
+                            fecha = "Sin fecha";
+                        else {
+                            var dateSplit = data.split('-');
+                            var dia = dateSplit[2];
+                            dia = dia.split('T');
+                            dia = dia[0];
+                            var mes = dateSplit[1];
+                            var año = dateSplit[0];
+                            var fecha = dia + '-' + mes + '-' + año;
+                        }
+
+                        return type === "display" || type === "filter" ?
+                            fecha :
+                            data;
+                    }
                 },
                 {
                     "data": null,
                     "render": function (data, type, full) {
 
                         return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-yellow tooltips btn-sm editDocumento' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
-                            "<a data-hrefa='/Admin/DocumentoXCobrar/DEL_DocumentoDetalleCompra/' title='Eliminar' data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-danger tooltips btn-sm deleteDocumento' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "<a data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='btn btn-yellow tooltips btn-sm editDocumento' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                            "<a data-hrefa='/Admin/DocumentoXCobrar/DEL_DocumentoDetalleCompra/' title='Eliminar' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='btn btn-danger tooltips btn-sm deleteDocumento' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                             "<div class='btn-group'>" +
@@ -284,12 +160,12 @@
                             "</a>" +
                             "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
                             "<li>" +
-                            "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='editDocumento' role='menuitem' tabindex='-1'>" +
+                            "<a data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='editDocumento' role='menuitem' tabindex='-1'>" +
                             "<i class='fa fa-edit'></i> Editar" +
                             "</a>" +
                             "</li>" +
                             "<li>" +
-                            "<a data-hrefa='/Admin/DocumentoXCobrar/DEL_DocumentoDetalleCompra/' class='deleteDocumento' role='menuitem' tabindex='-1' data-id='" + full["id_detalleDoctoCobrar"] + "'>" +
+                            "<a data-hrefa='/Admin/DocumentoXCobrar/DEL_DocumentoDetalleCompra/' class='deleteDocumento' role='menuitem' tabindex='-1' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "'>" +
                             "<i class='fa fa-trash-o'></i> Eliminar" +
                             "</a>" +
                             "</li>" +
@@ -336,47 +212,16 @@
             }
         });
     };
+
     var EventosCobro = function () {
         $("#btnAddCobroArticuloServicio").on("click", function () {
-            ModalArticuloServicio();
+           
         });
         $("#btnAddCobroComprobante").on("click", function () {
-            ModalArticuloServicio();
-        });
-    }
-    function ModalArticuloServicio() {
-        $("body").css("cursor", "progress");
-        $.ajax({
-            url: '/Admin/DocumentoXCobrar/ModalArticuloServicio/',
-            type: "POST",
-            data: { Id_documentoCobrar: Id_documentoPorCobrar, TipoServicio: TipoServicio },
-            success: function (data) {
-                $("body").css("cursor", "default");
-                $('#ContenidoModal').html(data);
-                $('#Modal').modal({ backdrop: 'static', keyboard: false });
-
-                //LoadValidation_AC_ModalCobro();
-                RunEventsComprobantePago();
-            }
+            window.location.href = '/Admin/DocumentoXCobrar/AddComprobante?Id_documentoPorCobrar=' + Id_documentoPorCobrar + '&TipoServicio=' + TipoServicio;
         });
     }
 
-    function ModalComprobante() {
-        $("body").css("cursor", "progress");
-        $.ajax({
-            url: '/Admin/DocumentoXCobrar/ModalRegistrarComprobantePago/',
-            type: "POST",
-            data: { Id_documentoPorCobrar: Id_documentoPorCobrar, TipoServicio: TipoServicio },
-            success: function (data) {
-                $("body").css("cursor", "default");
-                $('#ContenidoModal').html(data);
-                $('#Modal').modal({ backdrop: 'static', keyboard: false });
-
-                //LoadValidation_AC_ModalCobro();
-                RunEventsComprobantePago();
-            }
-        });
-    }
     /*TERMINA COBROS*/
     return {
         init: function () {
