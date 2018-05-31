@@ -1,7 +1,10 @@
-﻿using Microsoft.ApplicationBlocks.Data;
+﻿using CreativaSL.Web.Ganados.ViewModels;
+using Microsoft.ApplicationBlocks.Data;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Web;
 
@@ -40,6 +43,34 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public DatosEmpresaViewModels ObtenerDatosEmpresaTipo1(RptProveedorMunicipioModels Datos)
+        {
+            try
+            {
+
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Datos.conexion, "spCSLDB_EMPRESA_get_CatEmpresasIDTIPO1");
+                while (Dr.Read())
+                {
+                    Datos.DatosEmpresa.LogoEmpresa = !Dr.IsDBNull(Dr.GetOrdinal("LogoEmpresa")) ? Dr.GetString(Dr.GetOrdinal("LogoEmpresa")) : string.Empty;
+                    Datos.DatosEmpresa.RazonFiscal = !Dr.IsDBNull(Dr.GetOrdinal("RazonFiscal")) ? Dr.GetString(Dr.GetOrdinal("RazonFiscal")) : string.Empty;
+                    Datos.DatosEmpresa.DireccionFiscal = !Dr.IsDBNull(Dr.GetOrdinal("DireccionFiscal")) ? Dr.GetString(Dr.GetOrdinal("DireccionFiscal")) : string.Empty;
+                    Datos.DatosEmpresa.RFC = !Dr.IsDBNull(Dr.GetOrdinal("RFC")) ? Dr.GetString(Dr.GetOrdinal("RFC")) : string.Empty;
+                    Datos.DatosEmpresa.Representante = !Dr.IsDBNull(Dr.GetOrdinal("Representante")) ? Dr.GetString(Dr.GetOrdinal("Representante")) : string.Empty;
+                    Datos.DatosEmpresa.NumTelefonico1 = !Dr.IsDBNull(Dr.GetOrdinal("NumTelefono1")) ? Dr.GetString(Dr.GetOrdinal("NumTelefono1")) : string.Empty;
+                    Datos.DatosEmpresa.NumTelefonico2 = !Dr.IsDBNull(Dr.GetOrdinal("NumTelefono2")) ? Dr.GetString(Dr.GetOrdinal("NumTelefono2")) : string.Empty;
+                    Datos.DatosEmpresa.Email = !Dr.IsDBNull(Dr.GetOrdinal("Correo")) ? Dr.GetString(Dr.GetOrdinal("Correo")) : string.Empty;
+                    Datos.DatosEmpresa.HorarioAtencion = !Dr.IsDBNull(Dr.GetOrdinal("HorarioAtencion")) ? Dr.GetString(Dr.GetOrdinal("HorarioAtencion")) : string.Empty;
+                    Datos.DatosEmpresa.NombreSucursal = !Dr.IsDBNull(Dr.GetOrdinal("NombreSucursal")) ? Dr.GetString(Dr.GetOrdinal("NombreSucursal")) : string.Empty;
+                    Bitmap bmpFromString = Datos.DatosEmpresa.LogoEmpresa.Base64StringToBitmap();
+                    Datos.DatosEmpresa.ImagenContruida = bmpFromString.ToBase64ImageReport(ImageFormat.Png);
+                }
+                return Datos.DatosEmpresa;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<CatEstadoModels> obtenerListaEstados(RptProveedorMunicipioModels Datos)
         {
             try
@@ -72,7 +103,7 @@ namespace CreativaSL.Web.Ganados.Models
                 List<CatMunicipioModels> lista = new List<CatMunicipioModels>();
                 CatMunicipioModels item;
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Datos.conexion, "spCSLDB_get_ComboMunicipio", "Mex", Datos.IDEstado,1);
+                dr = SqlHelper.ExecuteReader(Datos.conexion, "spCSLDB_get_ComboMunicipio2", "Mex", Datos.IDEstado,1);
                 while (dr.Read())
                 {
                     item = new CatMunicipioModels();

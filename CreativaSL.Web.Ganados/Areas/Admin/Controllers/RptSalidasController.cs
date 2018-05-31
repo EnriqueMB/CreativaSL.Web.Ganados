@@ -8,21 +8,20 @@ using System.Web.Mvc;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
-    public class RptProveedorMunicipioController : Controller
+    public class RptSalidasController : Controller
     {
+        // GET: Admin/RptSalidas
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
-        // GET: Admin/RptProveedorMunicipio
         public ActionResult Index()
         {
-
             try
             {
-                RptProveedorMunicipioModels reporte = new RptProveedorMunicipioModels();
-                _RptProveedorMunicipio_Datos reporteDatos = new _RptProveedorMunicipio_Datos();
+                RptSalidasModels reporte = new RptSalidasModels();
+                _RptSalidas_Datos reporteDatos = new _RptSalidas_Datos();
                 reporte.conexion = Conexion;
                 reporte.DatosEmpresa = reporteDatos.ObtenerDatosEmpresaTipo1(reporte);
-                reporte.listaEstado = reporteDatos.obtenerListaEstados(reporte);
-              
+
+                reporte.listaSalidas = reporteDatos.obtenerListaProveedoresFecha(reporte); 
                 return View(reporte);
             }
             catch (Exception ex)
@@ -34,19 +33,18 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Index(RptProveedorMunicipioModels reporte)
+        public ActionResult Index(RptSalidasModels reporte)
         {
             try
             {
 
-                _RptProveedorMunicipio_Datos reporteDatos = new _RptProveedorMunicipio_Datos();
+                _RptSalidas_Datos reporteDatos = new _RptSalidas_Datos();
 
-               
+
                 reporte.conexion = Conexion;
-                reporte.listaEstado = reporteDatos.obtenerListaEstados(reporte);
-                reporte.listaMunicipio = reporteDatos.obtenerListaMunicipios(reporte);
+               
                 reporte.DatosEmpresa = reporteDatos.ObtenerDatosEmpresaTipo1(reporte);
-                reporte.listaProveedor = reporteDatos.obtenerListaProveedoresFecha(reporte);
+                reporte.listaSalidas = reporteDatos.obtenerListaProveedoresFecha(reporte);
 
                 return View(reporte);
             }
@@ -59,20 +57,19 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
 
         }
-
-        // GET: Admin/RptProveedorMunicipio/Details/5
+        // GET: Admin/RptSalidas/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Admin/RptProveedorMunicipio/Create
+        // GET: Admin/RptSalidas/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/RptProveedorMunicipio/Create
+        // POST: Admin/RptSalidas/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
@@ -88,13 +85,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/RptProveedorMunicipio/Edit/5
+        // GET: Admin/RptSalidas/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Admin/RptProveedorMunicipio/Edit/5
+        // POST: Admin/RptSalidas/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -110,13 +107,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/RptProveedorMunicipio/Delete/5
+        // GET: Admin/RptSalidas/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Admin/RptProveedorMunicipio/Delete/5
+        // POST: Admin/RptSalidas/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
@@ -129,25 +126,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             catch
             {
                 return View();
-            }
-        }
-        [HttpPost]
-        public ActionResult Municipio(string idPais, int id)
-        {
-            try
-            {
-                RptProveedorMunicipioModels reporte = new RptProveedorMunicipioModels();
-                _RptProveedorMunicipio_Datos reporteDatos = new _RptProveedorMunicipio_Datos();
-                reporte.conexion = Conexion;
-                reporte.IDEstado = id;
-                reporte.listaMunicipio = reporteDatos.obtenerListaMunicipios(reporte);
-                
-                return Json(reporte.listaMunicipio, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                ex.Message.ToString();
-                return Json("", JsonRequestBehavior.AllowGet);
             }
         }
     }

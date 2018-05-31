@@ -115,6 +115,31 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public EntradaAlmacenModels EliminarEntrada(string Conexion, string IDEntrada, string IDUsuario)
+        {
+            try
+            {
+                EntradaAlmacenModels Result = new EntradaAlmacenModels();
+                object[] Parametros = { IDEntrada, IDUsuario };
+                object Value = SqlHelper.ExecuteScalar(Conexion, "spCSLDB_Inventario_set_EliminarEntrada", Parametros);
+                if (Value != null)
+                {
+                    int Resultado = 0;
+                    int.TryParse(Value.ToString(), out Resultado);
+                    if (Resultado == 1)
+                    {
+                        Result.Completado = true;
+                        Result.Resultado = Resultado;
+                    }
+                }
+                return Result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public void ACEntradaAlmacen(EntradaAlmacenModels Datos)
         {
             try

@@ -84,7 +84,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         }
                         else
                         {
-                            Model.ListaAlmacenes = CDatos.ObtenerAlmacenes(Conexion);
+                            Model.ListaAlmacenes = CDatos.ObtenerAlmacenesXIDCompra(Conexion, Model.IDCompraAlmacen);
                             Model.ListaCompras = CDatos.ObtenerComprasProcesadas(Conexion);
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
@@ -93,7 +93,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     }
                     else
                     {
-                        Model.ListaAlmacenes = CDatos.ObtenerAlmacenes(Conexion);
+                        Model.ListaAlmacenes = CDatos.ObtenerAlmacenesXIDCompra(Conexion, Model.IDCompraAlmacen);
                         Model.ListaCompras = CDatos.ObtenerComprasProcesadas(Conexion);
                         return View(Model);
                     }
@@ -105,7 +105,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch
             {
-                Model.ListaAlmacenes = CDatos.ObtenerAlmacenes(Conexion);
+                Model.ListaAlmacenes = CDatos.ObtenerAlmacenesXIDCompra(Conexion, Model.IDCompraAlmacen);
                 Model.ListaCompras = CDatos.ObtenerComprasProcesadas(Conexion);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrió un error al intentar guardar los datos. Contacte a soporte técnico.";
@@ -299,7 +299,25 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-
+        // GET: Admin/EntradasAlmacen
+        [HttpPost]
+        public ActionResult Delete(string id)
+        {
+            try
+            {
+                _EntradaAlmacen_Datos EntradaDatos = new _EntradaAlmacen_Datos();
+                EntradaAlmacenModels Entrada = EntradaDatos.EliminarEntrada(Conexion, id, User.Identity.Name);
+                if (Entrada.Completado)
+                    return Json("true");
+                else
+                    return Json("");
+            }
+            catch (Exception)
+            {
+                return Json("");
+            }
+        }
+        
         // POST: Admin/EntradasAlmacen/ObtenerAlmacenesXIDSucursal/IDsucursal
         [HttpPost]
         public ActionResult ObtenerAlmacenesXIDSucursal(string IDCompra)
