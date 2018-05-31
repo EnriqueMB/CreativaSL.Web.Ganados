@@ -1220,6 +1220,7 @@
     <Content Include="Areas\Admin\Views\SalidaAlmacen\VerListaTest.cshtml" />
     <Content Include="Areas\Admin\Views\SalidaAlmacen\Details.cshtml" />
     <Content Include="Areas\Admin\Views\SalidaAlmacen\EditDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\RptSalidas\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1291,6 +1292,7 @@
     <Compile Include="Areas\Admin\Controllers\NominaDiasFestivosController.cs" />
     <Compile Include="Areas\Admin\Controllers\RptProveedorMermaAltaController.cs" />
     <Compile Include="Areas\Admin\Controllers\RptProveedorMunicipioController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RptSalidasController.cs" />
     <Compile Include="Areas\Admin\Controllers\RptUltCompraProveedorController.cs" />
     <Compile Include="Areas\Admin\Controllers\SalidaAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\TablaController.cs" />
@@ -1422,6 +1424,7 @@
     <Compile Include="Models\ResumenGastosModels.cs" />
     <Compile Include="Models\RptProveedorMermaAltaModels.cs" />
     <Compile Include="Models\RptProveedorMunicipioModels.cs" />
+    <Compile Include="Models\RptSalidasModels.cs" />
     <Compile Include="Models\RptUltCompraProveedorModels.cs" />
     <Compile Include="Models\SalidaAlmacenDetalle.cs" />
     <Compile Include="Models\SalidaAlmacenDetalleModels.cs" />
@@ -1504,6 +1507,7 @@
     <Compile Include="Models\_Nomina_Datos.cs" />
     <Compile Include="Models\_RptProveedorMermaAlta_Datos.cs" />
     <Compile Include="Models\_RptProveedorMunicipio_Datos.cs" />
+    <Compile Include="Models\_RptSalidas_Datos.cs" />
     <Compile Include="Models\_SalidaAlmacen_Datos.cs" />
     <Compile Include="Models\_ServicioMantenimiento_Datos.cs" />
     <Compile Include="Models\_Usuario_Datos.cs" />
