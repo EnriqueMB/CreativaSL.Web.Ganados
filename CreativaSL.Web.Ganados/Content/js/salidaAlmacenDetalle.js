@@ -1,10 +1,17 @@
-﻿var Entrada = function () {
+﻿var SalidaDetalle = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator = function () {
         var form1 = $('#form-ea');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
+
+        $.validator.addMethod("cMenorQExistencia", function (value, element) {
+            value = Number($.isNumeric(value) ? value : 0);
+            var MaxValue = Number($('#Existencia').val());
+            return this.optional(element) || (value > 0 && value <= MaxValue);
+        }, "Verifique la cantidad. Debe ser menor o igual a la existencia, y mayor a 0.");
+
         $('#form-ea').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
@@ -23,16 +30,14 @@
             },
             ignore: "",
             rules: {
-                IDCompraAlmacen: { required: true },
-                IDAlmacen: { required: true },
-                FechaEntrada: { required: true },
-                Comentario: { texto: true }
+                IDProductoAlmacen: { required: true },
+                IDUnidadProducto: { required: true },
+                Cantidad: { required: true, decimal: true, cMenorQExistencia:true }
             },
             messages: {
-                IDCompraAlmacen: { required: "Seleccione una compra." },
-                IDAlmacen: { required: "Seleccione una bodega." },
-                FechaEntrada: { required: "Ingrese una fecha." },
-                Comentario: { texto: "Ingrese un texto válido para comentarios adicionales." }
+                IDProductoAlmacen: { required: "Seleccione un producto." },
+                IDUnidadProducto: { required: "Seleccione una unidad de medida." },
+                Cantidad: { required: "Ingrese una fecha.", decimal:"Ingrese un dato válido"}
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -64,24 +69,26 @@
         });
     };
 
-    var runElements = function () {
-        $('.datepicker').datepicker({
-            format: 'dd/mm/yyyy'
-        });        
-    };
-
     var runCombos = function () {
 
-        $('#IDCompraAlmacen').on('change', function (event) {
-            $("#IDAlmacen option").remove();
-            var IdCompra = $(this).val();
-            getCatAlmacen(IdCompra);
+        $('#IDProductoAlmacen').on('change', function (event) {
+            $("#IDUnidadProducto option").remove();
+            $("#Existencia").val('0.000');
+            var IdProducto = $(this).val();
+            getUnidadesXIDProducto(IdProducto);
         });
 
-        function getCatAlmacen(IdCompra) {
+        $('#IDUnidadProducto').on('change', function (event) {
+            var IdProducto = $('#IDProductoAlmacen').val();
+            var IdUnidad = $(this).val();
+            var IdSalida = $('#IDSalida').val();
+            getExistenciaXIDProducto(IdProducto, IdUnidad, IdSalida);
+        });
+
+        function getUnidadesXIDProducto(IdProducto) {
             $.ajax({
-                url: "/Admin/EntradasAlmacen/ObtenerAlmacenesXIDSucursal",
-                data: { IDCompra: IdCompra },
+                url: "/Admin/SalidaAlmacen/ObtenerUnidadesXIDProducto",
+                data: { IDProducto: IdProducto },
                 async: false,
                 dataType: "json",
                 type: "POST",
@@ -90,36 +97,36 @@
                 },
                 success: function (result) {
                     for (var i = 0; i < result.length; i++) {
-                        $("#IDAlmacen").append('<option value="' + result[i].IDAlmacen + '">' + result[i].Descripcion + '</option>');
+                        $("#IDUnidadProducto").append('<option value="' + result[i].id_unidadProducto + '">' + result[i].Descripcion + '</option>');
                     }
-                    $('#IDAlmacen.select').selectpicker('refresh');
+                    $('#IDUnidadProducto.select').selectpicker('refresh');
                 }
             });
         }
-    };
 
-    var uiDatatable = function () {
-        if ($(".datatable2").length > 0) {
-            $(".datatable2").dataTable({
-                "order": [],
-                "language": {
-                    "url": "/Content/assets/json/Spanish.json"
+        function getExistenciaXIDProducto(IdProducto, IdUnidad, IdSalida) {
+            $.ajax({
+                url: "/Admin/SalidaAlmacen/ObtenerExistenciaXIDProducto",
+                data: { IDProducto: IdProducto, IDSalida: IdSalida, IDUnidad: IdUnidad },
+                async: false,
+                dataType: "json",
+                type: "POST",
+                error: function () {
+                    Mensaje("Ocurrió un error al cargar el combo", "2");
                 },
-                responsive: true
-            });
-            $(".datatable2").on('page.dt', function () {
-                onresize(100);
+                success: function (result) {
+                    console.log(result);
+                    $("#Existencia").val(result);
+                }
             });
         }
-    };//END Datatable
+    };    
 
     return {
         //main function to initiate template pages
         init: function () {
             runValidator();
-            runElements();
             runCombos();
-            uiDatatable();
         }
     };
 }();

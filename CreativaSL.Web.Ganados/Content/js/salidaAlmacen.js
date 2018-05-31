@@ -1,4 +1,4 @@
-﻿var Entrada = function () {
+﻿var Salida = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator = function () {
@@ -23,15 +23,15 @@
             },
             ignore: "",
             rules: {
-                IDCompraAlmacen: { required: true },
+                IDSucursal: { required: true },
                 IDAlmacen: { required: true },
-                FechaEntrada: { required: true },
+                FechaSalida: { required: true },
                 Comentario: { texto: true }
             },
             messages: {
-                IDCompraAlmacen: { required: "Seleccione una compra." },
+                IDSucursal: { required: "Seleccione un sucursal." },
                 IDAlmacen: { required: "Seleccione una bodega." },
-                FechaEntrada: { required: "Ingrese una fecha." },
+                FechaSalida: { required: "Ingrese una fecha." },
                 Comentario: { texto: "Ingrese un texto válido para comentarios adicionales." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
@@ -72,16 +72,18 @@
 
     var runCombos = function () {
 
-        $('#IDCompraAlmacen').on('change', function (event) {
+        $('#IDSucursal').on('change', function (event) {
             $("#IDAlmacen option").remove();
-            var IdCompra = $(this).val();
-            getCatAlmacen(IdCompra);
+            $("#IDEmpleado option").remove();
+            var IdSucursal = $(this).val();
+            getCatAlmacen(IdSucursal);
+            getCatEmpleados(IdSucursal);
         });
 
-        function getCatAlmacen(IdCompra) {
+        function getCatAlmacen(IdSucursal) {
             $.ajax({
-                url: "/Admin/EntradasAlmacen/ObtenerAlmacenesXIDSucursal",
-                data: { IDCompra: IdCompra },
+                url: "/Admin/SalidaAlmacen/ObtenerAlmacenesXIDSucursal",
+                data: { IDSucursal: IdSucursal },
                 async: false,
                 dataType: "json",
                 type: "POST",
@@ -96,22 +98,40 @@
                 }
             });
         }
-    };
-
-    var uiDatatable = function () {
-        if ($(".datatable2").length > 0) {
-            $(".datatable2").dataTable({
-                "order": [],
-                "language": {
-                    "url": "/Content/assets/json/Spanish.json"
+        function getCatEmpleados(IdSucursal) {
+            $.ajax({
+                url: "/Admin/SalidaAlmacen/ObtenerEmpleadosXIDSucursal",
+                data: { IDSucursal: IdSucursal },
+                async: false,
+                dataType: "json",
+                type: "POST",
+                error: function () {
+                    Mensaje("Ocurrió un error al cargar el combo", "2");
                 },
-                responsive: true
-            });
-            $(".datatable2").on('page.dt', function () {
-                onresize(100);
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $("#IDEmpleado").append('<option value="' + result[i].IDEmpleado + '">' + result[i].NombreCompleto + '</option>');
+                    }
+                    $('#IDEmpleado.select').selectpicker('refresh');
+                }
             });
         }
-    };//END Datatable
+    };
+
+    //var uiDatatable = function () {
+    //    if ($(".datatable2").length > 0) {
+    //        $(".datatable2").dataTable({
+    //            "order": [],
+    //            "language": {
+    //                "url": "/Content/assets/json/Spanish.json"
+    //            },
+    //            responsive: true
+    //        });
+    //        $(".datatable2").on('page.dt', function () {
+    //            onresize(100);
+    //        });
+    //    }
+    //};//END Datatable
 
     return {
         //main function to initiate template pages
@@ -119,7 +139,7 @@
             runValidator();
             runElements();
             runCombos();
-            uiDatatable();
+            //uiDatatable();
         }
     };
 }();
