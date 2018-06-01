@@ -7,7 +7,7 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class DocumentosPorCobrarDetallePagosModels
     {
-
+        public string Id_compra { get; set; }
         public string Id_documentoPorCobrarDetallePagos { get; set; }
         public string Id_documentoPorCobrar { get; set; }
         public int Id_formaPago { get; set; }

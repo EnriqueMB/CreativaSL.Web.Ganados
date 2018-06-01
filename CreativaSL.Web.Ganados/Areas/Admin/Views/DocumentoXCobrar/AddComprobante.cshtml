@@ -164,7 +164,7 @@
                                             <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.NombreBancoBeneficiante, new { @class = "form-control", @readonly="readonly"})
+                                                    @Html.TextBoxFor(model => model.NombreBancoBeneficiante, new { @class = "form-control", @readonly = "readonly" })
                                                 </div>
                                             </div>
                                         </div>
@@ -346,7 +346,7 @@
                                 <div class="col-md-10 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.Monto, new { @class = "form-control" , type="number" })
+                                        @Html.TextBoxFor(model => model.Monto, new { @class = "form-control", type = "number" })
                                     </div>
                                     <span class="help-block">Monto o cantidad.</span>
                                 </div>
@@ -359,7 +359,7 @@
                                 <div class="col-md-10 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.fecha, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker", @readonly="readonly" })
+                                        @Html.TextBoxFor(model => model.fecha, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker", @readonly = "readonly" })
                                     </div>
                                     <span class="help-block">Fecha de pago.</span>
                                 </div>
@@ -385,7 +385,10 @@
                 </div>
                 <div class="panel-footer">
                     <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
-                    <button type="button" class="btn btn-secondary red" data-dismiss="modal">Cancelar</button>
+                    @if (Model.TipoServicio == 1)
+                    {
+                        <a href="@Url.Action("Transacciones", "Compra", new { IDCompra = Model.Id_compra })" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                    }
                 </div>
             </div>
 }

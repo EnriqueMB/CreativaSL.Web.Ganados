@@ -1066,7 +1066,6 @@
     <Content Include="Areas\Admin\Views\CatRemolque\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatRemolque\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Compra\ModalPago.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Details.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\Index.cshtml" />
@@ -1224,6 +1223,7 @@
     <Content Include="Areas\Admin\Views\RptSalidas\Index.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\AddComprobante.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Ganado.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\EditComprobante.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

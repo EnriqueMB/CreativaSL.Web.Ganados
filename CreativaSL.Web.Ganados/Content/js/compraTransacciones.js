@@ -150,7 +150,7 @@
                     "render": function (data, type, full) {
 
                         return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='btn btn-yellow tooltips btn-sm editDocumento' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                            "<a data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='btn btn-yellow tooltips btn-sm editCobro' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
                             "<a data-hrefa='/Admin/DocumentoXCobrar/DEL_DocumentoDetalleCompra/' title='Eliminar' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='btn btn-danger tooltips btn-sm deleteDocumento' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
@@ -160,7 +160,7 @@
                             "</a>" +
                             "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
                             "<li>" +
-                            "<a data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='editDocumento' role='menuitem' tabindex='-1'>" +
+                            "<a data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='editCobro' role='menuitem' tabindex='-1'>" +
                             "<i class='fa fa-edit'></i> Editar" +
                             "</a>" +
                             "</li>" +
@@ -176,10 +176,9 @@
                 }
             ],
             "drawCallback": function (settings) {
-                $(".editDocumento").on("click", function () {
-                    var IDDocumento = $(this).data("id");
-
-                    ModalDocumento(IDFlete, IDDocumento);
+                $(".editCobro").on("click", function () {
+                    var Id_documentoPorCobrar = $(this).data("id");
+                    window.location.href = '/Admin/DocumentoXCobrar/EditComprobante?Id_documentoPorCobrarDetallePagos=' + Id_documentoPorCobrar + '&TipoServicio=' + TipoServicio;
                 });
                 $(".deleteDocumento").on("click", function () {
                     var url = $(this).attr('data-hrefa');

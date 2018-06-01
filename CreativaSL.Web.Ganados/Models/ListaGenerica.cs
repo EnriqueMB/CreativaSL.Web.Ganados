@@ -11,5 +11,6 @@ namespace CreativaSL.Web.Ganados.Models
         public string Descripcion { get; set; }
         public string Nombre { get; set; }
         public Image Imagen { get; set; }
+        public string Id_2 { get; set; }
     }
 }

@@ -158,6 +158,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 DocumentoPorCobrarPago.Usuario = User.Identity.Name;
                 DocumentoPorCobrarPago.Conexion = Conexion;
                 DocumentoPorCobrarPago.ListaAsignar = DocCobrarDatos.GetListadoAsignarPagos(DocumentoPorCobrarPago);
+
+                if (DocumentoPorCobrarPago.TipoServicio == 1)
+                    DocumentoPorCobrarPago.Id_compra = DocumentoPorCobrarPago.ListaAsignar[0].Id_2;
+
                 DocumentoPorCobrarPago.ListaFormaPagos = DocCobrarDatos.GetListadoCFDIFormaPago(DocumentoPorCobrarPago);
                 DocumentoPorCobrarPago = DocCobrarDatos.GetNombreEmpresaProveedorCliente(DocumentoPorCobrarPago);
                 DocumentoPorCobrarPago.TipoCuentaBancaria = 1;
@@ -176,9 +180,40 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
-
-
         #endregion
+
+        #region Edit Comprobante
+        public ActionResult EditComprobante(DocumentosPorCobrarDetallePagosModels DocumentoPorCobrarPago)
+        {
+            try
+            {
+                _DocumentoXCobrar_Datos DocCobrarDatos = new _DocumentoXCobrar_Datos();
+                DocumentoPorCobrarPago.Usuario = User.Identity.Name;
+                DocumentoPorCobrarPago.Conexion = Conexion;
+                DocumentoPorCobrarPago = DocCobrarDatos.GetDetalleDocumentoPago(DocumentoPorCobrarPago);
+
+                DocumentoPorCobrarPago.ListaAsignar = DocCobrarDatos.GetListadoAsignarPagos(DocumentoPorCobrarPago);
+
+                if (DocumentoPorCobrarPago.TipoServicio == 1)
+                    DocumentoPorCobrarPago.Id_compra = DocumentoPorCobrarPago.ListaAsignar[0].Id_2;
+
+                DocumentoPorCobrarPago.ListaFormaPagos = DocCobrarDatos.GetListadoCFDIFormaPago(DocumentoPorCobrarPago);
+                DocumentoPorCobrarPago = DocCobrarDatos.GetNombreEmpresaProveedorCliente(DocumentoPorCobrarPago);
+                DocumentoPorCobrarPago.TipoCuentaBancaria = 1;
+                DocumentoPorCobrarPago.ListaCuentasBancariasEmpresa = DocCobrarDatos.GetListadoCuentasBancarias(DocumentoPorCobrarPago);
+                DocumentoPorCobrarPago.TipoCuentaBancaria = 2;
+                DocumentoPorCobrarPago.ListaCuentasBancariasProveedor = DocCobrarDatos.GetListadoCuentasBancarias(DocumentoPorCobrarPago);
+
+                return View(DocumentoPorCobrarPago);
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        #endregion
+
+
         #region Guardar Comprobante compra
         [HttpPost]
         public ActionResult GuardarComprobante(DocumentosPorCobrarDetallePagosModels DocumentoPorCobrarPago)
