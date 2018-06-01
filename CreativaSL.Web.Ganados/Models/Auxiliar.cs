@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.Mvc;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -121,6 +122,18 @@ namespace CreativaSL.Web.Ganados.Models
                          select new ErrorModelState(fieldKey, error.ErrorMessage);
 
             return result;
+        }
+        public static Image ImageBase64ToImage(string imageBase64)
+        {
+            byte[] bytes = Convert.FromBase64String(imageBase64);
+
+            Image image;
+            using (MemoryStream ms = new MemoryStream(bytes))
+            {
+                image = Image.FromStream(ms);
+            }
+
+            return image;
         }
     }
 }

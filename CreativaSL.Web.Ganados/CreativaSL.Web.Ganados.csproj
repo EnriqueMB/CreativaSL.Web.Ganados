@@ -446,6 +446,7 @@
     <Content Include="Content\js\compraRecepcion.js" />
     <Content Include="Content\js\compraTransacciones.js" />
     <Content Include="Content\js\CuentaProveedorAlmacen.js" />
+    <Content Include="Content\js\documentoXCobrar.js" />
     <Content Include="Content\js\EmpleadosSucursalFaltas.js" />
     <Content Include="Content\js\fleteRecepcion.js" />
     <Content Include="Content\js\ProveedorCombustible.js" />
@@ -940,6 +941,7 @@
     <Content Include="Content\js\compraAlmacenLista.js" />
     <Content Include="Content\js\Vehiculo.js" />
     <Content Include="Content\js\venta.js" />
+    <Content Include="Content\js\ventaGanado.js" />
     <Content Include="Content\Ocampo.ico" />
     <Content Include="Content\js\RangoCompra.js" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -1198,7 +1200,6 @@
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\NuevoDatosContacto.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\EditProducto.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Transacciones.cshtml" />
-    <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalComprobante.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalServicioProducto.cshtml" />
     <Content Include="Areas\Admin\Views\RptUltCompraProveedor\Index.cshtml" />
     <Content Include="Areas\Admin\Views\RptProveedorMermaAlta\Index.cshtml" />
@@ -1220,6 +1221,9 @@
     <Content Include="Areas\Admin\Views\SalidaAlmacen\VerListaTest.cshtml" />
     <Content Include="Areas\Admin\Views\SalidaAlmacen\Details.cshtml" />
     <Content Include="Areas\Admin\Views\SalidaAlmacen\EditDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\RptSalidas\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\AddComprobante.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\Ganado.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1291,6 +1295,7 @@
     <Compile Include="Areas\Admin\Controllers\NominaDiasFestivosController.cs" />
     <Compile Include="Areas\Admin\Controllers\RptProveedorMermaAltaController.cs" />
     <Compile Include="Areas\Admin\Controllers\RptProveedorMunicipioController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RptSalidasController.cs" />
     <Compile Include="Areas\Admin\Controllers\RptUltCompraProveedorController.cs" />
     <Compile Include="Areas\Admin\Controllers\SalidaAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\TablaController.cs" />
@@ -1422,6 +1427,7 @@
     <Compile Include="Models\ResumenGastosModels.cs" />
     <Compile Include="Models\RptProveedorMermaAltaModels.cs" />
     <Compile Include="Models\RptProveedorMunicipioModels.cs" />
+    <Compile Include="Models\RptSalidasModels.cs" />
     <Compile Include="Models\RptUltCompraProveedorModels.cs" />
     <Compile Include="Models\SalidaAlmacenDetalle.cs" />
     <Compile Include="Models\SalidaAlmacenDetalleModels.cs" />
@@ -1457,6 +1463,7 @@
     <Compile Include="Models\Validaciones\TextoAttribute.cs" />
     <Compile Include="Models\VentaGanadoModels.cs" />
     <Compile Include="Models\VentaModels.cs" />
+    <Compile Include="Models\VentaModels2.cs" />
     <Compile Include="Models\VerAlmacenInventarioModels.cs" />
     <Compile Include="Models\_Almacen_Datos.cs" />
     <Compile Include="Models\_AsistenciaEmpleados_Datos.cs" />
@@ -1504,9 +1511,11 @@
     <Compile Include="Models\_Nomina_Datos.cs" />
     <Compile Include="Models\_RptProveedorMermaAlta_Datos.cs" />
     <Compile Include="Models\_RptProveedorMunicipio_Datos.cs" />
+    <Compile Include="Models\_RptSalidas_Datos.cs" />
     <Compile Include="Models\_SalidaAlmacen_Datos.cs" />
     <Compile Include="Models\_ServicioMantenimiento_Datos.cs" />
     <Compile Include="Models\_Usuario_Datos.cs" />
+    <Compile Include="Models\_Venta2_Datos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CapturarCompraViewModels.cs" />
     <Compile Include="ViewModels\CompraAlmacenDetallesViewModels.cs" />

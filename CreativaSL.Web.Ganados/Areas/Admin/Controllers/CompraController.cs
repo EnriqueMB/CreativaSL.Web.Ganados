@@ -852,8 +852,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return View(Compra);
         }
         /********************************************************************/
-       
-        
         //Funciones imagenes - fierro
         #region Imágenes
         [HttpPost]
@@ -931,36 +929,5 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         #endregion
         /********************************************************************/
-       
-
-        #region MODALES
-        #region Pago
-        [HttpPost]
-        public ActionResult ModalPago(string idDocPagar)
-        {
-            Compra = new CompraModels();
-            CompraDatos = new _Compra_Datos();
-            Compra.IDDocumentoXPagar = idDocPagar;
-            Compra.Conexion = Conexion;
-            Compra.ListaTipoClasificacion = CompraDatos.GetListadoTipoClasificacion(Compra);
-            Compra.ListaFormasPagos = CompraDatos.GetListadoFormaPago(Compra);
-            Compra.Conexion = Conexion;
-            
-            return PartialView("ModalPago", Compra);
-        }
-        #endregion
-        #region Cobro
-        [HttpPost]
-        public ActionResult ModalCobro(string idDocCobrar)
-        {
-            Compra = new CompraModels();
-            CompraDatos = new _Compra_Datos();
-            Compra.Ganado.id_Ganados = idDocCobrar;
-            Compra.Conexion = Conexion;
-
-            return PartialView("ModalCobro", Compra);
-        }
-        #endregion
-        #endregion
     }
 }
