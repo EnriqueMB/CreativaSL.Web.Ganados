@@ -36,11 +36,8 @@
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-                                                                                                                                        <div id="validation_summary" class="field_error"></div> //JS
-
-                            <div class="col-md-12">
-                              
-                                <div class="form-group">
+                              <div class="col-md-12">
+                                 <div class="form-group">
                                     <div class="col-md-12">
                                         <label>Desde :</label>
                                         <div class="input-group date">
