@@ -66,8 +66,7 @@
                             </div>
                         }
                     </div>
-
-                    <div class="panel-body">
+                     <div class="panel-body">
                                         <div class="table-responsive">
                                             <table class="table">
                                                  <thead>
@@ -90,7 +89,6 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <th colspan="2" class="text-center">REPORTE DE SALIDAS</th>
-
                                                                     </tr>
                                                                 </thead>
                                                             </table>
@@ -100,8 +98,7 @@
                                                          <th  colspan="13">@Model.Descripcion</th> 
                                                      </tr>
                                                      <tr>
-
-                                                         @foreach (DataColumn column in Model.TablaDatos.Columns)
+                                                          @foreach (DataColumn column in Model.TablaDatos.Columns)
                                                          {
                                                             <th>@column.ColumnName</th>
                                                          }
@@ -110,7 +107,6 @@
                                                 <tbody>
                                                         @{ 
                                                             decimal suma = 0,sumatotal=0;
-
                                                             foreach (DataRow datos in Model.TablaDatos.Rows)
                                                             {
                                                                 suma = 0;
@@ -130,25 +126,23 @@
                                                                         <td>@Convert.ToDecimal(datos[column.ColumnName].ToString()).ToString("C2")</td>
                                                                         
                                                                     }
-
                                                                 }
                                                             </tr>
                                                                 }
                                                             <tr>
-                                                                
-                                                                    @foreach (DataColumn dc in Model.TablaDatos.Columns)
+                                                                 @foreach (DataColumn dc in Model.TablaDatos.Columns)
                                                                     {
                                                                         suma = 0;
                                                                         foreach (DataRow datos in Model.TablaDatos.Rows)
                                                                         {
-                                                                            //comprueba que la columna sea fecha para no leer columna de fechas y pintar sobre la 2da columna
+                                                                            //comprueba que la columna de 'dc' sea fecha para salir del foreach 'datos' 
                                                                             if (dc.ColumnName.ToString() == "Fecha")
                                                                             {
                                                                                 break;
                                                                             }
                                                                             else
                                                                             {
-                                                                                //comprueba que valor de celda de tabla 'datos' sea vacio para sumar 0
+                                                                                //comprueba que valor de la fila con la columna de tabla 'datos' sea vacio para sumar valores
                                                                                 if (string.IsNullOrEmpty(datos[dc.ColumnName].ToString()))
                                                                                 {
                                                                                     suma = suma + 0;
@@ -157,9 +151,7 @@
                                                                                 {
                                                                                     suma = suma + Convert.ToDecimal(datos[dc.ColumnName].ToString());
                                                                                 }
-
                                                                             }
-
                                                                         }
                                                                         if (dc.ColumnName.ToString() == "Fecha")
                                                                         {
@@ -170,66 +162,14 @@
                                                                             <td><h4>@suma.ToString("C2")</h4></td>
                                                                             sumatotal+= suma;
                                                                         }
-
                                                                     }
-
-                                                                
                                                             </tr>
                                                            <tr>
                                                                <td colspan="7"><h3>Total</h3></td>
                                                                <td colspan="6" class="text-right"><h3>@sumatotal.ToString("C2")</h3></td>
                                                            </tr>
                                                             }
-
-                                                   </tbody>
-                                                                                                    @*<tr>
-                <th>Fecha</th>
-                <th>1</th>
-                <th>2</th>
-                <th>3</th>
-                <th>4</th>
-                <th>5</th>
-                <th>6</th>
-                <th>7</th>
-                <th>8</th>
-                <th>9</th>
-                <th>10</th>
-                <th>11</th>
-                <th>12</th>
-            </tr>
-        </thead>
-
-
-            @{
-                 <tbody>
-                DateTime fecha = DateTime.Now;
-                int i = 0;
-
-                foreach (var item in Model.listaSalidas)
-                {
-                 if (fecha != item.fecha)
-                    {
-                         <tr>
-                            <td>@item.fecha.ToShortDateString()</td>
-
-                            @for (i = 1; i < 13; i++)
-                            {
-                                 if (Model.listaSalidas.Exists(x => x.concepto == i && x.fecha==item.fecha))
-                                {
-                                    <td>@Model.listaSalidas.Find(x => x.concepto == i && x.fecha == item.fecha ).subtotal.ToString("#.##") </td>
-                                }
-                                else
-                                {
-                                    <td>0</td>
-                                }
-                            }
-
-                        </tr>
-                        fecha = item.fecha;
-                }
-            }
-            }
-         </tbody>*@
+                                                   </tbody>                                     
                                             </table>
                                         </div>
                     </div>
@@ -257,8 +197,8 @@
         </div>
     </div>
     <script>
-    var message = '@message';
-                                                                        var typemessage = '@typemessage';
+        var message = '@message';
+        var typemessage = '@typemessage';
     </script>
 }
 @section script
@@ -278,18 +218,10 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/RptProveedorMunicipio.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
-
-
-
-
-
-
     <script>
     jQuery(document).ready(function () {
     Mensaje(message, typemessage);
     RptProveedorMunicipio.init();
-
-
         });
     </script>
 }
