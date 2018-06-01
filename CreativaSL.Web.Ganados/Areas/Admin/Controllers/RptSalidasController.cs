@@ -21,7 +21,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 reporte.conexion = Conexion;
                 reporte.DatosEmpresa = reporteDatos.ObtenerDatosEmpresaTipo1(reporte);
 
-                reporte.listaSalidas = reporteDatos.obtenerListaProveedoresFecha(reporte); 
+                reporte.listaSalidas = reporteDatos.obtenerListaProveedoresFecha(reporte);
+                reporte = reporteDatos.obtenerListaProveedoresFecha2(reporte);
                 return View(reporte);
             }
             catch (Exception ex)
@@ -45,6 +46,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                
                 reporte.DatosEmpresa = reporteDatos.ObtenerDatosEmpresaTipo1(reporte);
                 reporte.listaSalidas = reporteDatos.obtenerListaProveedoresFecha(reporte);
+                reporte = reporteDatos.obtenerListaProveedoresFecha2(reporte);
 
                 return View(reporte);
             }
