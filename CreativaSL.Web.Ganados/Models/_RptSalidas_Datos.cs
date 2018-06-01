@@ -2,6 +2,7 @@
 using Microsoft.ApplicationBlocks.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -41,6 +42,39 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public RptSalidasModels obtenerListaProveedoresFecha2(RptSalidasModels Datos)
+        {
+            try
+            {
+                DataSet ds = null;
+                ds = SqlHelper.ExecuteDataset(Datos.conexion, "spCSLDB_Reporte_get_SalidasDocXpagar2", Datos.fechaInicio, Datos.fechaFin);
+                if (ds != null)
+                {
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0] != null)
+                        {
+                            Datos.TablaDatos = ds.Tables[0];
+
+                            DataTableReader tabla = ds.Tables[1].CreateDataReader();
+                            while (tabla.Read())
+                            {
+                                Datos.Descripcion= !tabla.IsDBNull(tabla.GetOrdinal("tipoclasificacion")) ? tabla.GetString(tabla.GetOrdinal("tipoclasificacion")) : string.Empty;
+                                break;
+                            }
+                        }
+                      
+                    }
+                }
+                return Datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public DatosEmpresaViewModels ObtenerDatosEmpresaTipo1(RptSalidasModels Datos)
         {
             try

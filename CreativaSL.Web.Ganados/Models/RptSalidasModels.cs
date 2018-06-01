@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -17,6 +18,7 @@ namespace CreativaSL.Web.Ganados.Models
             _fecha = DateTime.Now;
             _subtotal = 0;
             _concepto = 0;
+            _Descripcion = string.Empty;
             //Datos de control
             activo = false;
             user = string.Empty;
@@ -24,7 +26,16 @@ namespace CreativaSL.Web.Ganados.Models
             Completado = false;
             opcion = 0;
             resultado = string.Empty;
+            _TablaDatos = new DataTable();
         }
+        private string _Descripcion;
+
+        public string Descripcion
+        {
+            get { return _Descripcion; }
+            set { _Descripcion = value; }
+        }
+
         private List<RptSalidasModels> _listaSalidas;
 
         public List<RptSalidasModels> listaSalidas
@@ -76,6 +87,17 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _DatosEmpresa; }
             set { _DatosEmpresa = value; }
         }
+
+        private DataTable _TablaDatos;
+
+        public DataTable TablaDatos
+        {
+            get { return _TablaDatos; }
+            set { _TablaDatos = value; }
+        }
+
+
+
         #region Datos de control
         public bool activo { get; set; }
         public string user { get; set; }
