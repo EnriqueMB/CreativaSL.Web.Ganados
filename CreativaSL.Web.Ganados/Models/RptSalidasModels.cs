@@ -18,6 +18,7 @@ namespace CreativaSL.Web.Ganados.Models
             _fecha = DateTime.Now;
             _subtotal = 0;
             _concepto = 0;
+            _Descripcion = string.Empty;
             //Datos de control
             activo = false;
             user = string.Empty;
@@ -27,6 +28,14 @@ namespace CreativaSL.Web.Ganados.Models
             resultado = string.Empty;
             _TablaDatos = new DataTable();
         }
+        private string _Descripcion;
+
+        public string Descripcion
+        {
+            get { return _Descripcion; }
+            set { _Descripcion = value; }
+        }
+
         private List<RptSalidasModels> _listaSalidas;
 
         public List<RptSalidasModels> listaSalidas

@@ -56,7 +56,15 @@ namespace CreativaSL.Web.Ganados.Models
                         if (ds.Tables[0] != null)
                         {
                             Datos.TablaDatos = ds.Tables[0];
+
+                            DataTableReader tabla = ds.Tables[1].CreateDataReader();
+                            while (tabla.Read())
+                            {
+                                Datos.Descripcion= !tabla.IsDBNull(tabla.GetOrdinal("tipoclasificacion")) ? tabla.GetString(tabla.GetOrdinal("tipoclasificacion")) : string.Empty;
+                                break;
+                            }
                         }
+                      
                     }
                 }
                 return Datos;
