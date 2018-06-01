@@ -141,13 +141,16 @@
                                                                         suma = 0;
                                                                         foreach (DataRow datos in Model.TablaDatos.Rows)
                                                                         {
+                                                                            //comprueba que la columna sea fecha para no leer columna de fechas y pintar sobre la 2da columna
                                                                             if (dc.ColumnName.ToString() == "Fecha")
                                                                             {
-
+                                                                                break;
                                                                             }
                                                                             else
                                                                             {
-                                                                                if (string.IsNullOrEmpty(datos[dc.ColumnName].ToString())) {
+                                                                                //comprueba que valor de celda de tabla 'datos' sea vacio para sumar 0
+                                                                                if (string.IsNullOrEmpty(datos[dc.ColumnName].ToString()))
+                                                                                {
                                                                                     suma = suma + 0;
                                                                                 }
                                                                                 else
