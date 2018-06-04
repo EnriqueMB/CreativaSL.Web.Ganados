@@ -225,6 +225,40 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         #endregion
 
+        #region Del comprobante
+        #region Del comprobante compra
+        public ActionResult DelComprobante(DocumentosPorCobrarDetallePagosModels DocumentoPorCobrarPago)
+        {
+            try
+            {
+                _DocumentoXCobrar_Datos DocCobrarDatos = new _DocumentoXCobrar_Datos();
+                DocumentoPorCobrarPago.Usuario = User.Identity.Name;
+                DocumentoPorCobrarPago.Conexion = Conexion;
+                DocumentoPorCobrarPago.RespuestaAjax = new RespuestaAjax();
+                DocumentoPorCobrarPago = DocCobrarDatos.DEL_ComprobanteCompra(DocumentoPorCobrarPago);
+
+                if(DocumentoPorCobrarPago.RespuestaAjax.Success)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = DocumentoPorCobrarPago.RespuestaAjax.Mensaje;
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = DocumentoPorCobrarPago.RespuestaAjax.Mensaje;
+                }
+
+                return Content(DocumentoPorCobrarPago.RespuestaAjax.ToJSON(), "application/json");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        #endregion
+        #endregion
+
+
         #region Guardar Comprobante compra
         [HttpPost]
         public ActionResult GuardarComprobante(DocumentosPorCobrarDetallePagosModels DocumentoPorCobrarPago)

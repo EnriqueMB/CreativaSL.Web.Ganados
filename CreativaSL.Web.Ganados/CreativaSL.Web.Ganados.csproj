@@ -1056,7 +1056,6 @@
     <Content Include="Areas\Admin\Views\CatAlmacen\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatAlmacen\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatAlmacen\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Compra\ModalCobro.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Index.cshtml" />

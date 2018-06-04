@@ -20,6 +20,13 @@ namespace CreativaSL.Web.Ganados.Models
         public bool Completado { get; set; }
         public RespuestaAjax RespuestaAjax { get; set; }
         #endregion
+        /*Inicio Para los detalles*/
+        public string NombreEmpresa { get; set; }
+        public string DireccionEmpresa { get; set; }
+        public string RFCEmpresa { get; set; }
+        public string UPP { get; set; }
+        public string LineaFletera { get; set; }
+        /*Fin Para los detalles*/
         public bool CobrarFlete { get; set; }
         public RecepcionOrigenModels RecepcionOrigen { get; set; }
         public List<CatRangoPesoCompraModels> ListaRangoPeso { get; set; }

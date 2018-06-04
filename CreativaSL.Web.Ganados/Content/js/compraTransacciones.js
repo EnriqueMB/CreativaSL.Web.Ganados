@@ -249,7 +249,7 @@
 
                         return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
                             "<a data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='btn btn-yellow tooltips btn-sm editCobro' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
-                            "<a data-hrefa='/Admin/DocumentoXCobrar/DEL_DocumentoDetalleCompra/' title='Eliminar' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='btn btn-danger tooltips btn-sm deleteDocumento' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "<a data-hrefa='/Admin/DocumentoXCobrar/DelComprobante/' title='Eliminar' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='btn btn-danger tooltips btn-sm delComprobante' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                             "<div class='btn-group'>" +
@@ -263,7 +263,7 @@
                             "</a>" +
                             "</li>" +
                             "<li>" +
-                            "<a data-hrefa='/Admin/DocumentoXCobrar/DEL_DocumentoDetalleCompra/' class='deleteDocumento' role='menuitem' tabindex='-1' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "'>" +
+                            "<a data-hrefa='/Admin/DocumentoXCobrar/DelComprobante/' class='delComprobante' role='menuitem' tabindex='-1' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "'>" +
                             "<i class='fa fa-trash-o'></i> Eliminar" +
                             "</a>" +
                             "</li>" +
@@ -278,24 +278,24 @@
                     var Id_documentoPorCobrarDetalle = $(this).data("id");
                     window.location.href = '/Admin/DocumentoXCobrar/EditComprobante?Id_documentoPorCobrarDetallePagos=' + Id_documentoPorCobrarDetalle + '&TipoServicio=' + TipoServicio + '&Id_documentoPorCobrar=' + Id_documentoPorCobrar;
                 });
-                $(".deleteDocumento").on("click", function () {
+                $(".delComprobante").on("click", function () {
                     var url = $(this).attr('data-hrefa');
-                    var row = $(this).attr('data-id');
-                    var box = $("#mb-deleteDocumento");
+                    var id_pago = $(this).attr('data-id');
+                    var box = $("#mb-delComprobante");
                     box.addClass("open");
                     box.find(".mb-control-yes").on("click", function () {
                         box.removeClass("open");
                         $.ajax({
                             url: url,
-                            data: { IDDocumento: row },
+                            data: { Id_documentoPorCobrarDetallePagos: id_pago, Id_documentoPorCobrar: Id_documentoPorCobrar },
                             type: 'POST',
                             dataType: 'json',
                             success: function (result) {
                                 if (result.Success) {
                                     box.find(".mb-control-yes").prop('onclick', null).off('click');
-                                    Mensaje("Documento eliminado con éxito.", "1");
-                                    $("#ModalDocumento").modal('hide');
-                                    tableDocumentos.ajax.reload();
+                                    Mensaje(result.Mensaje, "1");
+                                    $("#Modal").modal('hide');
+                                    tbl_documentosPorCobrarDetallesPagos.ajax.reload();
                                 }
                                 else
                                     Mensaje(result.Mensaje, "2");
@@ -356,7 +356,7 @@
 
                         return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
                             "<a data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='btn btn-yellow tooltips btn-sm editCobroFlete' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
-                            "<a data-hrefa='/Admin/DocumentoXCobrar/DEL_DocumentoDetalleCompra/' title='Eliminar' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='btn btn-danger tooltips btn-sm deleteDocumento' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "<a data-hrefa='/Admin/DocumentoXCobrar/DelComprobante/' title='Eliminar' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='btn btn-danger tooltips btn-sm delComprobanteFlete' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                             "<div class='btn-group'>" +
@@ -370,7 +370,7 @@
                             "</a>" +
                             "</li>" +
                             "<li>" +
-                            "<a data-hrefa='/Admin/DocumentoXCobrar/DEL_DocumentoDetalleCompra/' class='deleteDocumento' role='menuitem' tabindex='-1' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "'>" +
+                            "<a data-hrefa='/Admin/DocumentoXCobrar/DelComprobante/' class='delComprobanteFlete' role='menuitem' tabindex='-1' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "'>" +
                             "<i class='fa fa-trash-o'></i> Eliminar" +
                             "</a>" +
                             "</li>" +
@@ -385,24 +385,27 @@
                     var Id_documentoPorCobrar = $(this).data("id");
                     window.location.href = '/Admin/DocumentoXCobrar/EditComprobante?Id_documentoPorCobrarDetallePagos=' + Id_documentoPorCobrar + '&TipoServicio=' + TipoServicioFlete + '&Id_documentoPorCobrar=' + Id_documentoPorCobrarFlete;
                 });
-                $(".deleteDocumento").on("click", function () {
+                $(".delComprobanteFlete").on("click", function () {
                     var url = $(this).attr('data-hrefa');
-                    var row = $(this).attr('data-id');
-                    var box = $("#mb-deleteDocumento");
+                    var id_pago = $(this).attr('data-id');
+                    var box = $("#mb-delComprobante");
+                    console.log(url);
+                    console.log(id_pago);
+                    console.log(box);
                     box.addClass("open");
                     box.find(".mb-control-yes").on("click", function () {
                         box.removeClass("open");
                         $.ajax({
                             url: url,
-                            data: { IDDocumento: row },
+                            data: { Id_documentoPorCobrarDetallePagos: id_pago, Id_documentoPorCobrar: Id_documentoPorCobrarFlete },
                             type: 'POST',
                             dataType: 'json',
                             success: function (result) {
                                 if (result.Success) {
                                     box.find(".mb-control-yes").prop('onclick', null).off('click');
-                                    Mensaje("Documento eliminado con éxito.", "1");
-                                    $("#ModalDocumento").modal('hide');
-                                    tableDocumentos.ajax.reload();
+                                    Mensaje(result.Mensaje, "1");
+                                    $("#Modal").modal('hide');
+                                    location.reload();
                                 }
                                 else
                                     Mensaje(result.Mensaje, "2");
