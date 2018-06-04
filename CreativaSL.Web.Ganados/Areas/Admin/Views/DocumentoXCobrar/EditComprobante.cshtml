@@ -52,6 +52,7 @@
                             @Html.HiddenFor(model => model.Bancarizado)
                             @Html.HiddenFor(model => model.Id_documentoPorCobrarDetallePagos)
                             @Html.HiddenFor(model => model.Id_documentoPorCobrarDetallePagosBancarizado)
+                            @Html.HiddenFor(model => model.Id_compra)
 
                             <div class="form-group">
                                 <div class="col-md-6">
@@ -90,7 +91,7 @@
                                                         <option value="@documentos.Id" data-nombre="@documentos.Nombre"
                                                                 @if (Model.Id_documentoPorCobrar == documentos.Id) { <text>
                                                                 selected="selected"
-                                                                </text>      }>
+                                                                </text> }>
                                                             @documentos.Descripcion
                                                         </option>
                                                     }
@@ -113,13 +114,54 @@
                                                         <option value="@formaPago.Clave" data-bancarizado="@formaPago.Bancarizado"
                                                                 @if (Model.Id_formaPago == formaPago.Clave) { <text>
                                                                 selected="selected"
-                                                                </text>     }>
+                                                                </text> }>
                                                             @formaPago.Descripcion
                                                         </option>
                                                     }
                                                 </select>
                                             </div>
                                             <span class="help-block">Forma de pago.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-6 controlError">
+                                    <label class="col-md-2 control-label">Monto:</label>
+                                    <div class="controls">
+                                        <div class="col-md-10 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.Monto, new { @class = "form-control", type = "number" })
+                                            </div>
+                                            <span class="help-block">Monto o cantidad.</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 controlError">
+                                    <label class="col-md-2 control-label">Fecha de pago:</label>
+                                    <div class="controls">
+                                        <div class="col-md-10 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.fecha, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker", @readonly = "readonly" })
+                                            </div>
+                                            <span class="help-block">Fecha de pago.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label class="col-md-1 control-label">Nota</label>
+                                    <div class="controls">
+                                        <div class="col-md-11 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextAreaFor(model => model.Observacion, new { @class = "form-control" })
+                                            </div>
+                                            <span class="help-block">Nota u observación.</span>
                                         </div>
                                     </div>
                                 </div>
@@ -147,7 +189,7 @@
                                                                             data-idbanco="@cuentaBancaria.Banco.IDBanco"
                                                                             @if (Model.Id_cuentaBancariaBeneficiante == cuentaBancaria.IDDatosBancarios) { <text>
                                                                             selected="selected"
-                                                                            </text>      }>
+                                                                            </text> }>
                                                                         @cuentaBancaria.Titular
                                                                     </option>
                                                                 }
@@ -233,7 +275,7 @@
                                                                             data-idbanco="@cuentaBancaria.Banco.IDBanco"
                                                                             @if (Model.Id_cuentaBancariaOrdenante == cuentaBancaria.IDDatosBancarios) { <text>
                                                                             selected="selected"
-                                                                            </text>       }>
+                                                                            </text> }>
                                                                         @cuentaBancaria.Titular
                                                                     </option>
                                                                 }
@@ -305,7 +347,7 @@
                                         <div class="col-md-11 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-camera"></span></span>
-                                                @Html.TextBoxFor(model => model.HttpImagen, new { id = "HttpImagen", name = "HttpImagen[]", @type = "file", @class = "file form-control", data_show_upload = "false", data_show_caption = "true" })
+                                                @Html.TextBoxFor(model => model.HttpImagen, new { id = "HttpImagen", name = "HttpImagen[]", @type = "file", @class = "form-control", data_show_upload = "false", data_show_caption = "true", @data_imgbd = "" })
                                             </div>
                                             @Html.ValidationMessageFor(model => model.HttpImagen)
                                             <span class="help-block">Ingrese por lo menos 1 imagen.</span>
@@ -340,55 +382,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="col-md-6 controlError">
-                                    <label class="col-md-2 control-label">Monto:</label>
-                                    <div class="controls">
-                                        <div class="col-md-10 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.Monto, new { @class = "form-control", type = "number" })
-                                            </div>
-                                            <span class="help-block">Monto o cantidad.</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 controlError">
-                                    <label class="col-md-2 control-label">Fecha de pago:</label>
-                                    <div class="controls">
-                                        <div class="col-md-10 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.fecha, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker", @readonly = "readonly" })
-                                            </div>
-                                            <span class="help-block">Fecha de pago.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <label class="col-md-1 control-label">Nota</label>
-                                    <div class="controls">
-                                        <div class="col-md-11 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextAreaFor(model => model.Observacion, new { @class = "form-control" })
-                                            </div>
-                                            <span class="help-block">Nota u observación.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
 
                         </div>
                         <div class="panel-footer">
                             <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
-                            @if (Model.TipoServicio == 1)
+                            @if (Model.TipoServicio == 1 || Model.TipoServicio == 2)
                             {
-                                <a href="@Url.Action("Transacciones", "Compra", new { IDCompra = Model.Id_compra })" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                                <a id="regresar" href="@Url.Action("Transacciones", "Compra", new { IDCompra = Model.Id_compra })" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                             }
                         </div>
                     </div>

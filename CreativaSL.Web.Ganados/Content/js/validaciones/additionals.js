@@ -77,10 +77,31 @@ $.validator.addMethod("formatoPNG", function (value, element, params) {
     }
 }, 'Solo archivos con formato PNG.');
 
+$.validator.addMethod("ImagenRequerida", function (value, element, params) {
+    //Bandera que me indica si hay o no imagen en el servidor
+    var imgBD = element.dataset.imgbd;
+    console.log(imgBD);
+    //Hay imagen en el servidor?
+    if (imgBD == "1") {
+        console.log("Entro en if");
+        return true;
+    }
+    else {
+        //Hay un elemento en el file input?
+        console.log(element);
+        console.log(element.length);
+        if (element.value.length == 0 || element === undefined) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+}, 'Debe seleccionar una imagen.');
 $.validator.addMethod("validarImgEdit", function (value, element, params) {
     //Bandera que me indica si hay o no imagen en el servidor
     var imgBD = element.dataset.imgbd;
-
     //Hay imagen en el servidor?
     if (imgBD) {
         return true;

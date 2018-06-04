@@ -158,8 +158,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 DocumentoPorCobrarPago.Usuario = User.Identity.Name;
                 DocumentoPorCobrarPago.Conexion = Conexion;
                 DocumentoPorCobrarPago.ListaAsignar = DocCobrarDatos.GetListadoAsignarPagos(DocumentoPorCobrarPago);
-
-                if (DocumentoPorCobrarPago.TipoServicio == 1)
+                //es para el boton de regresar 1 es compra, 2 es flete de la compra
+                if (DocumentoPorCobrarPago.TipoServicio == 1 || DocumentoPorCobrarPago.TipoServicio == 2)
                     DocumentoPorCobrarPago.Id_compra = DocumentoPorCobrarPago.ListaAsignar[0].Id_2;
 
                 DocumentoPorCobrarPago.ListaFormaPagos = DocCobrarDatos.GetListadoCFDIFormaPago(DocumentoPorCobrarPago);
@@ -194,8 +194,20 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 DocumentoPorCobrarPago.ListaAsignar = DocCobrarDatos.GetListadoAsignarPagos(DocumentoPorCobrarPago);
 
-                if (DocumentoPorCobrarPago.TipoServicio == 1)
+                if (DocumentoPorCobrarPago.TipoServicio == 1 || DocumentoPorCobrarPago.TipoServicio == 2)
                     DocumentoPorCobrarPago.Id_compra = DocumentoPorCobrarPago.ListaAsignar[0].Id_2;
+
+                
+                if (string.IsNullOrEmpty(DocumentoPorCobrarPago.ImagenBase64))
+                {
+                    DocumentoPorCobrarPago.ImagenMostrar = Auxiliar.SetDefaultImage();
+                }
+                else
+                {
+                    DocumentoPorCobrarPago.ImagenMostrar = DocumentoPorCobrarPago.ImagenBase64;
+                }
+                DocumentoPorCobrarPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(DocumentoPorCobrarPago.ImagenBase64);
+                
 
                 DocumentoPorCobrarPago.ListaFormaPagos = DocCobrarDatos.GetListadoCFDIFormaPago(DocumentoPorCobrarPago);
                 DocumentoPorCobrarPago = DocCobrarDatos.GetNombreEmpresaProveedorCliente(DocumentoPorCobrarPago);
@@ -213,7 +225,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         #endregion
 
-
         #region Guardar Comprobante compra
         [HttpPost]
         public ActionResult GuardarComprobante(DocumentosPorCobrarDetallePagosModels DocumentoPorCobrarPago)
@@ -224,8 +235,26 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 DocumentoPorCobrarPago.Usuario = User.Identity.Name;
                 DocumentoPorCobrarPago.Conexion = Conexion;
                 DocumentoPorCobrarPago.RespuestaAjax = new RespuestaAjax();
+                if (DocumentoPorCobrarPago.Bancarizado)
+                {
+                    if(DocumentoPorCobrarPago.HttpImagen == null)
+                    {
+                        DocumentoPorCobrarPago.ImagenBase64 = DocumentoPorCobrarPago.ImagenMostrar;
+                    }
+                    else
+                    {
+                        DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorCobrarPago.HttpImagen);
+                    }
+                }
                 DocumentoPorCobrarPago = DocCobrarDatos.AC_ComprobanteCompra(DocumentoPorCobrarPago);
 
+                if (DocumentoPorCobrarPago.RespuestaAjax.Success)
+                {
+                    if(DocumentoPorCobrarPago.TipoServicio == 1 || DocumentoPorCobrarPago.TipoServicio == 2) {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Datos guardados correctamente.";
+                    }
+                }
                 return Content(DocumentoPorCobrarPago.RespuestaAjax.ToJSON(), "application/json");
             }
             catch

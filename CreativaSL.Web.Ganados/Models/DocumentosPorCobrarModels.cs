@@ -20,5 +20,7 @@ namespace CreativaSL.Web.Ganados.Models
 
         public string Conexion { get; set; }
         public string Usuario { get; set; }
+
+        public DocumentosPorCobrarModels DocumentoPorCobraFlete;
     }
 }

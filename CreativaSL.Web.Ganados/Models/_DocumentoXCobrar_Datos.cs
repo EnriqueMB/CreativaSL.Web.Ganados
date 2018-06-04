@@ -15,7 +15,6 @@ namespace CreativaSL.Web.Ganados.Models
         {
             object[] parametros =
             {
-                1,
                 Documento.Id_documentoCobrar
             };
 
@@ -36,7 +35,6 @@ namespace CreativaSL.Web.Ganados.Models
         {
             object[] parametros =
             {
-                Documento.TipoServicio,
                 Documento.Id_documentoPorCobrar
             };
 
@@ -356,17 +354,6 @@ namespace CreativaSL.Web.Ganados.Models
                     DocumentoPago.NumCuentaBeneficiante = !dr.IsDBNull(dr.GetOrdinal("numCuentaBeneficiante")) ? dr.GetString(dr.GetOrdinal("numCuentaBeneficiante")) : string.Empty;
                     DocumentoPago.Bancarizado = !dr.IsDBNull(dr.GetOrdinal("bancarizado")) ? dr.GetBoolean(dr.GetOrdinal("bancarizado")) : false;
                     DocumentoPago.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
-
-                    if (string.IsNullOrEmpty(DocumentoPago.ImagenBase64))
-                    {
-                        DocumentoPago.ImagenMostrar = Auxiliar.SetDefaultImage();
-                    }
-                    else
-                    {
-                        DocumentoPago.ImagenMostrar = DocumentoPago.ImagenBase64;
-                    }
-                    DocumentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(DocumentoPago.ImagenBase64);
-
                 }
                 return DocumentoPago;
             }
@@ -393,7 +380,8 @@ namespace CreativaSL.Web.Ganados.Models
                     DocumentosPorCobrarModels.NumeroAutorizacion,                   DocumentosPorCobrarModels.NumCuentaOrdenante,
                     DocumentosPorCobrarModels.NombreBancoBeneficiante,              DocumentosPorCobrarModels.NumCuentaBeneficiante,
                     DocumentosPorCobrarModels.FolioIFE,                             DocumentosPorCobrarModels.Usuario,
-                    DocumentosPorCobrarModels.Bancarizado
+                    DocumentosPorCobrarModels.Bancarizado,                          DocumentosPorCobrarModels.RfcEmisorOrdenante,
+                    DocumentosPorCobrarModels.RfcEmisorBeneficiario,                DocumentosPorCobrarModels.ImagenBase64
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(DocumentosPorCobrarModels.Conexion, "spCSLDB_DocumentoPorCobrar_AC_DetallesPago", parametros);
