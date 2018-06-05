@@ -13,6 +13,16 @@
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
     <!--CSS GENERAL-->
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
+    <style>
+         td.details-control {
+            background: url("@Url.Content("~/Content/img/details_open.png")") no-repeat center center;
+            cursor: pointer;
+        }
+
+        tr.shown td.details-control {
+            background: url("@Url.Content("~/Content/img/details_close.png")") no-repeat center center;
+        }
+    </style>
 }
 @section featured
 {
@@ -137,9 +147,11 @@
                                                         <table id="tbl_articulosServiciosCobro" class="table">
                                                             <thead>
                                                                 <tr>
+                                                                    <th></th>
                                                                     <th>Tipo de cobro</th>
                                                                     <th>Cantidad</th>
                                                                     <th>Precio unitario</th>
+                                                                    <th>Impuesto</th>
                                                                     <th>Subtotal</th>
                                                                     <th>Acción</th>
                                                                 </tr>
@@ -272,9 +284,11 @@
                                                         <table id="tbl_articulosServiciosCobroFlete" class="table">
                                                             <thead>
                                                                 <tr>
+                                                                    <th></th>
                                                                     <th>Tipo de cobro</th>
                                                                     <th>Cantidad</th>
                                                                     <th>Precio unitario</th>
+                                                                    <th>Impuesto</th>
                                                                     <th>Subtotal</th>
                                                                     <th>Acción</th>
                                                                 </tr>

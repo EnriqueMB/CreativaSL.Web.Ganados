@@ -197,7 +197,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 if (DocumentoPorCobrarPago.TipoServicio == 1 || DocumentoPorCobrarPago.TipoServicio == 2)
                     DocumentoPorCobrarPago.Id_compra = DocumentoPorCobrarPago.ListaAsignar[0].Id_2;
 
-                
+
                 if (string.IsNullOrEmpty(DocumentoPorCobrarPago.ImagenBase64))
                 {
                     DocumentoPorCobrarPago.ImagenMostrar = Auxiliar.SetDefaultImage();
@@ -207,7 +207,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     DocumentoPorCobrarPago.ImagenMostrar = DocumentoPorCobrarPago.ImagenBase64;
                 }
                 DocumentoPorCobrarPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(DocumentoPorCobrarPago.ImagenBase64);
-                
+
 
                 DocumentoPorCobrarPago.ListaFormaPagos = DocCobrarDatos.GetListadoCFDIFormaPago(DocumentoPorCobrarPago);
                 DocumentoPorCobrarPago = DocCobrarDatos.GetNombreEmpresaProveedorCliente(DocumentoPorCobrarPago);
@@ -237,7 +237,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 DocumentoPorCobrarPago.RespuestaAjax = new RespuestaAjax();
                 DocumentoPorCobrarPago = DocCobrarDatos.DEL_ComprobanteCompra(DocumentoPorCobrarPago);
 
-                if(DocumentoPorCobrarPago.RespuestaAjax.Success)
+                if (DocumentoPorCobrarPago.RespuestaAjax.Success)
                 {
                     TempData["typemessage"] = "1";
                     TempData["message"] = DocumentoPorCobrarPago.RespuestaAjax.Mensaje;
@@ -258,6 +258,32 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
         #endregion
 
+        #region Modal impuesto
+        #region compra
+        public ActionResult ModalImpuestosCompra(string IDDetalleDoctoCobrar)
+        {
+            DocumentosPorCobrarDetalleImpuestoModels Impuesto = new DocumentosPorCobrarDetalleImpuestoModels();
+            _DocumentoXCobrar_Datos DocumentoPorCobrarDatos = new _DocumentoXCobrar_Datos();
+
+            Impuesto.Id_detalleDoctoCobrar = IDDetalleDoctoCobrar;
+            Impuesto.Conexion = Conexion;
+
+            //FleteImpuesto = FleteImpuestoDatos.GetFleteImpuestoXIDFleteImpuesto(FleteImpuesto);
+            //FleteImpuesto.ListaImpuesto = FleteImpuestoDatos.GetListadoImpuesto(FleteImpuesto);
+            //FleteImpuesto.ListaTipoImpuesto = FleteImpuestoDatos.GetListadoTipoImpuesto(FleteImpuesto);
+            //FleteImpuesto.ListaTipoFactor = FleteImpuestoDatos.GetListadoTipoFactor(FleteImpuesto);
+
+            Impuesto.ListaImpuesto = DocumentoPorCobrarDatos.GetListadoImpuesto(Impuesto);
+            Impuesto = FleteImpuestoDatos.GetFleteImpuestoXIDFleteImpuesto(FleteImpuesto);
+
+            Impuesto = DocumentoPorCobrarDatos.GetEventoXIDEvento(Evento);
+            Impuesto.ListaEventos = CompraDatos.GetListaTiposEventos(Evento);
+
+
+            return PartialView("ModalImpuestoCompra", Impuesto);
+        }
+        #endregion
+        #endregion
 
         #region Guardar Comprobante compra
         [HttpPost]

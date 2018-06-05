@@ -448,6 +448,7 @@
     <Content Include="Content\js\compraTransacciones.js" />
     <Content Include="Content\js\CuentaProveedorAlmacen.js" />
     <Content Include="Content\js\documentoXCobrar.js" />
+    <Content Include="Content\js\documentoXCobrar_impuesto.js" />
     <Content Include="Content\js\EmpleadosSucursalFaltas.js" />
     <Content Include="Content\js\fleteRecepcion.js" />
     <Content Include="Content\js\ProveedorCombustible.js" />
@@ -1223,6 +1224,7 @@
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\AddComprobante.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Ganado.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\EditComprobante.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalImpuestoCompra.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

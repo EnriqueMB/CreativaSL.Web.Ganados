@@ -363,6 +363,66 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
+        #region Lista tipo de impuestos CFDI SAT
+        public List<CFDI_ImpuestoModels> GetListadoImpuesto(DocumentosPorCobrarDetalleImpuestoModels DocumentoImpuesto)
+        {
+
+            try
+            {
+                CFDI_ImpuestoModels Impuesto;
+                List<CFDI_ImpuestoModels> ListaImpuestos = new List<CFDI_ImpuestoModels>();
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(DocumentoImpuesto.Conexion, "spCSLDB_Combo_get_CFDIImpuesto");
+                while (dr.Read())
+                {
+                    Impuesto = new CFDI_ImpuestoModels
+                    {
+                        Clave = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetInt16(dr.GetOrdinal("ID")) : 0,
+                        Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty,
+                    };
+
+                    ListaImpuestos.Add(Impuesto);
+                }
+                return ListaImpuestos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region Generales del impuesto
+        public DocumentosPorCobrarDetalleImpuestoModels GetGeneralesImpuesto(DocumentosPorCobrarDetalleImpuestoModels Impuesto)
+        {
+            try
+            {
+                SqlDataReader dr = null;
+
+                object[] parametros =
+                {
+                    Impuesto.Id_detalleDoctoCobrar
+                };
+                dr = SqlHelper.ExecuteReader(Impuesto.Conexion, "spCSLDB_FleteImpuesto_get_FleteImpuestoXIDFleteImpuesto", parametros);
+                while (dr.Read())
+                {
+                    Impuesto.Impuesto.Clave = !dr.IsDBNull(dr.GetOrdinal("id_impuesto")) ? dr.GetInt16(dr.GetOrdinal("id_impuesto")) : 0;
+                    Impuesto.TipoFactor.Clave = !dr.IsDBNull(dr.GetOrdinal("id_tipoFactor")) ? dr.GetInt16(dr.GetOrdinal("id_tipoFactor")) : 0;
+                    Impuesto.TipoImpuesto.Clave = !dr.IsDBNull(dr.GetOrdinal("id_tipoImpuesto")) ? dr.GetInt16(dr.GetOrdinal("id_tipoImpuesto")) : 0;
+                    Impuesto.Base = !dr.IsDBNull(dr.GetOrdinal("base")) ? dr.GetDecimal(dr.GetOrdinal("base")) : 0;
+                    Impuesto.TasaCuota = !dr.IsDBNull(dr.GetOrdinal("tasaCuota")) ? dr.GetDecimal(dr.GetOrdinal("tasaCuota")) : 0;
+                    Impuesto.Importe = !dr.IsDBNull(dr.GetOrdinal("importe")) ? dr.GetDecimal(dr.GetOrdinal("importe")) : 0;
+                }
+                return Impuesto;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+
         #endregion
 
         #region AC_Comprobante Compra
@@ -425,6 +485,10 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
+        #endregion
+
+        #region MyRegion
+
         #endregion
     }
 }

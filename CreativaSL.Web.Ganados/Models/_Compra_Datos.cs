@@ -156,6 +156,74 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public SqlDataReader JsonDetallesGanadoMacho(CompraModels Compra)
+        {
+            try
+            {
+                object[] parametros =
+                    {
+                        Compra.IDCompra
+                    };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_DetallesGanadoMacho", parametros);
+                return dr;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public SqlDataReader JsonDetallesGanadoHembra(CompraModels Compra)
+        {
+            try
+            {
+                object[] parametros =
+                    {
+                        Compra.IDCompra
+                    };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_DetallesGanadoHembra", parametros);
+                return dr;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public SqlDataReader JsonDetallesDocXpagar(CompraModels Compra)
+        {
+            try
+            {
+                object[] parametros =
+                    {
+                        Compra.IDCompra
+                    };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_DetallesDocXpagar", parametros);
+                return dr;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public SqlDataReader JsonDetallesDocXcobrar(CompraModels Compra)
+        {
+            try
+            {
+                object[] parametros =
+                    {
+                        Compra.IDCompra
+                    };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_DetallesDocXcobrar", parametros);
+                return dr;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
 
         #endregion

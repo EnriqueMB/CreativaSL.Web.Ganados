@@ -15,6 +15,19 @@
 
     /*INICIA COBROS*/
     var Load_tbl_articulosServiciosCobro = function () {
+        function format(d) {
+            return '<table class="table" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                '<tr>' +
+                '<td>Impuesto retenido:</td>' +
+                '<td> $' + d.impuestos_retenidos.toFixed(2) + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>Impuesto trasladado:</td>' +
+                '<td> $' + d.impuestos_trasladados.toFixed(2) + '</td>' +
+                '</tr>' +
+                '</table>';
+        }
+
         tbl_articulosServiciosCobro = $('#tbl_articulosServiciosCobro').DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
@@ -30,10 +43,21 @@
                 "dataSrc": ''
             },
             "columns": [
+                {
+                    "class": "details-control",
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": "",
+                    "width": "5%"
+                },
                 { "data": "descripcion" },
                 { "data": "cantidad" },
                 {
                     "data": "precioUnitario",
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                },
+                {
+                    "data": "impuestos",
                     "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
                 },
                 {
@@ -43,9 +67,14 @@
                 {
                     "data": null,
                     "render": function (data, type, full) {
+                        var opcionSistema = "";
+                        if (full["esSistema"] != true) {
+                            opcionSistema = "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-yellow tooltips btn-sm editDocumento' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>";
+                        }
 
-                        return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-yellow tooltips btn-sm editDocumento' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                        var menu = "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                            "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-yellow tooltips btn-sm impuestos' title='Impuestos'  data-placement='top' data-original-title='Impuestos'><i class='fa fa-edit'></i></a>" +
+                            opcionSistema +
                             "<a data-hrefa='/Admin/DocumentoXCobrar/DEL_DocumentoDetalleCompra/' title='Eliminar' data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-danger tooltips btn-sm deleteDocumento' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
@@ -67,6 +96,7 @@
                             "</ul>" +
                             "</div>" +
                             "</div>";
+                        return menu;
                     }
                 }
             ],
@@ -106,8 +136,40 @@
                 });
             }
         });
+
+         // Add event listener for opening and closing details
+        $('#tbl_articulosServiciosCobro tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = tbl_articulosServiciosCobro.row(tr);
+
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+
+
     };
     var Load_tbl_articulosServiciosCobroFlete = function () {
+        function format(d) {
+            return '<table class="table" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                '<tr>' +
+                '<td>Impuesto retenido:</td>' +
+                '<td> $' + d.impuestos_retenidos.toFixed(2) + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>Impuesto trasladado:</td>' +
+                '<td> $' + d.impuestos_trasladados.toFixed(2) + '</td>' +
+                '</tr>' +
+                '</table>';
+        }
+
         tbl_articulosServiciosCobroFlete = $('#tbl_articulosServiciosCobroFlete').DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
@@ -123,10 +185,21 @@
                 "dataSrc": ''
             },
             "columns": [
+                {
+                    "class": "details-control",
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": "",
+                    "width": "5%"
+                },
                 { "data": "descripcion" },
                 { "data": "cantidad" },
                 {
                     "data": "precioUnitario",
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                },
+                {
+                    "data": "impuestos",
                     "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
                 },
                 {
@@ -136,9 +209,13 @@
                 {
                     "data": null,
                     "render": function (data, type, full) {
-
-                        return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-yellow tooltips btn-sm editDocumento' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                        var opcionSistema = "";
+                        if (full["esSistema"] != true) {
+                            opcionSistema = "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-yellow tooltips btn-sm editDocumento' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>";
+                        }
+                        var menu = "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                            "<a data-hrefa='' title='Impuestos' data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-green tooltips btn-sm impuestos' data-placement='top' data-original-title='Impuesto'><i class='glyphicon glyphicon-usd'></i></a>" +
+                            opcionSistema +
                             "<a data-hrefa='/Admin/DocumentoXCobrar/DEL_DocumentoDetalleCompra/' title='Eliminar' data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-danger tooltips btn-sm deleteDocumento' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
@@ -160,15 +237,21 @@
                             "</ul>" +
                             "</div>" +
                             "</div>";
+                    return menu;
                     }
                 }
             ],
             "drawCallback": function (settings) {
-                $(".editDocumento").on("click", function () {
-                    var IDDocumento = $(this).data("id");
-
-                    ModalDocumento(IDFlete, IDDocumento);
+                $(".impuestos").on("click", function () {
+                    var id_documentoXcobrarpago = $(this).data("id");
+                    ModalImpuesto(id_documentoXcobrarpago, 0);
                 });
+
+                $(".editDocumento").on("click", function () {
+                    
+                });
+                
+
                 $(".deleteDocumento").on("click", function () {
                     var url = $(this).attr('data-hrefa');
                     var row = $(this).attr('data-id');
@@ -199,8 +282,24 @@
                 });
             }
         });
-    };
 
+        // Add event listener for opening and closing details
+        $('#tbl_articulosServiciosCobroFlete tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = tbl_articulosServiciosCobroFlete.row(tr);
+
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+    };
 
     var Load_tbl_documentosPorCobrarDetallesPagos = function () {
         tbl_documentosPorCobrarDetallesPagos = $('#tbl_documentosPorCobrarDetallesPagos').DataTable({
@@ -434,6 +533,21 @@
         });
         $("#btnAddCobroComprobanteFlete").on("click", function () {
             window.location.href = '/Admin/DocumentoXCobrar/AddComprobante?Id_documentoPorCobrar=' + Id_documentoPorCobrarFlete + '&TipoServicio=' + TipoServicioFlete;
+        });
+    }
+
+    /*IMPUESTOS*/
+    function ModalImpuesto(IDFlete, IDFleteImpuesto) {
+        $.ajax({
+            url: '/Admin/DocumentoXCobrar/ModalImpuestosCompra/',
+            type: "POST",
+            data: { IDFlete: IDFlete, IDFleteImpuesto: IDFleteImpuesto },
+            success: function (data) {
+                $('#ContenidoModalImpuesto').html(data);
+                $('#ModalImpuesto').modal({ backdrop: 'static', keyboard: false });
+                LoadValidationFleteImpuesto();
+                RunEventsFleteimpuesto();
+            }
         });
     }
 
