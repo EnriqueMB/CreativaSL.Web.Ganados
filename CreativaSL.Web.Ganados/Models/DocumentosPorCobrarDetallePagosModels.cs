@@ -67,5 +67,8 @@ namespace CreativaSL.Web.Ganados.Models
         public List<CuentaBancariaModels> ListaCuentasBancariasEmpresa { get; set; }
         public List<CuentaBancariaModels> ListaCuentasBancariasProveedor { get; set; }
 
+        //vista producto servicio
+        public List<CatTipoClasificacionCobroModels> ListaTipoClasificacionCobro { get; set; }
+
     }
 }

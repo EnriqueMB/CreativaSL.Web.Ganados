@@ -209,13 +209,12 @@
                 {
                     "data": null,
                     "render": function (data, type, full) {
-                        var opcionSistema = "";
-                        if (full["esSistema"] != true) {
-                            opcionSistema = "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-yellow tooltips btn-sm editDocumento' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>";
-                        }
+                        //var opcionSistema = "";
+                        //if (full["esSistema"] != true) {
+                        //    opcionSistema = "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-yellow tooltips btn-sm editDocumento' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>";
+                        //}
                         var menu = "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-hrefa='' title='Impuestos' data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-green tooltips btn-sm impuestos' data-placement='top' data-original-title='Impuesto'><i class='glyphicon glyphicon-usd'></i></a>" +
-                            opcionSistema +
+                            "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-yellow tooltips btn-sm editDetalle' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>"+
                             "<a data-hrefa='/Admin/DocumentoXCobrar/DEL_DocumentoDetalleCompra/' title='Eliminar' data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-danger tooltips btn-sm deleteDocumento' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
@@ -242,15 +241,10 @@
                 }
             ],
             "drawCallback": function (settings) {
-                $(".impuestos").on("click", function () {
-                    var id_documentoXcobrarpago = $(this).data("id");
-                    ModalImpuesto(id_documentoXcobrarpago, 0);
+                $(".editDetalle").on("click", function () {
+                    var Id_documentoPorCobrarDetalle = $(this).data("id");
+                    window.location.href = '/Admin/DocumentoXCobrar/EditProductoServicio?Id_documentoPorCobrarDetallePagos=' + Id_documentoPorCobrarDetalle + '&TipoServicio=' + TipoServicioFlete + '&Id_documentoPorCobrar=' + Id_documentoPorCobrarFlete;
                 });
-
-                $(".editDocumento").on("click", function () {
-                    
-                });
-                
 
                 $(".deleteDocumento").on("click", function () {
                     var url = $(this).attr('data-hrefa');
@@ -521,7 +515,7 @@
 
     var EventosCobro = function () {
         $("#btnAddCobroArticuloServicio").on("click", function () {
-           
+            window.location.href = '/Admin/DocumentoXCobrar/AddProductoServicio?&TipoServicio=' + TipoServicio + '&Id_documentoPorCobrar=' + Id_documentoPorCobrar + '&Id_redireccionar=' + IDCompra;
         });
         $("#btnAddCobroComprobante").on("click", function () {
             window.location.href = '/Admin/DocumentoXCobrar/AddComprobante?Id_documentoPorCobrar=' + Id_documentoPorCobrar + '&TipoServicio=' + TipoServicio;
@@ -536,20 +530,6 @@
         });
     }
 
-    /*IMPUESTOS*/
-    function ModalImpuesto(IDFlete, IDFleteImpuesto) {
-        $.ajax({
-            url: '/Admin/DocumentoXCobrar/ModalImpuestosCompra/',
-            type: "POST",
-            data: { IDFlete: IDFlete, IDFleteImpuesto: IDFleteImpuesto },
-            success: function (data) {
-                $('#ContenidoModalImpuesto').html(data);
-                $('#ModalImpuesto').modal({ backdrop: 'static', keyboard: false });
-                LoadValidationFleteImpuesto();
-                RunEventsFleteimpuesto();
-            }
-        });
-    }
 
     /*TERMINA COBROS*/
     return {

@@ -436,6 +436,7 @@
     <Content Include="Content\img\themes\default.jpg" />
     <Content Include="Content\img\themes\light.jpg" />
     <Content Include="Content\js\actions.js" />
+    <Content Include="Content\js\addProductoServicio.js" />
     <Content Include="Content\js\Bancos.js" />
     <Content Include="Content\js\CalAlmacen.js" />
     <Content Include="Content\js\Canvas.js" />
@@ -1225,6 +1226,7 @@
     <Content Include="Areas\Admin\Views\Venta\Ganado.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\EditComprobante.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalImpuestoCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\AddProductoServicio.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

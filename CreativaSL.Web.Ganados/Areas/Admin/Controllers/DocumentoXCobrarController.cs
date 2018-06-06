@@ -273,11 +273,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             //FleteImpuesto.ListaTipoImpuesto = FleteImpuestoDatos.GetListadoTipoImpuesto(FleteImpuesto);
             //FleteImpuesto.ListaTipoFactor = FleteImpuestoDatos.GetListadoTipoFactor(FleteImpuesto);
 
-            Impuesto.ListaImpuesto = DocumentoPorCobrarDatos.GetListadoImpuesto(Impuesto);
-            Impuesto = FleteImpuestoDatos.GetFleteImpuestoXIDFleteImpuesto(FleteImpuesto);
+            //Impuesto.ListaImpuesto = DocumentoPorCobrarDatos.GetListadoImpuesto(Impuesto);
+            //Impuesto = FleteImpuestoDatos.GetFleteImpuestoXIDFleteImpuesto(FleteImpuesto);
 
-            Impuesto = DocumentoPorCobrarDatos.GetEventoXIDEvento(Evento);
-            Impuesto.ListaEventos = CompraDatos.GetListaTiposEventos(Evento);
+            //Impuesto = DocumentoPorCobrarDatos.GetEventoXIDEvento(Evento);
+            //Impuesto.ListaEventos = CompraDatos.GetListaTiposEventos(Evento);
 
 
             return PartialView("ModalImpuestoCompra", Impuesto);
@@ -349,6 +349,70 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
+        #endregion
+
+        #region Detalle producto / servicio
+        public ActionResult AddProductoServicio(DocumentosPorCobrarDetalleModels DocumentoPorCobrarPago)
+        {
+            try
+            {
+                _DocumentoXCobrar_Datos DocCobrarDatos = new _DocumentoXCobrar_Datos();
+                DocumentoPorCobrarPago.Conexion = Conexion;
+                DocumentoPorCobrarPago.ListaTipoClasificacionCobro = DocCobrarDatos.GetListadoTipoClasificacion(DocumentoPorCobrarPago);
+                DocumentoPorCobrarPago.ListaProductosServiciosCFDI = DocCobrarDatos.GetListadoCFDIProductosServiciosCompra(DocumentoPorCobrarPago);
+                CatAlmacenModels almacen = new CatAlmacenModels();
+                almacen.IDAlmacen = "";
+                almacen.Descripcion = "-- Seleccione --";
+                DocumentoPorCobrarPago.ListaAlmacen = new List<CatAlmacenModels>();
+                DocumentoPorCobrarPago.ListaAlmacen.Add(almacen);
+
+                CatProductosAlmacenModels producto = new CatProductosAlmacenModels();
+                producto.IDProductoAlmacen = "";
+                producto.Nombre = "-- Seleccione --";
+                DocumentoPorCobrarPago.ListaProductos = new List<CatProductosAlmacenModels>();
+                DocumentoPorCobrarPago.ListaProductos.Add(producto);
+
+                return View(DocumentoPorCobrarPago);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        public ActionResult GetAlmacenes()
+        {
+            try
+            {
+                DocumentosPorCobrarDetalleModels  documento = new DocumentosPorCobrarDetalleModels();
+                _DocumentoXCobrar_Datos datos  = new _DocumentoXCobrar_Datos();
+                documento.Conexion = Conexion;
+                documento.Usuario = User.Identity.Name;
+                documento.ListaAlmacen = datos.GetAlmacenesHabilitados(documento);
+
+                return Content(documento.ListaAlmacen.ToJSON(), "application/json");
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
+        }
+        public ActionResult GetProductosAlmacen(string almacen)
+        {
+            try
+            {
+                DocumentosPorCobrarDetalleModels documento = new DocumentosPorCobrarDetalleModels();
+                _DocumentoXCobrar_Datos datos = new _DocumentoXCobrar_Datos();
+                documento.Conexion = Conexion;
+                documento.Usuario = User.Identity.Name;
+                documento.ListaProductos = datos.GetProductosAlmacen(documento, almacen);
+
+                return Content(documento.ListaProductos.ToJSON(), "application/json");
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
+        }
         #endregion
 
 
