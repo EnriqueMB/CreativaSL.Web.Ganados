@@ -1,14 +1,14 @@
 ﻿@model CreativaSL.Web.Ganados.Models.DocumentosPorCobrarDetalleModels
 
 @{
-    ViewBag.Title = "AddImpuesto";
+    ViewBag.Title = "EditProductoServicio";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 @section css{
     <style>
-    .form-control[disabled], .form-control[readonly] {
-        color: #000 !important; 
-    }
+        .form-control[disabled], .form-control[readonly] {
+            color: #000 !important;
+        }
     </style>
 }
 
@@ -27,13 +27,14 @@
         </div>
         <div class="col-md-12">
             @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("AddProductoServicio", "DocumentoXCobrar", FormMethod.Post, new { id = "frm_productoServicio", @class = "form-horizontal", autocomplete = "off" }))
+            @using (Html.BeginForm("EditProductoServicio", "DocumentoXCobrar", FormMethod.Post, new { id = "frm_productoServicio", @class = "form-horizontal", autocomplete = "off" }))
     {
                 @Html.HiddenFor(model => model.Id_detalleDoctoCobrar);
                 @Html.HiddenFor(model => model.Id_unidadProducto)
                 @Html.HiddenFor(model => model.Id_documentoCobrar)
                 @Html.HiddenFor(model => model.Id_redireccionar)
                 @Html.HiddenFor(model => model.TipoServicio)
+                @Html.HiddenFor(model => model.Inventario)
                 @Html.AntiForgeryToken()
 
                 <div class="panel panel-default">
@@ -51,10 +52,14 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            <select id="Id_conceptoDocumento" name="Id_conceptoDocumento" class="form-control select" data-live-search="true" , data-style="form-control">
+                                            <select id="Id_conceptoDocumento" name="Id_conceptoDocumento" class="form-control" disabled="disabled">
                                                 @foreach (var tipo in Model.ListaTipoClasificacionCobro)
                                                 {
-                                                    <option value="@tipo.Id_tipoClasificacionCobro" data-inventario="@tipo.Inventario">
+                                                    <option value="@tipo.Id_tipoClasificacionCobro" data-inventario="@tipo.Inventario" readonly="readonly"
+                                                            @if (Model.Id_conceptoDocumento == tipo.Id_tipoClasificacionCobro) { <text>
+                                                            selected="selected"
+                                                            </text> }
+                                                            >
                                                         @tipo.Descripcion
                                                     </option>
                                                 }
@@ -72,14 +77,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="inventario" class="inventario form-group">
+                            <div id="esconder" class="form-group">
                                 <div class="form-group">
                                     <div class="col-md-6 controlError">
                                         <label class="col-md-3 control-label">Almacen</label>
                                         <div class="col-md-9 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.DropDownListFor(model => model.Id_almacen, new SelectList(Model.ListaAlmacen, "IDAlmacen", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                @Html.TextBoxFor(model => model.NombreAlmacen, "{0:f2}", new { @class = "form-control", @readonly = "readonly" })
                                             </div>
                                         </div>
                                     </div>
@@ -88,40 +93,20 @@
                                         <div class="col-md-9 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.DropDownListFor(model => model.Id_producto, new SelectList(Model.ListaProductos, "IDProductoAlmacen", "Nombre"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                @Html.TextBoxFor(model => model.NombreProducto, "{0:f2}", new { @class = "form-control", @readonly = "readonly" })
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-6 controlError">
-                                        <label class="col-md-3 control-label">Existencia</label>
-                                        <div class="col-md-9 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.Existencia, "{0:f2}", new { @class = "form-control", type = "number", @readonly="readonly" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 controlError">
-                                        <label class="col-md-3 control-label">Precio promedio</label>
-                                        <div class="col-md-9 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.PrecioPromedio, "{0:f2}", new { @class = "form-control", type = "number", @readonly = "readonly" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                </div> 
 
+                            </div>
                             <div class="form-group">
                                 <div class="col-md-6 controlError">
                                     <label class="col-md-3 control-label">Cantidad</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.Cantidad, "{0:f2}", new { @class = "form-control", type = "number", min = "0" })
+                                            @Html.TextBoxFor(model => model.Cantidad, "{0:f2}", new { @class = "form-control", type = "number", min = "0", @readonly = "readonly" })
                                         </div>
                                     </div>
                                 </div>
@@ -130,7 +115,7 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.PrecioUnitario, "{0:f2}", new { @class = "form-control", type = "number", min = "0" })
+                                            @Html.TextBoxFor(model => model.PrecioUnitario, "{0:f2}", new { @class = "form-control", type = "number", min = "0", @readonly = "readonly" })
                                         </div>
                                     </div>
                                 </div>
@@ -175,12 +160,12 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/addProductoServicio.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/editProductoServicio.js")"></script>
     <script>
 
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
-            AddProductoServicio.init();
+            EditProductoServicio.init();
         });
     </script>
 }

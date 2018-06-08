@@ -8,7 +8,7 @@
     var Subtotal = $("#Subtotal");
 
     var eventos = function () {
-        $("#Id_tipoClasificacionCobro").on("change", function () {
+        $("#Id_conceptoDocumento").on("change", function () {
             var inventariado = $(this).find(':selected').data('inventario');
             if (inventariado.localeCompare('True') == 0) {
                 $('#inventario').show(1000);
@@ -155,7 +155,6 @@
                 successHandler1.show();
                 errorHandler1.hide();
                 form.submit();
-                //this.submit();
             }
         });
     };

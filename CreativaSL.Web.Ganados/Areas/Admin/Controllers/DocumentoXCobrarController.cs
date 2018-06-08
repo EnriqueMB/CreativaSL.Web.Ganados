@@ -297,7 +297,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 DocumentoPorCobrarPago.RespuestaAjax = new RespuestaAjax();
                 if (DocumentoPorCobrarPago.Bancarizado)
                 {
-                    if(DocumentoPorCobrarPago.HttpImagen == null)
+                    if (DocumentoPorCobrarPago.HttpImagen == null)
                     {
                         DocumentoPorCobrarPago.ImagenBase64 = DocumentoPorCobrarPago.ImagenMostrar;
                     }
@@ -310,7 +310,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 if (DocumentoPorCobrarPago.RespuestaAjax.Success)
                 {
-                    if(DocumentoPorCobrarPago.TipoServicio == 1 || DocumentoPorCobrarPago.TipoServicio == 2) {
+                    if (DocumentoPorCobrarPago.TipoServicio == 1 || DocumentoPorCobrarPago.TipoServicio == 2) {
                         TempData["typemessage"] = "1";
                         TempData["message"] = "Datos guardados correctamente.";
                     }
@@ -352,10 +352,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
 
         #region Detalle producto / servicio
-        public ActionResult AddProductoServicio(DocumentosPorCobrarDetalleModels DocumentoPorCobrarPago)
+        [HttpGet]
+        public ActionResult AddProductoServicio(int TipoServicio, string Id_documentoPorCobrar, string Id_redireccionar)
         {
             try
             {
+                DocumentosPorCobrarDetalleModels DocumentoPorCobrarPago = new DocumentosPorCobrarDetalleModels();
+                DocumentoPorCobrarPago.TipoServicio = TipoServicio;
+                DocumentoPorCobrarPago.Id_documentoCobrar = Id_documentoPorCobrar;
+                DocumentoPorCobrarPago.Id_redireccionar = Id_redireccionar;
+
                 _DocumentoXCobrar_Datos DocCobrarDatos = new _DocumentoXCobrar_Datos();
                 DocumentoPorCobrarPago.Conexion = Conexion;
                 DocumentoPorCobrarPago.ListaTipoClasificacionCobro = DocCobrarDatos.GetListadoTipoClasificacion(DocumentoPorCobrarPago);
@@ -376,9 +382,136 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                throw;
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos";
+                return RedirectToAction("Index", "Compra");
             }
         }
+        [HttpPost]
+        public ActionResult AddProductoServicio(DocumentosPorCobrarDetalleModels DocumentoPorCobrarPago)
+        {
+            try
+            {
+                _DocumentoXCobrar_Datos DocCobrarDatos = new _DocumentoXCobrar_Datos();
+                DocumentoPorCobrarPago.Conexion = Conexion;
+                DocumentoPorCobrarPago.Usuario = User.Identity.Name;
+                DocumentoPorCobrarPago.RespuestaAjax = new RespuestaAjax();
+                DocumentoPorCobrarPago = DocCobrarDatos.AC_ProductoServicio_Compra(DocumentoPorCobrarPago);
+
+                if (DocumentoPorCobrarPago.RespuestaAjax.Success)
+                    return RedirectToAction("Transacciones", "Compra", new { IDCompra = DocumentoPorCobrarPago.Id_redireccionar });
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = DocumentoPorCobrarPago.RespuestaAjax.Mensaje;
+                    return View(DocumentoPorCobrarPago);
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos";
+                return RedirectToAction("Index", "Compra");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult EditProductoServicio(string Id_detalleDoctoCobrar, string Id_redireccionar, int TipoServicio)
+        {
+            try
+            {
+                DocumentosPorCobrarDetalleModels DocumentoPorCobrarPago = new DocumentosPorCobrarDetalleModels();
+                DocumentoPorCobrarPago.Id_detalleDoctoCobrar = Id_detalleDoctoCobrar;
+                DocumentoPorCobrarPago.Id_redireccionar = Id_redireccionar;
+                DocumentoPorCobrarPago.TipoServicio = TipoServicio;
+
+                _DocumentoXCobrar_Datos DocCobrarDatos = new _DocumentoXCobrar_Datos();
+                DocumentoPorCobrarPago.Conexion = Conexion;
+
+                DocumentoPorCobrarPago = DocCobrarDatos.GetDatosProductoServicio(DocumentoPorCobrarPago);
+
+                DocumentoPorCobrarPago.ListaTipoClasificacionCobro = DocCobrarDatos.GetListadoTipoClasificacion(DocumentoPorCobrarPago);
+                DocumentoPorCobrarPago.ListaProductosServiciosCFDI = DocCobrarDatos.GetListadoCFDIProductosServiciosCompra(DocumentoPorCobrarPago);
+
+                DocumentoPorCobrarPago.ListaAlmacen = DocCobrarDatos.GetAlmacenesHabilitados(DocumentoPorCobrarPago);
+                DocumentoPorCobrarPago.ListaProductos = DocCobrarDatos.GetProductosAlmacen(DocumentoPorCobrarPago, DocumentoPorCobrarPago.Id_almacen);
+
+                return View(DocumentoPorCobrarPago);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos";
+                return RedirectToAction("Index", "Compra");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditProductoServicio(DocumentosPorCobrarDetalleModels DocumentoPorCobrarPago)
+        {
+            try
+            {
+                _DocumentoXCobrar_Datos DocCobrarDatos = new _DocumentoXCobrar_Datos();
+                DocumentoPorCobrarPago.Conexion = Conexion;
+                DocumentoPorCobrarPago.RespuestaAjax = new RespuestaAjax();
+                DocumentoPorCobrarPago = DocCobrarDatos.AC_ProductoServicio_Compra(DocumentoPorCobrarPago);
+
+                if (DocumentoPorCobrarPago.RespuestaAjax.Success)
+                    return RedirectToAction("Transacciones", "Compra", new { IDCompra = DocumentoPorCobrarPago.Id_redireccionar });
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = DocumentoPorCobrarPago.RespuestaAjax.Mensaje;
+                    return View(DocumentoPorCobrarPago);
+                }
+
+                return View(DocumentoPorCobrarPago);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos";
+                return RedirectToAction("Index", "Compra");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Del_ProductoServicio(DocumentosPorCobrarDetalleModels documento)
+        {
+            try
+            {
+                _DocumentoXCobrar_Datos DocCobrarDatos = new _DocumentoXCobrar_Datos();
+                documento.Conexion = Conexion;
+                documento.Usuario = User.Identity.Name;
+                documento.RespuestaAjax = new RespuestaAjax();
+                documento = DocCobrarDatos.DEL_ProductoServicioCompra(documento);
+
+                if (documento.RespuestaAjax.Success)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = documento.RespuestaAjax.Mensaje;
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = documento.RespuestaAjax.Mensaje;
+                }
+                
+                return Content(documento.RespuestaAjax.ToJSON(), "application/json");
+            }
+            catch (Exception ex)
+            {
+                documento.RespuestaAjax = new RespuestaAjax();
+                documento.RespuestaAjax.Success = false;
+
+                TempData["typemessage"] = "2";
+                TempData["message"] = ex.Message;
+
+                return Content(documento.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+
         public ActionResult GetAlmacenes()
         {
             try
@@ -414,8 +547,5 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
-
-
-
     }
 }

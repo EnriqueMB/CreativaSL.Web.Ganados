@@ -274,7 +274,7 @@
                                                 <div class="panel-heading">
                                                     <h3 class="panel-title"></h3>
                                                     <ul class="panel-controls">
-                                                        <li><a id="btnAddCobroArticuloServicio" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar cobro articulo o servicio </a></li>
+                                                        @*<li><a id="btnAddCobroArticuloServicio" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar cobro articulo o servicio </a></li>*@
                                                         <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                                                         <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                                                     </ul>
@@ -559,6 +559,23 @@
             </div>
         </div>
     </div>
+<div class="message-box animated fadeIn" data-sound="alert" id="mb-deleteDetalle">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>producto o servicio</strong> ?</div>
+            <div class="mb-content">
+                <p>¿Seguro que quieres eliminar este producto o servicio por cobrar?</p>
+                <p>Presione "sí" si está seguro.</p>
+            </div>
+            <div class="mb-footer">
+                <div class="pull-right">
+                    <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                    <button class="btn btn-default btn-lg mb-control-close">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
     <script>
         var message     = '@message';
