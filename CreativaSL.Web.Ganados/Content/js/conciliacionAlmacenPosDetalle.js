@@ -1,4 +1,4 @@
-﻿var SalidaDetalle = function () {
+﻿var ConciliacionDetalle = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator = function () {
@@ -6,11 +6,10 @@
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
 
-        $.validator.addMethod("cMenorQExistencia", function (value, element) {
+        $.validator.addMethod("mayorQueCero", function (value, element) {
             value = Number($.isNumeric(value) ? value : 0);
-            var MaxValue = Number($('#Existencia').val());
-            return this.optional(element) || (value > 0 && value <= MaxValue);
-        }, "Verifique la cantidad. Debe ser menor o igual a la existencia, y mayor a 0.");
+            return this.optional(element) || (value > 0);
+        }, "Verifique la cantidad. Debe ser mayor a 0.");
 
         $('#form-ea').validate({
             errorElement: "span", // contain the error msg in a span tag
@@ -32,12 +31,14 @@
             rules: {
                 IDProductoAlmacen: { required: true },
                 IDUnidadProducto: { required: true },
-                Cantidad: { required: true, decimal: true, cMenorQExistencia:true }
+                Cantidad: { required: true, decimal: true, mayorQueCero: true },
+                Precio: { required: true, decimal: true, mayorQueCero: true},
             },
             messages: {
                 IDProductoAlmacen: { required: "Seleccione un producto." },
                 IDUnidadProducto: { required: "Seleccione una unidad de medida." },
-                Cantidad: { required: "Ingrese la cantidad.", decimal:"Ingrese un dato válido"}
+                Cantidad: { required: "Ingrese la cantidad.", decimal: "Ingrese un dato válido para cantidad.", mayorQueCero:"Verifique la cantidad. Debe ser mayor que 0." },
+                Precio: { required: "Ingrese el precio", decimal: "Ingrese un dato válido para precio.", mayorQueCero: "Verifique el precio. Debe ser mayor que 0." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -81,13 +82,13 @@
         $('#IDUnidadProducto').on('change', function (event) {
             var IdProducto = $('#IDProductoAlmacen').val();
             var IdUnidad = $(this).val();
-            var IdSalida = $('#IDSalida').val();
-            getExistenciaXIDProducto(IdProducto, IdUnidad, IdSalida);
+            var IdConciliacion = $('#IDConciliacion').val();
+            getExistenciaXIDProducto(IdProducto, IdUnidad, IdConciliacion);
         });
 
         function getUnidadesXIDProducto(IdProducto) {
             $.ajax({
-                url: "/Admin/SalidaAlmacen/ObtenerUnidadesXIDProducto",
+                url: "/Admin/ConciliacionAlmacen/ObtenerUnidadesXIDProducto",
                 data: { IDProducto: IdProducto },
                 async: false,
                 dataType: "json",
@@ -104,10 +105,10 @@
             });
         }
 
-        function getExistenciaXIDProducto(IdProducto, IdUnidad, IdSalida) {
+        function getExistenciaXIDProducto(IdProducto, IdUnidad, IdConciliacion) {
             $.ajax({
-                url: "/Admin/SalidaAlmacen/ObtenerExistenciaXIDProducto",
-                data: { IDProducto: IdProducto, IDSalida: IdSalida, IDUnidad: IdUnidad },
+                url: "/Admin/ConciliacionAlmacen/ObtenerExistenciaXIDProducto",
+                data: { IDProducto: IdProducto, IDConciliacion: IdConciliacion, IDUnidad: IdUnidad },
                 async: false,
                 dataType: "json",
                 type: "POST",
@@ -120,7 +121,7 @@
                 }
             });
         }
-    };    
+    };
 
     return {
         //main function to initiate template pages

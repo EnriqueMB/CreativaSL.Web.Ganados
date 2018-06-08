@@ -8,23 +8,29 @@ using System.Web;
 
 namespace CreativaSL.Web.Ganados.ViewModels
 {
-    public class SalidaAlmacenViewModels
+    public class ConciliacionAlmacenViewModels
     {
-        public SalidaAlmacenViewModels()
+        public ConciliacionAlmacenViewModels()
         {
+            _IDConciliacion = string.Empty;
+            _IDSucursal = string.Empty;
+            _IDAlmacen = string.Empty;
+            _IDTipoConciliacion = 0;
+            _FechaConciliacion = DateTime.Today;
+            _Comentarios = string.Empty;
             _ListaSucursales = new List<CatSucursalesModels>();
             _ListaAlmacenes = new List<CatAlmacenModels>();
-            _ListaEmpleados = new List<CatEmpleadoModels>();
+            _ListaTipoConciliacion = new List<CatTipoConciliacionModels>();
         }
 
-        private string _IDSalidaAlmacen;
+        private string _IDConciliacion;
         /// <summary>
-        /// Identificador de la Salida de almacén
+        /// IDentificador de la conciliación
         /// </summary>
-        public string IDSalidaAlmacen
+        public string IDConciliacion
         {
-            get { return _IDSalidaAlmacen; }
-            set { _IDSalidaAlmacen = value; }
+            get { return _IDConciliacion; }
+            set { _IDConciliacion = value; }
         }
 
         private string _IDSucursal;
@@ -38,7 +44,7 @@ namespace CreativaSL.Web.Ganados.ViewModels
             get { return _IDSucursal; }
             set { _IDSucursal = value; }
         }
-        
+
         private string _IDAlmacen;
         /// <summary>
         /// Identificador del almacén
@@ -51,72 +57,61 @@ namespace CreativaSL.Web.Ganados.ViewModels
             set { _IDAlmacen = value; }
         }
 
-        private string _IDEmpleado;
-        /// <summary>
-        /// Identificador del empleado
-        /// </summary>
-        [Required(ErrorMessage = "Seleccione un empleado")]
-        [Display(Name = "Empleado")]
-        public string IDEmpleado
+        private int _IDTipoConciliacion;
+        [CombosInt(ErrorMessage = "Seleccione un tipo de conciliación")]
+        [Display(Name = "Tipo de conciliación")]
+        public int IDTipoConciliacion
         {
-            get { return _IDEmpleado; }
-            set { _IDEmpleado = value; }
+            get { return _IDTipoConciliacion; }
+            set { _IDTipoConciliacion = value; }
         }
         
-        private DateTime _FechaSalida;
+        private DateTime _FechaConciliacion;
         /// <summary>
         /// Fecha en la que se realiza la entrada a almacén
         /// </summary>
-        [Required(ErrorMessage = "Debe seleccionar una fecha de salida")]
-        [Display(Name = "Fecha de salida")]
+        [Required(ErrorMessage = "Debe seleccionar una fecha de conciliación")]
+        [Display(Name = "Fecha de conciliación")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime FechaSalida
+        public DateTime FechaConciliacion
         {
-            get { return _FechaSalida; }
-            set { _FechaSalida = value; }
+            get { return _FechaConciliacion; }
+            set { _FechaConciliacion = value; }
         }
 
-        private string _Comentario;
+        private string _Comentarios;
         /// <summary>
-        /// Información adicional de la salida de almacén
+        /// Información adicional de la concililación de almacén
         /// </summary>
         [Texto(ErrorMessage = "Ingrese un texto válido para {0}")]
         [Display(Name = "Comentarios adicionales")]
-        public string Comentario
+        public string Comentarios
         {
-            get { return _Comentario; }
-            set { _Comentario = value; }
+            get { return _Comentarios; }
+            set { _Comentarios = value; }
         }
 
+
         private List<CatSucursalesModels> _ListaSucursales;
-        /// <summary>
-        /// Lista de sucursales para combo
-        /// </summary>
         public List<CatSucursalesModels> ListaSucursales
         {
             get { return _ListaSucursales; }
             set { _ListaSucursales = value; }
         }
-        
+
         private List<CatAlmacenModels> _ListaAlmacenes;
-        /// <summary>
-        /// Lista de almacenes 
-        /// </summary>
         public List<CatAlmacenModels> ListaAlmacenes
         {
             get { return _ListaAlmacenes; }
             set { _ListaAlmacenes = value; }
         }
 
-        private List<CatEmpleadoModels> _ListaEmpleados;
-        /// <summary>
-        /// Lista de empleados para combo
-        /// </summary>
-        public List<CatEmpleadoModels> ListaEmpleados
+        private List<CatTipoConciliacionModels> _ListaTipoConciliacion;
+        public List<CatTipoConciliacionModels> ListaTipoConciliacion
         {
-            get { return _ListaEmpleados; }
-            set { _ListaEmpleados = value; }
+            get { return _ListaTipoConciliacion; }
+            set { _ListaTipoConciliacion = value; }
         }
 
     }

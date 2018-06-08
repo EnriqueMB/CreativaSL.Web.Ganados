@@ -1,0 +1,177 @@
+﻿@model List <CreativaSL.Web.Ganados.Models.ConciliacionAlmacenDetalleModel>
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Detalle de conciliación </h2>
+    </div>
+    <!-- END PAGE TITLE -->
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                        <ul class="panel-controls">
+                            @if (ViewBag.IDTipoConciliacion == 1)
+                            {
+                                <li><a href="@Url.Action("CreateDetailPos", "ConciliacionAlmacen", new { id = ViewBag.IDConciliacion})" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar producto</a></li>
+                            }
+                            else if (ViewBag.IDTipoConciliacion == 2)
+                            {
+                                <li><a href="@Url.Action("CreateDetailNeg", "ConciliacionAlmacen", new { id = ViewBag.IDConciliacion})" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar producto</a></li>
+                            }
+                            <li><a href="@Url.Action("Index", "ConciliacionAlmacen")" class="btn btn-default btnCrear"><span class="fa fa-arrow-left"></span> Regresar</a></li>
+                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table datatable2">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Unidad</th>
+                                        @if (ViewBag.IDTipoConciliacion == 1)
+                                        {
+                                            <th>Precio</th>
+                                        }
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var Item in Model)
+                                    {
+                                        <tr id="@Item.IDConciliacionAlmacenDetalle">
+                                            <td>@Item.Producto.Nombre</td>
+                                            <td><span class="pull-right">@string.Format("{0:F3}", Item.Cantidad)</span></td>
+                                            <td>@Item.UnidadMedida.Descripcion</td>
+                                            @if (ViewBag.IDTipoConciliacion == 1)
+                                            {
+                                                <td><span class="pull-right">@string.Format("{0:c}", Item.Precio)</span></td>
+                                            }
+                                            <td style="text-align:center;">
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    @if (ViewBag.IDTipoConciliacion == 1)
+                                                    {
+                                                        <a title="Editar" href="@Url.Action("EditDetailPos", "ConciliacionAlmacen", new { id = Item.IDConciliacionAlmacenDetalle})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    }
+                                                    else if (ViewBag.IDTipoConciliacion == 2)
+                                                    {
+                                                        <a title="Editar" href="@Url.Action("EditDetailNeg", "ConciliacionAlmacen", new { id = Item.IDConciliacionAlmacenDetalle})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    }
+                                                    
+                                                    <a title="Eliminar" id="delete-@Item.IDConciliacionAlmacenDetalle" data-sku="@Item.IDConciliacionAlmacenDetalle" href="@Url.Action("DeleteDetails", "ConciliacionAlmacen", new { id =  Item.IDConciliacionAlmacenDetalle })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                </div>
+                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                        </a>
+                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                            <li>
+                                                                @if (ViewBag.IDTipoConciliacion == 1)
+                                                                {
+                                                                    <a role="menuitem" class="readonly" tabindex="-1" href="@Url.Action("EditDetailPos", "ConciliacionAlmacen", new { id = Item.IDConciliacionAlmacenDetalle })">
+                                                                        <i class="fa fa-edit"></i> Editar
+                                                                    </a>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <a role="menuitem" class="readonly" tabindex="-1" href="@Url.Action("EditDetailNeg", "ConciliacionAlmacen", new { id = Item.IDConciliacionAlmacenDetalle })">
+                                                                        <i class="fa fa-edit"></i> Editar
+                                                                    </a>
+                                                                }
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" class="deleteRow readonly" tabindex="-1" id="delete-@Item.IDConciliacionAlmacenDetalle" data-sku="@Item.IDConciliacionAlmacenDetalle" href="@Url.Action("DeleteDetails", "ConciliacionAlmacen", new { id =  Item.IDConciliacionAlmacenDetalle })">
+                                                                    <i class="fa fa-trash-o"></i> Eliminar
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- END DEFAULT DATATABLE -->
+            </div>
+        </div>
+    </div>
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que desea eliminar el registro seleccionado?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-process-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Procesar <strong> conciliación</strong></div>
+                <div class="mb-content">
+                    <p>¿Está seguro de procesar la conciliación? Éste proceso NO es reversible.</p>
+                    <p>Presione "sí" para confirmar.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    var message = '@message';
+    var typemessage = '@typemessage';
+    </script>
+}
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/conciliacionAlmacenLista.js")"></script>
+    <script>
+    jQuery(document).ready(function () {
+        Mensaje(message, typemessage);
+        Conciliacion.init();
+        });
+    </script>
+}
+

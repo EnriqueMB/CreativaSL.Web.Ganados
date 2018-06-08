@@ -67,6 +67,7 @@
                                                         else
                                                         {
                                                             <label title="No disponible" class="btn" style="background-color:gray; " data-placement="top" data-original-title="Procesar"><i class="fa fa-caret-square-o-right" style="color:white"></i></label>
+                                                            <a title="Detalles" class="btn btn-blue" href="@Url.Action("Details", "EntradasAlmacen", new { id = Item.IDEntradaAlmacen })"><i class="fa fa-arrow-circle-o-left"></i></a>
                                                         }
                                                     }
                                                     else
@@ -98,7 +99,15 @@
                                                                     <li>
                                                                         <a role="menuitem" class="processRow" tabindex="-1" href="@Url.Action("Procesar", "EntradasAlmacen", new { id = Item.IDEntradaAlmacen })">
                                                                             <i class="fa fa-caret-square-o-right"></i> 
-
+                                                                        </a>
+                                                                    </li>
+                                                                }
+                                                                else
+                                                                {
+                                                                    //
+                                                                    <li>
+                                                                        <a role="menuitem" class="" tabindex="-1" href="@Url.Action("Details", "EntradasAlmacen", new { id = Item.IDEntradaAlmacen })">
+                                                                            <i class="fa fa-arrow-circle-o-left"></i>
                                                                         </a>
                                                                     </li>
                                                                 }
