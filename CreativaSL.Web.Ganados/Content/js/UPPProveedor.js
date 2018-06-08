@@ -50,7 +50,7 @@
                 propietario: { required: "Ingrese el nombre del propietario", texto: "Ingrese un nombre valido" },
                 fechaAlta: { required: "Ingrese la fecha de alta." },
 
-                Imagen: { validarImagen: "Seleccione una imagén válida de banco" },
+                Imagen: { validarImagen: "Seleccione una imagén válida de la UPP" },
                 id_municipio: { CMBINT: "Seleccione un municipio." },
                 id_estadoCodigo: { required: "Ingrese un estado válido." },
                 id_pais: { required: "Ingrese un pais válido." },

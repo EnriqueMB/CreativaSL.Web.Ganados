@@ -8,6 +8,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Models.Venta
 {
     public class VentaModels
     {
+        public string Folio{ get; set; }
+        public string Id_sucursal { get; set; }
+
         private string _id_venta, _id_cliente, _id_flete, _documentoXcobrar, _id_recepcion, 
             _guiaTransito, _certZooSanitario, _certTuberculosis, _certBrucelosis, _numFactura;
         private decimal _montoTotal, _pesoTotalEnviado;

@@ -15,7 +15,6 @@ namespace CreativaSL.Web.Ganados.Models
         {
             object[] parametros =
             {
-                1,
                 Documento.Id_documentoCobrar
             };
 
@@ -23,6 +22,26 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_DocumentoPorCobrar_get_DocumentosDetalles", parametros);
+                return dr;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region Json Documentos Detalles Pagos
+        public SqlDataReader GetDocumentosDetallesCompraPagos(DocumentosPorCobrarDetallePagosModels Documento)
+        {
+            object[] parametros =
+            {
+                Documento.Id_documentoPorCobrar
+            };
+
+            try
+            {
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_DocumentoPorCobrar_get_DocumentosDetallesPagos", parametros);
                 return dr;
             }
             catch (Exception ex)
@@ -55,6 +74,37 @@ namespace CreativaSL.Web.Ganados.Models
                         Id = !dr.IsDBNull(dr.GetOrdinal("id_documento")) ? dr.GetString(dr.GetOrdinal("id_documento")) : string.Empty,
                         Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty,
                     };
+                    if (!string.IsNullOrEmpty(item.Id.Trim()))
+                        lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<ListaGenerica> GetListadoAsignarPagos(DocumentosPorCobrarDetallePagosModels DocumentosPorCobrarModels)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    DocumentosPorCobrarModels.TipoServicio,
+                    DocumentosPorCobrarModels.Id_documentoPorCobrar
+                };
+                ListaGenerica item;
+                List<ListaGenerica> lista = new List<ListaGenerica>();
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(DocumentosPorCobrarModels.Conexion, "spCSLDB_DocumentoPorCobrar_get_IDDocPorAsignar", parametros);
+                while (dr.Read())
+                {
+                    item = new ListaGenerica();
+                    item.Id = !dr.IsDBNull(dr.GetOrdinal("id_documento")) ? dr.GetString(dr.GetOrdinal("id_documento")) : string.Empty;
+                    item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    item.Nombre = !dr.IsDBNull(dr.GetOrdinal("nombre")) ? dr.GetString(dr.GetOrdinal("nombre")) : string.Empty;
+                    item.Id_2 = !dr.IsDBNull(dr.GetOrdinal("id2")) ? dr.GetString(dr.GetOrdinal("id2")) : string.Empty;
+
                     if (!string.IsNullOrEmpty(item.Id.Trim()))
                         lista.Add(item);
                 }
@@ -134,6 +184,7 @@ namespace CreativaSL.Web.Ganados.Models
                     {
                         Id_tipoClasificacionCobro = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetInt16(dr.GetOrdinal("ID")) : 0,
                         Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty,
+                        Inventario = !dr.IsDBNull(dr.GetOrdinal("Inventario")) ? dr.GetBoolean(dr.GetOrdinal("Inventario")) : false
                     };
                     lista.Add(item);
                 }
@@ -145,10 +196,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
-        #endregion
-
-
-
+        #region CFDI Forma de pago
         public List<CFDI_FormaPagoModels> GetListadoCFDIFormaPago(DocumentosPorCobrarDetallePagosModels DocumentoPorCobrarDetallePagos)
         {
             try
@@ -174,18 +222,140 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        public List<ListaGenerica> GetListadoAsignar(DocumentosPorCobrarDetallePagosModels DocumentoPorCobrarDetallePagos)
+        #endregion
+        #region Cuentas bancarias
+        public List<CuentaBancariaModels> GetListadoCuentasBancarias(DocumentosPorCobrarDetallePagosModels DocumentoPorCobrarDetallePagos)
         {
             try
             {
-                object[] parametros = 
+                object[] parametros =
+                {
+                    DocumentoPorCobrarDetallePagos.TipoCuentaBancaria,
+                    DocumentoPorCobrarDetallePagos.Id_documentoPorCobrar
+                };
+                CuentaBancariaModels item;
+                List<CuentaBancariaModels> lista = new List<CuentaBancariaModels>();
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(DocumentoPorCobrarDetallePagos.Conexion, "spCSLDB_Compras_get_CuentasBancarias", parametros);
+                while (dr.Read())
+                {
+                    item = new CuentaBancariaModels();
+                    item.IDDatosBancarios = !dr.IsDBNull(dr.GetOrdinal("id_datosBancarios")) ? dr.GetString(dr.GetOrdinal("id_datosBancarios")) : string.Empty;
+                    item.Banco = new CatBancoModels();
+                    item.Banco.IDBanco = !dr.IsDBNull(dr.GetOrdinal("id_banco")) ? dr.GetInt32(dr.GetOrdinal("id_banco")) : 0;
+                    item.Banco.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    item.Titular = !dr.IsDBNull(dr.GetOrdinal("titular")) ? dr.GetString(dr.GetOrdinal("titular")) : string.Empty;
+                    item.Clabe = !dr.IsDBNull(dr.GetOrdinal("clabeInterbancaria")) ? dr.GetString(dr.GetOrdinal("clabeInterbancaria")) : string.Empty;
+                    item.NumCuenta = !dr.IsDBNull(dr.GetOrdinal("numCuenta")) ? dr.GetString(dr.GetOrdinal("numCuenta")) : string.Empty;
+                    item.NumTarjeta = !dr.IsDBNull(dr.GetOrdinal("numTarjeta")) ? dr.GetString(dr.GetOrdinal("numTarjeta")) : string.Empty;
+
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region Nombre proveedor cliente
+        public DocumentosPorCobrarDetallePagosModels GetNombreEmpresaProveedorCliente(DocumentosPorCobrarDetallePagosModels DocumentoPorCobrarDetallePagos)
+        {
+            try
+            {
+                object[] parametros =
                 {
                     DocumentoPorCobrarDetallePagos.Id_documentoPorCobrar
+                };
+                SqlDataReader dr = null;
+                string nombre = string.Empty;
+
+                dr = SqlHelper.ExecuteReader(DocumentoPorCobrarDetallePagos.Conexion, "spCSLDB_DocumentoPorCobrar_get_NombreProveedorCliente_Empresa", parametros);
+                while (dr.Read())
+                {
+                    DocumentoPorCobrarDetallePagos.NombreEmpresa = !dr.IsDBNull(dr.GetOrdinal("nombreEmpresa")) ? dr.GetString(dr.GetOrdinal("nombreEmpresa")) : string.Empty;
+                    DocumentoPorCobrarDetallePagos.NombreProveedor_Cliente = !dr.IsDBNull(dr.GetOrdinal("nombreProveedorCliente")) ? dr.GetString(dr.GetOrdinal("nombreProveedorCliente")) : string.Empty;
+                }
+                return DocumentoPorCobrarDetallePagos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region Almacenes con producto habilitado para su cobro o venta
+        public List<CatAlmacenModels> GetAlmacenesHabilitados(DocumentosPorCobrarDetalleModels DocumentoPorCobrarDetallePagos)
+        {
+            try
+            {
+                SqlDataReader dr = null;
+                List<CatAlmacenModels> lista = new List<CatAlmacenModels>();
+                CatAlmacenModels item;
+                dr = SqlHelper.ExecuteReader(DocumentoPorCobrarDetallePagos.Conexion, "spCSLDB_Compras_get_Almacenes_Productos_Cobro");
+                while (dr.Read())
+                {
+                    item = new CatAlmacenModels();
+                    item.IDAlmacen = !dr.IsDBNull(dr.GetOrdinal("id_almacen")) ? dr.GetString(dr.GetOrdinal("id_almacen")) : string.Empty;
+                    item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region Almacenes con producto habilitado para su cobro o venta
+        public List<CatProductosAlmacenModels> GetProductosAlmacen(DocumentosPorCobrarDetalleModels DocumentoPorCobrarDetallePagos, string almacen)
+        {
+            try
+            {
+                object[] parametro =
+                {
+                    almacen
+                };
+                SqlDataReader dr = null;
+                List<CatProductosAlmacenModels> lista = new List<CatProductosAlmacenModels>();
+                CatProductosAlmacenModels item;
+                dr = SqlHelper.ExecuteReader(DocumentoPorCobrarDetallePagos.Conexion, "spCSLDB_Compras_get_ProductosAlmacen", parametro);
+                while (dr.Read())
+                {
+                    item = new CatProductosAlmacenModels();
+                    item.IDProductoAlmacen = !dr.IsDBNull(dr.GetOrdinal("id_productoAlmacen")) ? dr.GetString(dr.GetOrdinal("id_productoAlmacen")) : string.Empty;
+                    item.Nombre = !dr.IsDBNull(dr.GetOrdinal("nombre")) ? dr.GetString(dr.GetOrdinal("nombre")) : string.Empty;
+                    item.Existencia = !dr.IsDBNull(dr.GetOrdinal("existencia")) ? dr.GetDecimal(dr.GetOrdinal("existencia")) : 0;
+                    item.PrecioUnidad = !dr.IsDBNull(dr.GetOrdinal("precioUnidad")) ? dr.GetDecimal(dr.GetOrdinal("precioUnidad")) : 0;
+                    item.Id_unidadProducto = !dr.IsDBNull(dr.GetOrdinal("id_unidadProducto")) ? dr.GetString(dr.GetOrdinal("id_unidadProducto")) : string.Empty;
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #endregion
+
+        #region Get
+        #region Asignado a
+        public List<ListaGenerica> GetGeneralesDocumentoPorCobrarPago(DocumentosPorCobrarDetalleModels DocumentosPorCobrarModels)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    DocumentosPorCobrarModels.Id_documentoCobrar
                 };
                 ListaGenerica item;
                 List<ListaGenerica> lista = new List<ListaGenerica>();
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(DocumentoPorCobrarDetallePagos.Conexion, "spCSLDB_DocumentoPorCobrar_get_IDDocPorAsignar", parametros);
+                dr = SqlHelper.ExecuteReader(DocumentosPorCobrarModels.Conexion, "spCSLDB_DocumentoPorCobrar_get_GeneralesDocumentoPorCobrar", parametros);
                 while (dr.Read())
                 {
                     item = new ListaGenerica
@@ -193,7 +363,7 @@ namespace CreativaSL.Web.Ganados.Models
                         Id = !dr.IsDBNull(dr.GetOrdinal("id_documento")) ? dr.GetString(dr.GetOrdinal("id_documento")) : string.Empty,
                         Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty,
                     };
-                    if(!string.IsNullOrEmpty(item.Id.Trim()))
+                    if (!string.IsNullOrEmpty(item.Id.Trim()))
                         lista.Add(item);
                 }
                 return lista;
@@ -203,5 +373,178 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        #endregion
+        #region GetDetalleDocumentoPago
+        public DocumentosPorCobrarDetallePagosModels GetDetalleDocumentoPago(DocumentosPorCobrarDetallePagosModels DocumentoPago)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    DocumentoPago.Id_documentoPorCobrarDetallePagos,
+                    DocumentoPago.TipoServicio
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(DocumentoPago.Conexion, "spCSLDB_DocumentoPorCobrar_get_GetDetalleDocumentoPago", parametros);
+                while (dr.Read())
+                {
+                    DocumentoPago.Id_documentoPorCobrarDetallePagos = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorCobrarDetallePagos")) ? dr.GetString(dr.GetOrdinal("id_documentoPorCobrarDetallePagos")) : string.Empty;
+                    DocumentoPago.Monto = !dr.IsDBNull(dr.GetOrdinal("monto")) ? dr.GetDecimal(dr.GetOrdinal("monto")) : 0;
+                    DocumentoPago.Id_documentoPorCobrarDetallePagosBancarizado = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorCobrarDetallePagosBancarizado")) ? dr.GetString(dr.GetOrdinal("id_documentoPorCobrarDetallePagosBancarizado")) : string.Empty;
+                    DocumentoPago.NombreBancoOrdenante = !dr.IsDBNull(dr.GetOrdinal("nombreBancoOrdenante")) ? dr.GetString(dr.GetOrdinal("nombreBancoOrdenante")) : string.Empty;
+                    DocumentoPago.NumeroAutorizacion = !dr.IsDBNull(dr.GetOrdinal("numeroAutorizacion")) ? dr.GetString(dr.GetOrdinal("numeroAutorizacion")) : string.Empty;
+                    DocumentoPago.NombreBancoBeneficiante = !dr.IsDBNull(dr.GetOrdinal("nombreBancoBeneficiante")) ? dr.GetString(dr.GetOrdinal("nombreBancoBeneficiante")) : string.Empty;
+                    DocumentoPago.TipoCadenaPago = !dr.IsDBNull(dr.GetOrdinal("tipoCadenaPago")) ? dr.GetString(dr.GetOrdinal("tipoCadenaPago")) : string.Empty;
+                    DocumentoPago.Id_documentoPorCobrar = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorCobrar")) ? dr.GetString(dr.GetOrdinal("id_documentoPorCobrar")) : string.Empty;
+                    DocumentoPago.Observacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
+                    DocumentoPago.Id_cuentaBancariaOrdenante = !dr.IsDBNull(dr.GetOrdinal("id_cuentaBancariaOrdenante")) ? dr.GetString(dr.GetOrdinal("id_cuentaBancariaOrdenante")) : string.Empty;
+                    DocumentoPago.Id_cuentaBancariaBeneficiante = !dr.IsDBNull(dr.GetOrdinal("id_cuentaBancariaBeneficiante")) ? dr.GetString(dr.GetOrdinal("id_cuentaBancariaBeneficiante")) : string.Empty;
+                    DocumentoPago.RfcEmisorOrdenante = !dr.IsDBNull(dr.GetOrdinal("rfcEmisorOrdenante")) ? dr.GetString(dr.GetOrdinal("rfcEmisorOrdenante")) : string.Empty;
+                    DocumentoPago.RfcEmisorBeneficiario = !dr.IsDBNull(dr.GetOrdinal("rfcEmisorBeneficiario")) ? dr.GetString(dr.GetOrdinal("rfcEmisorBeneficiario")) : string.Empty;
+                    DocumentoPago.FolioIFE = !dr.IsDBNull(dr.GetOrdinal("folioIFE")) ? dr.GetString(dr.GetOrdinal("folioIFE")) : string.Empty;
+                    DocumentoPago.Id_formaPago = !dr.IsDBNull(dr.GetOrdinal("id_formaPago")) ? dr.GetInt16(dr.GetOrdinal("id_formaPago")) : 0;
+                    DocumentoPago.fecha = !dr.IsDBNull(dr.GetOrdinal("fecha")) ? dr.GetDateTime(dr.GetOrdinal("fecha")) : DateTime.Now;
+                    DocumentoPago.Id_cuentaBancariaBeneficiante = !dr.IsDBNull(dr.GetOrdinal("id_cuentaBancariaBeneficiante")) ? dr.GetString(dr.GetOrdinal("id_cuentaBancariaBeneficiante")) : string.Empty;
+                    DocumentoPago.NombreBancoOrdenante = !dr.IsDBNull(dr.GetOrdinal("nombreBancoOrdenante")) ? dr.GetString(dr.GetOrdinal("nombreBancoOrdenante")) : string.Empty;
+                    DocumentoPago.NumCuentaOrdenante = !dr.IsDBNull(dr.GetOrdinal("numCuentaOrdenante")) ? dr.GetString(dr.GetOrdinal("numCuentaOrdenante")) : string.Empty;
+                    DocumentoPago.NumCuentaBeneficiante = !dr.IsDBNull(dr.GetOrdinal("numCuentaBeneficiante")) ? dr.GetString(dr.GetOrdinal("numCuentaBeneficiante")) : string.Empty;
+                    DocumentoPago.Bancarizado = !dr.IsDBNull(dr.GetOrdinal("bancarizado")) ? dr.GetBoolean(dr.GetOrdinal("bancarizado")) : false;
+                    DocumentoPago.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
+                }
+                return DocumentoPago;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region Lista tipo de impuestos CFDI SAT
+        public List<CFDI_ImpuestoModels> GetListadoImpuesto(DocumentosPorCobrarDetalleImpuestoModels DocumentoImpuesto)
+        {
+
+            try
+            {
+                CFDI_ImpuestoModels Impuesto;
+                List<CFDI_ImpuestoModels> ListaImpuestos = new List<CFDI_ImpuestoModels>();
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(DocumentoImpuesto.Conexion, "spCSLDB_Combo_get_CFDIImpuesto");
+                while (dr.Read())
+                {
+                    Impuesto = new CFDI_ImpuestoModels
+                    {
+                        Clave = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetInt16(dr.GetOrdinal("ID")) : 0,
+                        Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty,
+                    };
+
+                    ListaImpuestos.Add(Impuesto);
+                }
+                return ListaImpuestos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region Generales del impuesto
+        public DocumentosPorCobrarDetalleImpuestoModels GetGeneralesImpuesto(DocumentosPorCobrarDetalleImpuestoModels Impuesto)
+        {
+            try
+            {
+                SqlDataReader dr = null;
+
+                object[] parametros =
+                {
+                    Impuesto.Id_detalleDoctoCobrar
+                };
+                dr = SqlHelper.ExecuteReader(Impuesto.Conexion, "spCSLDB_FleteImpuesto_get_FleteImpuestoXIDFleteImpuesto", parametros);
+                while (dr.Read())
+                {
+                    Impuesto.Impuesto.Clave = !dr.IsDBNull(dr.GetOrdinal("id_impuesto")) ? dr.GetInt16(dr.GetOrdinal("id_impuesto")) : 0;
+                    Impuesto.TipoFactor.Clave = !dr.IsDBNull(dr.GetOrdinal("id_tipoFactor")) ? dr.GetInt16(dr.GetOrdinal("id_tipoFactor")) : 0;
+                    Impuesto.TipoImpuesto.Clave = !dr.IsDBNull(dr.GetOrdinal("id_tipoImpuesto")) ? dr.GetInt16(dr.GetOrdinal("id_tipoImpuesto")) : 0;
+                    Impuesto.Base = !dr.IsDBNull(dr.GetOrdinal("base")) ? dr.GetDecimal(dr.GetOrdinal("base")) : 0;
+                    Impuesto.TasaCuota = !dr.IsDBNull(dr.GetOrdinal("tasaCuota")) ? dr.GetDecimal(dr.GetOrdinal("tasaCuota")) : 0;
+                    Impuesto.Importe = !dr.IsDBNull(dr.GetOrdinal("importe")) ? dr.GetDecimal(dr.GetOrdinal("importe")) : 0;
+                }
+                return Impuesto;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+
+        #endregion
+
+        #region AC_Comprobante Compra
+        public DocumentosPorCobrarDetallePagosModels AC_ComprobanteCompra(DocumentosPorCobrarDetallePagosModels DocumentosPorCobrarModels)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    DocumentosPorCobrarModels.Id_documentoPorCobrarDetallePagos,    DocumentosPorCobrarModels.Id_documentoPorCobrar,
+                    DocumentosPorCobrarModels.Id_formaPago,                         DocumentosPorCobrarModels.Monto,
+                    DocumentosPorCobrarModels.Observacion,                          DocumentosPorCobrarModels.fecha,
+                    DocumentosPorCobrarModels.Id_cuentaBancariaOrdenante,           DocumentosPorCobrarModels.Id_documentoPorCobrarDetallePagosBancarizado,
+                    DocumentosPorCobrarModels.Id_cuentaBancariaBeneficiante,        DocumentosPorCobrarModels.NombreBancoOrdenante,
+                    DocumentosPorCobrarModels.NumeroAutorizacion,                   DocumentosPorCobrarModels.NumCuentaOrdenante,
+                    DocumentosPorCobrarModels.NombreBancoBeneficiante,              DocumentosPorCobrarModels.NumCuentaBeneficiante,
+                    DocumentosPorCobrarModels.FolioIFE,                             DocumentosPorCobrarModels.Usuario,
+                    DocumentosPorCobrarModels.Bancarizado,                          DocumentosPorCobrarModels.RfcEmisorOrdenante,
+                    DocumentosPorCobrarModels.RfcEmisorBeneficiario,                DocumentosPorCobrarModels.ImagenBase64
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(DocumentosPorCobrarModels.Conexion, "spCSLDB_DocumentoPorCobrar_AC_DetallesPago", parametros);
+                while (dr.Read())
+                {
+                    DocumentosPorCobrarModels.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    DocumentosPorCobrarModels.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                }
+                return DocumentosPorCobrarModels;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region Del Documento por cobrar pago
+        #region Compra
+        public DocumentosPorCobrarDetallePagosModels DEL_ComprobanteCompra(DocumentosPorCobrarDetallePagosModels DocumentosPorCobrarModels)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    DocumentosPorCobrarModels.Id_documentoPorCobrarDetallePagos,    DocumentosPorCobrarModels.Id_documentoPorCobrar,
+                    DocumentosPorCobrarModels.Usuario
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(DocumentosPorCobrarModels.Conexion, "spCSLDB_DocumentoPorCobrar_Del_DetallesPago", parametros);
+                while (dr.Read())
+                {
+                    DocumentosPorCobrarModels.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    DocumentosPorCobrarModels.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                }
+                return DocumentosPorCobrarModels;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #endregion
+
+        #region MyRegion
+
+        #endregion
     }
 }

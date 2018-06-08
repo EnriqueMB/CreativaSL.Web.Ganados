@@ -852,8 +852,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return View(Compra);
         }
         /********************************************************************/
-       
-        
         //Funciones imagenes - fierro
         #region Imágenes
         [HttpPost]
@@ -931,36 +929,142 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         #endregion
         /********************************************************************/
-       
-
-        #region MODALES
-        #region Pago
-        [HttpPost]
-        public ActionResult ModalPago(string idDocPagar)
+        [HttpGet]
+        public ActionResult Details(string IDCompra)
         {
-            Compra = new CompraModels();
-            CompraDatos = new _Compra_Datos();
-            Compra.IDDocumentoXPagar = idDocPagar;
-            Compra.Conexion = Conexion;
-            Compra.ListaTipoClasificacion = CompraDatos.GetListadoTipoClasificacion(Compra);
-            Compra.ListaFormasPagos = CompraDatos.GetListadoFormaPago(Compra);
-            Compra.Conexion = Conexion;
-            
-            return PartialView("ModalPago", Compra);
+            try
+            {
+                if (IDCompra.Length == 36)
+                {
+                    Compra = new CompraModels();
+                    CompraDatos = new _Compra_Datos();
+                    Compra.IDCompra = IDCompra;
+                    Compra.Conexion = Conexion;
+                    Compra.Usuario = User.Identity.Name;
+                    Compra = CompraDatos.GetDetails(Compra);
+                    return View(Compra);
+                }
+                return RedirectToAction("Index", "Compra");
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + ex.ToString();
+            }
+            return View(Compra);
         }
-        #endregion
-        #region Cobro
-        [HttpPost]
-        public ActionResult ModalCobro(string idDocCobrar)
-        {
-            Compra = new CompraModels();
-            CompraDatos = new _Compra_Datos();
-            Compra.Ganado.id_Ganados = idDocCobrar;
-            Compra.Conexion = Conexion;
 
-            return PartialView("ModalCobro", Compra);
+        [HttpPost]
+        public ActionResult JsonGeneralesGanado(string IDCompra)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                Compra = new CompraModels();
+                Compra.Conexion = Conexion;
+                Compra.IDCompra = IDCompra;
+                Compra.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(CompraDatos.JsonGeneralesGanado(Compra));
+                Compra.RespuestaAjax.Success = true;
+
+                return Content(Compra.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Compra.RespuestaAjax.Mensaje = ex.ToString();
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
         }
-        #endregion
-        #endregion
+        [HttpPost]
+        public ActionResult JsonDetallesGanadoMacho(string IDCompra)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                Compra = new CompraModels();
+                Compra.Conexion = Conexion;
+                Compra.IDCompra = IDCompra;
+                Compra.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(CompraDatos.JsonDetallesGanadoMacho(Compra));
+                Compra.RespuestaAjax.Success = true;
+
+                return Content(Compra.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Compra.RespuestaAjax.Mensaje = ex.ToString();
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        [HttpPost]
+        public ActionResult JsonDetallesGanadoHembra(string IDCompra)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                Compra = new CompraModels();
+                Compra.Conexion = Conexion;
+                Compra.IDCompra = IDCompra;
+                Compra.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(CompraDatos.JsonDetallesGanadoHembra(Compra));
+                Compra.RespuestaAjax.Success = true;
+
+                return Content(Compra.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Compra.RespuestaAjax.Mensaje = ex.ToString();
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        [HttpPost]
+        public ActionResult JsonDetallesDocXpagar(string IDCompra)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                Compra = new CompraModels();
+                Compra.Conexion = Conexion;
+                Compra.IDCompra = IDCompra;
+                Compra.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(CompraDatos.JsonDetallesDocXpagar(Compra));
+                Compra.RespuestaAjax.Success = true;
+
+                return Content(Compra.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Compra.RespuestaAjax.Mensaje = ex.ToString();
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        [HttpPost]
+        public ActionResult JsonDetallesDocXcobrar(string IDCompra)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                Compra = new CompraModels();
+                Compra.Conexion = Conexion;
+                Compra.IDCompra = IDCompra;
+                Compra.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(CompraDatos.JsonDetallesDocXcobrar(Compra));
+                Compra.RespuestaAjax.Success = true;
+
+                return Content(Compra.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Compra.RespuestaAjax.Mensaje = ex.ToString();
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+
     }
 }

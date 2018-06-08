@@ -51,6 +51,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrió un error al cargar las actividades. Por favor contacte a soporte técnico.";
                 ex.Message.ToString();
                 return Json("", JsonRequestBehavior.AllowGet);
             }

@@ -48,6 +48,7 @@ namespace CreativaSL.Web.Ganados.Models
         public string CondicionPago { get; set; }
         public int Estatus { get; set; }
         public string Id_documentoPorCobrar { get; set; }
+        public string Id_empresa { get; set; }
 
         //ID
         public CatEmpresaModels Empresa { get; set; }

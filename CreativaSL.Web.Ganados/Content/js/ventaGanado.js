@@ -5,15 +5,17 @@
     //datatables
     var tableDocumentos;
 
+    /*INICIA GANADO*/
+
+    /*TERMINA GANADO*/
+
+
+
     /*INICIA PROVEEDOR*/
     var RunEventsProveedor = function () {
         $("#IDProveedor").on("change", function () {
             var IDProveedor = $(this).val();
             GetLugaresProveedorXIDProveedor(IDProveedor);
-        });
-        $('#FechaHoraProgramada').datepicker({
-            format: 'dd/mm/yyyy',
-            language: 'es'
         });
         $('#tabFlete').on("click", function () {
             CalculateAndDisplayRoute(directionsService, directionsDisplay, map);
@@ -114,7 +116,7 @@
     function AC_Proveedor() {
         var form = $("#frmProveedor")[0];
         var formData = new FormData(form);
-         $("body").css("cursor", "progress");
+        $("body").css("cursor", "progress");
         $.ajax({
             type: 'POST',
             data: formData,
@@ -410,7 +412,7 @@
         document.getElementById("Trayecto_id_lugarDestino").addEventListener('change', onChangeHandler);
 
         CalculateAndDisplayRoute(directionsService, directionsDisplay);
-        
+
     };
     function CalculateAndDisplayRoute(directionsService, directionsDisplay) {
         var selectIndexInicio = document.getElementById('Trayecto_id_lugarOrigen').selectedIndex;
@@ -451,8 +453,7 @@
     var LoadTableDocumentos = function () {
         var IDFlete = $("#IDFlete").val();
 
-        if (!$.fn.DataTable.isDataTable('#tblDocumentos')) {
-            tableDocumentos = $('#tblDocumentos').DataTable({
+        tableDocumentos = $('#tblDocumentos').DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
             },
@@ -512,7 +513,7 @@
                 {
                     "data": null,
                     "render": function (data, type, full) {
-                        
+
                         return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
                             "<a data-id='" + full["id_documento"] + "' class='btn btn-yellow tooltips btn-sm editDocumento' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
                             "<a data-hrefa='/Admin/Flete/DEL_Documento/' title='Eliminar' data-id='" + full["id_documento"] + "' class='btn btn-danger tooltips btn-sm deleteDocumento' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
@@ -575,8 +576,6 @@
                 });
             }
         });
-        }
-        
 
         $("#btnAddDocumento").on("click", function () {
             var IDFlete = $("#IDFlete").val();
@@ -594,7 +593,7 @@
                 $("body").css("cursor", "default");
                 $('#ContenidoModalDocumento').html(data);
                 $('#ModalDocumento').modal({ backdrop: 'static', keyboard: false });
-                
+
                 LoadValidation_AC_Documento();
                 RunEventsDocumento();
             }
@@ -744,23 +743,14 @@
             document.getElementById("tabDocumentos").dataset.toggle = "tab";
             $('#tabDocumentos').data('toggle', "tab")
             $("#liDocumentos").removeClass('disabled').addClass('pestaña');
-            LoadTableDocumentos();
         }
     }
     /*TERMINA FUNCIONES MIXTAS*/
-  
-    
 
-    
-   
     return {
         init: function () {
             DesbloquearTabs();
-            RunEventsProveedor();
-            RunEventsFlete();
             InitMap();
-            LoadValidationProveedor();
-            LoadValidationFlete();
         }
     };
 }();

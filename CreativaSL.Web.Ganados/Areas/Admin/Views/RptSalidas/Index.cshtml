@@ -1,0 +1,234 @@
+﻿@using System.Data
+@model CreativaSL.Web.Ganados.Models.RptSalidasModels
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section featured
+{ 
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Reporte por dias laborados </h2>
+    </div>
+
+    <!-- END PAGE TITLE -->
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+
+                        @{ Html.EnableClientValidation(false); }
+                        @using (Html.BeginForm("Index", "RptSalidas", FormMethod.Post, new { @class = "form-inline", id = "form-rptPM", autocomplete = "off" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                              <div class="col-md-12">
+                                 <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label>Desde :</label>
+                                        <div class="input-group date">
+                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                            @Html.TextBoxFor(model => model.fechaInicio, "{0:dd/MM/yyyy}", new { id = "fechaInicio", @class = "form-control datepicker", @readonly = "readonly", @title = "Fecha Inicio" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label>a </label>
+                                        <div class="input-group date">
+                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                            @Html.TextBoxFor(model => model.fechaFin, "{0:dd/MM/yyyy}", new { id = "fechaFin", @class = "form-control datepicker", @readonly = "readonly", @title = "Fecha Inicio" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12"><button class="btn btn-default btnCrear"><span class="fa fa-search"> </span> Buscar</button></div>
+
+                                </div>
+                            </div>
+                        }
+                    </div>
+                     <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                 <thead>
+                                                    <tr>
+                                                        <th class="text-center th-reports-img">@Html.Raw(HttpUtility.HtmlDecode(Model.DatosEmpresa.ImagenContruida))</th>
+                                                        <th colspan="12" class="text-center">
+                                                            <table class="table ">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Nombre:</th>
+                                                                        <th>@Model.DatosEmpresa.RazonFiscal</th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Sucursal:</th>
+                                                                        <th>@Model.DatosEmpresa.NombreSucursal</th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Dirección:</th>
+                                                                        <th>@Model.DatosEmpresa.DireccionFiscal</th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th colspan="2" class="text-center">REPORTE DE SALIDAS</th>
+                                                                    </tr>
+                                                                </thead>
+                                                            </table>
+                                                        </th>
+                                                    </tr>
+                                                     <tr>
+                                                         <th  colspan="13">@Model.Descripcion</th> 
+                                                     </tr>
+                                                     <tr>
+                                                          @foreach (DataColumn column in Model.TablaDatos.Columns)
+                                                         {
+                                                            <th>@column.ColumnName</th>
+                                                         }
+                                                     </tr>
+                                                     </thead>
+                                                <tbody>
+                                                        @{ 
+                                                            decimal suma = 0,sumatotal=0;
+                                                            foreach (DataRow datos in Model.TablaDatos.Rows)
+                                                            {
+                                                                suma = 0;
+                                                            <tr>
+                                                                @foreach (DataColumn column in Model.TablaDatos.Columns)
+                                                                {
+                                                                    if (column.ColumnName.ToString() == "Fecha")
+                                                                    {
+                                                                         <td>@Convert.ToDateTime(datos[column.ColumnName].ToString()).ToShortDateString() </td>
+                                                                    }
+                                                                    else if (string.IsNullOrEmpty(datos[column.ColumnName].ToString()))
+                                                                    {
+                                                                        <td>0</td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td>@Convert.ToDecimal(datos[column.ColumnName].ToString()).ToString("C2")</td>
+                                                                        
+                                                                    }
+                                                                }
+                                                            </tr>
+                                                                }
+                                                            <tr>
+                                                                 @foreach (DataColumn dc in Model.TablaDatos.Columns)
+                                                                    {
+                                                                        suma = 0;
+                                                                        foreach (DataRow datos in Model.TablaDatos.Rows)
+                                                                        {
+                                                                            //comprueba que la columna de 'dc' sea fecha para salir del foreach 'datos' 
+                                                                            if (dc.ColumnName.ToString() == "Fecha")
+                                                                            {
+                                                                                break;
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                //comprueba que valor de la fila con la columna de tabla 'datos' sea vacio para sumar valores
+                                                                                if (string.IsNullOrEmpty(datos[dc.ColumnName].ToString()))
+                                                                                {
+                                                                                    suma = suma + 0;
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    suma = suma + Convert.ToDecimal(datos[dc.ColumnName].ToString());
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                        if (dc.ColumnName.ToString() == "Fecha")
+                                                                        {
+                                                                            <td><h4>SubTotal:</h4></td>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <td><h4>@suma.ToString("C2")</h4></td>
+                                                                            sumatotal+= suma;
+                                                                        }
+                                                                    }
+                                                            </tr>
+                                                           <tr>
+                                                               <td colspan="7"><h3>Total</h3></td>
+                                                               <td colspan="6" class="text-right"><h3>@sumatotal.ToString("C2")</h3></td>
+                                                           </tr>
+                                                            }
+                                                   </tbody>                                     
+                                            </table>
+                                        </div>
+                    </div>
+                </div>
+                <!-- END DEFAULT DATATABLE -->
+            </div>
+        </div>
+    </div>
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres eliminar esta fila?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script
+{
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/RptProveedorMunicipio.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script>
+    jQuery(document).ready(function () {
+    Mensaje(message, typemessage);
+    RptProveedorMunicipio.init();
+        });
+    </script>
+}
+
+
+
+
+
+
+
+
+
+

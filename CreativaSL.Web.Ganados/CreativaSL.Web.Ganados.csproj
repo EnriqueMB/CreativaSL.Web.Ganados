@@ -226,6 +226,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\Views\RptSalidas\Index.cshtml" />
     <Content Include="Content\assets\filetree\jqueryFileTree.asp" />
     <Content Include="Content\assets\filetree\jqueryFileTree.aspx" />
     <Content Include="Content\assets\fileupload\cors\postmessage.html" />
@@ -436,6 +437,7 @@
     <Content Include="Content\img\themes\default.jpg" />
     <Content Include="Content\img\themes\light.jpg" />
     <Content Include="Content\js\actions.js" />
+    <Content Include="Content\js\addProductoServicio.js" />
     <Content Include="Content\js\Bancos.js" />
     <Content Include="Content\js\CalAlmacen.js" />
     <Content Include="Content\js\Canvas.js" />
@@ -451,6 +453,8 @@
     <Content Include="Content\js\conciliacionAlmacenNegDetalle.js" />
     <Content Include="Content\js\conciliacionAlmacenPosDetalle.js" />
     <Content Include="Content\js\CuentaProveedorAlmacen.js" />
+    <Content Include="Content\js\documentoXCobrar.js" />
+    <Content Include="Content\js\documentoXCobrar_impuesto.js" />
     <Content Include="Content\js\EmpleadosSucursalFaltas.js" />
     <Content Include="Content\js\fleteRecepcion.js" />
     <Content Include="Content\js\ProveedorCombustible.js" />
@@ -945,6 +949,7 @@
     <Content Include="Content\js\compraAlmacenLista.js" />
     <Content Include="Content\js\Vehiculo.js" />
     <Content Include="Content\js\venta.js" />
+    <Content Include="Content\js\ventaGanado.js" />
     <Content Include="Content\Ocampo.ico" />
     <Content Include="Content\js\RangoCompra.js" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -1058,7 +1063,6 @@
     <Content Include="Areas\Admin\Views\CatAlmacen\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatAlmacen\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatAlmacen\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Compra\ModalCobro.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Index.cshtml" />
@@ -1069,7 +1073,6 @@
     <Content Include="Areas\Admin\Views\CatRemolque\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatRemolque\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Compra\ModalPago.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Details.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\Index.cshtml" />
@@ -1203,7 +1206,6 @@
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\NuevoDatosContacto.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\EditProducto.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Transacciones.cshtml" />
-    <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalComprobante.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalServicioProducto.cshtml" />
     <Content Include="Areas\Admin\Views\RptUltCompraProveedor\Index.cshtml" />
     <Content Include="Areas\Admin\Views\RptProveedorMermaAlta\Index.cshtml" />
@@ -1225,6 +1227,11 @@
     <Content Include="Areas\Admin\Views\SalidaAlmacen\VerListaTest.cshtml" />
     <Content Include="Areas\Admin\Views\SalidaAlmacen\Details.cshtml" />
     <Content Include="Areas\Admin\Views\SalidaAlmacen\EditDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\AddComprobante.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\Ganado.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\EditComprobante.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalImpuestoCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\AddProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\EntradasAlmacen\Details.cshtml" />
     <Content Include="Areas\Admin\Views\ConciliacionAlmacen\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ConciliacionAlmacen\Create.cshtml" />
@@ -1306,6 +1313,7 @@
     <Compile Include="Areas\Admin\Controllers\NominaDiasFestivosController.cs" />
     <Compile Include="Areas\Admin\Controllers\RptProveedorMermaAltaController.cs" />
     <Compile Include="Areas\Admin\Controllers\RptProveedorMunicipioController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RptSalidasController.cs" />
     <Compile Include="Areas\Admin\Controllers\RptUltCompraProveedorController.cs" />
     <Compile Include="Areas\Admin\Controllers\SalidaAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\TablaController.cs" />
@@ -1437,6 +1445,7 @@
     <Compile Include="Models\ResumenGastosModels.cs" />
     <Compile Include="Models\RptProveedorMermaAltaModels.cs" />
     <Compile Include="Models\RptProveedorMunicipioModels.cs" />
+    <Compile Include="Models\RptSalidasModels.cs" />
     <Compile Include="Models\RptUltCompraProveedorModels.cs" />
     <Compile Include="Models\SalidaAlmacenDetalle.cs" />
     <Compile Include="Models\SalidaAlmacenDetalleModels.cs" />
@@ -1472,6 +1481,7 @@
     <Compile Include="Models\Validaciones\TextoAttribute.cs" />
     <Compile Include="Models\VentaGanadoModels.cs" />
     <Compile Include="Models\VentaModels.cs" />
+    <Compile Include="Models\VentaModels2.cs" />
     <Compile Include="Models\VerAlmacenInventarioModels.cs" />
     <Compile Include="Models\_Almacen_Datos.cs" />
     <Compile Include="Models\_AsistenciaEmpleados_Datos.cs" />
@@ -1520,9 +1530,11 @@
     <Compile Include="Models\_Nomina_Datos.cs" />
     <Compile Include="Models\_RptProveedorMermaAlta_Datos.cs" />
     <Compile Include="Models\_RptProveedorMunicipio_Datos.cs" />
+    <Compile Include="Models\_RptSalidas_Datos.cs" />
     <Compile Include="Models\_SalidaAlmacen_Datos.cs" />
     <Compile Include="Models\_ServicioMantenimiento_Datos.cs" />
     <Compile Include="Models\_Usuario_Datos.cs" />
+    <Compile Include="Models\_Venta2_Datos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CapturarCompraViewModels.cs" />
     <Compile Include="ViewModels\CompraAlmacenDetallesViewModels.cs" />
@@ -1618,7 +1630,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50240</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

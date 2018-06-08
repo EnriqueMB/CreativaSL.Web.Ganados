@@ -172,7 +172,7 @@
             </div>
         </div>
     </div>
-    <div class="message-box animated fadeIn" data-sound="alert" id="mb-terminar">
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-concluir">
         <div class="mb-container">
             <div class="mb-middle">
                 <div class="mb-title"><span class="fa fa-mail-forward"></span><strong>¿Seguro que desea concluir esta compra?</strong></div>
@@ -245,7 +245,7 @@
                 '</table>';
         }
 
-            var tblIndexCompra1 = $("#tblIndexCompra").DataTable({
+        var tblIndexCompra1 = $("#tblIndexCompra").DataTable({
                 "language": {
                     "url": "/Content/assets/json/Spanish.json"
                 },
@@ -300,8 +300,9 @@
                         var en_camino = "En camino";
                         var ganado = "Ganado";
                         var eventos_recepcion = "Eventos y recepción"
-                        var igual = status_actual.localeCompare(agendado);
+                        var concluida = "Concluida";
 
+                        var igual = status_actual.localeCompare(agendado);
                         if (igual == 0) {
                             botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm enviar' title='Enviar'  data-placement='top' data-original-title='Enviar'><i class='fa fa-truck'></i></a>" +
@@ -454,8 +455,10 @@
                                 "</ul>" +
                                 "</div>" +
                                 "</div>";
-                        } else if (full["estatus"] == "Finalizado") {
-                            botones = botones + "<a data-id='" + full["id_flete"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                        }
+                        igual = status_actual.localeCompare(concluida);
+                        if (igual == 0) {
+                            botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
@@ -464,7 +467,7 @@
                                 "</a>" +
                                 "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
                                 "<li>" +
-                                "<a class='details' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<a class='details' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
                                 "<i class='fa fa-eye'></i> Detalles" +
                                 "</a>" +
                                 "</li>" +
@@ -517,6 +520,20 @@
                         window.location.href = '/Admin/Compra/CambiarEstatus?IDCompra=' + id;
                     });
                 });
+                $(".concluir").on("click", function () {
+                    var id = $(this).attr('data-id');
+                    var box = $("#mb-concluir");
+                    box.addClass("open");
+                    box.find(".mb-control-yes").on("click", function () {
+                        box.removeClass("open");
+                        window.location.href = '/Admin/Compra/CambiarEstatus?IDCompra=' + id;
+                    });
+                });
+                $(".details").on("click", function () {
+                    var IDCompra = $(this).data("id")
+                    window.location.href = '/Admin/Compra/Details?IDCompra=' + IDCompra;
+                });
+
 
             },
             "order": [[1, 'asc']]
