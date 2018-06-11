@@ -31,6 +31,25 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(Proveedor);
             }
         }
+        // GET: Admin/Reporte/Details/5
+        public ActionResult Reporte()
+        {
+            try
+            {
+                RptProveedorMermaAltaModels reporte = new RptProveedorMermaAltaModels();
+                _RptProveedorMermaAlta_Datos reporteDatos = new _RptProveedorMermaAlta_Datos();
+                reporte.Conexion = Conexion;
+                reporte.listaRptProveedorMerma = reporteDatos.obtenerListaProveedoresMermaAlta(reporte);
+                return View(reporte);
+            }
+            catch (Exception ex)
+            {
+                RptProveedorMermaAltaModels Proveedor = new RptProveedorMermaAltaModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Proveedor);
+            }
+        }
 
         // GET: Admin/RptProveedorMermaAlta/Details/5
         public ActionResult Details(int id)

@@ -68,14 +68,22 @@
                     "data": null,
                     "render": function (data, type, full) {
                         var opcionSistema = "";
+                        var opcionSistemaMin = "";
+
                         if (full["esSistema"] != true) {
-                            opcionSistema = "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-yellow tooltips btn-sm editDocumento' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>";
+                            opcionSistema = "<a data-hrefa='/Admin/DocumentoXCobrar/Del_ProductoServicio/' title='Eliminar' data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-danger tooltips btn-sm deleteDetalle' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>";
+                            opcionSistemaMin =
+                            "<li>" +
+                            "<a data-hrefa='/Admin/DocumentoXCobrar/Del_ProductoServicio/' class='deleteDetalle' role='menuitem' tabindex='-1' data-id='" + full["id_detalleDoctoCobrar"] + "'>" +
+                            "<i class='fa fa-trash-o'></i> Eliminar" +
+                            "</a>" +
+                            "</li>";
                         }
 
                         var menu = "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-yellow tooltips btn-sm impuestos' title='Impuestos'  data-placement='top' data-original-title='Impuestos'><i class='fa fa-edit'></i></a>" +
+                            "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-green tooltips btn-sm impuestos' title='Impuestos'  data-placement='top' data-original-title='Impuestos'><i class='fa fa-money'></i></a>" +
+                            "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-yellow tooltips btn-sm editDetalle' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
                             opcionSistema +
-                            "<a data-hrefa='/Admin/DocumentoXCobrar/DEL_DocumentoDetalleCompra/' title='Eliminar' data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-danger tooltips btn-sm deleteDocumento' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                             "<div class='btn-group'>" +
@@ -84,15 +92,16 @@
                             "</a>" +
                             "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
                             "<li>" +
-                            "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='editDocumento' role='menuitem' tabindex='-1'>" +
+                            "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='impuestoDetalle' role='menuitem' tabindex='-1'>" +
                             "<i class='fa fa-edit'></i> Editar" +
                             "</a>" +
                             "</li>" +
                             "<li>" +
-                            "<a data-hrefa='/Admin/DocumentoXCobrar/DEL_DocumentoDetalleCompra/' class='deleteDocumento' role='menuitem' tabindex='-1' data-id='" + full["id_detalleDoctoCobrar"] + "'>" +
-                            "<i class='fa fa-trash-o'></i> Eliminar" +
+                            "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='editDetalle' role='menuitem' tabindex='-1'>" +
+                            "<i class='fa fa-edit'></i> Editar" +
                             "</a>" +
                             "</li>" +
+                            opcionSistemaMin + 
                             "</ul>" +
                             "</div>" +
                             "</div>";
@@ -101,35 +110,30 @@
                 }
             ],
             "drawCallback": function (settings) {
-                $(".editDocumento").on("click", function () {
-                    var IDDocumento = $(this).data("id");
-
-                    ModalDocumento(IDFlete, IDDocumento);
+                $(".editDetalle").on("click", function () {
+                    var Id_detalleDoctoCobrar = $(this).data("id");
+                    window.location.href = '/Admin/DocumentoXCobrar/EditProductoServicio?&Id_detalleDoctoCobrar=' + Id_detalleDoctoCobrar + '&Id_redireccionar=' + IDCompra + '&TipoServicio=' + TipoServicio;
                 });
-                $(".deleteDocumento").on("click", function () {
+                $(".deleteDetalle").on("click", function () {
                     var url = $(this).attr('data-hrefa');
-                    var row = $(this).attr('data-id');
-                    var box = $("#mb-deleteDocumento");
+                    var id_detalle = $(this).attr('data-id');
+                    var box = $("#mb-deleteDetalle");
                     box.addClass("open");
                     box.find(".mb-control-yes").on("click", function () {
                         box.removeClass("open");
                         $.ajax({
                             url: url,
-                            data: { IDDocumento: row },
+                            data: { Id_detalleDoctoCobrar: id_detalle, Id_documentoCobrar: Id_documentoPorCobrar },
                             type: 'POST',
                             dataType: 'json',
                             success: function (result) {
                                 if (result.Success) {
                                     box.find(".mb-control-yes").prop('onclick', null).off('click');
-                                    Mensaje("Documento eliminado con éxito.", "1");
-                                    $("#ModalDocumento").modal('hide');
-                                    tableDocumentos.ajax.reload();
                                 }
-                                else
-                                    Mensaje(result.Mensaje, "2");
+                                location.reload();
                             },
                             error: function (result) {
-                                Mensaje(result.Mensaje, "2");
+                                location.reload();
                             }
                         });
                     });
@@ -241,12 +245,12 @@
                 }
             ],
             "drawCallback": function (settings) {
-                $(".editDetalle").on("click", function () {
+                $(".editDetalleFlete").on("click", function () {
                     var Id_documentoPorCobrarDetalle = $(this).data("id");
                     window.location.href = '/Admin/DocumentoXCobrar/EditProductoServicio?Id_documentoPorCobrarDetallePagos=' + Id_documentoPorCobrarDetalle + '&TipoServicio=' + TipoServicioFlete + '&Id_documentoPorCobrar=' + Id_documentoPorCobrarFlete;
                 });
 
-                $(".deleteDocumento").on("click", function () {
+                $(".deleteDetalleFlete").on("click", function () {
                     var url = $(this).attr('data-hrefa');
                     var row = $(this).attr('data-id');
                     var box = $("#mb-deleteDocumento");

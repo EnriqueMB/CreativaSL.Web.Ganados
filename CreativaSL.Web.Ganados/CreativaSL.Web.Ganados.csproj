@@ -455,6 +455,7 @@
     <Content Include="Content\js\CuentaProveedorAlmacen.js" />
     <Content Include="Content\js\documentoXCobrar.js" />
     <Content Include="Content\js\documentoXCobrar_impuesto.js" />
+    <Content Include="Content\js\editProductoServicio.js" />
     <Content Include="Content\js\EmpleadosSucursalFaltas.js" />
     <Content Include="Content\js\fleteRecepcion.js" />
     <Content Include="Content\js\ProveedorCombustible.js" />
@@ -1063,6 +1064,7 @@
     <Content Include="Areas\Admin\Views\CatAlmacen\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatAlmacen\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatAlmacen\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\ModalCobro.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Index.cshtml" />
@@ -1073,6 +1075,7 @@
     <Content Include="Areas\Admin\Views\CatRemolque\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatRemolque\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\ModalPago.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Details.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\Index.cshtml" />
@@ -1230,7 +1233,6 @@
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\AddComprobante.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Ganado.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\EditComprobante.cshtml" />
-    <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalImpuestoCompra.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\AddProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\EntradasAlmacen\Details.cshtml" />
     <Content Include="Areas\Admin\Views\ConciliacionAlmacen\Index.cshtml" />
@@ -1241,6 +1243,8 @@
     <Content Include="Areas\Admin\Views\ConciliacionAlmacen\CreateDetailNeg.cshtml" />
     <Content Include="Areas\Admin\Views\ConciliacionAlmacen\EditDetailPos.cshtml" />
     <Content Include="Areas\Admin\Views\ConciliacionAlmacen\EditDetailNeg.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\EditProductoServicio.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\ImpuestoCompra.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

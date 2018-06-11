@@ -40,5 +40,9 @@ namespace CreativaSL.Web.Ganados.Models
 
         public string Id_redireccionar { get; set; }
         public string Id_unidadProducto { get; set; }
+
+        public bool Inventario { get; set; }
+        public string NombreProducto { get; set; }
+        public string NombreAlmacen { get; set; }
     }
 }
