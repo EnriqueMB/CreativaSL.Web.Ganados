@@ -1224,6 +1224,7 @@
     <Content Include="Areas\Admin\Views\SalidaAlmacen\EditDetails.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\AddComprobante.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Ganado.cshtml" />
+    <Content Include="Areas\Admin\Views\RptProveedorMermaAlta\Reporte.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
