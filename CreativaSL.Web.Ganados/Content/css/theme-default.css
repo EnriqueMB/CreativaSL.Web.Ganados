@@ -134,7 +134,7 @@ body {
 .page-container .page-sidebar {
   width: 220px;
   float: left;
-  position: relative;
+  position: fixed;
   z-index: 3;
 }
 .page-container .page-sidebar.page-sidebar-fixed {
@@ -7453,3 +7453,14 @@ li.ext_zip {
 .x-navigation-minimized .xn-logo{
 display:none;
 }
+
+/*.mCSB_container{
+    position: fixed !important;
+    width:16%;
+}
+@media (max-width: 1024px){
+    .mCSB_container{
+        position: relative !important;
+        width:100%;
+    }
+}*/

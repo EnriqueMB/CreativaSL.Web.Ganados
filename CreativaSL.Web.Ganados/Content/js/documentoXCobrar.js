@@ -12,6 +12,14 @@
     var RunEventsComprobantePago = function () {
         var Imagen = document.getElementById("ImagenMostrar").value;
         var ExtensionImagen = document.getElementById("ExtensionImagenBase64").value;
+        var ImagenServidor = document.getElementById("ImagenBase64").value;
+        if (ImagenServidor === null || ImagenServidor.length == 0 || ImagenServidor == '') {
+            document.getElementById("HttpImagen").dataset.imgBD = "0";
+        }
+        else {
+            document.getElementById("HttpImagen").dataset.imgbd = "1";
+        }
+            
 
         $('#HttpImagen').fileinput({
             theme: 'fa',
@@ -29,18 +37,20 @@
                 { caption: 'Imagen del recibo' }
             ],
             initialPreviewShowDelete: false,
-            showRemove: true,
-            showClose: true,
+            showRemove: false,
+            showClose: false,
             layoutTemplates: { actionDelete: '' },
-            allowedFileExtensions: ["png", 'jpg', 'bmp', 'jpeg'],
-            required: true
+            allowedFileExtensions: ["png", "jpg", "png", "jpeg",]
         })
         $('#HttpImagen').on('fileclear', function (event) {
             document.getElementById("ImagenMostrar").value = "";
         });
 
-        $('#divBancarizado').hide(0);
-        QuitarValidacionesBancarizadas();
+        if (bancarizadoForm.value == "False") {
+            $('#divBancarizado').hide(0);
+            QuitarValidacionesBancarizadas();
+        }
+
 
         $("#Id_formaPago").on("change", function () {
             var bancarizadoOpcion = $(this).find(":selected").data("bancarizado");
@@ -50,7 +60,7 @@
                 bancarizadoForm.value = true;
                 cuentaBeneficiante.rules("add", { required: true });
                 cuentaOrdenante.rules("add", { required: true });
-                imagen.rules("add", { required: true });
+                imagen.rules("add", { ImagenRequerida: true });
                 folioINE.rules("add", { required: true });
                 numeroAutorizacion.rules("add", { required: true });
             }
@@ -85,7 +95,7 @@
     function QuitarValidacionesBancarizadas() {
         cuentaBeneficiante.rules("remove", "required");
         cuentaOrdenante.rules("remove", "required");
-        imagen.rules("remove", "required");
+        imagen.rules("remove", "ImagenRequerida");
         folioINE.rules("remove", "required");
         numeroAutorizacion.rules("remove", "required");
 
@@ -171,7 +181,7 @@
                     required: true
                 },
                 "HttpImagen":{
-                    required: true
+                    ImagenRequerida: true
                 },
                 "Id_cuentaBancariaOrdenante": {
                     required: true
@@ -252,12 +262,9 @@
             },
             success: function (response) {
                 if (response.Success) {
-                    Mensaje("Datos guardados con éxito.", "1");
-                    ////Recogo los valores
-                    //var json = JSON.parse(response.Mensaje);
-                    //$("#TotalFlete").val(json.totalFlete);
-                    //$("#TotalImpuestoTrasladado").val(json.totalImpuestoTrasladados);
-                    //$("#TotalImpuestoRetenido").val(json.totalImpuestoRetenido);
+                    //Mensaje("Datos guardados con éxito.", "1");
+                    var href = $("#regresar").attr('href');
+                    window.location.href = href;
                 }
                 else
                     Mensaje(response.Mensaje, "2");

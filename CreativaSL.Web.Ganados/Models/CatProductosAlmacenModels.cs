@@ -29,6 +29,12 @@ namespace CreativaSL.Web.Ganados.Models
             Completado = false;
             Usuario = string.Empty;
         }
+
+        public decimal Existencia { get; set; }
+        public decimal PrecioUnidad { get; set; }
+        public string Id_unidadProducto { get; set; }
+
+
         private List<CatProductosAlmacenModels> _listaProductosAlmacen;
 
         public List<CatProductosAlmacenModels> listaPrdocutosAlmacen

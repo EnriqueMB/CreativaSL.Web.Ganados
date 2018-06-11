@@ -451,7 +451,8 @@
     var LoadTableDocumentos = function () {
         var IDFlete = $("#IDFlete").val();
 
-        tableDocumentos = $('#tblDocumentos').DataTable({
+        if (!$.fn.DataTable.isDataTable('#tblDocumentos')) {
+            tableDocumentos = $('#tblDocumentos').DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
             },
@@ -574,6 +575,8 @@
                 });
             }
         });
+        }
+        
 
         $("#btnAddDocumento").on("click", function () {
             var IDFlete = $("#IDFlete").val();
@@ -741,6 +744,7 @@
             document.getElementById("tabDocumentos").dataset.toggle = "tab";
             $('#tabDocumentos').data('toggle', "tab")
             $("#liDocumentos").removeClass('disabled').addClass('pestaña');
+            LoadTableDocumentos();
         }
     }
     /*TERMINA FUNCIONES MIXTAS*/

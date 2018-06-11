@@ -7,7 +7,7 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class DocumentosPorCobrarDetallePagosModels
     {
-
+        public string Id_compra { get; set; }
         public string Id_documentoPorCobrarDetallePagos { get; set; }
         public string Id_documentoPorCobrar { get; set; }
         public int Id_formaPago { get; set; }
@@ -66,6 +66,9 @@ namespace CreativaSL.Web.Ganados.Models
 
         public List<CuentaBancariaModels> ListaCuentasBancariasEmpresa { get; set; }
         public List<CuentaBancariaModels> ListaCuentasBancariasProveedor { get; set; }
+
+        //vista producto servicio
+        public List<CatTipoClasificacionCobroModels> ListaTipoClasificacionCobro { get; set; }
 
     }
 }

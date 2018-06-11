@@ -32,7 +32,6 @@ namespace CreativaSL.Web.Ganados.Models
             this.Usuario = string.Empty;
             this.Opcion = 0;
         }
-
         private string _nombreAlmacen;
 
         public string nombreAlmacen

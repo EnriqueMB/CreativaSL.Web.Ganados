@@ -15,6 +15,8 @@ namespace CreativaSL.Web.Ganados.Models
         public decimal Cantidad { get; set; }
         public decimal PrecioUnitario { get; set; }
         public decimal Subtotal { get; set; }
+        public decimal Total { get; set; }
+        public decimal Impuestos { get; set; }
 
         public string Conexion { get; set; }
         public string Usuario { get; set; }
@@ -25,5 +27,22 @@ namespace CreativaSL.Web.Ganados.Models
         public List<CFDI_ProductoServicioModels> ListaProductosServiciosCFDI { get; set; }
         public List<CatTipoClasificacionCobroModels> ListaTipoClasificacionCobro { get; set; }
 
+        public decimal TotalImpuestosRetenidos { get; set; }
+        public decimal TotalImpuestosTrasladados { get; set; }
+
+        public string Id_almacen { get; set; }
+        public string Id_producto { get; set; }
+        public List<CatAlmacenModels> ListaAlmacen { get; set; }
+        public List<CatProductosAlmacenModels> ListaProductos { get; set; }
+
+        public decimal Existencia { get; set; }
+        public decimal PrecioPromedio { get; set; }
+
+        public string Id_redireccionar { get; set; }
+        public string Id_unidadProducto { get; set; }
+
+        public bool Inventario { get; set; }
+        public string NombreProducto { get; set; }
+        public string NombreAlmacen { get; set; }
     }
 }

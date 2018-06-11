@@ -10,5 +10,6 @@ namespace CreativaSL.Web.Ganados.Models
         public int Id_tipoClasificacionCobro { get; set; }
         public string Descripcion { get; set; }
         public bool Sistema { get; set; }
+        public bool Inventario { get; set; }
     }
 }

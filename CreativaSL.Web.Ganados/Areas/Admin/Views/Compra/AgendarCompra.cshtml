@@ -201,9 +201,9 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-md-6 controlError">
-                                            <label class="col-md-2 control-label">Kilómetraje Inicial</label>
-                                            <div class="col-md-10 col-xs-12">
+                                        <div class="col-md-4 controlError">
+                                            <label class="col-md-3 control-label">Kilómetraje Inicial</label>
+                                            <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                                     @Html.TextBoxFor(model => model.Flete.kmInicialVehiculo, new { id = "KmInicial", @class = "form-control", placeholder = "Introduzca el km. inicial del vehículo." })
@@ -211,14 +211,31 @@
                                                 @Html.ValidationMessageFor(model => model.Flete.kmInicialVehiculo)
                                             </div>
                                         </div>
-                                        <div class="col-md-6 controlError">
-                                            <label class="col-md-2 control-label">Costo del flete</label>
-                                            <div class="col-md-10 col-xs-12">
+                                        <div class="col-md-4 controlError">
+                                            <label class="col-md-3 control-label">Costo del flete</label>
+                                            <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Flete.precioFlete, "{0:f2}",new { @class = "form-control", placeholder = "Introduzca el precio del flete." })
+                                                    @Html.TextBoxFor(model => model.Flete.precioFlete, "{0:f2}", new { @class = "form-control", placeholder = "Introduzca el precio del flete." })
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.Flete.precioFlete)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 controlError">
+                                            <label class="col-md-3 control-label">Cobrar flete</label>
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.DropDownList("CobrarFlete",
+                                                   new SelectList(new[]
+                                                   {
+                                                       new { Value = "", Text = "--Seleccione--" },
+                                                       new { Value = "true", Text = "Si" },
+                                                       new { Value = "false", Text = "No" },
+                                                   },"Value", "Text", Model.CobrarFlete), 
+                                                   new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.CobrarFlete)
                                             </div>
                                         </div>
                                     </div>

@@ -436,6 +436,7 @@
     <Content Include="Content\img\themes\default.jpg" />
     <Content Include="Content\img\themes\light.jpg" />
     <Content Include="Content\js\actions.js" />
+    <Content Include="Content\js\addProductoServicio.js" />
     <Content Include="Content\js\Bancos.js" />
     <Content Include="Content\js\CalAlmacen.js" />
     <Content Include="Content\js\Canvas.js" />
@@ -448,6 +449,8 @@
     <Content Include="Content\js\compraTransacciones.js" />
     <Content Include="Content\js\CuentaProveedorAlmacen.js" />
     <Content Include="Content\js\documentoXCobrar.js" />
+    <Content Include="Content\js\documentoXCobrar_impuesto.js" />
+    <Content Include="Content\js\editProductoServicio.js" />
     <Content Include="Content\js\EmpleadosSucursalFaltas.js" />
     <Content Include="Content\js\fleteRecepcion.js" />
     <Content Include="Content\js\ProveedorCombustible.js" />
@@ -1224,7 +1227,10 @@
     <Content Include="Areas\Admin\Views\SalidaAlmacen\EditDetails.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\AddComprobante.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Ganado.cshtml" />
-    <Content Include="Areas\Admin\Views\RptProveedorMermaAlta\Reporte.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\EditComprobante.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\AddProductoServicio.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\EditProductoServicio.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\ImpuestoCompra.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
