@@ -27,7 +27,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                RptProveedorMermaAltaModels Proveedor = new RptProveedorMermaAltaModels();
+                RptSalidasModels Proveedor = new RptSalidasModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return View(Proveedor);
@@ -52,7 +52,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                RptProveedorMermaAltaModels Proveedor = new RptProveedorMermaAltaModels();
+                RptSalidasModels Proveedor = new RptSalidasModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return View(Proveedor);
