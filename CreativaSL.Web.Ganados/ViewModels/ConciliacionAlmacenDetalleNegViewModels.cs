@@ -8,25 +8,36 @@ using System.Web;
 
 namespace CreativaSL.Web.Ganados.ViewModels
 {
-    public class SalidaAlmacenDetalleViewModels
+    public class ConciliacionAlmacenDetalleNegViewModels
     {
-
-        private string _IDSalida;
-        [Required(ErrorMessage = "Se requiere identificador de Salida de almacén")]
-        [Display(Name = "Salida almacén")]
-        public string IDSalida
+        public ConciliacionAlmacenDetalleNegViewModels()
         {
-            get { return _IDSalida; }
-            set { _IDSalida = value; }
+            _IDConciliacion = string.Empty;
+            _IDConciliacionDetalle = string.Empty;
+            _IDProductoAlmacen = string.Empty;
+            _IDUnidadProducto = string.Empty;
+            _Cantidad = 0;
+            _Existencia = 0;
+            _ListaProductos = new List<CatProductosAlmacenModels>();
+            _ListaUnidades = new List<UnidadesProductosAlmacenModels>();
         }
 
-        private string _IDSalidaDetalle;
-        public string IDSalidaDetalle
+        private string _IDConciliacion;
+        [Required(ErrorMessage = "Se requiere identificador de Conciliación de almacén")]
+        [Display(Name = "Conciliación de almacén")]
+        public string IDConciliacion
         {
-            get { return _IDSalidaDetalle; }
-            set { _IDSalidaDetalle = value; }
+            get { return _IDConciliacion; }
+            set { _IDConciliacion = value; }
         }
-        
+
+        private string _IDConciliacionDetalle;
+        public string IDConciliacionDetalle
+        {
+            get { return _IDConciliacionDetalle; }
+            set { _IDConciliacionDetalle = value; }
+        }
+
         private string _IDProductoAlmacen;
         [Required(ErrorMessage = "Seleccione un producto")]
         [Display(Name = "Producto")]
@@ -61,7 +72,7 @@ namespace CreativaSL.Web.Ganados.ViewModels
             get { return _Existencia; }
             set { _Existencia = value; }
         }
-
+        
 
         private List<CatProductosAlmacenModels> _ListaProductos;
         /// <summary>
@@ -82,6 +93,5 @@ namespace CreativaSL.Web.Ganados.ViewModels
             get { return _ListaUnidades; }
             set { _ListaUnidades = value; }
         }
-
     }
 }

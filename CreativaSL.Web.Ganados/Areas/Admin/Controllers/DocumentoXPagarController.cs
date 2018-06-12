@@ -48,13 +48,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-                DocumentoPorPagarModels Documentos = new DocumentoPorPagarModels();
+                DocumentoPorPagarDetalleModels Documentos = new DocumentoPorPagarDetalleModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return View(Documentos);
             }
         }
-        public ActionResult DetalleDocumento(string id, int id2)
+        public ActionResult DetalleDocumento(string id, string id1, int id2)
         {
             try
             {
@@ -63,12 +63,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Documentos.Conexion = Conexion;
                 Documentos.IDDocumentoPagar = id;
                 Documentos.IDTipoDocumento = id2;
-                Documentos.listaDocumentosDetalle = DocumentosDatos.ObtenerDetalleListaDocumentosPagar(Documentos);
+                Documentos.IDDetalleDoctoPagar = id1;
+                Documentos.listaDocumentosDetalle = DocumentosDatos.ObtenerDetalleListaDocumentosPagarDetalle(Documentos);
                 return View(Documentos);
             }
             catch (Exception)
             {
-                DocumentoPorPagarModels Documentos = new DocumentoPorPagarModels();
+                DocumentoPorPagarDetalleModels Documentos = new DocumentoPorPagarDetalleModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return View(Documentos);

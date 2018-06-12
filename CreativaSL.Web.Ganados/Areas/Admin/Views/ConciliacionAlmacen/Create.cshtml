@@ -1,0 +1,114 @@
+﻿@model CreativaSL.Web.Ganados.ViewModels.ConciliacionAlmacenViewModels
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+
+        <div class="col-md-12">
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("Create", "ConciliacionAlmacen", FormMethod.Post, new { @class = "form-horizontal", id = "form-ea", autocomplete = "off", @enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="field_error" id="validation_summary"></div>
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                @Html.HiddenFor(model => model.IDConciliacion)
+                @Html.HiddenFor(model => model.IDTipoConciliacion)
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Conciliación </strong> de almacén </h3>
+                        <ul class="panel-controls"></ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Sucursal </label>
+                                <div class="col-md-6 col-xs-12">
+                                    @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
+                                    @Html.ValidationMessageFor(model => model.IDSucursal)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Almacén </label>
+                                <div class="col-md-6 col-xs-12">
+                                    @Html.DropDownListFor(model => model.IDAlmacen, new SelectList(Model.ListaAlmacenes, "IDAlmacen", "Descripcion"), new { id = "IDAlmacen", @class = "form-control select", data_live_search = "true" })
+                                    @Html.ValidationMessageFor(model => model.IDAlmacen)
+                                </div>
+                            </div>
+
+                            @*<div class="form-group">
+                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Tipo de conciliación </label>
+                                <div class="col-md-6 col-xs-12">
+                                    @Html.DropDownListFor(model => model.IDTipoConciliacion, new SelectList(Model.ListaTipoConciliacion, "IDTipoConciliacion", "Descripcion"), new { id = "IDTipoConciliacion", @class = "form-control select", data_live_search = "true" })
+                                    @Html.ValidationMessageFor(model => model.IDTipoConciliacion)
+                                </div>
+                            </div>*@
+
+                            <div class="form-group">
+                                <label class="col-md-2 col-xs-12 control-label"><span> * </span> Fecha</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                        @Html.TextBoxFor(model => model.FechaConciliacion, "{0:dd/MM/yyyy}", new { id = "FechaConciliacion", @class = "form-control datepicker", @readonly = "readonly" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.FechaConciliacion)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 col-xs-12 control-label"><span></span> Observaciones</label>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.Comentarios, new { id = "Comentarios", @class = "form-control", placeholder = "Ingrese comentarios adicionales en caso de tenerlos." })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Comentarios)
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("Index","ConciliacionAlmacen")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+            var message = '@message';
+            var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/conciliacionAlmacen.js")"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            Conciliacion.init();
+        });
+    </script>
+}
+
+
+
+

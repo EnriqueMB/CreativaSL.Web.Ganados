@@ -33,61 +33,54 @@
                         </ul>
                     </div>
                     <div class="panel-body">
-                        @foreach (var item in Model.listaDocumentosDetalle)
-                        {
-                            
-                                <div class="table-responsive">
-                                        <table class="table datatable">
-                                            <thead>
-                                                <tr>
-                                                    <th>Conciliación</th>
-                                                    <th>Clasificación</th>
-                                                    <th>Cantidad</th>
-                                                    <th>Precio Unitario</th>
-                                                    <th>SubTotal</th>
+                        <div class="table-responsive">
+                                <table class="table datatable">
+                                    <thead>
+                                        <tr>
+                                            <th>Conciliación</th>
+                                            <th>Clasificación</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio Unitario</th>
+                                            <th>SubTotal</th>
 
-                                                    <th>Acción</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach (var item in Model.listaDocumentosDetalle)
+                                    {
+                                        <tr id="@item.IDDocumentoPagar">
 
-                                                <tr id="@item.IDDocumentoPagar">
-
-                                                    <td>@item.nombreConciliacion</td>
-                                                    <td>@item.nombreClasificacion</td>
-                                                    <td>@item.cantidad</td>
-                                                    <td>@item.precioUnitario</td>
-                                                    <td>@item.SubTotal</td>
+                                            <td>@item.nombreConciliacion</td>
+                                            <td>@item.nombreClasificacion</td>
+                                            <td>@item.cantidad</td>
+                                            <td>@item.precioUnitario</td>
+                                            <td>@item.SubTotal</td>
                                                    
-                                                    <td style="text-align:center;">
-                                                        <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                            <a title="Detalle Documento" href="@Url.Action("DetalleDocumento", "DocumentoXPagar", new { id = item.IDDocumentoPagar, id2 = item.IDTipoDocumento})" class="btn btn-green tooltips" data-placement="top" data-original-title="Detalle Documento"><i class="fa fa-eye"></i></a>
-                                                        </div>
-                                                        <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                            <div class="btn-group">
-                                                                <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                                    <i class="fa fa-cog"></i> <span class="caret"></span>
+                                            <td style="text-align:center;">
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    <a title="Detalle Documento" href="@Url.Action("DetalleDocumento", "DocumentoXPagar", new { id = item.IDDocumentoPagar, id1 = item.IDDetalleDoctoPagar, id2 = item.IDTipoDocumento})" class="btn btn-green tooltips" data-placement="top" data-original-title="Detalle Documento"><i class="fa fa-eye"></i></a>
+                                                </div>
+                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                        </a>
+                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                            <li>
+                                                                <a href="@Url.Action("DetalleDocumento", "DocumentoXPagar", new { id = item.IDDocumentoPagar, id1 = item.IDDetalleDoctoPagar, id2 = item.IDTipoDocumento})"  role="menuitem" tabindex="-1">
+                                                                    <i class="fa fa-eye"></i> Detalle Documento
                                                                 </a>
-                                                                <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                                    <li>
-                                                                        <a href="@Url.Action("DetalleDocumento", "DocumentoXPagar", new { id = item.IDDocumentoPagar, id2 = item.IDTipoDocumento})"  role="menuitem" tabindex="-1">
-                                                                            <i class="fa fa-eye"></i> Detalle Documento
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-                            
-                            
-
-                           
-                        }
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
                     </div>
                 </div>
                 <!-- END DEFAULT DATATABLE -->

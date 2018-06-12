@@ -1,4 +1,4 @@
-﻿var SalidaDetalle = function () {
+﻿var ConciliacionDetalle = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator = function () {
@@ -32,12 +32,12 @@
             rules: {
                 IDProductoAlmacen: { required: true },
                 IDUnidadProducto: { required: true },
-                Cantidad: { required: true, decimal: true, cMenorQExistencia:true }
+                Cantidad: { required: true, decimal: true, cMenorQExistencia: true }
             },
             messages: {
                 IDProductoAlmacen: { required: "Seleccione un producto." },
                 IDUnidadProducto: { required: "Seleccione una unidad de medida." },
-                Cantidad: { required: "Ingrese la cantidad.", decimal:"Ingrese un dato válido"}
+                Cantidad: { required: "Ingrese la cantidad.", decimal: "Ingrese un dato válido para cantidad." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -81,13 +81,13 @@
         $('#IDUnidadProducto').on('change', function (event) {
             var IdProducto = $('#IDProductoAlmacen').val();
             var IdUnidad = $(this).val();
-            var IdSalida = $('#IDSalida').val();
-            getExistenciaXIDProducto(IdProducto, IdUnidad, IdSalida);
+            var IdConciliacion = $('#IDConciliacion').val();
+            getExistenciaXIDProducto(IdProducto, IdUnidad, IdConciliacion);
         });
 
         function getUnidadesXIDProducto(IdProducto) {
             $.ajax({
-                url: "/Admin/SalidaAlmacen/ObtenerUnidadesXIDProducto",
+                url: "/Admin/ConciliacionAlmacen/ObtenerUnidadesXIDProducto",
                 data: { IDProducto: IdProducto },
                 async: false,
                 dataType: "json",
@@ -104,10 +104,10 @@
             });
         }
 
-        function getExistenciaXIDProducto(IdProducto, IdUnidad, IdSalida) {
+        function getExistenciaXIDProducto(IdProducto, IdUnidad, IdConciliacion) {
             $.ajax({
-                url: "/Admin/SalidaAlmacen/ObtenerExistenciaXIDProducto",
-                data: { IDProducto: IdProducto, IDSalida: IdSalida, IDUnidad: IdUnidad },
+                url: "/Admin/ConciliacionAlmacen/ObtenerExistenciaXIDProducto",
+                data: { IDProducto: IdProducto, IDConciliacion: IdConciliacion, IDUnidad: IdUnidad },
                 async: false,
                 dataType: "json",
                 type: "POST",
@@ -120,7 +120,7 @@
                 }
             });
         }
-    };    
+    };
 
     return {
         //main function to initiate template pages

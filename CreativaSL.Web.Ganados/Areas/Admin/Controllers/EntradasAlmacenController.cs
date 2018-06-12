@@ -30,6 +30,22 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
+        // GET: Admin/EntradasAlmacen
+        public ActionResult Details(string id)
+        {
+            try
+            {
+                List<CantidadEntregaViewModels> Model = new List<CantidadEntregaViewModels>();
+                _EntradaAlmacen_Datos Datos = new _EntradaAlmacen_Datos();
+                Model = Datos.ObtenerDetalleEntradaXID(Conexion, id);
+                return View(Model);
+            }
+            catch (Exception)
+            {
+                return View(new List<EntradaAlmacenModels>());
+            }
+        }
+
         // GET: Admin/EntradasAlmacen/Create
         public ActionResult Create()
         {

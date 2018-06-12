@@ -125,6 +125,18 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.ProcessingObjectModel.DLL</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.WebForms.DLL</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebHelpers.3.2.4\lib\net45\Microsoft.Web.Helpers.dll</HintPath>
       <Private>True</Private>
@@ -447,6 +459,10 @@
     <Content Include="Content\js\CompraGanado.js" />
     <Content Include="Content\js\compraRecepcion.js" />
     <Content Include="Content\js\compraTransacciones.js" />
+    <Content Include="Content\js\conciliacionAlmacen.js" />
+    <Content Include="Content\js\conciliacionAlmacenLista.js" />
+    <Content Include="Content\js\conciliacionAlmacenNegDetalle.js" />
+    <Content Include="Content\js\conciliacionAlmacenPosDetalle.js" />
     <Content Include="Content\js\CuentaProveedorAlmacen.js" />
     <Content Include="Content\js\documentoXCobrar.js" />
     <Content Include="Content\js\documentoXCobrar_impuesto.js" />
@@ -1059,6 +1075,7 @@
     <Content Include="Areas\Admin\Views\CatAlmacen\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatAlmacen\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatAlmacen\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\ModalCobro.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Index.cshtml" />
@@ -1069,6 +1086,7 @@
     <Content Include="Areas\Admin\Views\CatRemolque\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatRemolque\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\ModalPago.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Details.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\Index.cshtml" />
@@ -1202,6 +1220,7 @@
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\NuevoDatosContacto.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\EditProducto.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Transacciones.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalServicioProducto.cshtml" />
     <Content Include="Areas\Admin\Views\RptUltCompraProveedor\Index.cshtml" />
     <Content Include="Areas\Admin\Views\RptProveedorMermaAlta\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorServicio\Index.cshtml" />
@@ -1226,6 +1245,15 @@
     <Content Include="Areas\Admin\Views\Venta\VentaGanado.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\EditComprobante.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\AddProductoServicio.cshtml" />
+    <Content Include="Areas\Admin\Views\EntradasAlmacen\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\ConciliacionAlmacen\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ConciliacionAlmacen\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\ConciliacionAlmacen\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\ConciliacionAlmacen\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\ConciliacionAlmacen\CreateDetailPos.cshtml" />
+    <Content Include="Areas\Admin\Views\ConciliacionAlmacen\CreateDetailNeg.cshtml" />
+    <Content Include="Areas\Admin\Views\ConciliacionAlmacen\EditDetailPos.cshtml" />
+    <Content Include="Areas\Admin\Views\ConciliacionAlmacen\EditDetailNeg.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\EditProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\ImpuestoCompra.cshtml" />
     <Content Include="Areas\Admin\Views\CatFierro\Index.cshtml" />
@@ -1288,6 +1316,7 @@
     <Compile Include="Areas\Admin\Controllers\CompraAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompraController.cs" />
     <Compile Include="Areas\Admin\Controllers\AsistenciaEmpleadosController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ConciliacionAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\DocumentoXCobrarController.cs" />
     <Compile Include="Areas\Admin\Controllers\DocumentoXPagarController.cs" />
     <Compile Include="Areas\Admin\Controllers\EntradasAlmacenController.cs" />
@@ -1503,6 +1532,7 @@
     <Compile Include="Models\_Combos_Datos.cs" />
     <Compile Include="Models\_CompraAlmacen_Datos.cs" />
     <Compile Include="Models\_Compra_Datos.cs" />
+    <Compile Include="Models\_ConciliacionAlmacen_Datos.cs" />
     <Compile Include="Models\_DatosRptUltCompraProveedor_Datos.cs" />
     <Compile Include="Models\_DocumentoXCobrar_Datos.cs" />
     <Compile Include="Models\_EntradaAlmacen_Datos.cs" />
@@ -1525,6 +1555,9 @@
     <Compile Include="ViewModels\CapturarCompraViewModels.cs" />
     <Compile Include="ViewModels\CompraAlmacenDetallesViewModels.cs" />
     <Compile Include="ViewModels\CantidadEntregaViewModels.cs" />
+    <Compile Include="ViewModels\ConciliacionAlmacenDetalleNegViewModels.cs" />
+    <Compile Include="ViewModels\ConciliacionAlmacenDetalleViewModels.cs" />
+    <Compile Include="ViewModels\ConciliacionAlmacenViewModels.cs" />
     <Compile Include="ViewModels\CuentaBancariaViewModels.cs" />
     <Compile Include="ViewModels\DatosEmpresaViewModels.cs" />
     <Compile Include="ViewModels\EmpleadoNominaViewModels.cs" />
@@ -1598,6 +1631,9 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\CatBodega\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Report\Saldos.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

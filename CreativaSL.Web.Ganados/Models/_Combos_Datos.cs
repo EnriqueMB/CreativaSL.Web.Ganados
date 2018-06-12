@@ -307,7 +307,30 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-
+        
+        public List<CatProductosAlmacenModels> ObtenerComboProductosAlmacenXIDConciliacion(string Conexion, string IDConciliacion)
+        {
+            try
+            {
+                List<CatProductosAlmacenModels> Lista = new List<CatProductosAlmacenModels>();
+                CatProductosAlmacenModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Combo_get_ProductosAlmacenXIDConciliacion", IDConciliacion);
+                while (Dr.Read())
+                {
+                    Item = new CatProductosAlmacenModels();
+                    Item.IDProductoAlmacen = !Dr.IsDBNull(Dr.GetOrdinal("IDProductoAlmacen")) ? Dr.GetString(Dr.GetOrdinal("IDProductoAlmacen")) : string.Empty;
+                    Item.Nombre = !Dr.IsDBNull(Dr.GetOrdinal("NombreProducto")) ? Dr.GetString(Dr.GetOrdinal("NombreProducto")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                Dr.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
         public List<CatProductosAlmacenModels> ObtenerComboProductosAlmacenXIDAlmacen(string Conexion, string IDAlmacen)
         {
             try
@@ -343,6 +366,29 @@ namespace CreativaSL.Web.Ganados.Models
                     Item = new UnidadesProductosAlmacenModels();
                     Item.id_unidadProducto = !Dr.IsDBNull(Dr.GetOrdinal("IDUnidad")) ? Dr.GetString(Dr.GetOrdinal("IDUnidad")) : string.Empty;
                     Item.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("UnidadMedida")) ? Dr.GetString(Dr.GetOrdinal("UnidadMedida")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                Dr.Close();
+                return Lista;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CatTipoConciliacionModels> ObtenerComboTipoConciliacion(string Conexion)
+        {
+            try
+            {
+                List<CatTipoConciliacionModels> Lista = new List<CatTipoConciliacionModels>();
+                CatTipoConciliacionModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Combo_get_CatTipoConciliacion");
+                while (Dr.Read())
+                {
+                    Item = new CatTipoConciliacionModels();
+                    Item.IDTipoConciliacion = !Dr.IsDBNull(Dr.GetOrdinal("IDTipoConciliacion")) ? Dr.GetInt32(Dr.GetOrdinal("IDTipoConciliacion")) : 0;
+                    Item.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty;
                     Lista.Add(Item);
                 }
                 Dr.Close();
