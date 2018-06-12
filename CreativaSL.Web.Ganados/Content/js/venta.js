@@ -121,7 +121,6 @@
                 $('.esconder').hide(1000);
             }
         });
-
     }
     //Funciones para los modales
     function ModalEvento() {

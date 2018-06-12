@@ -464,7 +464,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 Compra.Conexion = Conexion;
                 Compra.Usuario = User.Identity.Name;
-                Compra = CompraDatos.Compras_ac_Ganado(Compra, indiceActual);
+                //Compra = CompraDatos.Compras_ac_Ganado(Compra, indiceActual);
 
                 return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
             }
@@ -848,6 +848,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             //obtengo los generales
             Compra.DocumentoPorCobrar = CompraDatos.GetGeneralesDocumentoPorCobrar(Compra);
             Compra.Id_documentoPorCobrar = Compra.DocumentoPorCobrar.Id_documentoCobrar;
+            Compra.DocumentoPorPagar = CompraDatos.GetGeneralesDocumentoPorPagar(Compra);
+            Compra.Id_documentoPorPagar = Compra.DocumentoPorPagar.IDDocumentoPagar;
 
             return View(Compra);
         }

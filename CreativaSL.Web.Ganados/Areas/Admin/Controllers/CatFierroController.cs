@@ -18,16 +18,38 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     {
         private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
+
+        public ActionResult DatatableIndex()
+        {
+            try
+            {
+                CatFierroModels fierro = new CatFierroModels();
+                CatFierro_Datos fierroDatos = new CatFierro_Datos();
+
+                fierro.Conexion = Conexion;
+                fierro.RespuestaAjax = new RespuestaAjax();
+                fierro.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(fierroDatos.DatatableIndex(fierro));
+                fierro.RespuestaAjax.Success = true;
+
+                return Content(fierro.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                CatFierroModels fierro = new CatFierroModels();
+                fierro.RespuestaAjax = new RespuestaAjax();
+                fierro.RespuestaAjax.Mensaje = ex.ToString();
+                fierro.RespuestaAjax.Success = false;
+                return Content(fierro.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
         // GET: Admin/CatFierro
         public ActionResult Index()
         {
             try
             {
-                CatFierroModels Fierro = new CatFierroModels();
-                CatFierro_Datos FierroDa = new CatFierro_Datos();
-                Fierro.Conexion = Conexion;
-                Fierro = FierroDa.ObtenerListaFierros(Fierro);
-                return View(Fierro);
+                return View();
             }
             catch (Exception)
             {

@@ -140,5 +140,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
+
+        //[HttpPost]
+        //public ActionResult TableJsonCorrales(CompraModels Compra)
+        //{
+
+        //}
     }
 }

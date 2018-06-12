@@ -27,6 +27,9 @@ namespace CreativaSL.Web.Ganados.Models
         public string UPP { get; set; }
         public string LineaFletera { get; set; }
         /*Fin Para los detalles*/
+
+        public string Descripcion_bascula { get; set; }
+        public string Observacion_programacion { get; set; }
         public bool CobrarFlete { get; set; }
         public RecepcionOrigenModels RecepcionOrigen { get; set; }
         public List<CatRangoPesoCompraModels> ListaRangoPeso { get; set; }

@@ -1223,11 +1223,12 @@
     <Content Include="Areas\Admin\Views\SalidaAlmacen\Details.cshtml" />
     <Content Include="Areas\Admin\Views\SalidaAlmacen\EditDetails.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\AddComprobante.cshtml" />
-    <Content Include="Areas\Admin\Views\Venta\Ganado.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaGanado.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\EditComprobante.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\AddProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\EditProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\ImpuestoCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\CatFierro\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
