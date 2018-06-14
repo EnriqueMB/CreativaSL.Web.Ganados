@@ -87,27 +87,18 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatFierro/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CatFierroModels Fierro)
         {
             try
             {
                 if(Token.IsTokenValid())
                 {
-                    CatFierroModels Fierro = new CatFierroModels();
                     CatFierro_Datos FierroDatos = new CatFierro_Datos();
                     Fierro.Conexion = Conexion;
                     Fierro.Opcion = 1;
                     Fierro.Usuario = User.Identity.Name;
-                    Fierro.NombreFierro = collection["NombreFierro"];
-                    Fierro.Observaciones = collection["Observaciones"];
-                    HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                    if (bannerImage != null && bannerImage.ContentLength > 0)
-                    {
-                        Stream s = bannerImage.InputStream;
-                        Bitmap img = new Bitmap(s);
-                        Fierro.ImgFierro = img.ToBase64String(ImageFormat.Png);
-                    }
-                    Fierro = FierroDatos.AbcCatFierro(Fierro);
+                    
+                    //Fierro = FierroDatos.AbcCatFierro(Fierro);
                     if (Fierro.Completado == true)
                     {
                         TempData["typemessage"] = "1";
