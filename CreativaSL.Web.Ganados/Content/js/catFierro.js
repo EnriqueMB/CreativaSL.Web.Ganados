@@ -132,7 +132,7 @@
             },
             success: function (response) {
                 if (response.Success) {
-                    Mensaje("Registro guardado con éxito.", "1");
+                    window.location.href = '/Admin/CatFierro/Index';
                 }
                 else
                     Mensaje(response.Mensaje, "2");

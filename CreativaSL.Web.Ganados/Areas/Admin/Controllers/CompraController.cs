@@ -464,7 +464,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 Compra.Conexion = Conexion;
                 Compra.Usuario = User.Identity.Name;
-                //Compra = CompraDatos.Compras_ac_Ganado(Compra, indiceActual);
+                Compra = CompraDatos.Compras_ac_Ganado(Compra, indiceActual);
 
                 return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
             }

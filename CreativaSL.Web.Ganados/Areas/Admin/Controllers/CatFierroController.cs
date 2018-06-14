@@ -98,7 +98,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Fierro.Opcion = 1;
                     Fierro.Usuario = User.Identity.Name;
                     
-                    //Fierro = FierroDatos.AbcCatFierro(Fierro);
+                    Fierro = FierroDatos.AbcCatFierro(Fierro);
                     if (Fierro.Completado == true)
                     {
                         TempData["typemessage"] = "1";
@@ -112,10 +112,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return RedirectToAction("Create");
                     }
-                }
-               else
-                {
-                    return RedirectToAction("Create");
                 }
             }
             catch (Exception ex)
