@@ -86,41 +86,41 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         // POST: Admin/CatFierro/Create
-        [HttpPost]
-        public ActionResult Create(CatFierroModels Fierro)
-        {
-            try
-            {
-                if(Token.IsTokenValid())
-                {
-                    CatFierro_Datos FierroDatos = new CatFierro_Datos();
-                    Fierro.Conexion = Conexion;
-                    Fierro.Opcion = 1;
-                    Fierro.Usuario = User.Identity.Name;
+        //[HttpPost]
+        //public ActionResult Create(CatFierroModels Fierro)
+        //{
+        //    try
+        //    {
+        //        if(Token.IsTokenValid())
+        //        {
+        //            CatFierro_Datos FierroDatos = new CatFierro_Datos();
+        //            Fierro.Conexion = Conexion;
+        //            Fierro.Opcion = 1;
+        //            Fierro.Usuario = User.Identity.Name;
                     
-                    Fierro = FierroDatos.AbcCatFierro(Fierro);
-                    if (Fierro.Completado == true)
-                    {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardarón correctamente.";
-                        Token.ResetToken();
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                        return RedirectToAction("Create");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                TempData["typemessage"] = "2";
-                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
-                return RedirectToAction("Index");
-            }
-        }
+        //            Fierro = FierroDatos.AbcCatFierro(Fierro);
+        //            if (Fierro.Completado == true)
+        //            {
+        //                TempData["typemessage"] = "1";
+        //                TempData["message"] = "Los datos se guardarón correctamente.";
+        //                Token.ResetToken();
+        //                return RedirectToAction("Index");
+        //            }
+        //            else
+        //            {
+        //                TempData["typemessage"] = "2";
+        //                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+        //                return RedirectToAction("Create");
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        TempData["typemessage"] = "2";
+        //        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+        //        return RedirectToAction("Index");
+        //    }
+        //}
 
         // GET: Admin/CatFierro/Edit/5
         [HttpGet]

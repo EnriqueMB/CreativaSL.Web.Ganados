@@ -14,7 +14,7 @@
                 "data": {
                     "Id_venta": Id_venta
                 },
-                "url": "/Admin/Venta/TableJsonCorrales/",
+                "url": "/Admin/Venta/DatatableGanadoActual/",
                 "type": "POST",
                 "datatype": "json",
                 "dataSrc": ''

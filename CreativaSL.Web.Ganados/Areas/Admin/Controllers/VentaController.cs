@@ -16,6 +16,35 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     {
         private TokenProcessor Token = TokenProcessor.GetInstance();
         private string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
+
+
+        [HttpPost]
+        public ActionResult DatatableGanadoActual()
+        {
+            try
+            {
+                VentaModels2 venta = new VentaModels2();
+                _Venta2_Datos ventaDatos = new _Venta2_Datos();
+                venta.Conexion = Conexion;
+                
+
+                venta.RespuestaAjax = new RespuestaAjax();
+                venta.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(ventaDatos.GetProductoGanadoNoAccidentadoXIDCompra(Evento));
+                venta.RespuestaAjax.Success = true;
+
+                return Content(venta.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                VentaModels2 venta = new VentaModels2();
+                venta.RespuestaAjax.Mensaje = ex.ToString();
+                venta.RespuestaAjax.Success = false;
+                return Content(venta.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+
         // GET: Admin/Venta
         public ActionResult Index()
         {
@@ -35,7 +64,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista, error: " + ex.ToString();
-                throw;
+                throw ex;
             }
         }
         #endregion

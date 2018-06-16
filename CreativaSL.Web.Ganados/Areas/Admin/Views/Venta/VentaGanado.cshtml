@@ -228,7 +228,7 @@
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="flete">
-                <div class="col-md-12">
+                @*<div class="col-md-12">
                     @{ Html.EnableClientValidation(false); }
                     @using (Html.BeginForm("AC_Flete", "Venta", FormMethod.Post, new { id = "frm_venta", @class = "form-horizontal", autocomplete = "off" }))
                     {
@@ -341,10 +341,10 @@
                             </div>
                         </div>
                     }
-                </div>
+                </div>*@
             </div>
             <div role="tabpanel" class="tab-pane" id="documentos">
-                <div class="col-md-12">
+                @*<div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title"><strong>Documentación</strong></h3>
@@ -390,7 +390,7 @@
                             <a href="@Url.Action("Index", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                         </div>
                     </div>
-                </div>
+                </div>*@
             </div>
         </div>
 
