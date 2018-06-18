@@ -147,10 +147,10 @@
                                 if (position == 0)
                                     extension = "image/bmp";
 
-                                img = "<img class='file-preview-image' style='width: 150px; height: 150px;' src='data:" + extension + ";base64," + imagen64 + "' />";
+                                img = "<img class='file-preview-image' style='width: 100%; height: 150px;' src='data:" + extension + ";base64," + imagen64 + "' />";
                             }
                             else {
-                                img = "<img class='file-preview-image' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
+                                img = "<img class='file-preview-image' style='width: 100%; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
                             }
                             return img;
                         }
@@ -161,7 +161,7 @@
 
                             return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
                                 "<a data-id='" + full["IDFierro"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
-                                "<a data-hrefa='/Admin/CatFierro/DEL_Fierro/' title='Eliminar' data-id='" + full["IDFierro"] + "' class='btn btn-danger tooltips btn-sm delete' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                                "<a data-hrefa='/Admin/CatFierro/Delete/' title='Eliminar' data-id='" + full["IDFierro"] + "' class='btn btn-danger tooltips btn-sm delete' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
@@ -175,7 +175,7 @@
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
-                                "<a data-hrefa='/Admin/CatFierro/DEL_Fierro/' class='delete' role='menuitem' tabindex='-1' data-id='" + full["IDFierro"] + "'>" +
+                                "<a data-hrefa='/Admin/CatFierro/Delete/' class='delete' role='menuitem' tabindex='-1' data-id='" + full["IDFierro"] + "'>" +
                                 "<i class='fa fa-trash-o'></i> Eliminar" +
                                 "</a>" +
                                 "</li>" +
@@ -187,34 +187,26 @@
                 ],
                 "drawCallback": function (settings) {
                     $(".edit").on("click", function () {
-                        var IDDocumento = $(this).data("id");
-
-                        ModalDocumento(IDFlete, IDDocumento);
+                        var IDFierro = $(this).data("id");
+                        window.location.href = '/Admin/CatFierro/Edit?IDFierro=' + IDFierro;
                     });
                     $(".delete").on("click", function () {
                         var url = $(this).attr('data-hrefa');
-                        var row = $(this).attr('data-id');
-                        var box = $("#mb-deleteDocumento");
+                        var IDFierro = $(this).attr('data-id');
+                        var box = $("#mb-remove-row");
                         box.addClass("open");
                         box.find(".mb-control-yes").on("click", function () {
                             box.removeClass("open");
                             $.ajax({
                                 url: url,
-                                data: { IDDocumento: row },
+                                data: { IDFierro: IDFierro },
                                 type: 'POST',
                                 dataType: 'json',
                                 success: function (result) {
-                                    if (result.Success) {
-                                        box.find(".mb-control-yes").prop('onclick', null).off('click');
-                                        Mensaje("Documento eliminado con éxito.", "1");
-                                        $("#ModalDocumento").modal('hide');
-                                        tableDocumentos.ajax.reload();
-                                    }
-                                    else
-                                        Mensaje(result.Mensaje, "2");
+                                    window.location.href = '/Admin/CatFierro/Index';
                                 },
                                 error: function (result) {
-                                    Mensaje(result.Mensaje, "2");
+                                    window.location.href = '/Admin/CatFierro/Index';
                                 }
                             });
                         });

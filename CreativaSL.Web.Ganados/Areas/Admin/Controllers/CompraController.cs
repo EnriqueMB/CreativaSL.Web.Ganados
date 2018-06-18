@@ -76,7 +76,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Compra.Conexion = Conexion;
                     Compra = CompraDatos.GetGanadoCompra(Compra);
                     Compra.ListadoPrecioRangoPesoString = CompraDatos.GetListadoPrecioRangoPeso(Compra).ToJSON();
-                    Compra.ListaEstatusGanadoString = CompraDatos.GetListadoEstatusGanado(Compra).ToJSON();
                     Compra.ListaCorralesString = CompraDatos.GetListaCorrales(Compra).ToJSON();
 
                     return View(Compra);

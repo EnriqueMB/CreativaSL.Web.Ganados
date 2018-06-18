@@ -4,7 +4,7 @@
     var numeroFila = 1;
     var IDCompra = $("#IDCompra").val();
     var SALUDABLE = 1;
-    var nNodes, listaPrecioPesoProveedor, tolerancia, listaEstadoGanado, listaCorrales;
+    var nNodes, listaPrecioPesoProveedor, tolerancia, listaCorrales;
     var guardarIDs = new Array();
 
     var LoadTableGanado = function () {
@@ -37,7 +37,7 @@
                     AgergarFilas(
                         data[i].id_ganado, true, "Registrado", data[i].numArete, data[i].genero,
                         data[i].pesoInicial, data[i].pesoFinal, data[i].merma, data[i].pesoPagado, data[i].precioKilo,
-                        data[i].id_corral, data[i].subtotal, data[i].id_estatusGanado, data[i].id_detalleDocumentoPorPagar);
+                        data[i].id_corral, data[i].subtotal, data[i].id_detalleDocumentoPorPagar);
                 }
             }
         });
@@ -45,7 +45,7 @@
     function AgergarFilas(
         id_fila,    guardado,   mensaje,    numArete,   genero,
         peso, repeso, merma, pesopagar, costoxkilo,
-        id_corral, total, id_estadoGanado, iddetalledocumento) {
+        id_corral, total, iddetalledocumento) {
         //1 columna, imagen y aviso
         var html_imagen = '';
         if (guardado)
@@ -68,32 +68,18 @@
             html_macho +
             html_hembra +
             '</select> ';
-        //4 columna, estado
-        var html_estatusGanado = '<select id="estatusganado_' + id_fila + '"class="form-control selectCSL cslElegido" data-toggle="tooltip" data-placement="top" title="Por favor, seleccion el estado actual del ganado." >';
-        var opciones_estatusGanado = '';
 
-        for (var item in listaEstadoGanado) {
-            if (listaEstadoGanado[item].id_estatusGanado == id_estadoGanado) {
-                opciones_estatusGanado += '<option value="' + listaEstadoGanado[item].descripcion + '" data-id="' + listaEstadoGanado[item].id_estatusGanado  + '" selected>' + listaEstadoGanado[item].descripcion + '</option>';
-            }
-            else {
-                opciones_estatusGanado += '<option value="' + listaEstadoGanado[item].descripcion + '" data-id="' + listaEstadoGanado[item].id_estatusGanado + '">' + listaEstadoGanado[item].descripcion + '</option>';
-            }
-        }
-        html_estatusGanado += opciones_estatusGanado;
-        html_estatusGanado += '</select> ';
-
-        //5 columna, peso
+        //4 columna, peso
         var html_peso = '<input id="peso_' + id_fila + '" data-id="' + id_fila + '" class="form-control inputCSL cslElegido" type="number" value="' + peso + '" data-toggle="tooltip" data-placement="top" title="Por favor, escriba el peso inicial del ganado.">';
-        //6 columna, repeso
+        //5 columna, repeso
         var html_repeso = '<input id="repeso_' + id_fila + '" data-id="' + id_fila + '" class="form-control inputCSL cslElegido" type="number" value="' + repeso + '" data-toggle="tooltip" data-placement="top" title="Por favor, escriba el repeso del ganado.">';
-        //7 columna, merma
+        //6 columna, merma
         var html_merma = '<input id="merma_' + id_fila + '" data-id="' + id_fila + '" class="form-control inputCSL cslElegido" type="number" value="' + merma + '" data-toggle="tooltip" data-placement="top" title="Merma generada del ganado." readonly="readonly">';
-        //8 columna, pesoPagar
+        //7 columna, pesoPagar
         var html_pesoPagar = '<input id="pesopagar_' + id_fila + '" data-id="' + id_fila + '" class="form-control cslTotal cslElegido" type="number" value="' + pesopagar + '" data-toggle="tooltip" data-placement="top" title="Peso a pagar.">';
-        //9 columna, costoXkilo
+        //8 columna, costoXkilo
         var html_costoxkilo = '<input id="costoxkilo_' + id_fila + '" data-id="' + id_fila + '" class="form-control cslTotal cslElegido" type="number" value="' + costoxkilo + '" data-toggle="tooltip" data-placement="top" title="Costo por kilo." readonly="readonly">';
-        //10 columna, corral
+        //9 columna, corral
         var html_corral = '<select id="corral_' + id_fila + '"class="form-control selectCSL cslElegido" data-toggle="tooltip" data-placement="top" title="Corral asignado." >';
         var opciones_corrales = '';
         id_corral = parseInt(id_corral);
@@ -119,7 +105,6 @@
             html_imagen,
             html_arete,
             html_genero,
-            html_estatusGanado,
             html_peso,
             html_repeso,
             html_merma,
@@ -219,7 +204,7 @@
         });
         $('#btnSaveRowGanado').on('click', function () {
             var flag_error = false, flag_ok = false, flag = true;
-            var conteo = 1, NUM_ELEMENTOS_FILA = 14, mensaje_error_general;
+            var conteo = 1, NUM_ELEMENTOS_FILA = 13, mensaje_error_general;
 
             guardarIDs = eliminarDuplicadosArray(guardarIDs);
             console.log(nNodes);
@@ -291,20 +276,19 @@
                             var id_detalleDocumento = nNodes[i + 2].dataset.iddetalledocumento;
                             var numArete = nNodes[i + 2].value;
                             var id_genero = nNodes[i + 3].value;
-                            var id_estado = nNodes[i + 4].selectedOptions[0].dataset.id;
-                            var peso = nNodes[i + 5].value;
-                            var repeso = nNodes[i + 6].value;
-                            var merma = nNodes[i + 7].value;
-                            var peso_pagar = nNodes[i + 8].value;
-                            var costo_kilo = nNodes[i + 9].value;
-                            var id_corral = nNodes[i + 10].selectedOptions[0].dataset.id;
+                            var peso = nNodes[i + 4].value;
+                            var repeso = nNodes[i + 5].value;
+                            var merma = nNodes[i + 6].value;
+                            var peso_pagar = nNodes[i + 7].value;
+                            var costo_kilo = nNodes[i + 8].value;
+                            var id_corral = nNodes[i + 9].selectedOptions[0].dataset.id;
 
                             $.ajax({
                                 url: '/Admin/Compra/AC_Ganado/',
                                 type: "POST",
                                 data: {
                                     IDCompra: IDCompra, IDGanado: id_ganado, numArete: numArete, id_genero: id_genero,
-                                    id_estado: id_estado, peso: peso, repeso: repeso, merma: merma, peso_pagar: peso_pagar,
+                                    peso: peso, repeso: repeso, merma: merma, peso_pagar: peso_pagar,
                                     costo_kilo: costo_kilo, id_corral: id_corral, Id_detalleDocumentoPorCobrar: id_detalleDocumento,
                                     indiceActual: i
                                 },
@@ -326,31 +310,29 @@
                                         nNodes[indice + 2].dataset.iddetalledocumento = obj.id_detalleDoctoCobrar;
                                         //genero
                                         nNodes[indice + 3].id = "genero_" + obj.id_ganado;
-                                        //estadoGanado
-                                        nNodes[indice + 4].id = "estatusganado_" + obj.id_ganado;
                                         //peso
-                                        nNodes[indice + 5].id = "peso_" + obj.id_ganado;
+                                        nNodes[indice + 4].id = "peso_" + obj.id_ganado;
                                         //repeso
-                                        nNodes[indice + 6].id = "repeso_" + obj.id_ganado;
+                                        nNodes[indice + 5].id = "repeso_" + obj.id_ganado;
                                         //merma_
-                                        nNodes[indice + 7].id = "merma_" + obj.id_ganado;
+                                        nNodes[indice + 6].id = "merma_" + obj.id_ganado;
                                         //pesopagar_
-                                        nNodes[indice + 8].id = "pesopagar_" + obj.id_ganado;
+                                        nNodes[indice + 7].id = "pesopagar_" + obj.id_ganado;
                                         //costoxkilo_
-                                        nNodes[indice + 9].id = "costoxkilo_" + obj.id_ganado;
+                                        nNodes[indice + 8].id = "costoxkilo_" + obj.id_ganado;
                                         //corral_
-                                        nNodes[indice + 10].id = "corral_" + obj.id_ganado;
+                                        nNodes[indice + 9].id = "corral_" + obj.id_ganado;
                                         //total_
-                                        nNodes[indice + 11].id = "total_" + obj.id_ganado;
+                                        nNodes[indice + 10].id = "total_" + obj.id_ganado;
 
                                         //a (btn eliminar)
-                                        nNodes[indice + 12].id = "a_" + obj.id_ganado;
+                                        nNodes[indice + 11].id = "a_" + obj.id_ganado;
+                                        nNodes[indice + 11].dataset.id = obj.id_ganado;
+                                        nNodes[indice + 11].dataset.iddetalledocumento = obj.id_detalleDoctoCobrar
+                                        //amin (btn eliminar min)
+                                        nNodes[indice + 12].id = "aMin_" + obj.id_ganado;
                                         nNodes[indice + 12].dataset.id = obj.id_ganado;
                                         nNodes[indice + 12].dataset.iddetalledocumento = obj.id_detalleDoctoCobrar
-                                        //amin (btn eliminar min)
-                                        nNodes[indice + 13].id = "aMin_" + obj.id_ganado;
-                                        nNodes[indice + 13].dataset.id = obj.id_ganado;
-                                        nNodes[indice + 13].dataset.iddetalledocumento = obj.id_detalleDoctoCobrar
 
                                         ActualizarGenerales(obj.CantidadMachos, obj.CantidadHembras, obj.CantidadTotal, obj.MermaMachos, obj.MermaHembras, obj.MermaTotal, obj.KilosMachos, obj.KilosHembras, obj.KilosTotal, obj.MontoTotalGanado)
                                     }
@@ -549,10 +531,9 @@
     }
     
     return {
-        init: function (lista, toleranciaP, listaEstadoG, listacorral) {
+        init: function (lista, toleranciaP, listacorral) {
             listaPrecioPesoProveedor = lista;
             tolerancia = toleranciaP;
-            listaEstadoGanado = listaEstadoG;
             listaCorrales = listacorral;
             LoadTableGanado();
             RunEventoGanado();

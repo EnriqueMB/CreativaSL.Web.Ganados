@@ -1328,6 +1328,7 @@
     <Content Include="Content\js\plugins\wPaint\README.md" />
     <Content Include="Content\js\plugins\wPaint\wPaint.jquery.json" />
     <Content Include="Areas\Admin\Views\Compra\ModalDocumentos.cshtml" />
+    <Content Include="Areas\Admin\Views\CatFierro\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

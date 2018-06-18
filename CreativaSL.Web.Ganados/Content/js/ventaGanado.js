@@ -1,18 +1,18 @@
-﻿var CompraAgendar = function () {
+﻿var VentaGanado = function () {
     "use strict"
     var Id_venta = $("#Id_venta").val();
+    var tblGanadoCorral;
 
     /*INICIA GANADO*/
     var initDataTables = function () {
     
-    var tblGanadoCorral = $('#tblGanadoCorral').DataTable({
+        tblGanadoCorral = $('#tblGanadoCorral').DataTable({
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                "url": "/Content/assets/json/Spanish.json"
             },
             responsive: true,
             "ajax": {
                 "data": {
-                    "Id_venta": Id_venta
                 },
                 "url": "/Admin/Venta/DatatableGanadoActual/",
                 "type": "POST",
@@ -22,9 +22,20 @@
             "columns": [
                 { "data": "id_ganado" },
                 { "data": "numArete" },
+                { "data": "corral" },
                 { "data": "genero" },
-                { "data": "pesoPagado" },
-                { "data": "estado" }
+                { "data": "merma" },
+                {
+                    "data": "pesoPagado",
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                },
+                { "data": "precioKilo",
+                "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                },
+                {
+                    "data": "subtotal",
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                },
             ],
             "columnDefs": [
                 {

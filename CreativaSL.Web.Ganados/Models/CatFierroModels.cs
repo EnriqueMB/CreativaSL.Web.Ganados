@@ -17,7 +17,7 @@ namespace CreativaSL.Web.Ganados.Models
             _ListaFierro = new List<CatFierroModels>();
             _ImagenContruida = string.Empty;
         }
-
+        public string Extension { get; set; }
         public RespuestaAjax RespuestaAjax { get; set; }
 
         private string _IDFierro;

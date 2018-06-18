@@ -286,10 +286,6 @@
             listaPrecioPesoProveedor = listaPrecioPesoProveedor.replace("\\", "");
             listaPrecioPesoProveedor = $.parseJSON(listaPrecioPesoProveedor);
 
-            var listaEstadoGanado = @Html.Raw(Json.Encode(Model.ListaEstatusGanadoString))
-            listaEstadoGanado = listaEstadoGanado.replace("\\", "");
-            listaEstadoGanado = $.parseJSON(listaEstadoGanado);
-
             var listaCorrales = @Html.Raw(Json.Encode(Model.ListaCorralesString))
             listaCorrales = listaCorrales.replace("\\", "");
             listaCorrales = $.parseJSON(listaCorrales);

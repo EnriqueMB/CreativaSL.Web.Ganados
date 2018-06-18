@@ -6,47 +6,12 @@
             menuOffsetLeft: -35,
             menuOffsetTop: -50,
             bg: '#FFFFFF',
-            saveImg: saveImg,
+            saveImg: null,
             loadImgBg: null,
             loadImgFg: null,
             path: '/Content/js/plugins/wPaint/'
         });
-
-
-        var images = [
-      '/test/uploads/wPaint.png',
-        ];
-
-        function saveImg(image) {
-            var _this = this;
-
-            $.ajax({
-                type: 'POST',
-                url: '/test/upload.php',
-                data: { image: image },
-                success: function (resp) {
-
-                    // internal function for displaying status messages in the canvas
-                    _this._displayStatus('Image saved successfully');
-
-                    // doesn't have to be json, can be anything
-                    // returned from server after upload as long
-                    // as it contains the path to the image url
-                    // or a base64 encoded png, either will work
-                    resp = $.parseJSON(resp);
-
-                    // update images array / object or whatever
-                    // is being used to keep track of the images
-                    // can store path or base64 here (but path is better since it's much smaller)
-                    images.push(resp.img);
-
-                    // do something with the image
-                    $('#wPaint-img').attr('src', image);
-                }
-            });
-        }
     }
-
     var Validaciones = function () {
         var form1 = $('#frm_fierro');
         var errorHandler1 = $('.errorHandler', form1);
@@ -108,17 +73,14 @@
             }
         });
     }
-   
     function AC_FIERRO() {
         var form = $("#frm_fierro")[0];
         var formData = new FormData(form);
 
         var canvas = document.getElementById('wPaint-canvas');
-        var dataURL = canvas.toDataURL();
-        console.log(dataURL);
+        var ImgFierro = canvas.toDataURL();
 
-        formData.append("ImgFierro", dataURL);
-
+        formData.append("ImgFierro", ImgFierro);
 
         $.ajax({
             type: 'POST',
@@ -131,15 +93,10 @@
                 Mensaje(response.Mensaje, "2");
             },
             success: function (response) {
-                if (response.Success) {
-                    window.location.href = '/Admin/CatFierro/Index';
-                }
-                else
-                    Mensaje(response.Mensaje, "2");
+                window.location.href = '/Admin/CatFierro/Index';
             }
         });
     }
-
 
     return {
         init: function () {
