@@ -1534,6 +1534,7 @@
     <Compile Include="Models\RespuestaAjax.cs" />
     <Compile Include="Models\ResumenGastosAjustesModels.cs" />
     <Compile Include="Models\ResumenGastosModels.cs" />
+    <Compile Include="Models\RptGandosModels.cs" />
     <Compile Include="Models\RptProveedorMermaAltaModels.cs" />
     <Compile Include="Models\RptProveedorMunicipioModels.cs" />
     <Compile Include="Models\RptSalidasModels.cs" />
@@ -1708,6 +1709,7 @@
     <Folder Include="Areas\Admin\Views\CatBodega\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reports\ReporteGanado.rdlc" />
     <EmbeddedResource Include="Reports\ReporteMermaAlta.rdlc" />
   </ItemGroup>
   <PropertyGroup>
