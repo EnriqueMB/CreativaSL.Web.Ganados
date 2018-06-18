@@ -53,9 +53,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Token.SaveToken();
                 CatProductosAlmacenModels Producto = new CatProductosAlmacenModels();
                 _CatProductosAlmacen_Datos ProductoDatos = new _CatProductosAlmacen_Datos();
+                _Combos_Datos Datos = new _Combos_Datos();
                 Producto.Conexion = Conexion;
                 Producto.listaTipoCodigoProducto = ProductoDatos.obtenerComboCatTipoCodigo(Producto);
                 Producto.listaUnidadMedida = ProductoDatos.obtenerComboCatUnidadMedida(Producto);
+                Producto.ListaTipoClasificacion = Datos.ObtenerComboClasificacionGastos(Conexion);
                 return View(Producto);
             }
             catch (Exception ex) {
@@ -135,11 +137,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Token.SaveToken();
                 CatProductosAlmacenModels Producto = new CatProductosAlmacenModels();
                 _CatProductosAlmacen_Datos ProductoDatos = new _CatProductosAlmacen_Datos();
+                _Combos_Datos Datos = new _Combos_Datos();
                 Producto.Conexion = Conexion;
                 Producto.IDProductoAlmacen = id;
                 Producto.listaTipoCodigoProducto = ProductoDatos.obtenerComboCatTipoCodigo(Producto);
                 Producto.listaUnidadMedida = ProductoDatos.obtenerComboCatUnidadMedidaEdit(Producto);
-                Producto= ProductoDatos.ObtenerDetalleCatProductoAlmacen(Producto);
+                Producto.ListaTipoClasificacion = Datos.ObtenerComboClasificacionGastos(Conexion);
+                Producto = ProductoDatos.ObtenerDetalleCatProductoAlmacen(Producto);
                 return View(Producto);
             }
             catch (Exception ex)
