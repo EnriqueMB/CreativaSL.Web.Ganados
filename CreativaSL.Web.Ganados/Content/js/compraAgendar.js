@@ -449,7 +449,7 @@
 
     /*INICIA DOCUMENTOS*/
     var LoadTableDocumentos = function () {
-        var IDFlete = $("#IDFlete").val();
+        var IDCompra = $("#IDCompra").val();
 
         if (!$.fn.DataTable.isDataTable('#tblDocumentos')) {
             tableDocumentos = $('#tblDocumentos').DataTable({
@@ -459,7 +459,7 @@
             responsive: true,
             "ajax": {
                 "data": {
-                    "IDFlete": IDFlete
+                    "IDCompra": IDCompra
                 },
                 "url": "/Admin/Compra/TableJsonDocumentos/",
                 "type": "POST",
@@ -543,7 +543,7 @@
                 $(".editDocumento").on("click", function () {
                     var IDDocumento = $(this).data("id");
 
-                    ModalDocumento(IDFlete, IDDocumento);
+                    ModalDocumento(IDCompra, IDDocumento);
                 });
                 $(".deleteDocumento").on("click", function () {
                     var url = $(this).attr('data-hrefa');
@@ -579,17 +579,17 @@
         
 
         $("#btnAddDocumento").on("click", function () {
-            var IDFlete = $("#IDFlete").val();
-            ModalDocumento(IDFlete, 0);
+            var IDCompra = $("#IDCompra").val();
+            ModalDocumento(IDCompra, 0);
         });
     };
-    function ModalDocumento(IDFlete, IDDocumento) {
+    function ModalDocumento(IDCompra, IDDocumento) {
         console.log(IDFlete);
         $("body").css("cursor", "progress");
         $.ajax({
-            url: '/Admin/Flete/ModalDocumento/',
+            url: '/Admin/Compra/ModalDocumento/',
             type: "POST",
-            data: { IDFlete: IDFlete, IDDocumento: IDDocumento },
+            data: { IDCompra: IDCompra, IDDocumento: IDDocumento },
             success: function (data) {
                 $("body").css("cursor", "default");
                 $('#ContenidoModalDocumento').html(data);
@@ -710,7 +710,7 @@
         $.ajax({
             type: 'POST',
             data: formData,
-            url: '/Admin/Flete/AC_Documento/',
+            url: '/Admin/Compra/AC_Documento/',
             contentType: false,
             processData: false,
             cache: false,

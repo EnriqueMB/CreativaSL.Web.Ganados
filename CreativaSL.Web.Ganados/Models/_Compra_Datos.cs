@@ -20,13 +20,13 @@ namespace CreativaSL.Web.Ganados.Models
         {
             object[] parametros =
             {
-                Compra.IDFlete
+                Compra.IDCompra
             };
 
             try
             {
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Flete_get_DocumentosXIDFlete", parametros);
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_DocumentosXIDCompra", parametros);
                 return dr;
             }
             catch (Exception ex)
@@ -570,10 +570,9 @@ namespace CreativaSL.Web.Ganados.Models
             return lista;
         }
         #endregion
+     
 
 
-       
-      
         #endregion
 
         #region Otras funciones
@@ -986,6 +985,77 @@ namespace CreativaSL.Web.Ganados.Models
 
 
         }
+        #region Documento
+        public DocumentoCompraModels GetDocumentoXIDDocumento(DocumentoCompraModels Documento)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     Documento.IDDocumento
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Compra_get_DocumentoXIDDocumento", parametros);
+
+                while (dr.Read())
+                {
+                    Documento.IDTipoDocumento = !dr.IsDBNull(dr.GetOrdinal("id_tipoDocumento")) ? dr.GetInt16(dr.GetOrdinal("id_tipoDocumento")) : 0;
+                    Documento.Clave = !dr.IsDBNull(dr.GetOrdinal("clave")) ? dr.GetString(dr.GetOrdinal("clave")) : string.Empty;
+                    //Solo para mostrar
+                    Documento.Imagen = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
+                }
+                if (string.IsNullOrEmpty(Documento.Imagen))
+                {
+                    //No hay imagen en el server
+                    Documento.MostrarImagen = Auxiliar.SetDefaultImage();
+                    Documento.FlagImg = false;
+                }
+                else
+                {
+                    //Guardamos el string de la imagen
+                    Documento.MostrarImagen = Documento.Imagen;
+                    Documento.FlagImg = true;
+                }
+
+                Documento.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Documento.MostrarImagen);
+
+                return Documento;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<CatTipoDocumentoModels> GetListaTiposDocumentos(DocumentoCompraModels Documento)
+        {
+            try
+            {
+                CatTipoDocumentoModels TipoDocumento;
+                List<CatTipoDocumentoModels> ListaTipoDocumentos = new List<CatTipoDocumentoModels>();
+                object[] parametro =
+                {
+                    Documento.IDCompra
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Combo_get_CatTipoDocumento2", parametro);
+                while (dr.Read())
+                {
+                    TipoDocumento = new CatTipoDocumentoModels
+                    {
+                        IDTipoDocumento = !dr.IsDBNull(dr.GetOrdinal("id_tipoDocumento")) ? dr.GetInt16(dr.GetOrdinal("id_tipoDocumento")) : 0,
+                        Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty,
+                    };
+
+                    ListaTipoDocumentos.Add(TipoDocumento);
+                }
+                return ListaTipoDocumentos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
 
         #region Details
         public CompraModels GetDetails(CompraModels Compra)
@@ -1019,7 +1089,6 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.Flete.kmInicialVehiculo = !dr.IsDBNull(dr.GetOrdinal("kmInicialVehiculo")) ? dr.GetInt32(dr.GetOrdinal("kmInicialVehiculo")) : 0; 
                     Compra.Flete.precioFlete = !dr.IsDBNull(dr.GetOrdinal("precioFlete")) ? dr.GetDecimal(dr.GetOrdinal("precioFlete")) : 0;
                     Compra.Vehiculo.nombreTipoVehiculo = !dr.IsDBNull(dr.GetOrdinal("vehiculo")) ? dr.GetString(dr.GetOrdinal("vehiculo")) : string.Empty;
-                    Compra.CobrarFlete = !dr.IsDBNull(dr.GetOrdinal("cobrarFlete")) ? dr.GetBoolean(dr.GetOrdinal("cobrarFlete")) : false;
                     Compra.LineaFletera = !dr.IsDBNull(dr.GetOrdinal("lineaFletera")) ? dr.GetString(dr.GetOrdinal("lineaFletera")) : string.Empty;
                     Compra.Tolerancia = !dr.IsDBNull(dr.GetOrdinal("tolerancia")) ? dr.GetDecimal(dr.GetOrdinal("tolerancia")) : 0;
                 }
@@ -1161,7 +1230,6 @@ namespace CreativaSL.Web.Ganados.Models
                     ,Compra.Trayecto.id_lugarDestino = string.IsNullOrEmpty(Compra.Trayecto.id_lugarDestino) ? null : Compra.Trayecto.id_lugarDestino
                     ,Compra.IDSucursal
                     ,Compra.Flete.precioFlete
-                    ,Compra.CobrarFlete
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_ac_Flete", parametros);
@@ -1333,6 +1401,61 @@ namespace CreativaSL.Web.Ganados.Models
             return Compra;
         }
         #endregion
+        #region Documentos
+        public DocumentoCompraModels AC_Documento(DocumentoCompraModels Documento)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     Documento.IDDocumento
+                    ,Documento.IDCompra
+                    ,Documento.IDTipoDocumento
+                    ,Documento.Clave
+                    ,Documento.Imagen
+                    ,Documento.Usuario
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Compra_ac_Documento", parametros);
+
+                while (dr.Read())
+                {
+                    Documento.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Documento.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                return Documento;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public DocumentoCompraModels DEL_DocumentoXIDDocumento(DocumentoCompraModels Documento)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     Documento.IDDocumento
+                    ,Documento.Usuario
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Compra_del_DocumentoXIDDocumento", parametros);
+
+                while (dr.Read())
+                {
+                    Documento.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Documento.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                return Documento;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
         #endregion
 
         #region Imagenes
@@ -1411,7 +1534,8 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
 
-      
+
+
 
         public string GetRangoPeso(CompraModels Compra)
         {

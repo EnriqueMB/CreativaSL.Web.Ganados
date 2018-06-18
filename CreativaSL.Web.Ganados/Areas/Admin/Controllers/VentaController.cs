@@ -29,7 +29,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 
 
                 venta.RespuestaAjax = new RespuestaAjax();
-                venta.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(ventaDatos.GetProductoGanadoNoAccidentadoXIDCompra(Evento));
+                //venta.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(ventaDatos.GetProductoGanadoNoAccidentadoXIDCompra(Evento));
                 venta.RespuestaAjax.Success = true;
 
                 return Content(venta.RespuestaAjax.Mensaje, "application/json");

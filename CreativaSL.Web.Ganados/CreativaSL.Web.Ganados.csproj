@@ -1327,6 +1327,7 @@
     <Content Include="Content\js\plugins\wPaint\package.json" />
     <Content Include="Content\js\plugins\wPaint\README.md" />
     <Content Include="Content\js\plugins\wPaint\wPaint.jquery.json" />
+    <Content Include="Areas\Admin\Views\Compra\ModalDocumentos.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1485,6 +1486,7 @@
     <Compile Include="Models\CuentaBancariaModels.cs" />
     <Compile Include="Models\CuentaBancariaProveedorModels.cs" />
     <Compile Include="Models\CuentaBancariasProveedorAlmacenModels.cs" />
+    <Compile Include="Models\DocumentoCompraModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
     <Compile Include="Models\DocumentoPorPagarModels.cs" />
     <Compile Include="Models\DocumentosPorCobrarDetalleImpuestoModels.cs" />
