@@ -469,6 +469,7 @@
     <Content Include="Content\js\editProductoServicio.js" />
     <Content Include="Content\js\EmpleadosSucursalFaltas.js" />
     <Content Include="Content\js\fleteRecepcion.js" />
+    <Content Include="Content\js\Reportes.js" />
     <Content Include="Content\js\ProveedorCombustible.js" />
     <Content Include="Content\js\ProveedorServicio.js" />
     <Content Include="Content\js\Puestos.js" />
@@ -1256,6 +1257,7 @@
     <Content Include="Areas\Admin\Views\ConciliacionAlmacen\EditDetailNeg.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\EditProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\ImpuestoCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\Reportes\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1326,6 +1328,7 @@
     <Compile Include="Areas\Admin\Controllers\MantenimientoController.cs" />
     <Compile Include="Areas\Admin\Controllers\NominaController.cs" />
     <Compile Include="Areas\Admin\Controllers\NominaDiasFestivosController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportesController.cs" />
     <Compile Include="Areas\Admin\Controllers\RptProveedorMermaAltaController.cs" />
     <Compile Include="Areas\Admin\Controllers\RptProveedorMunicipioController.cs" />
     <Compile Include="Areas\Admin\Controllers\RptSalidasController.cs" />
@@ -1632,7 +1635,7 @@
     <Folder Include="Areas\Admin\Views\CatBodega\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Report\Saldos.rdlc" />
+    <EmbeddedResource Include="Reports\ReporteMermaAlta.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
