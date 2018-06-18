@@ -1004,6 +1004,7 @@
     <Content Include="Content\js\RegistrarFaltas.js" />
     <Content Include="Content\js\Remolques.js" />
     <Content Include="Content\js\rendimiento.js" />
+    <Content Include="Content\js\Reportes.js" />
     <Content Include="Content\js\RptProveedorMunicipio.js" />
     <Content Include="Content\js\rptUltCompraProveedor.js" />
     <Content Include="Content\js\salidaAlmacen.js" />
