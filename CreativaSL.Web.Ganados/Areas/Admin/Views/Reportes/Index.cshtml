@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section featured{
+<div class="page-title">
+    <h2><span class="fa fa-arrow-circle-o-left"></span> REPORTES GENERALES </h2>
+</div>
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <form action="#" id="form-search">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group" id="1">
+                                    <div class="col-md-12">
+                                        <label class="col-md-12 col-xs-12 control-label"><span>* </span> Fecha Inicio </label>
+                                        <div class="input-group date"  id = "FechaInicio">
+                                            <input type="text" class="form-control datepicker" disabled="disabled" id="fec1"/>
+                                            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                        <div id="result"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group" id="2">
+                                    <div class="col-md-12">
+                                        <label class="col-md-12 col-xs-12 control-label"><span>* </span> Fecha Fin </label>
+                                        <div class="input-group date" id="FechaFin" >
+                                            <input type="text" class="form-control daterange" disabled="disabled" id="fec2"/>
+                                            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                        <div id="result2"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form> 
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <div class="col-md-4">
+                        <a id="BTN1" class="tile tile-warning tile-valign2">
+                            Reporte de mermas altas
+                            <div class="informer informer-default dir-bl"><span class="fa fa-globe"></span> Reporte</div>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a id="BTN2" class="tile tile-warning tile-valign2">
+                            Salidas
+                            <div class="informer informer-default dir-bl"><span class="fa fa-globe"></span> Reporte</div>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a id="BTN1" class="tile tile-warning tile-valign2">
+                            Proveedor de ventas
+                            <div class="informer informer-default dir-bl"><span class="fa fa-globe"></span> Reporte</div>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a id="BTN1" class="tile tile-warning tile-valign2">
+                            Ganado
+                            <div class="informer informer-default dir-bl"><span class="fa fa-globe"></span> Reporte</div>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a id="BTN1" class="tile tile-warning tile-valign2">
+                            Reporte de mermas altas
+                            <div class="informer informer-default dir-bl"><span class="fa fa-globe"></span> Reporte</div>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a id="BTN1" class="tile tile-warning tile-valign2">
+                            Reporte de mermas altas
+                            <div class="informer informer-default dir-bl"><span class="fa fa-globe"></span> Reporte</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+@section script
+{
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/Reportes.js")"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Reporte.init();
+           
+      //      var minDateValue = moment().add(30, 'minute'),
+      //maxDateValue = moment().add(1, 'year'),
+      //defaultDateValue = minDateValue;
+      //      $('#dp-3').datepicker({
+      //          inline: true,
+      //      format: 'dd/mm/yyyy',
+      //     // startDate: '-0d',
+      //      autoclose: true,
+
+      //      });
+      //      $('#dp-2').datepicker({
+      //          inline: true,
+      //      format: 'dd/mm/yyyy',
+      //      //startDate: '0d',
+      //      autoclose: true
+      //      });
+        });
+    </script>
+}

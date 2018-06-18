@@ -16,7 +16,7 @@
 /* CANVAS */
 
 
-canvas {
+/*canvas {
   display: block;
   margin: 0 auto;
   margin: calc(50vh - 150px) auto 0;
@@ -24,7 +24,7 @@ canvas {
   border-radius: 3px;
   box-shadow: 0px 0px 15px 3px #ccc;
   cursor: pointer;
-}
+}*/
 /*IMAGEN REPORTE*/
 .img-report {
     width:100%;
@@ -3748,6 +3748,9 @@ background: #bd2020 !important;
   border: 1px solid #D5D5D5;
   text-align: center;
 }
+.tile.tile-valign2 {
+  line-height: 50px;
+}
 .tile.tile-valign {
   line-height: 75px;
 }
@@ -3773,11 +3776,15 @@ background: #bd2020 !important;
   background: #90b456;
 }
 .tile.tile-warning {
-  background: #1caf9a;
-  border-color: #1caf9a;
+  background: #1b1e24;
+  border-color: #1b1e24;
+  transition: ease all 0.2s;
+  font-size: 18px;
+  border-radius: 10px;
 }
 .tile.tile-warning:hover {
-  background: #fe9e19;
+  background: #bd2020;
+  cursor: pointer;
 }
 .tile.tile-danger {
   background: #E04B4A;

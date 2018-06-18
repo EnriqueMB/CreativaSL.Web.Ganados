@@ -125,7 +125,18 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.ReportViewer.WebForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.ProcessingObjectModel.DLL</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.WebForms.DLL</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebHelpers.3.2.4\lib\net45\Microsoft.Web.Helpers.dll</HintPath>
       <Private>True</Private>
@@ -443,6 +454,7 @@
     <Content Include="Content\js\Canvas.js" />
     <Content Include="Content\js\CatContactos.js" />
     <Content Include="Content\js\CatContactosClientes.js" />
+    <Content Include="Content\js\catFierro.js" />
     <Content Include="Content\js\compraAgendar.js" />
     <Content Include="Content\js\CompraAlmacenDetalle.js" />
     <Content Include="Content\js\CompraGanado.js" />
@@ -458,6 +470,70 @@
     <Content Include="Content\js\editProductoServicio.js" />
     <Content Include="Content\js\EmpleadosSucursalFaltas.js" />
     <Content Include="Content\js\fleteRecepcion.js" />
+    <Content Include="Content\js\plugins\font-awesome.min.css" />
+    <Content Include="Content\js\plugins\wPaint\.gitignore" />
+    <Content Include="Content\js\plugins\wPaint\demo\demo.css" />
+    <Content Include="Content\js\plugins\wPaint\demo\img\facebook-icon.png" />
+    <Content Include="Content\js\plugins\wPaint\demo\img\favicon.ico" />
+    <Content Include="Content\js\plugins\wPaint\demo\img\forkme_right_darkblue.png" />
+    <Content Include="Content\js\plugins\wPaint\demo\img\github-icon.png" />
+    <Content Include="Content\js\plugins\wPaint\demo\img\googleplus-icon.png" />
+    <Content Include="Content\js\plugins\wPaint\demo\img\linkedin-icon.png" />
+    <Content Include="Content\js\plugins\wPaint\demo\img\rss-icon.png" />
+    <Content Include="Content\js\plugins\wPaint\demo\img\stumbleupon-icon.png" />
+    <Content Include="Content\js\plugins\wPaint\demo\img\twitter-icon.png" />
+    <Content Include="Content\js\plugins\wPaint\demo\img\websanova-logo-small-full-black.png" />
+    <Content Include="Content\js\plugins\wPaint\demo\img\youtube-icon.png" />
+    <Content Include="Content\js\plugins\wPaint\gruntfile.js" />
+    <Content Include="Content\js\plugins\wPaint\index.html" />
+    <Content Include="Content\js\plugins\wPaint\lib\jquery.1.10.2.min.js" />
+    <Content Include="Content\js\plugins\wPaint\lib\jquery.ui.core.1.10.3.min.js" />
+    <Content Include="Content\js\plugins\wPaint\lib\jquery.ui.draggable.1.10.3.min.js" />
+    <Content Include="Content\js\plugins\wPaint\lib\jquery.ui.mouse.1.10.3.min.js" />
+    <Content Include="Content\js\plugins\wPaint\lib\jquery.ui.widget.1.10.3.min.js" />
+    <Content Include="Content\js\plugins\wPaint\lib\wColorPicker.min.css" />
+    <Content Include="Content\js\plugins\wPaint\lib\wColorPicker.min.js" />
+    <Content Include="Content\js\plugins\wPaint\plugins\file\img\icons-menu-main-file.png" />
+    <Content Include="Content\js\plugins\wPaint\plugins\file\src\wPaint.menu.main.file.js" />
+    <Content Include="Content\js\plugins\wPaint\plugins\file\wPaint.menu.main.file.min.js" />
+    <Content Include="Content\js\plugins\wPaint\plugins\main\img\cursor-bucket.png" />
+    <Content Include="Content\js\plugins\wPaint\plugins\main\img\cursor-crosshair.png" />
+    <Content Include="Content\js\plugins\wPaint\plugins\main\img\cursor-dropper.png" />
+    <Content Include="Content\js\plugins\wPaint\plugins\main\img\cursor-eraser1.png" />
+    <Content Include="Content\js\plugins\wPaint\plugins\main\img\cursor-eraser10.png" />
+    <Content Include="Content\js\plugins\wPaint\plugins\main\img\cursor-eraser2.png" />
+    <Content Include="Content\js\plugins\wPaint\plugins\main\img\cursor-eraser3.png" />
+    <Content Include="Content\js\plugins\wPaint\plugins\main\img\cursor-eraser4.png" />
+    <Content Include="Content\js\plugins\wPaint\plugins\main\img\cursor-eraser5.png" />
+    <Content Include="Content\js\plugins\wPaint\plugins\main\img\cursor-eraser6.png" />
+    <Content Include="Content\js\plugins\wPaint\plugins\main\img\cursor-eraser7.png" />
+    <Content Include="Content\js\plugins\wPaint\plugins\main\img\cursor-eraser8.png" />
+    <Content Include="Content\js\plugins\wPaint\plugins\main\img\cursor-eraser9.png" />
+    <Content Include="Content\js\plugins\wPaint\plugins\main\img\cursor-pencil.png" />
+    <Content Include="Content\js\plugins\wPaint\plugins\main\img\icon-group-arrow.png" />
+    <Content Include="Content\js\plugins\wPaint\plugins\main\img\icons-menu-main.png" />
+    <Content Include="Content\js\plugins\wPaint\plugins\main\src\fillArea.min.js" />
+    <Content Include="Content\js\plugins\wPaint\plugins\main\src\wPaint.menu.main.js" />
+    <Content Include="Content\js\plugins\wPaint\plugins\main\wPaint.menu.main.min.js" />
+    <Content Include="Content\js\plugins\wPaint\plugins\shapes\img\icons-menu-main-shapes.png" />
+    <Content Include="Content\js\plugins\wPaint\plugins\shapes\src\shapes.min.js" />
+    <Content Include="Content\js\plugins\wPaint\plugins\shapes\src\wPaint.menu.main.shapes.js" />
+    <Content Include="Content\js\plugins\wPaint\plugins\shapes\wPaint.menu.main.shapes.min.js" />
+    <Content Include="Content\js\plugins\wPaint\plugins\text\img\icons-menu-text.png" />
+    <Content Include="Content\js\plugins\wPaint\plugins\text\src\wPaint.menu.text.js" />
+    <Content Include="Content\js\plugins\wPaint\plugins\text\wPaint.menu.text.min.js" />
+    <Content Include="Content\js\plugins\wPaint\src\wPaint.css" />
+    <Content Include="Content\js\plugins\wPaint\src\wPaint.js" />
+    <Content Include="Content\js\plugins\wPaint\src\wPaint.utils.js" />
+    <Content Include="Content\js\plugins\wPaint\test\dev.html" />
+    <Content Include="Content\js\plugins\wPaint\test\fullscreen.html" />
+    <Content Include="Content\js\plugins\wPaint\test\upload.php" />
+    <Content Include="Content\js\plugins\wPaint\test\uploads\test1.png" />
+    <Content Include="Content\js\plugins\wPaint\test\uploads\test2.png" />
+    <Content Include="Content\js\plugins\wPaint\test\uploads\test3.png" />
+    <Content Include="Content\js\plugins\wPaint\test\uploads\wPaint.png" />
+    <Content Include="Content\js\plugins\wPaint\wPaint.min.css" />
+    <Content Include="Content\js\plugins\wPaint\wPaint.min.js" />
     <Content Include="Content\js\ProveedorCombustible.js" />
     <Content Include="Content\js\ProveedorServicio.js" />
     <Content Include="Content\js\Puestos.js" />
@@ -928,6 +1004,7 @@
     <Content Include="Content\js\RegistrarFaltas.js" />
     <Content Include="Content\js\Remolques.js" />
     <Content Include="Content\js\rendimiento.js" />
+    <Content Include="Content\js\Reportes.js" />
     <Content Include="Content\js\RptProveedorMunicipio.js" />
     <Content Include="Content\js\rptUltCompraProveedor.js" />
     <Content Include="Content\js\salidaAlmacen.js" />
@@ -1231,7 +1308,7 @@
     <Content Include="Areas\Admin\Views\SalidaAlmacen\Details.cshtml" />
     <Content Include="Areas\Admin\Views\SalidaAlmacen\EditDetails.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\AddComprobante.cshtml" />
-    <Content Include="Areas\Admin\Views\Venta\Ganado.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaGanado.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\EditComprobante.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\AddProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\EntradasAlmacen\Details.cshtml" />
@@ -1245,6 +1322,14 @@
     <Content Include="Areas\Admin\Views\ConciliacionAlmacen\EditDetailNeg.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\EditProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\ImpuestoCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\CatFierro\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatFierro\Create.cshtml" />
+    <Content Include="Content\js\plugins\wPaint\lib\mixins.styl" />
+    <Content Include="Content\js\plugins\wPaint\package.json" />
+    <Content Include="Content\js\plugins\wPaint\README.md" />
+    <Content Include="Content\js\plugins\wPaint\wPaint.jquery.json" />
+    <Content Include="Areas\Admin\Views\Compra\ModalDocumentos.cshtml" />
+    <Content Include="Areas\Admin\Views\Reportes\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1315,6 +1400,7 @@
     <Compile Include="Areas\Admin\Controllers\MantenimientoController.cs" />
     <Compile Include="Areas\Admin\Controllers\NominaController.cs" />
     <Compile Include="Areas\Admin\Controllers\NominaDiasFestivosController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportesController.cs" />
     <Compile Include="Areas\Admin\Controllers\RptProveedorMermaAltaController.cs" />
     <Compile Include="Areas\Admin\Controllers\RptProveedorMunicipioController.cs" />
     <Compile Include="Areas\Admin\Controllers\RptSalidasController.cs" />
@@ -1403,6 +1489,7 @@
     <Compile Include="Models\CuentaBancariaModels.cs" />
     <Compile Include="Models\CuentaBancariaProveedorModels.cs" />
     <Compile Include="Models\CuentaBancariasProveedorAlmacenModels.cs" />
+    <Compile Include="Models\DocumentoCompraModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
     <Compile Include="Models\DocumentoPorPagarModels.cs" />
     <Compile Include="Models\DocumentosPorCobrarDetalleImpuestoModels.cs" />
@@ -1444,6 +1531,7 @@
     <Compile Include="Models\RangoPrecioProveedorModels.cs" />
     <Compile Include="Models\RecepcionOrigenModels.cs" />
     <Compile Include="Models\RecepcionDestinoModels.cs" />
+    <Compile Include="Models\ReporteModels.cs" />
     <Compile Include="Models\RespuestaAjax.cs" />
     <Compile Include="Models\ResumenGastosAjustesModels.cs" />
     <Compile Include="Models\ResumenGastosModels.cs" />
@@ -1621,7 +1709,7 @@
     <Folder Include="Areas\Admin\Views\CatBodega\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Report\Saldos.rdlc" />
+    <EmbeddedResource Include="Reports\ReporteMermaAlta.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

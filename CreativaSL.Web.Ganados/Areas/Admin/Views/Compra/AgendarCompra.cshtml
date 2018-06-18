@@ -126,18 +126,36 @@
                                             </div>
                                         </div>
                                         <div class="controlError col-md-6">
-                                            <div class="controlError">
-                                                <label class="col-md-2 control-label">Ganado agendado hembras</label>
-                                                <div class="col-md-10 col-xs-12">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        @Html.TextBoxFor(model => model.GanadosPactadoHembras, new { id = "GanadoPactadoHembras", @class = "form-control", placeholder = "Ingrese una cantidad de ganado Hembras" })
-                                                    </div>
-                                                    @Html.ValidationMessageFor(model => model.GanadosPactadoHembras)
+                                            <label class="col-md-2 control-label">Ganado agendado hembras</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.GanadosPactadoHembras, new { id = "GanadoPactadoHembras", @class = "form-control", placeholder = "Ingrese una cantidad de ganado Hembras" })
                                                 </div>
+                                                @Html.ValidationMessageFor(model => model.GanadosPactadoHembras)
                                             </div>
                                         </div>
                                         
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <label class="col-md-2 control-label">Anotaciones de la báscula</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextAreaFor(model=>model.Descripcion_bascula, new { @class="form-control", @style="resize:none", @rows = "5" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="col-md-2 control-label">Nota</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextAreaFor(model => model.Observacion_programacion, new { @class = "form-control", @style = "resize:none", @rows="5"})
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="panel-footer">
@@ -171,7 +189,7 @@
                                             <div class="col-md-11 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.DropDownListFor(model => model.IDEmpresa, new SelectList(Model.ListaEmpresas, "IDEmpresa", "RazonFiscal"), new { id = "Empresa_IDEmpresa", @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                    @Html.DropDownListFor(model => model.IDEmpresa, new SelectList(Model.ListaEmpresas, "IDEmpresa", "RazonFiscal"), new { id = "Empresa_IDEmpresa", @class = "form-control select", data_live_search = "true", data_style = "form-control", @readonly = "readonly"})
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.IDEmpresa)
                                             </div>
@@ -206,9 +224,19 @@
                                             <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Flete.kmInicialVehiculo, new { id = "KmInicial", @class = "form-control", placeholder = "Introduzca el km. inicial del vehículo." })
+                                                    @Html.TextBoxFor(model => model.Flete.kmInicialVehiculo, new { id = "KmInicial", @class = "form-control", placeholder = "Escriba el km. inicial del vehículo." })
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.Flete.kmInicialVehiculo)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 controlError">
+                                            <label class="col-md-3 control-label">Núm. de fleje</label>
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.Flete.NumFleje, new { @class = "form-control", placeholder = "." })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Flete.NumFleje)
                                             </div>
                                         </div>
                                         <div class="col-md-4 controlError">
@@ -216,28 +244,12 @@
                                             <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Flete.precioFlete, "{0:f2}", new { @class = "form-control", placeholder = "Introduzca el precio del flete." })
+                                                    @Html.TextBoxFor(model => model.Flete.precioFlete, "{0:f2}", new { @class = "form-control", placeholder = "Escriba el precio del flete." })
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.Flete.precioFlete)
                                             </div>
                                         </div>
-                                        <div class="col-md-4 controlError">
-                                            <label class="col-md-3 control-label">Cobrar flete</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.DropDownList("CobrarFlete",
-                                                   new SelectList(new[]
-                                                   {
-                                                       new { Value = "", Text = "--Seleccione--" },
-                                                       new { Value = "true", Text = "Si" },
-                                                       new { Value = "false", Text = "No" },
-                                                   },"Value", "Text", Model.CobrarFlete), 
-                                                   new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.CobrarFlete)
-                                            </div>
-                                        </div>
+
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-12">
