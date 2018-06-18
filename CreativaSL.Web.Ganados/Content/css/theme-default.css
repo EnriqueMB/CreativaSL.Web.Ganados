@@ -16,7 +16,7 @@
 /* CANVAS */
 
 
-canvas {
+/*canvas {
   display: block;
   margin: 0 auto;
   margin: calc(50vh - 150px) auto 0;
@@ -24,7 +24,7 @@ canvas {
   border-radius: 3px;
   box-shadow: 0px 0px 15px 3px #ccc;
   cursor: pointer;
-}
+}*/
 /*IMAGEN REPORTE*/
 .img-report {
     width:100%;

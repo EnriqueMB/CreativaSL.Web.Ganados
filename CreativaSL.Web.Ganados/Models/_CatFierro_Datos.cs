@@ -11,6 +11,23 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CatFierro_Datos
     {
+
+        public SqlDataReader DatatableIndex(CatFierroModels fierro)
+        {
+            try
+            {
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(fierro.Conexion, "spCSLDB_Catalogo_get_CatFierro");
+                return dr;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
         /// <summary>
         /// Obtener la lista de todos los fierros activos y dibujarlos 
         /// </summary>
@@ -31,6 +48,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.NombreFierro = !dr.IsDBNull(dr.GetOrdinal("NombreFierro")) ? dr.GetString(dr.GetOrdinal("NombreFierro")) : string.Empty;
                     Item.ImgFierro = !dr.IsDBNull(dr.GetOrdinal("ImgFierro")) ? dr.GetString(dr.GetOrdinal("ImgFierro")) : string.Empty;
                     Item.Observaciones = !dr.IsDBNull(dr.GetOrdinal("Observaciones")) ? dr.GetString(dr.GetOrdinal("Observaciones")) : string.Empty;
+
                     Bitmap bmpFromString = Item.ImgFierro.Base64StringToBitmap();
                     Item.ImagenContruida = bmpFromString.ToBase64ImageTag(ImageFormat.Png);
                     Lista.Add(Item);

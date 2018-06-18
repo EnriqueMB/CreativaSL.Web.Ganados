@@ -12,6 +12,7 @@
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
             },
+            "searching": false,
             "ordering": false,
             //"orderFixed": {
             //    "pre": [3, 'asc'],
@@ -91,7 +92,7 @@
         //8 columna, pesoPagar
         var html_pesoPagar = '<input id="pesopagar_' + id_fila + '" data-id="' + id_fila + '" class="form-control cslTotal cslElegido" type="number" value="' + pesopagar + '" data-toggle="tooltip" data-placement="top" title="Peso a pagar.">';
         //9 columna, costoXkilo
-        var html_costoxkilo = '<input id="costoxkilo_' + id_fila + '" data-id="' + id_fila + '" class="form-control cslTotal cslElegido" type="number" value="' + costoxkilo + '" data-toggle="tooltip" data-placement="top" title="Costo por kilo.">';
+        var html_costoxkilo = '<input id="costoxkilo_' + id_fila + '" data-id="' + id_fila + '" class="form-control cslTotal cslElegido" type="number" value="' + costoxkilo + '" data-toggle="tooltip" data-placement="top" title="Costo por kilo." readonly="readonly">';
         //10 columna, corral
         var html_corral = '<select id="corral_' + id_fila + '"class="form-control selectCSL cslElegido" data-toggle="tooltip" data-placement="top" title="Corral asignado." >';
         var opciones_corrales = '';
@@ -489,7 +490,7 @@
         total = TotalPagar(pesoPagar, precioXkilo);
         corral
         var corral = CorralSugerido(pesoPagar, genero);
-        console.log("corral: " + corral);
+        //console.log("corral: " + corral);
         //quitamos lo seleccionado del select 
         $("#" + fila[10].id + " option").removeAttr('selected');
         //agregamos el seleccionado
@@ -513,10 +514,11 @@
         if (MermaObtenida > tolerancia) {
 
             var pesoPagar = peso - (peso * (tolerancia / 100));
-            return pesoPagar;
+
+            return Math.trunc(pesoPagar);
         }
         else {
-            return peso;
+            return Math.trunc(peso);
         }
     }
     function PrecioSugerido(peso, genero) {

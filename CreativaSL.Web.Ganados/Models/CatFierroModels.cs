@@ -18,6 +18,8 @@ namespace CreativaSL.Web.Ganados.Models
             _ImagenContruida = string.Empty;
         }
 
+        public RespuestaAjax RespuestaAjax { get; set; }
+
         private string _IDFierro;
 
         public string IDFierro
