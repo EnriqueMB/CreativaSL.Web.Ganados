@@ -42,7 +42,7 @@
             var Inicio = fecha;
             var Fin = fecha2;
             if (ban == 1 && ban1 == 1) {
-                window.location.href = "/RptProveedorMermaAlta/Reporte2?id=" + Inicio + "&id2=" + Fin;
+                window.location.href = "/Admin/reportes/RptMermaAlta?id=PDF&id2=" + Inicio + "&id3=" +Fin;
             }
         });
         $("#BTN2").click(function () {

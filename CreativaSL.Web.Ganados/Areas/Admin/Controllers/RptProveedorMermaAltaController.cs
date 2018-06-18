@@ -63,8 +63,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 RptProveedorMermaAltaModels reporte = new RptProveedorMermaAltaModels();
                 _RptProveedorMermaAlta_Datos reporteDatos = new _RptProveedorMermaAlta_Datos();
+
                 reporte.Conexion = Conexion;
-                reporteDatos.ObtenerDatosEmpresaTipo1(reporte);
+                reporte.DatosEmpresa =  reporteDatos.ObtenerDatosEmpresaTipo1(Conexion);
                 reporte.listaRptProveedorMerma = reporteDatos.obtenerListaProveedoresMermaAlta(reporte);
                 Image LOGO =  LoadImage(reporte.DatosEmpresa.LogoEmpresa);
                 LocalReport Rtp = new LocalReport();

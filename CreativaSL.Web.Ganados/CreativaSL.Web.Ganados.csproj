@@ -1531,6 +1531,7 @@
     <Compile Include="Models\RangoPrecioProveedorModels.cs" />
     <Compile Include="Models\RecepcionOrigenModels.cs" />
     <Compile Include="Models\RecepcionDestinoModels.cs" />
+    <Compile Include="Models\ReporteModels.cs" />
     <Compile Include="Models\RespuestaAjax.cs" />
     <Compile Include="Models\ResumenGastosAjustesModels.cs" />
     <Compile Include="Models\ResumenGastosModels.cs" />
