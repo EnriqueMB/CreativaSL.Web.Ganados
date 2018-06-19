@@ -16,7 +16,7 @@ namespace CreativaSL.Web.Ganados.Models
 
 
         #region Json Datatables
-        public SqlDataReader GetDocumentosDataTable(CompraModels Compra)
+        public string GetDocumentosDataTable(CompraModels Compra)
         {
             object[] parametros =
             {
@@ -27,15 +27,16 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_DocumentosXIDCompra", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
-                return dr;
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public SqlDataReader GetDocumentosPorCobrarDetalles(CompraModels Compra)
+        public string GetDocumentosPorCobrarDetalles(CompraModels Compra)
         {
             object[] parametros =
             {
@@ -46,15 +47,16 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_DocumentoPorCobrarDetalles", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
-                return dr;
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public SqlDataReader TableJsonEventoCompra(CompraModels Compra)
+        public string TableJsonEventoCompra(CompraModels Compra)
         {
             object[] parametros =
             {
@@ -65,15 +67,16 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_EventosCompra", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
-                return dr;
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public SqlDataReader GetProductoGanadoNoAccidentadoXIDCompra(EventoEnvioModels Evento)
+        public string GetProductoGanadoNoAccidentadoXIDCompra(EventoEnvioModels Evento)
         {
             try
             {
@@ -84,15 +87,16 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Evento.Conexion, "spCSLDB_Compra_get_GanadoSINEventoXIDCompra", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
-                return dr;
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public SqlDataReader GetProductoGanadoAccidentadoXIDEvento(EventoEnvioModels Evento)
+        public string GetProductoGanadoAccidentadoXIDEvento(EventoEnvioModels Evento)
         {
             try
             {
@@ -103,8 +107,9 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Evento.Conexion, "spCSLDB_Compra_get_GanadoCONEventoXIDCompra", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
-                return dr;
+                return datatable;
             }
             catch (Exception ex)
             {
@@ -112,14 +117,15 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #region Index
-        public SqlDataReader ObtenerCompraIndexDataTable(CompraModels CompraModels)
+        public string ObtenerCompraIndexDataTable(CompraModels CompraModels)
         {
             try
             {
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(CompraModels.Conexion, "spCSLDB_Compras_IndexVentas");
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
-                return dr;
+                return datatable;
             }
             catch (Exception ex)
             {
@@ -128,15 +134,16 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
         #region Ganado
-        public SqlDataReader TableJsonGanadoCompra(CompraModels Compra)
+        public string TableJsonGanadoCompra(CompraModels Compra)
         {
             try
             {
                 object[] parametros = { Compra.IDCompra };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_Ganado", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
-                return dr;
+                return datatable;
             }
             catch (Exception ex)
             {
@@ -146,7 +153,7 @@ namespace CreativaSL.Web.Ganados.Models
         #endregion
 
         #region Detalles
-        public SqlDataReader JsonGeneralesGanado(CompraModels Compra)
+        public string JsonGeneralesGanado(CompraModels Compra)
         {
             try
             {
@@ -156,15 +163,16 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_JsonGeneralesGanado", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
-                return dr;
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public SqlDataReader JsonDetallesGanadoMacho(CompraModels Compra)
+        public string JsonDetallesGanadoMacho(CompraModels Compra)
         {
             try
             {
@@ -174,15 +182,16 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_DetallesGanadoMacho", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
-                return dr;
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public SqlDataReader JsonDetallesGanadoHembra(CompraModels Compra)
+        public string JsonDetallesGanadoHembra(CompraModels Compra)
         {
             try
             {
@@ -192,15 +201,16 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_DetallesGanadoHembra", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
-                return dr;
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public SqlDataReader JsonDetallesDocXpagar(CompraModels Compra)
+        public string JsonDetallesDocXpagar(CompraModels Compra)
         {
             try
             {
@@ -210,15 +220,16 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_DetallesDocXpagar", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
-                return dr;
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public SqlDataReader JsonDetallesDocXcobrar(CompraModels Compra)
+        public string JsonDetallesDocXcobrar(CompraModels Compra)
         {
             try
             {
@@ -228,8 +239,9 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_DetallesDocXcobrar", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
-                return dr;
+                return datatable;
             }
             catch (Exception ex)
             {
@@ -748,6 +760,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.Trayecto.id_lugarDestino = !dr.IsDBNull(dr.GetOrdinal("id_lugarDestino")) ? dr.GetString(dr.GetOrdinal("id_lugarDestino")) : string.Empty;
                     Compra.IDPLugarProveedor = !dr.IsDBNull(dr.GetOrdinal("id_lugar_proveedor")) ? dr.GetString(dr.GetOrdinal("id_lugar_proveedor")) : string.Empty;
                     Compra.Flete.precioFlete = !dr.IsDBNull(dr.GetOrdinal("precioFlete")) ? dr.GetDecimal(dr.GetOrdinal("precioFlete")) : 0;
+                    Compra.Flete.NumFleje = !dr.IsDBNull(dr.GetOrdinal("numFleje")) ? dr.GetString(dr.GetOrdinal("numFleje")) : string.Empty;
                 }
                 dr.Close();
                 return Compra;
@@ -1045,12 +1058,9 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 CatTipoDocumentoModels TipoDocumento;
                 List<CatTipoDocumentoModels> ListaTipoDocumentos = new List<CatTipoDocumentoModels>();
-                object[] parametro =
-                {
-                    Documento.IDCompra
-                };
+                
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Combo_get_CatTipoDocumento2", parametro);
+                dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Combo_get_CatTipoDocumento2");
                 while (dr.Read())
                 {
                     TipoDocumento = new CatTipoDocumentoModels
@@ -1244,6 +1254,7 @@ namespace CreativaSL.Web.Ganados.Models
                     ,Compra.Trayecto.id_lugarDestino = string.IsNullOrEmpty(Compra.Trayecto.id_lugarDestino) ? null : Compra.Trayecto.id_lugarDestino
                     ,Compra.IDSucursal
                     ,Compra.Flete.precioFlete
+                    ,Compra.Flete.NumFleje
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_ac_Flete", parametros);

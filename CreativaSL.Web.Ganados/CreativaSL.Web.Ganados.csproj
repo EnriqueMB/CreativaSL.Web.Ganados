@@ -471,6 +471,9 @@
     <Content Include="Content\js\EmpleadosSucursalFaltas.js" />
     <Content Include="Content\js\fleteRecepcion.js" />
     <Content Include="Content\js\plugins\font-awesome.min.css" />
+    <Content Include="Content\js\plugins\jquery-confirm.min.css" />
+    <Content Include="Content\js\plugins\popper.min.js" />
+    <Content Include="Content\js\plugins\select.bootstrap.min.css" />
     <Content Include="Content\js\plugins\wPaint\.gitignore" />
     <Content Include="Content\js\plugins\wPaint\demo\demo.css" />
     <Content Include="Content\js\plugins\wPaint\demo\img\facebook-icon.png" />
@@ -1711,8 +1714,12 @@
     <Folder Include="Areas\Admin\Views\CatBodega\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Reports\ReporteGanado.rdlc" />
-    <EmbeddedResource Include="Reports\ReporteMermaAlta.rdlc" />
+    <EmbeddedResource Include="Reports\prueba.rdlc">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ReporteMermaAlta.rdlc">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
