@@ -399,5 +399,29 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public List<CatTipoClasificacionModels> ObtenerComboClasificacionGastos(string Conexion)
+        {
+            try
+            {
+                List<CatTipoClasificacionModels> Lista = new List<CatTipoClasificacionModels>();
+                CatTipoClasificacionModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Combo_get_CatTipoClasificacion");
+                while(Dr.Read())
+                {
+                    Item = new CatTipoClasificacionModels();
+                    Item.IDTipoClasificacionGasto = !Dr.IsDBNull(Dr.GetOrdinal("IDTipoClasificacion")) ? Dr.GetInt32(Dr.GetOrdinal("IDTipoClasificacion")) : 0;
+                    Item.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                Dr.Close();
+                return Lista;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

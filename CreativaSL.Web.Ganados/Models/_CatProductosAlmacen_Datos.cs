@@ -17,13 +17,13 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    datos.Opcion, datos.IDProductoAlmacen,datos.IDTipoCodigo,datos.Clave,datos.Nombre,datos.Descripcion,
-                    datos.UltimoCosto,datos.Almacen,datos.IDUnidadMedida,datos.Imagen,datos.BandImg,
-                    datos.Usuario
+                    datos.Opcion, datos.IDProductoAlmacen, datos.IDTipoCodigo, datos.IDTipoClasificacion,
+                    datos.Clave, datos.Nombre, datos.Descripcion, datos.Almacen, datos.IDUnidadMedida,
+                    datos.Imagen, datos.BandImg, datos.Usuario
                 };
                 object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatProductosAlmacen", parametros);
                 datos.IDProductoAlmacen = Resultado.ToString();
-                if (!string.IsNullOrEmpty(datos.IDProductoAlmacen))
+                if (!string.IsNullOrWhiteSpace(datos.IDProductoAlmacen))
                 {
                     datos.Completado = true;
                 }
@@ -73,19 +73,18 @@ namespace CreativaSL.Web.Ganados.Models
                 dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_get_CatProductosAlmacenXID", parametros);
                 while (dr.Read())
                 {
-                    datos.IDProductoAlmacen = dr["id_productoAlmacen"].ToString();
-                    datos.IDTipoCodigo = Convert.ToInt32(dr["id_tipoCodigo"].ToString());
-                    datos.Nombre = dr["nombre"].ToString();
-                    datos.Clave = dr["clave"].ToString();
-                    datos.Descripcion = dr["descripcion"].ToString();
-                    datos.UltimoCosto = Convert.ToDecimal(dr["ultimoCosto"].ToString());
-                    datos.Imagen = dr["imagen"].ToString();
-                   
-                   
-                    datos.Almacen = Convert.ToBoolean(dr["almacen"].ToString());
-                    datos.IDUnidadMedida = Convert.ToInt32(dr["id_unidadMedidaPrincipal"].ToString());
-                   
+                    datos.IDProductoAlmacen = !dr.IsDBNull(dr.GetOrdinal("id_productoAlmacen")) ? dr.GetString(dr.GetOrdinal("id_productoAlmacen")) : string.Empty;
+                    datos.IDTipoCodigo = !dr.IsDBNull(dr.GetOrdinal("id_tipoCodigo")) ? dr.GetInt16(dr.GetOrdinal("id_tipoCodigo")) : 0;
+                    datos.Nombre = !dr.IsDBNull(dr.GetOrdinal("nombre")) ? dr.GetString(dr.GetOrdinal("nombre")) : string.Empty;
+                    datos.Clave = !dr.IsDBNull(dr.GetOrdinal("clave")) ? dr.GetString(dr.GetOrdinal("clave")) : string.Empty;
+                    datos.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    datos.Imagen = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
+                    datos.Almacen = !dr.IsDBNull(dr.GetOrdinal("almacen")) ? dr.GetBoolean(dr.GetOrdinal("almacen")) : false;
+                    datos.IDUnidadMedida = !dr.IsDBNull(dr.GetOrdinal("id_unidadMedidaPrincipal")) ? dr.GetInt16(dr.GetOrdinal("id_unidadMedidaPrincipal")) : 0;
+                    datos.IDTipoClasificacion = !dr.IsDBNull(dr.GetOrdinal("id_tipoClasificacion")) ? dr.GetInt16(dr.GetOrdinal("id_tipoClasificacion")) : 0;
+                    //datos.UltimoCosto = Convert.ToDecimal(dr["ultimoCosto"].ToString());
                 }
+                dr.Close();
                 return datos;
             }
 
@@ -284,7 +283,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item = new UnidadesProductosAlmacenModels();
                     Item.id_unidadProducto = !dr.IsDBNull(dr.GetOrdinal("id_unidadProducto")) ? dr.GetString(dr.GetOrdinal("id_unidadProducto")) : string.Empty;// Convert.ToInt32(dr["ID_UnidadMedida"].ToString());
                     Item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
-
+                    Item.factor = !dr.IsDBNull(dr.GetOrdinal("Factor")) ? dr.GetDecimal(dr.GetOrdinal("Factor")) : 0;
                     Lista.Add(Item);
                 }
                 datos.LUnidad = Lista;

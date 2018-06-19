@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,6 +18,7 @@ namespace CreativaSL.Web.Ganados.Models
             Completado = false;
             Opcion = 0;
             Usuario = string.Empty;
+            _DatosEmpresa = new DatosEmpresaViewModels();
         }
         private string _IDProveedor;
 
@@ -69,6 +71,13 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _listaRptProveedorMerma; }
             set { _listaRptProveedorMerma = value; }
+        }
+        private DatosEmpresaViewModels _DatosEmpresa;
+
+        public DatosEmpresaViewModels DatosEmpresa
+        {
+            get { return _DatosEmpresa; }
+            set { _DatosEmpresa = value; }
         }
         #region Datos De Control
         public string Conexion { get; set; }

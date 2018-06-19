@@ -1004,6 +1004,7 @@
     <Content Include="Content\js\RegistrarFaltas.js" />
     <Content Include="Content\js\Remolques.js" />
     <Content Include="Content\js\rendimiento.js" />
+    <Content Include="Content\js\Reportes.js" />
     <Content Include="Content\js\RptProveedorMunicipio.js" />
     <Content Include="Content\js\rptUltCompraProveedor.js" />
     <Content Include="Content\js\salidaAlmacen.js" />
@@ -1329,6 +1330,7 @@
     <Content Include="Content\js\plugins\wPaint\wPaint.jquery.json" />
     <Content Include="Areas\Admin\Views\Compra\ModalDocumentos.cshtml" />
     <Content Include="Areas\Admin\Views\CatFierro\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Reportes\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1399,6 +1401,7 @@
     <Compile Include="Areas\Admin\Controllers\MantenimientoController.cs" />
     <Compile Include="Areas\Admin\Controllers\NominaController.cs" />
     <Compile Include="Areas\Admin\Controllers\NominaDiasFestivosController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportesController.cs" />
     <Compile Include="Areas\Admin\Controllers\RptProveedorMermaAltaController.cs" />
     <Compile Include="Areas\Admin\Controllers\RptProveedorMunicipioController.cs" />
     <Compile Include="Areas\Admin\Controllers\RptSalidasController.cs" />
@@ -1529,9 +1532,11 @@
     <Compile Include="Models\RangoPrecioProveedorModels.cs" />
     <Compile Include="Models\RecepcionOrigenModels.cs" />
     <Compile Include="Models\RecepcionDestinoModels.cs" />
+    <Compile Include="Models\ReporteModels.cs" />
     <Compile Include="Models\RespuestaAjax.cs" />
     <Compile Include="Models\ResumenGastosAjustesModels.cs" />
     <Compile Include="Models\ResumenGastosModels.cs" />
+    <Compile Include="Models\RptGandosModels.cs" />
     <Compile Include="Models\RptProveedorMermaAltaModels.cs" />
     <Compile Include="Models\RptProveedorMunicipioModels.cs" />
     <Compile Include="Models\RptSalidasModels.cs" />
@@ -1706,7 +1711,8 @@
     <Folder Include="Areas\Admin\Views\CatBodega\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Report\Saldos.rdlc" />
+    <EmbeddedResource Include="Reports\ReporteGanado.rdlc" />
+    <EmbeddedResource Include="Reports\ReporteMermaAlta.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
