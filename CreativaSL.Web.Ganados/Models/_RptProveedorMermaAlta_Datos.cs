@@ -13,18 +13,23 @@ namespace CreativaSL.Web.Ganados.Models
         public List<RptProveedorMermaAltaModels> obtenerListaProveedoresMermaAlta(RptProveedorMermaAltaModels Datos) {
             try
             {
+                object[] parametros = { Datos.FechaInicio, Datos.FechaFin };
                 List<RptProveedorMermaAltaModels> lista = new List<RptProveedorMermaAltaModels>();
                 RptProveedorMermaAltaModels item;
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reporte_get_ProveedoresConMerma");
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reporte_get_ProveedoresConMerma", parametros);
                 while (dr.Read())
                 {
                     item = new RptProveedorMermaAltaModels();
-                    item.IDProveedor= !dr.IsDBNull(dr.GetOrdinal("nombreRazonSocial")) ? dr.GetString(dr.GetOrdinal("nombreRazonSocial")) : string.Empty;
+                    item.IDProveedor= !dr.IsDBNull(dr.GetOrdinal("id_proveedor")) ? dr.GetString(dr.GetOrdinal("id_proveedor")) : string.Empty;
                     item.nombreProveedor = !dr.IsDBNull(dr.GetOrdinal("nombreRazonSocial")) ? dr.GetString(dr.GetOrdinal("nombreRazonSocial")) : string.Empty;
-                    item.toleranciaCompra = !dr.IsDBNull(dr.GetOrdinal("toleranciaCompra")) ? dr.GetDecimal(dr.GetOrdinal("toleranciaCompra")) : 0;
+                    item.NombreCompra = !dr.IsDBNull(dr.GetOrdinal("Compra")) ? dr.GetString(dr.GetOrdinal("Compra")) : string.Empty;
                     item.merma = !dr.IsDBNull(dr.GetOrdinal("toleranciaProveedor")) ? dr.GetInt32(dr.GetOrdinal("toleranciaProveedor")) : 0;
+                    item.toleranciaCompra = !dr.IsDBNull(dr.GetOrdinal("toleranciaCompra")) ? dr.GetDecimal(dr.GetOrdinal("toleranciaCompra")) : 0;
                     item.mermaTotal = !dr.IsDBNull(dr.GetOrdinal("mermaTotal")) ? dr.GetDecimal(dr.GetOrdinal("mermaTotal")) : 0;
+                    item.GanadoMacho = !dr.IsDBNull(dr.GetOrdinal("GanadoCompradoMacho")) ? dr.GetInt32(dr.GetOrdinal("GanadoCompradoMacho")) : 0;
+                    item.GanadoHembra = !dr.IsDBNull(dr.GetOrdinal("GanadoCompradoHembras")) ? dr.GetInt32(dr.GetOrdinal("GanadoCompradoHembras")) : 0;
+                    item.TalGanadoComprado = !dr.IsDBNull(dr.GetOrdinal("TotalGanado")) ? dr.GetInt32(dr.GetOrdinal("TotalGanado")) : 0;
                     lista.Add(item);
                 }
                 Datos.listaRptProveedorMerma = lista;
