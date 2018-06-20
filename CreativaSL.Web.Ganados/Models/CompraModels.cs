@@ -48,6 +48,7 @@ namespace CreativaSL.Web.Ganados.Models
         public string ListadoPrecioRangoPesoString { get; set; }
         public string ListaEstatusGanadoString { get; set; }
         public string ListaCorralesString { get; set; }
+        public string ListaFierrosString { get; set; }
 
         //Para el index
         public DataTable TablaCompra { get; set; }
