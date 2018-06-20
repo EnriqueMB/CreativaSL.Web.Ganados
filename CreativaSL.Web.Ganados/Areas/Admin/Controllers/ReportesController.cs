@@ -25,11 +25,18 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+
+                Reporte_Datos R = new Reporte_Datos();
                 RptProveedorMermaAltaModels reporte = new RptProveedorMermaAltaModels();
                 _RptProveedorMermaAlta_Datos reporteDatos = new _RptProveedorMermaAlta_Datos();
-
+                DateTime Fecha1 = DateTime.Today;
+                DateTime Fecha2 = DateTime.Today;
+                DateTime.TryParse(id2.ToString(), out Fecha1);
+                DateTime.TryParse(id3.ToString(), out Fecha2);
+                reporte.FechaInicio = Fecha1;
+                reporte.FechaFin = Fecha2;
                 reporte.Conexion = Conexion;
-                reporte.DatosEmpresa = reporteDatos.ObtenerDatosEmpresaTipo1(Conexion);
+                reporte.DatosEmpresa = R.ObtenerDatosEmpresaTipo1(Conexion);
                 reporte.listaRptProveedorMerma = reporteDatos.obtenerListaProveedoresMermaAlta(reporte);
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;

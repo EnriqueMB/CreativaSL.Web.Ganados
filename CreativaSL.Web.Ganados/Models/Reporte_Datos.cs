@@ -8,7 +8,7 @@ using System.Web;
 
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class ReporteModels
+    public class Reporte_Datos
     {
         public DatosEmpresaViewModels ObtenerDatosEmpresaTipo1(string Cadena)
         {

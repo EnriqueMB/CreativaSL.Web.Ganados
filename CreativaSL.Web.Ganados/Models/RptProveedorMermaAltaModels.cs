@@ -19,6 +19,9 @@ namespace CreativaSL.Web.Ganados.Models
             Opcion = 0;
             Usuario = string.Empty;
             _DatosEmpresa = new DatosEmpresaViewModels();
+            _FechaFin = DateTime.Today;
+            _FechaInicio = DateTime.Today;
+            _NombreCompra = string.Empty;
         }
         private string _IDProveedor;
 
@@ -79,6 +82,56 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _DatosEmpresa; }
             set { _DatosEmpresa = value; }
         }
+
+        private string _NombreCompra;
+
+        public string NombreCompra
+        {
+            get { return _NombreCompra; }
+            set { _NombreCompra = value; }
+        }
+
+        private int _GanadoMacho;
+
+        public int GanadoMacho
+        {
+            get { return _GanadoMacho; }
+            set { _GanadoMacho = value; }
+        }
+
+        private int _GanadoHembra;
+
+        public int GanadoHembra
+        {
+            get { return _GanadoHembra; }
+            set { _GanadoHembra = value; }
+        }
+
+        private int _TotalGanadoComprado;
+
+        public int TalGanadoComprado
+        {
+            get { return _TotalGanadoComprado; }
+            set { _TotalGanadoComprado = value; }
+        }
+
+        private DateTime _FechaInicio;
+
+        public DateTime FechaInicio
+        {
+            get { return _FechaInicio; }
+            set { _FechaInicio = value; }
+        }
+
+        private DateTime _FechaFin;
+
+        public DateTime FechaFin
+        {
+            get { return _FechaFin; }
+            set { _FechaFin = value; }
+        }
+
+
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }
