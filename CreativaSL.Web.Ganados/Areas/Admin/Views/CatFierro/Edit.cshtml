@@ -1,0 +1,248 @@
+﻿@model CreativaSL.Web.Ganados.Models.CatFierroModels
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section css
+{
+    <!--FILEINPUT-->
+    @*<link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
+        <link href="@Url.Content("~/Content/js/plugins/font-awesome.min.css")" rel="stylesheet" />
+
+        <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />*@
+    <link href="@Url.Content("~/Content/css/validator.css")" rel="stylesheet" />
+}
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+
+    <div class="col-md-12">
+        @{ Html.EnableClientValidation(false); }
+        @using (Html.BeginForm("Edit", "CatFierro", FormMethod.Post, new { id = "frm_fierro", @class = "form-horizontal", autocomplete = "off", @enctype = "multipart/form-data" }))
+    {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model=>model.IDFierro)
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Fierro</strong></h3>
+                    <ul class="panel-controls"></ul>
+                </div>
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
+                            <div id="validation_summary" class="field_error "></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="controlError col-md-6">
+                            <label class="col-md-3 control-label">Nombre del fierro</label>
+                            <div class="col-md-9 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.NombreFierro, new { @class = "form-control" })
+                                </div>
+                                <span class="help-block">Ingrese el nombre del fierro</span>
+                            </div>
+                        </div>
+                        <div class="controlError col-md-6">
+                            <label class="col-md-3 control-label">Observación</label>
+                            <div class="col-md-9 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-file-text"></span></span>
+                                    @Html.TextAreaFor(model => model.Observaciones, new { @class = "form-control" })
+                                </div>
+                                <span class="help-block">Ingrese alguna observación.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="controlError col-md-12">
+                            <label class="col-md-1 control-label">Dibuje el fierro</label>
+                            <div class="col-md-11 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+
+                                    <div id="wPaint" class="col-md-6" style="width: 100%; height:300px;"></div>
+
+                                    <center id="wPaint-img"></center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel-footer">
+                    <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                    <a href="@Url.Action("Index","CatFierro")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                </div>
+            </div>
+        }
+    </div>
+
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/catFierro.js")"></script>
+    <!--VALIDACIONES-->
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+
+
+    <!-- jQuery UI -->
+    <script src="~/Content/js/plugins/wPaint/lib/jquery.ui.core.1.10.3.min.js"></script>
+    <script src="~/Content/js/plugins/wPaint/lib/jquery.ui.widget.1.10.3.min.js"></script>
+    <script src="~/Content/js/plugins/wPaint/lib/jquery.ui.mouse.1.10.3.min.js"></script>
+    <script src="~/Content/js/plugins/wPaint/lib/jquery.ui.draggable.1.10.3.min.js"></script>
+
+    <!-- wColorPicker -->
+    <link href="~/Content/js/plugins/wPaint/lib/wColorPicker.min.css" rel="stylesheet" />
+    <script src="~/Content/js/plugins/wPaint/lib/wColorPicker.min.js"></script>
+
+    <!-- wPaint -->
+
+    <link href="~/Content/js/plugins/wPaint/wPaint.min.css" rel="stylesheet" />
+    <script src="~/Content/js/plugins/wPaint/wPaint.min.js"></script>
+
+    <script src="~/Content/js/plugins/wPaint/plugins/main/wPaint.menu.main.min.js"></script>
+    <script src="~/Content/js/plugins/wPaint/plugins/text/wPaint.menu.text.min.js"></script>
+    <script src="~/Content/js/plugins/wPaint/plugins/shapes/wPaint.menu.main.shapes.min.js"></script>
+    <script src="~/Content/js/plugins/wPaint/plugins/file/wPaint.menu.main.file.min.js"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/Content/js/catFierro.js")"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+
+            var paint = $('#wPaint').wPaint({
+                menuOffsetLeft: -35,
+                menuOffsetTop: -50,
+                bg: '#FFFFFF',
+                saveImg: null,
+                loadImgBg: null,
+                loadImgFg: null,
+                path: '/Content/js/plugins/wPaint/'
+            });
+
+            var canvas = document.getElementById("wPaint-canvas");
+            var ctx = canvas.getContext("2d");
+
+            var image = new Image();
+            image.onload = function () {
+                ctx.drawImage(image, 0, 0);
+            };
+            image.src = "data:@Model.Extension ;base64, @Model.ImgFierro";
+        });
+
+            var form1 = $('#frm_fierro');
+            var errorHandler1 = $('.errorHandler', form1);
+            var successHandler1 = $('.successHandler', form1);
+
+            form1.validate({ // initialize the plugin
+                //debug: true,
+                errorElement: "span", // contain the error msg in a span tag
+                errorClass: 'help-block color',
+                errorLabelContainer: $("#validation_summary"),
+                errorPlacement: function (error, element) { // render error placement for each input type
+                    if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
+                        error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                    } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
+                        error.insertAfter($(element).closest('.form-group').children('div'));
+                    } else if (element.attr("type") == "text") {
+                        error.insertAfter($(element).closest('.input-group').children('div'));
+                    } else {
+                        error.insertAfter(element);
+                        // for other inputs, just perform default behavior
+                    }
+                },
+                ignore: "",
+                rules: {
+                    NombreFierro: {
+                        required: true
+                    }
+                },
+                messages: {
+                    NombreFierro: {
+                        required: "Ingrese un nombre del fierro."
+                    }
+                },
+                invalidHandler: function (event, validator) { //display error alert on form submit
+                    successHandler1.hide();
+                    errorHandler1.show();
+                    //$("#validation_summary").text(validator.showErrors());
+                },
+                highlight: function (element) {
+                    $(element).closest('.help-block').removeClass('valid');
+                    // display OK icon
+                    $(element).closest('.controlError').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+                    // add the Bootstrap error class to the control group
+                },
+                unhighlight: function (element) { // revert the change done by hightlight
+                    $(element).closest('.controlError').removeClass('has-error');
+                    // set error class to the control group
+                },
+                success: function (label, element) {
+                    label.addClass('help-block valid');
+                    label.removeClass('color');
+                    // mark the current input as valid and display OK icon
+                    $(element).closest('.controlError').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+                },
+                submitHandler: function (form) {
+                    successHandler1.show();
+                    errorHandler1.hide();
+                    AC_FIERRO();
+                }
+            });
+
+        function AC_FIERRO() {
+            var form = $("#frm_fierro")[0];
+            var formData = new FormData(form);
+
+            var canvas = document.getElementById('wPaint-canvas');
+            var ImgFierro = canvas.toDataURL();
+            console.log("imagen: ");
+            console.log(ImgFierro);
+
+            formData.append("ImgFierro", ImgFierro);
+
+            $.ajax({
+                type: 'POST',
+                data: formData,
+                url: '/Admin/CatFierro/Edit/',
+                contentType: false,
+                processData: false,
+                cache: false,
+                error: function (response) {
+                    Mensaje(response.Mensaje, "2");
+                },
+                success: function (response) {
+                    window.location.href = '/Admin/CatFierro/Index';
+                }
+            });
+        }
+
+        
+    </script>
+}

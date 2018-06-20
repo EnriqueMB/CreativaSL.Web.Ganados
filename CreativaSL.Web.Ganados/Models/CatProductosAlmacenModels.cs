@@ -13,6 +13,7 @@ namespace CreativaSL.Web.Ganados.Models
             _listaProductosAlmacen = new List<CatProductosAlmacenModels>();
             _listaTipoCodigoProducto = new List<CatTipoCodigoProductoModels>();
             _listaUnidadMedida = new List<CatUnidadMedidaModels>();
+            _ListaTipoClasificacion = new List<CatTipoClasificacionModels>();
             _Clave = string.Empty;
             _Nombre = string.Empty;
             _Descripcion = string.Empty;
@@ -112,6 +113,7 @@ namespace CreativaSL.Web.Ganados.Models
             set { _Descripcion = value; }
         }
 
+
         private decimal _UltimoCosto;
 
         public decimal UltimoCosto
@@ -161,6 +163,24 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _Extension; }
             set { _Extension = value; }
         }
+
+        private int _IDTipoClasificacion;
+
+        public int IDTipoClasificacion
+        {
+            get { return _IDTipoClasificacion; }
+            set { _IDTipoClasificacion = value; }
+        }
+
+
+        private List<CatTipoClasificacionModels> _ListaTipoClasificacion;
+
+        public List<CatTipoClasificacionModels> ListaTipoClasificacion
+        {
+            get { return _ListaTipoClasificacion; }
+            set { _ListaTipoClasificacion = value; }
+        }
+
 
         #region Datos De Control
         public string Conexion { get; set; }

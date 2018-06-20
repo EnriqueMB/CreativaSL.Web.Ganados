@@ -35,27 +35,25 @@
             },
             ignore: "",
             rules: {
-                
-            IDTipoCodigo: {CMBINT: true }, //{ nombre: true, maxlenght: 300 },
+                IDTipoCodigo: { CMBINT: true }, //{ nombre: true, maxlenght: 300 },
+                IDTipoClasificacion: {CMBINT: true },
                 IDUnidadMedida: { CMBINT: true },
                 Clave: { required: true, texto: true, maxlength: 20 },
                 Nombre: { required: true, nombre: true, maxlength: 300 },
                 Descripcion: { required: true, descripcion: true },
-                UltimoCosto: { required: true },
+                //UltimoCosto: { required: true },
                 imagen2: { validarImagen2: true },
                
             },
             messages: {
-                
-                IDTipoCodigo: {  CMBINT: "Seleccione un tipo de código." }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
-                IDUnidadMedida: { CMBINT: "Seleccione una unidad de médida." },
-                Clave: { required: "Se necesita de una clave del producto", texto: "Ingrese un formato válido ", maxlength: "Solo se admite un máximo de 20 caracteres" },
-                Nombre: { required: "Se necesita de un nombre del producto", nombre: "Ingrese un formato válido ", maxlength: "Solo se admite un máximo de 300 caracteres" },
-                Descripcion:{ required: "Se necesita de una clave del producto", descripcion: "Ingrese un formato válido "},
-                UltimoCosto: { required: "Se necesita de un nombre del producto" },
-                imagen2: { validarImagen2: "Seleccione una imagén válida " },
-               
-
+                IDTipoCodigo: { CMBINT: "Seleccione un tipo de código." }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
+                IDTipoClasificacion: { CMBINT: "Seleccione una clasificación." },
+                IDUnidadMedida: { CMBINT: "Seleccione una unidad de medida." },
+                Clave: { required: "Ingrese el código del producto.", texto: "Ingrese un código válido.", maxlength: "Solo se admite un máximo de 20 caracteres." },
+                Nombre: { required: "Ingrese el nombre del producto", nombre: "Ingrese un nombre válido ", maxlength: "Solo se admite un máximo de 300 caracteres." },
+                Descripcion:{ required: "Ingrese una descripción del producto", descripcion: "Ingrese una descripcion válida."},
+                //UltimoCosto: { required: "Se necesita de un nombre del producto" },
+                imagen2: { validarImagen2: "Seleccione una imagen válida " },
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -93,7 +91,6 @@
         //main function to initiate template pages
         init: function () {
             runValidator1();
-          
         }
     };
 }();

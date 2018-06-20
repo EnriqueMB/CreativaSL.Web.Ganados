@@ -36,7 +36,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table class="table datatable">
+                            <table class="table datatable2">
                                 <thead>
                                     <tr>
                                         <th>Tipo Documento</th>
@@ -143,6 +143,22 @@
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
+        var uiDatatable = function () {
+            if ($(".datatable2").length > 0) {
+                $(".datatable2").dataTable({
+                    "order": [],
+                    "language": {
+                        "url": "/Content/assets/json/Spanish.json"
+                    },
+                    responsive: true
+                });
+                $(".datatable2").on('page.dt', function () {
+                    onresize(100);
+                });
+            }
+        };//END Datatable
+
+        uiDatatable();
         });
     </script>
 }

@@ -584,7 +584,6 @@
         });
     };
     function ModalDocumento(IDCompra, IDDocumento) {
-        console.log(IDFlete);
         $("body").css("cursor", "progress");
         $.ajax({
             url: '/Admin/Compra/ModalDocumento/',
@@ -696,11 +695,9 @@
 
         for (var key of formData.keys()) {
             arrayKeys.push("Documento." + key);
-            console.log(key);
         }
         for (var value of formData.values()) {
             arrayValues.push(value);
-            console.log(value);
         }
         for (var i = 0; i < arrayKeys.length; i++) {
             formData.append(key[i], value[i]);

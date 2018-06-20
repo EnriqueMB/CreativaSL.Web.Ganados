@@ -9,14 +9,15 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class _Venta2_Datos
     {
-        public SqlDataReader DatatableGanadoActual(VentaModels2 venta)
+        public string DatatableGanadoActual(VentaModels2 venta)
         {
             try
             {
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(venta.Conexion, "spCSLDB_Venta_get_DatatableGanadoActual");
-
-                return dr;
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
             }
             catch (Exception ex)
             {

@@ -76,7 +76,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Compra.Conexion = Conexion;
                     Compra = CompraDatos.GetGanadoCompra(Compra);
                     Compra.ListadoPrecioRangoPesoString = CompraDatos.GetListadoPrecioRangoPeso(Compra).ToJSON();
-                    Compra.ListaEstatusGanadoString = CompraDatos.GetListadoEstatusGanado(Compra).ToJSON();
                     Compra.ListaCorralesString = CompraDatos.GetListaCorrales(Compra).ToJSON();
 
                     return View(Compra);
@@ -138,7 +137,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra.Conexion = Conexion;
                 Compra.IDCompra = IDCompra;
 
-                Compra.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(CompraDatos.GetDocumentosDataTable(Compra));
+                Compra.RespuestaAjax.Mensaje = CompraDatos.GetDocumentosDataTable(Compra);
                 Compra.RespuestaAjax.Success = true;
 
                 return Content(Compra.RespuestaAjax.Mensaje, "application/json");
@@ -160,7 +159,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra.Conexion = Conexion;
                 Compra.IDCompra = IDCompra;
 
-                Compra.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(CompraDatos.GetDocumentosPorCobrarDetalles(Compra));
+                Compra.RespuestaAjax.Mensaje = CompraDatos.GetDocumentosPorCobrarDetalles(Compra);
                 Compra.RespuestaAjax.Success = true;
 
                 return Content(Compra.RespuestaAjax.Mensaje, "application/json");
@@ -183,7 +182,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CompraDatos = new _Compra_Datos();
                 Compra.Conexion = Conexion;
 
-                Compra.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(CompraDatos.ObtenerCompraIndexDataTable(Compra));
+                Compra.RespuestaAjax.Mensaje = CompraDatos.ObtenerCompraIndexDataTable(Compra);
                 Compra.RespuestaAjax.Success = true;
 
                 return Content(Compra.RespuestaAjax.Mensaje, "application/json");
@@ -207,7 +206,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra = new CompraModels();
                 Compra.Conexion = Conexion;
                 Compra.IDCompra = IDCompra;
-                Compra.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(CompraDatos.TableJsonGanadoCompra(Compra));
+                Compra.RespuestaAjax.Mensaje = CompraDatos.TableJsonGanadoCompra(Compra);
                 Compra.RespuestaAjax.Success = true;
 
                 return Content(Compra.RespuestaAjax.Mensaje, "application/json");
@@ -231,7 +230,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra = new CompraModels();
                 Compra.Conexion = Conexion;
                 Compra.IDCompra = IDCompra;
-                Compra.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(CompraDatos.TableJsonEventoCompra(Compra));
+                Compra.RespuestaAjax.Mensaje = CompraDatos.TableJsonEventoCompra(Compra);
                 Compra.RespuestaAjax.Success = true;
 
                 return Content(Compra.RespuestaAjax.Mensaje, "application/json");
@@ -257,7 +256,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Evento.IDCompra = IDCompra;
                 Evento.IDEvento = IDEvento;
                 Evento.RespuestaAjax = new RespuestaAjax();
-                Evento.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(CompraDatos.GetProductoGanadoNoAccidentadoXIDCompra(Evento));
+                Evento.RespuestaAjax.Mensaje = CompraDatos.GetProductoGanadoNoAccidentadoXIDCompra(Evento);
                 Evento.RespuestaAjax.Success = true;
 
                 return Content(Evento.RespuestaAjax.Mensaje, "application/json");
@@ -284,7 +283,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Evento.IDCompra = IDCompra;
                 Evento.IDEvento = IDEvento;
                 Evento.RespuestaAjax = new RespuestaAjax();
-                Evento.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(CompraDatos.GetProductoGanadoAccidentadoXIDEvento(Evento));
+                Evento.RespuestaAjax.Mensaje = CompraDatos.GetProductoGanadoAccidentadoXIDEvento(Evento);
                 Evento.RespuestaAjax.Success = true;
 
                 return Content(Evento.RespuestaAjax.Mensaje, "application/json");
@@ -440,7 +439,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
         #region Ganado
         [HttpPost]
-        public ActionResult AC_Ganado(string IDCompra, string IDGanado, string numArete, string id_genero, int id_estado,
+        public ActionResult AC_Ganado(string IDCompra, string IDGanado, string numArete, string id_genero,
             decimal peso, decimal repeso, decimal merma, decimal peso_pagar, decimal costo_kilo, int id_corral, string Id_detalleDocumentoPorCobrar,
             int indiceActual)
         {
@@ -452,7 +451,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra.Ganado.id_Ganados = IDGanado;
                 Compra.Ganado.numArete = numArete;
                 Compra.Ganado.genero = id_genero;
-                Compra.Ganado.IDEstatusGanado = id_estado;
+                Compra.Ganado.IDEstatusGanado = 1;//PREDETERMINADO ADEMAS EN LA BD POR DEFAULT TAMBIEN SE INGRESA COMO 1 = SALUDABLE
                 Compra.Ganado.CompraGanado.PesoInicial = peso;
                 Compra.Ganado.CompraGanado.PesoFinal = repeso;
                 Compra.Ganado.CompraGanado.Merma = merma;
@@ -464,7 +463,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 Compra.Conexion = Conexion;
                 Compra.Usuario = User.Identity.Name;
-                Compra = CompraDatos.Compras_ac_Ganado(Compra, indiceActual);
+                //Compra = CompraDatos.Compras_ac_Ganado(Compra, indiceActual);
+                Compra.RespuestaAjax.Mensaje = "{\"id_ganado\" : \"1\", \"id_detalleDoctoCobrar\" : \"0\", \"indiceActual\" : \"" + indiceActual + "\", \"CantidadMachos\" : \"1\", \"CantidadHembras\" : \"1\", \"CantidadTotal\" : \"1\", \"MermaMachos\" : \"1\" , \"MermaHembras\" : \"2\" , \"MermaTotal\" : \"3\", \"KilosMachos\" : \"4\" , \"KilosHembras\" : \"5\", \"KilosTotal\" : \"6\", \"MontoTotalGanado\" : \"7\"}";
+                Compra.RespuestaAjax.Success = true;
 
                 return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
             }
@@ -1065,7 +1066,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra = new CompraModels();
                 Compra.Conexion = Conexion;
                 Compra.IDCompra = IDCompra;
-                Compra.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(CompraDatos.JsonGeneralesGanado(Compra));
+                Compra.RespuestaAjax.Mensaje = CompraDatos.JsonGeneralesGanado(Compra);
                 Compra.RespuestaAjax.Success = true;
 
                 return Content(Compra.RespuestaAjax.Mensaje, "application/json");
@@ -1087,7 +1088,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra = new CompraModels();
                 Compra.Conexion = Conexion;
                 Compra.IDCompra = IDCompra;
-                Compra.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(CompraDatos.JsonDetallesGanadoMacho(Compra));
+                Compra.RespuestaAjax.Mensaje = CompraDatos.JsonDetallesGanadoMacho(Compra);
                 Compra.RespuestaAjax.Success = true;
 
                 return Content(Compra.RespuestaAjax.Mensaje, "application/json");
@@ -1109,7 +1110,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra = new CompraModels();
                 Compra.Conexion = Conexion;
                 Compra.IDCompra = IDCompra;
-                Compra.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(CompraDatos.JsonDetallesGanadoHembra(Compra));
+                Compra.RespuestaAjax.Mensaje = CompraDatos.JsonDetallesGanadoHembra(Compra);
                 Compra.RespuestaAjax.Success = true;
 
                 return Content(Compra.RespuestaAjax.Mensaje, "application/json");
@@ -1131,7 +1132,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra = new CompraModels();
                 Compra.Conexion = Conexion;
                 Compra.IDCompra = IDCompra;
-                Compra.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(CompraDatos.JsonDetallesDocXpagar(Compra));
+                Compra.RespuestaAjax.Mensaje = CompraDatos.JsonDetallesDocXpagar(Compra);
                 Compra.RespuestaAjax.Success = true;
 
                 return Content(Compra.RespuestaAjax.Mensaje, "application/json");
@@ -1153,7 +1154,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra = new CompraModels();
                 Compra.Conexion = Conexion;
                 Compra.IDCompra = IDCompra;
-                Compra.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(CompraDatos.JsonDetallesDocXcobrar(Compra));
+                Compra.RespuestaAjax.Mensaje = CompraDatos.JsonDetallesDocXcobrar(Compra);
                 Compra.RespuestaAjax.Success = true;
 
                 return Content(Compra.RespuestaAjax.Mensaje, "application/json");

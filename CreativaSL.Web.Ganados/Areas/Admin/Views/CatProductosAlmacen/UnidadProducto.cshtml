@@ -16,7 +16,7 @@
     <h3></h3>
 </div>
 <div class="page-title">
-    <h2><span class="fa fa-arrow-circle-o-left"></span> Unidad Producto Almacen </h2>
+    <h2><span class="fa fa-arrow-circle-o-left"></span> Unidades de medida por producto </h2>
 </div>
 <!-- END PAGE TITLE -->
 <!-- PAGE CONTENT WRAPPER -->
@@ -41,6 +41,7 @@
                             <thead>
                                 <tr>
                                     <th>Unidad</th>
+                                    <th>Factor</th>
                                     <th>Acción</th>
                                 </tr>
                             </thead>
@@ -49,6 +50,7 @@
                                 {
                                     <tr id="@Unidad.id_unidadProducto">
                                         <td>@Unidad.Descripcion</td>
+                                        <td>@string.Format("{0:F6}", Unidad.factor)</td>
                                         <td style="text-align:center;">
                                             <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                 <a title="Eliminar" id="delete-@Unidad.id_unidadProducto" data-hrefa="@Url.Action("UnidadDelete", "CatProductosAlmacen", new { id = Unidad.id_unidadProducto,id2=IDP })" onClick="delete_row('@Unidad.id_unidadProducto');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>

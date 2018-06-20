@@ -16,7 +16,7 @@ namespace CreativaSL.Web.Ganados.Models
 
 
         #region Json Datatables
-        public SqlDataReader GetDocumentosDataTable(CompraModels Compra)
+        public string GetDocumentosDataTable(CompraModels Compra)
         {
             object[] parametros =
             {
@@ -27,14 +27,16 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_DocumentosXIDCompra", parametros);
-                return dr;
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public SqlDataReader GetDocumentosPorCobrarDetalles(CompraModels Compra)
+        public string GetDocumentosPorCobrarDetalles(CompraModels Compra)
         {
             object[] parametros =
             {
@@ -45,14 +47,16 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_DocumentoPorCobrarDetalles", parametros);
-                return dr;
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public SqlDataReader TableJsonEventoCompra(CompraModels Compra)
+        public string TableJsonEventoCompra(CompraModels Compra)
         {
             object[] parametros =
             {
@@ -63,14 +67,16 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_EventosCompra", parametros);
-                return dr;
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public SqlDataReader GetProductoGanadoNoAccidentadoXIDCompra(EventoEnvioModels Evento)
+        public string GetProductoGanadoNoAccidentadoXIDCompra(EventoEnvioModels Evento)
         {
             try
             {
@@ -81,14 +87,16 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Evento.Conexion, "spCSLDB_Compra_get_GanadoSINEventoXIDCompra", parametros);
-                return dr;
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public SqlDataReader GetProductoGanadoAccidentadoXIDEvento(EventoEnvioModels Evento)
+        public string GetProductoGanadoAccidentadoXIDEvento(EventoEnvioModels Evento)
         {
             try
             {
@@ -99,7 +107,9 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Evento.Conexion, "spCSLDB_Compra_get_GanadoCONEventoXIDCompra", parametros);
-                return dr;
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
             }
             catch (Exception ex)
             {
@@ -107,13 +117,15 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #region Index
-        public SqlDataReader ObtenerCompraIndexDataTable(CompraModels CompraModels)
+        public string ObtenerCompraIndexDataTable(CompraModels CompraModels)
         {
             try
             {
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(CompraModels.Conexion, "spCSLDB_Compras_IndexVentas");
-                return dr;
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
             }
             catch (Exception ex)
             {
@@ -122,14 +134,16 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
         #region Ganado
-        public SqlDataReader TableJsonGanadoCompra(CompraModels Compra)
+        public string TableJsonGanadoCompra(CompraModels Compra)
         {
             try
             {
                 object[] parametros = { Compra.IDCompra };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_Ganado", parametros);
-                return dr;
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
             }
             catch (Exception ex)
             {
@@ -139,7 +153,7 @@ namespace CreativaSL.Web.Ganados.Models
         #endregion
 
         #region Detalles
-        public SqlDataReader JsonGeneralesGanado(CompraModels Compra)
+        public string JsonGeneralesGanado(CompraModels Compra)
         {
             try
             {
@@ -149,14 +163,16 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_JsonGeneralesGanado", parametros);
-                return dr;
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public SqlDataReader JsonDetallesGanadoMacho(CompraModels Compra)
+        public string JsonDetallesGanadoMacho(CompraModels Compra)
         {
             try
             {
@@ -166,14 +182,16 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_DetallesGanadoMacho", parametros);
-                return dr;
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public SqlDataReader JsonDetallesGanadoHembra(CompraModels Compra)
+        public string JsonDetallesGanadoHembra(CompraModels Compra)
         {
             try
             {
@@ -183,14 +201,16 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_DetallesGanadoHembra", parametros);
-                return dr;
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public SqlDataReader JsonDetallesDocXpagar(CompraModels Compra)
+        public string JsonDetallesDocXpagar(CompraModels Compra)
         {
             try
             {
@@ -200,14 +220,16 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_DetallesDocXpagar", parametros);
-                return dr;
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public SqlDataReader JsonDetallesDocXcobrar(CompraModels Compra)
+        public string JsonDetallesDocXcobrar(CompraModels Compra)
         {
             try
             {
@@ -217,7 +239,9 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_DetallesDocXcobrar", parametros);
-                return dr;
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
             }
             catch (Exception ex)
             {
@@ -251,6 +275,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                 Compra.ListaSucursales.Add(Sucursal);
             }
+            dr.Close();
             return Compra.ListaSucursales;
         }
         #endregion
@@ -272,6 +297,7 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                     Compra.ListaProveedores.Add(Proveedor);
                 }
+                dr.Close();
                 return Compra.ListaProveedores;
             }
             catch (Exception ex)
@@ -302,6 +328,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     ListaLugares.Add(Lugar);
                 }
+                dr.Close();
                 return ListaLugares;
             }
             catch (Exception ex)
@@ -333,6 +360,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     Compra.ListaLugaresProveedor.Add(Lugar);
                 }
+                dr.Close();
                 return Compra.ListaLugaresProveedor;
             }
             catch (Exception ex)
@@ -363,6 +391,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     listaLugares.Add(Lugar);
                 }
+                dr.Close();
                 return listaLugares;
             }
             catch (Exception ex)
@@ -390,6 +419,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     Compra.ListaEmpresas.Add(Empresa);
                 }
+                dr.Close();
                 return Compra.ListaEmpresas;
             }
             catch (Exception ex)
@@ -421,6 +451,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     Compra.ListaChoferes.Add(Chofer);
                 }
+                dr.Close();
                 return Compra.ListaChoferes;
             }
             catch (Exception ex)
@@ -453,6 +484,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     Compra.ListaVehiculos.Add(Vehiculo);
                 }
+                dr.Close();
                 return Compra.ListaVehiculos;
             }
             catch (Exception ex)
@@ -484,6 +516,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     Compra.ListaJaulas.Add(Jaula);
                 }
+                dr.Close();
                 return Compra.ListaJaulas;
             }
             catch (Exception ex)
@@ -515,6 +548,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     Compra.ListaRemolques.Add(Remolque);
                 }
+                dr.Close();
                 return Compra.ListaRemolques;
             }
             catch (Exception ex)
@@ -523,28 +557,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
-        #region Estatus del Ganado
-        public List<CatEstatusGanadoModels> GetListadoEstatusGanado(CompraModels Compra)
-        {
-            List<CatEstatusGanadoModels> listaEstatusGanado = new List<CatEstatusGanadoModels>();
-            CatEstatusGanadoModels EstatusGanado;
-            SqlDataReader dr = null;
 
-            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_CatEstatusGanado");
-
-            while (dr.Read())
-            {
-                EstatusGanado = new CatEstatusGanadoModels
-                {
-                    id_estatusGanado = !dr.IsDBNull(dr.GetOrdinal("IDEstatusGanado")) ? dr.GetInt16(dr.GetOrdinal("IDEstatusGanado")) : 0,
-                    descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty,
-                };
-
-                listaEstatusGanado.Add(EstatusGanado);
-            }
-            return listaEstatusGanado;
-        }
-        #endregion
         #region Corrales
         public List<CatCorralesModels> GetListaCorrales(CompraModels Compra)
         {
@@ -567,6 +580,7 @@ namespace CreativaSL.Web.Ganados.Models
                 item.Genero = !dr.IsDBNull(dr.GetOrdinal("Genero")) ? dr.GetString(dr.GetOrdinal("Genero")) : string.Empty;
                 lista.Add(item);
             }
+            dr.Close();
             return lista;
         }
         #endregion
@@ -593,6 +607,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     Compra.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                 }
+                dr.Close();
                 return Compra;
             }
             catch (Exception ex)
@@ -625,6 +640,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     Lista.Add(Item);
                 }
+                dr.Close();
                 Compra.listaCompra = Lista;
                 return Compra.listaCompra;
             }
@@ -657,6 +673,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.RecepcionOrigen.HoraLlegada = !dr.IsDBNull(dr.GetOrdinal("horaLlegada")) ? dr.GetTimeSpan(dr.GetOrdinal("horaLlegada")) : DateTime.Now.TimeOfDay;
                     Compra.RecepcionOrigen.Observacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
                 }
+                dr.Close();
                 return Compra;
             }
             catch (Exception ex)
@@ -679,6 +696,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     Compra.Estatus = !dr.IsDBNull(dr.GetOrdinal("estatus")) ? dr.GetInt16(dr.GetOrdinal("estatus")) : -1;
                 }
+                dr.Close();
             }
             catch (Exception ex)
             {
@@ -709,6 +727,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.Observacion_programacion = !dr.IsDBNull(dr.GetOrdinal("observacion_programacion")) ? dr.GetString(dr.GetOrdinal("observacion_programacion")) : string.Empty;
                     Compra.Descripcion_bascula = !dr.IsDBNull(dr.GetOrdinal("descripcion_bascula")) ? dr.GetString(dr.GetOrdinal("descripcion_bascula")) : string.Empty;
                 }
+                dr.Close();
                 return Compra;
             }
             catch (Exception ex)
@@ -741,7 +760,9 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.Trayecto.id_lugarDestino = !dr.IsDBNull(dr.GetOrdinal("id_lugarDestino")) ? dr.GetString(dr.GetOrdinal("id_lugarDestino")) : string.Empty;
                     Compra.IDPLugarProveedor = !dr.IsDBNull(dr.GetOrdinal("id_lugar_proveedor")) ? dr.GetString(dr.GetOrdinal("id_lugar_proveedor")) : string.Empty;
                     Compra.Flete.precioFlete = !dr.IsDBNull(dr.GetOrdinal("precioFlete")) ? dr.GetDecimal(dr.GetOrdinal("precioFlete")) : 0;
+                    Compra.Flete.NumFleje = !dr.IsDBNull(dr.GetOrdinal("numFleje")) ? dr.GetString(dr.GetOrdinal("numFleje")) : string.Empty;
                 }
+                dr.Close();
                 return Compra;
             }
             catch (Exception ex)
@@ -770,6 +791,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                 Compra.ListaFormasPagos.Add(FormaPago);
             }
+            dr.Close();
             return Compra.ListaFormasPagos;
         }
         public List<CatTipoClasificacionModels> GetListadoTipoClasificacion(CompraModels Compra)
@@ -792,6 +814,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                 Compra.ListaTipoClasificacion.Add(TipoClasificacion);
             }
+            dr.Close();
             return Compra.ListaTipoClasificacion;
         }
         public CompraModels GetGanadoCompra(CompraModels Compra)
@@ -820,6 +843,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.MontoTotalGanado = !dr.IsDBNull(dr.GetOrdinal("montoTotalGanado")) ? dr.GetDecimal(dr.GetOrdinal("montoTotalGanado")) : 0;
                     Compra.Proveedor.IDTipoProveedor = !dr.IsDBNull(dr.GetOrdinal("id_tipoProveedor")) ? dr.GetInt16(dr.GetOrdinal("id_tipoProveedor")) : 0;
                 }
+                dr.Close();
                 return Compra;
             }
             catch (Exception ex)
@@ -853,6 +877,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     listaRangoPeso.Add(RangoPeso);
                 }
+                dr.Close();
                 return listaRangoPeso;
             }
             catch (Exception ex)
@@ -883,7 +908,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Evento.Observacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
                     Evento.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagenBase64")) ? dr.GetString(dr.GetOrdinal("imagenBase64")) : string.Empty;
                 }
-
+                dr.Close();
                 return Evento;
             }
             catch (Exception ex)
@@ -912,6 +937,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     ListaTiposEventos.Add(TipoEvento);
                 }
+                dr.Close();
                 return ListaTiposEventos;
             }
             catch (Exception ex)
@@ -948,14 +974,13 @@ namespace CreativaSL.Web.Ganados.Models
                     documentosPorCobrar.DocumentoPorCobraFlete.Pendiente = !dr.IsDBNull(dr.GetOrdinal("pendienteFlete")) ? dr.GetDecimal(dr.GetOrdinal("pendienteFlete")) : 0;
                     documentosPorCobrar.DocumentoPorCobraFlete.Id_documentoCobrar = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorCobrarFlete")) ? dr.GetString(dr.GetOrdinal("id_documentoPorCobrarFlete")) : string.Empty;
                 }
+                dr.Close();
                 return documentosPorCobrar;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-
-
         }
         public DocumentoPorPagarModels GetGeneralesDocumentoPorPagar(CompraModels Compra)
         {
@@ -976,6 +1001,7 @@ namespace CreativaSL.Web.Ganados.Models
                     documentosPorPagar.Total = !dr.IsDBNull(dr.GetOrdinal("total")) ? dr.GetDecimal(dr.GetOrdinal("total")) : 0;
                     documentosPorPagar.Pendientes = !dr.IsDBNull(dr.GetOrdinal("pendientes")) ? dr.GetDecimal(dr.GetOrdinal("pendientes")) : 0;
                 }
+                dr.Close();
                 return documentosPorPagar;
             }
             catch (Exception ex)
@@ -1016,8 +1042,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Documento.MostrarImagen = Documento.Imagen;
                     Documento.FlagImg = true;
                 }
-
                 Documento.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Documento.MostrarImagen);
+                dr.Close();
 
                 return Documento;
             }
@@ -1032,12 +1058,9 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 CatTipoDocumentoModels TipoDocumento;
                 List<CatTipoDocumentoModels> ListaTipoDocumentos = new List<CatTipoDocumentoModels>();
-                object[] parametro =
-                {
-                    Documento.IDCompra
-                };
+                
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Combo_get_CatTipoDocumento2", parametro);
+                dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Combo_get_CatTipoDocumento2");
                 while (dr.Read())
                 {
                     TipoDocumento = new CatTipoDocumentoModels
@@ -1048,6 +1071,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     ListaTipoDocumentos.Add(TipoDocumento);
                 }
+                dr.Close();
                 return ListaTipoDocumentos;
             }
             catch (Exception ex)
@@ -1092,6 +1116,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.LineaFletera = !dr.IsDBNull(dr.GetOrdinal("lineaFletera")) ? dr.GetString(dr.GetOrdinal("lineaFletera")) : string.Empty;
                     Compra.Tolerancia = !dr.IsDBNull(dr.GetOrdinal("tolerancia")) ? dr.GetDecimal(dr.GetOrdinal("tolerancia")) : 0;
                 }
+                dr.Close();
                 return Compra;
             }
             catch (Exception ex)
@@ -1100,9 +1125,6 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
-
-
-
 
 
         //checar
@@ -1135,6 +1157,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.Ganado.observacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
                     Compra.Sucursal.MermaPredeterminada = !dr.IsDBNull(dr.GetOrdinal("mermaPredeterminada")) ? dr.GetDecimal(dr.GetOrdinal("mermaPredeterminada")) : 0;
                 }
+                dr.Close();
                 return Compra;
             }
             catch (Exception ex)
@@ -1151,7 +1174,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.IDProveedor
                 };
             dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_ListadoPrecioRangoPesoXIDProveedor", parametros);
-
+            dr.Close();
             return dr;
         }
         public string GetGanadoXGanadoDetalle(CompraModels Compra)
@@ -1164,7 +1187,7 @@ namespace CreativaSL.Web.Ganados.Models
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_GanadoXGanadoDetalleXIDCompra", parametros);
-
+                dr.Close();
                 return Auxiliar.SqlReaderToJson(dr);
             }
             catch (Exception ex)
@@ -1202,6 +1225,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     Compra.Completado = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                 }
+                dr.Close();
                 return Compra;
             }
             catch (Exception ex)
@@ -1230,6 +1254,7 @@ namespace CreativaSL.Web.Ganados.Models
                     ,Compra.Trayecto.id_lugarDestino = string.IsNullOrEmpty(Compra.Trayecto.id_lugarDestino) ? null : Compra.Trayecto.id_lugarDestino
                     ,Compra.IDSucursal
                     ,Compra.Flete.precioFlete
+                    ,Compra.Flete.NumFleje
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_ac_Flete", parametros);
@@ -1239,6 +1264,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                     Compra.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                 }
+                dr.Close();
                 return Compra;
             }
             catch (Exception ex)
@@ -1278,6 +1304,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     Compra.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                 }
+                dr.Close();
                 return Compra;
             }
             catch (Exception ex)
@@ -1305,6 +1332,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     Compra.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                 }
+                dr.Close();
                 return Compra;
             }
             catch (Exception ex)
@@ -1333,6 +1361,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Evento.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     Evento.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                 }
+                dr.Close();
             }
             catch (Exception ex)
             {
@@ -1360,6 +1389,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Evento.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     Evento.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                 }
+                dr.Close();
             }
             catch (Exception ex)
             {
@@ -1391,6 +1421,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     Compra.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                 }
+                dr.Close();
             }
             catch (Exception ex)
             {
@@ -1423,6 +1454,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Documento.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     Documento.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                 }
+                dr.Close();
                 return Documento;
             }
             catch (Exception ex)
@@ -1447,6 +1479,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Documento.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     Documento.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                 }
+                dr.Close();
                 return Documento;
             }
             catch (Exception ex)
@@ -1475,6 +1508,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     Compra.Mensaje = !dr.IsDBNull(dr.GetOrdinal("Mensaje")) ? dr.GetString(dr.GetOrdinal("Mensaje")) : string.Empty;
                 }
+                dr.Close();
             }
             catch (Exception ex)
             {
@@ -1500,6 +1534,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     Compra.Fierro.IDFierro = !dr.IsDBNull(dr.GetOrdinal("id_fierro")) ? dr.GetString(dr.GetOrdinal("id_fierro")) : string.Empty;
                 }
+                dr.Close();
             }
             catch (Exception ex)
             {
@@ -1526,7 +1561,7 @@ namespace CreativaSL.Web.Ganados.Models
                     NombreFierro = !dr.IsDBNull(dr.GetOrdinal("nombreFierro")) ? dr.GetString(dr.GetOrdinal("nombreFierro")) : string.Empty,
                     ImgFierro = !dr.IsDBNull(dr.GetOrdinal("imgFierro")) ? dr.GetString(dr.GetOrdinal("imgFierro")) : string.Empty
                 };
-
+                dr.Close();
                 Compra.ListaFierros.Add(Fierro);
             }
             return Compra.ListaFierros;
@@ -1547,7 +1582,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_COMPRAS_GetListadoPrecioRangoPeso", parametros);
-
+                dr.Close();
                 return Auxiliar.SqlReaderToJson(dr);
             }
             catch (Exception ex)

@@ -471,6 +471,9 @@
     <Content Include="Content\js\EmpleadosSucursalFaltas.js" />
     <Content Include="Content\js\fleteRecepcion.js" />
     <Content Include="Content\js\plugins\font-awesome.min.css" />
+    <Content Include="Content\js\plugins\jquery-confirm.min.css" />
+    <Content Include="Content\js\plugins\popper.min.js" />
+    <Content Include="Content\js\plugins\select.bootstrap.min.css" />
     <Content Include="Content\js\plugins\wPaint\.gitignore" />
     <Content Include="Content\js\plugins\wPaint\demo\demo.css" />
     <Content Include="Content\js\plugins\wPaint\demo\img\facebook-icon.png" />
@@ -1329,6 +1332,7 @@
     <Content Include="Content\js\plugins\wPaint\README.md" />
     <Content Include="Content\js\plugins\wPaint\wPaint.jquery.json" />
     <Content Include="Areas\Admin\Views\Compra\ModalDocumentos.cshtml" />
+    <Content Include="Areas\Admin\Views\CatFierro\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Reportes\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1535,6 +1539,7 @@
     <Compile Include="Models\RespuestaAjax.cs" />
     <Compile Include="Models\ResumenGastosAjustesModels.cs" />
     <Compile Include="Models\ResumenGastosModels.cs" />
+    <Compile Include="Models\RptGandosModels.cs" />
     <Compile Include="Models\RptProveedorMermaAltaModels.cs" />
     <Compile Include="Models\RptProveedorMunicipioModels.cs" />
     <Compile Include="Models\RptSalidasModels.cs" />
@@ -1709,6 +1714,9 @@
     <Folder Include="Areas\Admin\Views\CatBodega\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reports\prueba.rdlc">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\ReporteMermaAlta.rdlc">
       <SubType>Designer</SubType>
     </EmbeddedResource>
