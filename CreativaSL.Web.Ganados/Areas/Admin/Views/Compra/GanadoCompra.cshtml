@@ -36,7 +36,7 @@
         }
 
         div.dataTables_wrapper {
-            width: 1425px;
+            width: 2000px;
             margin: 0 auto;
         }
     </style>
@@ -208,6 +208,9 @@
                                                                 <th>Peso a pagar</th>
                                                                 <th>Costo por kilo</th>
                                                                 <th>Corral</th>
+                                                                <th>Fierro 1</th>
+                                                                <th>Fierro 2</th>
+                                                                <th>Fierro 3</th>
                                                                 <th>Total</th>
                                                                 <th>Eliminar</th>
                                                             </tr>
@@ -289,10 +292,14 @@
             listaCorrales = listaCorrales.replace("\\", "");
             listaCorrales = $.parseJSON(listaCorrales);
 
+            var listaFierros = @Html.Raw(Json.Encode(Model.ListaFierrosString))
+            listaFierros = listaFierros.replace("\\", "");
+            listaFierros = $.parseJSON(listaFierros);
+
             var tolerancia = @Model.Tolerancia
 
             Mensaje(message, typemessage);
-            CompraGanado.init(listaPrecioPesoProveedor, tolerancia, listaCorrales);
+            CompraGanado.init(listaPrecioPesoProveedor, tolerancia, listaCorrales, listaFierros);
         });
     </script>
 }

@@ -7,6 +7,8 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CatTipoEventoEnvioModels
     {
+        public RespuestaAjax RespuestaAjax { get; set; }
+
         private int _IDTipoEventoEnvio;
 
         public int IDTipoEventoEnvio
@@ -30,9 +32,7 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _MarcarMerma; }
             set { _MarcarMerma = value; }
         }
-        public bool ParaGanado { get; set; }
-        public string Clasificacion { get; set; }
-
+       
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }

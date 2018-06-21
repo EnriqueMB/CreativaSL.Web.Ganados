@@ -12,9 +12,6 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class _Compra_Datos
     {
-        private CultureInfo CultureInfo = new CultureInfo("es-MX");
-
-
         #region Json Datatables
         public string GetDocumentosDataTable(CompraModels Compra)
         {
@@ -571,20 +568,36 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 item = new CatCorralesModels();
 
-
+                item.Id_corral = !dr.IsDBNull(dr.GetOrdinal("IDCorral")) ? dr.GetInt32(dr.GetOrdinal("IDCorral")) : 0;
                 item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
 
-                item.Rango_inferior = !dr.IsDBNull(dr.GetOrdinal("RangoInferior")) ? dr.GetInt32(dr.GetOrdinal("RangoInferior")) : 0;
-                item.Rango_superior = !dr.IsDBNull(dr.GetOrdinal("RangoSuperior")) ? dr.GetInt32(dr.GetOrdinal("RangoSuperior")) : 0;
-                item.Id_corral = !dr.IsDBNull(dr.GetOrdinal("IDCorral")) ? dr.GetInt32(dr.GetOrdinal("IDCorral")) : 0;
-                item.Genero = !dr.IsDBNull(dr.GetOrdinal("Genero")) ? dr.GetString(dr.GetOrdinal("Genero")) : string.Empty;
                 lista.Add(item);
             }
             dr.Close();
             return lista;
         }
         #endregion
-     
+
+        #region Fierros
+        public List<CatFierroModels> GetListaFierros(CompraModels Compra)
+        {
+            CatFierroModels item;
+            List<CatFierroModels> lista = new List<CatFierroModels>();
+            SqlDataReader dr = null;
+
+            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_CatFierro");
+
+            while (dr.Read())
+            {
+                item = new CatFierroModels();
+                item.IDFierro = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetString(dr.GetOrdinal("ID")) : string.Empty;
+                item.NombreFierro = !dr.IsDBNull(dr.GetOrdinal("Nombre")) ? dr.GetString(dr.GetOrdinal("Nombre")) : string.Empty;
+                lista.Add(item);
+            }
+            dr.Close();
+            return lista;
+        }
+        #endregion
 
 
         #endregion
@@ -1293,7 +1306,10 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.Ganado.IDCorral,
                     Compra.Usuario,
                     Compra.Ganado.CompraGanado.Id_detalleDocumentoPorCobrar,
-                    indiceActual
+                    indiceActual,
+                    Compra.Ganado.IDFierro1,
+                    Compra.Ganado.IDFierro2,
+                    Compra.Ganado.IDFierro3
                 };
 
                 SqlDataReader dr = null;

@@ -77,6 +77,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Compra = CompraDatos.GetGanadoCompra(Compra);
                     Compra.ListadoPrecioRangoPesoString = CompraDatos.GetListadoPrecioRangoPeso(Compra).ToJSON();
                     Compra.ListaCorralesString = CompraDatos.GetListaCorrales(Compra).ToJSON();
+                    Compra.ListaFierrosString = CompraDatos.GetListaFierros(Compra).ToJSON();
 
                     return View(Compra);
                 }
@@ -441,7 +442,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult AC_Ganado(string IDCompra, string IDGanado, string numArete, string id_genero,
             decimal peso, decimal repeso, decimal merma, decimal peso_pagar, decimal costo_kilo, int id_corral, string Id_detalleDocumentoPorCobrar,
-            int indiceActual)
+            int indiceActual, string id_fierro1, string id_fierro2, string id_fierro3)
         {
             try
             {
@@ -459,13 +460,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra.Ganado.CompraGanado.PrecioKilo = costo_kilo;
                 Compra.Ganado.IDCorral = id_corral;
                 Compra.Ganado.CompraGanado.Id_detalleDocumentoPorCobrar = Id_detalleDocumentoPorCobrar;
-
+                Compra.Ganado.IDFierro1 = id_fierro1;
+                Compra.Ganado.IDFierro2 = id_fierro2;
+                Compra.Ganado.IDFierro3 = id_fierro3;
 
                 Compra.Conexion = Conexion;
                 Compra.Usuario = User.Identity.Name;
-                //Compra = CompraDatos.Compras_ac_Ganado(Compra, indiceActual);
-                Compra.RespuestaAjax.Mensaje = "{\"id_ganado\" : \"1\", \"id_detalleDoctoCobrar\" : \"0\", \"indiceActual\" : \"" + indiceActual + "\", \"CantidadMachos\" : \"1\", \"CantidadHembras\" : \"1\", \"CantidadTotal\" : \"1\", \"MermaMachos\" : \"1\" , \"MermaHembras\" : \"2\" , \"MermaTotal\" : \"3\", \"KilosMachos\" : \"4\" , \"KilosHembras\" : \"5\", \"KilosTotal\" : \"6\", \"MontoTotalGanado\" : \"7\"}";
-                Compra.RespuestaAjax.Success = true;
+                Compra = CompraDatos.Compras_ac_Ganado(Compra, indiceActual);
+                //Compra.RespuestaAjax.Mensaje = "{\"id_ganado\" : \"1\", \"id_detalleDoctoCobrar\" : \"0\", \"indiceActual\" : \"" + indiceActual + "\", \"CantidadMachos\" : \"1\", \"CantidadHembras\" : \"1\", \"CantidadTotal\" : \"1\", \"MermaMachos\" : \"1\" , \"MermaHembras\" : \"2\" , \"MermaTotal\" : \"3\", \"KilosMachos\" : \"4\" , \"KilosHembras\" : \"5\", \"KilosTotal\" : \"6\", \"MontoTotalGanado\" : \"7\"}";
+                //Compra.RespuestaAjax.Success = true;
 
                 return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
             }
