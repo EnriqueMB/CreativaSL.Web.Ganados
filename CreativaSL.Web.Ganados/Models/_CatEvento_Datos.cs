@@ -91,5 +91,33 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public CatTipoEventoEnvioModels DEL_EventoXIDEvento (CatTipoEventoEnvioModels Evento)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Evento.IDTipoEventoEnvio,   Evento.Usuario
+                };
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Evento.Conexion, "spCSLDB_CatEvento_del_EventoXIDEvento", parametros);
+                Evento.RespuestaAjax = new RespuestaAjax();
+
+                while (dr.Read())
+                {
+                    Evento.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("Success")) ? dr.GetBoolean(dr.GetOrdinal("Success")) : false;
+                    Evento.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("Mensaje")) ? dr.GetString(dr.GetOrdinal("Mensaje")) : string.Empty;
+                }
+
+                dr.Close();
+                return Evento;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

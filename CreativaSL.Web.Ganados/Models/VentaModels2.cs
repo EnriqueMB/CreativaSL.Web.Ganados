@@ -18,12 +18,12 @@ namespace CreativaSL.Web.Ganados.Models
         public DateTime FechaHoraVenta { get; set; }
         public DateTime FechaHoraEmbarque { get; set; }
         public DateTime FechaHoraLlegada { get; set; }
-        public string NumFactura { get; set; }
         public bool CobrarFlete { get; set; }
+        public string Observacion { get; set; }
+        public string Descripcion_bascula { get; set; }
 
         public List<CatSucursalesModels> ListaSucursales { get; set; }
         public List<CatClienteModels> ListaClientes { get; set; }
-        public List<CatEmpresaModels> ListaEmpresas { get; set; }
 
         public FleteModels Flete { get; set; }
 
@@ -32,3 +32,4 @@ namespace CreativaSL.Web.Ganados.Models
         public RespuestaAjax RespuestaAjax { get; set; }
     }
 }
+

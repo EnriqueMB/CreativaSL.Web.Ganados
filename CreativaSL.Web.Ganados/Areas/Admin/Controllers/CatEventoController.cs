@@ -169,18 +169,38 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         // POST: Admin/CatEvento/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [HttpGet]
+        public ActionResult Delete(int IDTipoEventoEnvio)
         {
             try
             {
-                // TODO: Add delete logic here
+                CatTipoEventoEnvioModels Evento = new CatTipoEventoEnvioModels();
+                Evento.Conexion = Conexion;
+                Evento.Usuario = User.Identity.Name;
+                _CatEvento_Datos EventoDatos = new _CatEvento_Datos();
+                Evento.IDTipoEventoEnvio = IDTipoEventoEnvio;
 
-                return RedirectToAction("Index");
+                Evento = EventoDatos.DEL_EventoXIDEvento(Evento);
+                if (Evento.RespuestaAjax.Success)
+                {
+                    TempData["typemessage"] = "1";
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                }
+                TempData["message"] = Evento.RespuestaAjax.Mensaje;
+                return View("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                CatTipoEventoEnvioModels Evento = new CatTipoEventoEnvioModels();
+                Evento.RespuestaAjax = new RespuestaAjax();
+                Evento.RespuestaAjax.Success = false;
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrió un error al intentar desplegar los datos. Contacte a soporte técnico.";
+
+                return View("Index");
             }
         }
 

@@ -1338,6 +1338,7 @@
     <Content Include="Areas\Admin\Views\CatEvento\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatEvento\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatEvento\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaFlete.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

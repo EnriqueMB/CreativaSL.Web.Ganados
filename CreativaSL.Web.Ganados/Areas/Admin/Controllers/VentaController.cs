@@ -43,13 +43,54 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(venta.RespuestaAjax.ToJSON(), "application/json");
             }
         }
+        [HttpPost]
+        public ActionResult DatatableGanadoParaVenta(string Id_venta)
+        {
+            try
+            {
+                VentaModels2 venta = new VentaModels2();
+                _Venta2_Datos ventaDatos = new _Venta2_Datos();
+                venta.Conexion = Conexion;
 
+                venta.RespuestaAjax = new RespuestaAjax();
+                venta.RespuestaAjax.Mensaje = ventaDatos.DatatableGanadoParaVenta(venta);
+                venta.RespuestaAjax.Success = true;
+
+                return Content(venta.RespuestaAjax.Mensaje, "application/json");
+            }
+            catch (Exception ex)
+            {
+                VentaModels2 venta = new VentaModels2();
+                venta.RespuestaAjax.Mensaje = ex.ToString();
+                venta.RespuestaAjax.Success = false;
+                return Content(venta.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
 
         // GET: Admin/Venta
         public ActionResult Index()
         {
             return View();
         }
+
+        #region VentaFlete
+        [HttpGet]
+        public ActionResult VentaFlete()
+        {
+            try
+            {
+                Token.SaveToken();
+                return View();
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + ex.ToString();
+                throw ex;
+            }
+        }
+        #endregion
+
 
         #region Vista Ganado
         [HttpGet]

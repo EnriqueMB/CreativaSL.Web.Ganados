@@ -129,9 +129,9 @@
                     var botones = "<div class='visible-md visible-lg hidden-sm hidden-xs'>";
                    
                     if (esSistema.toString().localeCompare("false") == 0) {
-                        botones =
+                        botones = botones +
                             "<a data-id='" + full["id_tipoEventoEnvio"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Editar'><i class='fa fa-edit'></i></a>" +
-                            "<a data-id='" + full["id_tipoEventoEnvio"] + "' class='btn btn-danger tooltips btn-sm' title='Eliminar' data-placement='top' data-original-title='Eliminar'  ><i class='fa fa-trash-o'></i></a>" +
+                            "<a data-id='" + full["id_tipoEventoEnvio"] + "' class='btn btn-danger tooltips btn-sm eliminar' title='Eliminar' data-placement='top' data-original-title='Eliminar'  ><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                             "<div class='btn-group'>" +

@@ -26,6 +26,7 @@
         @using (Html.BeginForm("Edit", "CatEvento", FormMethod.Post, new { id = "frm_evento", @class = "form-horizontal", autocomplete = "off", @enctype = "multipart/form-data" }))
     {
             @Html.AntiForgeryToken()
+            @Html.HiddenFor(model=>model.IDTipoEventoEnvio)
 
             <div class="panel panel-default">
                 <div class="panel-heading">
