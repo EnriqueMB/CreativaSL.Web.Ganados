@@ -1334,6 +1334,7 @@
     <Content Include="Areas\Admin\Views\Compra\ModalDocumentos.cshtml" />
     <Content Include="Areas\Admin\Views\CatFierro\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Reportes\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEvento\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1371,6 +1372,7 @@
     <Compile Include="Areas\Admin\Controllers\CatConceptosNominaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatEmpleadoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatEmpresaController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatEventoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatFierroController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatJaulaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatLugarController.cs" />
@@ -1591,6 +1593,7 @@
     <Compile Include="Models\_CatConceptoNomina_Datos.cs" />
     <Compile Include="Models\_CatEmpleado_Datos.cs" />
     <Compile Include="Models\_CatEmpresa_Datos.cs" />
+    <Compile Include="Models\_CatEvento_Datos.cs" />
     <Compile Include="Models\_CatFierro_Datos.cs" />
     <Compile Include="Models\_CatJaula_Datos.cs" />
     <Compile Include="Models\_CatLugar_Datos.cs" />
