@@ -88,7 +88,7 @@ namespace CreativaSL.Web.Ganados.ViewModels
 
         private List<CompraAlmacenModels> _ListaCompras;
         /// <summary>
-        /// Lista para llenar combo comrpas
+        /// Lista para llenar combo compras
         /// </summary>
         public List<CompraAlmacenModels> ListaCompras
         {

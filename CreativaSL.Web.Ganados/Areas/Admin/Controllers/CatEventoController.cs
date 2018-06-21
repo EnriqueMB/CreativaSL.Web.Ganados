@@ -5,11 +5,13 @@ using System.Web;
 using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Models;
 using System.Configuration;
+using CreativaSL.Web.Ganados.App_Start;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     public class CatEventoController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatEvento
         public ActionResult Index()
@@ -20,51 +22,150 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         // GET: Admin/CatEvento/Create
         public ActionResult Create()
         {
-            return View();
+            try
+            {
+                Token.SaveToken();
+                return View();
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
         }
 
         // POST: Admin/CatEvento/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CatTipoEventoEnvioModels Evento)
         {
             try
             {
-                // TODO: Add insert logic here
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        Evento.Conexion = Conexion;
+                        Evento.Usuario = User.Identity.Name;
+                        _CatEvento_Datos EventoDatos = new _CatEvento_Datos();
 
-                return RedirectToAction("Index");
+                        Evento.RespuestaAjax = EventoDatos.AC_Evento(Evento);
+
+                        if (Evento.RespuestaAjax.Success == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Evento);
+                        }
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Revise su formulario.";
+                        return View(Evento);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrió un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(Evento);
             }
         }
 
         // GET: Admin/CatEvento/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int IDTipoEventoEnvio)
         {
-            return View();
+            try
+            {
+                CatTipoEventoEnvioModels Evento = new CatTipoEventoEnvioModels();
+                Evento.Conexion = Conexion;
+                Evento.Usuario = User.Identity.Name;
+                _CatEvento_Datos EventoDatos = new _CatEvento_Datos();
+                Evento.IDTipoEventoEnvio = IDTipoEventoEnvio;
+
+                Evento = EventoDatos.GET_EventoXIDEvento(Evento);
+                if (Evento.RespuestaAjax.Success)
+                {
+                    Token.SaveToken();
+                    return View(Evento);
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = Evento.RespuestaAjax.Mensaje;
+                    return View("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                CatTipoEventoEnvioModels Evento = new CatTipoEventoEnvioModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrió un error al intentar desplegar los datos. Contacte a soporte técnico.";
+                return View("Index");
+            }
         }
 
         // POST: Admin/CatEvento/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(CatTipoEventoEnvioModels Evento)
         {
             try
             {
-                // TODO: Add update logic here
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        Evento.Conexion = Conexion;
+                        Evento.Usuario = User.Identity.Name;
+                        _CatEvento_Datos EventoDatos = new _CatEvento_Datos();
 
-                return RedirectToAction("Index");
+                        Evento.RespuestaAjax = EventoDatos.AC_Evento(Evento);
+
+                        if (Evento.RespuestaAjax.Success == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Evento);
+                        }
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Revise su formulario.";
+                        return View(Evento);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrió un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(Evento);
             }
-        }
-
-        // GET: Admin/CatEvento/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
         }
 
         // POST: Admin/CatEvento/Delete/5
