@@ -454,6 +454,7 @@
     <Content Include="Content\js\Canvas.js" />
     <Content Include="Content\js\CatContactos.js" />
     <Content Include="Content\js\CatContactosClientes.js" />
+    <Content Include="Content\js\catEvento.js" />
     <Content Include="Content\js\catFierro.js" />
     <Content Include="Content\js\compraAgendar.js" />
     <Content Include="Content\js\CompraAlmacenDetalle.js" />
@@ -1335,6 +1336,9 @@
     <Content Include="Areas\Admin\Views\CatFierro\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Reportes\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatEvento\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEvento\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEvento\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaFlete.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

@@ -24,5 +24,21 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public string DatatableGanadoParaVenta(VentaModels2 venta)
+        {
+            try
+            {
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(venta.Conexion, "spCSLDB_Venta_get_DatatableGanadoParaVenta");
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
