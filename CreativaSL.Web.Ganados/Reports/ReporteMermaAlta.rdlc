@@ -836,12 +836,12 @@
                   <GroupExpression>=Fields!NombreCompra.Value</GroupExpression>
                 </GroupExpressions>
               </Group>
-              <Label>=Fields!NombreCompra.Value</Label>
               <SortExpressions>
                 <SortExpression>
                   <Value>=Fields!NombreCompra.Value</Value>
                 </SortExpression>
               </SortExpressions>
+              <Label>=Fields!NombreCompra.Value</Label>
             </ChartMember>
           </ChartMembers>
         </ChartCategoryHierarchy>
@@ -853,12 +853,12 @@
                   <GroupExpression>=Fields!nombreProveedor.Value</GroupExpression>
                 </GroupExpressions>
               </Group>
-              <Label>=Fields!nombreProveedor.Value</Label>
               <SortExpressions>
                 <SortExpression>
                   <Value>=Fields!nombreProveedor.Value</Value>
                 </SortExpression>
               </SortExpressions>
+              <Label>=Fields!nombreProveedor.Value</Label>
             </ChartMember>
           </ChartMembers>
         </ChartSeriesHierarchy>
@@ -1133,12 +1133,12 @@
                   <GroupExpression>=Fields!NombreCompra.Value</GroupExpression>
                 </GroupExpressions>
               </Group>
-              <Label>=Fields!NombreCompra.Value</Label>
               <SortExpressions>
                 <SortExpression>
                   <Value>=Fields!NombreCompra.Value</Value>
                 </SortExpression>
               </SortExpressions>
+              <Label>=Fields!NombreCompra.Value</Label>
             </ChartMember>
           </ChartMembers>
         </ChartCategoryHierarchy>
@@ -1150,12 +1150,12 @@
                   <GroupExpression>=Fields!nombreProveedor.Value</GroupExpression>
                 </GroupExpressions>
               </Group>
-              <Label>=Fields!nombreProveedor.Value</Label>
               <SortExpressions>
                 <SortExpression>
                   <Value>=Fields!nombreProveedor.Value</Value>
                 </SortExpression>
               </SortExpressions>
+              <Label>=Fields!nombreProveedor.Value</Label>
             </ChartMember>
           </ChartMembers>
         </ChartSeriesHierarchy>
@@ -1423,12 +1423,12 @@
                   <GroupExpression>=Fields!NombreCompra.Value</GroupExpression>
                 </GroupExpressions>
               </Group>
-              <Label>=Fields!NombreCompra.Value</Label>
               <SortExpressions>
                 <SortExpression>
                   <Value>=Fields!NombreCompra.Value</Value>
                 </SortExpression>
               </SortExpressions>
+              <Label>=Fields!NombreCompra.Value</Label>
             </ChartMember>
           </ChartMembers>
         </ChartCategoryHierarchy>
@@ -1440,12 +1440,12 @@
                   <GroupExpression>=Fields!nombreProveedor.Value</GroupExpression>
                 </GroupExpressions>
               </Group>
-              <Label>=Fields!nombreProveedor.Value</Label>
               <SortExpressions>
                 <SortExpression>
                   <Value>=Fields!nombreProveedor.Value</Value>
                 </SortExpression>
               </SortExpressions>
+              <Label>=Fields!nombreProveedor.Value</Label>
             </ChartMember>
           </ChartMembers>
         </ChartSeriesHierarchy>
@@ -1717,7 +1717,7 @@
   <Width>16.49458cm</Width>
   <Page>
     <PageHeader>
-      <Height>2.13182cm</Height>
+      <Height>2.18474cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -1728,7 +1728,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>REPORTE DE MERMA ALTA PROVEEDORES</Value>
+                  <Value>REPORTE DE PROVEEDOR MÁS VENTAS</Value>
                   <Style>
                     <FontWeight>Bold</FontWeight>
                   </Style>
@@ -1738,8 +1738,8 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox1</rd:DefaultName>
-          <Top>1.42599cm</Top>
-          <Left>0.28787cm</Left>
+          <Top>1.4364cm</Top>
+          <Left>0.85455cm</Left>
           <Height>0.6cm</Height>
           <Width>8.77063cm</Width>
           <Style>
@@ -1775,8 +1775,8 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox3</rd:DefaultName>
-          <Top>0.29668cm</Top>
-          <Left>6.24981cm</Left>
+          <Top>0.09542cm</Top>
+          <Left>6.81648cm</Left>
           <Height>0.6cm</Height>
           <Width>8.82354cm</Width>
           <ZIndex>1</ZIndex>
@@ -1813,10 +1813,10 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox11</rd:DefaultName>
-          <Top>1.42599cm</Top>
-          <Left>9.16432cm</Left>
+          <Top>1.4364cm</Top>
+          <Left>9.62518cm</Left>
           <Height>0.6cm</Height>
-          <Width>5.90903cm</Width>
+          <Width>6.01486cm</Width>
           <ZIndex>2</ZIndex>
           <Style>
             <Border>
@@ -1833,9 +1833,9 @@
           <Value>=Parameters!UrlLogo.Value</Value>
           <MIMEType>image/png</MIMEType>
           <Sizing>FitProportional</Sizing>
-          <Top>0.29668cm</Top>
-          <Left>0.28787cm</Left>
-          <Height>1.09403cm</Height>
+          <Top>0.09542cm</Top>
+          <Left>0.85455cm</Left>
+          <Height>1.3057cm</Height>
           <Width>5.92667cm</Width>
           <ZIndex>3</ZIndex>
           <Style>
@@ -1844,6 +1844,56 @@
             </Border>
           </Style>
         </Image>
+        <Textbox Name="Textbox4">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>FECHA: </Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=Parameters!FechaInicio.Value</Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value> AL </Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=Parameters!FechaFin.Value</Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox2</rd:DefaultName>
+          <Top>0.76598cm</Top>
+          <Left>6.81648cm</Left>
+          <Height>0.63514cm</Height>
+          <Width>8.82354cm</Width>
+          <ZIndex>4</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
       </ReportItems>
       <Style>
         <Border>
@@ -2012,6 +2062,16 @@
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
     <ReportParameter Name="UrlLogo">
+      <DataType>String</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FechaInicio">
+      <DataType>String</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FechaFin">
       <DataType>String</DataType>
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>

@@ -50,7 +50,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     return RedirectToAction("Index", "Reportes");
                 }
-                ReportParameter[] Parametros = new ReportParameter[7];
+                ReportParameter[] Parametros = new ReportParameter[9];
                 Parametros[0] = new ReportParameter("Empresa", reporte.DatosEmpresa.RazonFiscal);
                 Parametros[1] = new ReportParameter("Direccion", reporte.DatosEmpresa.DireccionFiscal);
                 Parametros[2] = new ReportParameter("RFC", reporte.DatosEmpresa.RFC);
@@ -58,6 +58,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Parametros[4] = new ReportParameter("TelefonoMovil", reporte.DatosEmpresa.NumTelefonico2);
                 Parametros[5] = new ReportParameter("NombreSucursal", reporte.DatosEmpresa.NombreSucursal);
                 Parametros[6] = new ReportParameter("UrlLogo", reporte.DatosEmpresa.LogoEmpresa);
+                Parametros[7] = new ReportParameter("FechaInicio", id2);
+                Parametros[8] = new ReportParameter("FechaFin", id3);
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("ListaMerma", reporte.listaRptProveedorMerma));
                 string reportType = id;
