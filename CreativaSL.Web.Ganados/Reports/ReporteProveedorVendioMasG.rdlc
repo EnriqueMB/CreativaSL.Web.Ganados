@@ -526,7 +526,7 @@
         <Top>0.34078cm</Top>
         <Left>0.85455cm</Left>
         <Height>2.2498cm</Height>
-        <Width>14.78548cm</Width>
+        <Width>14.78549cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -540,7 +540,7 @@
   <Width>16.49458cm</Width>
   <Page>
     <PageHeader>
-      <Height>2.35479cm</Height>
+      <Height>2.72521cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -561,7 +561,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox1</rd:DefaultName>
-          <Top>1.62726cm</Top>
+          <Top>1.83893cm</Top>
           <Left>0.85455cm</Left>
           <Height>0.6cm</Height>
           <Width>8.77063cm</Width>
@@ -636,10 +636,10 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox11</rd:DefaultName>
-          <Top>1.62726cm</Top>
-          <Left>9.731cm</Left>
+          <Top>1.83893cm</Top>
+          <Left>9.62518cm</Left>
           <Height>0.6cm</Height>
-          <Width>5.90903cm</Width>
+          <Width>6.01486cm</Width>
           <ZIndex>2</ZIndex>
           <Style>
             <Border>
@@ -658,7 +658,7 @@
           <Sizing>FitProportional</Sizing>
           <Top>0.49795cm</Top>
           <Left>0.85455cm</Left>
-          <Height>1.09403cm</Height>
+          <Height>1.3057cm</Height>
           <Width>5.92667cm</Width>
           <ZIndex>3</ZIndex>
           <Style>
@@ -667,6 +667,56 @@
             </Border>
           </Style>
         </Image>
+        <Textbox Name="Textbox2">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>FECHA: </Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=Parameters!FechaInicio.Value</Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value> AL </Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=Parameters!FechaFin.Value</Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox2</rd:DefaultName>
+          <Top>1.16851cm</Top>
+          <Left>6.81649cm</Left>
+          <Height>0.63514cm</Height>
+          <Width>8.82354cm</Width>
+          <ZIndex>4</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
       </ReportItems>
       <Style>
         <Border>
@@ -800,6 +850,16 @@
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
     <ReportParameter Name="UrlLogo">
+      <DataType>String</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FechaInicio">
+      <DataType>String</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FechaFin">
       <DataType>String</DataType>
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
