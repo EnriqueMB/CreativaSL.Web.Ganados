@@ -131,7 +131,6 @@ namespace CreativaSL.Web.Ganados.Models
                         }
                         lista.Add(item);
                     }
-                    datos.listaGanadosVendidos = lista;
                     dr.Close();
                     dr1.Close();
                     //while (dr1.Read())
@@ -144,7 +143,7 @@ namespace CreativaSL.Web.Ganados.Models
                     //}
                    // datos.listaGanadosVendidos = lista;
                 }
-                return datos;
+                return lista;
             }
             catch (Exception ex)
             {

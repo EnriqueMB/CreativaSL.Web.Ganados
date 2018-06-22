@@ -295,7 +295,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!FechahoraVenta.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>d</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -325,7 +327,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!MontoTotal.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>'$'#,0.00</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -341,6 +345,7 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <rd:FormatSymbolCulture>es-MX</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -1065,6 +1070,7 @@
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
   </ReportParameters>
+  <Language>es-MX</Language>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
   <rd:ReportID>482e147a-962d-4de1-a612-9d9552fdc5f5</rd:ReportID>
 </Report>
