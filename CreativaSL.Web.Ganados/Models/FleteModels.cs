@@ -50,6 +50,7 @@ namespace CreativaSL.Web.Ganados.Models
         public string Id_documentoPorCobrar { get; set; }
         public string Id_empresa { get; set; }
         public string NumFleje { get; set; }
+        public int Id_verificacionJaula { get; set; }
 
         //ID
         public CatEmpresaModels Empresa { get; set; }
@@ -79,8 +80,17 @@ namespace CreativaSL.Web.Ganados.Models
         public Flete_ProductoModels Producto { get; set; }
         public RecepcionDestinoModels RecepcionDestino { get; set; }
         public RecepcionOrigenModels RecepcionOrigen { get; set; }
+        public VerificacionJaulaModels VerificacionJaula { get; set; }
 
-        //doc por cobrar
+        public DateTime FechaEmbarque { get; set; }
+        public TimeSpan HoraEmbarque { get; set; }
+
+        public DateTime FechaSalida { get; set; }
+        public TimeSpan HoraSalida { get; set; }
+
+        public DateTime FechaLlegada { get; set; }
+        public TimeSpan HoraLlegada { get; set; }
+        
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }

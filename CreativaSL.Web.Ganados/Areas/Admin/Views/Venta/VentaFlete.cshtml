@@ -37,6 +37,22 @@
         .marginRow {
             margin-top: 15px !important;
         }
+        #map {
+            height: 400px;
+        }
+        #floating-panel {
+            display: block;
+            top: 10px;
+            left: 25%;
+            z-index: 5;
+            background-color: #fff;
+            padding: 5px;
+            border: 1px solid #999;
+            text-align: center;
+            font-family: 'Roboto','sans-serif';
+            line-height: 30px;
+            padding-left: 10px;
+        }
     </style>
 }
 
@@ -53,975 +69,352 @@
         <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
             <h3></h3>
         </div>
-        <!--INICIA TABS-->
-        <div class="panel panel-default tabs">
-
-            <input type="hidden" value="" id="id_compra" />
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation"><a class="active" href="#embarque" aria-controls="embarque" role="tab" data-toggle="tab">Embarque</a></li>
-                <li role="presentation"><a class="pestaña" href="#flete" aria-controls="flete" role="tab" data-toggle="tab">Flete</a></li>
-                <li role="presentation"><a class="pestaña" href="#jaulaP" aria-controls="jaula" role="tab" data-toggle="tab">Jaula</a></li>
-                <li role="presentation"><a class="pestaña" href="#documentos" aria-controls="documentos" role="tab" data-toggle="tab">Documentos</a></li>
-                <li role="presentation"><a class="pestaña" href="#eventos" aria-controls="eventos" role="tab" data-toggle="tab">Eventos</a></li>
-                <li role="presentation"><a class="pestaña" href="#movimientos" aria-controls="pagos" role="tab" data-toggle="tab">Movimientos</a></li>
-                <li role="presentation"><a class="pestaña" href="#recepcion" aria-controls="recepcion" role="tab" data-toggle="tab">Recepción</a></li>
-            </ul>
-
-            <!-- Tab panes -->
-            <div class="tab-content">
-
-                <div role="tabpanel" class="tab-pane active" id="embarque">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title"><strong>Venta - Flete</strong></h3>
-                            <ul class="panel-controls"></ul>
-                        </div>
-                        <div class="panel-body">
-                            @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
-                            <div id="validation_summary_flete" class="field_error "></div>
-                            <br />
-                            <div class="form-group">
-                                <div class="col-md-6">
-                                    <div class="controlError">
-                                        <label class="col-md-2 control-label">Sucursal</label>
-                                        <div class="col-md-10 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-building-o"></span></span>
-                                                @Html.DropDownListFor(model => model.Id_sucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Id_sucursal)
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="controlError col-md-6">
-                                    <div class="controlError">
-                                        <label class="col-md-2 control-label">Fecha embarque</label>
-                                        <div class="col-md-10 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                                @Html.TextBoxFor(model => model.FechaHoraEmbarque, "{0:dd/MM/yyyy}", new { autocomplete = "off", @class = "form-control datepicker", @readonly = "readonly" })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.FechaHoraEmbarque)
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                         
-                            <div class="form-group">
-                                <div class="col-md-6">
-                                    <label class="col-md-2 control-label">Anotaciones de la báscula</label>
-                                    <div class="col-md-10 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextAreaFor(model => model.Descripcion_bascula, new { @class = "form-control", @style = "resize:none", @rows = "5" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="col-md-2 control-label">Nota</label>
-                                    <div class="col-md-10 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextAreaFor(model => model.Observacion, new { @class = "form-control", @style = "resize:none", @rows = "5" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-12 controlError">
-                                    <label class="col-md-1 control-label">Linea fletera</label>
-                                    <div class="col-md-11 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.DropDownListFor(model => model.Flete.Id_empresa, new SelectList(Model.Flete.ListaEmpresa, "IDEmpresa", "RazonFiscal"), new { id = "Empresa_IDEmpresa", @class = "form-control select", data_live_search = "true", data_style = "form-control", @readonly = "readonly" })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.Flete.Id_empresa)
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-6 controlError">
-                                    <label class="col-md-2 control-label">Chofer</label>
-                                    <div class="col-md-10 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.DropDownListFor(model => model.Flete.id_chofer, new SelectList(Model.Flete.ListaChofer, "IDChofer", "Nombre"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.Flete.id_chofer)
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 controlError">
-                                    <label class="col-md-2 control-label">Vehículo</label>
-                                    <div class="col-md-10 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.DropDownListFor(model => model.Flete.id_vehiculo, new SelectList(Model.Flete.id_vehiculo, "IDVehiculo", "nombreMarca", "nombreTipoVehiculo", 1), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.Flete.id_vehiculo)
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-4 controlError">
-                                    <label class="col-md-3 control-label">Kilómetraje Inicial</label>
-                                    <div class="col-md-9 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.Flete.kmInicialVehiculo, new { id = "KmInicial", @class = "form-control", placeholder = "Escriba el km. inicial del vehículo." })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.Flete.kmInicialVehiculo)
-                                    </div>
-                                </div>
-                                <div class="col-md-4 controlError">
-                                    <label class="col-md-3 control-label">Núm. de fleje</label>@*no es un documento agregarlo a la tabla*@
-                                    <div class="col-md-9 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.Flete.NumFleje, new { @class = "form-control", placeholder = "." })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.Flete.NumFleje)
-                                    </div>
-                                </div>
-                                <div class="col-md-4 controlError">
-                                    <label class="col-md-3 control-label">Costo del flete</label>
-                                    <div class="col-md-9 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.Flete.precioFlete, "{0:f2}", new { @class = "form-control", placeholder = "Escriba el precio del flete." })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.Flete.precioFlete)
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <div id="floating-panel">
-                                        <b>Origen: </b>
-
-                                        <select id="Trayecto_id_lugarOrigen" name="Trayecto.id_lugarOrigen">
-                                            @foreach (var lugar in Model.ListaLugares)
-                                            {
-                                                <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud"
-                                                        @if (Model.Trayecto.id_lugarOrigen == lugar.id_lugar) { <text>
-                                                        selected="selected"
-                                                        </text>     }>
-                                                    @lugar.descripcion
-                                                </option>
-                                            }
-                                        </select>
-
-                                        <b>Destino: </b>
-
-                                        <select id="Trayecto_id_lugarDestino" name="Trayecto.id_lugarDestino">
-                                            @foreach (var lugar in Model.ListaLugaresProveedor)
-                                            {
-                                                <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud" data-direccion="@lugar.Direccion"
-                                                        @if (Model.Trayecto.id_lugarDestino == lugar.id_lugar) { <text>
-                                                        selected="selected"
-                                                        </text>     } else if (Model.IDPLugarProveedor == lugar.id_lugar) { <text>
-                                                        selected="selected"
-                                                        </text>     }>
-                                                    @lugar.descripcion
-                                                </option>
-                                            }
-                                        </select>
-                                    </div>
-                                    <div id="map"></div>
-                                </div>
-                            </div>
-
-
-
-
-
-
-
-
-
-                        </div>
-                        <div class="panel-footer">
-                            <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
-                            <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
-                        </div>
-                    </div>
-                    
-                    
-                    
-                        <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Información del <strong>Embarque</strong>  </h3>
-                            <ul class="panel-controls"></ul>
-                        </div>
-                        <div class="panel-body">
-                            <form class="form-horizontal">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">Nombre</label>
-                                            <div class="col-md-9">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    <input type="text" class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">Origen</label>
-                                            <div class="col-md-9">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></span>
-                                                    <select class="form-control">
-                                                        <option>Rancho Chapala</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">Hora llegada</label>
-                                            <div class="col-md-9">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                                    <input type="text" class="form-control timepicker">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">Hora embarque</label>
-                                            <div class="col-md-9">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                                    <input type="text" class="form-control timepicker">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">Fecha</label>
-                                            <div class="col-md-9">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                                    <input type="text" class="form-control datepicker">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">Destino</label>
-                                            <div class="col-md-9">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></span>
-                                                    <select class="form-control">
-                                                        <option>TM SLP</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">Hora salida</label>
-                                            <div class="col-md-9">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                                    <input type="text" class="form-control timepicker">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+        
+        @{ Html.EnableClientValidation(false); }
+        @using (Html.BeginForm("CreateFlete", "Venta", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Venta - Flete</strong></h3>
+                    <ul class="panel-controls"></ul>
                 </div>
-                <div role="tabpanel" class="tab-pane" id="flete">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Información de <strong>Linea Fletera</strong></h3>
-                                <ul class="panel-controls"></ul>
-                            </div>
+                <div class="panel-body">
 
-                            <div class="panel-body">
-                                <form class="form-horizontal">
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">Linea fletera</label>
-                                                <div class="col-md-9">
-                                                    <label class="radio-inline"><input type="radio" name="optradio">Ganadera Grupo Ocampo</label>
-                                                    <label class="radio-inline"><input type="radio" name="optradio">Transporte Fletero Ocampo</label>
-                                                    <label class="radio-inline"><input type="radio" name="optradio">Otro</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">Nombre de la linea fletera</label>
-                                                <div class="col-md-9">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-building-o"></span></span>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">Nombre del chofer</label>
-                                                <div class="col-md-9">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">No. económico</label>
-                                                <div class="col-md-9">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-truck"></span></span>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">No. de placa de la unidad</label>
-                                                <div class="col-md-9">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-truck"></span></span>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label">Licencia vigente</label>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <label class="radio-inline"><input type="radio" name="optradio">SI</label>
-                                                        <label class="radio-inline"><input type="radio" name="optradio">NO</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label">Folio licencia</label>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label">Kilómetraje inicial</label>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-tachometer"></span></span>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label">Kilómetraje final</label>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-tachometer"></span></span>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
+                    <div id="validation_summary_flete" class="field_error "></div>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <div class="controlError">
+                                <label class="col-md-2 control-label">Sucursal</label>
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-building-o"></span></span>
+                                        @Html.DropDownListFor(model => model.Id_sucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
                                     </div>
-                                </form>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div role="tabpanel" class="tab-pane" id="jaulaP">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Información de <strong>Jaula</strong></h3>
-                                <ul class="panel-controls"></ul>
-                            </div>
-
-                            <div class="panel-body">
-                                <form class="form-horizontal">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="table-responsive">
-                                                <table id="tblJaulaCheck" style="width:100%">
-                                                    <thead>
-                                                        <tr>
-                                                            <td><strong>Limpieza de la jaula</strong></td>
-                                                            <td colspan="2"><strong>Verificación de la estructura de la jaula en buenas condiciones</strong></td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                    <label class="form-check-label" for="defaultCheck1">
-                                                                        Completa 100%
-                                                                    </label>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                    <label class="form-check-label" for="defaultCheck1">
-                                                                        Puertas interna
-                                                                    </label>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                    <label class="form-check-label" for="defaultCheck1">
-                                                                        Llanta de refacción
-                                                                    </label>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                    <label class="form-check-label" for="defaultCheck1">
-                                                                        Solo el piso
-                                                                    </label>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                    <label class="form-check-label" for="defaultCheck1">
-                                                                        Focos
-                                                                    </label>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                    <label class="form-check-label" for="defaultCheck1">
-                                                                        Llantas en buen estado
-                                                                    </label>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                    <label class="form-check-label" for="defaultCheck1">
-                                                                        Sucia
-                                                                    </label>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                    <label class="form-check-label" for="defaultCheck1">
-                                                                        Riesgos punzo cortantes
-                                                                    </label>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                                    <label class="form-check-label" for="defaultCheck1">
-                                                                        Piso antiadherente
-                                                                    </label>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row marginRow">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label">Ganado seleccionado para la venta</label>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input id="iGanadoSeleccionado" type="text" class="form-control" disabled="disabled">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="col-md-5 control-label">Ganado restante por acomodar en jaula </label>
-                                                <div class="col-md-7">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input type="text" class="form-control" disabled="disabled">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row marginRow">
-                                        <div class="col-md-12">
-                                            <div class="table-responsive">
-                                                <center>
-                                                    <table id="tblJaulaP" border="1">
-                                                        <tr>
-                                                            <td>Hielera</td>
-                                                            <td>Panza arriba</td>
-                                                            <td>Panza arriba</td>
-                                                            <td>Punta superior</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><input class="form-control" type="text" /></td>
-                                                            <td><input class="form-control" type="text" /></td>
-                                                            <td><input class="form-control" type="text" /></td>
-                                                            <td><input class="form-control" type="text" /></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Cola</td>
-                                                            <td>Panza abajo</td>
-                                                            <td>Panza abajo</td>
-                                                            <td>Punta inferior</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><input class="form-control" type="text" /></td>
-                                                            <td><input class="form-control" type="text" /></td>
-                                                            <td><input class="form-control" type="text" /></td>
-                                                            <td><input class="form-control" type="text" /></td>
-                                                        </tr>
-                                                    </table>
-                                                </center>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div id="documentos" class="tab-pane" role="tabpanel">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Información de <strong>Documentos de movilización</strong></h3>
-                                <ul class="panel-controls"></ul>
-                            </div>
-
-                            <div class="panel-body">
-                                <form class="form-horizontal">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label">Guía de transito</label>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-file-text-o"></span></span>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label">Cert. Zoosanitario</label>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-file-text-o"></span></span>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label">Cert. Tuberculosis</label>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-file-text-o"></span></span>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label">Cert. Brucelosis</label>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-file-text-o"></span></span>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label">Fleje</label>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-file-text-o"></span></span>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label">Factura</label>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-file-text-o"></span></span>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label">Valija sellada</label>
-                                                <div class="col-md-8">
-                                                    <label class="radio-inline"><input type="radio" name="optradio">SI</label>
-                                                    <label class="radio-inline"><input type="radio" name="optradio">NO</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div id="movimientos" class="tab-pane" role="tabpanel">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Información de <strong>Pagos realizados</strong></h3>
-                                <ul class="panel-controls"></ul>
-                            </div>
-                            <div class="panel-body">
-
-                                <div class="form-group">
-                                    <div class="col-md-3">
-                                        <label class="col-md-3 control-label">Cantidad total</label>
-                                        <div class="col-md-9 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.Opcion, new { id = "CantidadTotal", @class = "form-control", disabled = "disabled" })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Opcion)
-                                            <span class="help-block">Cantidad Total.</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label class="col-md-3 control-label">Cantidad pagada</label>
-                                        <div class="col-md-9 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.Opcion, new { id = "CantidadPagada", @class = "form-control", disabled = "disabled" })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Opcion)
-                                            <span class="help-block">Subtotal.</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label class="col-md-3 control-label">Cantidad por pagar</label>
-                                        <div class="col-md-9 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.Resultado, new { id = "CantidadPorPagar", @class = "form-control", disabled = "disabled" })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Resultado)
-                                            <span class="help-block">Subtotal.</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="col-md-6 col-xs-12">
-                                            <div class="input-group">
-                                                <button id="btnAddPago" class="btn btn-primary btn-lg">
-                                                    <i class="fa fa-plus"></i> Agregar pago
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-xs-12">
-                                            <div class="input-group">
-                                                <button id="btnAddCobro" class="btn btn-primary btn-lg">
-                                                    <i class="fa fa-plus"></i> Agregar cobro
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="panel-body">
-                                    <div class="table-responsive">
-                                        <table class="table datatable">
-                                            <thead>
-                                                <tr>
-                                                    <th>Forma de pago</th>
-                                                    <th>Cantidad</th>
-                                                    <th>Descripción</th>
-                                                    <th>Fecha realizada</th>
-                                                    <th>Acción</th>
-
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Id_sucursal)
                                 </div>
                             </div>
+                        </div>
 
+                        <div class="controlError col-md-6">
+                            <div class="controlError">
+                                <label class="col-md-2 control-label">Cliente</label>
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                        @Html.DropDownListFor(model => model.Id_cliente, new SelectList(Model.ListaClientes, "IDCliente", "NombreRazonSocial"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control", @readonly = "readonly" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Id_cliente)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12 controlError">
+                            <label class="col-md-1 control-label">Nombre</label>
+                            <div class="col-md-11 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.NombreVenta, new { autocomplete = "off", @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.NombreVenta)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="controlError col-md-6">
+                            <div class="controlError">
+                                <label class="col-md-2 control-label">Fecha embarque</label>
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                        @Html.TextBoxFor(model => model.Flete.FechaEmbarque, "{0:dd/MM/yyyy}", new { autocomplete = "off", @class = "form-control datepicker", @readonly = "readonly" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Flete.FechaEmbarque)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="controlError col-md-6">
+                            <div class="controlError">
+                                <label class="col-md-2 control-label">Hora embarque</label>
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                        @Html.TextBoxFor(model => model.Flete.HoraEmbarque, new { autocomplete = "off", @class = "form-control timepicker24", @readonly = "readonly" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Flete.HoraEmbarque)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="controlError col-md-6">
+                            <div class="controlError">
+                                <label class="col-md-2 control-label">Fecha Salida</label>
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                        @Html.TextBoxFor(model => model.Flete.FechaSalida, "{0:dd/MM/yyyy}", new { autocomplete = "off", @class = "form-control datepicker", @readonly = "readonly" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Flete.FechaSalida)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="controlError col-md-6">
+                            <div class="controlError">
+                                <label class="col-md-2 control-label">Hora Salida</label>
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                        @Html.TextBoxFor(model => model.Flete.HoraSalida, new { autocomplete = "off", @class = "form-control timepicker24", @readonly = "readonly" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Flete.HoraSalida)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-md-6 controlError">
+                            <label class="col-md-2 control-label">Anotaciones de la báscula</label>
+                            <div class="col-md-10 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextAreaFor(model => model.Descripcion_bascula, new { @class = "form-control", @style = "resize:none", @rows = "5" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-md-2 control-label">Nota</label>
+                            <div class="col-md-10 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextAreaFor(model => model.Observacion, new { @class = "form-control", @style = "resize:none", @rows = "5" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12 controlError">
+                            <label class="col-md-1 control-label">Linea fletera</label>
+                            <div class="col-md-11 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.DropDownListFor(model => model.Flete.Id_empresa, new SelectList(Model.Flete.ListaEmpresa, "IDEmpresa", "RazonFiscal"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control", @readonly = "readonly" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Flete.Id_empresa)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-6 controlError">
+                            <label class="col-md-2 control-label">Chofer</label>
+                            <div class="col-md-10 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                    @Html.DropDownListFor(model => model.Flete.id_chofer, new SelectList(Model.Flete.ListaChofer, "IDChofer", "Nombre"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Flete.id_chofer)
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 controlError">
+                            <label class="col-md-2 control-label">Vehículo</label>
+                            <div class="col-md-10 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-truck"></span></span>
+                                    @Html.DropDownListFor(model => model.Flete.id_vehiculo, new SelectList(Model.Flete.ListaVehiculo, "IDVehiculo", "nombreMarca", "Modelo", 1), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Flete.id_vehiculo)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4 controlError">
+                            <label class="col-md-3 control-label">Kilómetraje Inicial</label>
+                            <div class="col-md-9 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-tachometer"></span></span>
+                                    @Html.TextBoxFor(model => model.Flete.kmInicialVehiculo, new { id = "KmInicial", @class = "form-control", placeholder = "Escriba el km. inicial del vehículo." })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Flete.kmInicialVehiculo)
+                            </div>
+                        </div>
+                        <div class="col-md-4 controlError">
+                            <label class="col-md-3 control-label">Núm. de fleje</label>@*no es un documento agregarlo a la tabla*@
+                            <div class="col-md-9 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.Flete.NumFleje, new { @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Flete.NumFleje)
+                            </div>
+                        </div>
+                        <div class="col-md-4 controlError">
+                            <label class="col-md-3 control-label">Costo del flete</label>
+                            <div class="col-md-9 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.Flete.precioFlete, "{0:f2}", new { @class = "form-control", placeholder = "Escriba el precio del flete." })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Flete.precioFlete)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table id="tblJaulaCheck" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <td><strong>Limpieza de la jaula</strong></td>
+                                            <td colspan="2"><strong>Verificación de la estructura de la jaula en buenas condiciones</strong></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="form-check">
+                                                    @Html.CheckBoxFor(model=>model.Flete.VerificacionJaula.LimpiezaCompleta, new { @class= "form-check-input" })
+                                                   <label class="form-check-label" for="Flete.VerificacionJaula.LimpiezaCompleta">
+                                                        Completa 100%
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-check">
+                                                    @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.PuertasInternas, new { @class = "form-check-input" })
+                                                    <label class="form-check-label" for="Flete.VerificacionJaula.PuertasInternas">
+                                                        Puertas interna
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-check">
+                                                    @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.LlantaRefaccion, new { @class = "form-check-input" })
+                                                    <label class="form-check-label" for="Flete.VerificacionJaula.LlantaRefaccion">
+                                                        Llanta de refacción
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-check">
+                                                    @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.SoloPiso, new { @class = "form-check-input" })
+                                                    <label class="form-check-label" for="Flete.VerificacionJaula.SoloPiso">
+                                                        Solo el piso
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-check">
+                                                    @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.Focos, new { @class = "form-check-input" })
+                                                    <label class="form-check-label" for="Flete.VerificacionJaula.Focos">
+                                                        Focos
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-check">
+                                                    @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.LlantasBuenEstado, new { @class = "form-check-input" })
+                                                    <label class="form-check-label" for="Flete.VerificacionJaula.LlantasBuenEstado">
+                                                        Llantas en buen estado
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-check">
+                                                    @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.Sucia, new { @class = "form-check-input" })
+                                                    <label class="form-check-label" for="Flete.VerificacionJaula.Sucia">
+                                                        Sucia
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-check">
+                                                    @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.RiesgosPunzoCortantes, new { @class = "form-check-input" })
+                                                    <label class="form-check-label" for="Flete.VerificacionJaula.RiesgosPunzoCortantes">
+                                                        Riesgos punzo cortantes
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-check">
+                                                    @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.PisoAntiadherente, new { @class = "form-check-input" })
+                                                    <label class="form-check-label" for="Flete.VerificacionJaula.PisoAntiadherente">
+                                                        Piso antiadherente
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div id="floating-panel">
+                                <b>Origen: </b>
+
+                                <select id="Flete_Trayecto_ListaLugarOrigen" name="Flete.Trayecto.ListaLugarOrigen">
+                                    @foreach (var lugar in Model.Flete.Trayecto.ListaLugarOrigen)
+                                    {
+                                        <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud"
+                                                @if (Model.Flete.Trayecto.id_lugarOrigen == lugar.id_lugar) { <text>
+                                                selected="selected"
+                                                </text>      }>
+                                            @lugar.descripcion
+                                        </option>
+                                    }
+                                </select>
+
+                                <b>Destino: </b>
+
+                                <select id="Flete_Trayecto_ListaLugarDestino" name="Flete.Trayecto.ListaLugarDestino">
+                                    @foreach (var lugar in Model.Flete.Trayecto.ListaLugarDestino)
+                                    {
+                                        <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud" data-direccion="@lugar.Direccion"
+                                                @if (Model.Flete.Trayecto.id_lugarDestino == lugar.id_lugar) { <text>
+                                                selected="selected"
+                                                </text>      } else if (Model.Flete.Trayecto.id_lugarDestino == lugar.id_lugar) { <text>
+                                                selected="selected"
+                                                </text>      }>
+                                            @lugar.descripcion
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+                            <div id="map"></div>
                         </div>
                     </div>
 
                 </div>
-                <div id="eventos" class="tab-pane" role="tabpanel">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Información de <strong>Eventos durante el trayecto</strong></h3>
-                                <ul class="panel-controls"></ul>
-                            </div>
-
-                            <div class="page-content-wrap">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <!-- START DEFAULT DATATABLE -->
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <h3 class="panel-title"></h3>
-                                                <ul class="panel-controls">
-                                                    <li><a id="btnAddEvento" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Evento</a></li>
-                                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="panel-body">
-                                                <div class="table-responsive">
-                                                    <table class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Evento</th>
-                                                                <th>Genero</th>
-                                                                <th>Núm. arete</th>
-                                                                <th>Lugar</th>
-                                                                <th>Fecha y Hora</th>
-                                                                <th>Observación</th>
-                                                                <th>Acción</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>Muerto</td>
-                                                                <td>MACHO</td>
-                                                                <td>07215485</td>
-                                                                <td>Juárez</td>
-                                                                <td>01-04-2018 18:04</td>
-                                                                <td>Murió sofocada</td>
-                                                                <td style="text-align:center;">
-                                                                    <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                                        <a title="Editar" href="#" class="btn btn-yellow tooltips btn-sm" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                                        <a title="Eliminar" id="delete-" data-hrefa="#" onClick="delete_row('');" class="btn btn-danger tooltips btn-sm" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
-                                                                    </div>
-                                                                    <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                                        <div class="btn-group">
-                                                                            <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                                                <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                                            </a>
-                                                                            <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                                                <li>
-                                                                                    <a role="menuitem" tabindex="-1" href="">
-                                                                                        <i class="fa fa-file-text"></i> Documentos
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <a role="menuitem" tabindex="-1" href="">
-                                                                                        <i class="fa fa-edit"></i> Editar
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <a role="menuitem" tabindex="-1" id="delete-" data-hrefa="" onClick="delete_row('');">
-                                                                                        <i class="fa fa-trash-o"></i> Eliminar
-                                                                                    </a>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Animal caído</td>
-                                                                <td>HEMBRA</td>
-                                                                <td>07215475</td>
-                                                                <td>Tabasco</td>
-                                                                <td>01-04-2018 17:52</td>
-                                                                <td>Al momento de desembarcar</td>
-                                                                <td style="text-align:center;">
-                                                                    <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                                        <a title="Editar" href="#" class="btn btn-yellow tooltips btn-sm" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                                        <a title="Eliminar" id="delete-" data-hrefa="#" onClick="delete_row('');" class="btn btn-danger tooltips btn-sm" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
-                                                                    </div>
-                                                                    <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                                        <div class="btn-group">
-                                                                            <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                                                <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                                            </a>
-                                                                            <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                                                <li>
-                                                                                    <a role="menuitem" tabindex="-1" href="">
-                                                                                        <i class="fa fa-file-text"></i> Documentos
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <a role="menuitem" tabindex="-1" href="">
-                                                                                        <i class="fa fa-edit"></i> Editar
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <a role="menuitem" tabindex="-1" id="delete-" data-hrefa="" onClick="delete_row('');">
-                                                                                        <i class="fa fa-trash-o"></i> Eliminar
-                                                                                    </a>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- END DEFAULT DATATABLE -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="panel-footer">
+                    <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                    <a href="@Url.Action("Index", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                 </div>
-                <div id="recepcion" class="tab-pane" role="tabpanel">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Información de <strong>Recepción de la venta</strong></h3>
-                                <ul class="panel-controls"></ul>
-                            </div>
-
-                            <div class="panel-body">
-                                <form class="form-horizontal">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="col-md-6 control-label">Recepcion de doc. de origen de embarque</label>
-                                                <div class="col-md-6">
-                                                    <label class="radio-inline"><input type="radio" name="optradio">SI</label>
-                                                    <label class="radio-inline"><input type="radio" name="optradio">NO</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-6 control-label">Fecha de llegada de la unidad</label>
-                                                <div class="col-md-6">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                                        <input type="text" class="form-control datepicker">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-6 control-label">Nombre del recepcionista</label>
-                                                <div class="col-md-6">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-6 control-label">Cantidad total de kilos</label>
-                                                <div class="col-md-6">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label">Valija sellada</label>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <label class="radio-inline"><input type="radio" name="optradio">SI</label>
-                                                        <label class="radio-inline"><input type="radio" name="optradio">NO</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label">Hora llegada de la unidad</label>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                                        <input type="text" class="form-control timepicker">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label">Hora de descargar</label>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                                        <input type="text" class="form-control timepicker">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label">Cantidad total de ganado</label>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row marginRow">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">Observaciones</label>
-                                                <div class="col-md-9">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-eye"></span></span>
-                                                        <textarea class="form-control texArea" rows="5"></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="panel-footer">
-                                <input type="button" value="Editar venta" class="btn btn-primary pull-right">
-                                <a href="@Url.Action("Index", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
             </div>
+        }
 
-        </div>
-        <!--TERMINA TABS-->
+
+
+
         <!--INICIA SECCION DE MODALES-->
         <div id="ModalEvento" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
             <div class="modal-dialog modal-lg" id="ContenidoModalEvento">
@@ -1055,15 +448,15 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
 
-    <!--DATEPICKER-->
     <script src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-timepicker.min.js")"></script>
-    <script src="@Url.Content("~/Content/js/venta.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script src="@Url.Content("~/Content/js/ventaFlete.js")"></script>
 
     <script>
 
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
-            Venta.init();
+            VentaFlete.init();
         });
     </script>
 }
