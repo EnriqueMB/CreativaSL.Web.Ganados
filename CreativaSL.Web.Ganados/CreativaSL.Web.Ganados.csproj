@@ -1542,6 +1542,7 @@
     <Compile Include="Models\ResumenGastosAjustesModels.cs" />
     <Compile Include="Models\ResumenGastosModels.cs" />
     <Compile Include="Models\RptGandosModels.cs" />
+    <Compile Include="Models\RptProvedorVendioMasModels.cs" />
     <Compile Include="Models\RptProveedorMermaAltaModels.cs" />
     <Compile Include="Models\RptProveedorMunicipioModels.cs" />
     <Compile Include="Models\RptSalidasModels.cs" />
@@ -1723,6 +1724,7 @@
     <EmbeddedResource Include="Reports\ReporteMermaAlta.rdlc">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ReporteProveedorVendioMasG.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

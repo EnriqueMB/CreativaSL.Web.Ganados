@@ -71,7 +71,7 @@
             var Inicio = fecha;
             var Fin = fecha2;
             if (ban == 1 && ban1 == 1) {
-                window.location.href = "/RptProveedorMermaAlta/Reporte2?id=" + Inicio + "&id2=" + Fin;
+                window.location.href = "/Admin/reportes/RptProveedorVendioMas?id=PDF&id2=" + Inicio + "&id3=" + Fin;
             }
         });
     };
