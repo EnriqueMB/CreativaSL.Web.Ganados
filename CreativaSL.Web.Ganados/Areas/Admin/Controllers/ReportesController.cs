@@ -180,7 +180,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 Reporte_Datos R = new Reporte_Datos();
                 RptGandosModels reporte = new RptGandosModels();
-                _RptGanadosVendidos_Datos reporteDatos = new _RptGanadosVendidos_Datos();
+                // _RptGanadosVendidos_Datos reporteDatos = new _RptGanadosVendidos_Datos();
                 DateTime Fecha1 = DateTime.Today;
                 DateTime Fecha2 = DateTime.Today;
                 DateTime.TryParse(id2.ToString(), out Fecha1);
@@ -189,7 +189,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 reporte.FechaFin = Fecha2;
                 reporte.Conexion = Conexion;
                 reporte.datosEmpresa = R.ObtenerDatosEmpresaTipo1(Conexion);
-                reporte.listaGanadosVendidos = reporteDatos.obtenerListaGanadosVendidos(reporte);
+                reporte.listaGanadosVendidos = R.obtenerListaGanadosVendidos(reporte);
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
                 Rtp.DataSources.Clear();
@@ -202,16 +202,18 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     return RedirectToAction("Index", "Reportes");
                 }
-                ReportParameter[] Parametros = new ReportParameter[7];
-                Parametros[0] = new ReportParameter("Empresa", reporte.DatosEmpresa.RazonFiscal);
-                Parametros[1] = new ReportParameter("Direccion", reporte.DatosEmpresa.DireccionFiscal);
-                Parametros[2] = new ReportParameter("RFC", reporte.DatosEmpresa.RFC);
-                Parametros[3] = new ReportParameter("TelefonoCasa", reporte.DatosEmpresa.NumTelefonico1);
-                Parametros[4] = new ReportParameter("TelefonoMovil", reporte.DatosEmpresa.NumTelefonico2);
-                Parametros[5] = new ReportParameter("NombreSucursal", reporte.DatosEmpresa.NombreSucursal);
-                Parametros[6] = new ReportParameter("UrlLogo", reporte.DatosEmpresa.LogoEmpresa);
+                ReportParameter[] Parametros = new ReportParameter[9];
+                Parametros[0] = new ReportParameter("Empresa", reporte.datosEmpresa.RazonFiscal);
+                Parametros[1] = new ReportParameter("Direccion", reporte.datosEmpresa.DireccionFiscal);
+                Parametros[2] = new ReportParameter("RFC", reporte.datosEmpresa.RFC);
+                Parametros[3] = new ReportParameter("TelefonoCasa", reporte.datosEmpresa.NumTelefonico1);
+                Parametros[4] = new ReportParameter("TelefonoMovil", reporte.datosEmpresa.NumTelefonico2);
+                Parametros[5] = new ReportParameter("NombreSucursal", reporte.datosEmpresa.NombreSucursal);
+                Parametros[6] = new ReportParameter("UrlLogo", reporte.datosEmpresa.LogoEmpresa);
+                Parametros[7] = new ReportParameter("FechaInicio", id2);
+                Parametros[8] = new ReportParameter("FechaFin", id3);
                 Rtp.SetParameters(Parametros);
-                Rtp.DataSources.Add(new ReportDataSource("ListaMerma", reporte.listaRptProveedorMerma));
+                Rtp.DataSources.Add(new ReportDataSource("ListaGanadosVendidos", reporte.listaGanadosVendidos));
                 string reportType = id;
                 string mimeType;
                 string encoding;
