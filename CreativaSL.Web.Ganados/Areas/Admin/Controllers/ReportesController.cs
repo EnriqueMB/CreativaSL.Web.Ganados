@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -173,6 +174,84 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 throw ex;
             }
         }
+
+        public ActionResult RptSalidas(string id, string id2, string id3)
+        {
+            try
+            {
+
+                ReportViewer Rtp = new ReportViewer();
+                Rtp.ProcessingMode = ProcessingMode.Local;
+                //Rtp.SizeToReportContent = true;
+                Rtp.Width = Unit.Percentage(100);
+                Rtp.Height = Unit.Percentage(100);
+                Reporte_Datos RSalidas = new Reporte_Datos();
+                RptSalidaModels ReporteSalida = new RptSalidaModels();
+                DateTime Fecha1 = DateTime.Today;
+                DateTime Fecha2 = DateTime.Today;
+                DateTime.TryParse(id2.ToString(), out Fecha1);
+                DateTime.TryParse(id3.ToString(), out Fecha2);
+                ReporteSalida.FechaInicio = Fecha1;
+                ReporteSalida.FechaFin = Fecha2;
+                ReporteSalida.Conexion = Conexion;
+                ReporteSalida.DatosEmpresa = RSalidas.ObtenerDatosEmpresaTipo1(Conexion);
+                ReporteSalida.ListaSalidas = RSalidas.obtenerListaSalidas(ReporteSalida);
+                //LocalReport Rtp = new LocalReport();
+                Rtp.LocalReport.EnableExternalImages = true;
+                Rtp.LocalReport.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Reports"), "RptSalidas.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.LocalReport.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Reportes");
+                }
+                ReportParameter[] Parametros = new ReportParameter[9];
+                Parametros[0] = new ReportParameter("Empresa", ReporteSalida.DatosEmpresa.RazonFiscal);
+                Parametros[1] = new ReportParameter("Direccion", ReporteSalida.DatosEmpresa.DireccionFiscal);
+                Parametros[2] = new ReportParameter("RFC", ReporteSalida.DatosEmpresa.RFC);
+                Parametros[3] = new ReportParameter("TelefonoCasa", ReporteSalida.DatosEmpresa.NumTelefonico1);
+                Parametros[4] = new ReportParameter("TelefonoMovil", ReporteSalida.DatosEmpresa.NumTelefonico2);
+                Parametros[5] = new ReportParameter("NombreSucursal", ReporteSalida.DatosEmpresa.NombreSucursal);
+                Parametros[6] = new ReportParameter("UrlLogo", ReporteSalida.DatosEmpresa.LogoEmpresa);
+                Parametros[7] = new ReportParameter("FechaInicio", id2);
+                Parametros[8] = new ReportParameter("FechaFin", id3);
+                Rtp.LocalReport.SetParameters(Parametros);
+                Rtp.LocalReport.DataSources.Add(new ReportDataSource("ListaSalidas", ReporteSalida.ListaSalidas));
+                
+                string reportType = id;
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + id + "</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.LocalReport.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public ActionResult RptGanadosVendidos(string id, string id2, string id3)
         {
             try
