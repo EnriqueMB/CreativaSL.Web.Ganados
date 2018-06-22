@@ -69,7 +69,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        public List<RptGandosModels> obtenerListaGanadosVendidos(RptGandosModels datos)
+        public RptGandosModels obtenerListaGanadosVendidos(RptGandosModels datos)
         {
             try
             {
@@ -80,6 +80,7 @@ namespace CreativaSL.Web.Ganados.Models
                 ds = SqlHelper.ExecuteDataset(datos.Conexion, "spCSLDB_Reporte_get_GanadosXVenta", parametros);
                 if (ds != null)
                 {
+                    bool ban = false;
                     DataTableReader dr = ds.Tables[0].CreateDataReader();
                     DataTableReader dr1 = ds.Tables[1].CreateDataReader();
                     while (dr.Read())
@@ -87,22 +88,36 @@ namespace CreativaSL.Web.Ganados.Models
                         item = new RptGandosModels();
                         item.NoArete = !dr.IsDBNull(dr.GetOrdinal("numArete")) ? dr.GetString(dr.GetOrdinal("numArete")) : string.Empty;
                         item.Genero = !dr.IsDBNull(dr.GetOrdinal("genero")) ? dr.GetString(dr.GetOrdinal("genero")) : string.Empty;
-                        item.Folio = !dr.IsDBNull(dr.GetOrdinal("folio")) ? dr.GetString(dr.GetOrdinal("folio")) : string.Empty;
-                        item.FechahoraVenta = !dr.IsDBNull(dr.GetOrdinal("fechaHoraVenta")) ? dr.GetString(dr.GetOrdinal("fechaHoraVenta")) : string.Empty;
-                        item.MontoTotal = !dr.IsDBNull(dr.GetOrdinal("montoTotal")) ? dr.GetString(dr.GetOrdinal("montoTotal")) : string.Empty;
+                        item.Folio = !dr.IsDBNull(dr.GetOrdinal("folio")) ? dr.GetInt64(dr.GetOrdinal("folio")) : 0;
+                        item.FechahoraVenta = !dr.IsDBNull(dr.GetOrdinal("fechaHoraVenta")) ? dr.GetDateTime(dr.GetOrdinal("fechaHoraVenta")) : DateTime.Today;
+                        item.MontoTotal = !dr.IsDBNull(dr.GetOrdinal("montoTotal")) ? dr.GetDecimal(dr.GetOrdinal("montoTotal")) : 0;
+                        if(ban == false)
+                        {
+                            while(dr1.Read())
+                            {
+                                item.GanadosMachos = !dr1.IsDBNull(dr1.GetOrdinal("MACHOS")) ? dr1.GetInt32(dr1.GetOrdinal("MACHOS")) : 0;
+                                item.GanadosHembras = !dr1.IsDBNull(dr1.GetOrdinal("HEMBRAS")) ? dr1.GetInt32(dr1.GetOrdinal("HEMBRAS")) : 0;
+                                item.GanadosTotal = !dr1.IsDBNull(dr1.GetOrdinal("TOTAL")) ? dr1.GetInt32(dr1.GetOrdinal("TOTAL")) : 0;
+                                break;
+                            }
+                            ban = true;
+                        }
                         lista.Add(item);
                     }
                     datos.listaGanadosVendidos = lista;
-                    while (dr1.Read())
-                    {
-                        datos.GanadosMachos = !dr.IsDBNull(dr.GetOrdinal("MACHOS")) ? dr.GetInt32(dr.GetOrdinal("numArete")) : 0;
-                        datos.GanadosHembras = !dr.IsDBNull(dr.GetOrdinal("HEMBRAS")) ? dr.GetInt32(dr.GetOrdinal("genero")) : 0;
-                        datos.GanadosTotal = !dr.IsDBNull(dr.GetOrdinal("TOTAL")) ? dr.GetInt32(dr.GetOrdinal("folio")) : 0;
-
-                        break;
-                    }
+                    dr.Close();
+                    dr1.Close();
+                    //while (dr1.Read())
+                    //{
+                    //    datos.GanadosMachos = !dr1.IsDBNull(dr1.GetOrdinal("MACHOS")) ? dr1.GetInt32(dr1.GetOrdinal("MACHOS")) : 0;
+                    //    datos.GanadosHembras = !dr1.IsDBNull(dr1.GetOrdinal("HEMBRAS")) ? dr1.GetInt32(dr1.GetOrdinal("HEMBRAS")) : 0;
+                    //    datos.GanadosTotal = !dr1.IsDBNull(dr1.GetOrdinal("TOTAL")) ? dr1.GetInt32(dr1.GetOrdinal("TOTAL")) : 0;
+                    //    //lista.Add(datos);
+                    //    break;
+                    //}
+                   // datos.listaGanadosVendidos = lista;
                 }
-                return lista;
+                return datos;
             }
             catch (Exception ex)
             {

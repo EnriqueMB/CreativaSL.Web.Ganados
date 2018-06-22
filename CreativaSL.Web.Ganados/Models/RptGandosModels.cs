@@ -11,12 +11,15 @@ namespace CreativaSL.Web.Ganados.Models
         public RptGandosModels()
         {
             _noArete = string.Empty;
-            _montoTotal = string.Empty;
+            _montoTotal = 0;
             _genero = string.Empty;
-            _folio = string.Empty;
-            _fechahoraVenta = string.Empty;
+            _folio = 0;
+            _fechahoraVenta = DateTime.Today;
             _fechaInicio = DateTime.Today;
             _fechaFin = DateTime.Today;
+            _fechaHoraProgramada = DateTime.Today;
+            _fechaHoraTerminada = DateTime.Today;
+            _montoTotalGanados = 0;
             _listaGanadosVendidos = new List<RptGandosModels>();
             _datosEmpresa = new DatosEmpresaViewModels();
             Conexion = string.Empty;
@@ -39,33 +42,33 @@ namespace CreativaSL.Web.Ganados.Models
             set { _fechaHoraProgramada = value; }
         }
 
-        private string _montoTotalGanados;
+        private Decimal _montoTotalGanados;
 
-        public string montoTotalGanados
+        public Decimal montoTotalGanados
         {
             get { return _montoTotalGanados; }
             set { _montoTotalGanados = value; }
         }
 
-        private string _montoTotal;
+        private Decimal _montoTotal;
 
-        public string MontoTotal
+        public Decimal MontoTotal
         {
             get { return _montoTotal; }
             set { _montoTotal = value; }
         }
 
-        private string _fechahoraVenta;
+        private DateTime _fechahoraVenta;
 
-        public string FechahoraVenta
+        public DateTime FechahoraVenta
         {
             get { return _fechahoraVenta; }
             set { _fechahoraVenta = value; }
         }
 
-        private string _folio;
+        private Int64 _folio;
 
-        public string Folio
+        public Int64 Folio
         {
             get { return _folio; }
             set { _folio = value; }

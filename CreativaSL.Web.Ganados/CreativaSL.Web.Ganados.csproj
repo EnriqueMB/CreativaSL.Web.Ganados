@@ -1726,7 +1726,7 @@
     <EmbeddedResource Include="Reports\prueba.rdlc">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\ReporteGanadosVedidos.rdlc" />
+    <EmbeddedResource Include="Reports\ReporteGanadosVendidos.rdlc" />
     <EmbeddedResource Include="Reports\ReporteMermaAlta.rdlc">
       <SubType>Designer</SubType>
     </EmbeddedResource>
