@@ -1633,6 +1633,7 @@
     <Compile Include="Models\_Menu_Datos.cs" />
     <Compile Include="Models\_NominaDiasFestivos_Datos.cs" />
     <Compile Include="Models\_Nomina_Datos.cs" />
+    <Compile Include="Models\_RptGanadosVendidos_Datos.cs" />
     <Compile Include="Models\_RptProveedorMermaAlta_Datos.cs" />
     <Compile Include="Models\_RptProveedorMunicipio_Datos.cs" />
     <Compile Include="Models\_RptSalidas_Datos.cs" />
@@ -1725,6 +1726,7 @@
     <EmbeddedResource Include="Reports\prueba.rdlc">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ReporteGanadosVedidos.rdlc" />
     <EmbeddedResource Include="Reports\ReporteMermaAlta.rdlc">
       <SubType>Designer</SubType>
     </EmbeddedResource>
