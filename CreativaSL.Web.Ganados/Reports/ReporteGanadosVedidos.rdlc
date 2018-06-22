@@ -118,22 +118,6 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
-        <Image Name="Logo">
-          <Source>Database</Source>
-          <Value>=Parameters!UrlLogo.Value</Value>
-          <MIMEType>image/png</MIMEType>
-          <Sizing>FitProportional</Sizing>
-          <Top>0.48899cm</Top>
-          <Left>0.62413cm</Left>
-          <Height>1.3057cm</Height>
-          <Width>5.92667cm</Width>
-          <ZIndex>3</ZIndex>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-          </Style>
-        </Image>
         <Textbox Name="Textbox2">
           <CanGrow>true</CanGrow>
           <KeepTogether>true</KeepTogether>
@@ -173,7 +157,7 @@
           <Left>6.58607cm</Left>
           <Height>0.63514cm</Height>
           <Width>8.82354cm</Width>
-          <ZIndex>4</ZIndex>
+          <ZIndex>3</ZIndex>
           <Style>
             <Border>
               <Style>None</Style>
