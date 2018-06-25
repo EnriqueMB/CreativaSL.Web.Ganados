@@ -25,14 +25,15 @@
             rules: {
                 IDTipoServicio: { required: true },
                 Encargado: { required: true, nombre: true },
-                Importe: { required: true }
+                Importe: { required: true },
+                ImporteRefacciones: { required: true }
             },
             messages: {
                 IDTipoServicio: { required: "Seleccione el servicio realizado." },
-                Encargado: { required: "Ingrese el nombre de la persona que realizó el servicio.", 
-                    nombre: "Ingrese un dato válido en Responsable."
-                },
-                Importe: { required : "Debe ingresar el importe del servicio." }
+                Encargado: {    required: "Ingrese el nombre de la persona que realizó el servicio.", 
+                                nombre: "Ingrese un dato válido en Responsable." },
+                Importe: { required: "Debe ingresar el importe del servicio (Mano de  obra)." },
+                ImporteRefacciones: { required: "Debe ingresar el importe del servicio. (Refacciones)" }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

@@ -1340,6 +1340,8 @@
     <Content Include="Areas\Admin\Views\CatEvento\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatEvento\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaFlete.cshtml" />
+    <Content Include="Areas\Admin\WebServices\DatatableServ.asmx" />
+    <Content Include="Content\json\Spanish.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1502,6 +1504,8 @@
     <Compile Include="Models\CuentaBancariaModels.cs" />
     <Compile Include="Models\CuentaBancariaProveedorModels.cs" />
     <Compile Include="Models\CuentaBancariasProveedorAlmacenModels.cs" />
+    <Compile Include="Models\DataTableParameters.cs" />
+    <Compile Include="Models\DataTableResultSet.cs" />
     <Compile Include="Models\DocumentoCompraModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
     <Compile Include="Models\DocumentoPorPagarModels.cs" />
@@ -1665,6 +1669,10 @@
     <Compile Include="ViewModels\SalidaAlmacenViewModels.cs" />
     <Compile Include="ViewModels\ServiciosMantenimientoDetalleViewModels.cs" />
     <Compile Include="ViewModels\ServiciosMantenimientoViewModels.cs" />
+    <Compile Include="Areas\Admin\WebServices\DatatableServ.asmx.cs">
+      <DependentUpon>DatatableServ.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

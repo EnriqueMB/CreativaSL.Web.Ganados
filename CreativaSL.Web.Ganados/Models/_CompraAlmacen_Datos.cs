@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using CreativaSL.Web.Ganados.ViewModels;
 using System.Linq;
 using System.Web;
+using System.Data;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -31,6 +32,54 @@ namespace CreativaSL.Web.Ganados.Models
                     lista.Add(item);
                 }
                 return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+                
+        public CompraAlmacenModels ObtenerGridComprasAJAX(string _Conexion, int _Start, int _Length, string _SearchValue, int _OrderBy, string _OrderDirection)
+        {
+            try
+            {
+                CompraAlmacenModels Resultado = new CompraAlmacenModels();
+                object[] Parametros = { _Start, _Length, _SearchValue, _OrderBy, _OrderDirection };
+                DataSet Ds = SqlHelper.ExecuteDataset(_Conexion, "spCSLDB_get_CompraAlmcen_DataTable", Parametros);
+                if(Ds!=null)
+                {
+                    if(Ds.Tables.Count == 2)
+                    {
+                        DataTableReader Dr = Ds.Tables[0].CreateDataReader();
+                        while (Dr.Read())
+                        {
+                            Resultado.SearchRecords = !Dr.IsDBNull(Dr.GetOrdinal("SearchRecords")) ? Dr.GetInt32(Dr.GetOrdinal("SearchRecords")) : 0;
+                            Resultado.TotalRecords = !Dr.IsDBNull(Dr.GetOrdinal("TotalRecords")) ? Dr.GetInt32(Dr.GetOrdinal("TotalRecords")) : 0;
+                            break;
+                        }
+                        Dr.Close();
+                        List<CompraAlmacenModels> lista = new List<CompraAlmacenModels>();
+                        DataTableReader dr = Ds.Tables[1].CreateDataReader();
+                        CompraAlmacenModels item;
+                        while (dr.Read())
+                        {
+                            item = new CompraAlmacenModels();
+                            item.IDCompraAlmacen = dr["id_compraAlmacen"].ToString();
+                            //item.IDCompraAlmacen = !dr.IsDBNull(dr.GetOrdinal("id_compraAlmacen")) ? dr.GetString(dr.GetOrdinal("id_compraAlmacen")) : string.Empty;
+                            item.NumFacturaNota = !dr.IsDBNull(dr.GetOrdinal("numFacturaNota")) ? dr.GetString(dr.GetOrdinal("numFacturaNota")) : string.Empty;
+                            item.Sucursal.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("nombreSuc")) ? dr.GetString(dr.GetOrdinal("nombreSuc")) : string.Empty;
+                            item.Proveedor.nombreProveedor = !dr.IsDBNull(dr.GetOrdinal("proveedor")) ? dr.GetString(dr.GetOrdinal("proveedor")) : string.Empty;
+                            item.IDEstatusCompra = !dr.IsDBNull(dr.GetOrdinal("id_estatusCompra")) ? dr.GetInt16(dr.GetOrdinal("id_estatusCompra")) : 0;
+                            item.StatusCompra = !dr.IsDBNull(dr.GetOrdinal("estatus")) ? dr.GetString(dr.GetOrdinal("estatus")) : string.Empty;
+                            item.MontoTotal = !dr.IsDBNull(dr.GetOrdinal("montoTotal")) ? dr.GetDecimal(dr.GetOrdinal("montoTotal")) : 0;
+                            lista.Add(item);
+                        }
+                        dr.Close();
+                        Resultado.Lista = lista;
+                    }
+                }
+                return Resultado;
             }
             catch (Exception ex)
             {
@@ -192,7 +241,7 @@ namespace CreativaSL.Web.Ganados.Models
                     if (Resultado == 1)
                         Datos.Completado = true;
                 }
-                Datos.Completado = true;
+                //Datos.Completado = true;
             }
             catch (Exception ex)
             {

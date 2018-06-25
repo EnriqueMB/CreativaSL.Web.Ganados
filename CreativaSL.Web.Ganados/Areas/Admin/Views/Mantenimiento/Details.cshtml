@@ -42,7 +42,8 @@
                                         <th>Servicio </th>
                                         <th>Encargado</th>
                                         <th>Observaciones</th>
-                                        <th>Importe</th>
+                                        <th>Importe mano de obra</th>
+                                        <th>Importe refacciones</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
@@ -54,6 +55,7 @@
                                             <td>@Item.Encargado</td>
                                             <td>@Item.Observaciones</td>
                                             <td>@Item.ImporteFormat</td>
+                                            <td>@Item.ImporteRefaccionesFormat</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">                                                    
                                                     <a title="Editar" class="btn btn-yellow" href="@Url.Action("EditDetail", "Mantenimiento", new { id = Item.IDServicioDetalle })"><i class="fa fa-edit"></i></a>
