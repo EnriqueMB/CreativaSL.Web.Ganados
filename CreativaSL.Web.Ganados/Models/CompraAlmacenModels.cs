@@ -175,8 +175,33 @@ namespace CreativaSL.Web.Ganados.Models
         public int Opcion { get; set; }
         #endregion
 
-        
 
-       
+        private List<CompraAlmacenModels> _Lista;
+
+        public List<CompraAlmacenModels> Lista
+        {
+            get { return _Lista; }
+            set { _Lista = value; }
+        }
+
+        private int _TotalRecords;
+
+        public int TotalRecords
+        {
+            get { return _TotalRecords; }
+            set { _TotalRecords = value; }
+        }
+
+        private int _SearchRecords;
+
+        public int SearchRecords
+        {
+            get { return _SearchRecords; }
+            set { _SearchRecords = value; }
+        }
+
+
+
+
     }
 }

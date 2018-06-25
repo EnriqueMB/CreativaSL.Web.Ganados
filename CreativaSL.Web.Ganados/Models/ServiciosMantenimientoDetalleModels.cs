@@ -42,9 +42,23 @@ namespace CreativaSL.Web.Ganados.Models
             set { _Importe = value; }
         }
 
+        private decimal _ImporteRefacciones;
+
+        public decimal ImporteRefacciones
+        {
+            get { return _ImporteRefacciones; }
+            set { _ImporteRefacciones = value; }
+        }
+
+
         public string ImporteFormat
         {
             get { return string.Format("{0:c}", _Importe); }
+        }
+
+        public string ImporteRefaccionesFormat
+        {
+            get { return string.Format("{0:c}", _ImporteRefacciones); }
         }
 
 

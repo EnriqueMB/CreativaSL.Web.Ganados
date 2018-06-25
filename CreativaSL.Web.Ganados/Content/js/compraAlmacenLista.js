@@ -1,24 +1,42 @@
 ﻿var CompraAlmacen = function () {
     "use strict";
-    var uiDatatable = function () {
-        if ($(".datatable2").length > 0) {
-            $(".datatable2").dataTable({
-                "order": [],
-                "language": {
-                    "url": "/Content/assets/json/Spanish.json"
-                },
-                responsive: true
-            });
-            $(".datatable2").on('page.dt', function () {
-                onresize(100);
-            });
-        }
-    };//END Datatable
+    //var uiDatatable = function () {
+    //    if ($(".datatable2").length > 0) {
+    //        $(".datatable2").dataTable({
+    //            "order": [],
+    //            "language": {
+    //                "url": "/Content/assets/json/Spanish.json"
+    //            },
+    //            responsive: true
+    //        });
+    //        $(".datatable2").on('page.dt', function () {
+    //            onresize(100);
+    //        });
+    //    }
+    //};//END Datatable
 
+    var uiDatatable = function () {
+
+        var table = $('.datatable2').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "language": {
+                "url": "/../Content/json/Spanish.json"
+            },
+            "ajax": {
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "/Areas/Admin/WebServices/DatatableServ.asmx/ComprasAlmacenAjax",
+                data: function (d) {
+                    return JSON.stringify({ parameters: d });
+                }
+            }
+        });
+    };
 
     var runModalProcess = function () {
-
-        $('a.processRow').on('click', function (e) {
+        $('.table-responsive').delegate('a.processRow', 'click', function (e) {
+        //$('a.processRow').on('click', function (e) {
             e.preventDefault();
             var url = $(this).attr('href');
             var box = $('#mb-process-row');
@@ -49,8 +67,9 @@
 
 
     var runDelete = function () {
-
-        $('a.deleteRow').on('click', function (e) {
+        $('.table-responsive').delegate('a.deleteRow', 'click', function (e) {
+        //$('a.deleteRow').on('click', function (e) {
+            console.log('click');
             e.preventDefault();
             var url = $(this).attr('href');
             var box = $('#mb-remove-row');

@@ -319,6 +319,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             TipoServicio = new CatTipoServicioModels { IDTipoServicio = Model.IDTipoServicio },
                             Encargado = Model.Encargado,
                             Importe = Model.Importe,
+                            ImporteRefacciones = Model.ImporteRefacciones,
                             Observaciones = Model.Observaciones,
                             Conexion = Conexion,
                             Usuario = User.Identity.Name
@@ -408,6 +409,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             TipoServicio = new CatTipoServicioModels { IDTipoServicio = Model.IDTipoServicio },
                             Encargado = Model.Encargado,
                             Importe = Model.Importe,
+                            ImporteRefacciones = Model.ImporteRefacciones,
                             Observaciones = Model.Observaciones,
                             Conexion = Conexion,
                             Usuario = User.Identity.Name
