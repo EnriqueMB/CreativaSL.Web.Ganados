@@ -22,7 +22,7 @@ $(function() {
             
             // 24 hours mode timepicker
             if($(".timepicker24").length > 0)
-                $(".timepicker24").timepicker({minuteStep: 5,showSeconds: true,showMeridian: false});
+                $(".timepicker24").timepicker({minuteStep: 1,showSeconds: false,showMeridian: false});
             
         }// END Bootstrap timepicker
         

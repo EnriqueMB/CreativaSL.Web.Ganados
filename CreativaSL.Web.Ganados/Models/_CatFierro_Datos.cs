@@ -135,8 +135,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.NombreFierro = !dr.IsDBNull(dr.GetOrdinal("NombreFierro")) ? dr.GetString(dr.GetOrdinal("NombreFierro")) : string.Empty;
                     datos.Observaciones = !dr.IsDBNull(dr.GetOrdinal("Observaciones")) ? dr.GetString(dr.GetOrdinal("Observaciones")) : string.Empty;
                     datos.ImgFierro = !dr.IsDBNull(dr.GetOrdinal("ImgFierro")) ? dr.GetString(dr.GetOrdinal("ImgFierro")) : string.Empty;
-                    Bitmap bmpFromString = datos.ImgFierro.Base64StringToBitmap();
-                    datos.ImagenContruida = bmpFromString.ToBase64ImageTag(ImageFormat.Png);
+                    datos.Extension = Auxiliar.ObtenerExtensionImagenBase64(datos.ImgFierro);
                 }
                 return datos;
             }

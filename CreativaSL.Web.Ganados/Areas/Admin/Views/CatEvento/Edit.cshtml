@@ -1,0 +1,99 @@
+﻿@model CreativaSL.Web.Ganados.Models.CatTipoEventoEnvioModels
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section css
+{
+    <link href="@Url.Content("~/Content/css/validator.css")" rel="stylesheet" />
+}
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+
+    <div class="col-md-12">
+        @{ Html.EnableClientValidation(false); }
+        @using (Html.BeginForm("Edit", "CatEvento", FormMethod.Post, new { id = "frm_evento", @class = "form-horizontal", autocomplete = "off", @enctype = "multipart/form-data" }))
+    {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model=>model.IDTipoEventoEnvio)
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Evento</strong></h3>
+                    <ul class="panel-controls"></ul>
+                </div>
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
+                            <div id="validation_summary" class="field_error "></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="controlError col-md-6">
+                            <label class="col-md-3 control-label">Nombre del evento</label>
+                            <div class="col-md-9 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control" })
+                                </div>
+                                <span class="help-block">Ingrese el nombre del evento</span>
+                            </div>
+                        </div>
+                        <div class="controlError col-md-6">
+                            <label class="col-md-3 control-label">Marcar merma / deducción</label>
+                            <div class="col-md-9 col-xs-12">
+                                <div class="input-group">
+                                    @Html.CheckBoxFor(model => model.MarcarMerma)
+                                </div>
+                                <span class="help-block">Se realizará la deducción del animal.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel-footer">
+                    <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                    <a href="@Url.Action("Index","CatEvento")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                </div>
+            </div>
+        }
+    </div>
+
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/Content/js/catEvento.js")"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+
+            Evento.init();
+        });
+    </script>
+}
+
