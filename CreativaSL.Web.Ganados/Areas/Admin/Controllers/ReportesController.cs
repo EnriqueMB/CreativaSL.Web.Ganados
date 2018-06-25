@@ -185,6 +185,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 //Rtp.SizeToReportContent = true;
                 Rtp.Width = Unit.Percentage(100);
                 Rtp.Height = Unit.Percentage(100);
+                Rtp.ZoomMode = ZoomMode.FullPage;
+                Rtp.ZoomPercent = 150;
                 Reporte_Datos RSalidas = new Reporte_Datos();
                 RptSalidaModels ReporteSalida = new RptSalidaModels();
                 DateTime Fecha1 = DateTime.Today;
@@ -228,7 +230,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 string deviceInfo = "<DeviceInfo>" +
                 "  <OutputFormat>" + id + "</OutputFormat>" +
+                "<Zoom>200%</Zoom>" +
                 "</DeviceInfo>";
+
+               
+
 
                 Warning[] warnings;
                 string[] streams;
