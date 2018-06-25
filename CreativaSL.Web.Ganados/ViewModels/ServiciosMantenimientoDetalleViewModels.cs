@@ -51,13 +51,23 @@ namespace CreativaSL.Web.Ganados.ViewModels
         }
 
         private decimal _Importe;
-        [DecimalMayor0(ErrorMessage = "{0} debe ser mayor a 0")]
-        [Display(Name = "Importe")]
+        [Required(ErrorMessage = "{0} es requerido")]
+        [Display(Name = "$ Mano de obra")]
         public decimal Importe
         {
             get { return _Importe; }
             set { _Importe = value; }
         }
+
+        private decimal _ImporteRefacciones;
+        [Required(ErrorMessage = "{0} es requerido")]
+        [Display(Name = "$ Refacciones ")]
+        public decimal ImporteRefacciones
+        {
+            get { return _ImporteRefacciones; }
+            set { _ImporteRefacciones = value; }
+        }
+
 
         private string _Observaciones;
 

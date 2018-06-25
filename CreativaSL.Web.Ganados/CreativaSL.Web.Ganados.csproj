@@ -1340,6 +1340,8 @@
     <Content Include="Areas\Admin\Views\CatEvento\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatEvento\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaFlete.cshtml" />
+    <Content Include="Areas\Admin\WebServices\DatatableServ.asmx" />
+    <Content Include="Content\json\Spanish.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1391,6 +1393,7 @@
     <Compile Include="Areas\Admin\Controllers\CatPuestosController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatRangoPesoCompraController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatRemolqueController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatSociosController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatTipoProveedorController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatTipoServicioController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatTipoVehiculoController.cs" />
@@ -1466,6 +1469,7 @@
     <Compile Include="Models\CatPuestoModels.cs" />
     <Compile Include="Models\CatRangoPesoCompraModels.cs" />
     <Compile Include="Models\CatRemolqueModels.cs" />
+    <Compile Include="Models\CatSociosModels.cs" />
     <Compile Include="Models\CatSucursalesModels.cs" />
     <Compile Include="Models\CatTipoClasificacionCobroModels.cs" />
     <Compile Include="Models\CatTipoClasificacionModels.cs" />
@@ -1500,6 +1504,8 @@
     <Compile Include="Models\CuentaBancariaModels.cs" />
     <Compile Include="Models\CuentaBancariaProveedorModels.cs" />
     <Compile Include="Models\CuentaBancariasProveedorAlmacenModels.cs" />
+    <Compile Include="Models\DataTableParameters.cs" />
+    <Compile Include="Models\DataTableResultSet.cs" />
     <Compile Include="Models\DocumentoCompraModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
     <Compile Include="Models\DocumentoPorPagarModels.cs" />
@@ -1615,6 +1621,7 @@
     <Compile Include="Models\_CatPuestos_Datos.cs" />
     <Compile Include="Models\_CatRangoPesoCompra_Datos.cs" />
     <Compile Include="Models\_CatRemolque_Datos.cs" />
+    <Compile Include="Models\_CatSocio_Datos.cs" />
     <Compile Include="Models\_CatSucursal_Datos.cs" />
     <Compile Include="Models\_CatTipoProveedor_Datos.cs" />
     <Compile Include="Models\_CatTipoServicio_Datos.cs" />
@@ -1662,6 +1669,10 @@
     <Compile Include="ViewModels\SalidaAlmacenViewModels.cs" />
     <Compile Include="ViewModels\ServiciosMantenimientoDetalleViewModels.cs" />
     <Compile Include="ViewModels\ServiciosMantenimientoViewModels.cs" />
+    <Compile Include="Areas\Admin\WebServices\DatatableServ.asmx.cs">
+      <DependentUpon>DatatableServ.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -1724,6 +1735,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\CatBodega\" />
+    <Folder Include="Areas\Admin\Views\CatSocios\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Reports\prueba.rdlc">

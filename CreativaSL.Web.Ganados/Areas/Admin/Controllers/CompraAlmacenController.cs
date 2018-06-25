@@ -25,7 +25,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CompraAlmacenModels Compras = new CompraAlmacenModels();
                 _CompraAlmacen_Datos CompraDatos = new _CompraAlmacen_Datos();
                 Compras.Conexion = Conexion;
-                Compras.ListaCompras = CompraDatos.ObtenerGridCompras(Compras);
+                //Compras.ListaCompras = CompraDatos.ObtenerGridCompras(Compras);
+                Compras.ListaCompras = new List<CompraAlmacenModels>();
                 return View(Compras);
             }
             catch(Exception)
@@ -36,8 +37,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(Compras);
             }
         }
+
         // GET: Admin/CompraAlmacen/Create
-        //Capturar compra 
         public ActionResult Create()
         {
             try
@@ -60,7 +61,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         // POST: Admin/CompraAlmacen/Create
-        //Capturar Compra
         [HttpPost]
         public ActionResult Create(CapturarCompraViewModels Model)
         {
@@ -118,6 +118,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(Almacen);
             }
         }
+
         [HttpGet]
         public ActionResult Edit(string id)
         {
@@ -147,6 +148,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
 
         }
+
         // POST: Admin/CompraAlmacen/Edit/5
         [HttpPost]
         public ActionResult Edit(string id, CapturarCompraViewModels Model)
@@ -206,8 +208,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(Almacen);
             }
         }
+
         // GET: Admin/CompraAlmacen/Detail
-        // Detalles compra
         public ActionResult Detail(string id)
         {
             try
@@ -229,6 +231,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(Detalle);
             }
         }
+
         [HttpGet]
         public ActionResult AddProduct(string id)
         {
@@ -251,6 +254,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(DetalleCompra);
             }
         }
+
         [HttpPost]
         public ActionResult AddProduct(string id,CompraAlmacenDetallesViewModels Model)
         {
@@ -347,6 +351,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
 
         }
+
         [HttpPost]
         public ActionResult EditProducto(string id,string id2, CompraAlmacenDetallesViewModels Model)
         {
@@ -418,6 +423,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(Almacen);
             }
         }
+
         [HttpPost]
         public ActionResult Unidad(string id)
         {
@@ -436,7 +442,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 ex.Message.ToString();
                 return Json("", JsonRequestBehavior.AllowGet);
             }
-        }
+        }        
         public ActionResult Process(string id)
         {
             try
@@ -518,5 +524,75 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Json("");
             }
         }
+
+
+        [HttpPost]
+        public ActionResult IndexAjax(object data)
+        {
+            try
+            {
+                var req = DataTableParameters.Get(data);
+                var resultSet = new DataTableResultSet();
+
+                int _Start = req.Start;
+                int _Length = req.Length;
+                string _SearchValue = req.SearchValue;
+                int _OrderBy = -1;
+                string _OrderDirection = string.Empty;
+                int _TipoBusqueda = -1;
+                if (req.Order.Count > 0)
+                {
+                    foreach (var aux in req.Order.Keys)
+                    {
+                        _OrderBy = req.Order[aux].Column;
+                        _OrderDirection = req.Order[aux].Direction;
+                    }
+                }
+
+                foreach (var busq in req.Columns.Keys)
+                {
+                    if (!string.IsNullOrEmpty(req.Columns[busq].SearchValue))
+                    {
+                        _TipoBusqueda = busq;
+                        _SearchValue = req.Columns[busq].SearchValue;
+                        break;
+                    }
+                }
+
+
+                _CompraAlmacen_Datos Datos = new _CompraAlmacen_Datos();
+                CompraAlmacenModels Resultado = Datos.ObtenerGridComprasAJAX(Conexion, _Start, _Length, _SearchValue, _OrderBy, _OrderDirection);
+                resultSet.draw = req.Draw;
+                resultSet.recordsTotal = Resultado.TotalRecords;
+                resultSet.recordsFiltered = Resultado.SearchRecords;
+
+                foreach (CompraAlmacenModels Item in Resultado.Lista)
+                {
+                    var columns = new List<string>();
+                    columns.Add(Item.Sucursal.NombreSucursal);
+                    columns.Add(Item.NumFacturaNota);
+                    columns.Add(Item.Proveedor.nombreProveedor);
+                    string estatus = string.Empty;
+                    switch (Item.IDEstatusCompra)
+                    {
+                        case 1: estatus = @"<td><span class='label label-warning'>" + Item.StatusCompra + @"</span></td>"; break;
+                        case 2: estatus = @"<td><span class='label label-primary'>" + Item.StatusCompra + @"</span></td>"; break;
+                        case 3: estatus = @"<td><span class='label label-success'>" + Item.StatusCompra + @"</span></td>"; break;
+                    }
+                    columns.Add(estatus);
+                    string acciones = @"";
+                    columns.Add(acciones);
+                    resultSet.data.Add(columns);
+                }
+                return Json(resultSet.ToJSON());
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
+                return Json("");
+            }
+        }
+
     }
 }

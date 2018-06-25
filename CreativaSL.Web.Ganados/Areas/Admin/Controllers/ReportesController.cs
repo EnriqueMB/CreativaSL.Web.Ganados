@@ -230,6 +230,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 "  <OutputFormat>" + id + "</OutputFormat>" +
                 "</DeviceInfo>";
 
+               
+
+
                 Warning[] warnings;
                 string[] streams;
                 byte[] renderedBytes;
