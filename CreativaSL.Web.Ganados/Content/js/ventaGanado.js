@@ -5,7 +5,6 @@
 
     /*INICIA GANADO*/
     var initDataTables = function () {
-    
         tblGanadoCorral = $('#tblGanadoCorral').DataTable({
             "language": {
                 "url": "/Content/assets/json/Spanish.json"
@@ -46,8 +45,7 @@
                 }
             ]
         });
-       
-
+      
         tblGanadoJaula = $('#tblGanadoJaula').DataTable({
             fixedHeader: {
                 header: true,
@@ -238,11 +236,7 @@
         //    tblJaula.row('.selected').remove().draw(false);
         //});
     };
-
-
-
-
-
+    
     /*TERMINA GANADO*/
 
 
