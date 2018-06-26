@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.Models.Validaciones;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -26,7 +28,9 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _NombreCompleto;
-
+        [Display(Name = "Nombre Completo")]
+        [Nombre(ErrorMessage = "Ingrese un nombre válido en {0}")]
+        [Required(ErrorMessage = "Ingrese el nombre del {0}")]
         public string NombreCompleto
         {
             get { return _NombreCompleto; }

@@ -1,17 +1,38 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Filters;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CreativaSL.Web.Ganados.Models;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
+    [Autorizado]
     public class CatSociosController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
+        string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatSocios
         public ActionResult Index()
         {
-            return View();
+            try
+            {
+                CatSociosModels Socio = new CatSociosModels();
+                _CatSocio_Datos DBSocio = new _CatSocio_Datos();
+                Socio.Conexion = Conexion;
+                Socio.ListaSocios = DBSocio.ObtenerListaSocios(Socio);
+                return View(Socio);
+            }
+            catch (Exception)
+            {
+                CatSociosModels Socio = new CatSociosModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Socio);
+            }
         }
 
         // GET: Admin/CatSocios/Details/5
@@ -23,44 +44,135 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         // GET: Admin/CatSocios/Create
         public ActionResult Create()
         {
-            return View();
+            try
+            {
+                Token.SaveToken();
+                CatSociosModels Socio = new CatSociosModels();
+                return View(Socio);
+            }
+            catch (Exception)
+            {
+                CatSociosModels Socio = new CatSociosModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
         }
 
         // POST: Admin/CatSocios/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CatSociosModels DatosSocio)
         {
+            _CatSocio_Datos DBSocio = new _CatSocio_Datos();
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        DatosSocio.Conexion = Conexion;
+                        DatosSocio.Opcion = 1;
+                        DatosSocio.Usuario = User.Identity.Name;
+                        DatosSocio = DBSocio.ABCatSocios(DatosSocio);
+                        if (DatosSocio.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(DatosSocio);
+                        }
+                    }
+                    else
+                    {
+                        return View(DatosSocio);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
             catch
             {
-                return View();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(DatosSocio);
             }
         }
 
         // GET: Admin/CatSocios/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            return View();
+            try
+            {
+                Token.SaveToken();
+                CatSociosModels Socio = new CatSociosModels();
+                _CatSocio_Datos BDSocio = new _CatSocio_Datos();
+                Socio.Conexion = Conexion;
+                Socio.IDSocio = id;
+                Socio = BDSocio.ObternerDetalleCatSocio(Socio);
+                return View(Socio);
+            }
+            catch (Exception)
+            {
+                CatSociosModels Socio = new CatSociosModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Socio);
+            }
         }
 
         // POST: Admin/CatSocios/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(CatSociosModels Socios)
         {
+            _CatSocio_Datos DBSocio = new _CatSocio_Datos();
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        Socios.Conexion = Conexion;
+                        Socios.Opcion = 2;
+                        Socios.Usuario = User.Identity.Name;
+                        Socios = DBSocio.ABCatSocios(Socios);
+                        if (Socios.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Socios);
+                        }
+                    }
+                    else
+                    {
+                        return View(Socios);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+               
             }
             catch
             {
-                return View();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(Socios);
             }
         }
 
@@ -72,13 +184,19 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatSocios/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(string id)
         {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                CatSociosModels Socio = new CatSociosModels();
+                _CatSocio_Datos DBSocio = new _CatSocio_Datos();
+                Socio.IDSocio = id;
+                Socio.Conexion = Conexion;
+                Socio.Usuario = User.Identity.Name;
+                Socio = DBSocio.EliminarSocio(Socio);
+                TempData["typemessage"] = "1";
+                TempData["message"] = "El registro se ha eliminado correctamente";
+                return Json("");
             }
             catch
             {
