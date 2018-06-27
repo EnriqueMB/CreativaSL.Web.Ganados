@@ -11,15 +11,16 @@ namespace CreativaSL.Web.Ganados.Models
         public RptGandosModels()
         {
             _noArete = string.Empty;
+            _cliente = string.Empty;
             _montoTotal = 0;
             _genero = string.Empty;
             _folio = 0;
             _fechahoraVenta = DateTime.Today;
             _fechaInicio = DateTime.Today;
             _fechaFin = DateTime.Today;
-            _fechaHoraProgramada = DateTime.Today;
-            _fechaHoraTerminada = DateTime.Today;
-            _montoTotalGanados = 0;
+            _GanadosMachos = 0;
+            _GanadosTotal = 0;
+            _GandosHembras = 0;
             _listaGanadosVendidos = new List<RptGandosModels>();
             _datosEmpresa = new DatosEmpresaViewModels();
             Conexion = string.Empty;
@@ -27,27 +28,12 @@ namespace CreativaSL.Web.Ganados.Models
             Resultado = 0;
             Usuario = string.Empty;
         }
-        private DateTime _fechaHoraTerminada;
+        private string _cliente;
 
-        public DateTime fechaHoraTerminada
+        public string Cliente
         {
-            get { return _fechaHoraTerminada; }
-            set { _fechaHoraTerminada = value; }
-        }
-        private DateTime _fechaHoraProgramada;
-
-        public DateTime fechaHoraProgramada
-        {
-            get { return _fechaHoraProgramada; }
-            set { _fechaHoraProgramada = value; }
-        }
-
-        private Decimal _montoTotalGanados;
-
-        public Decimal montoTotalGanados
-        {
-            get { return _montoTotalGanados; }
-            set { _montoTotalGanados = value; }
+            get { return _cliente; }
+            set { _cliente = value; }
         }
 
         private Decimal _montoTotal;
@@ -89,7 +75,7 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _noArete; }
             set { _noArete = value; }
         }
-
+      
         private int _GanadosMachos;
 
         public int GanadosMachos
