@@ -96,6 +96,29 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public List<RptSociosModels> ObtenerSocios(RptSalidaModels Datos)
+        {
+            try
+            {
+                List<RptSociosModels> Lista = new List<RptSociosModels>();
+                RptSociosModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reporte_get_Socios");
+                while (dr.Read())
+                {
+                    item = new RptSociosModels();
+                    item.NombreCompleto = !dr.IsDBNull(dr.GetOrdinal("NombreCompleto")) ? dr.GetString(dr.GetOrdinal("NombreCompleto")) : string.Empty;
+                    item.Porcentaje = !dr.IsDBNull(dr.GetOrdinal("Porcentaje")) ? dr.GetInt32(dr.GetOrdinal("Porcentaje")) : 0;
+                    Lista.Add(item);
+                }
+                return Lista;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        
         public List<RptGandosModels> obtenerListaGanadosVendidos(RptGandosModels datos)
         {
             try

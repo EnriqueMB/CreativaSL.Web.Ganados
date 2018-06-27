@@ -1562,6 +1562,7 @@
     <Compile Include="Models\RptProveedorMunicipioModels.cs" />
     <Compile Include="Models\RptSalidaModels.cs" />
     <Compile Include="Models\RptSalidasModels.cs" />
+    <Compile Include="Models\RptSociosModels.cs" />
     <Compile Include="Models\RptUltCompraProveedorModels.cs" />
     <Compile Include="Models\SalidaAlmacenDetalle.cs" />
     <Compile Include="Models\SalidaAlmacenDetalleModels.cs" />
