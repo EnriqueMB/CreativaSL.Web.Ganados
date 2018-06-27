@@ -322,7 +322,9 @@ namespace CreativaSL.Web.Ganados.Models
                     Venta.Flete.VerificacionJaula.Sucia = !dr.IsDBNull(dr.GetOrdinal("sucia")) ? dr.GetBoolean(dr.GetOrdinal("sucia")) : false;
                     Venta.Flete.NumFleje = !dr.IsDBNull(dr.GetOrdinal("numFleje")) ? dr.GetString(dr.GetOrdinal("numFleje")) : string.Empty;
                     Venta.Flete.kmInicialVehiculo = !dr.IsDBNull(dr.GetOrdinal("kmInicialVehiculo")) ? dr.GetInt32(dr.GetOrdinal("kmInicialVehiculo")) : 0;
-
+                    Venta.Flete.Id_empresa = !dr.IsDBNull(dr.GetOrdinal("id_empresa")) ? dr.GetString(dr.GetOrdinal("id_empresa")) : string.Empty;
+                    Venta.Flete.Trayecto.id_lugarOrigen = !dr.IsDBNull(dr.GetOrdinal("id_lugarOrigen")) ? dr.GetString(dr.GetOrdinal("id_lugarOrigen")) : string.Empty;
+                    Venta.Flete.Trayecto.id_lugarDestino = !dr.IsDBNull(dr.GetOrdinal("id_lugarDestino")) ? dr.GetString(dr.GetOrdinal("id_lugarDestino")) : string.Empty;
                 }
                 else
                 {
@@ -353,7 +355,8 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Flete.NumFleje,
                     datos.Flete.VerificacionJaula.LimpiezaCompleta,         datos.Flete.VerificacionJaula.SoloPiso,                 datos.Flete.VerificacionJaula.Sucia,
                     datos.Flete.VerificacionJaula.PuertasInternas,          datos.Flete.VerificacionJaula.Focos,                    datos.Flete.VerificacionJaula.RiesgosPunzoCortantes,
-                    datos.Flete.VerificacionJaula.LlantaRefaccion,          datos.Flete.VerificacionJaula.LlantasBuenEstado,        datos.Flete.VerificacionJaula.PisoAntiadherente
+                    datos.Flete.VerificacionJaula.LlantaRefaccion,          datos.Flete.VerificacionJaula.LlantasBuenEstado,        datos.Flete.VerificacionJaula.PisoAntiadherente,
+                    datos.Flete.Trayecto.id_lugarOrigen,                    datos.Flete.Trayecto.id_lugarDestino
                 };
 
                 RespuestaAjax RespuestaAjax = new RespuestaAjax();

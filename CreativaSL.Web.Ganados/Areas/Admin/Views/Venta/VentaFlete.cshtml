@@ -72,6 +72,7 @@
         @using (Html.BeginForm("VentaFlete", "Venta", FormMethod.Post, new { id= "frm_venta", @class = "form-horizontal", autocomplete = "off" }))
         {
             @Html.AntiForgeryToken()
+            @Html.HiddenFor(model=>model.Id_venta)
             <div class="field_error" id="validation_summary"></div>
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -389,7 +390,7 @@
                                 <div id="floating-panel">
                                     <b>Origen: </b>
 
-                                    <select id="Flete_Trayecto_ListaLugarOrigen" name="Flete.Trayecto.ListaLugarOrigen" class="controlError">
+                                    <select id="Flete_Trayecto_id_lugarOrigen" name="Flete.Trayecto.id_lugarOrigen" class="controlError">
                                         @foreach (var lugar in Model.Flete.Trayecto.ListaLugarOrigen)
                                     {
                                             <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud"
@@ -403,7 +404,7 @@
 
                                     <b>Destino: </b>
 
-                                    <select id="Flete_Trayecto_ListaLugarDestino" name="Flete.Trayecto.ListaLugarDestino" class="controlError">
+                                    <select id="Flete_Trayecto_id_lugarDestino" name="Flete.Trayecto.id_lugarDestino" class="controlError">
                                         @foreach (var lugar in Model.Flete.Trayecto.ListaLugarDestino)
                                     {
                                             <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud" data-direccion="@lugar.Direccion"
@@ -473,7 +474,8 @@
 
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
-            VentaFlete.init();
+            var opcion = @Model.Opcion
+            VentaFlete.init(opcion);
         });
     </script>
 }
