@@ -96,7 +96,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return View();
         }
 
-        #region VentaFlete
+        #region Vista Flete
         [HttpGet]
         public ActionResult VentaFlete(string IDVenta)
         {

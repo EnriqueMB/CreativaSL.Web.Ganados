@@ -10,29 +10,29 @@
     var Id_vehiculo = $("#Flete_id_vehiculo")
     var KmInicialVehiculo = $("#Flete_kmInicialVehiculo");
     var PrecioFlete = $("#Flete_precioFlete");                
-    var ListaLugarOrigen = $("#Flete_Trayecto_ListaLugarOrigen");
-    var ListaLugarDestino = $("#Flete_Trayecto_ListaLugarDestino");
+    var ListaLugarOrigen = $("#Flete_Trayecto_id_lugarOrigen");
+    var ListaLugarDestino = $("#Flete_Trayecto_id_lugarDestino");
     var Validation_summary = $("#validation_summary");
     var opcionFlete = $("#CobrarFlete").val();
                 
     /*INICIA FLETE*/
     var InitMap = function () {
         
-            var directionsDisplay = new google.maps.DirectionsRenderer;
-            var directionsService = new google.maps.DirectionsService;
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 10,
-                center: { lat: 17.6063149, lng: -93.204288 }
-            });
-            directionsDisplay.setMap(map);
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+        var directionsService = new google.maps.DirectionsService;
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 10,
+            center: { lat: 17.6063149, lng: -93.204288 }
+        });
+        directionsDisplay.setMap(map);
 
-            var onChangeHandler = function () {
-                CalculateAndDisplayRoute(directionsService, directionsDisplay);
-            };
-            document.getElementById("Flete_Trayecto_ListaLugarOrigen").addEventListener('change', onChangeHandler);
-            document.getElementById("Flete_Trayecto_ListaLugarDestino").addEventListener('change', onChangeHandler);
-
+        var onChangeHandler = function () {
             CalculateAndDisplayRoute(directionsService, directionsDisplay);
+        };
+        document.getElementById("Flete_Trayecto_id_lugarOrigen").addEventListener('change', onChangeHandler);
+        document.getElementById("Flete_Trayecto_id_lugarDestino").addEventListener('change', onChangeHandler);
+
+        CalculateAndDisplayRoute(directionsService, directionsDisplay);
         
     };
     var Eventos = function (){
@@ -52,14 +52,98 @@
             ToggleDivFlete(opcion);
         });
     }
+    var Validaciones = function () {
+        //Seleccionar filas 
+        var form1 = $('#frm_venta');
+        var errorHandler1 = $('.errorHandler', form1);
+        var successHandler1 = $('.successHandler', form1);
+
+        form1.validate({ // initialize the plugin
+            // debug: true,
+            errorElement: "dd", // contain the error msg in a span tag
+            errorClass: 'help-block text-danger',
+            errorLabelContainer: $("#validation_summary"),
+            errorPlacement: function (error, element) { // render error placement for each input type
+                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
+                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
+                    error.insertAfter($(element).closest('.form-group').children('div'));
+                } else if (element.attr("type") == "text") {
+                    error.insertAfter($(element).closest('.input-group').children('div'));
+                } else {
+                    error.insertAfter(element);
+                    // for other inputs, just perform default behavior
+                }
+            },
+            ignore: "",
+            rules: {
+                Id_sucursal: { required: true },
+                Id_cliente: { required: true },
+                NombreVenta: { required: true },
+                "Flete.FechaEmbarque": { required: true },
+                "Flete.HoraEmbarque": { required: true },
+                "Flete.FechaSalida": { required: true },
+                "Flete.HoraSalida": { required: true },
+                "Flete.Id_empresa": { required: true },
+                "Flete.id_chofer": { required: true },
+                "Flete.id_vehiculo": { required: true },
+                "Flete.kmInicialVehiculo": { required: true, min: 0 },
+                "Flete.precioFlete": { required: true, min: 0 },
+                "Flete.Trayecto.id_lugarOrigen": { required: true },
+                "Flete.Trayecto.id_lugarDestino": { required: true }
+            },
+            messages: {
+                Id_sucursal: { required: "Por favor, seleccione una sucursal." },
+                Id_cliente: { required: "Por favor, seleccione un cliente." },
+                NombreVenta: { required: "Por favor, ingrese el nombre para la venta." },
+                "Flete.FechaEmbarque": { required: "Por favor, seleccione una fecha del embarque." },
+                "Flete.HoraEmbarque": { required: "Por favor, seleccione una hora del embarque." },
+                "Flete.FechaSalida": { required: "Por favor, seleccione una fecha de salida." },
+                "Flete.HoraSalida": { required: "Por favor, seleccione una hora de salida." },
+                "Flete.Id_empresa": { required: "Por favor, seleccione una línea fletera." },
+                "Flete.id_chofer": { required: "Por favor, seleccione, un chofer. " },
+                "Flete.id_vehiculo": { required: "Por favor, seleccione un vehículo." },
+                "Flete.kmInicialVehiculo": { required: "Por favor, ingrese el kilometraje inicial, puede ser 0.", min: "El kilometraje inicial debe ser mayor o igual a 0." },
+                "Flete.precioFlete": { required: "Por favor, ingrese un precio del flete, puede ser 0.", min: "El precio del flete debe ser mayor o igual a 0." },
+                "Flete.Trayecto.id_lugarOrigen": { required: "Por favor, seleccione un lugar de origen." },
+                "Flete.Trayecto.id_lugarDestino": { required: "Por favor, seleccione un lugar de destino." }
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                successHandler1.hide();
+                errorHandler1.show();
+                //$("#validation_summary").text(validator.showErrors());
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');
+                // display OK icon
+                $(element).closest('.controlError').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+                // add the Bootstrap error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element).closest('.controlError').removeClass('has-error');
+                // set error class to the control group
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                label.removeClass('color');
+                // mark the current input as valid and display OK icon
+                $(element).closest('.controlError').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler1.show();
+                errorHandler1.hide();
+                form.submit();
+            }
+        });
+    }
     function CalculateAndDisplayRoute(directionsService, directionsDisplay) {
-        var selectIndexInicio = document.getElementById('Flete_Trayecto_ListaLugarOrigen').selectedIndex;
-        var optionInicio = document.getElementById('Flete_Trayecto_ListaLugarOrigen').options.item(selectIndexInicio);
+        var selectIndexInicio = document.getElementById('Flete_Trayecto_id_lugarOrigen').selectedIndex;
+        var optionInicio = document.getElementById('Flete_Trayecto_id_lugarOrigen').options.item(selectIndexInicio);
         var latitudInicial = optionInicio.dataset.latitud.replace(",", ".");
         var longInicial = optionInicio.dataset.longitud.replace(",", ".");
 
-        var selectIndexFinal = document.getElementById('Flete_Trayecto_ListaLugarDestino').selectedIndex;
-        var optionFinal = document.getElementById('Flete_Trayecto_ListaLugarDestino').options.item(selectIndexFinal);
+        var selectIndexFinal = document.getElementById('Flete_Trayecto_id_lugarDestino').selectedIndex;
+        var optionFinal = document.getElementById('Flete_Trayecto_id_lugarDestino').options.item(selectIndexFinal);
         var latitudFinal = optionFinal.dataset.latitud.replace(",", ".");
         var longFinal = optionFinal.dataset.longitud.replace(",", ".");
 
@@ -96,9 +180,9 @@
             },
             success: function (result) {
 
-                $("#Flete_Trayecto_ListaLugarDestino option").remove();
+                $("#Flete_Trayecto_id_lugarDestino option").remove();
                 for (var i = 0; i < result.length; i++) {
-                    $("#Flete_Trayecto_ListaLugarDestino").append('<option value="' + result[i].id_lugar + '" data-latitud="' + result[i].latitud + '" data-longitud="' + result[i].longitud + '">' + result[i].descripcion + '</option>');
+                    $("#Flete_Trayecto_id_lugarDestino").append('<option value="' + result[i].id_lugar + '" data-latitud="' + result[i].latitud + '" data-longitud="' + result[i].longitud + '">' + result[i].descripcion + '</option>');
                 }
             }
         });
@@ -170,9 +254,9 @@
                 Mensaje("Ocurrió un error al cargar el combo", "1");
             },
             success: function (result) {
-                $("#Flete_Trayecto_ListaLugarOrigen option").remove();
+                $("#Flete_Trayecto_id_lugarOrigen option").remove();
                 for (var i = 0; i < result.length; i++) {
-                    $("#Flete_Trayecto_ListaLugarOrigen").append('<option value="' + result[i].id_lugar + '" data-latitud="' + result[i].latitud + '" data-longitud="' + result[i].longitud + '">' + result[i].descripcion + '</option>');
+                    $("#Flete_Trayecto_id_lugarOrigen").append('<option value="' + result[i].id_lugar + '" data-latitud="' + result[i].latitud + '" data-longitud="' + result[i].longitud + '">' + result[i].descripcion + '</option>');
                 }
             }
         });
@@ -237,100 +321,15 @@
         Validation_summary.find("dd[for='Flete_precioFlete']").addClass('help-block valid').text('');
     }
 
-    var Validaciones = function () {
-        //Seleccionar filas 
-        var form1 = $('#frm_venta');
-        var errorHandler1 = $('.errorHandler', form1);
-        var successHandler1 = $('.successHandler', form1);
-
-        form1.validate({ // initialize the plugin
-            //debug: true,
-           // debug: true,
-            errorElement: "dd", // contain the error msg in a span tag
-            errorClass: 'help-block text-danger',
-            errorLabelContainer: $("#validation_summary"),
-            errorPlacement: function (error, element) { // render error placement for each input type
-                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
-                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
-                } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
-                    error.insertAfter($(element).closest('.form-group').children('div'));
-                } else if (element.attr("type") == "text") {
-                    error.insertAfter($(element).closest('.input-group').children('div'));
-                } else {
-                    error.insertAfter(element);
-                    // for other inputs, just perform default behavior
-                }
-            },
-            ignore: "",
-            rules: {
-                Id_sucursal: { required: true },
-                Id_cliente: { required: true },
-                NombreVenta: { required: true },
-                "Flete.FechaEmbarque": { required: true },
-                "Flete.HoraEmbarque": { required: true },
-                "Flete.FechaSalida": { required: true },
-                "Flete.HoraSalida": { required: true },
-                "Flete.Id_empresa": { required:true },
-                "Flete.id_chofer": { required: true },
-                "Flete.id_vehiculo": { required: true },
-                "Flete.kmInicialVehiculo": { required: true, min: 0 },
-                "Flete.precioFlete": { required: true, min: 0 },
-                "Flete.Trayecto.ListaLugarOrigen": { required: true },
-                "Flete.Trayecto.ListaLugarDestino": {required: true}
-            },
-            messages: {
-                Id_sucursal: { required: "Por favor, seleccione una sucursal." },
-                Id_cliente: { required: "Por favor, seleccione un cliente." },
-                NombreVenta: { required: "Por favor, ingrese el nombre para la venta." },
-                "Flete.FechaEmbarque": { required: "Por favor, seleccione una fecha del embarque." },
-                "Flete.HoraEmbarque": { required: "Por favor, seleccione una hora del embarque."},
-                "Flete.FechaSalida": { required: "Por favor, seleccione una fecha de salida." },
-                "Flete.HoraSalida": { required: "Por favor, seleccione una hora de salida." },
-                "Flete.Id_empresa": { required: "Por favor, seleccione una línea fletera." },
-                "Flete.id_chofer": {required: "Por favor, seleccione, un chofer. "},
-                "Flete.id_vehiculo": {required: "Por favor, seleccione un vehículo."},
-                "Flete.kmInicialVehiculo": { required: "Por favor, ingrese el kilometraje inicial, puede ser 0.", min: "El kilometraje inicial debe ser mayor o igual a 0." },
-                "Flete.precioFlete": { required: "Por favor, ingrese un precio del flete, puede ser 0.", min: "El precio del flete debe ser mayor o igual a 0." },
-                "Flete.Trayecto.ListaLugarOrigen": { required: "Por favor, seleccione un lugar de origen." },
-                "Flete.Trayecto.ListaLugarDestino": {required: "Por favor, seleccione un lugar de destino."}
-            },
-            invalidHandler: function (event, validator) { //display error alert on form submit
-                successHandler1.hide();
-                errorHandler1.show();
-                //$("#validation_summary").text(validator.showErrors());
-            },
-            highlight: function (element) {
-                $(element).closest('.help-block').removeClass('valid');
-                // display OK icon
-                $(element).closest('.controlError').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
-                // add the Bootstrap error class to the control group
-            },
-            unhighlight: function (element) { // revert the change done by hightlight
-                $(element).closest('.controlError').removeClass('has-error');
-                // set error class to the control group
-            },
-            success: function (label, element) {
-                label.addClass('help-block valid');
-                label.removeClass('color');
-                // mark the current input as valid and display OK icon
-                $(element).closest('.controlError').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
-            },
-            submitHandler: function (form) {
-                successHandler1.show();
-                errorHandler1.hide();
-                form.submit();
-            }
-        });
-    }
+   
     /*TERMINA FLETE*/
-       return {
-        init: function () {
+        return {
+        init: function (opcion) {
             InitMap();
             Validaciones();
             Eventos();
 
             ToggleDivFlete(opcionFlete);
-
         }
     };
 }();
