@@ -1751,6 +1751,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ReporteProveedorVendioMasG.rdlc" />
     <EmbeddedResource Include="Reports\RptSalidas.rdlc" />
+    <EmbeddedResource Include="Reports\RptSocios.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

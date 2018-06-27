@@ -109,6 +109,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item = new RptSociosModels();
                     item.NombreCompleto = !dr.IsDBNull(dr.GetOrdinal("NombreCompleto")) ? dr.GetString(dr.GetOrdinal("NombreCompleto")) : string.Empty;
                     item.Porcentaje = !dr.IsDBNull(dr.GetOrdinal("Porcentaje")) ? dr.GetInt32(dr.GetOrdinal("Porcentaje")) : 0;
+                    item.Total = !dr.IsDBNull(dr.GetOrdinal("Total")) ? dr.GetInt32(dr.GetOrdinal("Total")) : 0;
                     Lista.Add(item);
                 }
                 return Lista;

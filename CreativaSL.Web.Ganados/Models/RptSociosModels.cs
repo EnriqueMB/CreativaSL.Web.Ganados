@@ -12,6 +12,7 @@ namespace CreativaSL.Web.Ganados.Models
             _NombreCompleto = string.Empty;
             _Procentaje = 0;
             _ListaSocio = new List<RptSociosModels>();
+            _Total = 0;
         }
 
         private string _NombreCompleto;
@@ -28,6 +29,14 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _Procentaje; }
             set { _Procentaje = value; }
+        }
+
+        private int _Total;
+
+        public int Total
+        {
+            get { return _Total; }
+            set { _Total = value; }
         }
 
         private List<RptSociosModels> _ListaSocio;

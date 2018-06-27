@@ -555,11 +555,13 @@
                   </ChartDataPointValues>
                   <ChartDataLabel>
                     <Style>
+                      <FontSize>8pt</FontSize>
                       <Format>'$'#,0.00</Format>
                       <rd:FormatSymbolCulture>es-MX</rd:FormatSymbolCulture>
                     </Style>
-                    <UseValueAsLabel>true</UseValueAsLabel>
+                    <Label>#PERCENT</Label>
                     <Visible>true</Visible>
+                    <Rotation>45</Rotation>
                   </ChartDataLabel>
                   <Style>
                     <Border>
@@ -586,6 +588,7 @@
               <ValueAxisName>Primary</ValueAxisName>
               <CategoryAxisName>Primary</CategoryAxisName>
               <ChartSmartLabel>
+                <Disabled>true</Disabled>
                 <CalloutLineColor>Black</CalloutLineColor>
                 <MinMovingDistance>0pt</MinMovingDistance>
               </ChartSmartLabel>
