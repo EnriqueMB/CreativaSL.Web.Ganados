@@ -12,31 +12,24 @@
             border: 1px solid black;
         }
 
-            table#tblJaulaCheck thead {
-                border: 1px solid black;
-                text-align: center;
-            }
+        table#tblJaulaCheck thead {
+            border: 1px solid black;
+            text-align: center;
+        }
 
-            table#tblJaulaCheck td:nth-child(1) {
-                border-right: 1px solid black;
-            }
+        table#tblJaulaCheck td:nth-child(1) {
+            border-right: 1px solid black;
+        }
 
-            table#tblJaulaCheck tbody td {
-                padding: 10px 0 0 10px;
-            }
+        table#tblJaulaCheck tbody td {
+            padding: 10px 0 0 10px;
+        }
 
         .form-control[disabled],
         .form-control[readonly] {
             color: #000 !important;
         }
 
-        table#tblJaulaP input, table#tblJaulaP {
-            text-align: center;
-        }
-
-        .marginRow {
-            margin-top: 15px !important;
-        }
         #map {
             height: 400px;
         }
@@ -47,11 +40,16 @@
             z-index: 5;
             background-color: #fff;
             padding: 5px;
-            border: 1px solid #999;
             text-align: center;
             font-family: 'Roboto','sans-serif';
             line-height: 30px;
             padding-left: 10px;
+        }
+        .has-error {
+            border-color: #E04B4A !important;
+        }
+        .has-success {
+            border-color: #95b75d !important;
         }
     </style>
 }
@@ -71,9 +69,11 @@
         </div>
         
         @{ Html.EnableClientValidation(false); }
-        @using (Html.BeginForm("CreateFlete", "Venta", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+        @using (Html.BeginForm("VentaFlete", "Venta", FormMethod.Post, new { id= "frm_venta", @class = "form-horizontal", autocomplete = "off" }))
         {
             @Html.AntiForgeryToken()
+            @Html.HiddenFor(model=>model.Id_venta)
+            <div class="field_error" id="validation_summary"></div>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title"><strong>Venta - Flete</strong></h3>
@@ -125,63 +125,6 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="controlError col-md-6">
-                            <div class="controlError">
-                                <label class="col-md-2 control-label">Fecha embarque</label>
-                                <div class="col-md-10 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                        @Html.TextBoxFor(model => model.Flete.FechaEmbarque, "{0:dd/MM/yyyy}", new { autocomplete = "off", @class = "form-control datepicker", @readonly = "readonly" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Flete.FechaEmbarque)
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="controlError col-md-6">
-                            <div class="controlError">
-                                <label class="col-md-2 control-label">Hora embarque</label>
-                                <div class="col-md-10 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                        @Html.TextBoxFor(model => model.Flete.HoraEmbarque, new { autocomplete = "off", @class = "form-control timepicker24", @readonly = "readonly" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Flete.HoraEmbarque)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="controlError col-md-6">
-                            <div class="controlError">
-                                <label class="col-md-2 control-label">Fecha Salida</label>
-                                <div class="col-md-10 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                        @Html.TextBoxFor(model => model.Flete.FechaSalida, "{0:dd/MM/yyyy}", new { autocomplete = "off", @class = "form-control datepicker", @readonly = "readonly" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Flete.FechaSalida)
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="controlError col-md-6">
-                            <div class="controlError">
-                                <label class="col-md-2 control-label">Hora Salida</label>
-                                <div class="col-md-10 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                        @Html.TextBoxFor(model => model.Flete.HoraSalida, new { autocomplete = "off", @class = "form-control timepicker24", @readonly = "readonly" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Flete.HoraSalida)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
                         <div class="col-md-6 controlError">
                             <label class="col-md-2 control-label">Anotaciones de la báscula</label>
                             <div class="col-md-10 col-xs-12">
@@ -203,207 +146,282 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-md-12 controlError">
-                            <label class="col-md-1 control-label">Linea fletera</label>
-                            <div class="col-md-11 col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.DropDownListFor(model => model.Flete.Id_empresa, new SelectList(Model.Flete.ListaEmpresa, "IDEmpresa", "RazonFiscal"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control", @readonly = "readonly" })
-                                </div>
-                                @Html.ValidationMessageFor(model => model.Flete.Id_empresa)
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
                         <div class="col-md-6 controlError">
-                            <label class="col-md-2 control-label">Chofer</label>
+                            <label class="col-md-2 control-label">Flete</label>
                             <div class="col-md-10 col-xs-12">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                                    @Html.DropDownListFor(model => model.Flete.id_chofer, new SelectList(Model.Flete.ListaChofer, "IDChofer", "Nombre"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                </div>
-                                @Html.ValidationMessageFor(model => model.Flete.id_chofer)
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 controlError">
-                            <label class="col-md-2 control-label">Vehículo</label>
-                            <div class="col-md-10 col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-truck"></span></span>
-                                    @Html.DropDownListFor(model => model.Flete.id_vehiculo, new SelectList(Model.Flete.ListaVehiculo, "IDVehiculo", "nombreMarca", "Modelo", 1), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                </div>
-                                @Html.ValidationMessageFor(model => model.Flete.id_vehiculo)
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-md-4 controlError">
-                            <label class="col-md-3 control-label">Kilómetraje Inicial</label>
-                            <div class="col-md-9 col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-tachometer"></span></span>
-                                    @Html.TextBoxFor(model => model.Flete.kmInicialVehiculo, new { id = "KmInicial", @class = "form-control", placeholder = "Escriba el km. inicial del vehículo." })
-                                </div>
-                                @Html.ValidationMessageFor(model => model.Flete.kmInicialVehiculo)
-                            </div>
-                        </div>
-                        <div class="col-md-4 controlError">
-                            <label class="col-md-3 control-label">Núm. de fleje</label>@*no es un documento agregarlo a la tabla*@
-                            <div class="col-md-9 col-xs-12">
-                                <div class="input-group">
                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.TextBoxFor(model => model.Flete.NumFleje, new { @class = "form-control" })
+                                    @Html.DropDownListFor(model => model.CobrarFlete,
+                                    new SelectList(new List<SelectListItem> {
+                                        new SelectListItem { Text = "-- Seleccione --", Value = "" },
+                                        new SelectListItem { Text = "Cobrar flete", Value = "1" },
+                                        new SelectListItem { Text = "No se cobra, pero se capturan los datos", Value = "2" },
+                                        new SelectListItem { Text = "No aplica", Value = "3" }
+                                    }, "Value", "Text"),
+                                        new { @class = "form-control" })
                                 </div>
-                                @Html.ValidationMessageFor(model => model.Flete.NumFleje)
                             </div>
                         </div>
-                        <div class="col-md-4 controlError">
-                            <label class="col-md-3 control-label">Costo del flete</label>
-                            <div class="col-md-9 col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.TextBoxFor(model => model.Flete.precioFlete, "{0:f2}", new { @class = "form-control", placeholder = "Escriba el precio del flete." })
+                    </div>
+                    <div id="divFlete">
+                        <div class="form-group">
+                            <div class="controlError col-md-6">
+                                <div class="controlError">
+                                    <label class="col-md-2 control-label">Fecha embarque</label>
+                                    <div class="col-md-10 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                            @Html.TextBoxFor(model => model.Flete.FechaEmbarque, "{0:dd/MM/yyyy}", new { autocomplete = "off", @class = "form-control datepicker", @readonly = "readonly" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Flete.FechaEmbarque)
+                                    </div>
                                 </div>
-                                @Html.ValidationMessageFor(model => model.Flete.precioFlete)
+                            </div>
+
+                            <div class="controlError col-md-6">
+                                <div class="controlError">
+                                    <label class="col-md-2 control-label">Hora embarque</label>
+                                    <div class="col-md-10 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                            @Html.TextBoxFor(model => model.Flete.HoraEmbarque, new { autocomplete = "off", @class = "form-control timepicker24", @readonly = "readonly" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Flete.HoraEmbarque)
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <div class="table-responsive">
-                                <table id="tblJaulaCheck" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <td><strong>Limpieza de la jaula</strong></td>
-                                            <td colspan="2"><strong>Verificación de la estructura de la jaula en buenas condiciones</strong></td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    @Html.CheckBoxFor(model=>model.Flete.VerificacionJaula.LimpiezaCompleta, new { @class= "form-check-input" })
-                                                   <label class="form-check-label" for="Flete.VerificacionJaula.LimpiezaCompleta">
-                                                        Completa 100%
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-check">
-                                                    @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.PuertasInternas, new { @class = "form-check-input" })
-                                                    <label class="form-check-label" for="Flete.VerificacionJaula.PuertasInternas">
-                                                        Puertas interna
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-check">
-                                                    @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.LlantaRefaccion, new { @class = "form-check-input" })
-                                                    <label class="form-check-label" for="Flete.VerificacionJaula.LlantaRefaccion">
-                                                        Llanta de refacción
-                                                    </label>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.SoloPiso, new { @class = "form-check-input" })
-                                                    <label class="form-check-label" for="Flete.VerificacionJaula.SoloPiso">
-                                                        Solo el piso
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-check">
-                                                    @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.Focos, new { @class = "form-check-input" })
-                                                    <label class="form-check-label" for="Flete.VerificacionJaula.Focos">
-                                                        Focos
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-check">
-                                                    @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.LlantasBuenEstado, new { @class = "form-check-input" })
-                                                    <label class="form-check-label" for="Flete.VerificacionJaula.LlantasBuenEstado">
-                                                        Llantas en buen estado
-                                                    </label>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.Sucia, new { @class = "form-check-input" })
-                                                    <label class="form-check-label" for="Flete.VerificacionJaula.Sucia">
-                                                        Sucia
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-check">
-                                                    @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.RiesgosPunzoCortantes, new { @class = "form-check-input" })
-                                                    <label class="form-check-label" for="Flete.VerificacionJaula.RiesgosPunzoCortantes">
-                                                        Riesgos punzo cortantes
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-check">
-                                                    @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.PisoAntiadherente, new { @class = "form-check-input" })
-                                                    <label class="form-check-label" for="Flete.VerificacionJaula.PisoAntiadherente">
-                                                        Piso antiadherente
-                                                    </label>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                        <div class="form-group">
+                            <div class="controlError col-md-6">
+                                <div class="controlError">
+                                    <label class="col-md-2 control-label">Fecha Salida</label>
+                                    <div class="col-md-10 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                            @Html.TextBoxFor(model => model.Flete.FechaSalida, "{0:dd/MM/yyyy}", new { autocomplete = "off", @class = "form-control datepicker", @readonly = "readonly" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Flete.FechaSalida)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="controlError col-md-6">
+                                <div class="controlError">
+                                    <label class="col-md-2 control-label">Hora Salida</label>
+                                    <div class="col-md-10 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                            @Html.TextBoxFor(model => model.Flete.HoraSalida, new { autocomplete = "off", @class = "form-control timepicker24", @readonly = "readonly" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Flete.HoraSalida)
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <div id="floating-panel">
-                                <b>Origen: </b>
+                        <div class="form-group">
+                            <div class="col-md-12 controlError">
+                                <label class="col-md-1 control-label">Linea fletera</label>
+                                <div class="col-md-11 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.DropDownListFor(model => model.Flete.Id_empresa, new SelectList(Model.Flete.ListaEmpresa, "IDEmpresa", "RazonFiscal"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control", @readonly = "readonly" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Flete.Id_empresa)
+                                </div>
+                            </div>
+                        </div>
 
-                                <select id="Flete_Trayecto_ListaLugarOrigen" name="Flete.Trayecto.ListaLugarOrigen">
-                                    @foreach (var lugar in Model.Flete.Trayecto.ListaLugarOrigen)
+                        <div class="form-group">
+                            <div class="col-md-6 controlError">
+                                <label class="col-md-2 control-label">Chofer</label>
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                        @Html.DropDownListFor(model => model.Flete.id_chofer, new SelectList(Model.Flete.ListaChofer, "IDChofer", "Nombre"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Flete.id_chofer)
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 controlError">
+                                <label class="col-md-2 control-label">Vehículo</label>
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-truck"></span></span>
+                                        @Html.DropDownListFor(model => model.Flete.id_vehiculo, new SelectList(Model.Flete.ListaVehiculo, "IDVehiculo", "nombreMarca", "Modelo", 1), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Flete.id_vehiculo)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-4 controlError">
+                                <label class="col-md-3 control-label">Kilómetraje Inicial</label>
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-tachometer"></span></span>
+                                        @Html.TextBoxFor(model => model.Flete.kmInicialVehiculo, new { @class = "form-control", @type="number" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Flete.kmInicialVehiculo)
+                                </div>
+                            </div>
+                            <div class="col-md-4 controlError">
+                                <label class="col-md-3 control-label">Núm.de fleje</label>@*no es un documento agregarlo a la tabla*@
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.Flete.NumFleje, new { @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Flete.NumFleje)
+                                </div>
+                            </div>
+                            <div class="col-md-4 controlError">
+                                <label class="col-md-3 control-label">Costo del flete</label>
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.Flete.precioFlete, "{0:f2}", new { @class = "form-control", placeholder = "Escriba el precio del flete." })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Flete.precioFlete)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table id="tblJaulaCheck" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <td><strong>Limpieza de la jaula</strong></td>
+                                                <td colspan="2"><strong>Verificación de la estructura de la jaula en buenas condiciones</strong></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        @Html.CheckBoxFor(model=>model.Flete.VerificacionJaula.LimpiezaCompleta, new { @class= "form-check-input" })
+                                                        <label class="form-check-label" for="Flete.VerificacionJaula.LimpiezaCompleta">
+                                                            Completa 100%
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check">
+                                                        @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.PuertasInternas, new { @class = "form-check-input" })
+                                                        <label class="form-check-label" for="Flete.VerificacionJaula.PuertasInternas">
+                                                            Puertas interna
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check">
+                                                        @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.LlantaRefaccion, new { @class = "form-check-input" })
+                                                        <label class="form-check-label" for="Flete.VerificacionJaula.LlantaRefaccion">
+                                                            Llanta de refacción
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.SoloPiso, new { @class = "form-check-input" })
+                                                        <label class="form-check-label" for="Flete.VerificacionJaula.SoloPiso">
+                                                            Solo el piso
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check">
+                                                        @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.Focos, new { @class = "form-check-input" })
+                                                        <label class="form-check-label" for="Flete.VerificacionJaula.Focos">
+                                                            Focos
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check">
+                                                        @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.LlantasBuenEstado, new { @class = "form-check-input" })
+                                                        <label class="form-check-label" for="Flete.VerificacionJaula.LlantasBuenEstado">
+                                                            Llantas en buen estado
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.Sucia, new { @class = "form-check-input" })
+                                                        <label class="form-check-label" for="Flete.VerificacionJaula.Sucia">
+                                                            Sucia
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check">
+                                                        @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.RiesgosPunzoCortantes, new { @class = "form-check-input" })
+                                                        <label class="form-check-label" for="Flete.VerificacionJaula.RiesgosPunzoCortantes">
+                                                            Riesgos punzo cortantes
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check">
+                                                        @Html.CheckBoxFor(model => model.Flete.VerificacionJaula.PisoAntiadherente, new { @class = "form-check-input" })
+                                                        <label class="form-check-label" for="Flete.VerificacionJaula.PisoAntiadherente">
+                                                            Piso antiadherente
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div id="floating-panel">
+                                    <b>Origen: </b>
+
+                                    <select id="Flete_Trayecto_id_lugarOrigen" name="Flete.Trayecto.id_lugarOrigen" class="controlError">
+                                        @foreach (var lugar in Model.Flete.Trayecto.ListaLugarOrigen)
                                     {
-                                        <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud"
-                                                @if (Model.Flete.Trayecto.id_lugarOrigen == lugar.id_lugar) { <text>
-                                                selected="selected"
-                                                </text>      }>
-                                            @lugar.descripcion
-                                        </option>
+                                            <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud"
+                                                    @if (Model.Flete.Trayecto.id_lugarOrigen == lugar.id_lugar) { <text>
+                                                    selected="selected"
+                                                    </text>       }>
+                                                @lugar.descripcion
+                                            </option>
                                     }
-                                </select>
+                                    </select>
 
-                                <b>Destino: </b>
+                                    <b>Destino: </b>
 
-                                <select id="Flete_Trayecto_ListaLugarDestino" name="Flete.Trayecto.ListaLugarDestino">
-                                    @foreach (var lugar in Model.Flete.Trayecto.ListaLugarDestino)
+                                    <select id="Flete_Trayecto_id_lugarDestino" name="Flete.Trayecto.id_lugarDestino" class="controlError">
+                                        @foreach (var lugar in Model.Flete.Trayecto.ListaLugarDestino)
                                     {
-                                        <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud" data-direccion="@lugar.Direccion"
-                                                @if (Model.Flete.Trayecto.id_lugarDestino == lugar.id_lugar) { <text>
-                                                selected="selected"
-                                                </text>      } else if (Model.Flete.Trayecto.id_lugarDestino == lugar.id_lugar) { <text>
-                                                selected="selected"
-                                                </text>      }>
-                                            @lugar.descripcion
-                                        </option>
+                                            <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud" data-direccion="@lugar.Direccion"
+                                                    @if (Model.Flete.Trayecto.id_lugarDestino == lugar.id_lugar) { <text>
+                                                    selected="selected"
+                                                    </text>       } else if (Model.Flete.Trayecto.id_lugarDestino == lugar.id_lugar) { <text>
+                                                    selected="selected"
+                                                    </text>       }>
+                                                @lugar.descripcion
+                                            </option>
                                     }
-                                </select>
+                                    </select>
+                                </div>
+                                <div id="map"></div>
                             </div>
-                            <div id="map"></div>
                         </div>
                     </div>
-
                 </div>
                 <div class="panel-footer">
                     <input type="submit" value="Guardar" class="btn btn-primary pull-right">
@@ -456,7 +474,8 @@
 
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
-            VentaFlete.init();
+            var opcion = @Model.Opcion
+            VentaFlete.init(opcion);
         });
     </script>
 }

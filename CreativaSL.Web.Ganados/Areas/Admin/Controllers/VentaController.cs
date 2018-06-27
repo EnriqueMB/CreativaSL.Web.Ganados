@@ -17,7 +17,30 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         private TokenProcessor Token = TokenProcessor.GetInstance();
         private string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
 
+        [HttpPost]
+        public ActionResult DatatableIndex()
+        {
+            try
+            {
+                VentaModels2 venta = new VentaModels2();
+                _Venta2_Datos ventaDatos = new _Venta2_Datos();
+                venta.Conexion = Conexion;
 
+                venta.RespuestaAjax = new RespuestaAjax();
+                venta.RespuestaAjax.Mensaje = ventaDatos.DatatableIndex(venta);
+                venta.RespuestaAjax.Success = true;
+
+                return Content(venta.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                VentaModels2 venta = new VentaModels2();
+                venta.RespuestaAjax.Mensaje = ex.ToString();
+                venta.RespuestaAjax.Success = false;
+                return Content(venta.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
         [HttpPost]
         public ActionResult DatatableGanadoActual()
         {
@@ -73,7 +96,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return View();
         }
 
-        #region VentaFlete
+        #region Vista Flete
         [HttpGet]
         public ActionResult VentaFlete(string IDVenta)
         {
@@ -128,6 +151,56 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View("Index");
             }
         }
+        [HttpPost]
+        public ActionResult VentaFlete(VentaModels2 Venta)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                    Venta.Conexion = Conexion;
+                    Venta.Opcion = 1;
+                    Venta.Usuario = User.Identity.Name;
+                    Venta.RespuestaAjax = VentaDatos.AC_Flete(Venta);
+
+                    if (Venta.RespuestaAjax.Success)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardarón correctamente.";
+                        Token.ResetToken();
+
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+
+                        return RedirectToAction("Index");
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+
+                    Venta.RespuestaAjax = new RespuestaAjax();
+                    Venta.RespuestaAjax.Success = false;
+
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                Venta.RespuestaAjax = new RespuestaAjax();
+                Venta.RespuestaAjax.Success = false;
+
+                return RedirectToAction("Index");
+            }
+        }
         #endregion
 
         #region Vista Ganado
@@ -147,12 +220,25 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
-   
-        #region Modal evento
-        [HttpPost]
-        public ActionResult ModalEvento()
+
+        #region Vista Edit
+        public ActionResult Edit(string IDVenta, int IDEstatus)
         {
-            return PartialView("ModalEvento");
+            switch (IDEstatus)
+            {
+                case 1:
+                    return RedirectToAction("VentaFlete", "Venta", new { IDVenta = IDVenta });
+                case 2:
+                    return RedirectToAction("VentaGanado", "Venta", new { IDVenta = IDVenta });
+                //case 3:
+                //    return RedirectToAction("GanadoCompra", "Compra", new { IDCompra = Compra.IDCompra });
+                //case 4:
+                //    return RedirectToAction("RecepcionCompra", "Compra", new { IDCompra = Compra.IDCompra });
+                default:
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index");
+            }
         }
         #endregion
 
@@ -255,6 +341,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
+        #endregion
+
+        #region Modal evento
+        [HttpPost]
+        public ActionResult ModalEvento()
+        {
+            return PartialView("ModalEvento");
+        }
         #endregion
     }
 }

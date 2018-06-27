@@ -146,6 +146,7 @@ namespace CreativaSL.Web.Ganados.Models
                             Item.Encargado = !Dr.IsDBNull(Dr.GetOrdinal("Encargado")) ? Dr.GetString(Dr.GetOrdinal("Encargado")) : string.Empty;
                             Item.Observaciones = !Dr.IsDBNull(Dr.GetOrdinal("Observaciones")) ? Dr.GetString(Dr.GetOrdinal("Observaciones")) : string.Empty;
                             Item.Importe = !Dr.IsDBNull(Dr.GetOrdinal("Importe")) ? Dr.GetDecimal(Dr.GetOrdinal("Importe")) : 0;
+                            Item.ImporteRefacciones = !Dr.IsDBNull(Dr.GetOrdinal("ImporteRefacciones")) ? Dr.GetDecimal(Dr.GetOrdinal("ImporteRefacciones")) : 0;
                             Lista.Add(Item);
                         }
                     }
@@ -198,6 +199,7 @@ namespace CreativaSL.Web.Ganados.Models
                                         Datos.TipoServicio.IDTipoServicio ?? string.Empty,
                                         Datos.Encargado ?? string.Empty,
                                         Datos.Importe,
+                                        Datos.ImporteRefacciones,
                                         Datos.Observaciones ?? string.Empty,
                                         Datos.Usuario ?? string.Empty};
                 object Result = SqlHelper.ExecuteScalar(Datos.Conexion, "spCSLDB_Mantenimiento_ac_ServiciosDetalle", Parametros);
@@ -230,6 +232,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Resultado.Encargado = !Dr.IsDBNull(Dr.GetOrdinal("Encargado")) ? Dr.GetString(Dr.GetOrdinal("Encargado")) : string.Empty;
                     Resultado.Observaciones = !Dr.IsDBNull(Dr.GetOrdinal("Observaciones")) ? Dr.GetString(Dr.GetOrdinal("Observaciones")) : string.Empty;
                     Resultado.Importe = !Dr.IsDBNull(Dr.GetOrdinal("Importe")) ? Dr.GetDecimal(Dr.GetOrdinal("Importe")) : 0;
+                    Resultado.ImporteRefacciones = !Dr.IsDBNull(Dr.GetOrdinal("ImporteRefacciones")) ? Dr.GetDecimal(Dr.GetOrdinal("ImporteRefacciones")) : 0;
                     break;
                 }
                 return Resultado;

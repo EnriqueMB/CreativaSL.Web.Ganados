@@ -179,14 +179,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-
                 ReportViewer Rtp = new ReportViewer();
                 Rtp.ProcessingMode = ProcessingMode.Local;
                 //Rtp.SizeToReportContent = true;
                 Rtp.Width = Unit.Percentage(100);
                 Rtp.Height = Unit.Percentage(100);
-                Rtp.ZoomMode = ZoomMode.FullPage;
-                Rtp.ZoomPercent = 150;
                 Reporte_Datos RSalidas = new Reporte_Datos();
                 RptSalidaModels ReporteSalida = new RptSalidaModels();
                 DateTime Fecha1 = DateTime.Today;
@@ -222,7 +219,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Parametros[8] = new ReportParameter("FechaFin", id3);
                 Rtp.LocalReport.SetParameters(Parametros);
                 Rtp.LocalReport.DataSources.Add(new ReportDataSource("ListaSalidas", ReporteSalida.ListaSalidas));
-                
                 string reportType = id;
                 string mimeType;
                 string encoding;
@@ -230,12 +226,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 string deviceInfo = "<DeviceInfo>" +
                 "  <OutputFormat>" + id + "</OutputFormat>" +
-                "<Zoom>200%</Zoom>" +
                 "</DeviceInfo>";
-
-               
-
-
+                
                 Warning[] warnings;
                 string[] streams;
                 byte[] renderedBytes;
@@ -253,7 +245,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-
                 throw;
             }
         }

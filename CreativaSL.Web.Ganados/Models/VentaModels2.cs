@@ -15,15 +15,17 @@ namespace CreativaSL.Web.Ganados.Models
         public string Id_sucursal { get; set; }
         public string Folio { get; set; }
         public decimal MontoTotal { get; set; }
+        public VerificacionJaulaModels VerificacionJaula { get; set; }
         /// <summary>
         /// Fecha y hora que guardará el sistema al finalizar la venta
         /// </summary>
         public DateTime FechaHoraVenta { get; set; }
 
-        public bool CobrarFlete { get; set; }
+        public int CobrarFlete { get; set; }
         public string Observacion { get; set; }
         public string Descripcion_bascula { get; set; }
         public string NombreVenta  { get; set; }
+        public int Opcion { get; set; }
 
         public List<CatSucursalesModels> ListaSucursales { get; set; }
         public List<CatClienteModels> ListaClientes { get; set; }

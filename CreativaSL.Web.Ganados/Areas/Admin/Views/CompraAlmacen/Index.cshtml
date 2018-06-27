@@ -67,7 +67,7 @@
                                         {
                                             <td><span class="label label-success">@compra.StatusCompra</span></td>
                                         }
-                                        <td><span class="pull-right">@string.Format("{0:c}", compra.MontoTotal)</span> </td>
+                                            <td><span class="pull-right">@string.Format("{0:c}", compra.MontoTotal)</span> </td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     @if (compra.IDEstatusCompra == 1)
@@ -80,7 +80,7 @@
                                             }
                                                     <a title="Detalles" href="@Url.Action("Detail", "CompraAlmacen", new { id = compra.IDCompraAlmacen})" class="btn btn-blue tooltips" data-placement="top" data-original-title="Detalles"><i class="fa fa-bars"></i></a>
                                                     <a title="Procesar" class="btn btn-primary tooltips processRow" href="@Url.Action("Process", "CompraAlmacen", new { id = compra.IDCompraAlmacen})"  data-placement="top" data-original-title="Procesar"><i class="fa fa-gear"></i></a>
-                                                    <a title="Cancelar" class="btn btn-danger tooltips deleteRow" id="delete-@compra.IDCompraAlmacen" data-hrefa="@Url.Action("Cancel", "CompraAlmacen", new { id =  compra.IDCompraAlmacen })" onClick="delete_row('@compra.IDCompraAlmacen');" data-placement="top" data-original-title="Cancelar"><i class="fa fa-times"></i></a>
+                                                    <a title="Cancelar" class="btn btn-danger tooltips deleteRow" id="delete-@compra.IDCompraAlmacen" data-hrefa="@Url.Action("Cancel", "CompraAlmacen", new { id =  compra.IDCompraAlmacen })" data-placement="top" data-original-title="Cancelar"><i class="fa fa-times"></i></a>
 
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
@@ -119,7 +119,7 @@
                                                             </li>
 
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@compra.IDCompraAlmacen" data-hrefa="@Url.Action("Delete", "CompraAlmacen", new { id = compra.IDCompraAlmacen})" onClick="delete_row('@compra.IDCompraAlmacen');">
+                                                                <a role="menuitem" tabindex="-1" id="delete-@compra.IDCompraAlmacen" data-hrefa="@Url.Action("Delete", "CompraAlmacen", new { id = compra.IDCompraAlmacen})">
                                                                     <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>

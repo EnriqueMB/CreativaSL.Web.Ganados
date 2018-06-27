@@ -100,7 +100,7 @@
             var Inicio = fecha;
             var Fin = fecha2;
             if (ban == 1 && ban1 == 1) {
-                window.location.href = "/Admin/reportes/RptSalidas?id=PDF&id2=" + Inicio + "&id3=" + Fin;
+                window.location.href = "/Admin/reportes/RptSalidas?id=PDF&id2=" + Inicio + "&id3=" + Fin + "#zoom=125";
             }
         });
         $("#BTN4").click(function () {

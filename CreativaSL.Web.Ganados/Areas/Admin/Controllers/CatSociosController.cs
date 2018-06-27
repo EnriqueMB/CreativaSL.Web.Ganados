@@ -1,88 +1,80 @@
-﻿using System;
+﻿using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Filters;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Models;
-using System.Data;
-using CreativaSL.Web.Ganados.ViewModels;
-using CreativaSL.Web.Ganados.App_Start;
-using CreativaSL.Web.Ganados.Filters;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
     [Autorizado]
-    public class CatConceptosNominaController : Controller
+    public class CatSociosController : Controller
     {
         private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
-        // GET: Admin/CatConceptosNomina
-        [HttpGet]
+        // GET: Admin/CatSocios
         public ActionResult Index()
         {
             try
             {
-                CatConceptosNominaModels concepto = new CatConceptosNominaModels();
-                _CatConceptoNomina_Datos conceptoD = new _CatConceptoNomina_Datos();
-                concepto.Conexion = Conexion;
-                concepto = conceptoD.ObtenerConceptosNomina(concepto);
-                return View(concepto);
+                CatSociosModels Socio = new CatSociosModels();
+                _CatSocio_Datos DBSocio = new _CatSocio_Datos();
+                Socio.Conexion = Conexion;
+                Socio.ListaSocios = DBSocio.ObtenerListaSocios(Socio);
+                return View(Socio);
             }
             catch (Exception)
             {
-                CatConceptosNominaModels concepto = new CatConceptosNominaModels();
-                concepto.LIstaConceptoNomina = new List<CatConceptosNominaModels>();
+                CatSociosModels Socio = new CatSociosModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return View(concepto);
+                return View(Socio);
             }
         }
 
-        // GET: Admin/CatConceptosNomina/Details/5
+        // GET: Admin/CatSocios/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Admin/CatConceptosNomina/Create
+        // GET: Admin/CatSocios/Create
         public ActionResult Create()
         {
             try
             {
                 Token.SaveToken();
-                CatConceptosNominaModels catConceptos = new CatConceptosNominaModels();
-                catConceptos.Calculado = false;
-                catConceptos.SumaResta = false;
-                catConceptos.SoloLectura = false;
-                return View(catConceptos);
+                CatSociosModels Socio = new CatSociosModels();
+                return View(Socio);
             }
             catch (Exception)
             {
+                CatSociosModels Socio = new CatSociosModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return RedirectToAction("Index");
             }
         }
 
-        // POST: Admin/CatConceptosNomina/Create
+        // POST: Admin/CatSocios/Create
         [HttpPost]
-        public ActionResult Create(CatConceptosNominaModels conceptos)
+        public ActionResult Create(CatSociosModels DatosSocio)
         {
-            _CatConceptoNomina_Datos conceptoD = new _CatConceptoNomina_Datos();
+            _CatSocio_Datos DBSocio = new _CatSocio_Datos();
             try
             {
                 if (Token.IsTokenValid())
                 {
                     if (ModelState.IsValid)
                     {
-                        conceptos.Conexion = Conexion;
-                        conceptos.Opcion = 1;
-                        conceptos.Calculado = false;
-                        conceptos.SoloLectura = false;
-                        conceptos.Usuario = User.Identity.Name;
-                        conceptos = conceptoD.AbcCatConceptosNomina(conceptos);
-                        if (conceptos.Completado == true)
+                        DatosSocio.Conexion = Conexion;
+                        DatosSocio.Opcion = 1;
+                        DatosSocio.Usuario = User.Identity.Name;
+                        DatosSocio = DBSocio.ABCatSocios(DatosSocio);
+                        if (DatosSocio.Completado == true)
                         {
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
@@ -93,12 +85,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                            return View(conceptos);
+                            return View(DatosSocio);
                         }
                     }
                     else
                     {
-                        return View(conceptos);
+                        return View(DatosSocio);
                     }
                 }
                 else
@@ -110,49 +102,48 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
-                return View(conceptos);
+                return View(DatosSocio);
             }
         }
 
-        // GET: Admin/CatConceptosNomina/Edit/5
-        public ActionResult Edit(int id)
+        // GET: Admin/CatSocios/Edit/5
+        public ActionResult Edit(string id)
         {
             try
             {
                 Token.SaveToken();
-                CatConceptosNominaModels conceptos = new CatConceptosNominaModels();
-                _CatConceptoNomina_Datos conceptosD = new _CatConceptoNomina_Datos();
-                conceptos.Conexion = Conexion;
-                conceptos.IDConceptoNomina = id;
-                conceptos = conceptosD.ObtenerDetalleConceptoNomina(conceptos);
-                return View(conceptos);
+                CatSociosModels Socio = new CatSociosModels();
+                _CatSocio_Datos BDSocio = new _CatSocio_Datos();
+                Socio.Conexion = Conexion;
+                Socio.IDSocio = id;
+                Socio = BDSocio.ObternerDetalleCatSocio(Socio);
+                return View(Socio);
             }
             catch (Exception)
             {
-                CatConceptosNominaModels conceptos = new CatConceptosNominaModels();
+                CatSociosModels Socio = new CatSociosModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return View(conceptos);
+                return View(Socio);
             }
         }
 
-        // POST: Admin/CatConceptosNomina/Edit/5
+        // POST: Admin/CatSocios/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, CatConceptosNominaModels conceptos)
+        public ActionResult Edit(CatSociosModels Socios)
         {
-            _CatConceptoNomina_Datos conceptoD = new _CatConceptoNomina_Datos();
+            _CatSocio_Datos DBSocio = new _CatSocio_Datos();
             try
             {
                 if (Token.IsTokenValid())
                 {
                     if (ModelState.IsValid)
                     {
-                        conceptos.Conexion = Conexion;
-                        conceptos.IDConceptoNomina = id;
-                        conceptos.Opcion = 2;
-                        conceptos.Usuario = User.Identity.Name;
-                        conceptos = conceptoD.AbcCatConceptosNomina(conceptos);
-                        if (conceptos.Completado == true)
+                        Socios.Conexion = Conexion;
+                        Socios.Opcion = 2;
+                        Socios.Usuario = User.Identity.Name;
+                        Socios = DBSocio.ABCatSocios(Socios);
+                        if (Socios.Completado == true)
                         {
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
@@ -163,45 +154,46 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                            return View(conceptos);
+                            return View(Socios);
                         }
                     }
                     else
                     {
-                        return View(conceptos);
+                        return View(Socios);
                     }
                 }
                 else
                 {
                     return RedirectToAction("Index");
                 }
+               
             }
             catch
             {
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
-                return View(conceptos);
+                return View(Socios);
             }
         }
 
-        //// GET: Admin/CatConceptosNomina/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        // POST: Admin/CatConceptosNomina/Delete/5
-        [HttpPost]
+        // GET: Admin/CatSocios/Delete/5
         public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        // POST: Admin/CatSocios/Delete/5
+        [HttpPost]
+        public ActionResult Delete(string id)
         {
             try
             {
-                CatConceptosNominaModels conceptos = new CatConceptosNominaModels();
-                _CatConceptoNomina_Datos conceptosD = new _CatConceptoNomina_Datos();
-                conceptos.Conexion = Conexion;
-                conceptos.IDConceptoNomina = id;
-                conceptos.Usuario = User.Identity.Name;
-                conceptosD.EliminarConcetoNomina(conceptos);
+                CatSociosModels Socio = new CatSociosModels();
+                _CatSocio_Datos DBSocio = new _CatSocio_Datos();
+                Socio.IDSocio = id;
+                Socio.Conexion = Conexion;
+                Socio.Usuario = User.Identity.Name;
+                Socio = DBSocio.EliminarSocio(Socio);
                 TempData["typemessage"] = "1";
                 TempData["message"] = "El registro se ha eliminado correctamente";
                 return Json("");

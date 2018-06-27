@@ -1,11 +1,12 @@
-﻿var ServiciosDetalle = function () {
+﻿var Socios = function () {
     "use strict";
+    // Funcion para validar registrar
     var runValidator1 = function () {
-        var form1 = $('#form-SMD');
+        var form1 = $('#form-dg');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
 
-        $('#form-SMD').validate({
+        $('#form-dg').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -23,17 +24,13 @@
             },
             ignore: "",
             rules: {
-                IDTipoServicio: { required: true },
-                Encargado: { required: true, nombre: true },
-                Importe: { required: true },
-                ImporteRefacciones: { required: true }
+                NombreCompleto: { required: true, texto: true },
+                Porcentaje: {number: true}
+
             },
             messages: {
-                IDTipoServicio: { required: "Seleccione el servicio realizado." },
-                Encargado: {    required: "Ingrese el nombre de la persona que realizó el servicio.", 
-                                nombre: "Ingrese un dato válido en Responsable." },
-                Importe: { required: "Debe ingresar el importe del servicio (Mano de  obra)." },
-                ImporteRefacciones: { required: "Debe ingresar el importe del servicio. (Refacciones)" }
+                NombreCompleto: { required: "Ingrese la descripción", texto: "Ingrese un datos valido" },
+                Porcentaje: { number: "Ingrese un dato valido" }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -63,7 +60,14 @@
                 //this.submit();
             }
         });
-    };   
+    };
+
+    var runDatePicker = function () {
+        $('#FechaIngreso').datepicker({
+            format: 'dd/mm/yyyy'
+        });
+    };
+
     return {
         //main function to initiate template pages
         init: function () {

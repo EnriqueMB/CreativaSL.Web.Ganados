@@ -62,14 +62,26 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Importe </label>
+                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Mano de obra $ </label>
                                 <div class="col-md-6 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon">$</span>
-                                        @Html.TextBoxFor(model => model.Importe, "{0:F2}", new { id = "Importe", @class = "form-control", placeholder = "Ingrese el importe del servicio" })
+                                        @Html.TextBoxFor(model => model.Importe, "{0:F2}", new { id = "Importe", @class = "form-control", placeholder = "Ingrese el importe por mano de obra" })
                                         @*<span class="input-group-addon">.00</span>*@
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Importe)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Refacciones $ </label>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">$</span>
+                                        @Html.TextBoxFor(model => model.ImporteRefacciones, "{0:F2}", new { id = "ImporteRefacciones", @class = "form-control", placeholder = "Ingrese el importe por refacciones" })
+                                        @*<span class="input-group-addon">.00</span>*@
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ImporteRefacciones)
                                 </div>
                             </div>
 

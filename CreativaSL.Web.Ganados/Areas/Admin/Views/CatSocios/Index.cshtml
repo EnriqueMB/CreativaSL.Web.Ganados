@@ -1,6 +1,7 @@
-﻿@model ICollection<CreativaSL.Web.Ganados.Models.ServiciosMantenimientoDetalleModels>
+﻿@model CreativaSL.Web.Ganados.Models.CatSociosModels
+
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -16,7 +17,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Detalle de servicios realizados </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Socios </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -28,10 +29,9 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("CreateDetail","Mantenimiento", new { id = ViewBag.IDServicio})" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo servicio</a></li>
+                            <li><a href="@Url.Action("Create","CatSocios")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Socio</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
-                            <li><a href="@Url.Action("Servicios","Mantenimiento", new { id = ViewBag.IDVehiculo})" class="btn btn-default btnCrear"><span class="fa fa-mail-reply"></span> Finalizar</a></li>
                         </ul>
                     </div>
                     <div class="panel-body">
@@ -39,27 +39,21 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th>Servicio </th>
-                                        <th>Encargado</th>
-                                        <th>Observaciones</th>
-                                        <th>Importe mano de obra</th>
-                                        <th>Importe refacciones</th>
+                                        <th>Nombre Socio</th>
+                                        <th>Porcentaje</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var Item in Model)
+                                    @foreach (var Socio in Model.ListaSocios)
                                     {
-                                        <tr id="@Item.IDServicioDetalle">
-                                            <td>@Item.TipoServicio.Descripcion</td>
-                                            <td>@Item.Encargado</td>
-                                            <td>@Item.Observaciones</td>
-                                            <td>@Item.ImporteFormat</td>
-                                            <td>@Item.ImporteRefaccionesFormat</td>
+                                        <tr id="@Socio.IDSocio">
+                                            <td>@Socio.NombreCompleto</td>
+                                            <td>@Socio.Procentaje</td>
                                             <td style="text-align:center;">
-                                                <div class="visible-md visible-lg hidden-sm hidden-xs">                                                    
-                                                    <a title="Editar" class="btn btn-yellow" href="@Url.Action("EditDetail", "Mantenimiento", new { id = Item.IDServicioDetalle })"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" class="btn delete btn-danger deleteRow" id="delete-@Item.IDServicioDetalle" data-hrefa="@Url.Action("DeleteDetail", "Mantenimiento", new { id = Item.IDServicioDetalle })" onClick="delete_row('@Item.IDServicioDetalle');"><i class="fa fa-trash-o"></i></a>
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    <a title="Editar" href="@Url.Action("Edit", "CatSocios", new { id = Socio.IDSocio })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" id="delete-@Socio.IDSocio" data-hrefa="@Url.Action("Delete", "CatSocios", new { id = Socio.IDSocio  })" onClick="delete_row('@Socio.IDSocio');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -68,12 +62,12 @@
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("EditDetail", "Mantenimiento", new { id = Item.IDServicioDetalle })">
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatSocios", new { id = Socio.IDSocio })">
                                                                     <i class="fa fa-edit"></i> Editar
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@Item.IDServicioDetalle" data-hrefa="@Url.Action("DeleteDetail", "Mantenimiento", new { id = Item.IDServicioDetalle })" onClick="delete_row('@Item.IDServicioDetalle');">
+                                                                <a role="menuitem" tabindex="-1" id="delete-@Socio.IDSocio" data-hrefa="@Url.Action("Delete", "CatSocios", new { id = Socio.IDSocio  })" onClick="delete_row('@Socio.IDSocio');">
                                                                     <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>
@@ -86,9 +80,6 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                    <div class="panel-footer">
-                        @*<a href="@Url.Action("Servicios","Mantenimiento", new { id = ViewBag.IDVehiculo})" class="btn btn-primary pull-right"><i class="icon-prev"></i>Finalizar</a>*@
                     </div>
                 </div>
                 <!-- END DEFAULT DATATABLE -->
@@ -124,11 +115,19 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script>
-    jQuery(document).ready(function () {
+        jQuery(document).ready(function () {
         Mensaje(message, typemessage);
-    });
+        });
     </script>
 }
+
+
+
+
+
+
+
+
 
 
 
