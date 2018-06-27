@@ -15,6 +15,7 @@
         tr.shown td.details-control {
         background: url("@Url.Content("~/Content/img/details_close.png")") no-repeat center center;
         }
+
         .transaccionesCompra{
         background-color: #95b75d !important;
         border-color: #95b75d !important;
@@ -106,6 +107,40 @@
             </div>
         </div>
     </div>
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-ganado">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-mail-forward"></span><strong>¿Seguro que desea continuar con la venta?</strong></div>
+                <div class="mb-content">
+                    <p>¿Desea continuar con la venta, la siguiente etapa es: ELECCION DE GANADO?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="message-box animated fadeIn" data-sound="alert" id="mb-enviar">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-mail-forward"></span><strong>¿Seguro que desea continuar con la venta?</strong></div>
+            <div class="mb-content">
+                <p>¿Desea continuar con la venta, la siguiente etapa es: ENVIO DEL FLETE?</p>
+                <p>Presione "sí" si está seguro.</p>
+            </div>
+            <div class="mb-footer">
+                <div class="pull-right">
+                    <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                    <button class="btn btn-default btn-lg mb-control-close">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <script>
     var message = '@message';
     var typemessage = '@typemessage';
@@ -183,9 +218,9 @@
                                 if (igual == 0) {
                                     botones = botones +
                                         "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                                        "<a data-id='" + full["id_venta"] + "' class='btn btn-blue tooltips btn-sm Ganado' title='Ganado'  data-placement='top' data-original-title='Ganado'><i class='fa fa-github-alt'></i></a>" +
+                                        "<a data-id='" + full["id_venta"] + "' class='btn btn-blue tooltips btn-sm ganado' title='Ganado'  data-placement='top' data-original-title='Ganado'><i class='fa fa-github-alt'></i></a>" +
                                         "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
-                                        "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "'class='btn btn-yellow tooltips btn-sm edit' title='Agendado'  data-placement='top' data-original-title='Agendado'><i class='fa fa-clock-o'></i></a>" +
+                                        "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Agendado'  data-placement='top' data-original-title='Agendado'><i class='fa fa-clock-o'></i></a>" +
                                         "<a data-id='" + full["id_venta"] + "' class='btn btn-danger tooltips btn-sm delete' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                         "</div>" +
                                         "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
@@ -200,12 +235,12 @@
                                         "</a>" +
                                         "</li>" +
                                         "<li>" +
-                                        "<a class='Ganado' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
-                                        "<i class='fa fa-mail-forward'></i> Continuar" +
+                                        "<a class='ganado' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
+                                        "<i class='fa fa-github-alt'></i> Continuar: Ganado" +
                                         "</a>" +
                                         "</li>" +
                                         "<li>" +
-                                        "<a class='edit' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
+                                        "<a class='edit' data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "'  role='menuitem' tabindex='-1'>" +
                                         "<i class='fa fa-clock-o'></i> Agendado" +
                                         "</a>" +
                                         "</li>" +
@@ -219,12 +254,14 @@
                                         "</div>";
                                     return botones;
                                 }
+                               
                                 igual = status_actual.localeCompare(Ganado);
                                 if (igual == 0) {
                                     botones = botones +
                                         "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                                        "<a data-id='" + full["id_venta"] + "' class='btntooltips  btn-blue btn-sm Enviar' title='Enviar'  data-placement='top' data-original-title='Enviar'><i class='fa fa-truck'></i></a>" +
+                                        "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-blue  btn-sm flete' title='Flete'  data-placement='top' data-original-title='Flete'><i class='fa fa-truck'></i></a>" +
                                         "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
+                                        "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Ganado'  data-placement='top' data-original-title='Ganado'><i class='fa fa-github-alt'></i></a>" +
                                         "<a data-id='" + full["id_venta"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                         "</div>" +
                                         "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
@@ -240,46 +277,12 @@
                                         "</li>" +
                                         "<li>" +
                                         "<a class='ganado' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
-                                        "<i class='fa fa-edit'></i> Ganado" +
+                                        "<i class='fa fa-truck'></i> Continuar: flete" +
                                         "</a>" +
                                         "</li>" +
-                                        "<li>" +
-                                        "<a class='transacciones' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
-                                        "<i class='fa fa-money'></i> Transacciones ($)" +
-                                        "</a>" +
-                                        "</li>" +
-                                        "<li>" +
-                                        "<a role='menuitem' tabindex='-1' id='" + full["id_venta"] + "'>" +
-                                        "<i class='fa fa-trash-o'></i> Eliminar" +
-                                        "</a>" +
-                                        "</li>" +
-                                        "</ul>" +
-                                        "</div>" +
-                                        "</div>";
-                                    return botones;
-                                }
-                                igual = status_actual.localeCompare(Enviada);
-                                if (igual == 0) {
-                                    botones = botones + "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                                        "<a data-id='" + full["id_venta"] + "' class='btn btn-blue   tooltips btn-sm eventos_recepcion' title='Eventos y recepción'  data-placement='top' data-original-title='Eventos y recepción'><i class='fa fa-book'></i></a>" +
-                                        "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
-                                        "<a data-id='" + full["id_venta"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Ganado'  data-placement='top' data-original-title='Ganado'><i class='fa fa-github-alt'></i></a>" +
-                                        "<a data-id='" + full["id_venta"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
-                                        "</div>" +
-                                        "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
-                                        "<div class='btn-group'>" +
-                                        "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
-                                        "<i class='fa fa-cog'></i> <span class='caret'></span>" +
-                                        "</a>" +
-                                        "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
-                                        "<li>" +
-                                        "<a class='details' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
-                                        "<i class='fa fa-eye'></i> Detalles" +
-                                        "</a>" +
-                                        "</li>" +
-                                        "<li>" +
-                                        "<a class='ganado' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
-                                        "<i class='fa fa-edit'></i> Ganado" +
+                                         "<li>" +
+                                        "<a class='ganado' data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' role='menuitem' tabindex='-1'>" +
+                                        "<i class='fa fa-github-alt'></i> Ganado" +
                                         "</a>" +
                                         "</li>" +
                                         "<li>" +
@@ -296,6 +299,46 @@
                                         "</div>" +
                                         "</div>";
 
+                                }
+
+                                igual = status_actual.localeCompare(Enviada);
+                                if (igual == 0) {
+                                    botones = botones +
+                                        "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                        "<a data-id='" + full["id_venta"] + "' class='btn tooltips  btn-blue btn-sm Enviar' title='Enviar'  data-placement='top' data-original-title='Enviar'><i class='fa fa-truck'></i></a>" +
+                                        "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
+                                        "<a data-id='" + full["id_venta"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                                        "</div>" +
+                                        "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                        "<div class='btn-group'>" +
+                                        "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                        "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                                        "</a>" +
+                                        "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                                        "<li>" +
+                                        "<a class='details' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
+                                        "<i class='fa fa-eye'></i> Detalles" +
+                                        "</a>" +
+                                        "</li>" +
+                                        "<li>" +
+                                        "<a class='ganado' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
+                                        "<i class='fa fa-edit'></i> Ganado" +
+                                        "</a>" +
+                                        "</li>" +
+                                        "<li>" +
+                                        "<a class='transacciones' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
+                                        "<i class='fa fa-money'></i> Transacciones ($)" +
+                                        "</a>" +
+                                        "</li>" +
+                                        "<li>" +
+                                        "<a role='menuitem' tabindex='-1' id='" + full["id_venta"] + "'>" +
+                                        "<i class='fa fa-trash-o'></i> Eliminar" +
+                                        "</a>" +
+                                        "</li>" +
+                                        "</ul>" +
+                                        "</div>" +
+                                        "</div>";
+                                    return botones;
                                 }
                                 igual = status_actual.localeCompare(Recepción);
                                 if (igual == 0) {
@@ -370,7 +413,7 @@
                         $(".transacciones").on("click", function () {
                             //para agregar nuevos servicios o productos y/o para registrar los pagos o cobros realizados
                             var IDCompra = $(this).data("id")
-                            window.location.href = '/Admin/Venta/Transacciones?IDCompra=' + IDCompra;
+                            window.location.href = '/Admin/Venta/Transacciones?IDVenta=' + IDCompra;
                         });
                         $(".enviar").on("click", function () {
                             var id = $(this).attr('data-id');
@@ -378,7 +421,7 @@
                             box.addClass("open");
                             box.find(".mb-control-yes").on("click", function () {
                                 box.removeClass("open");
-                                window.location.href = '/Admin/Venta/CambiarEstatus?IDCompra=' + id;
+                                window.location.href = '/Admin/Venta/CambiarEstatus?IDVenta=' + id;
                             });
 
                         });
@@ -388,7 +431,7 @@
                             box.addClass("open");
                             box.find(".mb-control-yes").on("click", function () {
                                 box.removeClass("open");
-                                window.location.href = '/Admin/Compra/CambiarEstatus?IDCompra=' + id;
+                                window.location.href = '/Admin/Venta/CambiarEstatus?IDVenta=' + id;
                             });
 
                         });
@@ -398,7 +441,7 @@
                             box.addClass("open");
                             box.find(".mb-control-yes").on("click", function () {
                                 box.removeClass("open");
-                                window.location.href = '/Admin/Compra/CambiarEstatus?IDCompra=' + id;
+                                window.location.href = '/Admin/Compra/CambiarEstatus?IDVenta=' + id;
                             });
                         });
                         $(".concluir").on("click", function () {
@@ -407,12 +450,12 @@
                             box.addClass("open");
                             box.find(".mb-control-yes").on("click", function () {
                                 box.removeClass("open");
-                                window.location.href = '/Admin/Compra/CambiarEstatus?IDCompra=' + id;
+                                window.location.href = '/Admin/Compra/CambiarEstatus?IDVenta=' + id;
                             });
                         });
                         $(".details").on("click", function () {
                             var IDCompra = $(this).data("id")
-                            window.location.href = '/Admin/Compra/Details?IDCompra=' + IDCompra;
+                            window.location.href = '/Admin/Compra/Details?IDVenta=' + IDCompra;
                         });
 
 
