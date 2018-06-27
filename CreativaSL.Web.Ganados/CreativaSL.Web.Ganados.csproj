@@ -1546,6 +1546,8 @@
     <Compile Include="Models\RespuestaAjax.cs" />
     <Compile Include="Models\ResumenGastosAjustesModels.cs" />
     <Compile Include="Models\ResumenGastosModels.cs" />
+    <Compile Include="Models\RptGanadosMtoCompraModels.cs" />
+    <Compile Include="Models\RptGanadosMtoVentaModels.cs" />
     <Compile Include="Models\RptGandosModels.cs" />
     <Compile Include="Models\RptProvedorVendioMasModels.cs" />
     <Compile Include="Models\RptProveedorMermaAltaModels.cs" />
@@ -1734,6 +1736,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ReporteProveedorVendioMasG.rdlc" />
+    <EmbeddedResource Include="Reports\ReporteXVentaXCompra.rdlc" />
     <EmbeddedResource Include="Reports\RptSalidas.rdlc" />
   </ItemGroup>
   <PropertyGroup>
