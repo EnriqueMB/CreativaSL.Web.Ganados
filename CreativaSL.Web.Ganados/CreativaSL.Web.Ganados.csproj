@@ -461,6 +461,7 @@
     <Content Include="Content\js\CompraGanado.js" />
     <Content Include="Content\js\compraRecepcion.js" />
     <Content Include="Content\js\compraTransacciones.js" />
+    <Content Include="Content\js\Socios.js" />
     <Content Include="Content\js\conciliacionAlmacen.js" />
     <Content Include="Content\js\conciliacionAlmacenLista.js" />
     <Content Include="Content\js\conciliacionAlmacenNegDetalle.js" />
@@ -1342,6 +1343,9 @@
     <Content Include="Areas\Admin\Views\Venta\VentaFlete.cshtml" />
     <Content Include="Areas\Admin\WebServices\DatatableServ.asmx" />
     <Content Include="Content\json\Spanish.json" />
+    <Content Include="Areas\Admin\Views\CatSocios\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatSocios\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatSocios\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1735,7 +1739,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\CatBodega\" />
-    <Folder Include="Areas\Admin\Views\CatSocios\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Reports\prueba.rdlc">

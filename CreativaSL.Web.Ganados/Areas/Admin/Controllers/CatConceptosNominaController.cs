@@ -50,7 +50,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                Token.IsTokenValid();
+                Token.SaveToken();
                 CatConceptosNominaModels catConceptos = new CatConceptosNominaModels();
                 catConceptos.Calculado = false;
                 catConceptos.SumaResta = false;
