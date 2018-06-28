@@ -98,7 +98,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public List<RptSociosModels> ObtenerSocios(RptSalidaModels Datos)
+        public List<RptSociosModels> ObtenerSocios(RptSociosModels Datos)
         {
             try
             {
