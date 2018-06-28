@@ -5,8 +5,6 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-
-
 @section css
 {
 <link href="~/Content/js/plugins/select.bootstrap.min.css" rel="stylesheet" />
@@ -21,6 +19,9 @@
     .form-control[readonly] {
         color: #000 !important;
     }
+    .page-content{
+        height: 100% !important;
+    }
 </style>
 
 }
@@ -30,7 +31,8 @@
         var message = TempData["message"] ?? string.Empty;
         var typemessage = TempData["typemessage"] ?? string.Empty;
     }
-    <div class="col-md-12">
+<div class="">
+    <div class="">
         <h3>
             @*@Html.Label("Folio de la venta: " + Model.Folio, new { id = "Folio", style = "float: right" })*@
         </h3>
@@ -41,365 +43,220 @@
     <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
         <h3></h3>
     </div>
-    <!--INICIA TABS-->
-    <div class="panel panel-default tabs">
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#ganado" aria-controls="ganado" role="tab" data-toggle="tab">Ganado</a></li>
-            <li id="liFlete" role="presentation" class="disabled"><a id="tabFlete" href="#flete" aria-controls="flete" role="tab" data-toggle="">Flete</a></li>
-            <li id="liDocumentos" role="presentation" class="disabled"><a id="tabDocumentos" href="#documentos" aria-controls="documentos" role="tab" data-toggle="">Documentos</a></li>
-        </ul>
 
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="ganado">
-                <div class="col-md-12">
-                    @{ Html.EnableClientValidation(false); }
-                    @using (Html.BeginForm("AC_Ganado", "Venta", FormMethod.Post, new { id = "frm_venta", @class = "form-horizontal", autocomplete = "off" }))
-                    {
-                        <div id="validation_summary" class="field_error "></div> //JS
-                        @Html.AntiForgeryToken()
-                        @Html.HiddenFor(model => model.Id_venta)
+    @{ Html.EnableClientValidation(false); }
+    @using (Html.BeginForm("VentaGanado", "Venta", FormMethod.Post, new { id = "frm_venta", @class = "form-horizontal", autocomplete = "off" }))
+    {
+        <div id="validation_summary" class="field_error "></div> //JS
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id_venta)
 
-                        <div class="col-md-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Seleccione el <strong>Ganado</strong></h3>
-                                    <ul class="panel-controls"></ul>
-                                </div>
-                                <div class="panel-body">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Seleccione el <strong>Ganado</strong></h3>
+                    <ul class="panel-controls"></ul>
+                </div>
+                <div class="panel-body">
 
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">Cbz. Machos</label>
-                                                <div class="col-md-9">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input id="cMachos" type="text" class="form-control" disabled="disabled" value="0" />
-                                                    </div>
-                                                    <span class="help-block">Cantidad de ganado machos</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">Cbz. Hembras</label>
-                                                <div class="col-md-9">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input id="cHembras" type="text" class="form-control" disabled="disabled" value="0" />
-                                                    </div>
-                                                    <span class="help-block">Cantidad de ganado hembras</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">Cbz. Total</label>
-                                                <div class="col-md-9">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input id="cTotal" type="text" class="form-control" disabled="disabled" value="0" />
-                                                    </div>
-                                                    <span class="help-block">Cantidad total de ganado</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">Kg. Machos</label>
-                                                <div class="col-md-9">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input id="kgMachos" type="text" class="form-control" disabled="disabled" value="0" />
-                                                    </div>
-                                                    <span class="help-block">Cantidad de kilos ganado machos</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">Kg. Hembras</label>
-                                                <div class="col-md-9">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input id="kgHembras" type="text" class="form-control" disabled="disabled" value="0" />
-                                                    </div>
-                                                    <span class="help-block">Cantidad de kilos ganado hembras</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">Kg. Total</label>
-                                                <div class="col-md-9">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input id="kgTotal" type="text" class="form-control" disabled="disabled" value="0" />
-                                                    </div>
-                                                    <span class="help-block">Cantidad total de kilos ganado</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12 text-center">
-                                            <div class="btn-group">
-                                                <center>
-                                                    <button type="button" id="seleccionarCorral" class="btn btn-default"><i class="fa fa-hand-o-down"></i></button>
-                                                    <button type="button" id="enviar" class="btn btn-default"><i class="fa fa-forward"></i></button>
-                                                    <button type="button" id="regresar" class="btn btn-default"><i class="fa fa-backward"></i></button>
-                                                    <button type="button" id="seleccionarJaula" class="btn btn-default"><i class="fa fa-hand-o-down"></i></button>
-                                                </center>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <table id="tblGanadoCorral" class="display table " style="width:100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Id ganado</th>
-                                                        <th>Id detalle</th>
-                                                        <th>Núm. arete</th>
-                                                        <th>Corral</th>
-                                                        <th>Genero</th>
-                                                        <th>Merma</th>
-                                                        <th>Peso</th>
-                                                        <th>Precio/kilo</th>
-                                                        <th>Subtotal</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody></tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th>Id ganado</th>
-                                                        <th>Id detalle</th>
-                                                        <th>Núm. arete</th>
-                                                        <th>Corral</th>
-                                                        <th>Genero</th>
-                                                        <th>Merma</th>
-                                                        <th>Peso</th>
-                                                        <th>Precio/kilo</th>
-                                                        <th>Subtotal</th>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label class="col-md-3 control-label">Cbz. Machos</label>
+                                                                <div class="col-md-9">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        <input id="cMachos" type="text" class="form-control" disabled="disabled" value="0" />
+                                                                    </div>
+                                                                    <span class="help-block">Cantidad de ganado machos</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label class="col-md-3 control-label">Cbz. Hembras</label>
+                                                                <div class="col-md-9">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        <input id="cHembras" type="text" class="form-control" disabled="disabled" value="0" />
+                                                                    </div>
+                                                                    <span class="help-block">Cantidad de ganado hembras</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label class="col-md-3 control-label">Cbz. Total</label>
+                                                                <div class="col-md-9">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        <input id="cTotal" type="text" class="form-control" disabled="disabled" value="0" />
+                                                                    </div>
+                                                                    <span class="help-block">Cantidad total de ganado</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-                                        <div class="col-md-6">
-                                            <table id="tblGanadoJaula" class="display table " style="width:100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Id ganado</th>
-                                                        <th>Id detalle</th>
-                                                        <th>Núm. arete</th>
-                                                        <th>Corral</th>
-                                                        <th>Genero</th>
-                                                        <th>Merma</th>
-                                                        <th>Peso</th>
-                                                        <th>Precio/kilo</th>
-                                                        <th>Subtotal</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody></tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th>Id ganado</th>
-                                                        <th>Id detalle</th>
-                                                        <th>Núm. arete</th>
-                                                        <th>Corral</th>
-                                                        <th>Genero</th>
-                                                        <th>Merma</th>
-                                                        <th>Peso</th>
-                                                        <th>Precio/kilo</th>
-                                                        <th>Subtotal</th>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
-                                    </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label class="col-md-3 control-label">Kg. Machos</label>
+                                                                <div class="col-md-9">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        <input id="kgMachos" type="text" class="form-control" disabled="disabled" value="0" />
+                                                                    </div>
+                                                                    <span class="help-block">Cantidad de kilos ganado machos</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label class="col-md-3 control-label">Kg. Hembras</label>
+                                                                <div class="col-md-9">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        <input id="kgHembras" type="text" class="form-control" disabled="disabled" value="0" />
+                                                                    </div>
+                                                                    <span class="help-block">Cantidad de kilos ganado hembras</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label class="col-md-3 control-label">Kg. Total</label>
+                                                                <div class="col-md-9">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        <input id="kgTotal" type="text" class="form-control" disabled="disabled" value="0" />
+                                                                    </div>
+                                                                    <span class="help-block">Cantidad total de kilos ganado</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-                                </div>
-                                <div class="panel-footer">
-                                    <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                                    <a href="@Url.Action("Index", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
-                                </div>
-                            </div>
-                        </div>
-                    }
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label class="col-md-3 control-label">Costo Machos</label>
+                                                                <div class="col-md-9">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        <input id="costoMachos" type="text" class="form-control" disabled="disabled" value="0" />
+                                                                    </div>
+                                                                    <span class="help-block">Costo del  ganado machos</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label class="col-md-3 control-label">Costo Hembras</label>
+                                                                <div class="col-md-9">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        <input id="costoHembras" type="text" class="form-control" disabled="disabled" value="0" />
+                                                                    </div>
+                                                                    <span class="help-block">Costo del ganado hembras</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label class="col-md-3 control-label">Costo Total</label>
+                                                                <div class="col-md-9">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        <input id="costoTotal" type="text" class="form-control" disabled="disabled" value="0" />
+                                                                    </div>
+                                                                    <span class="help-block">Costo total del ganado</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12 text-center">
+                                                            <div class="btn-group">
+                                                                <center>
+                                                                    <button type="button" id="seleccionarCorral" class="btn btn-default"><i class="fa fa-hand-o-down"></i></button>
+                                                                    <button type="button" id="enviar" class="btn btn-default"><i class="fa fa-forward"></i></button>
+                                                                    <button type="button" id="regresar" class="btn btn-default"><i class="fa fa-backward"></i></button>
+                                                                    <button type="button" id="seleccionarJaula" class="btn btn-default"><i class="fa fa-hand-o-down"></i></button>
+                                                                </center>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <table id="tblGanadoCorral" class="display table " style="width:100%">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Id ganado</th>
+                                                                        <th>Id detalle</th>
+                                                                        <th>Núm. arete</th>
+                                                                        <th>Corral</th>
+                                                                        <th>Genero</th>
+                                                                        <th>Merma</th>
+                                                                        <th>Peso</th>
+                                                                        <th>Precio/kilo</th>
+                                                                        <th>Subtotal</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody></tbody>
+                                                                <tfoot>
+                                                                    <tr>
+                                                                        <th>Id ganado</th>
+                                                                        <th>Id detalle</th>
+                                                                        <th>Núm. arete</th>
+                                                                        <th>Corral</th>
+                                                                        <th>Genero</th>
+                                                                        <th>Merma</th>
+                                                                        <th>Peso</th>
+                                                                        <th>Precio/kilo</th>
+                                                                        <th>Subtotal</th>
+                                                                    </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <table id="tblGanadoJaula" class="display table " style="width:100%">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Id ganado</th>
+                                                                        <th>Id detalle</th>
+                                                                        <th>Núm. arete</th>
+                                                                        <th>Corral</th>
+                                                                        <th>Genero</th>
+                                                                        <th>Merma</th>
+                                                                        <th>Peso</th>
+                                                                        <th>Precio/kilo</th>
+                                                                        <th>Subtotal</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody></tbody>
+                                                                <tfoot>
+                                                                    <tr>
+                                                                        <th>Id ganado</th>
+                                                                        <th>Id detalle</th>
+                                                                        <th>Núm. arete</th>
+                                                                        <th>Corral</th>
+                                                                        <th>Genero</th>
+                                                                        <th>Merma</th>
+                                                                        <th>Peso</th>
+                                                                        <th>Precio/kilo</th>
+                                                                        <th>Subtotal</th>
+                                                                    </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                <div class="panel-footer">
+                    <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                    <a href="@Url.Action("Index", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="flete">
-                @*<div class="col-md-12">
-                    @{ Html.EnableClientValidation(false); }
-                    @using (Html.BeginForm("AC_Flete", "Venta", FormMethod.Post, new { id = "frm_venta", @class = "form-horizontal", autocomplete = "off" }))
-                    {
-                        @Html.HiddenFor(model => model.Id_flete);
-                        @Html.AntiForgeryToken()
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><strong>Flete</strong></h3>
-                                <ul class="panel-controls"></ul>
-                            </div>
-                            <div class="panel-body">
-                                @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
-                                <div id="validation_summary_flete" class="field_error "></div><br />
-                                <div class="form-group">
-                                    <div class="col-md-12 controlError">
-                                        <label class="col-md-1 control-label">Linea fletera</label>
-                                        <div class="col-md-11 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.DropDownListFor(model => model.Flete.Id_empresa, new SelectList(Model.ListaEmpresas, "IDEmpresa", "RazonFiscal"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Flete.Id_empresa)
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-6 controlError">
-                                        <label class="col-md-2 control-label">Chofer</label>
-                                        <div class="col-md-10 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.DropDownListFor(model => model.Flete.id_chofer, new SelectList(Model.Flete.ListaChofer, "IDChofer", "Nombre"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Flete.id_chofer)
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6 controlError">
-                                        <label class="col-md-2 control-label">Vehículo</label>
-                                        <div class="col-md-10 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.DropDownListFor(model => model.Flete.id_vehiculo, new SelectList(Model.Flete.ListaVehiculo, "IDVehiculo", "nombreMarca", "nombreTipoVehiculo", 1), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Flete.id_vehiculo)
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-6 controlError">
-                                        <label class="col-md-2 control-label">Kilómetraje Inicial</label>
-                                        <div class="col-md-10 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.Flete.kmInicialVehiculo, new { id = "KmInicial", @class = "form-control", placeholder = "Introduzca el km. inicial del vehículo." })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Flete.kmInicialVehiculo)
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 controlError">
-                                        <label class="col-md-2 control-label">Costo del flete</label>
-                                        <div class="col-md-10 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.Flete.precioFlete, "{0:f2}", new { @class = "form-control", placeholder = "Introduzca el precio del flete." })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Flete.precioFlete)
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <div id="floating-panel">
-                                            <b>Origen: </b>
-
-                                            <select id="Trayecto_id_lugarOrigen" name="Trayecto.id_lugarOrigen">
-                                                @foreach (var lugar in Model.Flete.Trayecto.ListaLugarOrigen)
-                                                {
-                                                    <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud"
-                                                            @if (Model.Flete.Trayecto.id_lugarOrigen == lugar.id_lugar) { <text>
-                                                            selected="selected"
-                                                            </text>     }>
-                                                        @lugar.descripcion
-                                                    </option>
-                                                }
-                                            </select>
-
-                                            <b>Destino: </b>
-
-                                            <select id="Trayecto_id_lugarDestino" name="Trayecto.id_lugarDestino">
-                                                @foreach (var lugar in Model.Flete.Trayecto.ListaLugarDestino)
-                                                {
-                                                    <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud" data-direccion="@lugar.Direccion"
-                                                            @if (Model.Flete.Trayecto.id_lugarDestino == lugar.id_lugar) { <text>
-                                                            selected="selected"
-                                                            </text>     }>
-                                                        @lugar.descripcion
-                                                    </option>
-                                                }
-                                            </select>
-                                        </div>
-                                        <div id="map"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel-footer">
-                                <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                                <a href="@Url.Action("ExportToExcel", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
-                            </div>
-                        </div>
-                    }
-                </div>*@
-            </div>
-            <div role="tabpanel" class="tab-pane" id="documentos">
-                @*<div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title"><strong>Documentación</strong></h3>
-                            <ul class="panel-controls"></ul>
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <!-- START DEFAULT DATATABLE -->
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title"></h3>
-                                            <ul class="panel-controls">
-                                                <li><a id="btnAddDocumento" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Documento</a></li>
-                                                <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                                                <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="panel-body">
-                                            <div class="col-md-12">
-                                                <h3></h3>
-                                                <div class="table-responsive">
-                                                    <table id="tblDocumentos" class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Tipo de documento</th>
-                                                                <th>Clave</th>
-                                                                <th>Imagen</th>
-                                                                <th>Acción</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody></tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- END DEFAULT DATATABLE -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel-footer">
-                            <a href="@Url.Action("Index", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
-                        </div>
-                    </div>
-                </div>*@
-            </div>
         </div>
-
-    </div>
-    <!--TERMINA TABS-->
+    }
     <div id="ModalDocumento" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
         <div class="modal-dialog modal-lg" id="ContenidoModalDocumento">
 
@@ -422,11 +279,12 @@
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        var message     = '@message';
-        var typemessage = '@typemessage';
-    </script>
+<script>
+    var message     = '@message';
+    var typemessage = '@typemessage';
+</script>
 }
 
 @section script

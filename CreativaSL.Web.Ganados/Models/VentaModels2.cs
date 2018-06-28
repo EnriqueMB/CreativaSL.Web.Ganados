@@ -24,7 +24,7 @@ namespace CreativaSL.Web.Ganados.Models
         public int CobrarFlete { get; set; }
         public string Observacion { get; set; }
         public string Descripcion_bascula { get; set; }
-        public string NombreVenta  { get; set; }
+        public string NombreVenta { get; set; }
         public int Opcion { get; set; }
 
         public List<CatSucursalesModels> ListaSucursales { get; set; }
@@ -36,6 +36,18 @@ namespace CreativaSL.Web.Ganados.Models
         public string Conexion { get; set; }
         public string Usuario { get; set; }
         public RespuestaAjax RespuestaAjax { get; set; }
+        public string ListaIDGanadosParaVender { get; set; }
+
+        public int CbzMachos { get; set; }
+        public int CbzHembras { get; set; }
+        public int CbzTotal { get; set; }
+        public decimal KgMachos { get; set; }
+        public decimal KgHembras { get; set; }
+        public decimal KgTotal { get; set; }
+        public decimal CostoMachos { get; set; }
+        public decimal CostoHembras { get; set; }
+        public decimal CostoTotal { get; set; }
+
     }
 }
 

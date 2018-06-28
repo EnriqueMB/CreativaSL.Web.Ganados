@@ -377,6 +377,64 @@ namespace CreativaSL.Web.Ganados.Models
 
         }
         #endregion
+        #region AC_Ganado
+        public RespuestaAjax AC_Ganado(VentaModels2 datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.Id_venta, datos.ListaIDGanadosParaVender, datos.Usuario
+                };
+
+                RespuestaAjax RespuestaAjax = new RespuestaAjax();
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Venta_ac_Ganado", parametros);
+                while (dr.Read())
+                {
+                    RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("Mensaje")) ? dr.GetString(dr.GetOrdinal("Mensaje")) : string.Empty;
+                }
+
+                return RespuestaAjax;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        #endregion
+        #endregion
+
+        #region Otros
+        #region Cambiar estatus
+        public RespuestaAjax CambiarEstatusCompra(VentaModels2 Venta)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     Venta.Id_venta
+                    ,Venta.Usuario
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_CambiarStatus", parametros);
+                RespuestaAjax RespuestaAjax = new RespuestaAjax();
+                while (dr.Read())
+                {
+                    RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                dr.Close();
+                return RespuestaAjax;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
         #endregion
     }
 }

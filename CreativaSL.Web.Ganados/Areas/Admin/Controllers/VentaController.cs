@@ -16,7 +16,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     {
         private TokenProcessor Token = TokenProcessor.GetInstance();
         private string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
-
+        #region Datatables
         [HttpPost]
         public ActionResult DatatableIndex()
         {
@@ -49,7 +49,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 VentaModels2 venta = new VentaModels2();
                 _Venta2_Datos ventaDatos = new _Venta2_Datos();
                 venta.Conexion = Conexion;
-                
+
 
                 venta.RespuestaAjax = new RespuestaAjax();
                 venta.RespuestaAjax.Mensaje = ventaDatos.DatatableGanadoActual(venta);
@@ -84,11 +84,42 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 VentaModels2 venta = new VentaModels2();
-                venta.RespuestaAjax.Mensaje = ex.ToString();
+                venta.RespuestaAjax = new RespuestaAjax();
+                venta.RespuestaAjax.Mensaje = ex.Message;
                 venta.RespuestaAjax.Success = false;
                 return Content(venta.RespuestaAjax.ToJSON(), "application/json");
             }
         }
+        #endregion
+
+        #region Otros
+        #region Cambiar estatus
+        [HttpGet]
+        public ActionResult CambiarEstatus(string IDVenta)
+        {
+            VentaModels2 Venta = new VentaModels2();
+            _Venta2_Datos VentaDatos = new _Venta2_Datos();
+            Venta.Conexion = Conexion;
+            Venta.Id_venta = IDVenta;
+            Venta.Usuario = User.Identity.Name;
+            Venta.RespuestaAjax = new RespuestaAjax();
+            Venta.RespuestaAjax = VentaDatos.CambiarEstatusCompra(Venta);
+
+            if (Venta.RespuestaAjax.Success)
+            {
+                TempData["typemessage"] = "1";
+                TempData["message"] = "Estatus cambiado con éxito";
+            }
+            else
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se pudo cambiar el estatus de la venta.";
+            }
+
+            return RedirectToAction("Index");
+        }
+        #endregion
+        #endregion
 
         // GET: Admin/Venta
         public ActionResult Index()
@@ -147,7 +178,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 TempData["typemessage"] = "2";
-                TempData["message"] = "No se puede cargar la vista, error: " + ex.ToString();
+                TempData["message"] = "No se puede cargar la vista, error: " + ex.Message;
                 return View("Index");
             }
         }
@@ -205,19 +236,98 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         #region Vista Ganado
         [HttpGet]
-        public ActionResult VentaGanado()
+        public ActionResult VentaGanado(string IDVenta)
         {
             try
             {
                 Token.SaveToken();
-                return View();
+                _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                VentaModels2 Venta = new VentaModels2();
+                Venta.RespuestaAjax = new RespuestaAjax();
+                
+                string Id_venta = string.IsNullOrEmpty(IDVenta) ? string.Empty : IDVenta;
+
+                if (Id_venta.Length == 0 || Id_venta.Length == 36)
+                {
+                    Venta.Conexion = Conexion;
+                    Venta.Id_venta = Id_venta;
+                    Venta = VentaDatos.GetVentaGanado(Venta);
+                    if (Venta.RespuestaAjax.Success)
+                    {
+                        return View(Venta);
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "No se puede cargar la vista, error: " + Venta.RespuestaAjax.Mensaje;
+                        return View("Index");
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return View("Index");
+                }
             }
             catch (Exception ex)
             {
                 TempData["typemessage"] = "2";
-                TempData["message"] = "No se puede cargar la vista, error: " + ex.ToString();
-                throw ex;
+                TempData["message"] = "No se puede cargar la vista, error: " + ex.Message;
+                return View("Index");
             }
+        }
+        [HttpPost]
+        public ActionResult VentaGanado(string ListaIDGanadosParaVender, string Id_venta)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                    VentaModels2 Venta = new VentaModels2();
+                    Venta.Conexion = Conexion;
+                    Venta.Usuario = User.Identity.Name;
+                    Venta.RespuestaAjax = VentaDatos.AC_Ganado(Venta);
+
+                    if (Venta.RespuestaAjax.Success)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardarón correctamente.";
+                        Token.ResetToken();
+
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+
+                        return RedirectToAction("Index");
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    VentaModels2 Venta = new VentaModels2();
+                    Venta.RespuestaAjax = new RespuestaAjax();
+                    Venta.RespuestaAjax.Success = false;
+
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico. Error: " + ex.Message;
+                VentaModels2 Venta = new VentaModels2();
+                Venta.RespuestaAjax = new RespuestaAjax();
+                Venta.RespuestaAjax.Success = false;
+
+                return RedirectToAction("Index");
+            }
+
         }
         #endregion
 
