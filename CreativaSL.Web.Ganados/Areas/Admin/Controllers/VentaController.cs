@@ -76,6 +76,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 venta.Conexion = Conexion;
 
                 venta.RespuestaAjax = new RespuestaAjax();
+                venta.Id_venta = Id_venta;
                 venta.RespuestaAjax.Mensaje = ventaDatos.DatatableGanadoParaVenta(venta);
                 venta.RespuestaAjax.Success = true;
 
@@ -250,7 +251,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 if (Id_venta.Length == 0 || Id_venta.Length == 36)
                 {
                     Venta.Conexion = Conexion;
-                    Venta.Id_venta = Id_venta;
+                    Venta.Id_venta = IDVenta;
                     Venta = VentaDatos.GetVentaGanado(Venta);
                     if (Venta.RespuestaAjax.Success)
                     {
@@ -278,7 +279,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpPost]
-        public ActionResult VentaGanado(string ListaIDGanadosParaVender, string Id_venta)
+        public ActionResult VentaGanado(string ListaIDGanadosParaVender, string IDVenta)
         {
             try
             {
@@ -288,6 +289,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     VentaModels2 Venta = new VentaModels2();
                     Venta.Conexion = Conexion;
                     Venta.Usuario = User.Identity.Name;
+                    Venta.ListaIDGanadosParaVender = ListaIDGanadosParaVender;
+                    Venta.Id_venta = IDVenta;
                     Venta.RespuestaAjax = VentaDatos.AC_Ganado(Venta);
 
                     if (Venta.RespuestaAjax.Success)

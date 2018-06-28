@@ -59,195 +59,195 @@
                 </div>
                 <div class="panel-body">
 
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label class="col-md-3 control-label">Cbz. Machos</label>
-                                                                <div class="col-md-9">
-                                                                    <div class="input-group">
-                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                        <input id="cMachos" type="text" class="form-control" disabled="disabled" value="0" />
-                                                                    </div>
-                                                                    <span class="help-block">Cantidad de ganado machos</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label class="col-md-3 control-label">Cbz. Hembras</label>
-                                                                <div class="col-md-9">
-                                                                    <div class="input-group">
-                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                        <input id="cHembras" type="text" class="form-control" disabled="disabled" value="0" />
-                                                                    </div>
-                                                                    <span class="help-block">Cantidad de ganado hembras</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label class="col-md-3 control-label">Cbz. Total</label>
-                                                                <div class="col-md-9">
-                                                                    <div class="input-group">
-                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                        <input id="cTotal" type="text" class="form-control" disabled="disabled" value="0" />
-                                                                    </div>
-                                                                    <span class="help-block">Cantidad total de ganado</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Cbz. Machos</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.CbzMachos, new { @class = "form-control", disabled = "disabled" })
+                                </div>
+                                <span class="help-block">Cantidad de ganado machos</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Cbz. Hembras</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model=>model.CbzHembras, new { @class = "form-control", disabled = "disabled"})
+                                </div>
+                                <span class="help-block">Cantidad de ganado hembras</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Cbz. Total</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.CbzTotal, new { @class = "form-control", disabled = "disabled" })
+                                </div>
+                                <span class="help-block">Cantidad total de ganado</span>
+                            </div>
+                        </div>
+                    </div>
 
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label class="col-md-3 control-label">Kg. Machos</label>
-                                                                <div class="col-md-9">
-                                                                    <div class="input-group">
-                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                        <input id="kgMachos" type="text" class="form-control" disabled="disabled" value="0" />
-                                                                    </div>
-                                                                    <span class="help-block">Cantidad de kilos ganado machos</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label class="col-md-3 control-label">Kg. Hembras</label>
-                                                                <div class="col-md-9">
-                                                                    <div class="input-group">
-                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                        <input id="kgHembras" type="text" class="form-control" disabled="disabled" value="0" />
-                                                                    </div>
-                                                                    <span class="help-block">Cantidad de kilos ganado hembras</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label class="col-md-3 control-label">Kg. Total</label>
-                                                                <div class="col-md-9">
-                                                                    <div class="input-group">
-                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                        <input id="kgTotal" type="text" class="form-control" disabled="disabled" value="0" />
-                                                                    </div>
-                                                                    <span class="help-block">Cantidad total de kilos ganado</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Kg. Machos</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.KgMachos, new { @class = "form-control", disabled = "disabled" })
+                                </div>
+                                <span class="help-block">Cantidad de kilos ganado machos</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Kg. Hembras</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.KgHembras, new { @class = "form-control", disabled = "disabled" })
+                                </div>
+                                <span class="help-block">Cantidad de kilos ganado hembras</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Kg. Total</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.KgTotal, new { @class = "form-control", disabled = "disabled" })
+                                </div>
+                                <span class="help-block">Cantidad total de kilos ganado</span>
+                            </div>
+                        </div>
+                    </div>
 
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label class="col-md-3 control-label">Costo Machos</label>
-                                                                <div class="col-md-9">
-                                                                    <div class="input-group">
-                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                        <input id="costoMachos" type="text" class="form-control" disabled="disabled" value="0" />
-                                                                    </div>
-                                                                    <span class="help-block">Costo del  ganado machos</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label class="col-md-3 control-label">Costo Hembras</label>
-                                                                <div class="col-md-9">
-                                                                    <div class="input-group">
-                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                        <input id="costoHembras" type="text" class="form-control" disabled="disabled" value="0" />
-                                                                    </div>
-                                                                    <span class="help-block">Costo del ganado hembras</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label class="col-md-3 control-label">Costo Total</label>
-                                                                <div class="col-md-9">
-                                                                    <div class="input-group">
-                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                        <input id="costoTotal" type="text" class="form-control" disabled="disabled" value="0" />
-                                                                    </div>
-                                                                    <span class="help-block">Costo total del ganado</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-12 text-center">
-                                                            <div class="btn-group">
-                                                                <center>
-                                                                    <button type="button" id="seleccionarCorral" class="btn btn-default"><i class="fa fa-hand-o-down"></i></button>
-                                                                    <button type="button" id="enviar" class="btn btn-default"><i class="fa fa-forward"></i></button>
-                                                                    <button type="button" id="regresar" class="btn btn-default"><i class="fa fa-backward"></i></button>
-                                                                    <button type="button" id="seleccionarJaula" class="btn btn-default"><i class="fa fa-hand-o-down"></i></button>
-                                                                </center>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <table id="tblGanadoCorral" class="display table " style="width:100%">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Id ganado</th>
-                                                                        <th>Id detalle</th>
-                                                                        <th>Núm. arete</th>
-                                                                        <th>Corral</th>
-                                                                        <th>Genero</th>
-                                                                        <th>Merma</th>
-                                                                        <th>Peso</th>
-                                                                        <th>Precio/kilo</th>
-                                                                        <th>Subtotal</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody></tbody>
-                                                                <tfoot>
-                                                                    <tr>
-                                                                        <th>Id ganado</th>
-                                                                        <th>Id detalle</th>
-                                                                        <th>Núm. arete</th>
-                                                                        <th>Corral</th>
-                                                                        <th>Genero</th>
-                                                                        <th>Merma</th>
-                                                                        <th>Peso</th>
-                                                                        <th>Precio/kilo</th>
-                                                                        <th>Subtotal</th>
-                                                                    </tr>
-                                                                </tfoot>
-                                                            </table>
-                                                        </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Costo Machos</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.CostoMachos, new { @class = "form-control", disabled = "disabled" })
+                                </div>
+                                <span class="help-block">Costo del  ganado machos</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Costo Hembras</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.CostoHembras, new { @class = "form-control", disabled = "disabled" })
+                                </div>
+                                <span class="help-block">Costo del ganado hembras</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Costo Total</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.CostoTotal, new { @class = "form-control", disabled = "disabled" })
+                                </div>
+                                <span class="help-block">Costo total del ganado</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <div class="btn-group">
+                                <center>
+                                    <button type="button" id="seleccionarCorral" class="btn btn-default"><i class="fa fa-hand-o-down"></i></button>
+                                    <button type="button" id="enviar" class="btn btn-default"><i class="fa fa-forward"></i></button>
+                                    <button type="button" id="regresar" class="btn btn-default"><i class="fa fa-backward"></i></button>
+                                    <button type="button" id="seleccionarJaula" class="btn btn-default"><i class="fa fa-hand-o-down"></i></button>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table id="tblGanadoCorral" class="display table " style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Id ganado</th>
+                                        <th>Id detalle</th>
+                                        <th>Núm. arete</th>
+                                        <th>Corral</th>
+                                        <th>Genero</th>
+                                        <th>Merma</th>
+                                        <th>Peso</th>
+                                        <th>Precio/kilo</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Id ganado</th>
+                                        <th>Id detalle</th>
+                                        <th>Núm. arete</th>
+                                        <th>Corral</th>
+                                        <th>Genero</th>
+                                        <th>Merma</th>
+                                        <th>Peso</th>
+                                        <th>Precio/kilo</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
 
-                                                        <div class="col-md-6">
-                                                            <table id="tblGanadoJaula" class="display table " style="width:100%">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Id ganado</th>
-                                                                        <th>Id detalle</th>
-                                                                        <th>Núm. arete</th>
-                                                                        <th>Corral</th>
-                                                                        <th>Genero</th>
-                                                                        <th>Merma</th>
-                                                                        <th>Peso</th>
-                                                                        <th>Precio/kilo</th>
-                                                                        <th>Subtotal</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody></tbody>
-                                                                <tfoot>
-                                                                    <tr>
-                                                                        <th>Id ganado</th>
-                                                                        <th>Id detalle</th>
-                                                                        <th>Núm. arete</th>
-                                                                        <th>Corral</th>
-                                                                        <th>Genero</th>
-                                                                        <th>Merma</th>
-                                                                        <th>Peso</th>
-                                                                        <th>Precio/kilo</th>
-                                                                        <th>Subtotal</th>
-                                                                    </tr>
-                                                                </tfoot>
-                                                            </table>
-                                                        </div>
-                                                    </div>
+                        <div class="col-md-6">
+                            <table id="tblGanadoJaula" class="display table " style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Id ganado</th>
+                                        <th>Id detalle</th>
+                                        <th>Núm. arete</th>
+                                        <th>Corral</th>
+                                        <th>Genero</th>
+                                        <th>Merma</th>
+                                        <th>Peso</th>
+                                        <th>Precio/kilo</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Id ganado</th>
+                                        <th>Id detalle</th>
+                                        <th>Núm. arete</th>
+                                        <th>Corral</th>
+                                        <th>Genero</th>
+                                        <th>Merma</th>
+                                        <th>Peso</th>
+                                        <th>Precio/kilo</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
 
                                                 </div>
                 <div class="panel-footer">

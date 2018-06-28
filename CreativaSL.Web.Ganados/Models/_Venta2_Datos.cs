@@ -29,8 +29,9 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
+                object[] parametros = { venta.Id_venta };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(venta.Conexion, "spCSLDB_Venta_get_DatatableGanadoParaVenta");
+                dr = SqlHelper.ExecuteReader(venta.Conexion, "spCSLDB_Venta_get_DatatableGanadoParaVenta", parametros);
                 string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
                 return datatable;
@@ -277,7 +278,7 @@ namespace CreativaSL.Web.Ganados.Models
         #endregion
 
         #region Vistas
-        #region FleteVenta
+        #region VentaFlete
         public VentaModels2 GetVentaFlete(VentaModels2 Venta)
         {
             object[] parametros =
@@ -325,6 +326,41 @@ namespace CreativaSL.Web.Ganados.Models
                     Venta.Flete.Id_empresa = !dr.IsDBNull(dr.GetOrdinal("id_empresa")) ? dr.GetString(dr.GetOrdinal("id_empresa")) : string.Empty;
                     Venta.Flete.Trayecto.id_lugarOrigen = !dr.IsDBNull(dr.GetOrdinal("id_lugarOrigen")) ? dr.GetString(dr.GetOrdinal("id_lugarOrigen")) : string.Empty;
                     Venta.Flete.Trayecto.id_lugarDestino = !dr.IsDBNull(dr.GetOrdinal("id_lugarDestino")) ? dr.GetString(dr.GetOrdinal("id_lugarDestino")) : string.Empty;
+                }
+                else
+                {
+                    Venta.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                }
+            }
+            dr.Close();
+            return Venta;
+        }
+        #endregion
+        #region VentaGanado
+        public VentaModels2 GetVentaGanado(VentaModels2 Venta)
+        {
+            object[] parametros =
+            {
+                Venta.Id_venta
+            };
+            SqlDataReader dr = null;
+            dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_VentaGanadoXIDVenta", parametros);
+
+            while (dr.Read())
+            {
+                Venta.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+
+                if (Venta.RespuestaAjax.Success)
+                {
+                    Venta.CbzMachos = !dr.IsDBNull(dr.GetOrdinal("cbzMachos")) ? dr.GetInt32(dr.GetOrdinal("cbzMachos")) : 0;
+                    Venta.CbzHembras = !dr.IsDBNull(dr.GetOrdinal("cbzHembras")) ? dr.GetInt32(dr.GetOrdinal("cbzHembras")) : 0;
+                    Venta.CbzTotal = !dr.IsDBNull(dr.GetOrdinal("cbzTotal")) ? dr.GetInt32(dr.GetOrdinal("cbzTotal")) : 0;
+                    Venta.KgMachos = !dr.IsDBNull(dr.GetOrdinal("kgMachos")) ? dr.GetDecimal(dr.GetOrdinal("kgMachos")) : 0;
+                    Venta.KgHembras = !dr.IsDBNull(dr.GetOrdinal("kgHembras")) ? dr.GetDecimal(dr.GetOrdinal("kgHembras")) : 0;
+                    Venta.KgTotal = !dr.IsDBNull(dr.GetOrdinal("kgTotal")) ? dr.GetDecimal(dr.GetOrdinal("kgTotal")) : 0;
+                    Venta.CostoMachos = !dr.IsDBNull(dr.GetOrdinal("costoMachos")) ? dr.GetDecimal(dr.GetOrdinal("costoMachos")) : 0;
+                    Venta.CostoHembras = !dr.IsDBNull(dr.GetOrdinal("costoHembras")) ? dr.GetDecimal(dr.GetOrdinal("costoHembras")) : 0;
+                    Venta.CostoTotal = !dr.IsDBNull(dr.GetOrdinal("costoTotal")) ? dr.GetDecimal(dr.GetOrdinal("costoTotal")) : 0;
                 }
                 else
                 {

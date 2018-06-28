@@ -2,25 +2,25 @@
     "use strict"
     var Id_venta = $("#Id_venta").val();
     var tblGanadoCorral, tblGanadoJaula;
-    var ref_cabezas_machos = $("#cMachos");
-    var ref_cabezas_hembras = $("#cHembras");
-    var ref_cabezas_total = $("#cTotal");
-    var ref_kgMachos = $("#kgMachos");
-    var ref_kgHembras = $("#kgHembras");
-    var ref_kgTotal = $("#kgTotal");
-    var ref_costoMachos = $("#costoMachos");
-    var ref_costoHembras = $("#costoHembras");
-    var ref_costoTotal = $("#costoTotal");
+    var ref_cabezas_machos = $("#CbzMachos");
+    var ref_cabezas_hembras = $("#CbzHembras");
+    var ref_cabezas_total = $("#CbzTotal");
+    var ref_kgMachos = $("#KgMachos");
+    var ref_kgHembras = $("#KgHembras");
+    var ref_kgTotal = $("#KgTotal");
+    var ref_costoMachos = $("#CostoMachos");
+    var ref_costoHembras = $("#CostoHembras");
+    var ref_costoTotal = $("#CostoTotal");
 
-    var cabezas_machos = parseInt($("#cMachos").val());
-    var cabezas_hembras = parseInt($("#cHembras").val());
-    var cabezas_total = parseInt($("#cTotal").val());
-    var kgMachos = parseFloat($("#kgMachos").val());
-    var kgHembras = parseFloat($("#kgHembras").val());
-    var kgTotal = parseFloat($("#kgTotal").val());
-    var costoMachos = parseFloat($("#costoMachos").val());
-    var costoHembras = parseFloat($("#costoHembras").val());
-    var costoTotal = parseFloat($("#costoTotal").val());
+    var cabezas_machos = parseInt($("#CbzMachos").val());
+    var cabezas_hembras = parseInt($("#CbzHembras").val());
+    var cabezas_total = parseInt($("#CbzTotal").val());
+    var kgMachos = parseFloat($("#KgMachos").val());
+    var kgHembras = parseFloat($("#KgHembras").val());
+    var kgTotal = parseFloat($("#KgTotal").val());
+    var costoMachos = parseFloat($("#CostoMachos").val());
+    var costoHembras = parseFloat($("#CostoHembras").val());
+    var costoTotal = parseFloat($("#CostoTotal").val());
 
     var genero;
 
@@ -133,12 +133,13 @@
 
         $(document).on('submit', 'form#frm_venta', function (e) {
             e.preventDefault();
-
+            
             //datos de las tablas
             var ganado = tblGanadoJaula.rows().data();
             var objGanado, cantidad = 0;
             var listaGanado = new Array();
 
+            console.log("ganado: " + ganado);
             if (ganado.length == 0) {
                 $("#tblGanadoJaula").addClass("errorTableCSL");
                 $("#validation_summary").append("");
@@ -155,9 +156,7 @@
 
                 var formData = new FormData();
                 //datos de las tablas
-                var ganado_seleccionado = tblGanadoJaula.rows().data();
-
-                formData.append('Id_venta', Id_venta);
+                formData.append('IDVenta', Id_venta);
                 formData.append('ListaIDGanadosParaVender', listaGanado);
 
                 $.ajax({
@@ -168,7 +167,10 @@
                     processData: false,
                     cache: false,
                     success: function (response) {
-                        
+                        window.location.href = '/Admin/Venta/Index';
+                    },
+                    error: function (request, status, error) {
+                        window.location.href = '/Admin/Venta/Index';
                     }
                 });
             }
