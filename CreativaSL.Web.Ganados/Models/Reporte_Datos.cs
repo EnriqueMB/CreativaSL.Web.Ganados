@@ -253,5 +253,37 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public List<RptJaulasXVentaModels> obtenerListaJaulasXVenta(RptJaulasXVentaModels datos)
+        {
+            try
+            {
+                object[] parametros = { datos.fechaInicio, datos.fechaFin };
+                List<RptJaulasXVentaModels> lista = new List<RptJaulasXVentaModels>();
+                RptJaulasXVentaModels item;
+                SqlDataReader ds = null;
+                ds = SqlHelper.ExecuteReader(datos.Conexion,"spCSLDB_Reporte_get_JaulaXVenta", parametros);
+                while (ds.Read())
+                {
+                    item = new RptJaulasXVentaModels();
+                    item.chofer = !ds.IsDBNull(ds.GetOrdinal("nombreChofer")) ? ds.GetString(ds.GetOrdinal("nombreChofer")) : string.Empty;
+                    item.folio = !ds.IsDBNull(ds.GetOrdinal("folioFlete")) ? ds.GetInt64(ds.GetOrdinal("folioFlete")) : 0;
+                    item.descripcion = !ds.IsDBNull(ds.GetOrdinal("Descripcion")) ? ds.GetString(ds.GetOrdinal("Descripcion")) : string.Empty;
+                    item.placas = !ds.IsDBNull(ds.GetOrdinal("Placas")) ? ds.GetString(ds.GetOrdinal("Placas")) : string.Empty;
+                    item.modelo = !ds.IsDBNull(ds.GetOrdinal("Modelo")) ? ds.GetString(ds.GetOrdinal("Modelo")) : string.Empty;
+                    item.noSerie = !ds.IsDBNull(ds.GetOrdinal("NoSerie")) ? ds.GetString(ds.GetOrdinal("NoSerie")) : string.Empty;
+                    item.montoTotal = !ds.IsDBNull(ds.GetOrdinal("MontoTotal")) ? ds.GetDecimal(ds.GetOrdinal("MontoTotal")) : 0;
+                    item.capacidad = !ds.IsDBNull(ds.GetOrdinal("Capacidad")) ? ds.GetString(ds.GetOrdinal("Capacidad")) : string.Empty;
+                    item.totalGanados = !ds.IsDBNull(ds.GetOrdinal("TotalGanado")) ? ds.GetInt32(ds.GetOrdinal("TotalGanado")) : 0;
+                    lista.Add(item);
+                }
+                ds.Close();  
+                return datos.listaJaulas = lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

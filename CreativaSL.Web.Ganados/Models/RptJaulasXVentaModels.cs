@@ -12,10 +12,13 @@ namespace CreativaSL.Web.Ganados.Models
         {
             _chofer = string.Empty;
             _folio = 0;
+            _totalGanados = 0;
+            _montoTotal = 0;
             _modelo = string.Empty;
             _fechaFin = DateTime.Today;
             _fechaInicio = DateTime.Today;
             _datosEmpresa = new DatosEmpresaViewModels();
+            _listaJaulas = new List<RptJaulasXVentaModels>();
             _noSerie = string.Empty;
             _descripcion = string.Empty;
             _capacidad = string.Empty;
@@ -23,6 +26,13 @@ namespace CreativaSL.Web.Ganados.Models
             Conexion = string.Empty;
             Completado = false;
             Usuario = string.Empty;
+        }
+        private List<RptJaulasXVentaModels> _listaJaulas;
+
+        public List<RptJaulasXVentaModels> listaJaulas
+        {
+            get { return _listaJaulas; }
+            set { _listaJaulas = value; }
         }
 
         private string _chofer;
@@ -39,6 +49,14 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _folio; }
             set { _folio = value; }
         }
+        private int _totalGanados;
+
+        public int totalGanados
+        {
+            get { return _totalGanados; }
+            set { _totalGanados = value; }
+        }
+
         private string _descripcion;
 
         public string descripcion
@@ -46,6 +64,14 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _descripcion; }
             set { _descripcion = value; }
         }
+        private Decimal _montoTotal;
+
+        public Decimal montoTotal
+        {
+            get { return _montoTotal; }
+            set { _montoTotal = value; }
+        }
+
         private string _modelo;
 
         public string modelo
