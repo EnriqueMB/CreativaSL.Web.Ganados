@@ -8,12 +8,37 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class RptGanadosMtoCompraModels
     {
+        public RptGanadosMtoCompraModels()
+        {
+            _listaGanadosMtoCompra = new List<RptGanadosMtoCompraModels>();
+            _listaTotalGanado = new List<RptGanadosMtoCompraModels>();
+            _proveedor = string.Empty;
+            _numArete = string.Empty;
+            _genero = string.Empty;
+            _folio = 0;
+            _fechaInicio = DateTime.Today;
+            _fechaFin = DateTime.Today;
+            _fechaHoraTerminada = DateTime.Today;
+            _montoTotal = 0;
+            _datosEmpresa = new DatosEmpresaViewModels();
+            Conexion = string.Empty;
+            _totalGanados = 0;
+            _totalHembras = 0;
+            _totalMachos = 0;
+        }
         private List<RptGanadosMtoCompraModels> _listaGanadosMtoCompra;
 
         public List<RptGanadosMtoCompraModels> listaGanadosMtoCompra
         {
             get { return _listaGanadosMtoCompra; }
             set { _listaGanadosMtoCompra = value; }
+        }
+        private List<RptGanadosMtoCompraModels> _listaTotalGanado;
+
+        public List<RptGanadosMtoCompraModels> listaTotalGanado
+        {
+            get { return _listaTotalGanado; }
+            set { _listaTotalGanado = value; }
         }
 
         private string _proveedor;
