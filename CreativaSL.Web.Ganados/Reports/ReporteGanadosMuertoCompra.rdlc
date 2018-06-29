@@ -846,7 +846,6 @@
         <ChartCategoryHierarchy>
           <ChartMembers>
             <ChartMember>
-              <Group Name="ChartGroup" />
               <Label />
             </ChartMember>
           </ChartMembers>
