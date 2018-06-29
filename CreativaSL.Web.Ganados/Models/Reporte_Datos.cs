@@ -172,7 +172,9 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros = { datos.fechaInicio, datos.fechaFin };
                 List<RptGanadosMtoVentaModels> lista = new List<RptGanadosMtoVentaModels>();
+                List<RptGanadosMtoVentaModels> lista2 = new List<RptGanadosMtoVentaModels>();
                 RptGanadosMtoVentaModels item;
+                RptGanadosMtoVentaModels item2;
                 DataSet ds = null;
                 ds = SqlHelper.ExecuteDataset(datos.Conexion, "spCSLDB_Reporte_get_GanadosMtoVenta", parametros);
                 if (ds != null)
@@ -193,15 +195,16 @@ namespace CreativaSL.Web.Ganados.Models
 
                     while (dr2.Read())
                     {
-                        datos.totalMachos = !dr2.IsDBNull(dr2.GetOrdinal("MACHOS")) ? dr2.GetInt32(dr2.GetOrdinal("MACHOS")) : 0;
-                        datos.totalHembras = !dr2.IsDBNull(dr2.GetOrdinal("HEMBRAS")) ? dr2.GetInt32(dr2.GetOrdinal("HEMBRAS")) : 0;
-                        datos.totalGanados = !dr2.IsDBNull(dr2.GetOrdinal("TOTAL")) ? dr2.GetInt32(dr2.GetOrdinal("TOTAL")) : 0;
-                        break;
+                        item2 = new RptGanadosMtoVentaModels();
+                        item2.totalMachos = !dr2.IsDBNull(dr2.GetOrdinal("MACHOS")) ? dr2.GetInt32(dr2.GetOrdinal("MACHOS")) : 0;
+                        item2.totalHembras = !dr2.IsDBNull(dr2.GetOrdinal("HEMBRAS")) ? dr2.GetInt32(dr2.GetOrdinal("HEMBRAS")) : 0;
+                        item2.totalGanados = !dr2.IsDBNull(dr2.GetOrdinal("TOTAL")) ? dr2.GetInt32(dr2.GetOrdinal("TOTAL")) : 0;
+                        lista2.Add(item2);
                     }
                     dr.Close();
                     dr2.Close();
                 }
-                
+                datos.ListaTotalGanado = lista2;
                 return datos.listaGanadosMtoVenta = lista;
             }
             catch (Exception ex)

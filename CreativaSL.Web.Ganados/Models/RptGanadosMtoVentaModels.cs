@@ -8,6 +8,7 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class RptGanadosMtoVentaModels
     {
+
         private List<RptGanadosMtoVentaModels> _listaGanadosMtoVenta;
 
         public List<RptGanadosMtoVentaModels> listaGanadosMtoVenta
@@ -15,6 +16,15 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _listaGanadosMtoVenta; }
             set { _listaGanadosMtoVenta = value; }
         }
+
+        private List<RptGanadosMtoVentaModels> _ListaTotalGanado;
+
+        public List<RptGanadosMtoVentaModels> ListaTotalGanado
+        {
+            get { return _ListaTotalGanado; }
+            set { _ListaTotalGanado = value; }
+        }
+
 
         private string _cliente;
 

@@ -371,6 +371,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Parametros[11] = new ReportParameter("Total", reporte.totalGanados.ToString());
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("ListaGanadosMtoVenta", reporte.listaGanadosMtoVenta));
+                Rtp.DataSources.Add(new ReportDataSource("ListaTotalGanado", reporte.ListaTotalGanado));
                 string reportType = id;
                 string mimeType;
                 string encoding;

@@ -544,7 +544,7 @@
         </TablixRowHierarchy>
         <DataSetName>ListaGanadosMtoVenta</DataSetName>
         <Top>0.17639cm</Top>
-        <Left>1.27cm</Left>
+        <Left>0.9525cm</Left>
         <Height>2.79604cm</Height>
         <Width>14.82076cm</Width>
         <Style>
@@ -719,21 +719,21 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox45">
+                    <Textbox Name="totalMachos">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Parameters!Machos.Value</Value>
+                              <Value>=Sum(Fields!totalMachos.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox45</rd:DefaultName>
+                      <rd:DefaultName>totalMachos</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -749,21 +749,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox46">
+                    <Textbox Name="totalHembras">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Parameters!Hembras.Value</Value>
+                              <Value>=Sum(Fields!totalHembras.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox46</rd:DefaultName>
+                      <rd:DefaultName>totalHembras</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -779,21 +779,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox47">
+                    <Textbox Name="totalGanados">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Parameters!Total.Value</Value>
+                              <Value>=Sum(Fields!totalGanados.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox47</rd:DefaultName>
+                      <rd:DefaultName>totalGanados</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -825,9 +825,9 @@
             <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
-        <DataSetName>ListaGanadosMtoVenta</DataSetName>
+        <DataSetName>ListaTotalGanado</DataSetName>
         <Top>3.34257cm</Top>
-        <Left>1.27cm</Left>
+        <Left>0.9525cm</Left>
         <Height>2.02875cm</Height>
         <Width>8.8059cm</Width>
         <ZIndex>1</ZIndex>
@@ -838,7 +838,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>2.15858in</Height>
+    <Height>2.35267in</Height>
     <Style />
   </Body>
   <Width>16.49458cm</Width>
@@ -866,7 +866,7 @@
           </Paragraphs>
           <rd:DefaultName>Textbox1</rd:DefaultName>
           <Top>1.58757cm</Top>
-          <Left>1.27cm</Left>
+          <Left>0.9525cm</Left>
           <Height>0.60847cm</Height>
           <Width>8.80591cm</Width>
           <Style>
@@ -903,7 +903,7 @@
           </Paragraphs>
           <rd:DefaultName>Textbox3</rd:DefaultName>
           <Top>0.3175cm</Top>
-          <Left>7.26722cm</Left>
+          <Left>6.94972cm</Left>
           <Height>0.6cm</Height>
           <Width>8.82354cm</Width>
           <ZIndex>1</ZIndex>
@@ -941,7 +941,7 @@
           </Paragraphs>
           <rd:DefaultName>Textbox11</rd:DefaultName>
           <Top>1.62285cm</Top>
-          <Left>10.0759cm</Left>
+          <Left>9.7584cm</Left>
           <Height>0.5732cm</Height>
           <Width>6.01486cm</Width>
           <ZIndex>2</ZIndex>
@@ -991,7 +991,7 @@
           </Paragraphs>
           <rd:DefaultName>Textbox2</rd:DefaultName>
           <Top>0.91715cm</Top>
-          <Left>7.26722cm</Left>
+          <Left>6.94972cm</Left>
           <Height>0.63514cm</Height>
           <Width>8.82354cm</Width>
           <ZIndex>3</ZIndex>
@@ -1011,7 +1011,7 @@
           <MIMEType>image/png</MIMEType>
           <Sizing>FitProportional</Sizing>
           <Top>0.3175cm</Top>
-          <Left>1.27cm</Left>
+          <Left>0.9525cm</Left>
           <Height>1.27042cm</Height>
           <Width>5.96194cm</Width>
           <ZIndex>4</ZIndex>
@@ -1091,11 +1091,101 @@
       </ConnectionProperties>
       <rd:DataSourceID>d6193e12-abda-4597-8022-5ae661479ea6</rd:DataSourceID>
     </DataSource>
+    <DataSource Name="CreativaSLWebGanadosModels6">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>5d4b1ae3-3f36-447a-8dff-b24a2ac8a451</rd:DataSourceID>
+    </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="ListaGanadosMtoVenta">
       <Query>
         <DataSourceName>CreativaSLWebGanadosModels4</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="listaGanadosMtoVenta">
+          <DataField>listaGanadosMtoVenta</DataField>
+          <rd:TypeName>System.Collections.Generic.List`1[[CreativaSL.Web.Ganados.Models.RptGanadosMtoVentaModels, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="cliente">
+          <DataField>cliente</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="numArete">
+          <DataField>numArete</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="genero">
+          <DataField>genero</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="folio">
+          <DataField>folio</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="fechaInicio">
+          <DataField>fechaInicio</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="fechaFin">
+          <DataField>fechaFin</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="fechaHoraVenta">
+          <DataField>fechaHoraVenta</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="montoTotal">
+          <DataField>montoTotal</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="datosEmpresa">
+          <DataField>datosEmpresa</DataField>
+          <rd:TypeName>CreativaSL.Web.Ganados.ViewModels.DatosEmpresaViewModels</rd:TypeName>
+        </Field>
+        <Field Name="totalMachos">
+          <DataField>totalMachos</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="totalHembras">
+          <DataField>totalHembras</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="totalGanados">
+          <DataField>totalGanados</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Conexion">
+          <DataField>Conexion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Resultado">
+          <DataField>Resultado</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Completado">
+          <DataField>Completado</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="Usuario">
+          <DataField>Usuario</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>CreativaSL.Web.Ganados.Models</rd:DataSetName>
+        <rd:TableName>Reporte_Datos</rd:TableName>
+        <rd:ObjectDataSourceSelectMethod>obtenerListaGanadosMtoVenta</rd:ObjectDataSourceSelectMethod>
+        <rd:ObjectDataSourceSelectMethodSignature>System.Collections.Generic.List`1[CreativaSL.Web.Ganados.Models.RptGanadosMtoVentaModels] obtenerListaGanadosMtoVenta(CreativaSL.Web.Ganados.Models.RptGanadosMtoVentaModels)</rd:ObjectDataSourceSelectMethodSignature>
+        <rd:ObjectDataSourceType>CreativaSL.Web.Ganados.Models.Reporte_Datos, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="ListaTotalGanado">
+      <Query>
+        <DataSourceName>CreativaSLWebGanadosModels6</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
