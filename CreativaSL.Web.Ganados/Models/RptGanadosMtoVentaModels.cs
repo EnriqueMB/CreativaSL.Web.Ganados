@@ -24,6 +24,7 @@ namespace CreativaSL.Web.Ganados.Models
             _montoTotal = 0;
             _genero = string.Empty;
             Conexion = string.Empty;
+            _datosEmpresa = new DatosEmpresaViewModels();
         }
         private List<RptGanadosMtoVentaModels> _listaGanadosMtoVenta;
 
