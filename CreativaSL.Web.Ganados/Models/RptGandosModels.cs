@@ -22,12 +22,22 @@ namespace CreativaSL.Web.Ganados.Models
             _GanadosTotal = 0;
             _GandosHembras = 0;
             _listaGanadosVendidos = new List<RptGandosModels>();
+            _listaGanadosTotal = new List<RptGandosModels>();
             _datosEmpresa = new DatosEmpresaViewModels();
             Conexion = string.Empty;
             Completado = false;
             Resultado = 0;
             Usuario = string.Empty;
         }
+        private List<RptGandosModels> _listaGanadosTotal;
+
+        public List<RptGandosModels> listaGanadosTotal
+        {
+            get { return _listaGanadosTotal; }
+            set { _listaGanadosTotal = value; }
+        }
+
+
         private string _cliente;
 
         public string Cliente

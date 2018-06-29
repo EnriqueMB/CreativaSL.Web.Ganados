@@ -287,11 +287,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Parametros[6] = new ReportParameter("UrlLogo", reporte.datosEmpresa.LogoEmpresa);
                 Parametros[7] = new ReportParameter("FechaInicio", id2);
                 Parametros[8] = new ReportParameter("FechaFin", id3);
-                Parametros[9] = new ReportParameter("Machos", reporte.GanadosMachos.ToString());
-                Parametros[10] = new ReportParameter("Hembras", reporte.GanadosHembras.ToString());
-                Parametros[11] = new ReportParameter("Total", reporte.GanadosTotal.ToString());
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("ListaGanadosVendidos", reporte.listaGanadosVendidos));
+                Rtp.DataSources.Add(new ReportDataSource("ListaGanadosTotal", reporte.listaGanadosTotal));
                 string reportType = id;
                 string mimeType;
                 string encoding;
@@ -356,7 +354,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     return RedirectToAction("Index", "Reportes");
                 }
-                ReportParameter[] Parametros = new ReportParameter[12];
+                ReportParameter[] Parametros = new ReportParameter[9];
                 Parametros[0] = new ReportParameter("Empresa", reporte.datosEmpresa.RazonFiscal);
                 Parametros[1] = new ReportParameter("Direccion", reporte.datosEmpresa.DireccionFiscal);
                 Parametros[2] = new ReportParameter("RFC", reporte.datosEmpresa.RFC);
@@ -366,9 +364,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Parametros[6] = new ReportParameter("UrlLogo", reporte.datosEmpresa.LogoEmpresa);
                 Parametros[7] = new ReportParameter("FechaInicio", id2);
                 Parametros[8] = new ReportParameter("FechaFin", id3);
-                Parametros[9] = new ReportParameter("Machos", reporte.totalMachos.ToString());
-                Parametros[10] = new ReportParameter("Hembras", reporte.totalHembras.ToString());
-                Parametros[11] = new ReportParameter("Total", reporte.totalGanados.ToString());
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("ListaGanadosMtoVenta", reporte.listaGanadosMtoVenta));
                 Rtp.DataSources.Add(new ReportDataSource("ListaTotalGanado", reporte.ListaTotalGanado));
@@ -435,7 +430,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     return RedirectToAction("Index", "Reportes");
                 }
-                ReportParameter[] Parametros = new ReportParameter[12];
+                ReportParameter[] Parametros = new ReportParameter[9];
                 Parametros[0] = new ReportParameter("Empresa", reporteCpra.datosEmpresa.RazonFiscal);
                 Parametros[1] = new ReportParameter("Direccion", reporteCpra.datosEmpresa.DireccionFiscal);
                 Parametros[2] = new ReportParameter("RFC", reporteCpra.datosEmpresa.RFC);
@@ -445,9 +440,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Parametros[6] = new ReportParameter("UrlLogo", reporteCpra.datosEmpresa.LogoEmpresa);
                 Parametros[7] = new ReportParameter("FechaInicio", id2);
                 Parametros[8] = new ReportParameter("FechaFin", id3);
-                Parametros[9] = new ReportParameter("totalMachos", reporteCpra.totalMachos.ToString());
-                Parametros[10] = new ReportParameter("totalHembras", reporteCpra.totalHembras.ToString());
-                Parametros[11] = new ReportParameter("totalGanados", reporteCpra.totalGanados.ToString());
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("ListaGanadosMtoCompra", reporteCpra.listaGanadosMtoCompra));
                 Rtp.DataSources.Add(new ReportDataSource("ListaTotalGanados", reporteCpra.listaTotalGanado));

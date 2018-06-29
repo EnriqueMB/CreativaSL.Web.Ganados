@@ -1748,6 +1748,7 @@
     <EmbeddedResource Include="Reports\prueba.rdlc">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ReporteEntradas.rdlc" />
     <EmbeddedResource Include="Reports\ReporteGanadosMuertoCompra.rdlc" />
     <EmbeddedResource Include="Reports\ReporteGanadosVendidos.rdlc" />
     <EmbeddedResource Include="Reports\ReporteJaulasVenta.rdlc" />

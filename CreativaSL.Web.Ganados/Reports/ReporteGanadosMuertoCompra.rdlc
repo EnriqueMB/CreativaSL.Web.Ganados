@@ -1177,7 +1177,7 @@
         </Style>
       </Chart>
     </ReportItems>
-    <Height>7.90476in</Height>
+    <Height>5.1235in</Height>
     <Style />
   </Body>
   <Width>16.5cm</Width>
@@ -1600,14 +1600,6 @@
       <DataType>String</DataType>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
-    <ReportParameter Name="totalMachos">
-      <DataType>String</DataType>
-      <Prompt>ReportParameter1</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="totalHembras">
-      <DataType>String</DataType>
-      <Prompt>ReportParameter1</Prompt>
-    </ReportParameter>
     <ReportParameter Name="Direccion">
       <DataType>String</DataType>
       <Prompt>ReportParameter1</Prompt>
@@ -1617,10 +1609,6 @@
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
     <ReportParameter Name="RFC">
-      <DataType>String</DataType>
-      <Prompt>ReportParameter1</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="totalGanados">
       <DataType>String</DataType>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
