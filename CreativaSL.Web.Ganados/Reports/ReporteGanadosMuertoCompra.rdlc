@@ -550,8 +550,8 @@
         <DataSetName>ListaGanadosMtoCompra</DataSetName>
         <Top>0.17639cm</Top>
         <Left>1.16212cm</Left>
-        <Height>2.68676cm</Height>
-        <Width>14.82076cm</Width>
+        <Height>2.68675cm</Height>
+        <Width>14.82077cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -720,25 +720,25 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.67938cm</Height>
+              <Height>0.6cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox27">
+                    <Textbox Name="totalMachos">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Parameters!totalMachos.Value</Value>
+                              <Value>=Sum(Fields!totalMachos.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox27</rd:DefaultName>
+                      <rd:DefaultName>totalMachos</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -754,21 +754,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox28">
+                    <Textbox Name="totalHembras">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Parameters!totalHembras.Value</Value>
+                              <Value>=Sum(Fields!totalHembras.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox28</rd:DefaultName>
+                      <rd:DefaultName>totalHembras</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -784,21 +784,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox29">
+                    <Textbox Name="totalGanados">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Parameters!totalGanados.Value</Value>
+                              <Value>=Sum(Fields!totalGanados.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox29</rd:DefaultName>
+                      <rd:DefaultName>totalGanados</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -830,11 +830,11 @@
             <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
-        <DataSetName>ListaGanadosMtoCompra</DataSetName>
+        <DataSetName>ListaTotalGanados</DataSetName>
         <Top>3.34642cm</Top>
         <Left>1.16212cm</Left>
-        <Height>1.9276cm</Height>
-        <Width>9.12341cm</Width>
+        <Height>1.84823cm</Height>
+        <Width>9.12342cm</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -843,7 +843,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>2.20139in</Height>
+    <Height>5.47222in</Height>
     <Style />
   </Body>
   <Width>16.5cm</Width>
@@ -1061,6 +1061,13 @@
       </ConnectionProperties>
       <rd:DataSourceID>af0fabda-94d6-4f69-b787-596d32e14662</rd:DataSourceID>
     </DataSource>
+    <DataSource Name="CreativaSLWebGanadosModels1">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>b88cac2b-d518-413f-bc8d-b343adf6615f</rd:DataSourceID>
+    </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="ListaGanadosMtoCompra">
@@ -1071,6 +1078,93 @@
       <Fields>
         <Field Name="listaGanadosMtoCompra">
           <DataField>listaGanadosMtoCompra</DataField>
+          <rd:TypeName>System.Collections.Generic.List`1[[CreativaSL.Web.Ganados.Models.RptGanadosMtoCompraModels, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="proveedor">
+          <DataField>proveedor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="numArete">
+          <DataField>numArete</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="genero">
+          <DataField>genero</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="folio">
+          <DataField>folio</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="fechaInicio">
+          <DataField>fechaInicio</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="fechaFin">
+          <DataField>fechaFin</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="fechaHoraTerminada">
+          <DataField>fechaHoraTerminada</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="montoTotal">
+          <DataField>montoTotal</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="datosEmpresa">
+          <DataField>datosEmpresa</DataField>
+          <rd:TypeName>CreativaSL.Web.Ganados.ViewModels.DatosEmpresaViewModels</rd:TypeName>
+        </Field>
+        <Field Name="totalMachos">
+          <DataField>totalMachos</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="totalHembras">
+          <DataField>totalHembras</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="totalGanados">
+          <DataField>totalGanados</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Conexion">
+          <DataField>Conexion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Resultado">
+          <DataField>Resultado</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Completado">
+          <DataField>Completado</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="Usuario">
+          <DataField>Usuario</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>CreativaSL.Web.Ganados.Models</rd:DataSetName>
+        <rd:TableName>Reporte_Datos</rd:TableName>
+        <rd:ObjectDataSourceSelectMethod>obtenerListaGanadosMtoCompra</rd:ObjectDataSourceSelectMethod>
+        <rd:ObjectDataSourceSelectMethodSignature>System.Collections.Generic.List`1[CreativaSL.Web.Ganados.Models.RptGanadosMtoCompraModels] obtenerListaGanadosMtoCompra(CreativaSL.Web.Ganados.Models.RptGanadosMtoCompraModels)</rd:ObjectDataSourceSelectMethodSignature>
+        <rd:ObjectDataSourceType>CreativaSL.Web.Ganados.Models.Reporte_Datos, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="ListaTotalGanados">
+      <Query>
+        <DataSourceName>CreativaSLWebGanadosModels1</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="listaGanadosMtoCompra">
+          <DataField>listaGanadosMtoCompra</DataField>
+          <rd:TypeName>System.Collections.Generic.List`1[[CreativaSL.Web.Ganados.Models.RptGanadosMtoCompraModels, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="listaTotalGanado">
+          <DataField>listaTotalGanado</DataField>
           <rd:TypeName>System.Collections.Generic.List`1[[CreativaSL.Web.Ganados.Models.RptGanadosMtoCompraModels, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
         </Field>
         <Field Name="proveedor">

@@ -8,7 +8,23 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class RptGanadosMtoVentaModels
     {
-
+        public RptGanadosMtoVentaModels()
+        {
+            _listaGanadosMtoVenta = new List<RptGanadosMtoVentaModels>();
+            _ListaTotalGanado = new List<RptGanadosMtoVentaModels>();
+            _cliente = string.Empty;
+            _numArete = string.Empty;
+            _folio = 0;
+            _fechaHoraVenta = DateTime.Today;
+            _fechaInicio = DateTime.Today;
+            _fechaFin = DateTime.Today;
+            _totalGanados = 0;
+            _totalHembras = 0;
+            _totalMachos = 0;
+            _montoTotal = 0;
+            _genero = string.Empty;
+            Conexion = string.Empty;
+        }
         private List<RptGanadosMtoVentaModels> _listaGanadosMtoVenta;
 
         public List<RptGanadosMtoVentaModels> listaGanadosMtoVenta
