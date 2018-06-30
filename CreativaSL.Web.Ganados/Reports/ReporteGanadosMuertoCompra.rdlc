@@ -6,46 +6,94 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>3.71024cm</Width>
+              <Width>3.32809cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.20864cm</Width>
+              <Width>2.33138cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.73218cm</Width>
+              <Width>2.33138cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.13447cm</Width>
+              <Width>2.09176cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.34061cm</Width>
+              <Width>2.60888cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>1.08479cm</Height>
+              <Height>0.60767cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox4">
+                    <Textbox Name="Textbox31">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Cliente</Value>
+                              <Value>                                 DETALLE POR COMPRA</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox4</rd:DefaultName>
+                      <rd:DefaultName>Textbox31</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <LeftBorder>
+                          <Color>Red</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <BackgroundColor>Red</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>5</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>1.03954cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox6">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Proveedor</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox6</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -62,7 +110,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox6">
+                    <Textbox Name="Textbox8">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -75,12 +123,10 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
+                          <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox6</rd:DefaultName>
+                      <rd:DefaultName>Textbox8</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -110,9 +156,7 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
+                          <Style />
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox10</rd:DefaultName>
@@ -139,15 +183,13 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Fecha y hora de venta</Value>
+                              <Value>Fecha terminada</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
+                          <Style />
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox13</rd:DefaultName>
@@ -174,15 +216,13 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Monto total</Value>
+                              <Value>Monto total por ganado</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
+                          <Style />
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox15</rd:DefaultName>
@@ -203,25 +243,25 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>1.08479cm</Height>
+              <Height>1.03954cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Cliente">
+                    <Textbox Name="proveedor">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Cliente.Value</Value>
+                              <Value>=Fields!proveedor.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Cliente</rd:DefaultName>
+                      <rd:DefaultName>proveedor</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -237,21 +277,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="NoArete">
+                    <Textbox Name="numArete">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!NoArete.Value</Value>
+                              <Value>=Fields!numArete.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>NoArete</rd:DefaultName>
+                      <rd:DefaultName>numArete</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -267,21 +307,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Folio">
+                    <Textbox Name="folio">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Folio.Value</Value>
+                              <Value>=Fields!folio.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Folio</rd:DefaultName>
+                      <rd:DefaultName>folio</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -297,21 +337,23 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="FechahoraVenta">
+                    <Textbox Name="fechaHoraTerminada">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!FechahoraVenta.Value</Value>
-                              <Style />
+                              <Value>=Fields!fechaHoraTerminada.Value</Value>
+                              <Style>
+                                <Format>d</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>FechahoraVenta</rd:DefaultName>
+                      <rd:DefaultName>fechaHoraTerminada</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -327,14 +369,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="MontoTotal">
+                    <Textbox Name="montoTotal">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!MontoTotal.Value</Value>
+                              <Value>=Fields!montoTotal.Value</Value>
                               <Style>
                                 <Format>'$'#,0.00</Format>
                               </Style>
@@ -343,7 +385,7 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>MontoTotal</rd:DefaultName>
+                      <rd:DefaultName>montoTotal</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -375,9 +417,51 @@
           <TablixMembers>
             <TablixMember>
               <TablixHeader>
-                <Size>1.83801cm</Size>
+                <Size>2.12928cm</Size>
                 <CellContents>
-                  <Textbox Name="Textbox26">
+                  <Textbox Name="Textbox30">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value />
+                            <Style>
+                              <FontWeight>Bold</FontWeight>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style />
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>Textbox30</rd:DefaultName>
+                    <Style>
+                      <Border>
+                        <Color>LightGrey</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <RightBorder>
+                        <Color>Red</Color>
+                        <Style>Solid</Style>
+                        <Width>1pt</Width>
+                      </RightBorder>
+                      <BackgroundColor>Red</BackgroundColor>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixHeader>
+              <KeepWithGroup>After</KeepWithGroup>
+            </TablixMember>
+            <TablixMember>
+              <TablixHeader>
+                <Size>2.12928cm</Size>
+                <CellContents>
+                  <Textbox Name="Textbox19">
                     <CanGrow>true</CanGrow>
                     <KeepTogether>true</KeepTogether>
                     <Paragraphs>
@@ -390,12 +474,10 @@
                             </Style>
                           </TextRun>
                         </TextRuns>
-                        <Style>
-                          <TextAlign>Center</TextAlign>
-                        </Style>
+                        <Style />
                       </Paragraph>
                     </Paragraphs>
-                    <rd:DefaultName>Textbox26</rd:DefaultName>
+                    <rd:DefaultName>Textbox19</rd:DefaultName>
                     <Style>
                       <Border>
                         <Color>LightGrey</Color>
@@ -416,36 +498,34 @@
               <KeepWithGroup>After</KeepWithGroup>
             </TablixMember>
             <TablixMember>
-              <Group Name="Genero">
+              <Group Name="genero">
                 <GroupExpressions>
-                  <GroupExpression>=Fields!Genero.Value</GroupExpression>
+                  <GroupExpression>=Fields!genero.Value</GroupExpression>
                 </GroupExpressions>
               </Group>
               <SortExpressions>
                 <SortExpression>
-                  <Value>=Fields!Genero.Value</Value>
+                  <Value>=Fields!genero.Value</Value>
                 </SortExpression>
               </SortExpressions>
               <TablixHeader>
-                <Size>1.83801cm</Size>
+                <Size>2.12928cm</Size>
                 <CellContents>
-                  <Textbox Name="Genero1">
+                  <Textbox Name="genero">
                     <CanGrow>true</CanGrow>
                     <KeepTogether>true</KeepTogether>
                     <Paragraphs>
                       <Paragraph>
                         <TextRuns>
                           <TextRun>
-                            <Value>=Fields!Genero.Value</Value>
+                            <Value>=Fields!genero.Value</Value>
                             <Style />
                           </TextRun>
                         </TextRuns>
-                        <Style>
-                          <TextAlign>Left</TextAlign>
-                        </Style>
+                        <Style />
                       </Paragraph>
                     </Paragraphs>
-                    <rd:DefaultName>Genero1</rd:DefaultName>
+                    <rd:DefaultName>genero</rd:DefaultName>
                     <Style>
                       <Border>
                         <Color>LightGrey</Color>
@@ -467,13 +547,11 @@
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <FixedColumnHeaders>true</FixedColumnHeaders>
-        <FixedRowHeaders>true</FixedRowHeaders>
-        <DataSetName>ListaGanadosVendidos</DataSetName>
+        <DataSetName>ListaGanadosMtoCompra</DataSetName>
         <Top>0.17639cm</Top>
-        <Left>0.62413cm</Left>
-        <Height>2.16958cm</Height>
-        <Width>14.96415cm</Width>
+        <Left>1.16212cm</Left>
+        <Height>2.68675cm</Height>
+        <Width>14.82077cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -484,85 +562,62 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>2.58563cm</Width>
+              <Width>3.04114cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.58563cm</Width>
+              <Width>3.04114cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.58563cm</Width>
+              <Width>3.04114cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.66146cm</Height>
+              <Height>0.54708cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox17">
+                    <Textbox Name="Textbox36">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Total machos</Value>
+                              <Value>TOTAL DE GANADOS MUERTOS POR COMPRA</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox17</rd:DefaultName>
+                      <rd:DefaultName>Textbox36</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <BackgroundColor>Gray</BackgroundColor>
+                        <BackgroundColor>Red</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <ColSpan>3</ColSpan>
                   </CellContents>
                 </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox19">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Total hembras</Value>
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox19</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>Gray</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.70115cm</Height>
+              <TablixCells>
                 <TablixCell>
                   <CellContents>
                     <Textbox Name="Textbox21">
@@ -572,7 +627,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Total ganados</Value>
+                              <Value>Total machos</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -596,6 +651,72 @@
                     </Textbox>
                   </CellContents>
                 </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox23">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Total hembras</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox23</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Gray</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox25">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Total ganados</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox25</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Gray</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
               </TablixCells>
             </TablixRow>
             <TablixRow>
@@ -603,21 +724,21 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="GanadosMachos">
+                    <Textbox Name="totalMachos">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!GanadosMachos.Value)</Value>
+                              <Value>=Sum(Fields!totalMachos.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>GanadosMachos</rd:DefaultName>
+                      <rd:DefaultName>totalMachos</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -633,21 +754,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="GanadosHembras">
+                    <Textbox Name="totalHembras">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!GanadosHembras.Value)</Value>
+                              <Value>=Sum(Fields!totalHembras.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>GanadosHembras</rd:DefaultName>
+                      <rd:DefaultName>totalHembras</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -663,21 +784,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="GanadosTotal">
+                    <Textbox Name="totalGanados">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!GanadosTotal.Value)</Value>
+                              <Value>=Sum(Fields!totalGanados.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>GanadosTotal</rd:DefaultName>
+                      <rd:DefaultName>totalGanados</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -706,13 +827,14 @@
           <TablixMembers>
             <TablixMember />
             <TablixMember />
+            <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
-        <DataSetName>ListaGanadosTotal</DataSetName>
-        <Top>2.80458cm</Top>
-        <Left>0.62413cm</Left>
-        <Height>1.26146cm</Height>
-        <Width>7.75689cm</Width>
+        <DataSetName>ListaTotalGanados</DataSetName>
+        <Top>3.34642cm</Top>
+        <Left>1.16212cm</Left>
+        <Height>1.84823cm</Height>
+        <Width>9.12342cm</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -733,33 +855,33 @@
             <ChartMember>
               <Group Name="Chart1_SeriesGroup">
                 <GroupExpressions>
-                  <GroupExpression>=Fields!Genero.Value</GroupExpression>
+                  <GroupExpression>=Fields!genero.Value</GroupExpression>
                 </GroupExpressions>
               </Group>
               <SortExpressions>
                 <SortExpression>
-                  <Value>=Fields!Genero.Value</Value>
+                  <Value>=Fields!genero.Value</Value>
                 </SortExpression>
               </SortExpressions>
               <ChartMembers>
                 <ChartMember>
-                  <Label>Ganados Machos</Label>
+                  <Label>total Machos</Label>
                 </ChartMember>
                 <ChartMember>
-                  <Label>Ganados Hembras</Label>
+                  <Label>total Hembras</Label>
                 </ChartMember>
               </ChartMembers>
-              <Label>=Fields!Genero.Value</Label>
+              <Label>=Fields!genero.Value</Label>
             </ChartMember>
           </ChartMembers>
         </ChartSeriesHierarchy>
         <ChartData>
           <ChartSeriesCollection>
-            <ChartSeries Name="GanadosMachos">
+            <ChartSeries Name="totalMachos">
               <ChartDataPoints>
                 <ChartDataPoint>
                   <ChartDataPointValues>
-                    <Y>=Sum(Fields!GanadosMachos.Value)</Y>
+                    <Y>=Sum(Fields!totalMachos.Value)</Y>
                   </ChartDataPointValues>
                   <ChartDataLabel>
                     <Style />
@@ -772,7 +894,7 @@
                   </ChartMarker>
                   <DataElementOutput>Output</DataElementOutput>
                   <ChartItemInLegend>
-                    <LegendText>Machos</LegendText>
+                    <LegendText>Total de machos</LegendText>
                   </ChartItemInLegend>
                 </ChartDataPoint>
               </ChartDataPoints>
@@ -794,11 +916,11 @@
                 <MinMovingDistance>0pt</MinMovingDistance>
               </ChartSmartLabel>
             </ChartSeries>
-            <ChartSeries Name="GanadosHembras">
+            <ChartSeries Name="totalHembras">
               <ChartDataPoints>
                 <ChartDataPoint>
                   <ChartDataPointValues>
-                    <Y>=Sum(Fields!GanadosHembras.Value)</Y>
+                    <Y>=Sum(Fields!totalHembras.Value)</Y>
                   </ChartDataPointValues>
                   <ChartDataLabel>
                     <Style />
@@ -811,7 +933,7 @@
                   </ChartMarker>
                   <DataElementOutput>Output</DataElementOutput>
                   <ChartItemInLegend>
-                    <LegendText>Hembras</LegendText>
+                    <LegendText>Total de hembras</LegendText>
                   </ChartItemInLegend>
                 </ChartDataPoint>
               </ChartDataPoints>
@@ -1013,7 +1135,7 @@
         </ChartLegends>
         <ChartTitles>
           <ChartTitle Name="Default">
-            <Caption>Gráfica de ganados vendidos por género</Caption>
+            <Caption>Gráfica de total de ganados por género</Caption>
             <Style>
               <BackgroundGradientType>None</BackgroundGradientType>
               <FontWeight>Bold</FontWeight>
@@ -1038,11 +1160,11 @@
             <VerticalAlign>Top</VerticalAlign>
           </Style>
         </ChartNoDataMessage>
-        <DataSetName>ListaGanadosTotal</DataSetName>
-        <Top>4.28307cm</Top>
-        <Left>0.62413cm</Left>
-        <Height>6.34938cm</Height>
-        <Width>14.96415cm</Width>
+        <DataSetName>ListaTotalGanados</DataSetName>
+        <Top>5.57954cm</Top>
+        <Left>1.16212cm</Left>
+        <Height>7.32833cm</Height>
+        <Width>14.23303cm</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -1054,13 +1176,13 @@
         </Style>
       </Chart>
     </ReportItems>
-    <Height>4.25396in</Height>
+    <Height>5.1235in</Height>
     <Style />
   </Body>
-  <Width>16.3092cm</Width>
+  <Width>16.5cm</Width>
   <Page>
     <PageHeader>
-      <Height>2.59292cm</Height>
+      <Height>2.51354cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -1071,7 +1193,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>REPORTE DE GANADOS VENDIDOS</Value>
+                  <Value>REPORTE DE GANADO MUERTO</Value>
                   <Style>
                     <FontWeight>Bold</FontWeight>
                   </Style>
@@ -1081,10 +1203,10 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox1</rd:DefaultName>
-          <Top>1.82997cm</Top>
-          <Left>0.62413cm</Left>
-          <Height>0.6cm</Height>
-          <Width>8.77063cm</Width>
+          <Top>1.61402cm</Top>
+          <Left>1.16212cm</Left>
+          <Height>0.60847cm</Height>
+          <Width>8.80591cm</Width>
           <Style>
             <Border>
               <Style>None</Style>
@@ -1118,8 +1240,8 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox3</rd:DefaultName>
-          <Top>0.48899cm</Top>
-          <Left>6.58607cm</Left>
+          <Top>0.34395cm</Top>
+          <Left>7.15934cm</Left>
           <Height>0.6cm</Height>
           <Width>8.82354cm</Width>
           <ZIndex>1</ZIndex>
@@ -1156,9 +1278,9 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox11</rd:DefaultName>
-          <Top>1.82997cm</Top>
-          <Left>9.39476cm</Left>
-          <Height>0.6cm</Height>
+          <Top>1.6493cm</Top>
+          <Left>9.96802cm</Left>
+          <Height>0.5732cm</Height>
           <Width>6.01486cm</Width>
           <ZIndex>2</ZIndex>
           <Style>
@@ -1206,8 +1328,8 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox2</rd:DefaultName>
-          <Top>1.15955cm</Top>
-          <Left>6.58607cm</Left>
+          <Top>0.9436cm</Top>
+          <Left>7.15934cm</Left>
           <Height>0.63514cm</Height>
           <Width>8.82354cm</Width>
           <ZIndex>3</ZIndex>
@@ -1226,8 +1348,8 @@
           <Value>=Parameters!UrlLogo.Value</Value>
           <MIMEType>image/png</MIMEType>
           <Sizing>FitProportional</Sizing>
-          <Top>0.48899cm</Top>
-          <Left>0.62413cm</Left>
+          <Top>0.34395cm</Top>
+          <Left>1.16212cm</Left>
           <Height>1.27042cm</Height>
           <Width>5.96194cm</Width>
           <ZIndex>4</ZIndex>
@@ -1245,7 +1367,7 @@
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>1.79916cm</Height>
+      <Height>0.89958cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <Style>
@@ -1270,107 +1392,74 @@
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>bbd32d07-bbc8-46b3-a6fe-8c00e511922e</rd:DataSourceID>
+      <rd:DataSourceID>af0fabda-94d6-4f69-b787-596d32e14662</rd:DataSourceID>
     </DataSource>
     <DataSource Name="CreativaSLWebGanadosModels1">
       <ConnectionProperties>
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>21648139-eacc-4bd4-9f19-b8db213c216f</rd:DataSourceID>
-    </DataSource>
-    <DataSource Name="CreativaSLWebGanadosModels2">
-      <ConnectionProperties>
-        <DataProvider>System.Data.DataSet</DataProvider>
-        <ConnectString>/* Local Connection */</ConnectString>
-      </ConnectionProperties>
-      <rd:DataSourceID>4adc232f-f30d-4afc-9e0d-5fe2d2668222</rd:DataSourceID>
-    </DataSource>
-    <DataSource Name="CreativaSLWebGanadosModels3">
-      <ConnectionProperties>
-        <DataProvider>System.Data.DataSet</DataProvider>
-        <ConnectString>/* Local Connection */</ConnectString>
-      </ConnectionProperties>
-      <rd:DataSourceID>3a5ce31e-6881-4224-bc99-72f2de3b0eb2</rd:DataSourceID>
-    </DataSource>
-    <DataSource Name="CreativaSLWebGanadosModels4">
-      <ConnectionProperties>
-        <DataProvider>System.Data.DataSet</DataProvider>
-        <ConnectString>/* Local Connection */</ConnectString>
-      </ConnectionProperties>
-      <rd:DataSourceID>edee9fcf-2fb8-452d-82bb-8111a733b7ba</rd:DataSourceID>
+      <rd:DataSourceID>b88cac2b-d518-413f-bc8d-b343adf6615f</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="ListaGanadosVendidos">
+    <DataSet Name="ListaGanadosMtoCompra">
       <Query>
-        <DataSourceName>CreativaSLWebGanadosModels3</DataSourceName>
+        <DataSourceName>CreativaSLWebGanadosModels</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
-        <Field Name="Cliente">
-          <DataField>Cliente</DataField>
+        <Field Name="listaGanadosMtoCompra">
+          <DataField>listaGanadosMtoCompra</DataField>
+          <rd:TypeName>System.Collections.Generic.List`1[[CreativaSL.Web.Ganados.Models.RptGanadosMtoCompraModels, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="proveedor">
+          <DataField>proveedor</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="numArete">
+          <DataField>numArete</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="genero">
+          <DataField>genero</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="folio">
+          <DataField>folio</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="fechaInicio">
+          <DataField>fechaInicio</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="fechaFin">
+          <DataField>fechaFin</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="fechaHoraTerminada">
           <DataField>fechaHoraTerminada</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
-        <Field Name="fechaHoraProgramada">
-          <DataField>fechaHoraProgramada</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="montoTotalGanados">
-          <DataField>montoTotalGanados</DataField>
+        <Field Name="montoTotal">
+          <DataField>montoTotal</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="MontoTotal">
-          <DataField>MontoTotal</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="FechahoraVenta">
-          <DataField>FechahoraVenta</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="Folio">
-          <DataField>Folio</DataField>
-          <rd:TypeName>System.Int64</rd:TypeName>
-        </Field>
-        <Field Name="Genero">
-          <DataField>Genero</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="NoArete">
-          <DataField>NoArete</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="GanadosMachos">
-          <DataField>GanadosMachos</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="GanadosHembras">
-          <DataField>GanadosHembras</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="GanadosTotal">
-          <DataField>GanadosTotal</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="FechaInicio">
-          <DataField>FechaInicio</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="listaGanadosVendidos">
-          <DataField>listaGanadosVendidos</DataField>
-          <rd:TypeName>System.Collections.Generic.List`1[[CreativaSL.Web.Ganados.Models.RptGandosModels, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
         </Field>
         <Field Name="datosEmpresa">
           <DataField>datosEmpresa</DataField>
           <rd:TypeName>CreativaSL.Web.Ganados.ViewModels.DatosEmpresaViewModels</rd:TypeName>
         </Field>
-        <Field Name="FechaFin">
-          <DataField>FechaFin</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
+        <Field Name="totalMachos">
+          <DataField>totalMachos</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="totalHembras">
+          <DataField>totalHembras</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="totalGanados">
+          <DataField>totalGanados</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Conexion">
           <DataField>Conexion</DataField>
@@ -1392,72 +1481,72 @@
       <rd:DataSetInfo>
         <rd:DataSetName>CreativaSL.Web.Ganados.Models</rd:DataSetName>
         <rd:TableName>Reporte_Datos</rd:TableName>
-        <rd:ObjectDataSourceSelectMethod>obtenerListaGanadosVendidos</rd:ObjectDataSourceSelectMethod>
-        <rd:ObjectDataSourceSelectMethodSignature>System.Collections.Generic.List`1[CreativaSL.Web.Ganados.Models.RptGandosModels] obtenerListaGanadosVendidos(CreativaSL.Web.Ganados.Models.RptGandosModels)</rd:ObjectDataSourceSelectMethodSignature>
+        <rd:ObjectDataSourceSelectMethod>obtenerListaGanadosMtoCompra</rd:ObjectDataSourceSelectMethod>
+        <rd:ObjectDataSourceSelectMethodSignature>System.Collections.Generic.List`1[CreativaSL.Web.Ganados.Models.RptGanadosMtoCompraModels] obtenerListaGanadosMtoCompra(CreativaSL.Web.Ganados.Models.RptGanadosMtoCompraModels)</rd:ObjectDataSourceSelectMethodSignature>
         <rd:ObjectDataSourceType>CreativaSL.Web.Ganados.Models.Reporte_Datos, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
-    <DataSet Name="ListaGanadosTotal">
+    <DataSet Name="ListaTotalGanados">
       <Query>
-        <DataSourceName>CreativaSLWebGanadosModels4</DataSourceName>
+        <DataSourceName>CreativaSLWebGanadosModels1</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
-        <Field Name="listaGanadosTotal">
-          <DataField>listaGanadosTotal</DataField>
-          <rd:TypeName>System.Collections.Generic.List`1[[CreativaSL.Web.Ganados.Models.RptGandosModels, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        <Field Name="listaGanadosMtoCompra">
+          <DataField>listaGanadosMtoCompra</DataField>
+          <rd:TypeName>System.Collections.Generic.List`1[[CreativaSL.Web.Ganados.Models.RptGanadosMtoCompraModels, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
         </Field>
-        <Field Name="Cliente">
-          <DataField>Cliente</DataField>
+        <Field Name="listaTotalGanado">
+          <DataField>listaTotalGanado</DataField>
+          <rd:TypeName>System.Collections.Generic.List`1[[CreativaSL.Web.Ganados.Models.RptGanadosMtoCompraModels, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="proveedor">
+          <DataField>proveedor</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="MontoTotal">
-          <DataField>MontoTotal</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+        <Field Name="numArete">
+          <DataField>numArete</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="FechahoraVenta">
-          <DataField>FechahoraVenta</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
+        <Field Name="genero">
+          <DataField>genero</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Folio">
-          <DataField>Folio</DataField>
+        <Field Name="folio">
+          <DataField>folio</DataField>
           <rd:TypeName>System.Int64</rd:TypeName>
         </Field>
-        <Field Name="Genero">
-          <DataField>Genero</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="NoArete">
-          <DataField>NoArete</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="GanadosMachos">
-          <DataField>GanadosMachos</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="GanadosHembras">
-          <DataField>GanadosHembras</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="GanadosTotal">
-          <DataField>GanadosTotal</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="FechaInicio">
-          <DataField>FechaInicio</DataField>
+        <Field Name="fechaInicio">
+          <DataField>fechaInicio</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
-        <Field Name="listaGanadosVendidos">
-          <DataField>listaGanadosVendidos</DataField>
-          <rd:TypeName>System.Collections.Generic.List`1[[CreativaSL.Web.Ganados.Models.RptGandosModels, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        <Field Name="fechaFin">
+          <DataField>fechaFin</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="fechaHoraTerminada">
+          <DataField>fechaHoraTerminada</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="montoTotal">
+          <DataField>montoTotal</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="datosEmpresa">
           <DataField>datosEmpresa</DataField>
           <rd:TypeName>CreativaSL.Web.Ganados.ViewModels.DatosEmpresaViewModels</rd:TypeName>
         </Field>
-        <Field Name="FechaFin">
-          <DataField>FechaFin</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
+        <Field Name="totalMachos">
+          <DataField>totalMachos</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="totalHembras">
+          <DataField>totalHembras</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="totalGanados">
+          <DataField>totalGanados</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Conexion">
           <DataField>Conexion</DataField>
@@ -1479,8 +1568,8 @@
       <rd:DataSetInfo>
         <rd:DataSetName>CreativaSL.Web.Ganados.Models</rd:DataSetName>
         <rd:TableName>Reporte_Datos</rd:TableName>
-        <rd:ObjectDataSourceSelectMethod>obtenerListaGanadosVendidos</rd:ObjectDataSourceSelectMethod>
-        <rd:ObjectDataSourceSelectMethodSignature>System.Collections.Generic.List`1[CreativaSL.Web.Ganados.Models.RptGandosModels] obtenerListaGanadosVendidos(CreativaSL.Web.Ganados.Models.RptGandosModels)</rd:ObjectDataSourceSelectMethodSignature>
+        <rd:ObjectDataSourceSelectMethod>obtenerListaGanadosMtoCompra</rd:ObjectDataSourceSelectMethod>
+        <rd:ObjectDataSourceSelectMethodSignature>System.Collections.Generic.List`1[CreativaSL.Web.Ganados.Models.RptGanadosMtoCompraModels] obtenerListaGanadosMtoCompra(CreativaSL.Web.Ganados.Models.RptGanadosMtoCompraModels)</rd:ObjectDataSourceSelectMethodSignature>
         <rd:ObjectDataSourceType>CreativaSL.Web.Ganados.Models.Reporte_Datos, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
@@ -1490,11 +1579,11 @@
       <DataType>String</DataType>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
-    <ReportParameter Name="FechaInicio">
+    <ReportParameter Name="FechaFin">
       <DataType>String</DataType>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
-    <ReportParameter Name="FechaFin">
+    <ReportParameter Name="FechaInicio">
       <DataType>String</DataType>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
@@ -1506,15 +1595,7 @@
       <DataType>String</DataType>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
-    <ReportParameter Name="RFC">
-      <DataType>String</DataType>
-      <Prompt>ReportParameter1</Prompt>
-    </ReportParameter>
     <ReportParameter Name="TelefonoCasa">
-      <DataType>String</DataType>
-      <Prompt>ReportParameter1</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="TelefonoMovil">
       <DataType>String</DataType>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
@@ -1522,8 +1603,16 @@
       <DataType>String</DataType>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
+    <ReportParameter Name="TelefonoMovil">
+      <DataType>String</DataType>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="RFC">
+      <DataType>String</DataType>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
   </ReportParameters>
   <Language>es-MX</Language>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
-  <rd:ReportID>482e147a-962d-4de1-a612-9d9552fdc5f5</rd:ReportID>
+  <rd:ReportID>ba916ae8-c2a4-43e9-b9db-ccd1612f0fff</rd:ReportID>
 </Report>

@@ -1748,12 +1748,15 @@
     <EmbeddedResource Include="Reports\prueba.rdlc">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ReporteEntradas.rdlc" />
+    <EmbeddedResource Include="Reports\ReporteGanadosMuertoCompra.rdlc" />
     <EmbeddedResource Include="Reports\ReporteGanadosVendidos.rdlc" />
+    <EmbeddedResource Include="Reports\ReporteJaulasVenta.rdlc" />
     <EmbeddedResource Include="Reports\ReporteMermaAlta.rdlc">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ReporteProveedorVendioMasG.rdlc" />
-    <EmbeddedResource Include="Reports\ReporteXVentaXCompra.rdlc" />
+    <EmbeddedResource Include="Reports\ReporteGanadosMuertoVenta.rdlc" />
     <EmbeddedResource Include="Reports\RptSalidas.rdlc" />
     <EmbeddedResource Include="Reports\RptSocios.rdlc" />
   </ItemGroup>
