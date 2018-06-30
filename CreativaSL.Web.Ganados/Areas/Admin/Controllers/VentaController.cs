@@ -299,14 +299,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         TempData["message"] = "Los datos se guardarón correctamente.";
                         Token.ResetToken();
 
-                        return RedirectToAction("Index");
+                        return Content(Venta.RespuestaAjax.ToJSON(), "application/json");
                     }
                     else
                     {
                         TempData["typemessage"] = "2";
                         TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
 
-                        return RedirectToAction("Index");
+                        return Content(Venta.RespuestaAjax.ToJSON(), "application/json");
                     }
                 }
                 else
@@ -317,7 +317,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Venta.RespuestaAjax = new RespuestaAjax();
                     Venta.RespuestaAjax.Success = false;
 
-                    return RedirectToAction("Index");
+                    return Content(Venta.RespuestaAjax.ToJSON(), "application/json");
                 }
             }
             catch (Exception ex)

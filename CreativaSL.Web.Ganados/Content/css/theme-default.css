@@ -7471,3 +7471,33 @@ display:none;
         width:100%;
     }
 }*/
+
+@font-face {
+  font-family: 'ocampoIcons';
+  src:  url('fonts/ocampoIcons.eot?kqd3d0');
+  src:  url('fonts/ocampoIcons.eot?kqd3d0#iefix') format('embedded-opentype'),
+    url('fonts/ocampoIcons.ttf?kqd3d0') format('truetype'),
+    url('fonts/ocampoIcons.woff?kqd3d0') format('woff'),
+    url('fonts/ocampoIcons.svg?kqd3d0#ocampoIcons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'ocampoIcons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-ocampo-head:before {
+  content: "\e900";
+}

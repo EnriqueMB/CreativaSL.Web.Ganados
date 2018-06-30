@@ -37,6 +37,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     Compra.IDCompra = IDCompra;
                     Compra = CompraDatos.GetCompraProgramada(Compra);
+                    Compra.DocumentosPorCobrarDetallePagos = new DocumentosPorCobrarDetallePagosModels();
                     Compra = CompraDatos.GetCompraEmbarque(Compra);
                 }
                 Compra.ListaEmpresas = CompraDatos.GetListadoEmpresas(Compra);
@@ -46,13 +47,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra.ListaChoferes = CompraDatos.GetChoferesXIDEmpresa(Compra);
                 Compra.ListaVehiculos = CompraDatos.GetVehiculosXIDEmpresa(Compra);
                 Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
+                Compra.Flete.ListaMetodoPago = CompraDatos.GetMetodosPagos(Compra);
+                Compra.Flete.ListaFormaPago = CompraDatos.GetListadoCFDIFormaPago(Compra);
+
+                Compra.DocumentosPorCobrarDetallePagos.ListaCuentasBancariasEmpresa = CompraDatos.GetListadoCuentasBancariasGrupoOcampo(Compra);
+                Compra.DocumentosPorCobrarDetallePagos.ListaCuentasBancariasProveedor = CompraDatos.GetListadoCuentasBancariasProveedorXIDProveedor(Compra);
+
+                return View(Compra);
             }
             catch (Exception ex)
             {
                 TempData["typemessage"] = "2";
-                TempData["message"] = "No se puede cargar la vista, error: " + ex.ToString();
+                TempData["message"] = "No se puede cargar la vista, error: " + ex.Message;
+                return View("Index");
             }
-            return View(Compra);
+            
         }
         #endregion
         #region CompraGanado

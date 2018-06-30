@@ -4,6 +4,25 @@
     var map, directionsDisplay, directionsService;
     //datatables
     var tableDocumentos;
+    //otros
+    var opcionServer = $("#TipoFlete").val();
+    var Validation_summary_flete = $("#validation_summary_flete");
+    var IDEmpresa = $("#IDEmpresa");
+    var IDSucursal = $("#IDSucursal");
+    var IDChofer = $("#IDChofer");
+    var IDVehiculo = $("#IDVehiculo");
+    var Flete_kmInicialVehiculo = $("#Flete_kmInicialVehiculo");
+    var DocumentosPorCobrarDetallePagos_Monto = $("#DocumentosPorCobrarDetallePagos_Monto");
+    var Flete_Id_metodoPago = $("#Flete_Id_metodoPago");
+    var DocumentosPorCobrarDetallePagos_Id_formaPago = $("#DocumentosPorCobrarDetallePagos_Id_formaPago");
+    var Trayecto_id_lugarOrigen = $("#Trayecto_id_lugarOrigen");
+    var Trayecto_id_lugarDestino = $("#Trayecto_id_lugarDestino");
+    var Bancarizado = $("#DocumentosPorCobrarDetallePagos_Bancarizado");
+    var DocumentosPorCobrarDetallePagos_FolioIFE = $("#DocumentosPorCobrarDetallePagos_FolioIFE");
+    var DocumentosPorCobrarDetallePagos_NumeroAutorizacion = $("#DocumentosPorCobrarDetallePagos_NumeroAutorizacion");
+    var DocumentosPorCobrarDetallePagos_HttpImagen = $("#DocumentosPorCobrarDetallePagos_HttpImagen");
+    var DocumentosPorCobrarDetallePagos_Id_cuentaBancariaOrdenante = $("#DocumentosPorCobrarDetallePagos_Id_cuentaBancariaOrdenante");
+    var DocumentosPorCobrarDetallePagos_Id_cuentaBancariaBeneficiante = $("#DocumentosPorCobrarDetallePagos_Id_cuentaBancariaBeneficiante");
 
     /*INICIA PROVEEDOR*/
     var RunEventsProveedor = function () {
@@ -114,7 +133,7 @@
     function AC_Proveedor() {
         var form = $("#frmProveedor")[0];
         var formData = new FormData(form);
-         $("body").css("cursor", "progress");
+        $("body").css("cursor", "progress");
         $.ajax({
             type: 'POST',
             data: formData,
@@ -149,14 +168,25 @@
             GetRemolquesXIDEmpresa(IDEmpresa);
             GetLugaresXIDEmpresa(IDEmpresa);
         });
+        $("#TipoFlete").on("change", function () {
+            var opcion = $(this).val();
+            ToggleDivTipoFlete(opcion);
+        });
+
+        $("#DocumentosPorCobrarDetallePagos_Id_formaPago").on("change", function () {
+            var opcion = $(this).find(":selected").data("bancarizado");
+            ToggleDivBancarizado(opcion);
+        });
+        
+
     }
     var LoadValidationFlete = function () {
         var form1 = $('#frmFlete');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
 
-        $('#frmFlete').validate({ // initialize the plugin
-            //debug: true,
+        form1.validate({ // initialize the plugin
+            debug: true,
             errorElement: "dd",
             errorClass: 'text-danger',
             errorLabelContainer: $("#validation_summary_flete"),
@@ -174,40 +204,42 @@
             },
             ignore: "",
             rules: {
-                IDEmpresa: {
-                    required: true
-                },
-                IDSucursal: {
-                    required: true
-                },
-                IDChofer: {
-                    required: true,
-                },
-                IDVehiculo: {
-                    required: true,
-                },
-                "Flete.kmInicialVehiculo": {
-                    required: true,
-                    digits: true
-                }
+                IDEmpresa: { required: true },
+                IDSucursal: { required: true },
+                IDChofer: { required: true },
+                IDVehiculo: { required: true },
+                "Flete.kmInicialVehiculo": { required: true, digits: true },
+                "Flete.precioFlete":{ required:true, min: 0 },
+                TipoFlete: { required: true },
+                "Flete.Id_metodoPago": { required:true },
+                "Flete.Id_formaPago": { min: 1 },
+                "Trayecto.id_lugarOrigen": { required: true },
+                "Trayecto.id_lugarDestino": { required: true },
+                //bancarizado
+                "DocumentosPorCobrarDetallePagos.FolioIFE": { required: true },
+                "DocumentosPorCobrarDetallePagos.NumeroAutorizacion": { required: true },
+                "DocumentosPorCobrarDetallePagos.HttpImagen": { ImagenRequerida: true },
+                "DocumentosPorCobrarDetallePagos.Id_cuentaBancariaOrdenante": { required: true },
+                "DocumentosPorCobrarDetallePagos.Id_cuentaBancariaBeneficiante": { required: true }
             },
             messages: {
-                IDEmpresa: {
-                    required: "-Seleccione una línea fletera."
-                },
-                IDSucursal: {
-                    required: "-Seleccione una sucursal."
-                },
-                IDChofer: {
-                    required: "-Seleccione un chofer."
-                },
-                IDVehiculo: {
-                    required: "-Seleccione un vehículo."
-                },
-                "Flete.kmInicialVehiculo": {
-                    required: "-Ingrese el kilómetraje inicial.",
-                    digits: "Ingrese un número entero mayor o igual a 0 (cero). "
-                }
+                IDEmpresa: {  required: "Por favor, seleccione una línea fletera." },
+                IDSucursal: { required: "Por favor, seleccione una sucursal." },
+                IDChofer: { required: "Por favor, seleccione un chofer." },
+                IDVehiculo: { required: "Por favor, seleccione un vehículo." },
+                "Flete.kmInicialVehiculo": { required: "Por favor, ingrese el kilómetraje inicial.", digits: "Por favor, ingrese un número entero mayor o igual a 0 (cero). " },
+                "Flete.precioFlete": { required: "Por favor, ingrese un precio del flete, puede ser 0 (cero).", min: "Por favor, ingrese un precio del flete, debe ser mayor o igual a 0 (cero)." },
+                TipoFlete: { required: "Por favor, seleccione un tipo de flete." },
+                "Flete.Id_metodoPago": { required: "Por favor, seleccione un metodo de pago." },
+                "Flete.Id_formaPago": { min: "Por favor, seleccione una forma de pago." },
+                "Trayecto.id_lugarOrigen": { required: "Por favor, seleccione un lugar de origen." },
+                "Trayecto.id_lugarDestino": { required: "Por favor, seleccione un lugar destino." },
+                //bancarizado
+                "DocumentosPorCobrarDetallePagos.FolioIFE": { required: "Por favor, escriba el número de folio del INE." },
+                "DocumentosPorCobrarDetallePagos.NumeroAutorizacion": { required: "Por favor, escriba el número de autorización." },
+                "DocumentosPorCobrarDetallePagos.HttpImagen": { ImagenRequerida: "Por favor, seleccione una imagen del comprobante del cobro." },
+                "DocumentosPorCobrarDetallePagos.Id_cuentaBancariaOrdenante": { required: "Por favor, seleccione una cuenta bancaria de la empresa." },
+                "DocumentosPorCobrarDetallePagos.Id_cuentaBancariaBeneficiante": { required: "Por favor, seleccione una cuenta bancaria del cliente." }
             },
             invalidHandler: function (event, validator) {
                 successHandler1.hide();
@@ -445,6 +477,102 @@
                 window.alert('No se pudo cargar la ubicación, verifique sus coordenas en el catálogo de Lugares');
         }
     }
+
+    function ToggleDivTipoFlete(opcion) {
+        if (opcion == 1) {
+            AgregarValidaciones();
+            $('#divNoAplicaFlete').show(1000);
+        }
+        else if (opcion == 2  ||  opcion === '') {
+            QuitarValidaciones();
+            $('#divNoAplicaFlete').hide(1000);
+        }
+    }
+    function ToggleDivBancarizado(opcion) {
+        if (opcion == 1) {
+            AgregarValidacionesBancarizado();
+            Bancarizado.value = true;
+            $('#divBancarizado').show(1000);
+        }
+        else {
+            QuitarValidacionesBancarizadas();
+            Bancarizado.value = false;
+            $('#divBancarizado').hide(1000);
+        }
+    }
+    function AgregarValidacionesBancarizado() {
+        DocumentosPorCobrarDetallePagos_Id_cuentaBancariaBeneficiante.rules("add", { required: true });
+        DocumentosPorCobrarDetallePagos_Id_cuentaBancariaOrdenante.rules("add", { required: true });
+        DocumentosPorCobrarDetallePagos_HttpImagen.rules("add", { ImagenRequerida: true });
+        DocumentosPorCobrarDetallePagos_FolioIFE.rules("add", { required: true });
+        DocumentosPorCobrarDetallePagos_NumeroAutorizacion.rules("add", { required: true });
+    }
+    function QuitarValidacionesBancarizadas() {
+        DocumentosPorCobrarDetallePagos_Id_cuentaBancariaBeneficiante.rules("remove", "required");
+        DocumentosPorCobrarDetallePagos_Id_cuentaBancariaOrdenante.rules("remove", "required");
+        DocumentosPorCobrarDetallePagos_HttpImagen.rules("remove", "ImagenRequerida");
+        DocumentosPorCobrarDetallePagos_FolioIFE.rules("remove", "required");
+        DocumentosPorCobrarDetallePagos_NumeroAutorizacion.rules("remove", "required");
+
+        DocumentosPorCobrarDetallePagos_Id_cuentaBancariaBeneficiante.closest(".controlError").removeClass("has-success has-error");
+        DocumentosPorCobrarDetallePagos_Id_cuentaBancariaOrdenante.closest(".controlError").removeClass("has-success has-error");
+        DocumentosPorCobrarDetallePagos_HttpImagen.closest(".controlError").removeClass("has-success has-error");
+        DocumentosPorCobrarDetallePagos_FolioIFE.closest(".controlError").removeClass("has-success has-error");
+        DocumentosPorCobrarDetallePagos_NumeroAutorizacion.closest(".controlError").removeClass("has-success has-error");
+
+        $("#validation_summary").find("dd[for='DocumentosPorCobrarDetallePagos_FolioIFE']").addClass('help-block valid').text('');
+        $("#validation_summary").find("dd[for='DocumentosPorCobrarDetallePagos_NumeroAutorizacion']").addClass('help-block valid').text('');
+        $("#validation_summary").find("dd[for='DocumentosPorCobrarDetallePagos_HttpImagen']").addClass('help-block valid').text('');
+        $("#validation_summary").find("dd[for='DocumentosPorCobrarDetallePagos_Id_cuentaBancariaOrdenante']").addClass('help-block valid').text('');
+        $("#validation_summary").find("dd[for='DocumentosPorCobrarDetallePagos_Id_cuentaBancariaBeneficiante']").addClass('help-block valid').text('');
+    }
+    function AgregarValidaciones() {
+        IDEmpresa.rules("add", { required: true });
+        IDSucursal.rules("add", { required: true });
+        IDChofer.rules("add", { required: true });
+        IDVehiculo.rules("add", { required: true });
+        Flete_kmInicialVehiculo.rules("add", { required: true });
+        DocumentosPorCobrarDetallePagos_Monto.rules("add", { required: true });
+        Flete_Id_metodoPago.rules("add", { required: true });
+        DocumentosPorCobrarDetallePagos_Id_formaPago.rules("add", { required: true, min: 0 });
+        Trayecto_id_lugarOrigen.rules("add", { required: true, min: 0 });
+        Trayecto_id_lugarDestino.rules("add", { required: true });
+    }
+    function QuitarValidaciones() {
+        IDEmpresa.rules("remove", "required");
+        IDSucursal.rules("remove", "required");
+        IDChofer.rules("remove", "required");
+        IDVehiculo.rules("remove", "required");
+        Flete_kmInicialVehiculo.rules("remove", "required digits");
+        DocumentosPorCobrarDetallePagos_Monto.rules("remove", "required min");
+        Flete_Id_metodoPago.rules("remove", "required");
+        DocumentosPorCobrarDetallePagos_Id_formaPago.rules("remove", "min");
+        Trayecto_id_lugarOrigen.rules("remove", "required");
+        Trayecto_id_lugarDestino.rules("remove", "required");
+
+        IDEmpresa.closest(".controlError").removeClass("has-success has-error");
+        IDSucursal.closest(".controlError").removeClass("has-success has-error");
+        IDChofer.closest(".controlError").removeClass("has-success has-error");
+        IDVehiculo.closest(".controlError").removeClass("has-success has-error");
+        Flete_kmInicialVehiculo.closest(".controlError").removeClass("has-success has-error");
+        DocumentosPorCobrarDetallePagos_Monto.closest(".controlError").removeClass("has-success has-error");
+        Flete_Id_metodoPago.closest(".controlError").removeClass("has-success has-error");
+        DocumentosPorCobrarDetallePagos_Id_formaPago.closest(".controlError").removeClass("has-success has-error");
+        Trayecto_id_lugarOrigen.closest(".controlError").removeClass("has-success has-error");
+        Trayecto_id_lugarDestino.closest(".controlError").removeClass("has-success has-error");
+
+        Validation_summary_flete.find("dd[for='IDEmpresa']").addClass('help-block valid').text('');
+        Validation_summary_flete.find("dd[for='IDSucursal']").addClass('help-block valid').text('');
+        Validation_summary_flete.find("dd[for='IDChofer']").addClass('help-block valid').text('');
+        Validation_summary_flete.find("dd[for='IDVehiculo']").addClass('help-block valid').text('');
+        Validation_summary_flete.find("dd[for='Flete_kmInicialVehiculo']").addClass('help-block valid').text('');
+        Validation_summary_flete.find("dd[for='DocumentosPorCobrarDetallePagos_Monto']").addClass('help-block valid').text('');
+        Validation_summary_flete.find("dd[for='Flete_Id_metodoPago']").addClass('help-block valid').text('');
+        Validation_summary_flete.find("dd[for='DocumentosPorCobrarDetallePagos_Id_formaPago']").addClass('help-block valid').text('');
+        Validation_summary_flete.find("dd[for='Trayecto_id_lugarOrigen']").addClass('help-block valid').text('');
+        Validation_summary_flete.find("dd[for='Trayecto_id_lugarDestino']").addClass('help-block valid').text('');
+    }
+
     /*TERMINA FLETE*/
 
     /*INICIA DOCUMENTOS*/
@@ -742,22 +870,25 @@
             $('#tabDocumentos').data('toggle', "tab")
             $("#liDocumentos").removeClass('disabled').addClass('pestaña');
             LoadTableDocumentos();
+            
         }
     }
-    /*TERMINA FUNCIONES MIXTAS*/
-  
-    
 
-    
-   
+    // or even this one if we want the earlier event
+    $("a[href='#flete']").on('show.bs.tab', function (e) {
+        ToggleDivTipoFlete(opcionServer);
+        ToggleDivBancarizado(Bancarizado.val());
+    });
+
+    /*TERMINA FUNCIONES MIXTAS*/
     return {
         init: function () {
             DesbloquearTabs();
-            RunEventsProveedor();
-            RunEventsFlete();
-            InitMap();
             LoadValidationProveedor();
+            RunEventsProveedor();
+            InitMap();
             LoadValidationFlete();
+            RunEventsFlete();
         }
     };
 }();

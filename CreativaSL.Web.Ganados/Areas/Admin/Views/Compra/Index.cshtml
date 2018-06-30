@@ -31,6 +31,9 @@
             border-color: orange !important;
             color: white !important;
         }
+        .page-content{
+            height: 100% !important;
+        }
     </style>
 }
 
@@ -344,7 +347,7 @@
                         igual = status_actual.localeCompare(en_camino);
                         if (igual == 0) {
                             botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm ganado' title='Ganado'  data-placement='top' data-original-title='Ganado'><i class='fa fa-github-alt'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm ganado' title='Ganado'  data-placement='top' data-original-title='Ganado'><i class='icon-ocampo-head'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
@@ -361,7 +364,7 @@
                                 "</li>" +
                                 "<li>" +
                                 "<a class='ganado' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                                "<i class='fa fa-edit'></i> Ganado" +
+                                "<i class='icon-ocampo-head'></i>Continuar: Ganado" +
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
@@ -384,7 +387,7 @@
                             botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm eventos_recepcion' title='Eventos y recepción'  data-placement='top' data-original-title='Eventos y recepción'><i class='fa fa-book'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Ganado'  data-placement='top' data-original-title='Ganado'><i class='fa fa-github-alt'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Ganado'  data-placement='top' data-original-title='Ganado'><i class='icon-ocampo-head'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
@@ -399,13 +402,18 @@
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
-                                "<a class='ganado' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                                "<i class='fa fa-edit'></i> Ganado" +
+                                "<a class='details' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-book'></i> Continuar: Eventos y recepción" +
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
                                 "<a class='transacciones' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
                                 "<i class='fa fa-money'></i> Transacciones ($)" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a class='ganado' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='icon-ocampo-head'></i> Ganado" +
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
@@ -536,7 +544,7 @@
 
 
             },
-            "order": [[1, 'asc']]
+            "order": [[2, 'asc']]
         });
 
         tblIndexCompra1.on('page.dt', function () {
