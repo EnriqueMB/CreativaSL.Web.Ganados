@@ -39,6 +39,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Compra = CompraDatos.GetCompraProgramada(Compra);
                     Compra.DocumentosPorCobrarDetallePagos = new DocumentosPorCobrarDetallePagosModels();
                     Compra = CompraDatos.GetCompraEmbarque(Compra);
+
+                    if (string.IsNullOrEmpty(Compra.DocumentosPorCobrarDetallePagos.ImagenBase64))
+                    {
+                        Compra.DocumentosPorCobrarDetallePagos.ImagenMostrar = Auxiliar.SetDefaultImage();
+                    }
+                    else
+                    {
+                        Compra.DocumentosPorCobrarDetallePagos.ImagenMostrar = Compra.DocumentosPorCobrarDetallePagos.ImagenBase64;
+                    }
+                    Compra.DocumentosPorCobrarDetallePagos.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Compra.DocumentosPorCobrarDetallePagos.ImagenBase64);
                 }
                 Compra.ListaEmpresas = CompraDatos.GetListadoEmpresas(Compra);
                 Compra.ListaSucursales = CompraDatos.GetListadoSucursales(Compra);

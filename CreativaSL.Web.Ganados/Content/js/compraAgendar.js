@@ -170,6 +170,7 @@
         });
         $("#TipoFlete").on("change", function () {
             var opcion = $(this).val();
+            opcionServer = opcion;
             ToggleDivTipoFlete(opcion);
         });
 
@@ -177,8 +178,59 @@
             var opcion = $(this).find(":selected").data("bancarizado");
             ToggleDivBancarizado(opcion);
         });
-        
 
+        $("#DocumentosPorCobrarDetallePagos_Id_cuentaBancariaBeneficiante").on("change", function () {
+            var opcion = $('#DocumentosPorCobrarDetallePagos_Id_cuentaBancariaBeneficiante').find(":selected");
+
+            $("#DocumentosPorCobrarDetallePagos_NombreBancoBeneficiante").val(opcion[0].dataset.banco);
+            $("#DocumentosPorCobrarDetallePagos_NumCuentaBeneficiante").val(opcion[0].dataset.numcuenta);
+            $("#DocumentosPorCobrarDetallePagos_NumClabeBeneficiante").val(opcion[0].dataset.clabe);
+            $("#DocumentosPorCobrarDetallePagos_NumTarjetaBeneficiante").val(opcion[0].dataset.numtarjeta);
+        });
+        $("#DocumentosPorCobrarDetallePagos_Id_cuentaBancariaOrdenante").on("change", function () {
+            var opcion = $('#DocumentosPorCobrarDetallePagos_Id_cuentaBancariaOrdenante').find(":selected");
+
+            $("#DocumentosPorCobrarDetallePagos_NombreBancoOrdenante").val(opcion[0].dataset.banco);
+            $("#DocumentosPorCobrarDetallePagos_NumCuentaOrdenante").val(opcion[0].dataset.numcuenta);
+            $("#DocumentosPorCobrarDetallePagos_NumClabeOrdenante").val(opcion[0].dataset.clabe);
+            $("#DocumentosPorCobrarDetallePagos_NumTarjetaOrdenante").val(opcion[0].dataset.numtarjeta);
+        });
+
+        var Imagen = document.getElementById("DocumentosPorCobrarDetallePagos_ImagenMostrar").value;
+        var ExtensionImagen = document.getElementById("DocumentosPorCobrarDetallePagos_ExtensionImagenBase64").value;
+        var ImagenServidor = document.getElementById("DocumentosPorCobrarDetallePagos_ImagenBase64").value;
+        if (ImagenServidor === null || ImagenServidor.length == 0 || ImagenServidor == '') {
+            document.getElementById("DocumentosPorCobrarDetallePagos_HttpImagen").dataset.imgBD = "0";
+        }
+        else {
+            document.getElementById("DocumentosPorCobrarDetallePagos_HttpImagen").dataset.imgbd = "1";
+        }
+
+
+        $('#DocumentosPorCobrarDetallePagos_HttpImagen').fileinput({
+            theme: 'fa',
+            language: 'es',
+            showUpload: false,
+            uploadUrl: "#",
+            autoReplace: true,
+            overwriteInitial: true,
+            showUploadedThumbs: false,
+            maxFileCount: 1,
+            initialPreview: [
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:' + ExtensionImagen + ';base64,' + Imagen + '" />'
+            ],
+            initialPreviewConfig: [
+                { caption: 'Imagen del recibo' }
+            ],
+            initialPreviewShowDelete: false,
+            showRemove: false,
+            showClose: false,
+            layoutTemplates: { actionDelete: '' },
+            allowedFileExtensions: ["png", "jpg", "jpeg",]
+        })
+        $('#DocumentosPorCobrarDetallePagos_HttpImagen').on('fileclear', function (event) {
+            document.getElementById("DocumentosPorCobrarDetallePagos_ImagenMostrar").value = "";
+        });
     }
     var LoadValidationFlete = function () {
         var form1 = $('#frmFlete');
@@ -480,6 +532,7 @@
 
     function ToggleDivTipoFlete(opcion) {
         if (opcion == 1) {
+            $("#DocumentosPorCobrarDetallePagos_fecha").datepicker("update");
             AgregarValidaciones();
             $('#divNoAplicaFlete').show(1000);
         }
@@ -535,7 +588,7 @@
         DocumentosPorCobrarDetallePagos_Monto.rules("add", { required: true });
         Flete_Id_metodoPago.rules("add", { required: true });
         DocumentosPorCobrarDetallePagos_Id_formaPago.rules("add", { required: true, min: 0 });
-        Trayecto_id_lugarOrigen.rules("add", { required: true, min: 0 });
+        Trayecto_id_lugarOrigen.rules("add", { required: true });
         Trayecto_id_lugarDestino.rules("add", { required: true });
     }
     function QuitarValidaciones() {

@@ -182,6 +182,9 @@
                             @Html.HiddenFor(model => model.IDFlete);
                             @Html.HiddenFor(model => model.IDCompra);
                             @Html.HiddenFor(model => model.DocumentosPorCobrarDetallePagos.Bancarizado);
+                            @Html.HiddenFor(model => model.DocumentosPorCobrarDetallePagos.ExtensionImagenBase64)
+                            @Html.HiddenFor(model => model.DocumentosPorCobrarDetallePagos.ImagenMostrar)
+                            @Html.HiddenFor(model => model.DocumentosPorCobrarDetallePagos.ImagenBase64)
                             @Html.AntiForgeryToken()
 
                             <div class="panel panel-default">
@@ -216,7 +219,7 @@
                                                 <div class="col-md-11 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        @Html.DropDownListFor(model => model.IDEmpresa, new SelectList(Model.ListaEmpresas, "IDEmpresa", "RazonFiscal"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control", @readonly = "readonly"})
+                                                        @Html.DropDownListFor(model => model.IDEmpresa, new SelectList(Model.ListaEmpresas, "IDEmpresa", "RazonFiscal"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control", @readonly = "readonly" })
                                                     </div>
                                                     @Html.ValidationMessageFor(model => model.IDEmpresa)
                                                 </div>
@@ -273,7 +276,7 @@
                                                 <div class="col-md-10 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrarDetallePagos.fecha, new { @class = "form-control" })
+                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrarDetallePagos.fecha, "{0:dd/MM/yyyy}" , new { @class = "form-control datepicker", @readonly = "readonly" })
                                                     </div>
                                                     @Html.ValidationMessageFor(model => model.DocumentosPorCobrarDetallePagos.fecha)
                                                 </div>
@@ -305,9 +308,19 @@
                                                 <div class="col-md-9 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        @Html.DropDownListFor(model => model.DocumentosPorCobrarDetallePagos.Id_formaPago, new SelectList(Model.Flete.ListaFormaPago, "Clave", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control", @readonly = "readonly" })
+                                                        <select id="DocumentosPorCobrarDetallePagos_Id_formaPago" name="DocumentosPorCobrarDetallePagos.Id_formaPago" class="form-control select" data-live-search="true" , data-style="form-control">
+                                                            @foreach (var formaPago in Model.Flete.ListaFormaPago)
+                                                            {
+                                                                <option value="@formaPago.Clave" data-bancarizado="@formaPago.Bancarizado"
+                                                                        @if (Model.DocumentosPorCobrarDetallePagos.Id_formaPago == formaPago.Clave) { <text>
+                                                                        selected="selected"
+                                                                        </text> }>
+                                                                    @formaPago.Descripcion
+                                                                </option>
+                                                            }
+                                                        </select>
                                                     </div>
-                                                    @Html.ValidationMessageFor(model => model.DocumentosPorCobrarDetallePagos.Id_formaPago)
+
                                                 </div>
                                             </div>
                                             <div class="col-md-4 controlError">
@@ -337,7 +350,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <div id="divBancarizado">
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -361,7 +374,7 @@
                                                                                         data-idbanco="@cuentaBancaria.Banco.IDBanco"
                                                                                         @if (Model.DocumentosPorCobrarDetallePagos.Id_cuentaBancariaBeneficiante == cuentaBancaria.IDDatosBancarios) { <text>
                                                                                         selected="selected"
-                                                                                        </text>  }>
+                                                                                        </text> }>
                                                                                     @cuentaBancaria.Titular
                                                                                 </option>
                                                                             }
@@ -435,7 +448,7 @@
                                                                 <div class="col-md-10 col-xs-12">
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                        <select id="DocumentosPorCobrarDetallePagos_Id_cuentaBancariaOrdenante" name="DocumentosPorCobrarDetallePagosId_cuentaBancariaOrdenante" class="form-control select" data-live-search="true" , data-style="form-control">
+                                                                        <select id="DocumentosPorCobrarDetallePagos_Id_cuentaBancariaOrdenante" name="DocumentosPorCobrarDetallePagos.Id_cuentaBancariaOrdenante" class="form-control select" data-live-search="true" , data-style="form-control">
                                                                             @foreach (var cuentaBancaria in Model.DocumentosPorCobrarDetallePagos.ListaCuentasBancariasProveedor)
                                                                             {
                                                                                 <option value="@cuentaBancaria.IDDatosBancarios"
@@ -447,13 +460,13 @@
                                                                                         data-idbanco="@cuentaBancaria.Banco.IDBanco"
                                                                                         @if (Model.DocumentosPorCobrarDetallePagos.Id_cuentaBancariaOrdenante == cuentaBancaria.IDDatosBancarios) { <text>
                                                                                         selected="selected"
-                                                                                        </text>  }>
+                                                                                        </text> }>
                                                                                     @cuentaBancaria.Titular
                                                                                 </option>
                                                                             }
                                                                         </select>
                                                                     </div>
-                                                                    <span class="help-block">Cuentas bancarias del proveedor / cliente.</span>
+                                                                    <span class="help-block">Cuentas bancarias del proveedor.</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -564,30 +577,30 @@
 
                                                     <select id="Trayecto_id_lugarOrigen" name="Trayecto.id_lugarOrigen" class="controlError">
                                                         @foreach (var lugar in Model.ListaLugares)
-                                                    {
+                                                        {
                                                             <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud"
                                                                     @if (Model.Trayecto.id_lugarOrigen == lugar.id_lugar) { <text>
                                                                     selected="selected"
-                                                                    </text>     }>
+                                                                    </text> }>
                                                                 @lugar.descripcion
                                                             </option>
-                                                    }
+                                                        }
                                                     </select>
 
                                                     <b>Destino: </b>
 
                                                     <select id="Trayecto_id_lugarDestino" name="Trayecto.id_lugarDestino" class="controlError">
                                                         @foreach (var lugar in Model.ListaLugaresProveedor)
-                                                    {
+                                                        {
                                                             <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud" data-direccion="@lugar.Direccion"
                                                                     @if (Model.Trayecto.id_lugarDestino == lugar.id_lugar) { <text>
                                                                     selected="selected"
-                                                                    </text>     } else if (Model.IDPLugarProveedor == lugar.id_lugar) { <text>
+                                                                    </text>  } else if (Model.IDPLugarProveedor == lugar.id_lugar) { <text>
                                                                     selected="selected"
-                                                                    </text>     }>
+                                                                    </text> }>
                                                                 @lugar.descripcion
                                                             </option>
-                                                    }
+                                                        }
                                                     </select>
                                                 </div>
                                                 <div id="map"></div>

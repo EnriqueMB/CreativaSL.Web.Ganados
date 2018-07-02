@@ -1396,11 +1396,24 @@ namespace CreativaSL.Web.Ganados.Models
                     ,Compra.Trayecto.id_lugarOrigen = string.IsNullOrEmpty(Compra.Trayecto.id_lugarOrigen) ? null : Compra.Trayecto.id_lugarOrigen
                     ,Compra.Trayecto.id_lugarDestino = string.IsNullOrEmpty(Compra.Trayecto.id_lugarDestino) ? null : Compra.Trayecto.id_lugarDestino
                     ,Compra.IDSucursal
-                    ,Compra.Flete.precioFlete
+                    ,Compra.DocumentosPorCobrarDetallePagos.Monto
                     ,Compra.Flete.NumFleje
                     ,Compra.TipoFlete
-                    ,Compra.Flete
-                   
+                    ,Compra.Flete.Id_metodoPago
+                    ,Compra.DocumentosPorCobrarDetallePagos.Id_formaPago
+                    ,Compra.Flete.CondicionPago
+                    ,Compra.DocumentosPorCobrarDetallePagos.fecha
+                    ,Compra.DocumentosPorCobrarDetallePagos.Observacion
+                    ,Compra.DocumentosPorCobrarDetallePagos.Id_cuentaBancariaBeneficiante
+                    ,Compra.DocumentosPorCobrarDetallePagos.NombreBancoBeneficiante
+                    ,Compra.DocumentosPorCobrarDetallePagos.NumCuentaBeneficiante
+                    ,Compra.DocumentosPorCobrarDetallePagos.Id_cuentaBancariaOrdenante
+                    ,Compra.DocumentosPorCobrarDetallePagos.NombreBancoOrdenante
+                    ,Compra.DocumentosPorCobrarDetallePagos.NumCuentaOrdenante
+                    ,Compra.DocumentosPorCobrarDetallePagos.HttpImagen
+                    ,Compra.DocumentosPorCobrarDetallePagos.FolioIFE
+                    ,Compra.DocumentosPorCobrarDetallePagos.NumeroAutorizacion
+
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_ac_Flete", parametros);
