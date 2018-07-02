@@ -29,6 +29,7 @@
         $("#IDProveedor").on("change", function () {
             var IDProveedor = $(this).val();
             GetLugaresProveedorXIDProveedor(IDProveedor);
+            GetListadoCuentasBancariasProveedorXIDProveedor(IDProveedor);
         });
         $('#FechaHoraProgramada').datepicker({
             format: 'dd/mm/yyyy',
@@ -176,6 +177,7 @@
 
         $("#DocumentosPorCobrarDetallePagos_Id_formaPago").on("change", function () {
             var opcion = $(this).find(":selected").data("bancarizado");
+            Bancarizado.val(opcion);
             ToggleDivBancarizado(opcion);
         });
 
@@ -238,7 +240,7 @@
         var successHandler1 = $('.successHandler', form1);
 
         form1.validate({ // initialize the plugin
-            debug: true,
+            //debug: true,
             errorElement: "dd",
             errorClass: 'text-danger',
             errorLabelContainer: $("#validation_summary_flete"),
@@ -332,16 +334,15 @@
             cache: false,
             success: function (response) {
                 $("body").css("cursor", "default");
-                var json = JSON.parse(response.Mensaje);
                 if (response.Success) {
+                    var json = JSON.parse(response.Mensaje);
                     Mensaje(json.Mensaje, "1");
                     $('input[name=IDFlete]').val(json.IDFlete);
-                    $('input[name=Id_documentoPorCobrar]').val(json.Id_documentoPorCobrar);
-                    DesbloquearTabs();
-                    LoadTableDocumentos();
                 }
-                else
-                    Mensaje(json.Mensaje, "2");
+                else {
+                    Mensaje(response.Mensaje, "2");
+                }
+                    
             }
         });
     }
@@ -366,6 +367,31 @@
                 for (var i = 0; i < result.length; i++) {
                     $("#Trayecto_id_lugarDestino").append('<option value="' + result[i].id_lugar + '" data-latitud="' + result[i].latitud + '" data-longitud="' + result[i].longitud + '">' + result[i].descripcion + '</option>');
                 }
+            }
+        });
+    }
+    function GetListadoCuentasBancariasProveedorXIDProveedor(IDProveedor) {
+        $.ajax({
+            url: '/Admin/Compra/GetListadoCuentasBancariasProveedorXIDProveedor/',
+            type: "POST",
+            dataType: 'json',
+            data: { IDProveedor: IDProveedor },
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "1");
+            },
+            success: function (result) {
+
+                $("#DocumentosPorCobrarDetallePagos_Id_cuentaBancariaOrdenante option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#DocumentosPorCobrarDetallePagos_Id_cuentaBancariaOrdenante").append('<option value="' + result[i].IDDatosBancarios + '" data-titular="' + result[i].Titular + '" data-numcuenta="' + result[i].NumCuenta + '" data-numclabe="' + result[i].Clabe + '" data-numtarjeta="' + result[i].NumTarjeta + '" data-banco="' + result[i].Banco.Descripcion + '" data-idbanco="' + result[i].Banco.IDBanco + '">' + result[i].Titular + '</option>');
+                }
+                $('#DocumentosPorCobrarDetallePagos_Id_cuentaBancariaOrdenante.select').selectpicker('refresh');
+
+                $("#DocumentosPorCobrarDetallePagos_NombreBancoOrdenante").val('');
+                $("#DocumentosPorCobrarDetallePagos_NumCuentaOrdenante").val('');
+                $("#DocumentosPorCobrarDetallePagos_NumClabeOrdenante").val('');
+                $("#DocumentosPorCobrarDetallePagos_NumTarjetaOrdenante").val('');
+
             }
         });
     }
@@ -542,7 +568,7 @@
         }
     }
     function ToggleDivBancarizado(opcion) {
-        if (opcion == 1) {
+        if (opcion.localeCompare("True") == 0) {
             AgregarValidacionesBancarizado();
             Bancarizado.value = true;
             $('#divBancarizado').show(1000);

@@ -1402,7 +1402,7 @@ namespace CreativaSL.Web.Ganados.Models
                     ,Compra.Flete.Id_metodoPago
                     ,Compra.DocumentosPorCobrarDetallePagos.Id_formaPago
                     ,Compra.Flete.CondicionPago
-                    ,Compra.DocumentosPorCobrarDetallePagos.fecha
+                    ,Compra.DocumentosPorCobrarDetallePagos.fecha = (Compra.DocumentosPorCobrarDetallePagos.fecha == null) ? DateTime.Now : Compra.DocumentosPorCobrarDetallePagos.fecha
                     ,Compra.DocumentosPorCobrarDetallePagos.Observacion
                     ,Compra.DocumentosPorCobrarDetallePagos.Id_cuentaBancariaBeneficiante
                     ,Compra.DocumentosPorCobrarDetallePagos.NombreBancoBeneficiante
@@ -1410,7 +1410,7 @@ namespace CreativaSL.Web.Ganados.Models
                     ,Compra.DocumentosPorCobrarDetallePagos.Id_cuentaBancariaOrdenante
                     ,Compra.DocumentosPorCobrarDetallePagos.NombreBancoOrdenante
                     ,Compra.DocumentosPorCobrarDetallePagos.NumCuentaOrdenante
-                    ,Compra.DocumentosPorCobrarDetallePagos.HttpImagen
+                    ,Compra.DocumentosPorCobrarDetallePagos.ImagenBase64
                     ,Compra.DocumentosPorCobrarDetallePagos.FolioIFE
                     ,Compra.DocumentosPorCobrarDetallePagos.NumeroAutorizacion
 
