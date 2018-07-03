@@ -39,7 +39,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    datos.Opcion, datos.IDTipoVehiculo, datos.Descripcion, datos.Usuario
+                    datos.Opcion, datos.IDTipoVehiculo, datos.Descripcion, datos.Usuario, datos.esJaula
                 };
                 object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatTipoVehiculo", parametros);
                 if (Resultado != null)
@@ -100,6 +100,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     datos.IDTipoVehiculo = !dr.IsDBNull(dr.GetOrdinal("IDTipoVehiculo")) ? dr.GetInt16(dr.GetOrdinal("IDTipoVehiculo")) : 0;
                     datos.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+                    datos.esJaula = !dr.IsDBNull(dr.GetOrdinal("EsJaula")) ? dr.GetBoolean(dr.GetOrdinal("EsJaula")) : false;
                 }
                 return datos;
             }
