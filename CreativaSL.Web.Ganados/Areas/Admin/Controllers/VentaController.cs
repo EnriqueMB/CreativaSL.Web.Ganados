@@ -334,6 +334,104 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         #endregion
 
+        #region Vista Evento Recepcion
+        [HttpGet]
+        public ActionResult VentaEventoRecepcion(string IDVenta)
+        {
+            try
+            {
+                Token.SaveToken();
+                _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                VentaModels2 Venta = new VentaModels2();
+                Venta.RespuestaAjax = new RespuestaAjax();
+                Venta.RecepcionOrigen = new RecepcionOrigenVentaModels();
+
+                string Id_venta = string.IsNullOrEmpty(IDVenta) ? string.Empty : IDVenta;
+                //0 = nuevo, 36 = edit, si es diferente es un id no valido
+                if (Id_venta.Length == 0 || Id_venta.Length == 36)
+                {
+                    Venta.Conexion = Conexion;
+                    Venta.Id_venta = Id_venta;
+                    Venta = VentaDatos.GetVentaEventoRecepcion(Venta);
+                    if (Venta.RespuestaAjax.Success)
+                    {
+                        //aqui pondriamos alguna lista o valores de cargar si esta todo correcto
+                        return View(Venta);
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "No se puede cargar la vista, error: " + Venta.RespuestaAjax.Mensaje;
+                        return View("Index");
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return View("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + ex.Message;
+                return View("Index");
+            }
+        }
+        [HttpPost]
+        public ActionResult VentaEventoRecepcion(VentaModels2 Venta)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                    Venta.Conexion = Conexion;
+                    Venta.Opcion = 1;
+                    Venta.Usuario = User.Identity.Name;
+                    Venta.RespuestaAjax = VentaDatos.AC_Flete(Venta);
+
+                    if (Venta.RespuestaAjax.Success)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardarón correctamente.";
+                        Token.ResetToken();
+
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+
+                        return RedirectToAction("Index");
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+
+                    Venta.RespuestaAjax = new RespuestaAjax();
+                    Venta.RespuestaAjax.Success = false;
+
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                Venta.RespuestaAjax = new RespuestaAjax();
+                Venta.RespuestaAjax.Success = false;
+
+                return RedirectToAction("Index");
+            }
+        }
+        #endregion
+
+
         #region Vista Edit
         public ActionResult Edit(string IDVenta, int IDEstatus)
         {
@@ -345,8 +443,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     return RedirectToAction("VentaGanado", "Venta", new { IDVenta = IDVenta });
                 //case 3:
                 //    return RedirectToAction("GanadoCompra", "Compra", new { IDCompra = Compra.IDCompra });
-                //case 4:
-                //    return RedirectToAction("RecepcionCompra", "Compra", new { IDCompra = Compra.IDCompra });
+                case 4:
+                    return RedirectToAction("VentaEventoRecepcion", "Venta", new { IDVenta = IDVenta });
                 default:
                     TempData["typemessage"] = "2";
                     TempData["message"] = "Verifique sus datos.";

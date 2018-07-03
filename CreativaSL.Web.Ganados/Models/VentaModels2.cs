@@ -20,7 +20,6 @@ namespace CreativaSL.Web.Ganados.Models
         /// Fecha y hora que guardará el sistema al finalizar la venta
         /// </summary>
         public DateTime FechaHoraVenta { get; set; }
-
         public int CobrarFlete { get; set; }
         public string Observacion { get; set; }
         public string Descripcion_bascula { get; set; }
@@ -32,6 +31,8 @@ namespace CreativaSL.Web.Ganados.Models
         public List<CatLugarModels> ListaLugares { get; set; }
 
         public FleteModels Flete { get; set; }
+        public EventoVentaModels EventoVenta { get; set; }
+        public RecepcionOrigenVentaModels RecepcionOrigen { get; set; }
 
         public string Conexion { get; set; }
         public string Usuario { get; set; }
