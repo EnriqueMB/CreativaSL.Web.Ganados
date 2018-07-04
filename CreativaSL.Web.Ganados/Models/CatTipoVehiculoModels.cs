@@ -14,6 +14,7 @@ namespace CreativaSL.Web.Ganados.Models
             _listaTipoVehiculos = new List<CatTipoVehiculoModels>();
             _IDTipoVehiculo = 0;
             _Descripcion = string.Empty;
+            _esJaula = false;
             Conexion = string.Empty;
             Resultado = 0;
             Completado = false;
@@ -26,6 +27,13 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _listaTipoVehiculos; }
             set { _listaTipoVehiculos = value; }
+        }
+        private bool _esJaula;
+
+        public bool esJaula
+        {
+            get { return _esJaula; }
+            set { _esJaula = value; }
         }
 
 

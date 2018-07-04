@@ -61,7 +61,8 @@ namespace CreativaSL.Web.Ganados.Models
         public CatRemolqueModels Remolque { get; set; }
         public CFDI_MetodoPagoModels MetodoPago { get; set; }
         public CFDI_FormaPagoModels FormaPago { get; set; }
-
+        public string Id_metodoPago { get; set; }
+        public int Id_formaPago { get; set; }
         //Select
         public List<CatEmpresaModels> ListaEmpresa { get; set; }
         public List<CatClienteModels> ListaCliente { get; set; }

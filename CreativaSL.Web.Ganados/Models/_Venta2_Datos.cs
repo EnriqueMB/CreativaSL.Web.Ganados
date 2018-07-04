@@ -371,6 +371,38 @@ namespace CreativaSL.Web.Ganados.Models
             return Venta;
         }
         #endregion
+        #region VentaEventoRecepcion
+        public VentaModels2 GetVentaEventoRecepcion(VentaModels2 Venta)
+        {
+            object[] parametros =
+            {
+                Venta.Id_venta
+            };
+            SqlDataReader dr = null;
+            dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_VentaEventoRecepcionXIDVenta", parametros);
+
+            while (dr.Read())
+            {
+                Venta.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+
+                if (Venta.RespuestaAjax.Success)
+                {
+                    Venta.RecepcionOrigen.Id_recepcionOrigenVenta = !dr.IsDBNull(dr.GetOrdinal("id_recepcionOrigenVenta")) ? dr.GetInt32(dr.GetOrdinal("id_recepcionOrigenVenta")) : 0;
+                    Venta.RecepcionOrigen.Id_flete = !dr.IsDBNull(dr.GetOrdinal("id_flete")) ? dr.GetString(dr.GetOrdinal("id_flete")) : string.Empty;
+                    Venta.RecepcionOrigen.KilometrajeFinal = !dr.IsDBNull(dr.GetOrdinal("kilometrajeFinal")) ? dr.GetInt32(dr.GetOrdinal("kilometrajeFinal")) : 0;
+                    Venta.RecepcionOrigen.HoraLlegada = !dr.IsDBNull(dr.GetOrdinal("horaLlegada")) ? dr.GetTimeSpan(dr.GetOrdinal("horaLlegada")) : DateTime.Now.TimeOfDay;
+                    Venta.RecepcionOrigen.FechaLlegada = !dr.IsDBNull(dr.GetOrdinal("fechaLlegada")) ? dr.GetDateTime(dr.GetOrdinal("fechaLlegada")) : DateTime.Now;
+                    Venta.RecepcionOrigen.Observacion = !dr.IsDBNull(dr.GetOrdinal("obsevacion")) ? dr.GetString(dr.GetOrdinal("obsevacion")) : string.Empty;
+                }
+                else
+                {
+                    Venta.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                }
+            }
+            dr.Close();
+            return Venta;
+        }
+        #endregion
         #endregion
 
         #region AC

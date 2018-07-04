@@ -32,13 +32,27 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra = new CompraModels();
                 CompraDatos = new _Compra_Datos();
                 Compra.Conexion = Conexion;
+                Compra.DocumentosPorCobrarDetallePagos = new DocumentosPorCobrarDetallePagosModels();
+
 
                 if (!string.IsNullOrEmpty(IDCompra))
                 {
                     Compra.IDCompra = IDCompra;
                     Compra = CompraDatos.GetCompraProgramada(Compra);
+                    Compra.DocumentosPorCobrarDetallePagos = new DocumentosPorCobrarDetallePagosModels();
                     Compra = CompraDatos.GetCompraEmbarque(Compra);
                 }
+                if (string.IsNullOrEmpty(Compra.DocumentosPorCobrarDetallePagos.ImagenBase64))
+                {
+                    Compra.DocumentosPorCobrarDetallePagos.ImagenMostrar = Auxiliar.SetDefaultImage();
+                }
+                else
+                {
+                    Compra.DocumentosPorCobrarDetallePagos.ImagenMostrar = Compra.DocumentosPorCobrarDetallePagos.ImagenBase64;
+                }
+                Compra.DocumentosPorCobrarDetallePagos.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Compra.DocumentosPorCobrarDetallePagos.ImagenMostrar);
+                Compra.DocumentosPorCobrarDetallePagos.ListaCuentasBancariasEmpresa = CompraDatos.GetListadoCuentasBancariasGrupoOcampo(Compra);
+                Compra.DocumentosPorCobrarDetallePagos.ListaCuentasBancariasProveedor = CompraDatos.GetListadoCuentasBancariasProveedorXIDProveedor(Compra);
                 Compra.ListaEmpresas = CompraDatos.GetListadoEmpresas(Compra);
                 Compra.ListaSucursales = CompraDatos.GetListadoSucursales(Compra);
                 Compra.ListaProveedores = CompraDatos.GetListaProveedores(Compra);
@@ -46,13 +60,18 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra.ListaChoferes = CompraDatos.GetChoferesXIDEmpresa(Compra);
                 Compra.ListaVehiculos = CompraDatos.GetVehiculosXIDEmpresa(Compra);
                 Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
+                Compra.Flete.ListaMetodoPago = CompraDatos.GetMetodosPagos(Compra);
+                Compra.Flete.ListaFormaPago = CompraDatos.GetListadoCFDIFormaPago(Compra);
+
+                return View(Compra);
             }
             catch (Exception ex)
             {
                 TempData["typemessage"] = "2";
-                TempData["message"] = "No se puede cargar la vista, error: " + ex.ToString();
+                TempData["message"] = "No se puede cargar la vista, error: " + ex.Message;
+                return View("Index");
             }
-            return View(Compra);
+            
         }
         #endregion
         #region CompraGanado
@@ -419,6 +438,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     CompraDatos = new _Compra_Datos();
                     Compra.Conexion = Conexion;
                     Compra.Usuario = User.Identity.Name;
+                    if(Compra.DocumentosPorCobrarDetallePagos.HttpImagen == null)
+                    {
+                        Compra.DocumentosPorCobrarDetallePagos.ImagenBase64 = Compra.DocumentosPorCobrarDetallePagos.ImagenMostrar;
+                    }
+                    else
+                    {
+                        Compra.DocumentosPorCobrarDetallePagos.ImagenBase64 = Auxiliar.ImageToBase64(Compra.DocumentosPorCobrarDetallePagos.HttpImagen);
+                    }
+
                     Compra = CompraDatos.Compras_ac_Flete(Compra);
 
                     return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
@@ -767,6 +795,29 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra.ListaLugares = CompraDatos.GetListadoLugaresLugarXIDEmpresa(Compra);
 
                 return Content(Compra.ListaLugares.ToJSON(), "application/json");
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error. Por favor contacte a soporte técnico";
+                return Json("");
+            }
+        }
+        #endregion
+        #region Cuentas bancarias proveedor
+        [HttpPost]
+        public ActionResult GetListadoCuentasBancariasProveedorXIDProveedor(string IDProveedor)
+        {
+            try
+            {
+                Compra = new CompraModels();
+                CompraDatos = new _Compra_Datos();
+                Compra.Conexion = Conexion;
+                Compra.IDProveedor = IDProveedor;
+                Compra.DocumentosPorCobrarDetallePagos = new DocumentosPorCobrarDetallePagosModels();
+                Compra.DocumentosPorCobrarDetallePagos.ListaCuentasBancariasProveedor = CompraDatos.GetListadoCuentasBancariasProveedorXIDProveedor(Compra);
+
+                return Content(Compra.DocumentosPorCobrarDetallePagos.ListaCuentasBancariasProveedor.ToJSON(), "application/json");
             }
             catch
             {

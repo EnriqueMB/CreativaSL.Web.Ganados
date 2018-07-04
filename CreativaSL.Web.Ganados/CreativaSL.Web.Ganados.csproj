@@ -1193,7 +1193,6 @@
     <Content Include="Areas\Admin\Views\CatProveedor\CreateLugar.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Lugares.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\ClienteLugar.cshtml" />
-    <Content Include="Areas\Admin\Views\Venta\ModalEvento.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\CreateSucursal.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\IndexSucursales.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\End.cshtml" />
@@ -1346,6 +1345,7 @@
     <Content Include="Areas\Admin\Views\CatSocios\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatSocios\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatSocios\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaEventoRecepcion.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1525,6 +1525,8 @@
     <Compile Include="Models\EstadoModels.cs" />
     <Compile Include="Models\EventoEnvioDetalleModels.cs" />
     <Compile Include="Models\EventoEnvioModels.cs" />
+    <Compile Include="Models\EventoVentaEnvioDetalleModels.cs" />
+    <Compile Include="Models\EventoVentaModels.cs" />
     <Compile Include="Models\ExistenciaProductoAlmacenModels.cs" />
     <Compile Include="Models\ExistenciaProductosAlmacenPrecioModels.cs" />
     <Compile Include="Models\FierroCompraModels.cs" />
@@ -1552,6 +1554,7 @@
     <Compile Include="Models\RangoPrecioProveedorModels.cs" />
     <Compile Include="Models\RecepcionOrigenModels.cs" />
     <Compile Include="Models\RecepcionDestinoModels.cs" />
+    <Compile Include="Models\RecepcionOrigenVentaModels.cs" />
     <Compile Include="Models\Reporte_Datos.cs" />
     <Compile Include="Models\RespuestaAjax.cs" />
     <Compile Include="Models\ResumenGastosAjustesModels.cs" />

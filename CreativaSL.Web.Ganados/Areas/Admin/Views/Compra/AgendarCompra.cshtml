@@ -12,6 +12,14 @@
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
     <!--CSS GENERAL-->
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
+    <style>
+    .has-error {
+        border-color: #E04B4A !important;
+    }
+    .has-success {
+        border-color: #95b75d !important;
+    }
+    </style>
 }
 @section featured
 {
@@ -92,7 +100,7 @@
                                                 <label class="col-md-2 control-label">Nombre del proveedor</label>
                                                 <div class="col-md-10 col-xs-12">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
                                                         @Html.DropDownListFor(model => model.IDProveedor, new SelectList(Model.ListaProveedores, "IDProveedor", "NombreRazonSocial"), new { @class = "form-control select classSelect", data_live_search = "true", data_style = "form-control" })
                                                     </div>
                                                     @Html.ValidationMessageFor(model => model.IDProveedor)
@@ -104,7 +112,7 @@
                                                 <label class="col-md-2 control-label">Lugares del proveedor</label>
                                                 <div class="col-md-10 col-xs-12">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></span>
                                                         @Html.DropDownListFor(model => model.IDPLugarProveedor, new SelectList(Model.ListaLugaresProveedor, "id_lugar", "descripcion"), new { @class = "form-control select classSelect", data_live_search = "true", data_style = "form-control" })
                                                     </div>
                                                     @Html.ValidationMessageFor(model => model.IDPLugarProveedor)
@@ -118,7 +126,7 @@
                                                 <label class="col-md-2 control-label">Ganado agendado machos</label>
                                                 <div class="col-md-10 col-xs-12">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <span class="input-group-addon"><span class="icon-ocampo-head"></span></span>
                                                         @Html.TextBoxFor(model => model.GanadosPactadoMachos, new { id = "GanadoPactadoMachos", @class = "form-control", placeholder = "Ingrese una cantidad de ganado Machos" })
                                                     </div>
                                                     @Html.ValidationMessageFor(model => model.GanadosPactadoMachos)
@@ -129,7 +137,7 @@
                                             <label class="col-md-2 control-label">Ganado agendado hembras</label>
                                             <div class="col-md-10 col-xs-12">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <span class="input-group-addon"><span class="icon-ocampo-head"></span></span>
                                                     @Html.TextBoxFor(model => model.GanadosPactadoHembras, new { id = "GanadoPactadoHembras", @class = "form-control", placeholder = "Ingrese una cantidad de ganado Hembras" })
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.GanadosPactadoHembras)
@@ -173,6 +181,10 @@
                         {
                             @Html.HiddenFor(model => model.IDFlete);
                             @Html.HiddenFor(model => model.IDCompra);
+                            @Html.HiddenFor(model => model.DocumentosPorCobrarDetallePagos.Bancarizado);
+                            @Html.HiddenFor(model => model.DocumentosPorCobrarDetallePagos.ExtensionImagenBase64)
+                            @Html.HiddenFor(model => model.DocumentosPorCobrarDetallePagos.ImagenMostrar)
+                            @Html.HiddenFor(model => model.DocumentosPorCobrarDetallePagos.ImagenBase64)
                             @Html.AntiForgeryToken()
 
                             <div class="panel panel-default">
@@ -183,109 +195,416 @@
                                 <div class="panel-body">
                                     @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
                                     <div id="validation_summary_flete" class="field_error "></div><br />
-                                    
-                                    <div class="form-group">
-                                        <div class="col-md-12 controlError">
-                                            <label class="col-md-1 control-label">Linea fletera</label>
-                                            <div class="col-md-11 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.DropDownListFor(model => model.IDEmpresa, new SelectList(Model.ListaEmpresas, "IDEmpresa", "RazonFiscal"), new { id = "Empresa_IDEmpresa", @class = "form-control select", data_live_search = "true", data_style = "form-control", @readonly = "readonly"})
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.IDEmpresa)
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="form-group">
                                         <div class="col-md-6 controlError">
-                                            <label class="col-md-2 control-label">Chofer</label>
+                                            <label class="col-md-2 control-label">Flete</label>
                                             <div class="col-md-10 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.DropDownListFor(model => model.IDChofer, new SelectList(Model.ListaChoferes, "IDChofer", "Nombre"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                    @Html.DropDownListFor(model => model.TipoFlete,
+                                                    new SelectList(new List<SelectListItem> {
+                                                        new SelectListItem { Text = "-- Seleccione --", Value = "" },
+                                                        new SelectListItem { Text = "Cobrar flete", Value = "1" },
+                                                        new SelectListItem { Text = "No aplica", Value = "2" }
+                                                        }, "Value", "Text"),
+                                                        new { @class = "form-control" })
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.IDChofer)
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 controlError">
-                                            <label class="col-md-2 control-label">Vehículo</label>
-                                            <div class="col-md-10 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.DropDownListFor(model => model.IDVehiculo, new SelectList(Model.ListaVehiculos, "IDVehiculo", "nombreMarca", "nombreTipoVehiculo", 1), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.IDVehiculo)
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <div class="col-md-4 controlError">
-                                            <label class="col-md-3 control-label">Kilómetraje Inicial</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Flete.kmInicialVehiculo, new { id = "KmInicial", @class = "form-control", placeholder = "Escriba el km. inicial del vehículo." })
+                                    <div id="divNoAplicaFlete">
+                                        <div class="form-group">
+                                            <div class="col-md-12 controlError">
+                                                <label class="col-md-1 control-label">Linea fletera</label>
+                                                <div class="col-md-11 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.DropDownListFor(model => model.IDEmpresa, new SelectList(Model.ListaEmpresas, "IDEmpresa", "RazonFiscal"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.IDEmpresa)
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.Flete.kmInicialVehiculo)
                                             </div>
                                         </div>
-                                        <div class="col-md-4 controlError">
-                                            <label class="col-md-3 control-label">Núm. de fleje</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Flete.NumFleje, new { @class = "form-control", placeholder = "." })
+                                        <div class="form-group">
+                                            <div class="col-md-6 controlError">
+                                                <label class="col-md-2 control-label">Chofer</label>
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-user"></span></span>
+                                                        @Html.DropDownListFor(model => model.IDChofer, new SelectList(Model.ListaChoferes, "IDChofer", "Nombre"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.IDChofer)
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.Flete.NumFleje)
+                                            </div>
+
+                                            <div class="col-md-6 controlError">
+                                                <label class="col-md-2 control-label">Vehículo</label>
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-truck"></span></span>
+                                                        @Html.DropDownListFor(model => model.IDVehiculo, new SelectList(Model.ListaVehiculos, "IDVehiculo", "nombreMarca", "Modelo", 1), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.IDVehiculo)
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4 controlError">
-                                            <label class="col-md-3 control-label">Costo del flete</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Flete.precioFlete, "{0:f2}", new { @class = "form-control", placeholder = "Escriba el precio del flete." })
+                                        <div class="form-group">
+                                            <div class="col-md-6 controlError">
+                                                <label class="col-md-2 control-label">Kilómetraje Inicial</label>
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.Flete.kmInicialVehiculo, new { @class = "form-control", placeholder = "Escriba el km. inicial del vehículo." })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.Flete.kmInicialVehiculo)
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.Flete.precioFlete)
+                                            </div>
+                                            <div class="col-md-6 controlError">
+                                                <label class="col-md-2 control-label">Núm. de fleje</label>
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.Flete.NumFleje, new { @class = "form-control" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.Flete.NumFleje)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-6 controlError">
+                                                <label class="col-md-2 control-label">Fecha del pago</label>
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrarDetallePagos.fecha, "{0:dd/MM/yyyy}" , new { @class = "form-control datepicker", @readonly = "readonly" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.DocumentosPorCobrarDetallePagos.fecha)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 controlError">
+                                                <label class="col-md-2 control-label">Costo del flete</label>
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrarDetallePagos.Monto, "{0:f2}", new { @class = "form-control", placeholder = "Escriba el precio del flete." })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.DocumentosPorCobrarDetallePagos.Monto)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-4 controlError">
+                                                <label class="col-md-3 control-label">Método de pago</label>
+                                                <div class="col-md-9 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.DropDownListFor(model => model.Flete.Id_metodoPago, new SelectList(Model.Flete.ListaMetodoPago, "Clave", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.Flete.Id_metodoPago)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 controlError">
+                                                <label class="col-md-3 control-label">Forma de pago</label>
+                                                <div class="col-md-9 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        <select id="DocumentosPorCobrarDetallePagos_Id_formaPago" name="DocumentosPorCobrarDetallePagos.Id_formaPago" class="form-control select" data-live-search="true" , data-style="form-control">
+                                                            @foreach (var formaPago in Model.Flete.ListaFormaPago)
+                                                            {
+                                                                <option value="@formaPago.Clave" data-bancarizado="@formaPago.Bancarizado"
+                                                                        @if (Model.DocumentosPorCobrarDetallePagos.Id_formaPago == formaPago.Clave) { <text>
+                                                                        selected="selected"
+                                                                        </text> }>
+                                                                    @formaPago.Descripcion
+                                                                </option>
+                                                            }
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 controlError">
+                                                <label class="col-md-3 control-label">Condición de pago</label>
+                                                <div class="col-md-9 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.Flete.CondicionPago, new { @class = "form-control" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.Flete.CondicionPago)
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <label class="col-md-1 control-label">Nota</label>
+                                                <div class="controls">
+                                                    <div class="col-md-11 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                            @Html.TextAreaFor(model => model.DocumentosPorCobrarDetallePagos.Observacion, new { @class = "form-control" })
+                                                        </div>
+                                                        <span class="help-block">Nota u observación.</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <div id="floating-panel">
-                                                <b>Origen: </b>
+                                        <div id="divBancarizado">
+                                            <div class="row">
+                                                <div class="col-md-6">
 
-                                                <select id="Trayecto_id_lugarOrigen" name="Trayecto.id_lugarOrigen">
-                                                    @foreach (var lugar in Model.ListaLugares)
-                                                    {
-                                                        <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud"
-                                                                @if (Model.Trayecto.id_lugarOrigen == lugar.id_lugar) { <text>
-                                                                selected="selected"
-                                                                </text>    }>
-                                                            @lugar.descripcion
-                                                        </option>
-                                                    }
-                                                </select>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12 controlError">
+                                                            <label class="col-md-2 control-label">Cuentas bancarias:</label>
+                                                            <div class="controls">
+                                                                <div class="col-md-10 col-xs-12">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        <select id="DocumentosPorCobrarDetallePagos_Id_cuentaBancariaBeneficiante" name="DocumentosPorCobrarDetallePagos.Id_cuentaBancariaBeneficiante" class="form-control select" data-live-search="true" , data-style="form-control">
+                                                                            @foreach (var cuentaBancaria in Model.DocumentosPorCobrarDetallePagos.ListaCuentasBancariasEmpresa)
+                                                                            {
+                                                                                <option value="@cuentaBancaria.IDDatosBancarios"
+                                                                                        data-titular="@cuentaBancaria.Titular"
+                                                                                        data-numcuenta="@cuentaBancaria.NumCuenta"
+                                                                                        data-numclabe="@cuentaBancaria.Clabe"
+                                                                                        data-numtarjeta="@cuentaBancaria.NumTarjeta"
+                                                                                        data-banco="@cuentaBancaria.Banco.Descripcion"
+                                                                                        data-idbanco="@cuentaBancaria.Banco.IDBanco"
+                                                                                        @if (Model.DocumentosPorCobrarDetallePagos.Id_cuentaBancariaBeneficiante == cuentaBancaria.IDDatosBancarios) { <text>
+                                                                                        selected="selected"
+                                                                                        </text> }>
+                                                                                    @cuentaBancaria.Titular
+                                                                                </option>
+                                                                            }
+                                                                        </select>
+                                                                    </div>
+                                                                    <span class="help-block">Cuentas bancarias de la empresa.</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <label class="col-md-3 control-label">Banco</label>
+                                                            <div class="controls">
+                                                                <div class="col-md-9 col-xs-12">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrarDetallePagos.NombreBancoBeneficiante, new { @class = "form-control", @readonly = "readonly" })
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <label class="col-md-3 control-label">Núm. Cuenta</label>
+                                                            <div class="controls">
+                                                                <div class="col-md-9 col-xs-12">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrarDetallePagos.NumCuentaBeneficiante, new { @class = "form-control", @readonly = "readonly" })
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <label class="col-md-3 control-label">Núm. tarjeta</label>
+                                                            <div class="controls">
+                                                                <div class="col-md-9 col-xs-12">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrarDetallePagos.NumTarjetaBeneficiante, new { @class = "form-control", @readonly = "readonly" })
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <label class="col-md-3 control-label">Clabe</label>
+                                                            <div class="controls">
+                                                                <div class="col-md-9 col-xs-12">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrarDetallePagos.NumClabeBeneficiante, new { @class = "form-control", @readonly = "readonly" })
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                                                <b>Destino: </b>
 
-                                                <select id="Trayecto_id_lugarDestino" name="Trayecto.id_lugarDestino">
-                                                    @foreach (var lugar in Model.ListaLugaresProveedor)
-                                                    {
-                                                        <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud" data-direccion="@lugar.Direccion"
-                                                                @if (Model.Trayecto.id_lugarDestino == lugar.id_lugar) { <text>
-                                                                selected="selected"
-                                                                </text>    } else if (Model.IDPLugarProveedor == lugar.id_lugar) { <text>
-                                                                selected="selected"
-                                                                </text>    }>
-                                                            @lugar.descripcion
-                                                        </option>
-                                                    }
-                                                </select>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12 controlError">
+                                                            <label class="col-md-2 control-label">Cuentas bancarias:</label>
+                                                            <div class="controls">
+                                                                <div class="col-md-10 col-xs-12">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        <select id="DocumentosPorCobrarDetallePagos_Id_cuentaBancariaOrdenante" name="DocumentosPorCobrarDetallePagos.Id_cuentaBancariaOrdenante" class="form-control select" data-live-search="true" , data-style="form-control">
+                                                                            @foreach (var cuentaBancaria in Model.DocumentosPorCobrarDetallePagos.ListaCuentasBancariasProveedor)
+                                                                            {
+                                                                                <option value="@cuentaBancaria.IDDatosBancarios"
+                                                                                        data-titular="@cuentaBancaria.Titular"
+                                                                                        data-numcuenta="@cuentaBancaria.NumCuenta"
+                                                                                        data-numclabe="@cuentaBancaria.Clabe"
+                                                                                        data-numtarjeta="@cuentaBancaria.NumTarjeta"
+                                                                                        data-banco="@cuentaBancaria.Banco.Descripcion"
+                                                                                        data-idbanco="@cuentaBancaria.Banco.IDBanco"
+                                                                                        @if (Model.DocumentosPorCobrarDetallePagos.Id_cuentaBancariaOrdenante == cuentaBancaria.IDDatosBancarios) { <text>
+                                                                                        selected="selected"
+                                                                                        </text> }>
+                                                                                    @cuentaBancaria.Titular
+                                                                                </option>
+                                                                            }
+                                                                        </select>
+                                                                    </div>
+                                                                    <span class="help-block">Cuentas bancarias del proveedor.</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <label class="col-md-3 control-label">Banco</label>
+                                                            <div class="controls">
+                                                                <div class="col-md-9 col-xs-12">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrarDetallePagos.NombreBancoOrdenante, new { @class = "form-control", @readonly = "readonly" })
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <label class="col-md-3 control-label">Núm. Cuenta</label>
+                                                            <div class="controls">
+                                                                <div class="col-md-9 col-xs-12">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrarDetallePagos.NumCuentaOrdenante, new { @class = "form-control", @readonly = "readonly" })
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <label class="col-md-3 control-label">Núm. tarjeta</label>
+                                                            <div class="controls">
+                                                                <div class="col-md-9 col-xs-12">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrarDetallePagos.NumTarjetaOrdenante, new { @class = "form-control", @readonly = "readonly" })
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <label class="col-md-3 control-label">Clabe</label>
+                                                            <div class="controls">
+                                                                <div class="col-md-9 col-xs-12">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrarDetallePagos.NumClabeOrdenante, new { @class = "form-control", @readonly = "readonly" })
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div id="map"></div>
+                                            <br />
+                                            <div class="form-group">
+                                                <div class="controlError col-md-12">
+                                                    <label class="col-md-1 control-label">Imagen</label>
+                                                    <div class="col-md-11 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+                                                            @Html.TextBoxFor(model => model.DocumentosPorCobrarDetallePagos.HttpImagen, new { name = "HttpImagen[]", @type = "file", @class = "form-control", data_show_upload = "false", data_show_caption = "true", @data_imgbd = "" })
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.DocumentosPorCobrarDetallePagos.HttpImagen)
+                                                        <span class="help-block">Ingrese por lo menos 1 imagen.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group controlError">
+                                                <div class="col-md-6">
+                                                    <label class="col-md-2 control-label">Folio INE:</label>
+                                                    <div class="controls">
+                                                        <div class="col-md-10 col-xs-12">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                @Html.TextBoxFor(model => model.DocumentosPorCobrarDetallePagos.FolioIFE, new { @class = "form-control" })
+                                                            </div>
+                                                            <span class="help-block">Folio del INE.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 controlError">
+                                                    <label class="col-md-2 control-label">Núm. de autorización:</label>
+                                                    <div class="controls">
+                                                        <div class="col-md-10 col-xs-12">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                @Html.TextBoxFor(model => model.DocumentosPorCobrarDetallePagos.NumeroAutorizacion, new { @class = "form-control " })
+                                                            </div>
+                                                            <span class="help-block">Número de autorización.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <div id="floating-panel">
+                                                    <b>Origen: </b>
+
+                                                    <select id="Trayecto_id_lugarOrigen" name="Trayecto.id_lugarOrigen" class="controlError">
+                                                        @foreach (var lugar in Model.ListaLugares)
+                                                        {
+                                                            <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud"
+                                                                    @if (Model.Trayecto.id_lugarOrigen == lugar.id_lugar) { <text>
+                                                                    selected="selected"
+                                                                    </text> }>
+                                                                @lugar.descripcion
+                                                            </option>
+                                                        }
+                                                    </select>
+
+                                                    <b>Destino: </b>
+
+                                                    <select id="Trayecto_id_lugarDestino" name="Trayecto.id_lugarDestino" class="controlError">
+                                                        @foreach (var lugar in Model.ListaLugaresProveedor)
+                                                        {
+                                                            <option value="@lugar.id_lugar" data-latitud="@lugar.latitud" data-longitud="@lugar.longitud" data-direccion="@lugar.Direccion"
+                                                                    @if (Model.Trayecto.id_lugarDestino == lugar.id_lugar) { <text>
+                                                                    selected="selected"
+                                                                    </text>  } else if (Model.IDPLugarProveedor == lugar.id_lugar) { <text>
+                                                                    selected="selected"
+                                                                    </text> }>
+                                                                @lugar.descripcion
+                                                            </option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div id="map"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

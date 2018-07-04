@@ -37,6 +37,8 @@ namespace CreativaSL.Web.Ganados.Models
         public string Id_documentoPorPagar { get; set; }
         public string Id_documentoPorCobrar { get; set; }
         public string Folio { get; set; }
+        public int TipoFlete { get; set; }
+        public DocumentosPorCobrarDetallePagosModels DocumentosPorCobrarDetallePagos { get; set; }
 
         private List<CompraModels> _listaCompra;
         public List<CompraModels> listaCompra
