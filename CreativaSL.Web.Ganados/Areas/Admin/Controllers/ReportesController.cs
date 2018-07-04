@@ -402,6 +402,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
+
         public ActionResult RptGanadosMtoCompra(string id, string id2, string id3)
         {
             try
@@ -478,6 +479,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
+
         public ActionResult RptJaulasXVenta(string id, string id2, string id3)
         {
             try
@@ -553,6 +555,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
+
         public ActionResult RptSocios(string id, string id2, string id3)
         {
             try
@@ -625,5 +628,79 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 throw;
             }
         }
+
+        public ActionResult RptEntrada(string id, string id2, string id3)
+        {
+            try
+            {
+                ReportViewer Rtp = new ReportViewer();
+                Rtp.ProcessingMode = ProcessingMode.Local;
+                //Rtp.SizeToReportContent = true;
+                Rtp.Width = Unit.Percentage(100);
+                Rtp.Height = Unit.Percentage(100);
+                Reporte_Datos RSocios = new Reporte_Datos();
+                RptEntradaModels REntradas = new RptEntradaModels();
+                DateTime Fecha1 = DateTime.Today;
+                DateTime Fecha2 = DateTime.Today;
+                DateTime.TryParse(id2.ToString(), out Fecha1);
+                DateTime.TryParse(id3.ToString(), out Fecha2);
+                REntradas.FechaInicio = Fecha1;
+                REntradas.FechaFin = Fecha2;
+                REntradas.Conexion = Conexion;
+                REntradas.DatosEmpresa = RSocios.ObtenerDatosEmpresaTipo1(Conexion);
+                REntradas.ListaEntradas = RSocios.ObtenerEntradas(REntradas);
+                Rtp.LocalReport.EnableExternalImages = true;
+                Rtp.LocalReport.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Reports"), "ReporteEntradas.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.LocalReport.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Reportes");
+                }
+                ReportParameter[] Parametros = new ReportParameter[9];
+                Parametros[0] = new ReportParameter("Empresa", REntradas.DatosEmpresa.RazonFiscal);
+                Parametros[1] = new ReportParameter("Direccion", REntradas.DatosEmpresa.DireccionFiscal);
+                Parametros[2] = new ReportParameter("RFC", REntradas.DatosEmpresa.RFC);
+                Parametros[3] = new ReportParameter("TelefonoCasa", REntradas.DatosEmpresa.NumTelefonico1);
+                Parametros[4] = new ReportParameter("TelefonoMovil", REntradas.DatosEmpresa.NumTelefonico2);
+                Parametros[5] = new ReportParameter("NombreSucursal", REntradas.DatosEmpresa.NombreSucursal);
+                Parametros[6] = new ReportParameter("UrlLogo", REntradas.DatosEmpresa.LogoEmpresa);
+                Parametros[7] = new ReportParameter("FechaInicio", id2);
+                Parametros[8] = new ReportParameter("FechaFin", id3);
+                Rtp.LocalReport.SetParameters(Parametros);
+                Rtp.LocalReport.DataSources.Add(new ReportDataSource("ListaEntradas", REntradas.ListaEntradas));
+                string reportType = id;
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + id + "</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.LocalReport.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception)
+            { 
+                throw;
+            }
+        }
+
     }
 }
