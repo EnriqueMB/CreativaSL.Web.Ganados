@@ -102,16 +102,17 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
+                object[] parametros = { Datos.FechaInicio, Datos.FechaFin };
                 List<RptSociosModels> Lista = new List<RptSociosModels>();
                 RptSociosModels item;
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reporte_get_Socios");
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reporte_get_Socios", parametros);
                 while (dr.Read())
                 {
                     item = new RptSociosModels();
                     item.NombreCompleto = !dr.IsDBNull(dr.GetOrdinal("NombreCompleto")) ? dr.GetString(dr.GetOrdinal("NombreCompleto")) : string.Empty;
                     item.Porcentaje = !dr.IsDBNull(dr.GetOrdinal("Porcentaje")) ? dr.GetInt32(dr.GetOrdinal("Porcentaje")) : 0;
-                    item.Total = !dr.IsDBNull(dr.GetOrdinal("Total")) ? dr.GetInt32(dr.GetOrdinal("Total")) : 0;
+                    item.Total = !dr.IsDBNull(dr.GetOrdinal("Total")) ? dr.GetDecimal(dr.GetOrdinal("Total")) : 0;
                     Lista.Add(item);
                 }
                 return Lista;
@@ -171,6 +172,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
         public List<RptGanadosMtoVentaModels> obtenerListaGanadosMtoVenta (RptGanadosMtoVentaModels datos)
         {
             try
@@ -218,6 +220,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex; 
             }
         }
+
         public List<RptGanadosMtoCompraModels> obtenerListaGanadosMtoCompra(RptGanadosMtoCompraModels datos)
         {
             try
@@ -266,6 +269,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
         public List<RptJaulasXVentaModels> obtenerListaJaulasXVenta(RptJaulasXVentaModels datos)
         {
             try
@@ -296,6 +300,39 @@ namespace CreativaSL.Web.Ganados.Models
             {
 
                 throw ex;
+            }
+        }
+
+        public List<RptEntradaModels> ObtenerEntradas(RptEntradaModels Datos)
+        {
+            try
+            {
+                object[] parametros = { Datos.FechaInicio, Datos.FechaFin };
+                List<RptEntradaModels> Lista = new List<RptEntradaModels>();
+                RptEntradaModels item;
+                SqlDataReader ds = null;
+                ds = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reportes_get_ReporteEntradas", parametros);
+                while (ds.Read())
+                {
+                    item = new RptEntradaModels();
+                    item.NombreCliente = !ds.IsDBNull(ds.GetOrdinal("NombreCliente")) ? ds.GetString(ds.GetOrdinal("NombreCliente")) : string.Empty;
+                    item.Fecha = !ds.IsDBNull(ds.GetOrdinal("Fecha")) ? ds.GetDateTime(ds.GetOrdinal("Fecha")) : DateTime.Today;
+                    item.Total = !ds.IsDBNull(ds.GetOrdinal("Total")) ? ds.GetInt32(ds.GetOrdinal("Total")) : 0;
+                    item.Descripcion = !ds.IsDBNull(ds.GetOrdinal("Descripcion")) ? ds.GetString(ds.GetOrdinal("Descripcion")) : string.Empty;
+                    item.Merma = !ds.IsDBNull(ds.GetOrdinal("Merma")) ? ds.GetDecimal(ds.GetOrdinal("Merma")) : 0;
+                    item.Folio = !ds.IsDBNull(ds.GetOrdinal("Folio")) ? ds.GetInt64(ds.GetOrdinal("Folio")) : 0;
+                    item.Observaciones = !ds.IsDBNull(ds.GetOrdinal("Observaciones")) ? ds.GetString(ds.GetOrdinal("Observaciones")) : string.Empty;
+                    item.ImporteGanado = !ds.IsDBNull(ds.GetOrdinal("ImporteGanado")) ? ds.GetDecimal(ds.GetOrdinal("ImporteGanado")) : 0;
+                    item.CostoFlete = !ds.IsDBNull(ds.GetOrdinal("CostoFlete")) ? ds.GetDecimal(ds.GetOrdinal("CostoFlete")) : 0;
+                    item.AplicaCobro = !ds.IsDBNull(ds.GetOrdinal("CobroFlete")) ? ds.GetString(ds.GetOrdinal("CobroFlete")) : string.Empty;
+                    Lista.Add(item);
+                }
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
             }
         }
     }
