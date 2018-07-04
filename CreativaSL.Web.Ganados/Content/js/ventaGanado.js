@@ -139,7 +139,7 @@
             var objGanado, cantidad = 0;
             var listaGanado = new Array();
 
-            console.log("ganado: " + ganado);
+            //console.log("ganado: " + ganado);
             if (ganado.length == 0) {
                 $("#tblGanadoJaula").addClass("errorTableCSL");
                 $("#validation_summary").append("");

@@ -91,6 +91,58 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(venta.RespuestaAjax.ToJSON(), "application/json");
             }
         }
+        [HttpPost]
+        public ActionResult DatatableGanadoVendidoVivo(string Id_venta)
+        {
+            try
+            {
+                VentaModels2 venta = new VentaModels2();
+                _Venta2_Datos ventaDatos = new _Venta2_Datos();
+                venta.Conexion = Conexion;
+
+                venta.RespuestaAjax = new RespuestaAjax();
+                venta.Id_venta = Id_venta;
+                venta.RespuestaAjax.Mensaje = ventaDatos.DatatableGanadoVendidoVivo(venta);
+                venta.RespuestaAjax.Success = true;
+
+                return Content(venta.RespuestaAjax.Mensaje, "application/json");
+            }
+            catch (Exception ex)
+            {
+                VentaModels2 venta = new VentaModels2();
+                venta.RespuestaAjax = new RespuestaAjax();
+                venta.RespuestaAjax.Mensaje = ex.Message;
+                venta.RespuestaAjax.Success = false;
+                return Content(venta.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        [HttpPost]
+        public ActionResult DatatableGanadoConEvento(string Id_venta, string Id_eventoVenta)
+        {
+            try
+            {
+                VentaModels2 venta = new VentaModels2();
+                _Venta2_Datos ventaDatos = new _Venta2_Datos();
+                venta.Conexion = Conexion;
+
+                venta.RespuestaAjax = new RespuestaAjax();
+                venta.EventoVenta = new EventoVentaModels();
+                venta.EventoVenta.Id_venta = Id_venta;
+                venta.EventoVenta.Id_eventoVenta = Id_eventoVenta;
+                venta.RespuestaAjax.Mensaje = ventaDatos.DatatableGanadoConEvento(venta);
+                venta.RespuestaAjax.Success = true;
+
+                return Content(venta.RespuestaAjax.Mensaje, "application/json");
+            }
+            catch (Exception ex)
+            {
+                VentaModels2 venta = new VentaModels2();
+                venta.RespuestaAjax = new RespuestaAjax();
+                venta.RespuestaAjax.Mensaje = ex.Message;
+                venta.RespuestaAjax.Success = false;
+                return Content(venta.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
         #endregion
 
         #region Otros
@@ -422,7 +474,115 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 TempData["typemessage"] = "2";
-                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico: " + ex.Message;
+                Venta.RespuestaAjax = new RespuestaAjax();
+                Venta.RespuestaAjax.Success = false;
+
+                return RedirectToAction("Index");
+            }
+        }
+        #endregion
+
+        #region Vista Evento
+        [HttpGet]
+        public ActionResult VentaEvento(string IDVenta)
+        {
+            try
+            {
+                Token.SaveToken();
+                _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                VentaModels2 Venta = new VentaModels2();
+                Venta.RespuestaAjax = new RespuestaAjax();
+                Venta.EventoVenta = new EventoVentaModels();
+
+                string Id_venta = string.IsNullOrEmpty(IDVenta) ? string.Empty : IDVenta;
+                //0 = nuevo, 36 = edit, si es diferente es un id no valido
+                if (Id_venta.Length == 0 || Id_venta.Length == 36)
+                {
+                    Venta.Conexion = Conexion;
+                    Venta.Id_venta = Id_venta;
+                    Venta.EventoVenta.Id_venta = Id_venta;
+                    Venta = VentaDatos.GetVentaEvento(Venta);
+                    if (Venta.RespuestaAjax.Success)
+                    {
+                        if(string.IsNullOrEmpty(Venta.EventoVenta.ImagenBase64))
+                        {
+                            Venta.EventoVenta.ImagenMostrar = Auxiliar.SetDefaultImage();
+                        }
+                        else
+                        {
+                            Venta.EventoVenta.ImagenMostrar = Venta.EventoVenta.ImagenBase64;
+                        }
+                        Venta.EventoVenta.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Venta.EventoVenta.ImagenMostrar);
+                        //aqui pondriamos alguna lista o valores de cargar si esta todo correcto
+                        Venta.EventoVenta.ListaTiposEventos = VentaDatos.GetTiposEventos(Venta);
+                        return View(Venta.EventoVenta);
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "No se puede cargar la vista, error: " + Venta.RespuestaAjax.Mensaje;
+                        return View("Index");
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return View("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + ex.Message;
+                return View("Index");
+            }
+        }
+        [HttpPost]
+        public ActionResult VentaEvento(VentaModels2 Venta)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                    Venta.Conexion = Conexion;
+                    Venta.Opcion = 1;
+                    Venta.Usuario = User.Identity.Name;
+                    Venta.RespuestaAjax = VentaDatos.AC_Flete(Venta);
+
+                    if (Venta.RespuestaAjax.Success)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardarón correctamente.";
+                        Token.ResetToken();
+
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+
+                        return RedirectToAction("Index");
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+
+                    Venta.RespuestaAjax = new RespuestaAjax();
+                    Venta.RespuestaAjax.Success = false;
+
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico: " + ex.Message;
                 Venta.RespuestaAjax = new RespuestaAjax();
                 Venta.RespuestaAjax.Success = false;
 

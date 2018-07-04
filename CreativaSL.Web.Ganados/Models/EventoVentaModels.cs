@@ -16,9 +16,29 @@ namespace CreativaSL.Web.Ganados.Models
         public DateTime  FechaDeteccion { get; set; }
         public TimeSpan HoraDeteccion { get; set; }
         public string Observacion { get; set; }
-        public string ImagenBase64 { get; set; }
+        /// <summary>
+        /// Imagen del server
+        /// </summary>
+        public string ImagenBase64 { get; set; } 
+        /// <summary>
+        /// Imagen a mostrar, puede ser que sea del server pero en caso que no tenga se pone el default
+        /// </summary>
+        public string ImagenMostrar { get; set; }
+        /// <summary>
+        /// Extension de la imagen base 64
+        /// </summary>
+        public string ExtensionImagenBase64 { get; set; }
+        /// <summary>
+        /// Imagen del input type: file
+        /// </summary>
+        public HttpPostedFileBase HttpImagen { get; set; }
 
         public List<CatTipoEventoEnvioModels> ListaTiposEventos;
+
+        public decimal MontoDeduccion { get; set; }
+
+        public bool AplicaGanado { get; set; }
+        public bool AplicaDeduccion { get; set; }
 
         EventoVentaEnvioDetalleModels DetalleEventoVenta;
     }
