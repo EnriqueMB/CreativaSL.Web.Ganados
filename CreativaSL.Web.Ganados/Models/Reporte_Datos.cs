@@ -40,6 +40,35 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public DatosEmpresaViewModels ObtenerDatosEmpresaTipo2(string Cadena)
+        {
+            try
+            {
+                DatosEmpresaViewModels Datos = new DatosEmpresaViewModels();
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Cadena, "spCSLDB_EMPRESA_get_CatEmpresasIDTIPO2");
+                while (Dr.Read())
+                {
+                    Datos.LogoEmpresa = !Dr.IsDBNull(Dr.GetOrdinal("LogoEmpresa")) ? Dr.GetString(Dr.GetOrdinal("LogoEmpresa")) : string.Empty;
+                    Datos.RazonFiscal = !Dr.IsDBNull(Dr.GetOrdinal("RazonFiscal")) ? Dr.GetString(Dr.GetOrdinal("RazonFiscal")) : string.Empty;
+                    Datos.DireccionFiscal = !Dr.IsDBNull(Dr.GetOrdinal("DireccionFiscal")) ? Dr.GetString(Dr.GetOrdinal("DireccionFiscal")) : string.Empty;
+                    Datos.RFC = !Dr.IsDBNull(Dr.GetOrdinal("RFC")) ? Dr.GetString(Dr.GetOrdinal("RFC")) : string.Empty;
+                    Datos.Representante = !Dr.IsDBNull(Dr.GetOrdinal("Representante")) ? Dr.GetString(Dr.GetOrdinal("Representante")) : string.Empty;
+                    Datos.NumTelefonico1 = !Dr.IsDBNull(Dr.GetOrdinal("NumTelefono1")) ? Dr.GetString(Dr.GetOrdinal("NumTelefono1")) : string.Empty;
+                    Datos.NumTelefonico2 = !Dr.IsDBNull(Dr.GetOrdinal("NumTelefono2")) ? Dr.GetString(Dr.GetOrdinal("NumTelefono2")) : string.Empty;
+                    Datos.Email = !Dr.IsDBNull(Dr.GetOrdinal("Correo")) ? Dr.GetString(Dr.GetOrdinal("Correo")) : string.Empty;
+                    Datos.HorarioAtencion = !Dr.IsDBNull(Dr.GetOrdinal("HorarioAtencion")) ? Dr.GetString(Dr.GetOrdinal("HorarioAtencion")) : string.Empty;
+                    //Datos.NombreSucursal = !Dr.IsDBNull(Dr.GetOrdinal("NombreSucursal")) ? Dr.GetString(Dr.GetOrdinal("NombreSucursal")) : string.Empty;
+                    //Bitmap bmpFromString = Datos.DatosEmpresa.LogoEmpresa.Base64StringToBitmap();
+                    //Datos.DatosEmpresa.ImagenContruida = bmpFromString.ToBase64ImageReport(ImageFormat.Png);
+                }
+                Dr.Close();
+                return Datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public List<RptProvedorVendioMasModels> obtenerListaProveedoresMermaAlta(RptProvedorVendioMasModels Datos)
         {
@@ -332,6 +361,37 @@ namespace CreativaSL.Web.Ganados.Models
             catch (Exception ex)
             {
 
+                throw;
+            }
+        }
+
+        public List<RptCorralesModels> ObetenerListaCorrales(RptCorralesModels Datos)
+        {
+            try
+            {
+                object[] parametros = { Datos.FechaInicio, Datos.FechaFin };
+                List<RptCorralesModels> Lista = new List<RptCorralesModels>();
+                RptCorralesModels item;
+                SqlDataReader ds = null;
+                ds = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reportes_get_Corrales");
+                while (ds.Read())
+                {
+                    item = new RptCorralesModels();
+                    item.Corral = !ds.IsDBNull(ds.GetOrdinal("Corral")) ? ds.GetString(ds.GetOrdinal("Corral")) : string.Empty;
+                    item.NumeroFilas = !ds.IsDBNull(ds.GetOrdinal("TotalFilas")) ? ds.GetInt32(ds.GetOrdinal("TotalFilas")) : 0;
+                    item.NumeroSerie = !ds.IsDBNull(ds.GetOrdinal("NumeroSerie")) ? ds.GetString(ds.GetOrdinal("NumeroSerie")) : string.Empty;
+                    item.NumeroGrande = !ds.IsDBNull(ds.GetOrdinal("NumeroGrande")) ? ds.GetString(ds.GetOrdinal("NumeroGrande")) : string.Empty;
+                    item.PesoInicial = !ds.IsDBNull(ds.GetOrdinal("PesoInicial")) ? ds.GetDecimal(ds.GetOrdinal("PesoInicial")) : 0;
+                    item.Repeso = !ds.IsDBNull(ds.GetOrdinal("Repeso")) ? ds.GetDecimal(ds.GetOrdinal("Repeso")) : 0;
+                    item.PesoPagado = !ds.IsDBNull(ds.GetOrdinal("PesoPagado")) ? ds.GetDecimal(ds.GetOrdinal("PesoPagado")) : 0;
+                    item.DiferenciaKG = !ds.IsDBNull(ds.GetOrdinal("DiferenciaKG")) ? ds.GetDecimal(ds.GetOrdinal("DiferenciaKG")) : 0;
+                    item.Merma = !ds.IsDBNull(ds.GetOrdinal("Merma")) ? ds.GetDecimal(ds.GetOrdinal("Merma")) : 0;
+                    Lista.Add(item);
+                }
+                return Lista;
+            }
+            catch (Exception)
+            { 
                 throw;
             }
         }
