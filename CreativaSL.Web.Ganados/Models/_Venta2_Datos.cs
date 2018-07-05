@@ -10,6 +10,22 @@ namespace CreativaSL.Web.Ganados.Models
     public class _Venta2_Datos
     {
         #region Datatables
+        public string DatatableGanadoVendidoVivo(VentaModels2 venta)
+        {
+            try
+            {
+                object[] parametros = { venta.Id_venta };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(venta.Conexion, "spCSLDB_Venta_get_DatatableGanadoVendidoVivo", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public string DatatableGanadoActual(VentaModels2 venta)
         {
             try
@@ -32,6 +48,22 @@ namespace CreativaSL.Web.Ganados.Models
                 object[] parametros = { venta.Id_venta };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(venta.Conexion, "spCSLDB_Venta_get_DatatableGanadoParaVenta", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string DatatableGanadoConEvento(VentaModels2 venta)
+        {
+            try
+            {
+                object[] parametros = { venta.EventoVenta.Id_venta, venta.EventoVenta.Id_eventoVenta };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(venta.Conexion, "spCSLDB_Venta_get_DatatableGanadoConEvento", parametros);
                 string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
                 return datatable;
@@ -274,7 +306,35 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
+        #region Tipos eventos
+        public List<CatTipoEventoEnvioModels> GetTiposEventos(VentaModels2 Venta)
+        {
+            try
+            {
+                CatTipoEventoEnvioModels item;
+                List<CatTipoEventoEnvioModels> lista = new List<CatTipoEventoEnvioModels>();
 
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Combo_get_CatTipoEventoEnvio");
+                while (dr.Read())
+                {
+                    item = new CatTipoEventoEnvioModels();
+
+                    item.IDTipoEventoEnvio = !dr.IsDBNull(dr.GetOrdinal("idTipoEvento")) ? dr.GetInt32(dr.GetOrdinal("idTipoEvento")) : 0;
+                    item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("nombreEvento")) ? dr.GetString(dr.GetOrdinal("nombreEvento")) : string.Empty;
+                    item.MarcarMerma = !dr.IsDBNull(dr.GetOrdinal("marcarMerma")) ? dr.GetBoolean(dr.GetOrdinal("marcarMerma")) : false;
+
+                    lista.Add(item);
+                }
+                dr.Close();
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
         #endregion
 
         #region Vistas
@@ -361,6 +421,75 @@ namespace CreativaSL.Web.Ganados.Models
                     Venta.CostoMachos = !dr.IsDBNull(dr.GetOrdinal("costoMachos")) ? dr.GetDecimal(dr.GetOrdinal("costoMachos")) : 0;
                     Venta.CostoHembras = !dr.IsDBNull(dr.GetOrdinal("costoHembras")) ? dr.GetDecimal(dr.GetOrdinal("costoHembras")) : 0;
                     Venta.CostoTotal = !dr.IsDBNull(dr.GetOrdinal("costoTotal")) ? dr.GetDecimal(dr.GetOrdinal("costoTotal")) : 0;
+                }
+                else
+                {
+                    Venta.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                }
+            }
+            dr.Close();
+            return Venta;
+        }
+        #endregion
+        #region VentaEventoRecepcion
+        public VentaModels2 GetVentaEventoRecepcion(VentaModels2 Venta)
+        {
+            object[] parametros =
+            {
+                Venta.Id_venta
+            };
+            SqlDataReader dr = null;
+            dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_VentaEventoRecepcionXIDVenta", parametros);
+
+            while (dr.Read())
+            {
+                Venta.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+
+                if (Venta.RespuestaAjax.Success)
+                {
+                    Venta.RecepcionOrigen.Id_recepcionOrigenVenta = !dr.IsDBNull(dr.GetOrdinal("id_recepcionOrigenVenta")) ? dr.GetInt32(dr.GetOrdinal("id_recepcionOrigenVenta")) : 0;
+                    Venta.RecepcionOrigen.Id_flete = !dr.IsDBNull(dr.GetOrdinal("id_flete")) ? dr.GetString(dr.GetOrdinal("id_flete")) : string.Empty;
+                    Venta.RecepcionOrigen.KilometrajeFinal = !dr.IsDBNull(dr.GetOrdinal("kilometrajeFinal")) ? dr.GetInt32(dr.GetOrdinal("kilometrajeFinal")) : 0;
+                    Venta.RecepcionOrigen.HoraLlegada = !dr.IsDBNull(dr.GetOrdinal("horaLlegada")) ? dr.GetTimeSpan(dr.GetOrdinal("horaLlegada")) : DateTime.Now.TimeOfDay;
+                    Venta.RecepcionOrigen.FechaLlegada = !dr.IsDBNull(dr.GetOrdinal("fechaLlegada")) ? dr.GetDateTime(dr.GetOrdinal("fechaLlegada")) : DateTime.Now;
+                    Venta.RecepcionOrigen.Observacion = !dr.IsDBNull(dr.GetOrdinal("obsevacion")) ? dr.GetString(dr.GetOrdinal("obsevacion")) : string.Empty;
+                }
+                else
+                {
+                    Venta.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                }
+            }
+            dr.Close();
+            return Venta;
+        }
+        #endregion
+        #region VentaEvento
+        public VentaModels2 GetVentaEvento(VentaModels2 Venta)
+        {
+            object[] parametros =
+            {
+                Venta.Id_venta
+            };
+            SqlDataReader dr = null;
+            dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_VentaEventoXIDVenta", parametros);
+
+            while (dr.Read())
+            {
+                Venta.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+
+                if (Venta.RespuestaAjax.Success)
+                {
+                    Venta.EventoVenta.Id_eventoVenta = !dr.IsDBNull(dr.GetOrdinal("id_eventoVenta")) ? dr.GetString(dr.GetOrdinal("id_eventoVenta")) : string.Empty;
+                    Venta.EventoVenta.Id_documentoPorCobrarDetalle = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorCobrarDetalle")) ? dr.GetString(dr.GetOrdinal("id_documentoPorCobrarDetalle")) : string.Empty;
+                    Venta.EventoVenta.Id_tipoEvento = !dr.IsDBNull(dr.GetOrdinal("id_tipoEvento")) ? dr.GetInt32(dr.GetOrdinal("id_tipoEvento")) : 0;
+                    Venta.EventoVenta.Cantidad = !dr.IsDBNull(dr.GetOrdinal("cantidad")) ? dr.GetInt32(dr.GetOrdinal("cantidad")) : 0;
+                    Venta.EventoVenta.Lugar = !dr.IsDBNull(dr.GetOrdinal("lugar")) ? dr.GetString(dr.GetOrdinal("lugar")) : string.Empty;
+                    Venta.EventoVenta.FechaDeteccion = !dr.IsDBNull(dr.GetOrdinal("fechaDeteccion")) ? dr.GetDateTime(dr.GetOrdinal("fechaDeteccion")) : DateTime.Now;
+                    Venta.EventoVenta.HoraDeteccion = !dr.IsDBNull(dr.GetOrdinal("horaDeteccion")) ? dr.GetTimeSpan(dr.GetOrdinal("horaDeteccion")) : DateTime.Now.TimeOfDay;
+                    Venta.EventoVenta.Observacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
+                    Venta.EventoVenta.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagenBase64")) ? dr.GetString(dr.GetOrdinal("imagenBase64")) : string.Empty;
+                    Venta.EventoVenta.AplicaDeduccion = !dr.IsDBNull(dr.GetOrdinal("aplicarDeduccion")) ? dr.GetBoolean(dr.GetOrdinal("aplicarDeduccion")) : false;
+                    Venta.EventoVenta.AplicaGanado = !dr.IsDBNull(dr.GetOrdinal("aplicaGanado")) ? dr.GetBoolean(dr.GetOrdinal("aplicaGanado")) : false;
                 }
                 else
                 {

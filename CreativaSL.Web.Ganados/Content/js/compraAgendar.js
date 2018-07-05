@@ -173,6 +173,7 @@
             var opcion = $(this).val();
             opcionServer = opcion;
             ToggleDivTipoFlete(opcion);
+            InitMap();
         });
 
         $("#DocumentosPorCobrarDetallePagos_Id_formaPago").on("change", function () {
@@ -568,7 +569,9 @@
         }
     }
     function ToggleDivBancarizado(opcion) {
-        if (opcion.localeCompare("True") == 0) {
+        opcion = String(opcion);
+        console.log(opcion);
+        if (opcion.localeCompare("True") == 0 || opcion.localeCompare("1") == 0) {
             AgregarValidacionesBancarizado();
             Bancarizado.value = true;
             $('#divBancarizado').show(1000);

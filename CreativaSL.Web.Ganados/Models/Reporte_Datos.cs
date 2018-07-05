@@ -131,16 +131,17 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
+                object[] parametros = { Datos.FechaInicio, Datos.FechaFin };
                 List<RptSociosModels> Lista = new List<RptSociosModels>();
                 RptSociosModels item;
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reporte_get_Socios");
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reporte_get_Socios", parametros);
                 while (dr.Read())
                 {
                     item = new RptSociosModels();
                     item.NombreCompleto = !dr.IsDBNull(dr.GetOrdinal("NombreCompleto")) ? dr.GetString(dr.GetOrdinal("NombreCompleto")) : string.Empty;
                     item.Porcentaje = !dr.IsDBNull(dr.GetOrdinal("Porcentaje")) ? dr.GetInt32(dr.GetOrdinal("Porcentaje")) : 0;
-                    item.Total = !dr.IsDBNull(dr.GetOrdinal("Total")) ? dr.GetInt32(dr.GetOrdinal("Total")) : 0;
+                    item.Total = !dr.IsDBNull(dr.GetOrdinal("Total")) ? dr.GetDecimal(dr.GetOrdinal("Total")) : 0;
                     Lista.Add(item);
                 }
                 return Lista;
@@ -200,6 +201,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
         public List<RptGanadosMtoVentaModels> obtenerListaGanadosMtoVenta (RptGanadosMtoVentaModels datos)
         {
             try
@@ -247,6 +249,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex; 
             }
         }
+
         public List<RptGanadosMtoCompraModels> obtenerListaGanadosMtoCompra(RptGanadosMtoCompraModels datos)
         {
             try
@@ -295,6 +298,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
         public List<RptJaulasXVentaModels> obtenerListaJaulasXVenta(RptJaulasXVentaModels datos)
         {
             try
@@ -327,49 +331,68 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        public List<RptFletesModels> ObtenerListaFletes(RptFletesModels datos)
+
+        public List<RptEntradaModels> ObtenerEntradas(RptEntradaModels Datos)
         {
             try
             {
-                try
+                object[] parametros = { Datos.FechaInicio, Datos.FechaFin };
+                List<RptEntradaModels> Lista = new List<RptEntradaModels>();
+                RptEntradaModels item;
+                SqlDataReader ds = null;
+                ds = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reportes_get_ReporteEntradas", parametros);
+                while (ds.Read())
                 {
-                    object[] parametros = { datos.fechaInicio, datos.fechaFin };
-                    List<RptFletesModels> lista = new List<RptFletesModels>();
-                    RptFletesModels item;
-                    SqlDataReader ds = null;
-                    ds = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Reporte_get_ReporteFletes", parametros);
-                    while (ds.Read())
-                    {
-                        item = new RptFletesModels();
-                        item.chofer = !ds.IsDBNull(ds.GetOrdinal("Chofer")) ? ds.GetString(ds.GetOrdinal("Chofer")) : string.Empty;
-                        item.folio = !ds.IsDBNull(ds.GetOrdinal("Folio")) ? ds.GetInt64(ds.GetOrdinal("Folio")) : 0;
-                        item.cliente = !ds.IsDBNull(ds.GetOrdinal("Cliente")) ? ds.GetString(ds.GetOrdinal("Cliente")) : string.Empty;
-                        item.vehiculo = !ds.IsDBNull(ds.GetOrdinal("Vehiculo")) ? ds.GetString(ds.GetOrdinal("Vehiculo")) : string.Empty;
-                        item.modelo = !ds.IsDBNull(ds.GetOrdinal("Modelo")) ? ds.GetString(ds.GetOrdinal("Modelo")) : string.Empty;
-                        item.placas = !ds.IsDBNull(ds.GetOrdinal("Placas")) ? ds.GetString(ds.GetOrdinal("Placas")) : string.Empty;
-                        item.noSerie = !ds.IsDBNull(ds.GetOrdinal("noSerie")) ? ds.GetString(ds.GetOrdinal("noSerie")) : string.Empty;
-                        item.empresaOrigen = !ds.IsDBNull(ds.GetOrdinal("EmpresaOrigen")) ? ds.GetString(ds.GetOrdinal("EmpresaOrigen")) : string.Empty;
-                        item.empresaDestino = !ds.IsDBNull(ds.GetOrdinal("EmpresaDestino")) ? ds.GetString(ds.GetOrdinal("EmpresaDestino")) : string.Empty;
-                        item.lugarOrigen = !ds.IsDBNull(ds.GetOrdinal("LugarOrigen")) ? ds.GetString(ds.GetOrdinal("LugarOrigen")) : string.Empty;
-                        item.lugarDestino = !ds.IsDBNull(ds.GetOrdinal("LugarDestino")) ? ds.GetString(ds.GetOrdinal("LugarDestino")) : string.Empty;
-                        item.impuestoTrasladado = !ds.IsDBNull(ds.GetOrdinal("ImpuestoTrasladado")) ? ds.GetDecimal(ds.GetOrdinal("ImpuestoTrasladado")) : 0;
-                        item.impuestoRetenido = !ds.IsDBNull(ds.GetOrdinal("ImpuestoRetenido")) ? ds.GetDecimal(ds.GetOrdinal("ImpuestoRetenido")) : 0;
-                        item.total = !ds.IsDBNull(ds.GetOrdinal("Total")) ? ds.GetDecimal(ds.GetOrdinal("Total")) : 0;
-                        lista.Add(item);
-                    }
-                    ds.Close();
-                    return datos.listaFletes = lista;
+                    item = new RptEntradaModels();
+                    item.NombreCliente = !ds.IsDBNull(ds.GetOrdinal("NombreCliente")) ? ds.GetString(ds.GetOrdinal("NombreCliente")) : string.Empty;
+                    item.Fecha = !ds.IsDBNull(ds.GetOrdinal("Fecha")) ? ds.GetDateTime(ds.GetOrdinal("Fecha")) : DateTime.Today;
+                    item.Total = !ds.IsDBNull(ds.GetOrdinal("Total")) ? ds.GetInt32(ds.GetOrdinal("Total")) : 0;
+                    item.Descripcion = !ds.IsDBNull(ds.GetOrdinal("Descripcion")) ? ds.GetString(ds.GetOrdinal("Descripcion")) : string.Empty;
+                    item.Merma = !ds.IsDBNull(ds.GetOrdinal("Merma")) ? ds.GetDecimal(ds.GetOrdinal("Merma")) : 0;
+                    item.Folio = !ds.IsDBNull(ds.GetOrdinal("Folio")) ? ds.GetInt64(ds.GetOrdinal("Folio")) : 0;
+                    item.Observaciones = !ds.IsDBNull(ds.GetOrdinal("Observaciones")) ? ds.GetString(ds.GetOrdinal("Observaciones")) : string.Empty;
+                    item.ImporteGanado = !ds.IsDBNull(ds.GetOrdinal("ImporteGanado")) ? ds.GetDecimal(ds.GetOrdinal("ImporteGanado")) : 0;
+                    item.CostoFlete = !ds.IsDBNull(ds.GetOrdinal("CostoFlete")) ? ds.GetDecimal(ds.GetOrdinal("CostoFlete")) : 0;
+                    item.AplicaCobro = !ds.IsDBNull(ds.GetOrdinal("CobroFlete")) ? ds.GetString(ds.GetOrdinal("CobroFlete")) : string.Empty;
+                    Lista.Add(item);
                 }
-                catch (Exception ex)
-                {
-
-                    throw ex;
-                }
+                return Lista;
             }
             catch (Exception ex)
             {
 
-                throw ex;
+                throw;
+            }
+        }
+
+        public List<RptCorralesModels> ObetenerListaCorrales(RptCorralesModels Datos)
+        {
+            try
+            {
+                object[] parametros = { Datos.FechaInicio, Datos.FechaFin };
+                List<RptCorralesModels> Lista = new List<RptCorralesModels>();
+                RptCorralesModels item;
+                SqlDataReader ds = null;
+                ds = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reportes_get_Corrales");
+                while (ds.Read())
+                {
+                    item = new RptCorralesModels();
+                    item.Corral = !ds.IsDBNull(ds.GetOrdinal("Corral")) ? ds.GetString(ds.GetOrdinal("Corral")) : string.Empty;
+                    item.NumeroFilas = !ds.IsDBNull(ds.GetOrdinal("TotalFilas")) ? ds.GetInt32(ds.GetOrdinal("TotalFilas")) : 0;
+                    item.NumeroSerie = !ds.IsDBNull(ds.GetOrdinal("NumeroSerie")) ? ds.GetString(ds.GetOrdinal("NumeroSerie")) : string.Empty;
+                    item.NumeroGrande = !ds.IsDBNull(ds.GetOrdinal("NumeroGrande")) ? ds.GetString(ds.GetOrdinal("NumeroGrande")) : string.Empty;
+                    item.PesoInicial = !ds.IsDBNull(ds.GetOrdinal("PesoInicial")) ? ds.GetDecimal(ds.GetOrdinal("PesoInicial")) : 0;
+                    item.Repeso = !ds.IsDBNull(ds.GetOrdinal("Repeso")) ? ds.GetDecimal(ds.GetOrdinal("Repeso")) : 0;
+                    item.PesoPagado = !ds.IsDBNull(ds.GetOrdinal("PesoPagado")) ? ds.GetDecimal(ds.GetOrdinal("PesoPagado")) : 0;
+                    item.DiferenciaKG = !ds.IsDBNull(ds.GetOrdinal("DiferenciaKG")) ? ds.GetDecimal(ds.GetOrdinal("DiferenciaKG")) : 0;
+                    item.Merma = !ds.IsDBNull(ds.GetOrdinal("Merma")) ? ds.GetDecimal(ds.GetOrdinal("Merma")) : 0;
+                    Lista.Add(item);
+                }
+                return Lista;
+            }
+            catch (Exception)
+            { 
+                throw;
             }
         }
     }

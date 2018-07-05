@@ -33,7 +33,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         /// <summary>
-        /// Para cambia el precio por kilo del ganado en una compra o para realizar una deducción en una venta o flete
+        /// Para cambiar el precio por kilo del ganado en una compra o para realizar una deducción en una venta o flete
         /// </summary>
         private bool _MarcarMerma;
 

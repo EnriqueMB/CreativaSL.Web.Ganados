@@ -34,9 +34,9 @@ namespace CreativaSL.Web.Ganados.Models
             set { _Procentaje = value; }
         }
 
-        private int _Total;
+        private decimal _Total;
 
-        public int Total
+        public decimal Total
         {
             get { return _Total; }
             set { _Total = value; }
