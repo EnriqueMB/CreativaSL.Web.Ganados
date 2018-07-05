@@ -248,7 +248,7 @@
                  window.location.href = "/Admin/reportes/RptJaulasXVenta?id=PDF&id2=" + Inicio + "&id3=" + Fin;
              }
          });
-         $("#BTN9").click(function () {
+         $("#BTN11").click(function () {
              var fecha = document.getElementById("fec1").value;
              var fecha2 = document.getElementById("fec2").value;
              var ban = 0;
