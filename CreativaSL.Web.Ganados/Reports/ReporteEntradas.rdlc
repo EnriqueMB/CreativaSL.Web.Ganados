@@ -43,8 +43,9 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Cant.</Value>
+                              <Value>CANT.</Value>
                               <Style>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -78,8 +79,9 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Merma</Value>
+                              <Value>MERMA</Value>
                               <Style>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -113,8 +115,9 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Decripción</Value>
+                              <Value>DESCRIPICION</Value>
                               <Style>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -148,8 +151,9 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Folio</Value>
+                              <Value>FOLIO</Value>
                               <Style>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -183,8 +187,9 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Observacón</Value>
+                              <Value>OBSERVACIONES</Value>
                               <Style>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -218,8 +223,9 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Importe</Value>
+                              <Value>IMPORTE</Value>
                               <Style>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -253,8 +259,9 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Aplica Cobro</Value>
+                              <Value>APLICA COBRO</Value>
                               <Style>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -288,8 +295,9 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Flete</Value>
+                              <Value>FLETE</Value>
                               <Style>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -1294,8 +1302,9 @@
                       <Paragraph>
                         <TextRuns>
                           <TextRun>
-                            <Value>Nombre Cliente</Value>
+                            <Value>NOMBRE CLIENTE</Value>
                             <Style>
+                              <FontSize>9pt</FontSize>
                               <FontWeight>Bold</FontWeight>
                             </Style>
                           </TextRun>
@@ -1332,8 +1341,9 @@
                           <Paragraph>
                             <TextRuns>
                               <TextRun>
-                                <Value>Fecha</Value>
+                                <Value>FECHA</Value>
                                 <Style>
+                                  <FontSize>9pt</FontSize>
                                   <FontWeight>Bold</FontWeight>
                                 </Style>
                               </TextRun>

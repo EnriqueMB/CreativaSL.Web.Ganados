@@ -45,6 +45,7 @@
                             <TextRun>
                               <Value>N.</Value>
                               <Style>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -78,8 +79,9 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>N. Serie</Value>
+                              <Value>N. SERIE</Value>
                               <Style>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -113,8 +115,9 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>N. Grande</Value>
+                              <Value>N. GRANDE</Value>
                               <Style>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -148,8 +151,9 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Peso</Value>
+                              <Value>PESO</Value>
                               <Style>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -183,8 +187,9 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Repeso</Value>
+                              <Value>REPESO</Value>
                               <Style>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -218,8 +223,9 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Peso Pagado</Value>
+                              <Value>PESO PAGADO</Value>
                               <Style>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -253,8 +259,9 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Dif en kg</Value>
+                              <Value>DIF EN KG</Value>
                               <Style>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -288,8 +295,9 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Merma</Value>
+                              <Value>MERMA</Value>
                               <Style>
+                                <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -778,7 +786,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -844,8 +851,9 @@
                       <Paragraph>
                         <TextRuns>
                           <TextRun>
-                            <Value>Corral</Value>
+                            <Value>CORRAL</Value>
                             <Style>
+                              <FontSize>9pt</FontSize>
                               <FontWeight>Bold</FontWeight>
                             </Style>
                           </TextRun>
@@ -940,7 +948,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>1.00949in</Height>
+    <Height>0.95741in</Height>
     <Style />
   </Body>
   <Width>18.97766cm</Width>
