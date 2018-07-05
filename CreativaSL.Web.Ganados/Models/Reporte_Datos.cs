@@ -335,5 +335,36 @@ namespace CreativaSL.Web.Ganados.Models
                 throw;
             }
         }
+
+        public List<RptCorralesModels> ObetenerListaCorrales(RptCorralesModels Datos)
+        {
+            try
+            {
+                object[] parametros = { Datos.FechaInicio, Datos.FechaFin };
+                List<RptCorralesModels> Lista = new List<RptCorralesModels>();
+                RptCorralesModels item;
+                SqlDataReader ds = null;
+                ds = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reportes_get_Corrales");
+                while (ds.Read())
+                {
+                    item = new RptCorralesModels();
+                    item.Corral = !ds.IsDBNull(ds.GetOrdinal("Corral")) ? ds.GetString(ds.GetOrdinal("Corral")) : string.Empty;
+                    item.NumeroFilas = !ds.IsDBNull(ds.GetOrdinal("TotalFilas")) ? ds.GetInt32(ds.GetOrdinal("TotalFilas")) : 0;
+                    item.NumeroSerie = !ds.IsDBNull(ds.GetOrdinal("NumeroSerie")) ? ds.GetString(ds.GetOrdinal("NumeroSerie")) : string.Empty;
+                    item.NumeroGrande = !ds.IsDBNull(ds.GetOrdinal("NumeroGrande")) ? ds.GetString(ds.GetOrdinal("NumeroGrande")) : string.Empty;
+                    item.PesoInicial = !ds.IsDBNull(ds.GetOrdinal("PesoInicial")) ? ds.GetDecimal(ds.GetOrdinal("PesoInicial")) : 0;
+                    item.Repeso = !ds.IsDBNull(ds.GetOrdinal("Repeso")) ? ds.GetDecimal(ds.GetOrdinal("Repeso")) : 0;
+                    item.PesoPagado = !ds.IsDBNull(ds.GetOrdinal("PesoPagado")) ? ds.GetDecimal(ds.GetOrdinal("PesoPagado")) : 0;
+                    item.DiferenciaKG = !ds.IsDBNull(ds.GetOrdinal("DiferenciaKG")) ? ds.GetDecimal(ds.GetOrdinal("DiferenciaKG")) : 0;
+                    item.Merma = !ds.IsDBNull(ds.GetOrdinal("Merma")) ? ds.GetDecimal(ds.GetOrdinal("Merma")) : 0;
+                    Lista.Add(item);
+                }
+                return Lista;
+            }
+            catch (Exception)
+            { 
+                throw;
+            }
+        }
     }
 }

@@ -1571,6 +1571,7 @@
     <Compile Include="Models\RptSalidasModels.cs" />
     <Compile Include="Models\RptSociosModels.cs" />
     <Compile Include="Models\RptUltCompraProveedorModels.cs" />
+    <Compile Include="Models\RptCorralesModels.cs" />
     <Compile Include="Models\SalidaAlmacenDetalle.cs" />
     <Compile Include="Models\SalidaAlmacenDetalleModels.cs" />
     <Compile Include="Models\SalidaAlmacenModels.cs" />
@@ -1761,6 +1762,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ReporteProveedorVendioMasG.rdlc" />
     <EmbeddedResource Include="Reports\ReporteGanadosMuertoVenta.rdlc" />
+    <EmbeddedResource Include="Reports\RptCorral.rdlc" />
     <EmbeddedResource Include="Reports\RptSalidas.rdlc" />
     <EmbeddedResource Include="Reports\RptSocios.rdlc" />
   </ItemGroup>
