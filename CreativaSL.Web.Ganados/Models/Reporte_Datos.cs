@@ -40,6 +40,35 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public DatosEmpresaViewModels ObtenerDatosEmpresaTipo2(string Cadena)
+        {
+            try
+            {
+                DatosEmpresaViewModels Datos = new DatosEmpresaViewModels();
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Cadena, "spCSLDB_EMPRESA_get_CatEmpresasIDTIPO2");
+                while (Dr.Read())
+                {
+                    Datos.LogoEmpresa = !Dr.IsDBNull(Dr.GetOrdinal("LogoEmpresa")) ? Dr.GetString(Dr.GetOrdinal("LogoEmpresa")) : string.Empty;
+                    Datos.RazonFiscal = !Dr.IsDBNull(Dr.GetOrdinal("RazonFiscal")) ? Dr.GetString(Dr.GetOrdinal("RazonFiscal")) : string.Empty;
+                    Datos.DireccionFiscal = !Dr.IsDBNull(Dr.GetOrdinal("DireccionFiscal")) ? Dr.GetString(Dr.GetOrdinal("DireccionFiscal")) : string.Empty;
+                    Datos.RFC = !Dr.IsDBNull(Dr.GetOrdinal("RFC")) ? Dr.GetString(Dr.GetOrdinal("RFC")) : string.Empty;
+                    Datos.Representante = !Dr.IsDBNull(Dr.GetOrdinal("Representante")) ? Dr.GetString(Dr.GetOrdinal("Representante")) : string.Empty;
+                    Datos.NumTelefonico1 = !Dr.IsDBNull(Dr.GetOrdinal("NumTelefono1")) ? Dr.GetString(Dr.GetOrdinal("NumTelefono1")) : string.Empty;
+                    Datos.NumTelefonico2 = !Dr.IsDBNull(Dr.GetOrdinal("NumTelefono2")) ? Dr.GetString(Dr.GetOrdinal("NumTelefono2")) : string.Empty;
+                    Datos.Email = !Dr.IsDBNull(Dr.GetOrdinal("Correo")) ? Dr.GetString(Dr.GetOrdinal("Correo")) : string.Empty;
+                    Datos.HorarioAtencion = !Dr.IsDBNull(Dr.GetOrdinal("HorarioAtencion")) ? Dr.GetString(Dr.GetOrdinal("HorarioAtencion")) : string.Empty;
+                    //Datos.NombreSucursal = !Dr.IsDBNull(Dr.GetOrdinal("NombreSucursal")) ? Dr.GetString(Dr.GetOrdinal("NombreSucursal")) : string.Empty;
+                    //Bitmap bmpFromString = Datos.DatosEmpresa.LogoEmpresa.Base64StringToBitmap();
+                    //Datos.DatosEmpresa.ImagenContruida = bmpFromString.ToBase64ImageReport(ImageFormat.Png);
+                }
+                Dr.Close();
+                return Datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public List<RptProvedorVendioMasModels> obtenerListaProveedoresMermaAlta(RptProvedorVendioMasModels Datos)
         {
@@ -291,6 +320,51 @@ namespace CreativaSL.Web.Ganados.Models
                 }
                 ds.Close();  
                 return datos.listaJaulas = lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public List<RptFletesModels> ObtenerListaFletes(RptFletesModels datos)
+        {
+            try
+            {
+                try
+                {
+                    object[] parametros = { datos.fechaInicio, datos.fechaFin };
+                    List<RptFletesModels> lista = new List<RptFletesModels>();
+                    RptFletesModels item;
+                    SqlDataReader ds = null;
+                    ds = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Reporte_get_ReporteFletes", parametros);
+                    while (ds.Read())
+                    {
+                        item = new RptFletesModels();
+                        item.chofer = !ds.IsDBNull(ds.GetOrdinal("Chofer")) ? ds.GetString(ds.GetOrdinal("Chofer")) : string.Empty;
+                        item.folio = !ds.IsDBNull(ds.GetOrdinal("Folio")) ? ds.GetInt64(ds.GetOrdinal("Folio")) : 0;
+                        item.cliente = !ds.IsDBNull(ds.GetOrdinal("Cliente")) ? ds.GetString(ds.GetOrdinal("Cliente")) : string.Empty;
+                        item.vehiculo = !ds.IsDBNull(ds.GetOrdinal("Vehiculo")) ? ds.GetString(ds.GetOrdinal("Vehiculo")) : string.Empty;
+                        item.modelo = !ds.IsDBNull(ds.GetOrdinal("Modelo")) ? ds.GetString(ds.GetOrdinal("Modelo")) : string.Empty;
+                        item.placas = !ds.IsDBNull(ds.GetOrdinal("Placas")) ? ds.GetString(ds.GetOrdinal("Placas")) : string.Empty;
+                        item.noSerie = !ds.IsDBNull(ds.GetOrdinal("noSerie")) ? ds.GetString(ds.GetOrdinal("noSerie")) : string.Empty;
+                        item.empresaOrigen = !ds.IsDBNull(ds.GetOrdinal("EmpresaOrigen")) ? ds.GetString(ds.GetOrdinal("EmpresaOrigen")) : string.Empty;
+                        item.empresaDestino = !ds.IsDBNull(ds.GetOrdinal("EmpresaDestino")) ? ds.GetString(ds.GetOrdinal("EmpresaDestino")) : string.Empty;
+                        item.lugarOrigen = !ds.IsDBNull(ds.GetOrdinal("LugarOrigen")) ? ds.GetString(ds.GetOrdinal("LugarOrigen")) : string.Empty;
+                        item.lugarDestino = !ds.IsDBNull(ds.GetOrdinal("LugarDestino")) ? ds.GetString(ds.GetOrdinal("LugarDestino")) : string.Empty;
+                        item.impuestoTrasladado = !ds.IsDBNull(ds.GetOrdinal("ImpuestoTrasladado")) ? ds.GetDecimal(ds.GetOrdinal("ImpuestoTrasladado")) : 0;
+                        item.impuestoRetenido = !ds.IsDBNull(ds.GetOrdinal("ImpuestoRetenido")) ? ds.GetDecimal(ds.GetOrdinal("ImpuestoRetenido")) : 0;
+                        item.total = !ds.IsDBNull(ds.GetOrdinal("Total")) ? ds.GetDecimal(ds.GetOrdinal("Total")) : 0;
+                        lista.Add(item);
+                    }
+                    ds.Close();
+                    return datos.listaFletes = lista;
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
             }
             catch (Exception ex)
             {
