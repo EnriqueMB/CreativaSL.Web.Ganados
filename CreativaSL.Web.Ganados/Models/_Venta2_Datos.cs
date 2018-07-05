@@ -10,6 +10,22 @@ namespace CreativaSL.Web.Ganados.Models
     public class _Venta2_Datos
     {
         #region Datatables
+        public string DatatableEventos(VentaModels2 venta)
+        {
+            try
+            {
+                object[] parametros = { venta.EventoVenta.Id_venta };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(venta.Conexion, "spCSLDB_Venta_get_DatatableEventos", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public string DatatableGanadoVendidoVivo(VentaModels2 venta)
         {
             try
@@ -335,6 +351,34 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
+        #region Tipos deduccion
+        public List<CatTipoClasificacionModels> GetTiposDeduccion(VentaModels2 Venta)
+        {
+            try
+            {
+                CatTipoClasificacionModels item;
+                List<CatTipoClasificacionModels> lista = new List<CatTipoClasificacionModels>();
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Combo_get_CatTipoClasificacionAll");
+                while (dr.Read())
+                {
+                    item = new CatTipoClasificacionModels();
+
+                    item.IDTipoClasificacionGasto = !dr.IsDBNull(dr.GetOrdinal("IDTipoClasificacion")) ? dr.GetInt32(dr.GetOrdinal("IDTipoClasificacion")) : 0;
+                    item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+
+                    lista.Add(item);
+                }
+                dr.Close();
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
         #endregion
 
         #region Vistas
@@ -468,7 +512,8 @@ namespace CreativaSL.Web.Ganados.Models
         {
             object[] parametros =
             {
-                Venta.Id_venta
+                Venta.EventoVenta.Id_venta,
+                Venta.EventoVenta.Id_eventoVenta
             };
             SqlDataReader dr = null;
             dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_VentaEventoXIDVenta", parametros);
@@ -555,6 +600,41 @@ namespace CreativaSL.Web.Ganados.Models
                 RespuestaAjax RespuestaAjax = new RespuestaAjax();
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Venta_ac_Ganado", parametros);
+                while (dr.Read())
+                {
+                    RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("Mensaje")) ? dr.GetString(dr.GetOrdinal("Mensaje")) : string.Empty;
+                }
+
+                return RespuestaAjax;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        #endregion
+        #region AC_Ganado
+        public RespuestaAjax AC_Evento(EventoVentaModels Evento)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Evento.Id_eventoVenta,      Evento.Id_venta,
+                    Evento.Id_tipoEvento,       Evento.AplicaDeduccion,
+                    Evento.AplicaGanado,        Evento.Cantidad,
+                    Evento.Lugar,               Evento.FechaDeteccion,
+                    Evento.HoraDeteccion,       Evento.Observacion,
+                    Evento.ImagenBase64,        Evento.ListaIDGanadosDelEvento,
+                    Evento.Usuario,             Evento.Id_TipoDeDeduccion,
+                    Evento.MontoDeduccion
+                };
+
+                RespuestaAjax RespuestaAjax = new RespuestaAjax();
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Evento.Conexion, "spCSLDB_Venta_ac_Evento", parametros);
                 while (dr.Read())
                 {
                     RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;

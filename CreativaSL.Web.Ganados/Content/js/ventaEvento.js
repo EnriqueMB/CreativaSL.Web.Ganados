@@ -6,6 +6,7 @@
     var opcionGanado = $("#AplicaGanado").val();
     var tblGanadoCargado, tblGanadoConEvento;
     var MontoDeduccion = $("#MontoDeduccion");
+    var validation_summary = $("#validation_summary");
 
     /*INICIA EVENTO*/
     var initFuncionesEvento = function () {
@@ -155,152 +156,223 @@
             }
             tblGanadoConEvento.row('.selected').remove().draw(false);
         });
-    }
-    var initValidaciones = function () {
-        var form1 = $('#frm_evento');
-        var errorHandler1 = $('.errorHandler', form1);
-        var successHandler1 = $('.successHandler', form1);
+        $(document).on('submit', 'form#frm_evento', function (e) {
+            e.preventDefault();
 
-        form1.validate({
-            errorElement: "dd",
-            errorClass: 'help-block color',
-            errorLabelContainer: $("#validation_summary"),
-            errorPlacement: function (error, element) { // render error placement for each input type
-                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
-                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
-                } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
-                    error.insertAfter($(element).closest('.form-group').children('div'));
-                } else if (element.attr("type") == "text") {
-                    error.insertAfter($(element).closest('.input-group').children('div'));
+            var Id_tipoEvento = $("#Id_tipoEvento");
+            var HoraDeteccion = $("#HoraDeteccion");
+            var Lugar = $("#Lugar");
+            var FechaDeteccion = $("#FechaDeteccion");
+            var AplicaDeduccion = $("#AplicaDeduccion");
+            var MontoDeduccion = $("#MontoDeduccion");
+            var AplicaGanado = $("#AplicaGanado");
+            var tblGanado = $("#tblGanadoConEvento");
+            var Id_TipoDeDeduccion = $("#Id_TipoDeDeduccion");
+
+            var expRegularFecha = /^([0-2][0-9]|3[0-1])(\/)(0[1-9]|1[0-2])\2(\d{4})$/i;
+            var expRegularHora = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/i;
+            var expRegularMonto = /^0[.][0-9]{1,2}$|[1-9]([0-9]+)?([.][0-9]{1,2})?$/i;
+
+            var opcion_Id_tipoEvento = Id_tipoEvento.val();
+            var value_HoraDeteccion = HoraDeteccion.val();
+            var value_Lugar = Lugar.val();
+            var value_FechaDeteccion = FechaDeteccion.val();
+            var opcion_AplicaDeduccion = AplicaDeduccion.val();
+            var value_MontoDeduccion = MontoDeduccion.val();
+            var opcion_AplicaGanado = AplicaGanado.val();
+            var opcion_Id_TipoDeDeduccion = Id_TipoDeDeduccion.val();
+            var flag_errorTipoEvento = 0;
+            var flag_errorLugar = 0;
+            var flag_errorFecha = 0;
+            var flag_errorHora = 0;
+            var flag_errorDeduccion = 0;
+            var flag_errorGanado = 0;
+            var flag_errorTipoDeduccion = 0;
+
+            opcion_Id_tipoEvento = String(opcion_Id_tipoEvento);
+            value_HoraDeteccion = String(value_HoraDeteccion);
+            value_Lugar = String(value_Lugar);
+            value_FechaDeteccion = String(value_FechaDeteccion);
+            opcion_AplicaDeduccion = String(opcion_AplicaDeduccion);
+            opcion_AplicaGanado = String(opcion_AplicaGanado);
+            opcion_Id_TipoDeDeduccion = String(opcion_Id_TipoDeDeduccion);
+
+            if (opcion_Id_tipoEvento.localeCompare("0") == 0) {
+                Id_tipoEvento.closest('.controlError').removeClass('has-success').addClass("has-error");
+                $("#ddTipoEvento").show(0);
+                flag_errorTipoEvento = 1;
+            } else {
+                Id_tipoEvento.closest('.controlError').removeClass('has-error').addClass("has-success");
+                $("#ddTipoEvento").hide(0);
+                flag_errorTipoEvento = 0;
+            }
+
+            if (value_Lugar === '' || value_Lugar.length == 0) {
+                Lugar.closest('.controlError').removeClass('has-success').addClass("has-error");
+                $("#ddLugar").show(0);
+                flag_errorLugar = 1;
+            } else {
+                Lugar.closest('.controlError').removeClass('has-error').addClass("has-success");
+                $("#ddLugar").hide(0);
+                flag_errorLugar = 0;
+            }
+
+            var validarExpreFecha = expRegularFecha.test(value_FechaDeteccion);
+            if (value_FechaDeteccion === '' || value_FechaDeteccion.length == 0 || validarExpreFecha === false) {
+                FechaDeteccion.closest('.controlError').removeClass('has-success').addClass("has-error");
+                $("#ddFecha").show(0);
+                flag_errorFecha = 1;
+            } else {
+                FechaDeteccion.closest('.controlError').removeClass('has-error').addClass("has-success");
+                $("#ddFecha").hide(0);
+                flag_errorFecha = 0;
+            }
+
+            var validarExpreHora = expRegularHora.test(value_HoraDeteccion);
+            if (value_HoraDeteccion === '' || value_HoraDeteccion.length == 0 || validarExpreHora === false) {
+                HoraDeteccion.closest('.controlError').removeClass('has-success').addClass("has-error");
+                $("#ddHora").show(0);
+                flag_errorHora = 1;
+            } else {
+                HoraDeteccion.closest('.controlError').removeClass('has-error').addClass("has-success");
+                $("#ddHora").hide(0);
+                flag_errorHora = 0;
+            }
+
+            //validando monto, siempre y cuando este seleccionado
+            if (opcion_AplicaDeduccion.localeCompare("true") == 0) {
+                //No es un número
+                if(isNaN(value_MontoDeduccion)){
+                    MontoDeduccion.closest('.controlError').removeClass('has-success').addClass("has-error");
+                    $("#ddMonto").show(0);
+                    flag_errorDeduccion = 1;
                 } else {
-                    error.insertAfter(element);
-                    // for other inputs, just perform default behavior
+                    var validarExpreMonto = expRegularMonto.test(value_MontoDeduccion);
+                    //validando con la expreión regular positivo, con solo 2 digitos 
+                    if (validarExpreMonto === false) {
+                        MontoDeduccion.closest('.controlError').removeClass('has-success').addClass("has-error");
+                        $("#ddMonto").show(0);
+                        flag_errorDeduccion = 1;
+                    }
+                    else {
+                        MontoDeduccion.closest('.controlError').removeClass('has-error').addClass("has-success");
+                        $("#ddMonto").hide(0);
+                        flag_errorDeduccion = 0;
+                    }
+
+                    if (opcion_Id_TipoDeDeduccion.localeCompare("0") == 0) {
+                        Id_TipoDeDeduccion.closest('.controlError').removeClass('has-success').addClass("has-error");
+                        $("#ddTipoDeduccion").show(0);
+                        flag_errorTipoDeduccion = 1
+                    } else {
+                        Id_TipoDeDeduccion.closest('.controlError').removeClass('has-error').addClass("has-success");
+                        $("#ddTipoDeduccion").hide(0);
+                        flag_errorTipoDeduccion = 0;
+                    }
+
+
                 }
-            },
-            ignore: "",
-            rules: {
-                Id_tipoEvento: { min: 1 },
-                Lugar: { required: true },
-                FechaDeteccion: { required: true },
-                HoraDeteccion: { required: true },
-                MontoDeduccion: { required: true, min: 1 }
-            },
-            messages: {
-                Id_tipoEvento: { min: "Por favor, seleccione un tipo de evento." },
-                Lugar: { required: "Por favor, escriba el lugar del evento" },
-                FechaDeteccion: { required: "Por favor, seleccione la fecha de detección del evento." },
-                HoraDeteccion: { required: "Por favor, seleccione la hora de detección del evento." },
-                MontoDeduccion: { required: "Por favor, escriba el monto de la deducción.", min: "Por favor, escriba un número en el monto de deducción." }
-            },
-            invalidHandler: function (event, validator) { //display error alert on form submit
-                successHandler1.hide();
-                errorHandler1.show();
-                //$("#validation_summary").text(validator.showErrors());
-            },
-            highlight: function (element) {
-                $(element).closest('.help-block').removeClass('valid');
-                // display OK icon
-                $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
-                // add the Bootstrap error class to the control group
-            },
-            unhighlight: function (element) { // revert the change done by hightlight
-                $(element).closest('.form-group').removeClass('has-error');
-                // set error class to the control group
-            },
-            success: function (label, element) {
-                label.addClass('help-block valid');
-                label.removeClass('color');
-                // mark the current input as valid and display OK icon
-                $(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
-            },
-            submitHandler: function (form) {
-                successHandler1.show();
-                errorHandler1.hide();
-                AC_Evento();
+            } else {
+                MontoDeduccion.closest('.controlError').removeClass('has-success has-error');
+                $("#ddMonto").hide(0);
+                flag_errorDeduccion = 0;
+                $("#ddTipoDeduccion").hide(0);
+                flag_errorTipoDeduccion = 0;
+            }
+
+            //esta activo la opcion de aplica ganado?
+            if (opcion_AplicaGanado.localeCompare("true") == 0) {
+                var ganado = tblGanadoConEvento.rows().data();
+                //checamos si tiene alguna fila o ganado seleccionado
+                if (ganado.length == 0) {
+                    tblGanado.removeClass('successTableCSL').addClass("errorTableCSL");
+                    $("#ddGanado").show(0);
+                    flag_errorGanado = 1;
+                } else {
+                    tblGanado.removeClass('errorTableCSL').addClass("successTableCSL");
+                    $("#ddGanado").hide(0);
+                    flag_errorGanado = 0;
+                }
+            } else {
+                tblGanado.removeClass('successTableCSL errorTableCSL');
+                $("#ddGanado").hide(0);
+                flag_errorGanado = 0;
+            }
+
+            if (flag_errorTipoEvento == 0 && flag_errorLugar == 0 && flag_errorFecha == 0 && flag_errorHora == 0 && flag_errorDeduccion == 0 && flag_errorGanado == 0 && flag_errorTipoDeduccion == 0) {
+                var ganado = tblGanadoConEvento.rows().data();
+                var objGanado, cantidad = 0;
+                var ListaIDGanadosDelEvento = new Array();
+
+                for (var i = 0 ; i < ganado.length ; i++) {
+                    ListaIDGanadosDelEvento.unshift(ganado[i].id_ganado);
+                    cantidad = i + 1;
+                }
+
+                var form = $('form#frm_evento')[0];
+                var formData = new FormData(form);
+
+                formData.append('ListaIDGanadosDelEvento', ListaIDGanadosDelEvento);
+                formData.append('Cantidad', cantidad);
+
+                $.ajax({
+                    type: 'POST',
+                    data: formData,
+                    url: '/Admin/Venta/VentaEvento/',
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    success: function (response) {
+                        //window.location.href = '/Admin/Venta/Index';
+                    },
+                    error: function (request, status, error) {
+                        //window.location.href = '/Admin/Venta/Index';
+                    }
+                });
             }
         });
-    };
-    function AC_Evento() {
-
     }
+
     function ToggleDivDeduccion(opcion) {
         if (opcion.localeCompare("true") == 0) {
-            AgregarValidacionesDeduccion();
             $('#divDeducciones').show(1000);
         }
         else if(opcion.localeCompare("false") == 0) {
-            QuitarValidacionesDeduccion();
             $('#divDeducciones').hide(1000);
         }
     }
     function ToggleDivGanado(opcion) {
         if (opcion.localeCompare("true") == 0) {
-            //AgregarValidacionesGanado();
             $('#divGanado').show(1000);
         }
         else if (opcion.localeCompare("false") == 0) {
-            //QuitarValidacionesGanado();
             $('#divGanado').hide(1000);
         }
     }
-    function AgregarValidacionesDeduccion() {
-        MontoDeduccion.rules("add", { min: 1 });
-    }
-    function QuitarValidacionesDeduccion() {
-        MontoDeduccion.rules("remove", "min");
-        MontoDeduccion.closest(".form-group").removeClass("has-success has-error");
-        MontoDeduccion.find("dd[for='MontoDeduccion']").addClass('help-block valid').text('');
-    }
-    function AgregarValidacionesGanado() {
-        //datos de las tablas
-        var ganado = tblGanadoJaula.rows().data();
-        var objGanado, cantidad = 0;
-        var listaGanado = new Array();
-
-        if (ganado.length == 0) {
-            $("#tblGanadoJaula").addClass("errorTableCSL");
-            $("#validation_summary").append("");
-            $("#validation_summary").append("<dd style='color: #ff004d !important; '>-Debe de seleccionar un ganado para su venta</dd>");
-        }
-        else {
-
-            $("#validation_summary").append("");
-
-            for (var i = 0 ; i < ganado.length ; i++) {
-                listaGanado.unshift(ganado[i].id_ganado);
-                cantidad = i + 1;
-            }
-
-            var formData = new FormData();
-            //datos de las tablas
-            formData.append('IDVenta', Id_venta);
-            formData.append('ListaIDGanadosParaVender', listaGanado);
-
-            $.ajax({
-                type: 'POST',
-                data: formData,
-                url: '/Admin/Venta/VentaGanado/',
-                contentType: false,
-                processData: false,
-                cache: false,
-                success: function (response) {
-                    window.location.href = '/Admin/Venta/Index';
-                },
-                error: function (request, status, error) {
-                    window.location.href = '/Admin/Venta/Index';
-                }
-            });
-        }
-
-        MontoDeduccion.rules("add", { min: 1 });
-    }
+    
+ 
 
     /*TERMINA EVENTO*/
 
     return {
         init: function () {
-            initValidaciones();
             initFuncionesEvento();
+
+            validation_summary.append("<dd id='ddTipoEvento' style='color: #ff004d !important; '>Por favor, seleccione un tipo de evento.</dd>");
+            validation_summary.append("<dd id='ddLugar' style='color: #ff004d !important; '>Por favor, escriba un lugar del evento.</dd>");
+            validation_summary.append("<dd id='ddFecha' style='color: #ff004d !important; '>Por favor, seleccione una fecha del evento.</dd>");
+            validation_summary.append("<dd id='ddHora' style='color: #ff004d !important; '>Por favor, seleccione una hora del evento.</dd>");
+            validation_summary.append("<dd id='ddMonto' style='color: #ff004d !important; '>Por favor, escriba un monto para la deducción.</dd>");
+            validation_summary.append("<dd id='ddGanado' style='color: #ff004d !important; '>Por favor, seleccione un ganado para aplicarle el evento.</dd>");
+            validation_summary.append("<dd id='ddTipoDeduccion' style='color: #ff004d !important; '>Por favor, seleccione un tipo de deducción.</dd>");
+
+            $("#ddTipoEvento").hide(0);
+            $("#ddLugar").hide(0);
+            $("#ddFecha").hide(0);
+            $("#ddHora").hide(0);
+            $("#ddMonto").hide(0);
+            $("#ddGanado").hide(0);
+            $("#ddTipoDeduccion").hide(0);
         }
     };
 }();

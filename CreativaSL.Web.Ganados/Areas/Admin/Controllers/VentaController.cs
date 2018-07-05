@@ -143,6 +143,35 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(venta.RespuestaAjax.ToJSON(), "application/json");
             }
         }
+        [HttpPost]
+        public ActionResult DatatableEventos(string Id_venta)
+        {
+            try
+            {
+                VentaModels2 venta = new VentaModels2();
+                _Venta2_Datos ventaDatos = new _Venta2_Datos();
+                venta.Conexion = Conexion;
+
+                venta.RespuestaAjax = new RespuestaAjax();
+                venta.EventoVenta = new EventoVentaModels();
+                venta.EventoVenta.Id_venta = Id_venta;
+                venta.RespuestaAjax.Mensaje = ventaDatos.DatatableEventos(venta);
+                venta.RespuestaAjax.Success = true;
+
+                return Content(venta.RespuestaAjax.Mensaje, "application/json");
+            }
+            catch (Exception ex)
+            {
+                VentaModels2 venta = new VentaModels2();
+                venta.RespuestaAjax = new RespuestaAjax();
+                venta.RespuestaAjax.Mensaje = ex.Message;
+                venta.RespuestaAjax.Success = false;
+                return Content(venta.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+        
+
         #endregion
 
         #region Otros
@@ -485,7 +514,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         #region Vista Evento
         [HttpGet]
-        public ActionResult VentaEvento(string IDVenta)
+        public ActionResult VentaEvento(string IDVenta, string Id_eventoVenta)
         {
             try
             {
@@ -500,8 +529,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 if (Id_venta.Length == 0 || Id_venta.Length == 36)
                 {
                     Venta.Conexion = Conexion;
-                    Venta.Id_venta = Id_venta;
                     Venta.EventoVenta.Id_venta = Id_venta;
+                    Venta.EventoVenta.Id_eventoVenta = Id_eventoVenta;
                     Venta = VentaDatos.GetVentaEvento(Venta);
                     if (Venta.RespuestaAjax.Success)
                     {
@@ -515,6 +544,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         }
                         Venta.EventoVenta.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Venta.EventoVenta.ImagenMostrar);
                         //aqui pondriamos alguna lista o valores de cargar si esta todo correcto
+                        Venta.EventoVenta.ListaDeTiposDeduccion = VentaDatos.GetTiposDeduccion(Venta);
                         Venta.EventoVenta.ListaTiposEventos = VentaDatos.GetTiposEventos(Venta);
                         return View(Venta.EventoVenta);
                     }
@@ -540,19 +570,23 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpPost]
-        public ActionResult VentaEvento(VentaModels2 Venta)
+        public ActionResult VentaEvento(EventoVentaModels Evento)
         {
             try
             {
                 if (Token.IsTokenValid())
                 {
                     _Venta2_Datos VentaDatos = new _Venta2_Datos();
-                    Venta.Conexion = Conexion;
-                    Venta.Opcion = 1;
-                    Venta.Usuario = User.Identity.Name;
-                    Venta.RespuestaAjax = VentaDatos.AC_Flete(Venta);
+                    Evento.Conexion = Conexion;
+                    Evento.Usuario = User.Identity.Name;
+                    if(Evento.HttpImagen != null)
+                    {
+                        Evento.ImagenBase64 = Auxiliar.ImageToBase64(Evento.HttpImagen);
+                    }
 
-                    if (Venta.RespuestaAjax.Success)
+                    Evento.RespuestaAjax = VentaDatos.AC_Evento(Evento);
+
+                    if (Evento.RespuestaAjax.Success)
                     {
                         TempData["typemessage"] = "1";
                         TempData["message"] = "Los datos se guardarón correctamente.";
@@ -573,8 +607,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     TempData["typemessage"] = "2";
                     TempData["message"] = "Verifique sus datos.";
 
-                    Venta.RespuestaAjax = new RespuestaAjax();
-                    Venta.RespuestaAjax.Success = false;
+                    Evento.RespuestaAjax = new RespuestaAjax();
+                    Evento.RespuestaAjax.Success = false;
 
                     return RedirectToAction("Index");
                 }
@@ -583,8 +617,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico: " + ex.Message;
-                Venta.RespuestaAjax = new RespuestaAjax();
-                Venta.RespuestaAjax.Success = false;
+                Evento.RespuestaAjax = new RespuestaAjax();
+                Evento.RespuestaAjax.Success = false;
 
                 return RedirectToAction("Index");
             }
