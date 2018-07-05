@@ -1032,6 +1032,8 @@
     <Content Include="Content\js\compraAlmacenLista.js" />
     <Content Include="Content\js\Vehiculo.js" />
     <Content Include="Content\js\venta.js" />
+    <Content Include="Content\js\ventaEvento.js" />
+    <Content Include="Content\js\ventaEventoRecepcion.js" />
     <Content Include="Content\js\ventaFlete.js" />
     <Content Include="Content\js\ventaGanado.js" />
     <Content Include="Content\Ocampo.ico" />
@@ -1346,6 +1348,7 @@
     <Content Include="Areas\Admin\Views\CatSocios\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatSocios\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaEventoRecepcion.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaEvento.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

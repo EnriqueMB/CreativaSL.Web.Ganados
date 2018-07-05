@@ -141,6 +141,23 @@
         </div>
     </div>
 </div>
+<div class="message-box animated fadeIn" data-sound="alert" id="mb-evento_recepcion">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-mail-forward"></span><strong>¿Seguro que desea continuar con la venta?</strong></div>
+            <div class="mb-content">
+                <p>¿Desea continuar con la venta, la siguiente etapa es: EVENTOS Y RECEPCION?</p>
+                <p>Presione "sí" si está seguro.</p>
+            </div>
+            <div class="mb-footer">
+                <div class="pull-right">
+                    <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                    <button class="btn btn-default btn-lg mb-control-close">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <script>
     var message = '@message';
     var typemessage = '@typemessage';
@@ -345,7 +362,7 @@
                                     botones = botones + "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
                                         "<a data-id='" + full["id_venta"] + "' class='btn btn-blue   tooltips btn-sm concluir' title='Concluir'  data-placement='top' data-original-title='Concluir'><i class='fa fa-check'></i></a>" +
                                         "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
-                                        "<a data-id='" + full["id_venta"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Eventos y recepción'  data-placement='top' data-original-title='Eventos y recepción'><i class='fa fa-book'></i></a>" +
+                                        "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Eventos y recepción'  data-placement='top' data-original-title='Eventos y recepción'><i class='fa fa-book'></i></a>" +
                                         "<a data-id='" + full["id_venta"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                         "</div>" +
                                         "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
@@ -442,7 +459,7 @@
                             box.addClass("open");
                             box.find(".mb-control-yes").on("click", function () {
                                 box.removeClass("open");
-                                window.location.href = '/Admin/Compra/CambiarEstatus?IDVenta=' + id;
+                                window.location.href = '/Admin/Venta/CambiarEstatus?IDVenta=' + id;
                             });
                         });
                         $(".concluir").on("click", function () {
