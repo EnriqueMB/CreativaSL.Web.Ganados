@@ -12,6 +12,7 @@ namespace CreativaSL.Web.Ganados.Models
         public string Id_productoServicio { get; set; }
         public int Id_tipoConciliacion { get; set; }
         public int Id_conceptoDocumento { get; set; }
+        public int Id_conceptoDocumentoDeduccion { get; set; }
         public decimal Cantidad { get; set; }
         public decimal PrecioUnitario { get; set; }
         public decimal Subtotal { get; set; }

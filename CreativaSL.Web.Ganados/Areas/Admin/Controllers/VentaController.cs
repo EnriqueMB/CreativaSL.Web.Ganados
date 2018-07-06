@@ -92,7 +92,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpPost]
-        public ActionResult DatatableGanadoVendidoVivo(string Id_venta)
+        public ActionResult DatatableGanadoVendidoVivo(string Id_venta, string Id_eventoVenta)
         {
             try
             {
@@ -101,7 +101,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 venta.Conexion = Conexion;
 
                 venta.RespuestaAjax = new RespuestaAjax();
-                venta.Id_venta = Id_venta;
+                venta.EventoVenta = new EventoVentaModels();
+                venta.EventoVenta.Id_venta = Id_venta;
+                venta.EventoVenta.Id_eventoVenta = Id_eventoVenta;
                 venta.RespuestaAjax.Mensaje = ventaDatos.DatatableGanadoVendidoVivo(venta);
                 venta.RespuestaAjax.Success = true;
 
@@ -592,14 +594,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         TempData["message"] = "Los datos se guardarón correctamente.";
                         Token.ResetToken();
 
-                        return RedirectToAction("Index");
+                        return Content(Evento.RespuestaAjax.ToJSON(), "application/json");
                     }
                     else
                     {
                         TempData["typemessage"] = "2";
                         TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
 
-                        return RedirectToAction("Index");
+                        return Content(Evento.RespuestaAjax.ToJSON(), "application/json");
                     }
                 }
                 else
@@ -610,7 +612,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Evento.RespuestaAjax = new RespuestaAjax();
                     Evento.RespuestaAjax.Success = false;
 
-                    return RedirectToAction("Index");
+                    return Content(Evento.RespuestaAjax.ToJSON(), "application/json");
                 }
             }
             catch (Exception ex)
@@ -620,7 +622,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Evento.RespuestaAjax = new RespuestaAjax();
                 Evento.RespuestaAjax.Success = false;
 
-                return RedirectToAction("Index");
+                return Content(Evento.RespuestaAjax.ToJSON(), "application/json");
             }
         }
         #endregion

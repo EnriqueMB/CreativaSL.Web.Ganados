@@ -23,7 +23,7 @@
             maxFileCount: 1,
             overwriteInitial: true,
             showUploadedThumbs: false,
-            allowedFileExtensions: ['png'],
+            allowedFileExtensions: ['png','jpg','jpeg','bmp'],
             initialPreview: [
                 '<img class="file-preview-image"  style=" width: auto !important; height: auto; max-width: 100%; max-height: 100%;" src="data:' + ExtensionImagen + ' ;base64,' + Imagen + '" />'
             ],
@@ -58,7 +58,7 @@
             responsive: true,
             "ajax": {
                 "data": {
-                    "Id_venta": Id_venta
+                    "Id_venta": Id_venta, "Id_eventoVenta": Id_eventoVenta
                 },
                 "url": "/Admin/Venta/DatatableGanadoVendidoVivo/",
                 "type": "POST",
@@ -141,18 +141,34 @@
         });
         $('#regresar').click(function () {
             var rows = tblGanadoConEvento.rows('.selected').data();
+            var rowsGanadoCargado = tblGanadoCargado.rows().data();
+            var flag_mismoGanado = false;
 
             for (var i = 0; i < rows.length; i++) {
                 var d = rows[i];
 
-                tblGanadoCargado.row.add({
-                    "id_ganado": d.id_ganado,               
-                    "numArete": d.numArete,                 
-                    "genero": d.genero,                     
-                    "pesoPagado": d.pesoPagado,
-                    "precioKilo": d.precioKilo,
-                    "subtotal": d.subtotal
-                }).draw();
+                for (var x = 0 ; x < rowsGanadoCargado.length ; x++) {
+                    var ganadoCargado = rowsGanadoCargado[x];
+
+                    if (ganadoCargado.id_ganado == d.id_ganado) {
+                        flag_mismoGanado = true;
+                        break;
+                    }
+                }
+                if(flag_mismoGanado === false){
+                    tblGanadoCargado.row.add({
+                        "id_ganado": d.id_ganado,               
+                        "numArete": d.numArete,                 
+                        "genero": d.genero,                     
+                        "pesoPagado": d.pesoPagado,
+                        "precioKilo": d.precioKilo,
+                        "subtotal": d.subtotal
+                    }).draw();
+                }
+                else {
+                    flag_mismoGanado = false;
+                }
+
             }
             tblGanadoConEvento.row('.selected').remove().draw(false);
         });
@@ -323,10 +339,10 @@
                     processData: false,
                     cache: false,
                     success: function (response) {
-                        //window.location.href = '/Admin/Venta/Index';
+                        window.location.href = '/Admin/Venta/VentaEventoRecepcion?IDVenta=' + Id_venta;
                     },
                     error: function (request, status, error) {
-                        //window.location.href = '/Admin/Venta/Index';
+                        window.location.href = '/Admin/Venta/VentaEventoRecepcion?IDVenta=' + Id_venta;
                     }
                 });
             }

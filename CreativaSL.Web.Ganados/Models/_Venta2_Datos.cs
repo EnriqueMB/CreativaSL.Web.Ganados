@@ -30,7 +30,7 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                object[] parametros = { venta.Id_venta };
+                object[] parametros = { venta.EventoVenta.Id_venta, venta.EventoVenta.Id_eventoVenta };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(venta.Conexion, "spCSLDB_Venta_get_DatatableGanadoVendidoVivo", parametros);
                 string datatable = Auxiliar.SqlReaderToJson(dr);
@@ -535,6 +535,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Venta.EventoVenta.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagenBase64")) ? dr.GetString(dr.GetOrdinal("imagenBase64")) : string.Empty;
                     Venta.EventoVenta.AplicaDeduccion = !dr.IsDBNull(dr.GetOrdinal("aplicarDeduccion")) ? dr.GetBoolean(dr.GetOrdinal("aplicarDeduccion")) : false;
                     Venta.EventoVenta.AplicaGanado = !dr.IsDBNull(dr.GetOrdinal("aplicaGanado")) ? dr.GetBoolean(dr.GetOrdinal("aplicaGanado")) : false;
+                    Venta.EventoVenta.MontoDeduccion = !dr.IsDBNull(dr.GetOrdinal("deduccion")) ? dr.GetDecimal(dr.GetOrdinal("deduccion")) : 0;
+                    Venta.EventoVenta.Id_TipoDeDeduccion = !dr.IsDBNull(dr.GetOrdinal("id_tipoDeduccion")) ? dr.GetInt16(dr.GetOrdinal("id_tipoDeduccion")) : 0;
                 }
                 else
                 {
@@ -615,7 +617,7 @@ namespace CreativaSL.Web.Ganados.Models
 
         }
         #endregion
-        #region AC_Ganado
+        #region AC_Evento
         public RespuestaAjax AC_Evento(EventoVentaModels Evento)
         {
             try
