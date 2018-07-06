@@ -40,6 +40,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
         public DatosEmpresaViewModels ObtenerDatosEmpresaTipo2(string Cadena)
         {
             try

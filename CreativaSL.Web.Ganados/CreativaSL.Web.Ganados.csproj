@@ -1563,6 +1563,7 @@
     <Compile Include="Models\ResumenGastosAjustesModels.cs" />
     <Compile Include="Models\ResumenGastosModels.cs" />
     <Compile Include="Models\RptEntradaModels.cs" />
+    <Compile Include="Models\RptFletesModels.cs" />
     <Compile Include="Models\RptGanadosMtoCompraModels.cs" />
     <Compile Include="Models\RptGanadosMtoVentaModels.cs" />
     <Compile Include="Models\RptGandosModels.cs" />

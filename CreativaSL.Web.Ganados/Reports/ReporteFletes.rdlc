@@ -1206,7 +1206,7 @@
         <DataSetName>ListaFletes</DataSetName>
         <Top>0.17639cm</Top>
         <Left>0.39544cm</Left>
-        <Height>2.66375cm</Height>
+        <Height>2.66376cm</Height>
         <Width>25.44034cm</Width>
         <Style>
           <Border>
@@ -1406,7 +1406,7 @@
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>1.29646cm</Height>
+      <Height>0.60854cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <Style>

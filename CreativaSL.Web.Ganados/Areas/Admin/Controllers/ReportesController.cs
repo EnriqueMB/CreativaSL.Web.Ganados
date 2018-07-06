@@ -789,7 +789,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 reporte.fechaFin = Fecha2;
                 reporte.Conexion = Conexion;
                 reporte.datosEmpresa = R.ObtenerDatosEmpresaTipo2(Conexion);
-                reporte.listaFletes = R.ObtenerListaFletes(reporte);
+                //reporte.listaFletes = R.ObtenerListaFletes(reporte);
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
                 Rtp.DataSources.Clear();
