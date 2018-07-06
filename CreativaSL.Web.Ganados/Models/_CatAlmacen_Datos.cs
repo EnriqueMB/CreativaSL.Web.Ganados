@@ -51,6 +51,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.nombre = dr["nombre"].ToString();
 
                 }
+                dr.Close();
                 return datos;
             }
 
@@ -77,6 +78,7 @@ namespace CreativaSL.Web.Ganados.Models
                    
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -126,6 +128,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)

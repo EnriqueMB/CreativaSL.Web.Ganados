@@ -145,6 +145,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Total = !dr.IsDBNull(dr.GetOrdinal("Total")) ? dr.GetDecimal(dr.GetOrdinal("Total")) : 0;
                     Lista.Add(item);
                 }
+                dr.Close();
                 return Lista;
             }
             catch (Exception)
@@ -357,6 +358,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.AplicaCobro = !ds.IsDBNull(ds.GetOrdinal("CobroFlete")) ? ds.GetString(ds.GetOrdinal("CobroFlete")) : string.Empty;
                     Lista.Add(item);
                 }
+                ds.Close();
                 return Lista;
             }
             catch (Exception ex)
@@ -389,6 +391,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Merma = !ds.IsDBNull(ds.GetOrdinal("Merma")) ? ds.GetDecimal(ds.GetOrdinal("Merma")) : 0;
                     Lista.Add(item);
                 }
+                ds.Close();
                 return Lista;
             }
             catch (Exception)

@@ -102,6 +102,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
                     datos.esJaula = !dr.IsDBNull(dr.GetOrdinal("EsJaula")) ? dr.GetBoolean(dr.GetOrdinal("EsJaula")) : false;
                 }
+                dr.Close();
                 return datos;
             }
 

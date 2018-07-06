@@ -27,6 +27,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Descripcion = dr["descripcion"].ToString();
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -51,6 +52,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -101,6 +103,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Datos.Clave = dr["clave"].ToString();
                     Datos.Descripcion = dr["descripcion"].ToString();
                 }
+                dr.Close();
                 return Datos;
             }
             catch (Exception ex)

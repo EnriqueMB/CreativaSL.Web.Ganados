@@ -26,6 +26,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.tipoUsuario = dr["tipoUsuario"].ToString();
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch(Exception ex) 
@@ -80,6 +81,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.cuenta = dr["clvUser"].ToString();
                     //datos.password = "dc89sd989sdd";
                 }
+                dr.Close();
                 return datos;
             }
 
@@ -193,6 +195,7 @@ namespace CreativaSL.Web.Ganados.Models
                     usuario.cuenta = dr["clvUser"].ToString();
                     usuario.Password = dr["pass"].ToString();
                 }
+                dr.Close();
                 return usuario;
             }
             catch (Exception ex)
@@ -283,6 +286,7 @@ namespace CreativaSL.Web.Ganados.Models
                             }
                             ListaPrinc.Add(Item);
                         }
+                        DTR.Close();
                         Datos.ListaPermisos = ListaPrinc;
                     }
                 }
@@ -316,6 +320,7 @@ namespace CreativaSL.Web.Ganados.Models
                     cont++;
                     ListaPrinc.Add(Item);
                 }
+                Dr.Close();
                 Datos.ListaMenuPermisos = ListaPrinc;
                 Datos.listaMenu = this.ObtenerListaSubMenus(0, ListaPrinc);
                 return Datos.listaMenu;
@@ -350,6 +355,7 @@ namespace CreativaSL.Web.Ganados.Models
                     cont++;
                     ListaPrinc.Add(Item);
                 }
+                Dr.Close();
                 Datos.ListaMenuPermisos = ListaPrinc;
                 Datos.listaMenu = this.ObtenerListaSubMenus(0, ListaPrinc);
                 return Datos.listaMenu;

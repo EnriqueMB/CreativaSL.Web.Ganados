@@ -79,6 +79,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Descripcion = dr["descripcion"].ToString();
                     
                 }
+                dr.Close();
                 return datos;
             }
 
@@ -103,6 +104,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
                     Lista.Add(Item);
                 }
+                dr.Close();
                 datos.LUnidades = Lista;
                 return datos;
             }

@@ -25,6 +25,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.EsGerente = !dr.IsDBNull(dr.GetOrdinal("EsGerente")) ? dr.GetBoolean(dr.GetOrdinal("EsGerente")) : false;
                     Lista.Add(Item);
                 }
+                dr.Close();
                 datos.ListaPuesto = Lista;
                 return datos;
             }
@@ -106,6 +107,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
                     datos.EsGerente = !dr.IsDBNull(dr.GetOrdinal("EsGerente")) ? dr.GetBoolean(dr.GetOrdinal("EsGerente")) : false;
                 }
+                dr.Close();
                 return datos;
             }
 

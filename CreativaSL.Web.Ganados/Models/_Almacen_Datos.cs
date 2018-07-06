@@ -28,6 +28,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     Lista.Add(item);
                 }
+                dr.Close();
                 return Lista;
                 
             }

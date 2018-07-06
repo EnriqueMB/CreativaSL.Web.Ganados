@@ -29,6 +29,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.FolioCompra = !dr.IsDBNull(dr.GetOrdinal("folio")) ? dr.GetInt32(dr.GetOrdinal("folio")) : 0;
                     Lista.Add(Item);
                 }
+                dr.Close();
                 return Lista;
             }
 

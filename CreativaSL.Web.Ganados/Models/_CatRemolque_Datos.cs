@@ -52,6 +52,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.capacidad = dr["capacidad"].ToString();
                     datos.IDEmpresa = dr["id_empresa"].ToString();
                 }
+                dr.Close();
                 return datos;
             }
 
@@ -105,6 +106,7 @@ namespace CreativaSL.Web.Ganados.Models
                    
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -129,6 +131,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -152,6 +155,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     Datos.ListaEmpresas.Add(item);
                 }
+                dr.Close();
                 return Datos.ListaEmpresas;
             }
             catch (Exception ex)
@@ -177,6 +181,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
                     Datos.listaSucursales.Add(item);
                 }
+                dr.Close();
                 return Datos.listaSucursales;
             }
             catch (Exception ex)

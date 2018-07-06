@@ -24,6 +24,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
                     Lista.Add(Item);
                 }
+                dr.Close();
                 datos.ListaMarcas = Lista;
                 return datos;
             }
@@ -104,6 +105,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.IDMarca = !dr.IsDBNull(dr.GetOrdinal("IDMarca")) ? dr.GetInt16(dr.GetOrdinal("IDMarca")) : 0;
                     datos.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
                 }
+                dr.Close();
                 return datos;
             }
 

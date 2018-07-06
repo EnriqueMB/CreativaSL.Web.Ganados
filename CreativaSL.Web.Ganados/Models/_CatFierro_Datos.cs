@@ -18,6 +18,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(fierro.Conexion, "spCSLDB_Catalogo_get_CatFierro");
+                dr.Close();
                 return dr;
             }
             catch (Exception ex)
@@ -53,6 +54,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.ImagenContruida = bmpFromString.ToBase64ImageTag(ImageFormat.Png);
                     Lista.Add(Item);
                 }
+                dr.Close();
                 datos.ListaFierro = Lista;
                 return datos;
             }
@@ -137,6 +139,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.ImgFierro = !dr.IsDBNull(dr.GetOrdinal("ImgFierro")) ? dr.GetString(dr.GetOrdinal("ImgFierro")) : string.Empty;
                     datos.Extension = Auxiliar.ObtenerExtensionImagenBase64(datos.ImgFierro);
                 }
+                dr.Close();
                 return datos;
             }
 

@@ -49,6 +49,7 @@ namespace CreativaSL.Web.Ganados.Models
                     FleteImpuesto.TasaCuota = !dr.IsDBNull(dr.GetOrdinal("tasaCuota")) ? dr.GetDecimal(dr.GetOrdinal("tasaCuota")) : 0;
                     FleteImpuesto.Importe = !dr.IsDBNull(dr.GetOrdinal("importe")) ? dr.GetDecimal(dr.GetOrdinal("importe")) : 0;
                 }
+                dr.Close();
                 return FleteImpuesto;
             }
             catch (Exception ex)
@@ -76,6 +77,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     FleteImpuesto.ListaImpuesto.Add(Impuesto);
                 }
+                dr.Close();
                 return FleteImpuesto.ListaImpuesto;
             }
             catch (Exception ex)
@@ -103,6 +105,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     FleteImpuesto.ListaTipoImpuesto.Add(TipoImpuesto);
                 }
+                dr.Close();
                 return FleteImpuesto.ListaTipoImpuesto;
             }
             catch (Exception ex)
@@ -130,6 +133,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     FleteImpuesto.ListaTipoFactor.Add(TipoFactor);
                 }
+                dr.Close();
                 return FleteImpuesto.ListaTipoFactor;
             }
             catch (Exception ex)
@@ -160,6 +164,7 @@ namespace CreativaSL.Web.Ganados.Models
                     FleteImpuesto.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     FleteImpuesto.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                 }
+                dr.Close();
                 return FleteImpuesto;
             }
             catch (Exception ex)
@@ -183,6 +188,7 @@ namespace CreativaSL.Web.Ganados.Models
                     FleteImpuesto.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     FleteImpuesto.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                 }
+                dr.Close();
                 return FleteImpuesto;
             }
             catch (Exception ex)

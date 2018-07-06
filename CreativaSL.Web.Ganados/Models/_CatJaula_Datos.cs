@@ -75,6 +75,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Estatus = Convert.ToBoolean(dr["estatus"].ToString());
                    datos.IDEmpresa = dr["id_empresa"].ToString();
                 }
+                dr.Close();
                 return datos;
             }
 
@@ -100,6 +101,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Estatus = Convert.ToBoolean(dr["estatus"].ToString());
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -124,6 +126,7 @@ namespace CreativaSL.Web.Ganados.Models
                    
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -146,6 +149,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.RazonFiscal = !dr.IsDBNull(dr.GetOrdinal("NombreEmpresa")) ? dr.GetString(dr.GetOrdinal("NombreEmpresa")) : string.Empty;
                     Datos.ListaEmpresas.Add(item);
                 }
+                dr.Close();
                 return Datos.ListaEmpresas;
             }
             catch (Exception ex)
@@ -171,6 +175,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
                     Datos.listaSucursales.Add(item);
                 }
+                dr.Close();
                 return Datos.listaSucursales;
             }
             catch (Exception ex)
