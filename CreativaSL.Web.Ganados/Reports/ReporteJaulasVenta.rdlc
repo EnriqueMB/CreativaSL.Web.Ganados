@@ -6,31 +6,31 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>3.05501cm</Width>
+              <Width>2.72111cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.49522cm</Width>
+              <Width>1.60105cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.18374cm</Width>
+              <Width>2.42187cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.9973cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.78563cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.70625cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>2.1825cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>2.6323cm</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.91792cm</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>1.57396cm</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>1.5475cm</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>2.02375cm</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>2.39417cm</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>1.67979cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -48,7 +48,7 @@
                             <TextRun>
                               <Value>CHOFER</Value>
                               <Style>
-                                <FontSize>9pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -84,7 +84,7 @@
                             <TextRun>
                               <Value>FOLIO</Value>
                               <Style>
-                                <FontSize>9pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -120,7 +120,7 @@
                             <TextRun>
                               <Value>VEHICULO</Value>
                               <Style>
-                                <FontSize>9pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -156,7 +156,7 @@
                             <TextRun>
                               <Value>MODELO</Value>
                               <Style>
-                                <FontSize>9pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -192,7 +192,7 @@
                             <TextRun>
                               <Value>PLACAS</Value>
                               <Style>
-                                <FontSize>9pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -228,7 +228,7 @@
                             <TextRun>
                               <Value>N° SERIE</Value>
                               <Style>
-                                <FontSize>9pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -264,7 +264,7 @@
                             <TextRun>
                               <Value>CAPACIDAD</Value>
                               <Style>
-                                <FontSize>9pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -336,7 +336,7 @@
                             <TextRun>
                               <Value>TOTAL GANDADO</Value>
                               <Style>
-                                <FontSize>9pt</FontSize>
+                                <FontSize>8pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -744,7 +744,6 @@
                         <rd:FormatSymbolCulture>es-MX</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -813,10 +812,10 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>ListaJaulasXVenta</DataSetName>
-        <Top>0.28787cm</Top>
-        <Left>0.1126cm</Left>
+        <Top>0.3175cm</Top>
+        <Left>0.13906cm</Left>
         <Height>2.47854cm</Height>
-        <Width>17.87106cm</Width>
+        <Width>18.96593cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -824,10 +823,10 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>1.08914in</Height>
+    <Height>1.1008in</Height>
     <Style />
   </Body>
-  <Width>18.3092cm</Width>
+  <Width>19.30658cm</Width>
   <Page>
     <PageHeader>
       <Height>2.64583cm</Height>
@@ -1180,6 +1179,7 @@
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
   </ReportParameters>
+  <Language>es-MX</Language>
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
   <rd:ReportID>81b65b00-5fed-441e-a0e8-8e252ffdfb54</rd:ReportID>
