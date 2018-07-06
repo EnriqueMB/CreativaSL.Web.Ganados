@@ -18,10 +18,9 @@
         .errorTableCSL {
             border: 1px solid #ff004d !important;
         }
-        .newErrorCSL {
-            color: #ff004d !important;
+        .successTableCSL{
+            border: 1px solid #95b75d !important;
         }
-
         .form-control[disabled],
         .form-control[readonly] {
             color: #000 !important;
@@ -155,11 +154,24 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <div class="controlError col-md-12">
+                                <label class="col-md-1 control-label">Observación</label>
+                                <div class="col-md-11 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-eye-open"></span></span>
+                                        @Html.TextAreaFor(model => model.Observacion, new { @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Observacion)
+                                    <span class="help-block">Ingrese una observación.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <div class="controlError col-md-6">
                                 <label class="col-md-2 control-label">Aplica deducción</label>
                                 <div class="col-md-10 col-xs-12">
                                     <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                        @Html.DropDownListFor(model => model.AplicaDeduccion, new List<SelectListItem>()
                                         {
                                             new SelectListItem { Text = "Si", Value = "true", Selected = Model.AplicaDeduccion },
@@ -173,7 +185,7 @@
                                 <label class="col-md-2 control-label">Aplica ganado</label>
                                 <div class="col-md-10 col-xs-12">
                                     <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                        @Html.DropDownListFor(model => model.AplicaGanado, new List<SelectListItem>()
                                         {
                                             new SelectListItem { Text = "Si", Value = "true", Selected = Model.AplicaGanado },
@@ -185,17 +197,31 @@
                             </div>
                         </div>
 
-                        <div class="row" id="divDeducciones">
-                            <div class="form-group">
-                                <div class="controlError col-md-6">
-                                    <label class="col-md-2 control-label">Monto de la Deducción</label>
-                                    <div class="col-md-10 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.MontoDeduccion, new { @type = "number", @class = "form-control"})
+                        <div class="row">
+                            <div id="divDeducciones">
+                                <div class="form-group">
+                                    <div class="controlError col-md-6">
+                                        <label class="col-md-2 control-label">Monto de la Deducción</label>
+                                        <div class="col-md-10 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-money"></span></span>
+                                                @Html.TextBoxFor(model => model.MontoDeduccion, new { @type = "text", @class = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.MontoDeduccion)
+                                            <span class="help-block">Ingrese una cantidad.</span>
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.MontoDeduccion)
-                                        <span class="help-block">Ingrese una cantidad.</span>
+                                    </div>
+
+                                    <div class="controlError col-md-6">
+                                        <label class="col-md-2 control-label">Tipo de deduccion</label>
+                                        <div class="col-md-10 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.DropDownListFor(model => model.Id_TipoDeDeduccion, new SelectList(Model.ListaDeTiposDeduccion, "IDTipoClasificacionGasto", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Id_TipoDeDeduccion)
+                                            <span class="help-block">Seleccione un tipo de deducción.</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -233,7 +259,7 @@
                                 <div class="col-md-6">
                                     <h3>Ganado con evento</h3>
                                     <div class="table-responsive">
-                                        <table id="tblGanadoConEvento" class="table">
+                                        <table id="tblGanadoConEvento" name="tblGanadoConEvento" class="table">
                                             <thead>
                                                 <tr>
                                                     <th>ID</th>

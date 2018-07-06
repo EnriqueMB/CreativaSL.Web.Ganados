@@ -40,6 +40,14 @@ namespace CreativaSL.Web.Ganados.Models
         public bool AplicaGanado { get; set; }
         public bool AplicaDeduccion { get; set; }
 
-        EventoVentaEnvioDetalleModels DetalleEventoVenta;
+        public EventoVentaEnvioDetalleModels DetalleEventoVenta;
+        public List<CatTipoClasificacionModels> ListaDeTiposDeduccion;
+        public int Id_TipoDeDeduccion { get; set; }
+        public string ListaIDGanadosDelEvento { get; set; }
+
+        public string Conexion { get; set; }
+        public string Usuario { get; set; }
+        public RespuestaAjax RespuestaAjax { get; set; }
+
     }
 }

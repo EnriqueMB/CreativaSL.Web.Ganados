@@ -1,6 +1,7 @@
 ﻿var VentaEventoRecepcion = function () {
     "use strict"
     var Id_venta = $("#Id_venta").val();
+    var tblEventos;
    
     /*INICIA RECEPCION*/
     var initFuncionesRecepcion = function () {
@@ -10,59 +11,135 @@
         });
 
         $("#btnAddEvento").on("click", function () {
-            window.location.href = '/Admin/Venta/VentaEvento?IDVenta=' + Id_venta;
+            window.location.href = '/Admin/Venta/VentaEvento?IDVenta=' + Id_venta + '&Id_eventoVenta=0';
         });
 
+        tblEventos = $('#tblEventos').DataTable({
+            "language": {
+                "url": "../../Content/json/Spanish.json"
+            },
+            responsive: true,
+            "ajax": {
+                "data": {
+                    "Id_venta": Id_venta
+                },
+                "url": "/Admin/Venta/DatatableEventos/",
+                "type": "POST",
+                "datatype": "json",
+                "dataSrc": ''
+            },
+            "columns": [
+                { "data": "id_eventoVenta" },
+                { "data": "descripcion" },
+                { "data": "cantidad" },
+                { "data": "lugar" },
+                { "data": "fechaDeteccion",
+                    "render": function (data, type, row) {
+                        if (data === null)
+                            fecha = "Sin fecha";
+                        else {
+                            var dateSplit = data.split('-');
+                            var dia = dateSplit[2];
+                            dia = dia.split('T');
+                            dia = dia[0];
+                            var mes = dateSplit[1];
+                            var año = dateSplit[0];
+                            var fecha = dia + '-' + mes + '-' + año;
+                        }
 
-        //$(document).on('submit', 'form#frm_venta', function (e) {
-        //    e.preventDefault();
+                        return type === "display" || type === "filter" ?
+                            fecha : data;
+                    }
+                },
+                {
+                    "data": "horaDeteccion",
+                    "render": function (data, type, row) {
+                        if (data === null)
+                            hhmm = "Sin hora";
+                        else {
+                            var dateSplit = data.split(':');
+                            var hora = dateSplit[0];
+                            var minuto = dateSplit[1];
+                            var hhmm = hora + ':' + minuto
+                        }
 
-        //    //datos de las tablas
-        //    var ganado = tblGanadoJaula.rows().data();
-        //    var objGanado, cantidad = 0;
-        //    var listaGanado = new Array();
+                        return type === "display" || type === "filter" ?
+                            hhmm : data;
+                    }
+                },
+                {
+                    "data": null,
+                    "render": function (data, type, full) {
 
-        //    console.log("ganado: " + ganado);
-        //    if (ganado.length == 0) {
-        //        $("#tblGanadoJaula").addClass("errorTableCSL");
-        //        $("#validation_summary").append("");
-        //        $("#validation_summary").append("<dd style='color: #ff004d !important; '>-Debe de seleccionar un ganado para su venta</dd>");
-        //    }
-        //    else {
+                        return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                            "<a data-id='" + full["id_eventoVenta"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                            "<a data-id='" + full["id_eventoVenta"] + "' data-hrefa='/Admin/Venta/Del_Evento/' title='Eliminar'  class='btn btn-danger tooltips btn-sm delete' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "</div>" +
+                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                            "<div class='btn-group'>" +
+                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                            "</a>" +
+                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                            "<li>" +
+                            "<a data-id='" + full["id_eventoVenta"] + "' class='edit' role='menuitem' tabindex='-1'>" +
+                            "<i class='fa fa-edit'></i> Editar" +
+                            "</a>" +
+                            "</li>" +
+                            "<li>" +
+                            "<a data-id='" + full["id_eventoVenta"] + "' data-hrefa='/Admin/Venta/Del_Evento/' class='delete' role='menuitem' tabindex='-1' >" +
+                            "<i class='fa fa-trash-o'></i> Eliminar" +
+                            "</a>" +
+                            "</li>" +
+                            "</ul>" +
+                            "</div>" +
+                            "</div>";
+                    }
+                }
+            ],
+            "columnDefs": [
+                {
+                    "targets": [0],
+                    "visible": false,
+                    "searchable": false
+                }
+            ],
+            "drawCallback": function (settings) {
+                $(".edit").on("click", function () {
+                    var Id_eventoVenta = $(this).data("id");
+                    window.location.href = '/Admin/Venta/VentaEvento?IDVenta=' + Id_venta + '&Id_eventoVenta=' + Id_eventoVenta;
+                });
+                $(".delete").on("click", function () {
+                    var url = $(this).attr('data-hrefa');
+                    var Id_eventoVenta = $(this).attr('data-id');
+                    var box = $("#mb-del-evento");
+                    box.addClass("open");
+                    box.find(".mb-control-yes").on("click", function () {
+                        box.removeClass("open");
+                        $.ajax({
+                            url: url,
+                            data: { Id_eventoVenta: Id_eventoVenta },
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (result) {
+                                if (result.Success) {
+                                    box.find(".mb-control-yes").prop('onclick', null).off('click');
+                                    //Mensaje(result.Mensaje, "1");
+                                    //$("#Modal").modal('hide');
+                                    //location.reload();
+                                }
+                                else
+                                    Mensaje(result.Mensaje, "2");
+                            },
+                            error: function (result) {
+                                Mensaje(result.Mensaje, "2");
+                            }
+                        });
+                    });
+                });
+            }
 
-        //        $("#validation_summary").append("");
-
-        //        for (var i = 0 ; i < ganado.length ; i++) {
-        //            listaGanado.unshift(ganado[i].id_ganado);
-        //            cantidad = i + 1;
-        //        }
-
-        //        var formData = new FormData();
-        //        //datos de las tablas
-        //        formData.append('IDVenta', Id_venta);
-        //        formData.append('ListaIDGanadosParaVender', listaGanado);
-
-        //        $.ajax({
-        //            type: 'POST',
-        //            data: formData,
-        //            url: '/Admin/Venta/VentaGanado/',
-        //            contentType: false,
-        //            processData: false,
-        //            cache: false,
-        //            success: function (response) {
-        //                window.location.href = '/Admin/Venta/Index';
-        //            },
-        //            error: function (request, status, error) {
-        //                window.location.href = '/Admin/Venta/Index';
-        //            }
-        //        });
-        //    }
-        //});
-
-       
-    };
-    function ActualizarInputs() {
-        
+        });
     }
     /*TERMINA RECEPCION*/
 
@@ -73,8 +150,6 @@
     return {
         init: function () {
             initFuncionesRecepcion();
-            //initDataTables();
-            //initFuncionesGanado();
         }
     };
 }();

@@ -344,6 +344,7 @@
     <Content Include="Content\css\fontawesome\font-awesome.min.css" />
     <Content Include="Content\css\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\css\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\css\fonts\ocampoIcons.svg" />
     <Content Include="Content\css\fullcalendar\fullcalendar.css" />
     <Content Include="Content\css\jquery\jquery-ui.min.css" />
     <Content Include="Content\css\mcustomscrollbar\jquery.mCustomScrollbar.css" />
@@ -1349,6 +1350,9 @@
     <Content Include="Areas\Admin\Views\CatSocios\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaEventoRecepcion.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaEvento.cshtml" />
+    <Content Include="Content\css\fonts\ocampoIcons.eot" />
+    <Content Include="Content\css\fonts\ocampoIcons.ttf" />
+    <Content Include="Content\css\fonts\ocampoIcons.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

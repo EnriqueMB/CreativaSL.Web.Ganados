@@ -161,21 +161,21 @@ $.validator.addMethod("group", function (value, element, params) {
 
     if (expReg.test(inputGroup)) {
         error = true;
-        console.log("valido 1: " + error);
+        //console.log("valido 1: " + error);
         return error;
     }
     else {
         error = false;
-        console.log("valido 1: " + error);
+        //console.log("valido 1: " + error);
     }
 
     if (expReg.test(inputGroup2)) {
         error = true;
-        console.log("valido 2: " + error);
+        //console.log("valido 2: " + error);
     }
     else {
         error = false;
-        console.log("valido 2:" + error);
+        //console.log("valido 2:" + error);
     }
 
     return error;
@@ -192,3 +192,16 @@ $.validator.addMethod("TasaCuotaSAT", function (value, element) {
 $.validator.addMethod("BaseSAT", function (value, element) {
     return this.optional(element) || /^[1-9]([0-9]+)?([.][0-9]{1,6})?$/i.test(value);
 }, "La Base debe ser mayor que cero, hasta 6 decimales.");
+
+
+$.validator.addMethod("validarTblEventoGanadoVenta", function () {
+
+    if (document.getElementById("ImgINEE").value === '') {
+        if ((document.getElementById("ImgINEE").value === ''))
+            return false;
+        else
+            return true;
+    }
+    else
+        return true;
+}, 'Debe seleccionar una imagen.');
