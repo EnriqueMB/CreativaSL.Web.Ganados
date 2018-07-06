@@ -28,6 +28,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.TipoProveedor = !dr.IsDBNull(dr.GetOrdinal("TipoProveedor")) ? dr.GetString(dr.GetOrdinal("TipoProveedor")) : string.Empty;
                     Lista.Add(Item);
                 }
+                dr.Close();
                 datos.ListaRangoPeso = Lista;
                 return datos;
             }
@@ -111,6 +112,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Precio = !dr.IsDBNull(dr.GetOrdinal("Precio")) ? dr.GetDecimal(dr.GetOrdinal("Precio")) : 0;
                     datos.IDTipoProveedor = !dr.IsDBNull(dr.GetOrdinal("IDTipoProveedor")) ? dr.GetInt32(dr.GetOrdinal("IDTipoProveedor")) : 0;
                 }
+                dr.Close();
                 return datos;
             }
 
@@ -135,6 +137,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)

@@ -70,6 +70,7 @@ namespace CreativaSL.Web.Ganados.Models
                     //item.bascula = Convert.ToBoolean(dr["bascula"].ToString());
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -104,6 +105,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.bascula = Convert.ToBoolean(dr["bascula"].ToString());
                     datos.Direccion = dr["direccion"].ToString();
                 }
+                dr.Close();
                 return datos;
             }
 
@@ -153,6 +155,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -177,6 +180,7 @@ namespace CreativaSL.Web.Ganados.Models
                     
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -202,6 +206,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -227,6 +232,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)

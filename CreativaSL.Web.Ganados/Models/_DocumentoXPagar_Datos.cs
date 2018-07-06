@@ -55,6 +55,7 @@ namespace CreativaSL.Web.Ganados.Models
                     }
                     Lista.Add(Item);
                 }
+                dr.Close();
                 return Lista;
             }
 
@@ -87,6 +88,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.EstatusNombre = !dr.IsDBNull(dr.GetOrdinal("EstatusDocumento")) ? dr.GetString(dr.GetOrdinal("EstatusDocumento")) : string.Empty;
                     Lista.Add(Item);
                 }
+                dr.Close();
                 return Lista;
             }
 
@@ -142,6 +144,7 @@ namespace CreativaSL.Web.Ganados.Models
                     }
                     Lista.Add(Item);
                 }
+                dr.Close();
                 return Lista;
             }
 

@@ -34,7 +34,7 @@ namespace CreativaSL.Web.Ganados.Models
                     lista.Add(item);
                 }
 
-
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -96,6 +96,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Bitmap bmpFromString = Datos.DatosEmpresa.LogoEmpresa.Base64StringToBitmap();
                     Datos.DatosEmpresa.ImagenContruida = bmpFromString.ToBase64ImageReport(ImageFormat.Png);
                 }
+                Dr.Close();
                 return Datos.DatosEmpresa;
             }
             catch (Exception ex)

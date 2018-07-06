@@ -98,6 +98,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Estatus = Convert.ToBoolean(dr["Estatus"].ToString());
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -136,6 +137,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.FechaNacimiento = dr.GetDateTime(dr.GetOrdinal("fechaNacimiento"));
                     datos.IDEmpresa = dr["id_empresa"].ToString();
                 }
+                dr.Close();
                 return datos;
             }
 
@@ -161,6 +163,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -184,6 +187,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.descripcion = !dr.IsDBNull(dr.GetOrdinal("TipoSanguineo")) ? dr.GetString(dr.GetOrdinal("TipoSanguineo")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -207,6 +211,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -228,6 +233,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.RazonFiscal = !dr.IsDBNull(dr.GetOrdinal("NombreEmpresa")) ? dr.GetString(dr.GetOrdinal("NombreEmpresa")) : string.Empty;
                     Datos.ListaEmpresas.Add(item);
                 }
+                dr.Close();
                 return Datos.ListaEmpresas;
             }
             catch (Exception ex)
@@ -255,6 +261,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
                     Datos.listaSucursales.Add(item);
                 }
+                dr.Close();
                 return Datos.listaSucursales;
             }
             catch (Exception ex)

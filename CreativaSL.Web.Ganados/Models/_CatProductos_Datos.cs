@@ -76,6 +76,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Clave_cfdi = dr["clave_cfdi"].ToString();
                     
                  }
+                dr.Close();
                 return datos;
             }
 
@@ -102,6 +103,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Clave_cfdi = dr["clave_cfdi"].ToString();
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)

@@ -70,12 +70,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 string deviceInfo = "<DeviceInfo>" +
                 "  <OutputFormat>" + id + "</OutputFormat>" +
-                "  <PageWidth>8.5in</PageWidth>" +
-                "  <PageHeight>11in</PageHeight>" +
-                "  <MarginTop>0.5in</MarginTop>" +
-                "  <MarginLeft>1in</MarginLeft>" +
-                "  <MarginRight>1in</MarginRight>" +
-                "  <MarginBottom>0.5in</MarginBottom>" +
+                //"  <PageWidth>8.5in</PageWidth>" +
+                //"  <PageHeight>11in</PageHeight>" +
+                //"  <MarginTop>0.5in</MarginTop>" +
+                //"  <MarginLeft>1in</MarginLeft>" +
+                //"  <MarginRight>1in</MarginRight>" +
+                //"  <MarginBottom>0.5in</MarginBottom>" +
                 "</DeviceInfo>";
 
                 Warning[] warnings;
@@ -145,12 +145,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 string deviceInfo = "<DeviceInfo>" +
                 "  <OutputFormat>" + id + "</OutputFormat>" +
-                "  <PageWidth>8.5in</PageWidth>" +
-                "  <PageHeight>11in</PageHeight>" +
-                "  <MarginTop>0.5in</MarginTop>" +
-                "  <MarginLeft>1in</MarginLeft>" +
-                "  <MarginRight>1in</MarginRight>" +
-                "  <MarginBottom>0.5in</MarginBottom>" +
                 "</DeviceInfo>";
 
                 Warning[] warnings;
@@ -297,12 +291,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 string deviceInfo = "<DeviceInfo>" +
                 "  <OutputFormat>" + id + "</OutputFormat>" +
-                "  <PageWidth>8.5in</PageWidth>" +
-                "  <PageHeight>11in</PageHeight>" +
-                "  <MarginTop>0.5in</MarginTop>" +
-                "  <MarginLeft>1in</MarginLeft>" +
-                "  <MarginRight>1in</MarginRight>" +
-                "  <MarginBottom>0.5in</MarginBottom>" +
                 "</DeviceInfo>";
 
                 Warning[] warnings;
@@ -374,12 +362,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 string deviceInfo = "<DeviceInfo>" +
                 "  <OutputFormat>" + id + "</OutputFormat>" +
-                "  <PageWidth>8.5in</PageWidth>" +
-                "  <PageHeight>11in</PageHeight>" +
-                "  <MarginTop>0.5in</MarginTop>" +
-                "  <MarginLeft>1in</MarginLeft>" +
-                "  <MarginRight>1in</MarginRight>" +
-                "  <MarginBottom>0.5in</MarginBottom>" +
                 "</DeviceInfo>";
 
                 Warning[] warnings;
@@ -451,12 +433,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 string deviceInfo = "<DeviceInfo>" +
                 "  <OutputFormat>" + id + "</OutputFormat>" +
-                "  <PageWidth>8.5in</PageWidth>" +
-                "  <PageHeight>11in</PageHeight>" +
-                "  <MarginTop>0.5in</MarginTop>" +
-                "  <MarginLeft>1in</MarginLeft>" +
-                "  <MarginRight>1in</MarginRight>" +
-                "  <MarginBottom>0.5in</MarginBottom>" +
                 "</DeviceInfo>";
 
                 Warning[] warnings;
@@ -527,12 +503,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 string deviceInfo = "<DeviceInfo>" +
                 "  <OutputFormat>" + id + "</OutputFormat>" +
-                "  <PageWidth>8.5in</PageWidth>" +
-                "  <PageHeight>11in</PageHeight>" +
-                "  <MarginTop>0.5in</MarginTop>" +
-                "  <MarginLeft>1in</MarginLeft>" +
-                "  <MarginRight>1in</MarginRight>" +
-                "  <MarginBottom>0.5in</MarginBottom>" +
                 "</DeviceInfo>";
 
                 Warning[] warnings;
@@ -775,6 +745,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 throw;
             }
         }
+
         public ActionResult RptFletes (string id, string id2, string id3)
         {
             try
@@ -789,7 +760,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 reporte.fechaFin = Fecha2;
                 reporte.Conexion = Conexion;
                 reporte.datosEmpresa = R.ObtenerDatosEmpresaTipo2(Conexion);
-                //reporte.listaFletes = R.ObtenerListaFletes(reporte);
+                reporte.listaFletes = R.ObtenerListaFletes(reporte);
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
                 Rtp.DataSources.Clear();

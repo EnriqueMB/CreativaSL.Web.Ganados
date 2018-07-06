@@ -57,6 +57,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Rendimiento = Convert.ToDecimal(dr["rendimiento"].ToString());
 
                 }
+                dr.Close();
                 return datos;
             }
 
@@ -87,6 +88,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.UrlImagen64 = !dr.IsDBNull(dr.GetOrdinal("imgTicket")) ? dr.GetString(dr.GetOrdinal("imgTicket")) : string.Empty;
                     break;
                 }
+                dr.Close();
                 return datos;
             }
 
@@ -181,6 +183,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Lista.Add(Item);
 
                 }
+                dr.Close();
                 return Lista;
             }
             catch (Exception ex)

@@ -31,6 +31,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.IDEstatus = !Dr.IsDBNull(Dr.GetOrdinal("IDEstatus")) ? Dr.GetInt16(Dr.GetOrdinal("IDEstatus")) : -1;
                     Lista.Add(Item);
                 }
+                Dr.Close();
                 return Lista;
             }
             catch(Exception ex)

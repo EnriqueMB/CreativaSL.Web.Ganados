@@ -35,6 +35,7 @@ namespace CreativaSL.Web.Ganados.Models
                             ItemV.DateLastService = !Dr01.IsDBNull(Dr01.GetOrdinal("LastDate")) ? Dr01.GetDateTime(Dr01.GetOrdinal("LastDate")) : DateTime.MinValue;
                             ListaV.Add(ItemV);
                         }
+                        Dr01.Close();
                         //Obtener el listado de remolques
                         //DataTableReader Dr02 = Ds.Tables[1].CreateDataReader();
                         //List<CatRemolqueModels> ListaR = new List<CatRemolqueModels>();

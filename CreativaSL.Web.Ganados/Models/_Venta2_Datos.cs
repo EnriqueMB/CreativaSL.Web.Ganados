@@ -579,7 +579,7 @@ namespace CreativaSL.Web.Ganados.Models
                     RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
                     RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("Mensaje")) ? dr.GetString(dr.GetOrdinal("Mensaje")) : string.Empty;
                 }
-
+                dr.Close();
                 return RespuestaAjax;
             }
             catch (Exception ex)
@@ -607,7 +607,7 @@ namespace CreativaSL.Web.Ganados.Models
                     RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
                     RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("Mensaje")) ? dr.GetString(dr.GetOrdinal("Mensaje")) : string.Empty;
                 }
-
+                dr.Close();
                 return RespuestaAjax;
             }
             catch (Exception ex)
@@ -642,7 +642,7 @@ namespace CreativaSL.Web.Ganados.Models
                     RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
                     RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("Mensaje")) ? dr.GetString(dr.GetOrdinal("Mensaje")) : string.Empty;
                 }
-
+                dr.Close();
                 return RespuestaAjax;
             }
             catch (Exception ex)

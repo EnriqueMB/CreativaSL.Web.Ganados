@@ -29,6 +29,7 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                     listaLugares.Add(lugar);
                 }
+                dr.Close();
                 return listaLugares;
             }
             catch (Exception ex)
@@ -60,6 +61,7 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                     Sucursal.ListaSucursales.Add(itemSucursal);
                 }
+                dr.Close();
                 return Sucursal.ListaSucursales;
             }
             catch (Exception ex)
@@ -90,6 +92,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Sucursal.Completado = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                     Sucursal.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                 }
+                dr.Close();
                 return Sucursal;
             }
             catch (Exception ex)
@@ -118,6 +121,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Sucursal.IDLugar = !dr.IsDBNull(dr.GetOrdinal("id_lugar")) ? dr.GetString(dr.GetOrdinal("id_lugar")) : string.Empty;
 
                 }
+                dr.Close();
                 return Sucursal;
             }
             catch (Exception ex)
@@ -143,6 +147,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Sucursal.Completado = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                     Sucursal.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                 }
+                dr.Close();
                 return Sucursal;
             }
             catch (Exception ex)

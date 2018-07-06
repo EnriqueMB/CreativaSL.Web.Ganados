@@ -27,6 +27,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.SoloLectura = !dr.IsDBNull(dr.GetOrdinal("soloLectura")) ? dr.GetBoolean(dr.GetOrdinal("soloLectura")) : false;
                     Lista.Add(item);
                 }
+                dr.Close();
                 datos.LIstaConceptoNomina = Lista;
                 return datos;
 
@@ -53,7 +54,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.SoloLectura = !dr.IsDBNull(dr.GetOrdinal("soloLectura")) ? dr.GetBoolean(dr.GetOrdinal("soloLectura")) : false;
                     
                 }
-                
+                dr.Close();
                 return datos;
 
             }

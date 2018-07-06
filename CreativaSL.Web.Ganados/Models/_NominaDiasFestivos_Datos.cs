@@ -72,6 +72,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.fecha = !dr.IsDBNull(dr.GetOrdinal("Fecha")) ? dr.GetDateTime(dr.GetOrdinal("Fecha")) : DateTime.Today;
 
                 }
+                dr.Close();
                 return datos;
             }
 

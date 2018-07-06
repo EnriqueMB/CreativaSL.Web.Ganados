@@ -34,6 +34,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.DirCalle = !dr.IsDBNull(dr.GetOrdinal("Direccion")) ? dr.GetString(dr.GetOrdinal("Direccion")) : string.Empty;
                     Lista.Add(Item);
                 }
+                dr.Close();
                 return Lista;
             }
 
@@ -111,6 +112,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Telefono = !dr.IsDBNull(dr.GetOrdinal("Telefono")) ? dr.GetString(dr.GetOrdinal("Telefono")) : string.Empty;
                     datos.IDGrupoSanguineo = !dr.IsDBNull(dr.GetOrdinal("IDGrupoSanguineo")) ? dr.GetInt32(dr.GetOrdinal("IDGrupoSanguineo")) : 0;
                 }
+                dr.Close();
                 return datos;
             }
 
@@ -162,6 +164,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -209,6 +212,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Descripcion = dr["Descripcion"].ToString();
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -234,6 +238,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -258,6 +263,7 @@ namespace CreativaSL.Web.Ganados.Models
                     empleadoNomina.IDEmpleado = !dr.IsDBNull(dr.GetOrdinal("IDEmpleado")) ? dr.GetString(dr.GetOrdinal("IDEmpleado")) : string.Empty;
                     empleadoNomina.NombreCompleto = !dr.IsDBNull(dr.GetOrdinal("NombreCompleto")) ? dr.GetString(dr.GetOrdinal("NombreCompleto")) : string.Empty;
                 }
+                dr.Close();
                 return empleadoNomina;
             }
             catch (Exception ex)
@@ -283,6 +289,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     empleadoNomina.Baja = false;
                 }
+                dr.Close();
                 return empleadoNomina;
             }
             catch (Exception ex)
@@ -303,6 +310,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     empleadoNomina.sueldoBase = !dr.IsDBNull(dr.GetOrdinal("sueldoBase")) ? dr.GetDecimal(dr.GetOrdinal("sueldoBase")) : 0;
                 }
+                dr.Close();
                 return empleadoNomina;
             }
             catch (Exception ex)
@@ -328,6 +336,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -405,6 +414,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.FechaFin = !dr.IsDBNull(dr.GetOrdinal("FechaFin")) ? dr.GetDateTime(dr.GetOrdinal("FechaFin")) : DateTime.Today;
                     Lista.Add(Item);
                 }
+                dr.Close();
                 return Lista;
             }
 

@@ -24,6 +24,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Descripcion = dr["descripcion"].ToString();
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -74,6 +75,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Datos.Descripcion = dr["descripcion"].ToString();
                     Datos.Imagen = dr["imagen"].ToString();
                 }
+                dr.Close();
                 return Datos;
             }
             catch (Exception ex)
