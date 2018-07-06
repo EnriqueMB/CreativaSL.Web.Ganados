@@ -89,6 +89,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Direccion = !dr.IsDBNull(dr.GetOrdinal("Direccion")) ? dr.GetString(dr.GetOrdinal("Direccion")) : string.Empty;
                     datos.Observaciones = !dr.IsDBNull(dr.GetOrdinal("Obsevaciones")) ? dr.GetString(dr.GetOrdinal("Obsevaciones")) : string.Empty;
                 }
+                dr.Close();
                 return datos;
             }
 
@@ -116,6 +117,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
                     Lista.Add(Item);
                 }
+                dr.Close();
                 datos.LProveedorA= Lista;
                 return datos;
             }
@@ -147,6 +149,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.ClabeInterbancaria = !dr.IsDBNull(dr.GetOrdinal("ClaveInterbancaria")) ? dr.GetString(dr.GetOrdinal("ClaveInterbancaria")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -170,6 +173,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -222,6 +226,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.ClabeInterbancaria = !Dr.IsDBNull(Dr.GetOrdinal("Clabe")) ? Dr.GetString(Dr.GetOrdinal("Clabe")) : string.Empty;
                     datos.Completado = true;
                 }
+                Dr.Close();
                 return datos;
             }
 
@@ -280,6 +285,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.celularContacto = !dr.IsDBNull(dr.GetOrdinal("TelefonoCelular")) ? dr.GetString(dr.GetOrdinal("TelefonoCelular")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -339,6 +345,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.observacion = !Dr.IsDBNull(Dr.GetOrdinal("Observaciones")) ? Dr.GetString(Dr.GetOrdinal("Observaciones")) : string.Empty;
                     datos.Completado = true;
                 }
+                Dr.Close();
                 return datos;
             }
 

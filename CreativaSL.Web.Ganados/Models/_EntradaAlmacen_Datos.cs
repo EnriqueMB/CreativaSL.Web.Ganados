@@ -33,6 +33,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.IDEstatus = !Dr.IsDBNull(Dr.GetOrdinal("IDEstatus")) ? Dr.GetInt32(Dr.GetOrdinal("IDEstatus")) : 0;
                     Lista.Add(Item);
                 }
+                Dr.Close();
                 return Lista;
             }
             catch(Exception ex)
@@ -60,6 +61,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.UnidadMedida = !Dr.IsDBNull(Dr.GetOrdinal("UnidadMedida")) ? Dr.GetString(Dr.GetOrdinal("UnidadMedida")) : string.Empty;
                     Lista.Add(Item);
                 }
+                Dr.Close();
                 return Lista;
             }
             catch(Exception ex)
@@ -82,6 +84,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Result.FechaEntrada  = !Dr.IsDBNull(Dr.GetOrdinal("FechaEntrada")) ? Dr.GetDateTime(Dr.GetOrdinal("FechaEntrada")) : DateTime.MinValue;
                     Result.Comentario = !Dr.IsDBNull(Dr.GetOrdinal("Comentarios")) ? Dr.GetString(Dr.GetOrdinal("Comentarios")) : string.Empty;
                 }
+                Dr.Close();
                 return Result;
             }
             catch(Exception ex)

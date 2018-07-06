@@ -25,6 +25,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Procentaje = !dr.IsDBNull(dr.GetOrdinal("Porcentaje")) ? dr.GetInt32(dr.GetOrdinal("Porcentaje")) : 0;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -73,6 +74,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Datos.NombreCompleto = !dr.IsDBNull(dr.GetOrdinal("NombreCompleto")) ? dr.GetString(dr.GetOrdinal("NombreCompleto")) : string.Empty;
                     Datos.Procentaje = !dr.IsDBNull(dr.GetOrdinal("Porcentaje")) ? dr.GetInt32(dr.GetOrdinal("Porcentaje")) : 0;
                 }
+                dr.Close();
                 return Datos;
             }
             catch (Exception ex)

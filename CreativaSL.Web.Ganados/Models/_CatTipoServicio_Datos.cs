@@ -21,6 +21,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.IDTipoServicio = !dr.IsDBNull(dr.GetOrdinal("IDTipoServicio")) ? dr.GetString(dr.GetOrdinal("IDTipoServicio")) : string.Empty;
                     datos.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
                 }
+                dr.Close();
                 return datos;
             }
 
@@ -95,6 +96,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
                     Lista.Add(Item);
                 }
+                dr.Close();
                 datos.listaTipoServicio = Lista;
                 return datos;
             }

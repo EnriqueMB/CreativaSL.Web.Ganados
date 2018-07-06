@@ -22,6 +22,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_DocumentoPorCobrar_get_DocumentosDetalles", parametros);
+                dr.Close();
                 return dr;
             }
             catch (Exception ex)
@@ -42,6 +43,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_DocumentoPorCobrar_get_DocumentosDetallesPagos", parametros);
+                dr.Close();
                 return dr;
             }
             catch (Exception ex)
@@ -77,6 +79,7 @@ namespace CreativaSL.Web.Ganados.Models
                     if (!string.IsNullOrEmpty(item.Id.Trim()))
                         lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -108,6 +111,7 @@ namespace CreativaSL.Web.Ganados.Models
                     if (!string.IsNullOrEmpty(item.Id.Trim()))
                         lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -135,6 +139,7 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -161,6 +166,7 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -188,6 +194,7 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -215,6 +222,7 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -251,6 +259,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -277,6 +286,7 @@ namespace CreativaSL.Web.Ganados.Models
                     DocumentoPorCobrarDetallePagos.NombreEmpresa = !dr.IsDBNull(dr.GetOrdinal("nombreEmpresa")) ? dr.GetString(dr.GetOrdinal("nombreEmpresa")) : string.Empty;
                     DocumentoPorCobrarDetallePagos.NombreProveedor_Cliente = !dr.IsDBNull(dr.GetOrdinal("nombreProveedorCliente")) ? dr.GetString(dr.GetOrdinal("nombreProveedorCliente")) : string.Empty;
                 }
+                dr.Close();
                 return DocumentoPorCobrarDetallePagos;
             }
             catch (Exception ex)
@@ -301,6 +311,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -332,6 +343,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Id_unidadProducto = !dr.IsDBNull(dr.GetOrdinal("id_unidadProducto")) ? dr.GetString(dr.GetOrdinal("id_unidadProducto")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -366,6 +378,7 @@ namespace CreativaSL.Web.Ganados.Models
                     if (!string.IsNullOrEmpty(item.Id.Trim()))
                         lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -411,6 +424,7 @@ namespace CreativaSL.Web.Ganados.Models
                     DocumentoPago.Bancarizado = !dr.IsDBNull(dr.GetOrdinal("bancarizado")) ? dr.GetBoolean(dr.GetOrdinal("bancarizado")) : false;
                     DocumentoPago.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
                 }
+                dr.Close();
                 return DocumentoPago;
             }
             catch (Exception ex)
@@ -440,6 +454,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     ListaImpuestos.Add(Impuesto);
                 }
+                dr.Close();
                 return ListaImpuestos;
             }
             catch (Exception ex)
@@ -469,6 +484,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Impuesto.TasaCuota = !dr.IsDBNull(dr.GetOrdinal("tasaCuota")) ? dr.GetDecimal(dr.GetOrdinal("tasaCuota")) : 0;
                     Impuesto.Importe = !dr.IsDBNull(dr.GetOrdinal("importe")) ? dr.GetDecimal(dr.GetOrdinal("importe")) : 0;
                 }
+                dr.Close();
                 return Impuesto;
             }
             catch (Exception ex)
@@ -504,6 +520,7 @@ namespace CreativaSL.Web.Ganados.Models
                     documento.NombreAlmacen = !dr.IsDBNull(dr.GetOrdinal("nombreAlmacen")) ? dr.GetString(dr.GetOrdinal("nombreAlmacen")) : string.Empty;
                     documento.NombreProducto = !dr.IsDBNull(dr.GetOrdinal("nombreProducto")) ? dr.GetString(dr.GetOrdinal("nombreProducto")) : string.Empty;
                 }
+                dr.Close();
                 return documento;
             }
             catch (Exception ex)
@@ -541,6 +558,7 @@ namespace CreativaSL.Web.Ganados.Models
                     DocumentosPorCobrarModels.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     DocumentosPorCobrarModels.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
                 }
+                dr.Close();
                 return DocumentosPorCobrarModels;
             }
             catch (Exception ex)
@@ -571,6 +589,7 @@ namespace CreativaSL.Web.Ganados.Models
                     DocumentosPorCobrarModels.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
                     DocumentosPorCobrarModels.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                 }
+                dr.Close();
                 return DocumentosPorCobrarModels;
             }
             catch (Exception ex)
@@ -598,6 +617,7 @@ namespace CreativaSL.Web.Ganados.Models
                     DocumentosPorCobrarModels.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     DocumentosPorCobrarModels.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
                 }
+                dr.Close();
                 return DocumentosPorCobrarModels;
             }
             catch (Exception ex)
@@ -624,6 +644,7 @@ namespace CreativaSL.Web.Ganados.Models
                     DocumentosPorCobrarModels.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     DocumentosPorCobrarModels.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
                 }
+                dr.Close();
                 return DocumentosPorCobrarModels;
             }
             catch (Exception ex)

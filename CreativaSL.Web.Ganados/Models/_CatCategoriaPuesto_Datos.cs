@@ -52,6 +52,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.sueldoBase = Convert.ToDecimal(dr["sueldoBase"].ToString());
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -75,6 +76,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.sueldoBase = Convert.ToDecimal(dr["sueldoBase"].ToString());
                     
                 }
+                dr.Close();
                 return datos;
             }
 
@@ -124,6 +126,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)

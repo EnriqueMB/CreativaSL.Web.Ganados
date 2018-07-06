@@ -60,9 +60,11 @@ namespace CreativaSL.Web.Ganados.Models
                             }
                             ListaPrinc.Add(Item);
                         }
+                        DTR.Close();
                         Datos.ListaMenu = ListaPrinc;
                     }
                 }
+                
                 return Datos;
             }
             catch (Exception ex)
@@ -125,6 +127,7 @@ namespace CreativaSL.Web.Ganados.Models
                             }
                             ListaPrinc.Add(Item);
                         }
+                        DTR.Close();
                         Datos.ListaPermisos = ListaPrinc;
                     }
                 }
@@ -158,7 +161,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.ver = Dr.GetBoolean(Dr.GetOrdinal("ver"));
                     ListaPrinc.Add(Item);
                 }
-
+                Dr.Close();
                 Datos.ListaMenu = this.ObtenerListaSubMenus(0, ListaPrinc);
                 return Datos;
             }

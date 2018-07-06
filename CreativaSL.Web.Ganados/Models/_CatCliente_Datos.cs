@@ -29,6 +29,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.IDSucursal = !dr.IsDBNull(dr.GetOrdinal("IDSucursal")) ? dr.GetString(dr.GetOrdinal("IDSucursal")) : string.Empty;
                     Lista.Add(Item);
                 }
+                dr.Close();
                 datos.ListaClientes = Lista;
                 return datos;
             }
@@ -56,6 +57,7 @@ namespace CreativaSL.Web.Ganados.Models
                     
                     Lista.Add(Item);
                 }
+                dr.Close();
                 datos.ListaClienteLugar = Lista;
                 return datos;
             }
@@ -230,6 +232,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.descripcion = !dr.IsDBNull(dr.GetOrdinal("NombreLugar")) ? dr.GetString(dr.GetOrdinal("NombreLugar")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -252,6 +255,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -275,6 +279,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -305,6 +310,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Direccion = !dr.IsDBNull(dr.GetOrdinal("Direccion")) ? dr.GetString(dr.GetOrdinal("Direccion")) : string.Empty;
                     datos.IDRegimenFiscal = !dr.IsDBNull(dr.GetOrdinal("IDRegimenFiscal")) ? dr.GetString(dr.GetOrdinal("IDRegimenFiscal")) : string.Empty;
                 }
+                dr.Close();
                 return datos;
             }
 

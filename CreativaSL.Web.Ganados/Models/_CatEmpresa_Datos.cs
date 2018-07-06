@@ -36,6 +36,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     Empresa.ListaEmpresas.Add(ItemEmpresa);
                 }
+                dr.Close();
                 return Empresa.ListaEmpresas;
             }
             catch (Exception ex)
@@ -78,6 +79,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Empresa.LogoEmpresa = Empresa.ValidarStringImage(Empresa.LogoEmpresa);
                     Empresa.LogoRFC = Empresa.ValidarStringImage(Empresa.LogoRFC);
                 }
+                dr.Close();
                 return Empresa;
             }
             catch (Exception ex)
@@ -114,6 +116,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Empresa.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     Empresa.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                 }
+                dr.Close();
                 return Empresa;
             }
             catch (Exception ex)
@@ -133,6 +136,7 @@ namespace CreativaSL.Web.Ganados.Models
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Empresa.Conexion, "spCSLDB_EMPRESA_get_CuentasBancarias", parametros);
                 string jsonDr = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
                 return jsonDr;
             }
             catch (Exception ex)
@@ -167,7 +171,7 @@ namespace CreativaSL.Web.Ganados.Models
                 Empresa.CuentaBancaria.NumCuenta.Trim();
                 Empresa.CuentaBancaria.NumCuenta.Trim();
                 Empresa.CuentaBancaria.Clabe.Trim();
-
+                dr.Close();
                 return Empresa;
             }
             catch (Exception ex)
@@ -195,6 +199,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Banco.Imagen = Empresa.ValidarStringImage(Empresa.Banco.Imagen);
                     Empresa.ListaBancos.Add(Banco);
                 }
+                dr.Close();
                 return Empresa.ListaBancos;
             }                
             catch (Exception ex)
@@ -227,6 +232,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Empresa.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     Empresa.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                 }
+                dr.Close();
                 return Empresa;
             }
             catch (Exception ex)
@@ -253,6 +259,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Empresa.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     Empresa.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                 }
+                dr.Close();
                 return Empresa;
             }
             catch (Exception ex)

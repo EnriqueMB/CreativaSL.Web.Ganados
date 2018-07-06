@@ -31,6 +31,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.MontoTotal = !dr.IsDBNull(dr.GetOrdinal("montoTotal")) ? dr.GetDecimal(dr.GetOrdinal("montoTotal")) : 0;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -147,6 +148,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Datos.MontoTotal = !dr.IsDBNull(dr.GetOrdinal("montoTotal")) ? dr.GetDecimal(dr.GetOrdinal("montoTotal")) : 0;
                     Datos.IDDocumentoXPagar = !dr.IsDBNull(dr.GetOrdinal("id_documentoXPagar")) ? dr.GetString(dr.GetOrdinal("id_documentoXPagar")) : string.Empty;
                 }
+                dr.Close();
                 return Datos;
             }
             catch (Exception ex)
@@ -169,6 +171,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("nombre")) ? dr.GetString(dr.GetOrdinal("nombre")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -190,6 +193,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.nombreProveedor = !dr.IsDBNull(dr.GetOrdinal("nombre")) ? dr.GetString(dr.GetOrdinal("nombre")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch ( Exception ex)
@@ -270,6 +274,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.SubTotal = !dr.IsDBNull(dr.GetOrdinal("subtotal")) ? dr.GetDecimal(dr.GetOrdinal("subtotal")) : 0;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -294,6 +299,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Datos.PrecioUnitario = !dr.IsDBNull(dr.GetOrdinal("precioUnitario")) ? dr.GetDecimal(dr.GetOrdinal("precioUnitario")) : 0;
 
                 }
+                dr.Close();
                 return Datos;
             }
             catch (Exception ex)
@@ -343,6 +349,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Nombre = !dr.IsDBNull(dr.GetOrdinal("nombre")) ? dr.GetString(dr.GetOrdinal("nombre")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -365,6 +372,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.NombreUnidad = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)

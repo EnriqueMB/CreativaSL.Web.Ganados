@@ -56,6 +56,7 @@ namespace CreativaSL.Web.Ganados.Models
                    
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -137,6 +138,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -165,6 +167,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -188,6 +191,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Descripcion = dr["Descripcion"].ToString();
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -260,6 +264,7 @@ namespace CreativaSL.Web.Ganados.Models
 
 
                 }
+                dr.Close();
                 return datos;
             }
 
@@ -286,6 +291,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.factor = !dr.IsDBNull(dr.GetOrdinal("Factor")) ? dr.GetDecimal(dr.GetOrdinal("Factor")) : 0;
                     Lista.Add(Item);
                 }
+                dr.Close();
                 datos.LUnidad = Lista;
                 return datos;
             }
@@ -312,6 +318,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     Lista.Add(Item);
                 }
+                dr.Close();
                 datos.LUnidad = Lista;
                 return datos;
             }

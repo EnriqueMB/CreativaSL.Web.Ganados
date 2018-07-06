@@ -72,6 +72,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     datos.Completado = false;
                 }
+                Dr2.Close();
                 return datos.listaAsistencia;
             }
             catch (Exception ex)
@@ -99,6 +100,7 @@ namespace CreativaSL.Web.Ganados.Models
                     //item.bascula = Convert.ToBoolean(dr["bascula"].ToString());
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)

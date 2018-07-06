@@ -30,6 +30,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Estatus = !dr.IsDBNull(dr.GetOrdinal("estatus")) ? dr.GetBoolean(dr.GetOrdinal("estatus")) : false;
                     Lista.Add(Item);
                 }
+                dr.Close();
                 datos.listaVehiculos = Lista;
                 return datos;
             }
@@ -139,6 +140,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.IDEmpresa = !dr.IsDBNull(dr.GetOrdinal("id_empresa")) ? dr.GetString(dr.GetOrdinal("id_empresa")) : string.Empty;
 
                 }
+                dr.Close();
                 return datos;
             }
 
@@ -163,6 +165,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -187,6 +190,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -211,6 +215,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -234,6 +239,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     Datos.ListaEmpresas.Add(item);
                 }
+                dr.Close();
                 return Datos.ListaEmpresas;
             }
             catch (Exception ex)
@@ -260,6 +266,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
                     Datos.listaSucursal.Add(item);
                 }
+                dr.Close();
                 return Datos.listaSucursal;
             }
             catch (Exception ex)
