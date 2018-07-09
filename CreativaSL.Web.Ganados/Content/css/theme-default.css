@@ -41,6 +41,10 @@ td.center .dropdown-menu {
 .IDReporte {
     margin-top:120px;
 }
+
+.IDReporte .icon-ocampo-head:before{
+    color: #bd2020;
+}
 .dropdown-menu.dropdown-dark {
 
   border-radius: 0;
@@ -3797,6 +3801,9 @@ background: #bd2020 !important;
 .tile.tile-warning:hover {
   background: #bd2020;
   cursor: pointer;
+}
+.tile.tile-warning:hover .icon-ocampo-head:before {
+    color: #000;
 }
 .tile.tile-danger {
   background: #E04B4A;
