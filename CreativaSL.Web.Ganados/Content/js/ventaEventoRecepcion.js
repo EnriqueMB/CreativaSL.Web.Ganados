@@ -1,6 +1,7 @@
 ﻿var VentaEventoRecepcion = function () {
     "use strict"
     var Id_venta = $("#Id_venta").val();
+    var Id_recepcionOrigenVenta2 =  $("#RecepcionOrigen_Id_recepcionOrigenVenta");
     var tblEventos;
    
     /*INICIA RECEPCION*/
@@ -118,15 +119,15 @@
                         box.removeClass("open");
                         $.ajax({
                             url: url,
-                            data: { Id_eventoVenta: Id_eventoVenta },
+                            data: { IDVenta: Id_venta, Id_eventoVenta: Id_eventoVenta },
                             type: 'POST',
                             dataType: 'json',
                             success: function (result) {
                                 if (result.Success) {
                                     box.find(".mb-control-yes").prop('onclick', null).off('click');
-                                    //Mensaje(result.Mensaje, "1");
-                                    //$("#Modal").modal('hide');
-                                    //location.reload();
+                                    Mensaje(json.Mensaje, "1");
+
+                                    tblEventos.ajax.reload();
                                 }
                                 else
                                     Mensaje(result.Mensaje, "2");
@@ -140,12 +141,36 @@
             }
 
         });
+
+        $(document).on('submit', 'form#frmRecepcion', function (e) {
+            console.log("entro en el submit");
+            e.preventDefault();
+            var form = $('form#frmRecepcion')[0];
+            var formData = new FormData(form);
+
+            $.ajax({
+                type: 'POST',
+                data: formData,
+                url: '/Admin/Venta/VentaEventoRecepcion/',
+                contentType: false,
+                processData: false,
+                cache: false,
+                success: function (response) {
+                    if (response.Success) {
+                        var json = JSON.parse(response.Mensaje);
+                        Mensaje(json.Mensaje, "1");
+                        Id_recepcionOrigenVenta2.val(json.Id_recepcionOrigenVenta);
+                    } else {
+                        Mensaje(response.Mensaje, "2");
+                    }
+                },
+                error: function (response) {
+                    Mensaje(response.Mensaje, "2");
+                }
+            });
+        });
     }
     /*TERMINA RECEPCION*/
-
-
-
-
 
     return {
         init: function () {

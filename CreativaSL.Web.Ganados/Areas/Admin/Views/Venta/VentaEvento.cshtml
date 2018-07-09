@@ -205,7 +205,7 @@
                                         <div class="col-md-10 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-money"></span></span>
-                                                @Html.TextBoxFor(model => model.MontoDeduccion, new { @type = "text", @class = "form-control" })
+                                                @Html.TextBoxFor(model => model.MontoDeduccion, "{0:F2}" ,new { @type = "text", @class = "form-control" })
                                             </div>
                                             @Html.ValidationMessageFor(model => model.MontoDeduccion)
                                             <span class="help-block">Ingrese una cantidad.</span>
@@ -278,7 +278,7 @@
                         </div>
                     </div>
                     <div class="panel-footer">
-                        <a href="@Url.Action("Index","Venta")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                        <a href="@Url.Action("VentaEventoRecepcion", "Venta",  new { IDVenta = Model.Id_venta })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                         <button type="submit" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
                     </div>
                 </div>
