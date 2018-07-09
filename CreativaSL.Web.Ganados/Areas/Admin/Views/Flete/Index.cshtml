@@ -76,8 +76,6 @@
                                         <th>Nombre cliente</th>
                                         <th>Linea fletera</th>
                                         <th>Vehiculo</th>
-                                        <th>Jaula</th>
-                                        <th>Remolque</th>
                                         <th>Precio Flete</th>
                                         <th>Impuestos</th>
                                         <th>Total Flete</th>
@@ -175,9 +173,7 @@
                             var fecha = dia + '-' + mes + '-' + año;
                         }
 
-                        return type === "display" || type === "filter" ?
-                            fecha :
-                            data;
+                        return fecha;
                     }
                 },
                 {
@@ -195,16 +191,12 @@
                             var fecha = dia + '-' + mes + '-' + año;
                         }
 
-                        return type === "display" || type === "filter" ?
-                            fecha :
-                            data;
+                        return fecha;
                     }
                 },
                 { "data": "cliente" },
                 { "data": "lineaFletera" },
                 { "data": "vehiculo" },
-                { "data": "jaula" },
-                { "data": "remolque" },
                 {
                     "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
                     "data": "precioFlete"

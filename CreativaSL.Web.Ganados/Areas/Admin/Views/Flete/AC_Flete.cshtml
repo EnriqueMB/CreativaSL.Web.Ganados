@@ -107,14 +107,24 @@
                                     @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
                                     <div id="validation_summary_AC_Cliente" class="field_error "></div><br />
                                     <div class="form-group">
-                                        <div class="col-md-12 controlError">
-                                            <label class="col-md-1 control-label">Linea fletera</label>
-                                            <div class="col-md-11 col-xs-12">
+                                        <div class="col-md-6 controlError">
+                                            <label class="col-md-2 control-label">Linea fletera</label>
+                                            <div class="col-md-10 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                                     @Html.DropDownListFor(model => model.Empresa.IDEmpresa, new SelectList(Model.ListaEmpresa, "IDEmpresa", "RazonFiscal"), new { id = "Empresa_IDEmpresa", @class = "form-control select", data_live_search = "true", data_style = "form-control" })
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.Empresa.IDEmpresa)
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 controlError">
+                                            <label class="col-md-2 control-label">Sucursal</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.DropDownListFor(model => model.Id_sucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Id_sucursal)
                                             </div>
                                         </div>
                                     </div>
@@ -168,28 +178,6 @@
                                                     @Html.DropDownListFor(model => model.Vehiculo.IDVehiculo, new SelectList(Model.ListaVehiculo, "IDVehiculo", "nombreMarca", "nombreTipoVehiculo", 1), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.Vehiculo.IDVehiculo)
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-6 controlError">
-                                            <label class="col-md-2 control-label">Jaula</label>
-                                            <div class="col-md-10 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.DropDownListFor(model => model.Jaula.IDJaula, new SelectList(Model.ListaJaula, "IDJaula", "Matricula"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.Jaula.IDJaula)
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 controlError">
-                                            <label class="col-md-2 control-label">Remolque</label>
-                                            <div class="col-md-10 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.DropDownListFor(model => model.Remolque.IDRemolque, new SelectList(Model.ListaRemolque, "IDRemolque", "placa"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.Remolque.IDRemolque)
                                             </div>
                                         </div>
                                     </div>
@@ -315,7 +303,7 @@
                                                             <div class="col-md-10 col-xs-12">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                    @Html.TextBoxFor(model => model.Trayecto.LugarDestino.descripcion, new { id = "Trayecto_LugarDestino_descripcion", @class = "form-control", placeholder = "Lugar de entrega", @readonly = "readonly" })
+                                                                    @Html.TextBoxFor(model => model.Trayecto.LugarDestino.descripcion, new { id = "Trayecto_LugarDestino_descripcion", @class = "form-control", @readonly = "readonly" })
                                                                 </div>
                                                             </div>
                                                         </div>

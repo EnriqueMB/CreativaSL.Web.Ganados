@@ -68,28 +68,24 @@ $.validator.addMethod("formatoPNG", function (value, element, params) {
     var arrayString = element.value.split(".");
     var longitud = arrayString.length;
     var extension = arrayString[longitud - 1];
-
-    if (extension != "png") {
-        return false;
-    }
-    else {
+   
+    if (extension.localeCompare("png") == 0 || extension.localeCompare("jpg") == 0 || extension.localeCompare("jpeg") == 0 || extension.localeCompare("bmp") == 0 ) {
         return true;
     }
-}, 'Solo archivos con formato PNG.');
+    else {
+        return false;
+    }
+}, 'Solo archivos con formato PNG, JPG, JPEG y BMP.');
 
 $.validator.addMethod("ImagenRequerida", function (value, element, params) {
     //Bandera que me indica si hay o no imagen en el servidor
     var imgBD = element.dataset.imgbd;
-    console.log(imgBD);
     //Hay imagen en el servidor?
     if (imgBD == "1") {
-        console.log("Entro en if");
         return true;
     }
     else {
         //Hay un elemento en el file input?
-        console.log(element);
-        console.log(element.length);
         if (element.value.length == 0 || element === undefined) {
             return false;
         }

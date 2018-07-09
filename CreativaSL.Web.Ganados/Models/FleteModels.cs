@@ -91,7 +91,11 @@ namespace CreativaSL.Web.Ganados.Models
 
         public DateTime FechaLlegada { get; set; }
         public TimeSpan HoraLlegada { get; set; }
-        
+
+
+        public string Id_sucursal { get; set; }
+        public List<CatSucursalesModels> ListaSucursales { get; set; }
+
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }
