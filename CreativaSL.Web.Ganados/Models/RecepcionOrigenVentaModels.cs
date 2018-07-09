@@ -14,5 +14,7 @@ namespace CreativaSL.Web.Ganados.Models
         public TimeSpan HoraLlegada { get; set; }
         public DateTime FechaLlegada { get; set; }
         public string Observacion { get; set; }
+        public decimal MermaDestino { get; set; }
+        public int Tipo { set; get; }
     }
 }

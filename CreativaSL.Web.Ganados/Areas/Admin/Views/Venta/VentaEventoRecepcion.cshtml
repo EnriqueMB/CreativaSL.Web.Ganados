@@ -40,7 +40,6 @@
 
         <div class="panel panel-default tabs">
 
-    @Html.HiddenFor(model => model.Id_venta)
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a class="active" href="#eventos" aria-controls="eventos" role="tab" data-toggle="tab">Eventos</a></li>
@@ -105,6 +104,7 @@
                 {
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(model => model.RecepcionOrigen.Id_recepcionOrigenVenta)
+                    @Html.HiddenFor(model => model.Id_venta)
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title"><strong>Recepción de la venta</strong></h3>
@@ -114,7 +114,7 @@
                         <div id="validation_summary_recepcion" class="field_error "></div><br />
                         <div class="panel-body">
                             <div class="form-group">
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <label class="col-md-3 control-label">Fecha de llegada</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
@@ -125,7 +125,7 @@
                                         <span class="help-block">Fecha de llegada  de la unidad.</span>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <label class="col-md-3 control-label">Hora de llegada </label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
@@ -136,7 +136,10 @@
                                         <span class="help-block">Hora de llegada de la unidad.</span>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                               
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-6">
                                     <label class="col-md-3 control-label">Kilómetraje final </label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
@@ -147,8 +150,19 @@
                                         <span class="help-block">Kilómetraje final de la unidad.</span>
                                     </div>
                                 </div>
+                                
+                                <div class="col-md-6">
+                                    <label class="col-md-3 control-label">Merma destino </label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.RecepcionOrigen.MermaDestino, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.RecepcionOrigen.MermaDestino)
+                                        <span class="help-block">Hora de llegada de la unidad.</span>
+                                    </div>
+                                </div>
                             </div>
-
                             <div class="form-group">
                                 <div class="col-md-12">
                                     <label class="col-md-1 control-label">Observación</label>
@@ -176,7 +190,7 @@
 
 
 </div>
-<div class="message-box animated fadeIn" data-sound="alert" id="mb-delete-evento">
+<div class="message-box animated fadeIn" data-sound="alert" id="mb-del-evento">
     <div class="mb-container">
         <div class="mb-middle">
             <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Evento</strong> ?</div>

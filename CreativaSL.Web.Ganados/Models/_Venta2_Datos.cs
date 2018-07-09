@@ -497,6 +497,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Venta.RecepcionOrigen.HoraLlegada = !dr.IsDBNull(dr.GetOrdinal("horaLlegada")) ? dr.GetTimeSpan(dr.GetOrdinal("horaLlegada")) : DateTime.Now.TimeOfDay;
                     Venta.RecepcionOrigen.FechaLlegada = !dr.IsDBNull(dr.GetOrdinal("fechaLlegada")) ? dr.GetDateTime(dr.GetOrdinal("fechaLlegada")) : DateTime.Now;
                     Venta.RecepcionOrigen.Observacion = !dr.IsDBNull(dr.GetOrdinal("obsevacion")) ? dr.GetString(dr.GetOrdinal("obsevacion")) : string.Empty;
+                    Venta.RecepcionOrigen.MermaDestino = !dr.IsDBNull(dr.GetOrdinal("merma")) ? dr.GetDecimal(dr.GetOrdinal("merma")) : 0;
                 }
                 else
                 {
@@ -637,6 +638,69 @@ namespace CreativaSL.Web.Ganados.Models
                 RespuestaAjax RespuestaAjax = new RespuestaAjax();
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Evento.Conexion, "spCSLDB_Venta_ac_Evento", parametros);
+                while (dr.Read())
+                {
+                    RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("Mensaje")) ? dr.GetString(dr.GetOrdinal("Mensaje")) : string.Empty;
+                }
+                dr.Close();
+                return RespuestaAjax;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        #endregion
+        #region AC_Recepcion
+        public RespuestaAjax AC_Recepcion(VentaModels2 Venta)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Venta.Id_venta,                     Venta.RecepcionOrigen.KilometrajeFinal,
+                    Venta.RecepcionOrigen.HoraLlegada,  Venta.RecepcionOrigen.FechaLlegada,
+                    Venta.RecepcionOrigen.Observacion,  Venta.Usuario,
+                    Venta.RecepcionOrigen.MermaDestino, Venta.RecepcionOrigen.Id_recepcionOrigenVenta
+                };
+
+                RespuestaAjax RespuestaAjax = new RespuestaAjax();
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_ac_RecepcionOrigen", parametros);
+                while (dr.Read())
+                {
+                    RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("Mensaje")) ? dr.GetString(dr.GetOrdinal("Mensaje")) : string.Empty;
+                }
+                dr.Close();
+                return RespuestaAjax;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        #endregion
+        #endregion
+
+        #region DEL
+        #region Del_Evento
+        public RespuestaAjax Del_Evento(EventoVentaModels Evento)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Evento.Id_eventoVenta,      Evento.Id_venta,
+                    Evento.Usuario
+                };
+
+                RespuestaAjax RespuestaAjax = new RespuestaAjax();
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Evento.Conexion, "spCSLDB_Venta_del_Evento", parametros);
                 while (dr.Read())
                 {
                     RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
