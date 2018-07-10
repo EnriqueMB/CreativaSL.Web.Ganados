@@ -43,8 +43,8 @@
             var IDEmpresa = $(this).val();
             GetChoferesXIDEmpresa(IDEmpresa);
             GetVehiculosXIDEmpresa(IDEmpresa);
-            GetJaulasXIDEmpresa(IDEmpresa);
-            GetRemolquesXIDEmpresa(IDEmpresa);
+            //GetJaulasXIDEmpresa(IDEmpresa);
+            //GetRemolquesXIDEmpresa(IDEmpresa);
         });
         $("#Cliente_IDCliente").on("change", function () {
             var rfc = $(this).find(":selected").data("rfc");
@@ -105,26 +105,12 @@
             showRemove: false,
             showClose: false,
             layoutTemplates: { actionDelete: '' },
-            allowedFileExtensions: ["png"],
+            //allowedFileTypes: ['image'],
+            allowedFileExtensions: ['png', 'jpg', 'jpeg', 'bmp'],
             required: true
         })
     }
-    var RunEventsFleteimpuesto = function () {
-        var option = $("#TipoFactor_Clave").val();
-
-        TipoFactor(option);
-
-        $("#TipoFactor_Clave").on("change", function () {
-            var option = $(this).val();
-            TipoFactor(option);
-        });
-        $("#Base").on("keyup keydown", function (e) {
-            ObtenerImporte();
-        });
-        $("#TasaCuota").on("keyup keydown", function (e) {
-            ObtenerImporte();
-        });
-    }
+    
     var RunEventoProductoGanadoExterno = function () {
         $('#btnAddRowGanadoExterno').on('click', function () {
             var numero = document.getElementById("inputGanadoExterno").value;
@@ -290,7 +276,7 @@
 
         form1.validate({ // initialize the plugin
             //debug: true,
-            errorElement: "li",
+            errorElement: "dd",
             errorClass: 'text-danger',
             errorLabelContainer: $("#validation_summary_AC_Cliente"),
             errorPlacement: function (error, element) { // render error placement for each input type
@@ -324,27 +310,29 @@
                 },
                 FechaTentativaEntrega: {
                     required: true
-                }
+                },
+                Id_sucursal: {required: true}
             },
             messages: {
                 "Empresa.IDEmpresa": {
-                    required: "-Seleccione una línea fletera."
+                    required: "Por favor, seleccione una línea fletera."
                 },
                 "Cliente.IDCliente": {
-                    required: "-Seleccione un cliente."
+                    required: "Por favor, seleccione un cliente."
                 },
                 "Chofer.IDChofer": {
-                    required: "-Seleccione un chofer."
+                    required: "Por favor, seleccione un chofer."
                 },
                 "Vehiculo.IDVehiculo": {
-                    required: "-Seleccione un vehículo."
+                    required: "Por favor, seleccione un vehículo."
                 },
                 kmInicialVehiculo: {
-                    digits: "Ingrese un número entero mayor o igual a 0 (cero). "
+                    digits: " Por favor, escriba un número entero mayor o igual a 0 (cero). "
                 },
                 FechaTentativaEntrega: {
-                    required: "-Seleccione una fecha tentativa de entrega."
-                }
+                    required: "Por favor, seleccione una fecha tentativa de entrega."
+                },
+                Id_sucursal: { required: "Por favor, seleccione una sucursal." }
             },
             invalidHandler: function (event, validator) {
                 successHandler1.hide();
@@ -376,7 +364,7 @@
 
         form1.validate({ // initialize the plugin
             //debug: true,
-            errorElement: "li",
+            errorElement: "dd",
             errorClass: 'text-danger',
             errorLabelContainer: $("#validation_summary_AC_Trayecto"),
             errorPlacement: function (error, element) { // render error placement for each input type
@@ -414,22 +402,22 @@
             },
             messages: {
                 "Trayecto.Remitente.IDCliente": {
-                    required: "-Seleccione un cliente de origen"
+                    required: "Por favor, seleccione un cliente de origen."
                 },
                 "Trayecto.LugarOrigen.Direccion": {
-                    required: "-La dirección del cliente de origen es necesario, seleccione un lugar de origen del mapa."
+                    required: "La dirección del cliente de origen es necesario, por favor, seleccione un lugar de origen del mapa."
                 },
                 "Trayecto.LugarOrigen.descripcion": {
-                    required: "-La descripción del cliente de origen es necesario, seleccione un lugar de origen del mapa."
+                    required: "La descripción del cliente de origen es necesario, por favor, seleccione un lugar de origen del mapa."
                 },
                 "Trayecto.Destinatario.IDCliente": {
-                    required: "-Seleccione un cliente destino."
+                    required: "Por favor, seleccione un cliente destino."
                 },
                 "Trayecto.LugarDestino.Direccion": {
-                    required: "-La dirección del cliente de destino es necesario, seleccione un lugar de origen del mapa."
+                    required: "La dirección del cliente de destino es necesario, por favor, seleccione un lugar de origen del mapa."
                 },
                 "Trayecto.LugarDestino.descripcion": {
-                    required: "-La descripción del cliente de destino es necesario, seleccione un lugar de origen del mapa."
+                    required: "La descripción del cliente de destino es necesario, por favor, seleccione un lugar de origen del mapa."
                 }
             },
             invalidHandler: function (event, validator) {
@@ -462,7 +450,7 @@
 
         form1.validate({ // initialize the plugin
             //debug: true,
-            errorElement: "li",
+            errorElement: "dd",
             errorClass: 'text-danger',
             errorLabelContainer: $("#validation_summary_AC_Cobro"),
             errorPlacement: function (error, element) { // render error placement for each input type
@@ -496,18 +484,18 @@
             },
             messages: {
                 precioFlete: {
-                    required: "-Introduzca un precio del flete.",
-                    decimal: "-El precio del flete debe ser solo números."
+                    required: "Por favor, escriba un precio del flete.",
+                    decimal: "El precio del flete debe ser solo números."
                 },
                 CondicionPago: {
-                    required: "-Introduzca una condición de pago."
+                    required: "Por favor, escriba una condición de pago."
                 },
                 "MetodoPago.Clave": {
-                    required: "-Seleccion un método de pago."
+                    required: "Por favor, seleccion un método de pago."
                 },
                 "FormaPago.Clave": {
-                    required: "-Seleccione una forma de pago.",
-                    min: "-Seleccione una forma de pago."
+                    required: "Por favor, seleccione una forma de pago.",
+                    min: "Por favor, seleccione una forma de pago."
                 }
             },
             invalidHandler: function (event, validator) {
@@ -540,7 +528,7 @@
 
         form1.validate({ // initialize the plugin
             //debug: true,
-            errorElement: "li",
+            errorElement: "dd",
             errorClass: 'text-danger',
             errorLabelContainer: $("#validation_summary_AC_FleteDocumentos"),
             errorPlacement: function (error, element) { // render error placement for each input type
@@ -568,8 +556,8 @@
             },
             messages: {
                 IDTipoDocumento: {
-                    required: "-Seleccione un tipo de documento.",
-                    min: "-Seleccione un tipo de documento."
+                    required: "Por favor, seleccione un tipo de documento.",
+                    min: "Por favor, seleccione un tipo de documento."
                 }
             },
             invalidHandler: function (event, validator) {
@@ -595,94 +583,7 @@
             }
         });
     };
-    var LoadValidationFleteImpuesto = function () {
-        var form1 = $('#frm_AC_FleteImpuesto');
-        var errorHandler1 = $('.errorHandler', form1);
-        var successHandler1 = $('.successHandler', form1);
-
-        form1.validate({ // initialize the plugin
-            //debug: true,
-            errorElement: "dd",
-            errorClass: 'text-danger',
-            errorLabelContainer: $("#validation_summary_AC_FleteImpuesto"),
-            errorPlacement: function (error, element) { // render error placement for each input type
-                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
-                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
-                } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
-                    error.insertAfter($(element).closest('.form-group').children('div'));
-                } else if (element.attr("type") == "text") {
-                    error.insertAfter($(element).closest('.input-group').children('div'));
-                } else {
-                    error.insertAfter(element);
-                    // for other inputs, just perform default behavior
-                }
-            },
-            ignore: "",
-            rules: {
-                "TipoImpuesto.Clave": {
-                    min: 1
-                },
-                Base: {
-                    required: true,
-                    BaseSAT: true
-                },
-                "Impuesto.Clave": {
-                    min: 1,
-                },
-                "TipoFactor.Clave": {
-                    min: 1,
-                },
-                "TasaCuota": {
-                    required: true,
-                    TasaCuotaSAT: true
-                },
-                Importe: {
-                    required: true
-                }
-            },
-            messages: {
-                "TipoImpuesto.Clave": {
-                    min: "Seleccione un tipo de impuesto."
-                },
-                Base: {
-                    required: "Ingrese una cantidad base."
-                },
-                "Impuesto.Clave": {
-                    min: "Seleccione un Impuesto."
-                },
-                "TipoFactor.Clave": {
-                    min: "Seleccione un Tipo o Factor."
-                },
-                "TasaCuota": {
-                    required: "Ingrese una tasa o cuota."
-                },
-                Importe: {
-                    required: "Ingrese un importe."
-                }
-            },
-            invalidHandler: function (event, validator) {
-                successHandler1.hide();
-                errorHandler1.show();
-            },
-            highlight: function (element) {
-                $(element).closest('.help-block').removeClass('valid');
-                $(element).closest('.controlError').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
-            },
-            unhighlight: function (element) {
-                $(element).closest('.controlError').removeClass('has-error');
-            },
-            success: function (label, element) {
-                label.addClass('help-block valid');
-                label.removeClass('color');
-                $(element).closest('.controlError').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
-            },
-            submitHandler: function (form) {
-                successHandler1.show();
-                errorHandler1.hide();
-                AC_FleteImpuesto();
-            }
-        });
-    };
+   
     //Tablas
     var LoadTableImpuesto = function () {
         var IDFlete = $("#id_flete").val();
@@ -696,7 +597,7 @@
                 "data": {
                     "IDFlete": IDFlete
                 },
-                "url": "/Admin/FleteImpuesto/TableJsonFleteImpuesto/",
+                "url": "/Admin/Flete/TableJsonFleteImpuesto/",
                 "type": "POST",
                 "datatype": "json",
                 "dataSrc": ''
@@ -788,7 +689,7 @@
         });
 
         $("#btnAddImpuesto").on("click", function () {
-            ModalImpuesto(IDFlete, 0);
+            window.location.href = '/Admin/Flete/AC_FleteImpuestos?IDFlete=' + IDFlete + '&IDFleteImpuesto=';
         });
     };
     var LoadTableDocumentos = function () {
@@ -901,12 +802,12 @@
                 "pre": [ 3, 'asc' ],
                 "post": [ 0, 'asc' ]
             },
-            //"order": ([[4, 'asc'], [3, 'asc'], [2, 'asc'], [1, 'asc'], [0, 'asc']]),
-            //"ordering": false,
+            "autoWidth": false,
             columnDefs: [
                 { "type": "html-input", "targets": [1, 2, 3] },
-                { "width": "5%", "targets": [0] }
-                //{ "orderable": false, "targets": [0,1,2,3,4]}
+                { "width": 130, "targets": 1 },
+                { "width": 130, "targets": 2 },
+                { "width": 130, "targets": 3 }
             ]
         });
         $.ajax({
@@ -1138,7 +1039,7 @@
         $.ajax({
             type: 'POST',
             data: formData,
-            url: '/Admin/Flete/A_Cobro/',
+            url: '/Admin/Flete/AC_Cobro/',
             contentType: false,
             processData: false,
             cache: false,
@@ -1147,12 +1048,7 @@
             },
             success: function (response) {
                 if (response.Success) {
-                    Mensaje("Datos guardados con éxito.", "1");
-                    //Recogo los valores
-                    var json = JSON.parse(response.Mensaje);
-                    $("#TotalFlete").val(json.totalFlete);
-                    $("#TotalImpuestoTrasladado").val(json.totalImpuestoTrasladados);
-                    $("#TotalImpuestoRetenido").val(json.totalImpuestoRetenido);
+                    Mensaje(response.Mensaje, "1");
                 }
                 else
                     Mensaje(response.Mensaje, "2");
@@ -1185,53 +1081,7 @@
             }
         });
     }
-    function AC_FleteImpuesto() {
-        var form = $("#frm_AC_FleteImpuesto")[0];
-        var formData = new FormData(form);
-
-        $.ajax({
-            type: 'POST',
-            data: formData,
-            url: '/Admin/FleteImpuesto/AC_FleteImpuesto/',
-            contentType: false,
-            processData: false,
-            cache: false,
-            error: function (response) {
-                Mensaje(response.Mensaje, "2");
-            },
-            success: function (response) {
-                if (response.Success) {
-                    Mensaje("Datos guardados con éxito.", "1");
-                    //Recogo los valores
-                    var json = JSON.parse(response.Mensaje);
-                    $("#TotalFlete").val(json.totalFlete);
-                    $("#TotalImpuestoTrasladado").val(json.totalImpuestoTrasladados);
-                    $("#TotalImpuestoRetenido").val(json.totalImpuestoRetenido);
-                    $("#ModalImpuesto").modal('hide');
-                    tableImpuesto.ajax.reload();
-                }
-                else
-                    Mensaje(response.Mensaje, "2");
-            }
-        });
-    }
-    function TipoFactor(option) {
-        var TasaCuota = $("#TasaCuota");
-        var Importe = $("#Importe");
-
-        if (option == 3) {
-            TasaCuota.attr('readonly', true);
-            TasaCuota.rules("remove", "required TasaCuotaSAT");
-            TasaCuota.closest(".controlError").removeClass("has-success has-error");
-            $("#validation_summary_AC_FleteImpuesto").find("dd[for='TasaCuota']").addClass('help-block valid').text('');
-            TasaCuota.val("0");
-            Importe.val("0");
-        }
-        else {
-            TasaCuota.attr('readonly', false);
-            TasaCuota.rules("add", { required: true, TasaCuotaSAT: true });
-        }
-    }
+   
     function RunEventProducto() {
         //Seleccionar filas 
         $('#tblModalGanadoActual tbody').on('click', 'tr', function () {
@@ -1302,7 +1152,6 @@
             ]
         });
     }
-
     function AgergarFilasProductoGanadoExterno(propio, numArete, genero, peso, mensaje, id_fila) {
         if (propio)
             var html_imagen = '<img id="img_' + id_fila + '" class="cslElegido"  src="/Content/img/tabla/ok.png" alt="" height="42" width="42"> <label id="lbl_' + id_fila + '" class="cslElegido" for="' + mensaje + '">' + mensaje + '</label>';
@@ -1311,12 +1160,12 @@
         var html_macho = '<option value="MACHO">Macho</option>';
         var html_hembra = '<option value="HEMBRA">Hembra</option>';
 
-        if (genero == "Macho" || genero == "MACHO") {
+        if (genero == "MACHO") {
 
-            html_macho = '<option value="Macho" selected>Macho</option>';
+            html_macho = '<option value="MACHO" selected>Macho</option>';
         }
-        else if (genero == "Hembra" || genero == "HEMBRA") {
-            html_hembra = '<option value="Hembra" selected>Hembra</option>';
+        else if (genero == "HEMBRA") {
+            html_hembra = '<option value="HEMBRA" selected>Hembra</option>';
         }
 
         var html_arete = '<input id="arete_' + id_fila + '" data-id="' + id_fila + '" class="form-control inputCSL cslElegido" type="text" maxlength="15" value="' + numArete + '" data-toggle="tooltip" data-placement="top" title="Por favor, escriba el número de arete.">';
@@ -1349,20 +1198,6 @@
             '</div>' +
             '</div>'
         ]).draw(false);
-    }
-
-    function ObtenerImporte() {
-        var Base = $('#Base').val();
-        var TasaCuota = $('#TasaCuota').val();
-        var Importe = $("#Importe");
-
-        if (isNaN(Base) || isNaN(TasaCuota)) {
-            Importe.val("0");
-        }
-        else {
-            var total = Base * TasaCuota;
-            Importe.val(total.toFixed(2));
-        }
     }
     function CalculateAndDisplayRoute(directionsService, directionsDisplay, map) {
         var selectIndexInicio = lugarOrigen.selectedIndex;

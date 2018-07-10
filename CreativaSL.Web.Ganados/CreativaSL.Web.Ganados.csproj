@@ -462,6 +462,7 @@
     <Content Include="Content\js\CompraGanado.js" />
     <Content Include="Content\js\compraRecepcion.js" />
     <Content Include="Content\js\compraTransacciones.js" />
+    <Content Include="Content\js\fleteImpuesto.js" />
     <Content Include="Content\js\Socios.js" />
     <Content Include="Content\js\conciliacionAlmacen.js" />
     <Content Include="Content\js\conciliacionAlmacenLista.js" />
@@ -1184,7 +1185,6 @@
     <Content Include="Areas\Admin\Views\CatBanco\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatBanco\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatBanco\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Venta\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatConceptosNomina\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatConceptosNomina\Create.cshtml" />
@@ -1198,8 +1198,6 @@
     <Content Include="Areas\Admin\Views\CatCliente\ClienteLugar.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\CreateSucursal.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\IndexSucursales.cshtml" />
-    <Content Include="Areas\Admin\Views\Venta\End.cshtml" />
-    <Content Include="Areas\Admin\Views\Venta\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatConceptoDocumento\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatConceptoDocumento\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatTipoServicio\Create.cshtml" />
@@ -1353,6 +1351,7 @@
     <Content Include="Content\css\fonts\ocampoIcons.eot" />
     <Content Include="Content\css\fonts\ocampoIcons.ttf" />
     <Content Include="Content\css\fonts\ocampoIcons.woff" />
+    <Content Include="Areas\Admin\Views\Flete\AC_FleteImpuestos.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

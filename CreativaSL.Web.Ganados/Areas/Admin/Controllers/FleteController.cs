@@ -44,7 +44,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 FleteDatos = new _Flete_Datos();
                 Flete.Conexion = Conexion;
 
-                Flete.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(FleteDatos.GetFleteIndexDataTable(Flete));
+                Flete.RespuestaAjax.Mensaje = FleteDatos.GetFleteIndexDataTable(Flete);
                 Flete.RespuestaAjax.Success = true;
 
                 return Content(Flete.RespuestaAjax.Mensaje, "application/json");
@@ -52,7 +52,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                Flete.RespuestaAjax.Mensaje = ex.ToString();
+                Flete.RespuestaAjax.Mensaje = ex.Message;
                 Flete.RespuestaAjax.Success = false;
                 return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
             }
@@ -69,7 +69,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Flete.Conexion = Conexion;
                 Flete.id_flete = IDFlete;
 
-                Flete.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(FleteDatos.GetDocumentosDataTable(Flete));
+                Flete.RespuestaAjax.Mensaje = FleteDatos.GetDocumentosDataTable(Flete);
                 Flete.RespuestaAjax.Success = true;
 
                 return Content(Flete.RespuestaAjax.Mensaje, "application/json");
@@ -77,7 +77,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                Flete.RespuestaAjax.Mensaje = ex.ToString();
+                Flete.RespuestaAjax.Mensaje = ex.Message;
                 Flete.RespuestaAjax.Success = false;
                 return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
             }
@@ -93,7 +93,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 FleteDatos = new _Flete_Datos();
                 Flete.Conexion = Conexion;
 
-                Flete.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(FleteDatos.GetGanadoDataTable(Flete));
+                Flete.RespuestaAjax.Mensaje = FleteDatos.GetGanadoDataTable(Flete);
                 Flete.RespuestaAjax.Success = true;
 
                 return Content(Flete.RespuestaAjax.Mensaje, "application/json");
@@ -117,7 +117,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 FleteDatos = new _Flete_Datos();
                 Flete.Conexion = Conexion;
                 Flete.id_flete = IDFlete;
-                Flete.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(FleteDatos.GetProductoGanadoXIDFlete(Flete));
+                Flete.RespuestaAjax.Mensaje = FleteDatos.GetProductoGanadoXIDFlete(Flete);
                 Flete.RespuestaAjax.Success = true;
 
                 return Content(Flete.RespuestaAjax.Mensaje, "application/json");
@@ -141,7 +141,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 FleteDatos = new _Flete_Datos();
                 Flete.Conexion = Conexion;
                 Flete.id_flete = IDFlete;
-                Flete.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(FleteDatos.GetProductoGanadoNOPropioXIDFlete(Flete));
+                Flete.RespuestaAjax.Mensaje = FleteDatos.GetProductoGanadoNOPropioXIDFlete(Flete);
                 Flete.RespuestaAjax.Success = true;
 
                 return Content(Flete.RespuestaAjax.Mensaje, "application/json");
@@ -231,6 +231,19 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
+        #region Json Flete impuesto
+        [HttpPost]
+        public ContentResult TableJsonFleteImpuesto(string IDFlete)
+        {
+            FleteImpuestoModels FleteImpuesto = new FleteImpuestoModels();
+            _FleteImpuesto_Datos FleteImpuestoDatos = new _FleteImpuesto_Datos();
+            FleteImpuesto.Conexion = Conexion;
+            FleteImpuesto.IDFlete = IDFlete;
+            FleteImpuesto.RespuestaAjax.Mensaje = FleteImpuestoDatos.GetJsonTableFleteImpuestoXIDFlete(FleteImpuesto);
+
+            return Content(FleteImpuesto.RespuestaAjax.Mensaje, "application/json");
+        }
+        #endregion
         /********************************************************************/
         [HttpGet]
         public ActionResult AC_Flete(string IDFlete)
@@ -251,14 +264,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             Flete.ListaCliente = FleteDatos.GetListadoClientes(Flete);
             Flete.ListaChofer = FleteDatos.GetListadoChoferes(Flete);
             Flete.ListaVehiculo = FleteDatos.GetListadoVehiculos(Flete);
-            Flete.ListaJaula = FleteDatos.GetListadoJaulas(Flete);
-            Flete.ListaRemolque = FleteDatos.GetListadoRemolque(Flete);
+            //Flete.ListaJaula = FleteDatos.GetListadoJaulas(Flete);
+            //Flete.ListaRemolque = FleteDatos.GetListadoRemolque(Flete);
             Flete.Trayecto.ListaRemitente = FleteDatos.GetListadoClientes(Flete);
             Flete.Trayecto.ListaDestinatario = FleteDatos.GetListadoClientes(Flete);
             Flete.Trayecto.ListaLugarOrigen = FleteDatos.GetListadoLugaresXIDProveedorIDCliente(Flete, Flete.Trayecto.Remitente.IDCliente);
             Flete.Trayecto.ListaLugarDestino = FleteDatos.GetListadoLugaresXIDProveedorIDCliente(Flete, Flete.Trayecto.Destinatario.IDCliente);
             Flete.ListaFormaPago = FleteDatos.GetListadoFormaPagos(Flete);
             Flete.ListaMetodoPago = FleteDatos.GetListadoMetodoPago(Flete);
+            Flete.ListaSucursales = FleteDatos.GetListadoSucursales(Flete);
 
             return View(Flete);
         }
@@ -339,6 +353,71 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Flete");
             }
         }
+
+        #region Vista Flete impuesto
+        public ActionResult AC_FleteImpuestos(string IDFlete, string IDFleteImpuesto)
+        {
+            try
+            {
+                Token.SaveToken();
+
+                string Id_flete = string.IsNullOrEmpty(IDFlete) ? string.Empty : IDFlete;
+
+                if (string.IsNullOrEmpty(Id_flete))
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return View("Index");
+                }
+                else
+                {
+                    string Id_fleteImpuesto = string.IsNullOrEmpty(IDFleteImpuesto) ? string.Empty : IDFleteImpuesto;
+
+                    if (Id_fleteImpuesto.Length == 0 || Id_fleteImpuesto.Length == 36)
+                    {
+                        FleteImpuestoModels FleteImpuesto = new FleteImpuestoModels();
+                        _FleteImpuesto_Datos FleteImpuestoDatos = new _FleteImpuesto_Datos();
+
+                        FleteImpuesto.Conexion = Conexion;
+                        FleteImpuesto.IDFleteImpuesto = IDFleteImpuesto;
+                        FleteImpuesto.IDFlete = IDFlete;
+                        FleteImpuesto.Conexion = Conexion;
+                        FleteImpuesto = FleteImpuestoDatos.GetFleteImpuestoXIDFleteImpuesto(FleteImpuesto);
+
+                        if (FleteImpuesto.RespuestaAjax.Success)
+                        {
+                            FleteImpuesto.ListaImpuesto = FleteImpuestoDatos.GetListadoImpuesto(FleteImpuesto);
+                            FleteImpuesto.ListaTipoImpuesto = FleteImpuestoDatos.GetListadoTipoImpuesto(FleteImpuesto);
+                            FleteImpuesto.ListaTipoFactor = FleteImpuestoDatos.GetListadoTipoFactor(FleteImpuesto);
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "No se puede cargar la vista, error: " + FleteImpuesto.RespuestaAjax.Mensaje;
+                            return View("Index");
+                        }
+
+                        return View(FleteImpuesto);
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Verifique sus datos.";
+                        return View("Index");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + ex.Message;
+                return View("Index");
+            }
+        }
+        #endregion
+
+
+
         /********************************************************************/
         //Funciones AC_DEL
         #region Funciones AC_DEL
@@ -352,9 +431,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     FleteDatos = new _Flete_Datos();
                     Flete.Conexion = Conexion;
                     Flete.Usuario = User.Identity.Name;
-                    Flete = FleteDatos.Flete_ac_FleteCliente(Flete);
+                    Flete.RespuestaAjax = new RespuestaAjax();
+                    Flete.RespuestaAjax = FleteDatos.Flete_ac_FleteCliente(Flete);
                     if (Flete.RespuestaAjax.Success)
+                    {
                         Flete.RespuestaAjax.Mensaje.ToJSON();
+                    }
 
                     Token.ResetToken();
 
@@ -411,7 +493,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         #endregion
         #region Cobro
-        public ActionResult A_Cobro(FleteModels Flete)
+        public ActionResult AC_Cobro(FleteModels Flete)
         {
             try
             {
@@ -422,8 +504,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         FleteDatos = new _Flete_Datos();
                         Flete.Conexion = Conexion;
                         Flete.Usuario = User.Identity.Name;
-                        Flete = FleteDatos.Flete_a_FleteCobro(Flete);
+                        Flete.RespuestaAjax = new RespuestaAjax();
+                        Flete.RespuestaAjax = FleteDatos.Flete_ac_FleteCobro(Flete);
                         Token.ResetToken();
+                        Token.SaveToken(); ;
 
                         return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
                     }

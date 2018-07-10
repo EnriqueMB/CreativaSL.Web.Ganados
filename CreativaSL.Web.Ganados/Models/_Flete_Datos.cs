@@ -10,21 +10,22 @@ namespace CreativaSL.Web.Ganados.Models
     public class _Flete_Datos
     {
 
-        public SqlDataReader GetFleteIndexDataTable(FleteModels Flete)
+        public string GetFleteIndexDataTable(FleteModels Flete)
         {
             try
             {
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_index");
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
-                return dr;
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public SqlDataReader GetDocumentosDataTable(FleteModels Flete)
+        public string GetDocumentosDataTable(FleteModels Flete)
         {
             object[] parametros =
             {
@@ -35,29 +36,31 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_DocumentosXIDFlete", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
-                return dr;
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public SqlDataReader GetGanadoDataTable(FleteModels Flete)
+        public string GetGanadoDataTable(FleteModels Flete)
         {
             try
             {
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_get_GanadoActivo");
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
-                return dr;
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public SqlDataReader GetProductoGanadoXIDFlete(FleteModels Flete)
+        public string GetProductoGanadoXIDFlete(FleteModels Flete)
         {
             try
             {
@@ -67,15 +70,16 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_ProductoGanadoPropioXIDFlete", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
-                return dr;
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public SqlDataReader GetProductoGanadoNOPropioXIDFlete(FleteModels Flete)
+        public string GetProductoGanadoNOPropioXIDFlete(FleteModels Flete)
         {
             try
             {
@@ -85,8 +89,9 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_ProductoGanadoNOPropioXIDFlete", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
-                return dr;
+                return datatable;
             }
             catch (Exception ex)
             {
@@ -169,8 +174,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Flete.Cliente.IDCliente = !dr.IsDBNull(dr.GetOrdinal("id_cliente")) ? dr.GetString(dr.GetOrdinal("id_cliente")) : string.Empty;//,f.id_cliente
                     Flete.Vehiculo.IDVehiculo = !dr.IsDBNull(dr.GetOrdinal("id_vehiculo")) ? dr.GetString(dr.GetOrdinal("id_vehiculo")) : string.Empty;//,f.id_vehiculo
                     Flete.Chofer.IDChofer = !dr.IsDBNull(dr.GetOrdinal("id_chofer")) ? dr.GetString(dr.GetOrdinal("id_chofer")) : string.Empty;//,f.id_chofer
-                    Flete.Jaula.IDJaula = !dr.IsDBNull(dr.GetOrdinal("id_jaula")) ? dr.GetString(dr.GetOrdinal("id_jaula")) : string.Empty;//,f.id_jaula
-                    Flete.Remolque.IDRemolque = !dr.IsDBNull(dr.GetOrdinal("id_remolque")) ? dr.GetString(dr.GetOrdinal("id_remolque")) : string.Empty;//,f.id_remolque
+                    //Flete.Jaula.IDJaula = !dr.IsDBNull(dr.GetOrdinal("id_jaula")) ? dr.GetString(dr.GetOrdinal("id_jaula")) : string.Empty;//,f.id_jaula
+                    //Flete.Remolque.IDRemolque = !dr.IsDBNull(dr.GetOrdinal("id_remolque")) ? dr.GetString(dr.GetOrdinal("id_remolque")) : string.Empty;//,f.id_remolque
                     Flete.kmInicialVehiculo = !dr.IsDBNull(dr.GetOrdinal("kmInicialVehiculo")) ? dr.GetInt32(dr.GetOrdinal("kmInicialVehiculo")) : 0;//,f.kmInicialVehiculo
                     Flete.FechaTentativaEntrega = !dr.IsDBNull(dr.GetOrdinal("fechaTentativaEntrega")) ? dr.GetDateTime(dr.GetOrdinal("fechaTentativaEntrega")) : DateTime.Now;//,f.fechaTentativaEntrega
                     Flete.Folio = !dr.IsDBNull(dr.GetOrdinal("folio")) ? dr.GetString(dr.GetOrdinal("folio")) : string.Empty;//,f.folio
@@ -191,6 +196,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Flete.CondicionPago = !dr.IsDBNull(dr.GetOrdinal("condicionPago")) ? dr.GetString(dr.GetOrdinal("condicionPago")) : string.Empty;//,f.condicionPago
                     Flete.MetodoPago.Clave = !dr.IsDBNull(dr.GetOrdinal("id_metodoPago")) ? dr.GetString(dr.GetOrdinal("id_metodoPago")) : string.Empty;//,f.id_metodoPago
                     Flete.FormaPago.Clave = !dr.IsDBNull(dr.GetOrdinal("id_formaPago")) ? dr.GetInt16(dr.GetOrdinal("id_formaPago")) : 0;//,f.id_formaPago
+                    Flete.Id_sucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty;
                 }
                 dr.Close();
                 return Flete;
@@ -800,12 +806,38 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        #region Sucursales
+        public List<CatSucursalesModels> GetListadoSucursales(FleteModels Flete)
+        {
+            List<CatSucursalesModels> ListaSucursales = new List<CatSucursalesModels>();
+            CatSucursalesModels Sucursal;
+            SqlDataReader dr = null;
+            object[] parametros =
+            {
+                1
+            };
 
+            dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Combo_get_SucursalesXTipoEmpresa", parametros);
+
+            while (dr.Read())
+            {
+                Sucursal = new CatSucursalesModels
+                {
+                    IDSucursal = !dr.IsDBNull(dr.GetOrdinal("IDSucursal")) ? dr.GetString(dr.GetOrdinal("IDSucursal")) : string.Empty,
+                    NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty,
+                };
+
+                ListaSucursales.Add(Sucursal);
+            }
+            dr.Close();
+            return ListaSucursales;
+        }
+        #endregion
         #endregion
 
         #region Funciones AC
         #region AC_Cliente
-        public FleteModels Flete_ac_FleteCliente(FleteModels Flete)
+        public RespuestaAjax Flete_ac_FleteCliente(FleteModels Flete)
         {
             try
             {
@@ -816,22 +848,22 @@ namespace CreativaSL.Web.Ganados.Models
                     ,Flete.Cliente.IDCliente
                     ,Flete.Vehiculo.IDVehiculo
                     ,Flete.Chofer.IDChofer
-                    ,Flete.Jaula.IDJaula
-                    ,Flete.Remolque.IDRemolque
                     ,Flete.kmInicialVehiculo
                     ,Flete.FechaTentativaEntrega
                     ,Flete.Usuario
+                    ,Flete.Id_sucursal
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_ac_FleteCliente", parametros);
+                RespuestaAjax RespuestaAjax = new RespuestaAjax();
 
                 while (dr.Read())
                 {
-                    Flete.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
-                    Flete.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                    RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                 }
                 dr.Close();
-                return Flete;
+                return RespuestaAjax;
             }
             catch (Exception ex)
             {
@@ -872,7 +904,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
         #region A_Cobro
-        public FleteModels Flete_a_FleteCobro(FleteModels Flete)
+        public RespuestaAjax Flete_ac_FleteCobro(FleteModels Flete)
         {
             try
             {
@@ -886,15 +918,16 @@ namespace CreativaSL.Web.Ganados.Models
                     ,Flete.Usuario
                 };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_a_FleteCobro", parametros);
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_ac_FleteCobro", parametros);
+                RespuestaAjax RespuestaAjax = new RespuestaAjax();
 
                 while (dr.Read())
                 {
-                    Flete.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
-                    Flete.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                    RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                 }
                 dr.Close();
-                return Flete;
+                return RespuestaAjax;
             }
             catch (Exception ex)
             {
