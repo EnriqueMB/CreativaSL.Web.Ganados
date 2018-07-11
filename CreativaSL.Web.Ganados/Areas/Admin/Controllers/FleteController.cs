@@ -199,7 +199,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                Flete.RespuestaAjax.Mensaje = ex.ToString();
+                Flete.RespuestaAjax.Mensaje = ex.Message;
                 Flete.RespuestaAjax.Success = false;
                 return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
             }
@@ -244,9 +244,62 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return Content(FleteImpuesto.RespuestaAjax.Mensaje, "application/json");
         }
         #endregion
+        [HttpPost]
+        public ActionResult DatatableGanadoEnFlete(string Id_flete, string Id_eventoFlete)
+        {
+            try
+            {
+                _Flete_Datos FleteDatos = new _Flete_Datos();
+ 
+                EventoFleteModels EventoFlete = new EventoFleteModels();
+                EventoFlete.RespuestaAjax = new RespuestaAjax();
+                EventoFlete.Conexion = Conexion;
+                EventoFlete.Id_flete = Id_flete;
+                EventoFlete.Id_eventoFlete = Id_eventoFlete;
+                EventoFlete.RespuestaAjax.Mensaje = FleteDatos.DatatableGanadoEnFlete(EventoFlete);
+                EventoFlete.RespuestaAjax.Success = true;
+
+                return Content(EventoFlete.RespuestaAjax.Mensaje, "application/json");
+            }
+            catch (Exception ex)
+            {
+                EventoFleteModels EventoFlete = new EventoFleteModels();
+                EventoFlete.RespuestaAjax = new RespuestaAjax();
+                EventoFlete.RespuestaAjax.Mensaje = ex.Message;
+                EventoFlete.RespuestaAjax.Success = false;
+                return Content(EventoFlete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DatatableGanadoConEvento(string Id_flete, string Id_eventoFlete)
+        {
+            try
+            {
+                _Flete_Datos FleteDatos = new _Flete_Datos();
+                EventoFleteModels EventoFlete = new EventoFleteModels();
+                EventoFlete.RespuestaAjax = new RespuestaAjax();
+                EventoFlete.Id_flete = Id_flete;
+                EventoFlete.Id_eventoFlete = Id_eventoFlete;
+                EventoFlete.RespuestaAjax.Mensaje = FleteDatos.DatatableGanadoConEvento(EventoFlete);
+                EventoFlete.RespuestaAjax.Success = true;
+
+                return Content(EventoFlete.RespuestaAjax.Mensaje, "application/json");
+            }
+            catch (Exception ex)
+            {
+                EventoFleteModels EventoFlete = new EventoFleteModels();
+                EventoFlete.RespuestaAjax = new RespuestaAjax();
+                EventoFlete.RespuestaAjax.Mensaje = ex.Message;
+                EventoFlete.RespuestaAjax.Success = false;
+                return Content(EventoFlete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
         /********************************************************************/
+
         [HttpGet]
-        public ActionResult AC_Flete(string IDFlete)
+        public ActionResult AC_Flete(string IDFlete, int? opcion)
         {
             Token.SaveToken();
             Flete = new FleteModels
@@ -258,14 +311,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             if (!string.IsNullOrEmpty(IDFlete) && IDFlete.Length == 36)
             {
                 Flete.id_flete = IDFlete;
+                ViewBag.OpcionImpuesto = opcion;
                 Flete = FleteDatos.Flete_get_ACFlete(Flete);
             }
             Flete.ListaEmpresa = FleteDatos.GetListadoEmpresas(Flete);
             Flete.ListaCliente = FleteDatos.GetListadoClientes(Flete);
             Flete.ListaChofer = FleteDatos.GetListadoChoferes(Flete);
             Flete.ListaVehiculo = FleteDatos.GetListadoVehiculos(Flete);
-            //Flete.ListaJaula = FleteDatos.GetListadoJaulas(Flete);
-            //Flete.ListaRemolque = FleteDatos.GetListadoRemolque(Flete);
             Flete.Trayecto.ListaRemitente = FleteDatos.GetListadoClientes(Flete);
             Flete.Trayecto.ListaDestinatario = FleteDatos.GetListadoClientes(Flete);
             Flete.Trayecto.ListaLugarOrigen = FleteDatos.GetListadoLugaresXIDProveedorIDCliente(Flete, Flete.Trayecto.Remitente.IDCliente);
@@ -285,25 +337,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Conexion = Conexion
             };
             FleteDatos = new _Flete_Datos();
-            //cargarmos los datos del flete x id
+            Flete.RecepcionDestino = new RecepcionDestinoModels();
+            Flete.RecepcionOrigen = new RecepcionOrigenModels();
+            Flete.RecepcionOrigen.Inicializar();
+            Flete.RecepcionDestino.Inicializar();
+
             if (!string.IsNullOrEmpty(IDFlete) && IDFlete.Length == 36)
             {
-                Flete.RecepcionDestino = new RecepcionDestinoModels();
-                Flete.RecepcionOrigen = new RecepcionOrigenModels();
                 Flete.id_flete = IDFlete;
                 Flete = FleteDatos.Flete_get_Recepcion(Flete);
-            }
-            if(Flete.RecepcionOrigen == null)
-            {
-                Flete.RecepcionOrigen = new RecepcionOrigenModels();
-                Flete.RecepcionOrigen.Inicializar();
-
-            }
-            if (Flete.RecepcionDestino == null)
-            {
-                Flete.RecepcionDestino = new RecepcionDestinoModels();
-                Flete.RecepcionDestino.Inicializar();
-
             }
             Flete.RecepcionDestino.IDFlete = IDFlete;
             Flete.RecepcionOrigen.IDFlete = IDFlete;
@@ -355,6 +397,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         #region Vista Flete impuesto
+        [HttpGet]
         public ActionResult AC_FleteImpuestos(string IDFlete, string IDFleteImpuesto)
         {
             try
@@ -414,9 +457,274 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View("Index");
             }
         }
+
+        [HttpPost]
+        public ActionResult AC_FleteImpuestos(FleteImpuestoModels FleteImpuesto)
+        {
+            try
+            {
+                if (FleteImpuesto.IDFlete.Length == 36)
+                {
+                    if (Token.IsTokenValid())
+                    {
+                         _FleteImpuesto_Datos FleteImpuestoDatos;
+                        FleteImpuestoDatos = new _FleteImpuesto_Datos();
+                        FleteImpuesto.Conexion = Conexion;
+                        FleteImpuesto.Usuario = User.Identity.Name;
+                        FleteImpuesto = FleteImpuestoDatos.FleteImpuesto_ac_FleteImpuesto(FleteImpuesto);
+
+                        if (FleteImpuesto.RespuestaAjax.Success)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = FleteImpuesto.RespuestaAjax.Mensaje;
+                            return RedirectToAction("AC_Flete", "Flete", new { IDFlete = FleteImpuesto.IDFlete, opcion = 1 });
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = FleteImpuesto.RespuestaAjax.Mensaje;
+                            return RedirectToAction("Index", "Flete");
+                        }
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Flete no válido.";
+                        return RedirectToAction("Index", "Flete");
+                    }
+                   
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Flete no válido.";
+                    return RedirectToAction("Index", "Flete");
+                }
+            }
+            catch (Exception ex)
+            {
+                FleteImpuesto.RespuestaAjax.Mensaje = ex.Message;
+                FleteImpuesto.RespuestaAjax.Success = false;
+                return RedirectToAction("Index", "Flete");
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult DEL_FleteImpuesto(FleteImpuestoModels FleteImpuesto)
+        {
+            try
+            {
+                if (FleteImpuesto.IDFleteImpuesto.Length == 36)
+                {
+                    if (Token.IsTokenValid())
+                    {
+                        _FleteImpuesto_Datos FleteImpuestoDatos = new _FleteImpuesto_Datos();
+                        FleteImpuesto.Conexion = Conexion;
+                        FleteImpuesto.Usuario = User.Identity.Name;
+                        FleteImpuesto = FleteImpuestoDatos.FleteImpuesto_del_FleteImpuesto(FleteImpuesto);
+
+                        if(FleteImpuesto.RespuestaAjax.Success)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = FleteImpuesto.RespuestaAjax.Mensaje;
+                            return Content(FleteImpuesto.RespuestaAjax.ToJSON(), "application/json");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = FleteImpuesto.RespuestaAjax.Mensaje;
+                            return Content(FleteImpuesto.RespuestaAjax.ToJSON(), "application/json");
+                        }
+                    }
+                    else
+                    {
+                        FleteImpuesto.RespuestaAjax.Success = false;
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Impuesto no válido.";
+                        return Content(FleteImpuesto.RespuestaAjax.ToJSON(), "application/json");
+                    }
+                }
+                else
+                {
+                    FleteImpuesto.RespuestaAjax.Success = false;
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Impuesto no válido.";
+                    return Content(FleteImpuesto.RespuestaAjax.ToJSON(), "application/json");
+                }
+            }
+            catch (Exception ex)
+            {
+                FleteImpuesto.RespuestaAjax.Success = false;
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Contacte con soporte técnico, error: " + ex.Message;
+                return Content(FleteImpuesto.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
         #endregion
+        #region Vista Evento
+        [HttpGet]
+        public ActionResult AC_FleteEvento(string IDFlete, string Id_eventoFlete)
+        {
+            try
+            {
+                Token.SaveToken();
+                _Flete_Datos FleteDatos = new _Flete_Datos();
+                EventoFleteModels EventoFlete = new EventoFleteModels();
+                EventoFlete.RespuestaAjax = new RespuestaAjax();
 
+                string Id_flete = string.IsNullOrEmpty(IDFlete) ? string.Empty : IDFlete;
+                //0 = nuevo, 36 = edit, si es diferente es un id no valido
+                if (Id_flete.Length == 0 || Id_flete.Length == 36)
+                {
+                    EventoFlete.Conexion = Conexion;
+                    EventoFlete.Id_flete = Id_flete;
+                    EventoFlete.Id_eventoFlete = Id_eventoFlete;
+                    EventoFlete = FleteDatos.GetFleteEvento(EventoFlete);
+                    if (EventoFlete.RespuestaAjax.Success)
+                    {
+                        if (string.IsNullOrEmpty(EventoFlete.ImagenBase64))
+                        {
+                            EventoFlete.ImagenMostrar = Auxiliar.SetDefaultImage();
+                        }
+                        else
+                        {
+                            EventoFlete.ImagenMostrar = EventoFlete.ImagenBase64;
+                        }
+                        EventoFlete.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(EventoFlete.ImagenMostrar);
+                        //aqui pondriamos alguna lista o valores de cargar si esta todo correcto
+                        EventoFlete.ListaDeTiposDeduccion = FleteDatos.GetTiposDeduccion(EventoFlete);
+                        EventoFlete.ListaTiposEventos = FleteDatos.GetTiposEventos(EventoFlete);
+                        return View(EventoFlete);
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "No se puede cargar la vista, error: " + EventoFlete.RespuestaAjax.Mensaje;
+                        return View("Index");
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return View("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + ex.Message;
+                return View("Index");
+            }
+        }
+        [HttpPost]
+        public ActionResult AC_FleteEvento(EventoFleteModels EventoFlete)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    _Flete_Datos FleteDatos = new _Flete_Datos();
+                    EventoFlete.Conexion = Conexion;
+                    EventoFlete.Usuario = User.Identity.Name;
+                    if (EventoFlete.HttpImagen != null)
+                    {
+                        EventoFlete.ImagenBase64 = Auxiliar.ImageToBase64(EventoFlete.HttpImagen);
+                    }
 
+                    EventoFlete.RespuestaAjax = FleteDatos.AC_Evento(EventoFlete);
+
+                    if (EventoFlete.RespuestaAjax.Success)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Los datos se guardarón correctamente.";
+                        Token.ResetToken();
+
+                        return Content(EventoFlete.RespuestaAjax.ToJSON(), "application/json");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+
+                        return Content(EventoFlete.RespuestaAjax.ToJSON(), "application/json");
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+
+                    EventoFlete.RespuestaAjax = new RespuestaAjax();
+                    EventoFlete.RespuestaAjax.Success = false;
+
+                    return Content(EventoFlete.RespuestaAjax.ToJSON(), "application/json");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico: " + ex.Message;
+                EventoFlete.RespuestaAjax = new RespuestaAjax();
+                EventoFlete.RespuestaAjax.Success = false;
+
+                return Content(EventoFlete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+        #region Vista Producto/Servicio
+        [HttpGet]
+        public ActionResult AC_FleteProductoServicio(string IdCobro, string IdFlete)
+        {
+            try
+            {
+                DocumentosPorCobrarDetalleModels DocumentoPorCobrarPago = new DocumentosPorCobrarDetalleModels();
+                _DocumentoXCobrar_Datos DocCobrarDatos = new _DocumentoXCobrar_Datos();
+
+                string Id_documentoPorCobrar = IdCobro;
+                string Id_flete = IdFlete;
+
+                //0 = nuevo, 36 = editar, pero ambos son válidos
+                if((Id_documentoPorCobrar.Length == 0 || Id_documentoPorCobrar.Length == 36) && (Id_flete.Length == 36))
+                {
+                    Token.SaveToken();
+                    DocumentoPorCobrarPago.Id_documentoCobrar = Id_documentoPorCobrar;
+                    DocumentoPorCobrarPago.Conexion = Conexion;
+                }
+                else
+                {
+                    //no son validos, enviamos error
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista, verifique sus datos.";
+                    return View("Index");
+                }
+                
+                DocumentoPorCobrarPago.ListaTipoClasificacionCobro = DocCobrarDatos.GetListadoTipoClasificacion(DocumentoPorCobrarPago);
+                DocumentoPorCobrarPago.ListaProductosServiciosCFDI = DocCobrarDatos.GetListadoCFDIProductosServiciosCompra(DocumentoPorCobrarPago);
+                CatAlmacenModels almacen = new CatAlmacenModels();
+                almacen.IDAlmacen = "";
+                almacen.Descripcion = "-- Seleccione --";
+                DocumentoPorCobrarPago.ListaAlmacen = new List<CatAlmacenModels>();
+                DocumentoPorCobrarPago.ListaAlmacen.Add(almacen);
+
+                CatProductosAlmacenModels producto = new CatProductosAlmacenModels();
+                producto.IDProductoAlmacen = "";
+                producto.Nombre = "-- Seleccione --";
+                DocumentoPorCobrarPago.ListaProductos = new List<CatProductosAlmacenModels>();
+                DocumentoPorCobrarPago.ListaProductos.Add(producto);
+
+                return View(DocumentoPorCobrarPago);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos";
+                return View("Index");
+            }
+        }
+        #endregion
 
         /********************************************************************/
         //Funciones AC_DEL
@@ -772,7 +1080,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             Evento.ImagenBase64 = Evento.ImagenMostrar;
                         }
 
-                        Evento = FleteDatos.AC_Evento(Evento);
+                        //Evento = FleteDatos.AC_Evento(Evento);
                         Token.ResetToken();
                         Token.SaveToken();
                         return Content(Evento.RespuestaAjax.ToJSON(), "application/json");

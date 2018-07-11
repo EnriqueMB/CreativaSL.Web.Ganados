@@ -9,18 +9,14 @@
 {
         <!--FILEINPUT-->
 <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.5/css/select.bootstrap.min.css">
-<link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/js/plugins/font-awesome.min.css")"      rel="stylesheet" />
+<link href="@Url.Content("~/Content/js/plugins/select.bootstrap.min.css")"  rel="stylesheet" />
     <style>
         .marginRow {
             margin-top: 15px !important;
         }
-        img.file-preview-image.kv-preview-data.is-portrait-gt4.file-zoom-detail {
-            width: auto !important;
-            height: auto;
-            max-width: 100%;
-            max-height: 100%;
+         .form-control[disabled], .form-control[readonly] {
+            color: #000 !important;
         }
     </style>
 }
@@ -111,7 +107,6 @@
                         @using (Html.BeginForm("AC_RecepcionDestino", "Flete", FormMethod.Post, new { id = "Frm_AC_RecepcionDestino", @class = "form-horizontal", autocomplete = "off" }))
                         {
                             @Html.HiddenFor(model => model.RecepcionDestino.IDFlete);
-                            @Html.HiddenFor(model => model.RecepcionDestino.id_recepcion);
                             @Html.AntiForgeryToken()
 
                             <div class="panel panel-default">
@@ -230,7 +225,6 @@
                         @using (Html.BeginForm("AC_RecepcionOrigen", "Flete", FormMethod.Post, new { id = "Frm_AC_RecepcionOrigen", @class = "form-horizontal", autocomplete = "off" }))
                         {
                             @Html.HiddenFor(model => model.RecepcionOrigen.IDFlete);
-                            @Html.HiddenFor(model => model.RecepcionOrigen.IDRecepcionOrigen);
                             @Html.AntiForgeryToken()
 
                             <div class="panel panel-default">
@@ -353,7 +347,7 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="@Url.Content("~/Content/js/plugins/popper.min.js")"></script>
     <script src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")" type="text/javascript"></script>
     <!--TIMEPICKER-->
     <script src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-timepicker.min.js")"></script>

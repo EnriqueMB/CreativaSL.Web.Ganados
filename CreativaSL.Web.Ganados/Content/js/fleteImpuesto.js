@@ -86,7 +86,7 @@
             submitHandler: function (form) {
                 successHandler1.show();
                 errorHandler1.hide();
-                AC_FleteImpuesto();
+                form.submit();
             }
         });
     };
@@ -143,7 +143,7 @@
         $.ajax({
             type: 'POST',
             data: formData,
-            url: '/Admin/FleteImpuesto/AC_FleteImpuesto/',
+            url: '/Admin/Flete/AC_FleteImpuesto/',
             contentType: false,
             processData: false,
             cache: false,

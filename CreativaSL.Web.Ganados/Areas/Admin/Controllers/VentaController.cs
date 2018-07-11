@@ -171,9 +171,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(venta.RespuestaAjax.ToJSON(), "application/json");
             }
         }
-
-        
-
         #endregion
 
         #region Otros

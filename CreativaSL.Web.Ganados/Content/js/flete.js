@@ -5,6 +5,7 @@
     var tableImpuesto, map, directionsDisplay, directionsService;
     var tableDocumentos, tableProductoGanado, tableProductoGeneral, tblModalGanadoActual, tblModalGanadoExterno;
     var numeroFila = 1;
+    var mostrarCobro;
 
     var InitMap = function () {
         directionsService = new google.maps.DirectionsService;
@@ -620,8 +621,8 @@
                     "render": function (data, type, full) {
 
                         return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-idflete='" + full["IDFlete"] + "' data-id='" + full["IDFleteImpuesto"] + "' class='btn btn-yellow tooltips btn-sm editImpuesto' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
-                            "<a data-hrefa='/Admin/FleteImpuesto/DEL_FleteImpuesto/' title='Eliminar' data-id='" + full["IDFleteImpuesto"] + "' class='btn btn-danger tooltips btn-sm deleteImpuesto' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "<a data-idflete='" + IDFlete + "' data-id='" + full["id_documentoCobrarDetalleImpuesto"] + "' class='btn btn-yellow tooltips btn-sm editImpuesto' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                            "<a data-hrefa='/Admin/Flete/DEL_FleteImpuesto/' title='Eliminar' data-id='" + full["id_documentoCobrarDetalleImpuesto"] + "' class='btn btn-danger tooltips btn-sm deleteImpuesto' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                             "<div class='btn-group'>" +
@@ -630,12 +631,12 @@
                             "</a>" +
                             "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
                             "<li>" +
-                            "<a data-idflete='" + full["IDFlete"] + "' class='editImpuesto' data-id='" + full["IDFleteImpuesto"] + "'  role='menuitem' tabindex='-1'>" +
+                            "<a data-idflete='" + IDFlete + "' class='editImpuesto' data-id='" + full["id_documentoCobrarDetalleImpuesto"] + "'  role='menuitem' tabindex='-1'>" +
                             "<i class='fa fa-edit'></i> Editar" +
                             "</a>" +
                             "</li>" +
                             "<li>" +
-                            "<a data-hrefa='/Admin/FleteImpuesto/DEL_FleteImpuesto/' class='deleteImpuesto' role='menuitem' tabindex='-1' data-id='" + full["IDFleteImpuesto"] + "'>" +
+                            "<a data-hrefa='/Admin/Flete/DEL_FleteImpuesto/' class='deleteImpuesto' role='menuitem' tabindex='-1' data-id='" + full["id_documentoCobrarDetalleImpuesto"] + "'>" +
                             "<i class='fa fa-trash-o'></i> Eliminar" +
                             "</a>" +
                             "</li>" +
@@ -650,37 +651,27 @@
                     var IDFlete = $(this).data("idflete");
                     var IDFleteImpuesto = $(this).data("id");
 
-                    ModalImpuesto(IDFlete, IDFleteImpuesto);
+                    window.location.href = '/Admin/Flete/AC_FleteImpuestos?IDFlete=' + IDFlete + '&IDFleteImpuesto=' + IDFleteImpuesto;
                 });
+
                 $(".deleteImpuesto").on("click", function () {
                     var url = $(this).attr('data-hrefa');
-                    var row = $(this).attr('data-id');
+                    var IDFleteImpuesto = $(this).attr('data-id');
                     var box = $("#mb-remove-row");
                     box.addClass("open");
                     box.find(".mb-control-yes").on("click", function () {
                         box.removeClass("open");
                         $.ajax({
                             url: url,
-                            data: { IDFleteImpuesto: row },
+                            data: { IDFleteImpuesto: IDFleteImpuesto, IDFlete: IDFlete },
                             type: 'POST',
                             dataType: 'json',
                             success: function (result) {
-                                if (result.Success) {
-                                    box.find(".mb-control-yes").prop('onclick', null).off('click');
-                                    Mensaje("Impuesto eliminado con éxito.", "1");
-                                    //Recogo los valores
-                                    var json = JSON.parse(result.Mensaje);
-                                    $("#TotalFlete").val(json.totalFlete);
-                                    $("#TotalImpuestoTrasladado").val(json.totalImpuestoTrasladados);
-                                    $("#TotalImpuestoRetenido").val(json.totalImpuestoRetenido);
-                                    $("#ModalImpuesto").modal('hide');
-                                    tableImpuesto.ajax.reload();
-                                }
-                                else
-                                    Mensaje(result.Mensaje, "2");
+                                box.find(".mb-control-yes").prop('onclick', null).off('click');
+                                window.location.href = '/Admin/Flete/AC_Flete?IDFlete=' + IDFlete + '&opcion=1';
                             },
                             error: function (result) {
-                                Mensaje(result.Mensaje, "2");
+                                window.location.href = '/Admin/Flete/AC_Flete?IDFlete=' + IDFlete + '&opcion=1';
                             }
                         });
                     });
@@ -1420,10 +1411,16 @@
             document.getElementById("tabProducto").dataset.toggle = "tab";
             $('#tabProducto').data('toggle', "tab")
             $("#liProducto").removeClass('disabled').addClass('pestaña');
+
+            if (mostrarCobro == 1) {
+                $('.nav-tabs a[href="#cobro"]').tab('show');
+            }
+
         }
     }
     return {
-        init: function () {
+        init: function (opcionImpuesto) {
+            mostrarCobro = opcionImpuesto;
             InitMap();
             DesbloquearTabs();
             RunEventsGeneral();
