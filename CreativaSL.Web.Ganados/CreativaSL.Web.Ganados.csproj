@@ -463,6 +463,14 @@
     <Content Include="Content\js\compraRecepcion.js" />
     <Content Include="Content\js\compraTransacciones.js" />
     <Content Include="Content\js\fleteImpuesto.js" />
+    <Content Include="Content\js\plugins\datatablesbtn\buttons.flash.min.js" />
+    <Content Include="Content\js\plugins\datatablesbtn\buttons.html5.min.js" />
+    <Content Include="Content\js\plugins\datatablesbtn\buttons.print.min.js" />
+    <Content Include="Content\js\plugins\datatablesbtn\dataTables.buttons.min.js" />
+    <Content Include="Content\js\plugins\datatablesbtn\jquery.dataTables.min.js" />
+    <Content Include="Content\js\plugins\datatablesbtn\jszip.min.js" />
+    <Content Include="Content\js\plugins\datatablesbtn\pdfmake.min.js" />
+    <Content Include="Content\js\plugins\datatablesbtn\vfs_fonts.js" />
     <Content Include="Content\js\Socios.js" />
     <Content Include="Content\js\conciliacionAlmacen.js" />
     <Content Include="Content\js\conciliacionAlmacenLista.js" />
