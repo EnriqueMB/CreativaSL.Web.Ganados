@@ -52,7 +52,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Upload(string id,HttpPostedFileBase uploadfile)
+        public ActionResult Upload(string id, HttpPostedFileBase uploadfile)
         {
             AsistenciaEmpleadoModels Asistencia = new AsistenciaEmpleadoModels();
             Asistencia.conexion = Conexion;
@@ -120,6 +120,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                     string a = Asistencia.tablaAsistencia.Rows[0][3].ToString();
                     Asistencia.fecha = Convert.ToDateTime(a);
+                    Asistencia.tablaAsistencia = result.Tables[0];
+                    
+                    //string a = Asistencia.tablaAsistencia.Rows[0][3].ToString();
+                    //Asistencia.fecha = Convert.ToDateTime(a);
                     Asistencia.listaAsistencia=AsistenciaDatos.GenerarListaFaltas(Asistencia);
                     if (Asistencia.Completado == true)
                     {
@@ -129,6 +133,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     }
                     else
                     {
+                        Asistencia.listaAsistencia = new List<AsistenciaEmpleadoModels>();
                         TempData["typemessage"] = "2";
                         TempData["message"] = "Ocurrió un error registrar las faltas.";
                         return View(Asistencia);

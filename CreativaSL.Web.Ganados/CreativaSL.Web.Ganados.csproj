@@ -462,6 +462,7 @@
     <Content Include="Content\js\CompraGanado.js" />
     <Content Include="Content\js\compraRecepcion.js" />
     <Content Include="Content\js\compraTransacciones.js" />
+    <Content Include="Content\js\Configuracion.js" />
     <Content Include="Content\js\fleteEvento.js" />
     <Content Include="Content\js\fleteImpuesto.js" />
     <Content Include="Content\js\fleteTransacciones.js" />
@@ -1354,9 +1355,6 @@
     <Content Include="Content\css\fonts\ocampoIcons.ttf" />
     <Content Include="Content\css\fonts\ocampoIcons.woff" />
     <Content Include="Areas\Admin\Views\Flete\AC_FleteImpuestos.cshtml" />
-    <Content Include="Areas\Admin\Views\Flete\AC_FleteEvento.cshtml" />
-    <Content Include="Areas\Admin\Views\Flete\AC_FleteTransacciones.cshtml" />
-    <Content Include="Areas\Admin\Views\Flete\AC_FleteProductoServicio.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1437,6 +1435,7 @@
     <Compile Include="Areas\Admin\Controllers\SalidaAlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\TablaController.cs" />
     <Compile Include="Areas\Admin\Controllers\TestController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TicketController.cs" />
     <Compile Include="Areas\Admin\Controllers\VentaController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Filters\AutorizadoAttribute.cs" />
@@ -1592,6 +1591,7 @@
     <Compile Include="Models\ServiciosMantenimientoModels.cs" />
     <Compile Include="Models\ListaGenerica.cs" />
     <Compile Include="Models\TelefonosContactoSucursalModels.cs" />
+    <Compile Include="Models\ConfiguracionModels.cs" />
     <Compile Include="Models\TipoUsuarioModels.cs" />
     <Compile Include="Models\TransaccionesFleteModels.cs" />
     <Compile Include="Models\TrayectoModels.cs" />
@@ -1676,6 +1676,7 @@
     <Compile Include="Models\_RptSalidas_Datos.cs" />
     <Compile Include="Models\_SalidaAlmacen_Datos.cs" />
     <Compile Include="Models\_ServicioMantenimiento_Datos.cs" />
+    <Compile Include="Models\_Configuracion_Datos.cs" />
     <Compile Include="Models\_Usuario_Datos.cs" />
     <Compile Include="Models\_Venta2_Datos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

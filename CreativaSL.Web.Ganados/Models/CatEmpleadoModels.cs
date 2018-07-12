@@ -328,6 +328,22 @@ namespace CreativaSL.Web.Ganados.Models
             set { _Telefono = value; }
         }
 
+        private DateTime _FechaInacistencia;
+
+        public DateTime FechaInacistencia
+        {
+            get { return _FechaInacistencia; }
+            set { _FechaInacistencia = value; }
+        }
+
+        private string _Asistencia;
+
+        public string Asistencia
+        {
+            get { return _Asistencia; }
+            set { _Asistencia = value; }
+        }
+
 
         #region Datos De Control
         public string Conexion { get; set; }
