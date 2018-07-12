@@ -1,22 +1,14 @@
-﻿var CompraTransaccion = function () {
+﻿var FleteTransaccion = function () {
     "use strict"
     //datatables
-    var tblDocumentoPorCobrarDetalles,
-        tbl_articulosServiciosCobro, tbl_articulosServiciosCobroFlete,
-        tbl_documentosPorCobrarDetallesPagos, tbl_documentosPorCobrarDetallesPagosFlete,
-        tbl_articulosServiciosPagos;
+    var tbl_detallesDocumentoPorCobrar;
+        
     //otros
-    var IDCompra = $("#IDCompra").val();
-    var Id_documentoPorCobrar = $("#Id_documentoPorCobrar").val();
-    var Id_documentoPorCobrarFlete = $("#DocumentoPorCobrar_DocumentoPorCobraFlete_Id_documentoCobrar").val();
-    var Id_documentoPorPagar = $("#Id_documentoPorPagar").val();
-    //1 por ser una compra
-    //2 flete
-    var TipoServicio = 1;
-    var TipoServicioFlete = 2;
+    var Id_flete = $("#Id_flete").val();
+    var Id_documentoPorCobrar = $("#DocumentosPorCobrar_Id_documentoCobrar").val();
 
     /*INICIA COBROS*/
-    var Load_tbl_articulosServiciosCobro = function () {
+    var Load_tablas = function () {
         function format(d) {
             return '<table class="table" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
                 '<tr>' +
@@ -30,16 +22,16 @@
                 '</table>';
         }
 
-        tbl_articulosServiciosCobro = $('#tbl_articulosServiciosCobro').DataTable({
+        tbl_detallesDocumentoPorCobrar = $('#tbl_detallesDocumentoPorCobrar').DataTable({
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                "url": "/Content/assets/json/Spanish.json"
             },
             responsive: true,
             "ajax": {
                 "data": {
-                    "Id_documentoCobrar": Id_documentoPorCobrar
+                    "Id_documentoCobrar": Id_documentoPorCobrar, "Id_flete": Id_flete
                 },
-                "url": "/Admin/DocumentoXCobrar/JsonDocumentosDetallesCompra/",
+                "url": "/Admin/Flete/DatatableDetallesDocumentoPorCobrarFlete/",
                 "type": "POST",
                 "datatype": "json",
                 "dataSrc": ''
@@ -69,14 +61,21 @@
                 {
                     "data": null,
                     "render": function (data, type, full) {
+                        var esSistema = String(full["esSistema"]);
                         var opcionSistema = "";
                         var opcionSistemaMin = "";
 
-                        if (full["esSistema"] != true) {
-                            opcionSistema = "<a data-hrefa='/Admin/DocumentoXCobrar/Del_ProductoServicio/' title='Eliminar' data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-danger tooltips btn-sm deleteDetalle' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>";
+                        if (esSistema.localeCompare("false") == 0) {
+                            opcionSistema = "<a data-hrefa='/Admin/Flete/Del_ProductoServicio/' title='Eliminar' data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-danger tooltips btn-sm deleteDetalle' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>"+
+                                "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-yellow tooltips btn-sm editDetalle' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" ;
                             opcionSistemaMin =
                             "<li>" +
-                            "<a data-hrefa='/Admin/DocumentoXCobrar/Del_ProductoServicio/' class='deleteDetalle' role='menuitem' tabindex='-1' data-id='" + full["id_detalleDoctoCobrar"] + "'>" +
+                            "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='editDetalle' role='menuitem' tabindex='-1'>" +
+                            "<i class='fa fa-edit'></i> Editar" +
+                            "</a>" +
+                            "</li>" +
+                            "<li>" +
+                            "<a data-hrefa='/Admin/Flete/Del_ProductoServicio/' class='deleteDetalle' role='menuitem' tabindex='-1' data-id='" + full["id_detalleDoctoCobrar"] + "'>" +
                             "<i class='fa fa-trash-o'></i> Eliminar" +
                             "</a>" +
                             "</li>";
@@ -84,7 +83,7 @@
 
                         var menu = "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
                             "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-green tooltips btn-sm impuestos' title='Impuestos'  data-placement='top' data-original-title='Impuestos'><i class='fa fa-money'></i></a>" +
-                            "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-yellow tooltips btn-sm editDetalle' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+
                             opcionSistema +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
@@ -97,12 +96,7 @@
                             "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='impuestoDetalle' role='menuitem' tabindex='-1'>" +
                             "<i class='fa fa-edit'></i> Editar" +
                             "</a>" +
-                            "</li>" +
-                            "<li>" +
-                            "<a data-id='" + full["id_detalleDoctoCobrar"] + "' class='editDetalle' role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-edit'></i> Editar" +
-                            "</a>" +
-                            "</li>" +
+                            "</li>"+
                             opcionSistemaMin + 
                             "</ul>" +
                             "</div>" +
@@ -114,7 +108,7 @@
             "drawCallback": function (settings) {
                 $(".editDetalle").on("click", function () {
                     var Id_detalleDoctoCobrar = $(this).data("id");
-                    window.location.href = '/Admin/DocumentoXCobrar/EditProductoServicio?&Id_detalleDoctoCobrar=' + Id_detalleDoctoCobrar + '&Id_redireccionar=' + IDCompra + '&TipoServicio=' + TipoServicio;
+                    window.location.href = '/Admin/Flete/EditProductoServicio?&Id_detalleDoctoCobrar=' + Id_detalleDoctoCobrar + '&Id_redireccionar=' + IDCompra + '&TipoServicio=' + TipoServicio;
                 });
                 $(".deleteDetalle").on("click", function () {
                     var url = $(this).attr('data-hrefa');
@@ -125,7 +119,7 @@
                         box.removeClass("open");
                         $.ajax({
                             url: url,
-                            data: { Id_detalleDoctoCobrar: id_detalle, Id_documentoCobrar: Id_documentoPorCobrar },
+                            data: { Id_detalleDoctoCobrar: id_detalle, Id_documentoCobrar: Id_documentoPorCobrar, Id_servicio: Id_flete },
                             type: 'POST',
                             dataType: 'json',
                             success: function (result) {
@@ -144,9 +138,9 @@
         });
 
          // Add event listener for opening and closing details
-        $('#tbl_articulosServiciosCobro tbody').on('click', 'td.details-control', function () {
+        $('#tbl_detallesDocumentoPorCobrar tbody').on('click', 'td.details-control', function () {
             var tr = $(this).closest('tr');
-            var row = tbl_articulosServiciosCobro.row(tr);
+            var row = tbl_detallesDocumentoPorCobrar.row(tr);
 
             if (row.child.isShown()) {
                 // This row is already open - close it
@@ -273,8 +267,8 @@
   
 
     var EventosCobro = function () {
-        $("#btnAddCobroArticuloServicio").on("click", function () {
-            window.location.href = '/Admin/Flete/AddProductoServicio?&TipoServicio=' + TipoServicio + '&Id_documentoPorCobrar=' + Id_documentoPorCobrar + '&Id_redireccionar=' + IDCompra;
+        $("#btnDetalles").on("click", function () {
+            window.location.href = '/Admin/Flete/AC_FleteProductoServicio?Id_documentoPorCobrar=' + Id_documentoPorCobrar + '&Id_flete=' + Id_flete + '&Id_detalleDocumento=';
         });
         $("#btnAddCobroComprobante").on("click", function () {
             window.location.href = '/Admin/Flete/AddComprobante?Id_documentoPorCobrar=' + Id_documentoPorCobrar + '&TipoServicio=' + TipoServicio;
@@ -285,7 +279,7 @@
 
     return {
         init: function () {
-            Load_tbl_articulosServiciosCobro();
+            Load_tablas();
             EventosCobro();
         }
     };

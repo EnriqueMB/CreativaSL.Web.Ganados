@@ -36,7 +36,7 @@ namespace CreativaSL.Web.Ganados.Models
         public List<CFDI_TipoImpuestoModels> ListaTipoImpuesto { get; set; }
         public List<CFDI_TipoFactorModels> ListaTipoFactor { get; set; }
         
-        //Tabla relacionada
+        
         public string IDFlete { get; set; }
 
         #region Datos De Control

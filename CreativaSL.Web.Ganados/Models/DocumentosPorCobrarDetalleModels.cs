@@ -45,5 +45,10 @@ namespace CreativaSL.Web.Ganados.Models
         public bool Inventario { get; set; }
         public string NombreProducto { get; set; }
         public string NombreAlmacen { get; set; }
+
+        /// <summary>
+        /// Es el id del servicio, ya sea del flete, compra o venta
+        /// </summary>
+        public string  Id_servicio { get; set; }
     }
 }
