@@ -1,7 +1,7 @@
-﻿@model CreativaSL.Web.Ganados.Models.EventoVentaModels
+﻿@model CreativaSL.Web.Ganados.Models.EventoFleteModels
 
 @{
-    ViewBag.Title = "VentaEVento";
+    ViewBag.Title = "AC_FleteEvento";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -18,9 +18,11 @@
         .errorTableCSL {
             border: 1px solid #ff004d !important;
         }
-        .successTableCSL{
+
+        .successTableCSL {
             border: 1px solid #95b75d !important;
         }
+
         .form-control[disabled],
         .form-control[readonly] {
             color: #000 !important;
@@ -50,19 +52,19 @@
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-               <div id="validation_summary" class="field_error "></div> //JS
-                @Html.HiddenFor(model => model.Id_eventoVenta)
-                @Html.HiddenFor(model => model.Id_venta)
+                <div id="validation_summary" class="field_error "></div> //JS
+                @Html.HiddenFor(model => model.Id_eventoFlete)
+                @Html.HiddenFor(model => model.Id_flete)
                 @Html.HiddenFor(model => model.Id_documentoPorCobrarDetalle)
                 @Html.HiddenFor(model => model.ImagenBase64)
                 @Html.HiddenFor(model => model.ImagenMostrar)
                 @Html.HiddenFor(model => model.ExtensionImagenBase64)
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Eventos de la venta</strong></h3>
+                        <h3 class="panel-title"><strong>Eventos del flete</strong></h3>
                     </div>
                     <ul class="panel-controls">
-                        @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
+                       
                     </ul>
 
                     <div class="panel-body">
@@ -81,7 +83,7 @@
                                                                 data-deduccion="@tipoEvento.MarcarMerma"
                                                                 @if (Model.Id_tipoEvento == tipoEvento.IDTipoEventoEnvio) { <text>
                                                                 selected="selected"
-                                                                </text>    }>
+                                                                </text>     }>
                                                             @tipoEvento.Descripcion
                                                         </option>
                                                     }
@@ -172,10 +174,10 @@
                                 <div class="col-md-10 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                       @Html.DropDownListFor(model => model.AplicaDeduccion, new List<SelectListItem>()
+                                        @Html.DropDownListFor(model => model.AplicaDeduccion, new List<SelectListItem>()
                                         {
-                                            new SelectListItem { Text = "Si", Value = "true", Selected = Model.AplicaDeduccion },
-                                            new SelectListItem { Text = "No", Value = "false", Selected = Model.AplicaDeduccion }
+                                        new SelectListItem { Text = "Si", Value = "true", Selected = Model.AplicaDeduccion },
+                                        new SelectListItem { Text = "No", Value = "false", Selected = Model.AplicaDeduccion }
                                         }, new { @class = "form-control" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.AplicaDeduccion)
@@ -186,10 +188,10 @@
                                 <div class="col-md-10 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                       @Html.DropDownListFor(model => model.AplicaGanado, new List<SelectListItem>()
+                                        @Html.DropDownListFor(model => model.AplicaGanado, new List<SelectListItem>()
                                         {
-                                            new SelectListItem { Text = "Si", Value = "true", Selected = Model.AplicaGanado },
-                                            new SelectListItem { Text = "No", Value = "false", Selected = Model.AplicaGanado }
+                                        new SelectListItem { Text = "Si", Value = "true", Selected = Model.AplicaGanado },
+                                        new SelectListItem { Text = "No", Value = "false", Selected = Model.AplicaGanado }
                                         }, new { @class = "form-control" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.AplicaGanado)
@@ -205,7 +207,7 @@
                                         <div class="col-md-10 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-money"></span></span>
-                                                @Html.TextBoxFor(model => model.MontoDeduccion, "{0:F2}" ,new { @type = "text", @class = "form-control" })
+                                                @Html.TextBoxFor(model => model.MontoDeduccion, "{0:F2}", new { @type = "text", @class = "form-control" })
                                             </div>
                                             @Html.ValidationMessageFor(model => model.MontoDeduccion)
                                             <span class="help-block">Ingrese una cantidad.</span>
@@ -244,12 +246,12 @@
                                         <table id="tblGanadoCargado" class="table">
                                             <thead>
                                                 <tr>
-                                                    <th>ID</th>
+                                                    <th>IDProducto</th>
+                                                    <th>IDGanado</th>
                                                     <th>Núm. arete</th>
                                                     <th>Genero</th>
                                                     <th>Peso</th>
-                                                    <th>Precio Por kilo</th>
-                                                    <th>Costo de compra</th>
+                                                    <th>¿Propio?</th>
                                                 </tr>
                                             </thead>
                                             <tbody></tbody>
@@ -262,12 +264,12 @@
                                         <table id="tblGanadoConEvento" name="tblGanadoConEvento" class="table">
                                             <thead>
                                                 <tr>
-                                                    <th>ID</th>
+                                                    <th>IDProducto</th>
+                                                    <th>IDGanado</th>
                                                     <th>Núm. arete</th>
                                                     <th>Genero</th>
                                                     <th>Peso</th>
-                                                    <th>Precio Por kilo</th>
-                                                    <th>Costo de compra</th>
+                                                    <th>¿Propio?</th>
                                                 </tr>
                                             </thead>
                                             <tbody></tbody>
@@ -278,7 +280,7 @@
                         </div>
                     </div>
                     <div class="panel-footer">
-                        <a href="@Url.Action("VentaEventoRecepcion", "Venta",  new { IDVenta = Model.Id_venta })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                        <a href="@Url.Action("AC_FleteRecepcion", "Flete",  new { IDVenta = Model.Id_flete })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                         <button type="submit" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
                     </div>
                 </div>
@@ -292,29 +294,29 @@
 }
 @section script{
 
-<script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
-<script src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/ventaEvento.js")"></script>
-<!--FILEINPUT-->
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
-<script type="text/javascript" src="/Content/js/plugins/bootstrap/bootstrap-file-input.js"></script>
-<script src="@Url.Content("~/Content/js/plugins/popper.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-timepicker.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+    <script src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/fleteEvento.js")"></script>
+    <!--FILEINPUT-->
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
+    <script type="text/javascript" src="/Content/js/plugins/bootstrap/bootstrap-file-input.js"></script>
+    <script src="@Url.Content("~/Content/js/plugins/popper.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-timepicker.min.js")"></script>
 
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
-            VentaEvento.init();
-           
+            FleteEvento.init();
+
         });
     </script>
 }

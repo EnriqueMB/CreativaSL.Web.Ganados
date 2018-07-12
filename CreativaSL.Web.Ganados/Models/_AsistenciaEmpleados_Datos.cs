@@ -88,16 +88,17 @@ namespace CreativaSL.Web.Ganados.Models
                 List<CatEmpleadoModels> lista = new List<CatEmpleadoModels>();
                 CatEmpleadoModels item;
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Datos.conexion, "spCSLDB_Faltas_get_Empleados",Datos.IDSucursal);
+                dr = SqlHelper.ExecuteReader(Datos.conexion, "spCSLDB_Faltas_get_Empleados", Datos.IDSucursal);
                 while (dr.Read())
                 {
                     item = new CatEmpleadoModels();
-                    item.IDEmpleado = dr["IDEmpleado"].ToString();
-                    item.CodigoUsuario = dr["CodigoUsuario"].ToString();
-                    item.NombreCompleto = dr["NombreCompleto"].ToString();
-                    item.IDSucursalActual = dr["IDSucursal"].ToString();
-                    item.NombreSucursal = dr["NombreSucursal"].ToString();
-                    //item.bascula = Convert.ToBoolean(dr["bascula"].ToString());
+                    item.IDEmpleado = !dr.IsDBNull(dr.GetOrdinal("IDEmpleado")) ? dr.GetString(dr.GetOrdinal("IDEmpleado")) : string.Empty;
+                    item.CodigoUsuario = !dr.IsDBNull(dr.GetOrdinal("CodigoUsuario")) ? dr.GetString(dr.GetOrdinal("CodigoUsuario")) : string.Empty;
+                    item.NombreCompleto = !dr.IsDBNull(dr.GetOrdinal("NombreCompleto")) ? dr.GetString(dr.GetOrdinal("NombreCompleto")) : string.Empty;
+                    item.IDSucursalActual = !dr.IsDBNull(dr.GetOrdinal("IDSucursal")) ? dr.GetString(dr.GetOrdinal("IDSucursal")) : string.Empty;
+                    item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
+                    item.FechaInacistencia = !dr.IsDBNull(dr.GetOrdinal("Fecha")) ? dr.GetDateTime(dr.GetOrdinal("Fecha")) : DateTime.Today;
+                    item.Asistencia = !dr.IsDBNull(dr.GetOrdinal("Asitencia")) ? dr.GetString(dr.GetOrdinal("Asitencia")) : string.Empty;
                     lista.Add(item);
                 }
                 dr.Close();

@@ -18,6 +18,9 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
 
+        public string Id_documentoCobrarDetalleImpuesto { get; set; }
+        public string Id_detalleDoctoCobrar { get; set; }
+
         public string IDFleteImpuesto { get; set; }
         [SAT_BaseAttribute(ErrorMessage = "La Base debe ser mayor que cero, hasta 6 decimales.")]
         public decimal Base { get; set; }

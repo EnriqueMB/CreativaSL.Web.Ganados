@@ -174,7 +174,7 @@
     /*EVENTOS*/
     var RunEventsEvento = function () {
         $("#btnAddEvento").on("click", function () {
-            ModalEvento(0);
+            window.location.href = '/Admin/Flete/AC_FleteEvento?IDFlete=' + IDFlete + '&Id_eventoFlete=0';
         });
         $('.Hora24hrs').timepicker({
             minuteStep: 1,
@@ -407,22 +407,22 @@
             },
             messages: {
                 "RecepcionDestino.fechaLlegada": {
-                    required: "Seleccione una fecha de llegada."
+                    required: "Por favor, seleccione una fecha de llegada."
                 },
                 "RecepcionDestino.HoraLlegada": {
-                    required: "Seleccione una hora de llegada."
+                    required: "Por favor, seleccione una hora de llegada."
                 },
                 "RecepcionDestino.recibidoPor": {
-                    required: "Escriba el nombre de la persona que recibio la mercancia."
+                    required: "Por favor, escriba el nombre de la persona que recibio la mercancia."
                 },
                 "RecepcionDestino.HoraDescarga": {
-                    required: "Seleccione una hora de descarga"
+                    required: "Por favor, seleccione una hora de descarga."
                 },
                 "RecepcionDestino.kiloTotalRecibido": {
-                    min: "Escriba la cantidad de kilos que recibio el lugar destino"
+                    min: "Por favor, escriba la cantidad de kilos que recibio el lugar destino."
                 },
                 "RecepcionDestino.GanadosTotal": {
-                    min: "Escriba la cantidad de ganados que recibio el lugar destino"
+                    min: "Por favor, escriba la cantidad de ganados que recibio el lugar destino."
                 }
             },
             invalidHandler: function (event, validator) {
@@ -485,14 +485,14 @@
             },
             messages: {
                 "RecepcionOrigen.FechaLlegada": {
-                    required: "Seleccione una fecha de llegada"
+                    required: "Por favor, seleccione una fecha de llegada."
                 },
                 "RecepcionOrigen.HoraLlegada": {
-                    required: "Seleccione una hora de llegada"
+                    required: "Por favor, seleccione una hora de llegada."
                 },
                 "RecepcionOrigen.KilometrajeFinal": {
-                    required: "Ingrese el kilometraje final",
-                    min: "Ingrese el kilometraje final"
+                    required: "Por favor, escriba el kilometraje final.",
+                    min: "Por favor, escriba el kilometraje final."
                 }
             },
             invalidHandler: function (event, validator) {
@@ -579,7 +579,6 @@
                 var json = JSON.parse(response.Mensaje);
                 if (response.Success) {
                     Mensaje(json.Mensaje, "1");
-                    document.getElementById("RecepcionDestino_id_recepcion").value = json.id;
                 }
                 else {
                     Mensaje(json.Mensaje, "2");
@@ -603,7 +602,6 @@
                  var json = JSON.parse(response.Mensaje);
                 if (response.Success) {
                     Mensaje(json.Mensaje, "1");
-                    document.getElementById("RecepcionOrigen_IDRecepcionOrigen").value = json.id;
                 }
                 else {
                     Mensaje(json.Mensaje, "2");
