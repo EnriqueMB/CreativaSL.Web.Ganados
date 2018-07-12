@@ -1,4 +1,5 @@
-﻿using CreativaSL.Web.Ganados.Models;
+﻿using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,6 +12,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     public class FleteImpuestoController : Controller
     {
         private string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         private FleteImpuestoModels FleteImpuesto;
         private _FleteImpuesto_Datos FleteImpuestoDatos;
 
@@ -44,61 +46,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return Content(FleteImpuesto.RespuestaAjax.Mensaje, "application/json");
         }
 
-        [HttpPost]
-        public ActionResult AC_FleteImpuesto(FleteImpuestoModels FleteImpuesto)
-        {
-            try
-            {
-                if (FleteImpuesto.IDFlete.Length == 36)
-                {
-                    FleteImpuestoDatos = new _FleteImpuesto_Datos();
-                    FleteImpuesto.Conexion = Conexion;
-                    FleteImpuesto.Usuario = User.Identity.Name;
-                    FleteImpuesto = FleteImpuestoDatos.FleteImpuesto_ac_FleteImpuesto(FleteImpuesto);
-
-                    return Content(FleteImpuesto.RespuestaAjax.ToJSON(), "application/json");
-                }
-                else
-                {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Flete no válido.";
-                    return RedirectToAction("Index", "Flete");
-                }
-            }
-            catch (Exception ex)
-            {
-                FleteImpuesto.RespuestaAjax.Mensaje = ex.ToString();
-                FleteImpuesto.RespuestaAjax.Success = false;
-                return Content(FleteImpuesto.RespuestaAjax.ToJSON(), "application/json");
-            }
-        }
-        [HttpPost]
-        public ActionResult DEL_FleteImpuesto(FleteImpuestoModels FleteImpuesto)
-        {
-            try
-            {
-                if (FleteImpuesto.IDFleteImpuesto.Length == 36)
-                {
-                    FleteImpuestoDatos = new _FleteImpuesto_Datos();
-                    FleteImpuesto.Conexion = Conexion;
-                    FleteImpuesto.Usuario = User.Identity.Name;
-                    FleteImpuesto = FleteImpuestoDatos.FleteImpuesto_del_FleteImpuesto(FleteImpuesto);
-
-                    return Content(FleteImpuesto.RespuestaAjax.ToJSON(), "application/json");
-                }
-                else
-                {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Flete no válido.";
-                    return RedirectToAction("Index", "Flete");
-                }
-            }
-            catch (Exception ex)
-            {
-                FleteImpuesto.RespuestaAjax.Mensaje = ex.ToString();
-                FleteImpuesto.RespuestaAjax.Success = false;
-                return Content(FleteImpuesto.RespuestaAjax.ToJSON(), "application/json");
-            }
-        }
+      
+     
     }
 }

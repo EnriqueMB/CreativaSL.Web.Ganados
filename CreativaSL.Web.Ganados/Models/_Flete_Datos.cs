@@ -155,6 +155,138 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public string DatatableGanadoEnFlete(EventoFleteModels EventoFlete)
+        {
+            try
+            {
+                object[] parametros = { EventoFlete.Id_flete, EventoFlete.Id_eventoFlete };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(EventoFlete.Conexion, "spCSLDB_Flete_get_DatatableGanadoEnFlete", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string DatatableGanadoConEvento(EventoFleteModels EventoFlete)
+        {
+            try
+            {
+                object[] parametros = { EventoFlete.Id_flete, EventoFlete.Id_eventoFlete };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(EventoFlete.Conexion, "spCSLDB_Flete_get_DatatableGanadoConEvento", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        #region Tipos deduccion
+        public List<CatTipoClasificacionModels> GetTiposDeduccion(EventoFleteModels EventoFlete)
+        {
+            try
+            {
+                CatTipoClasificacionModels item;
+                List<CatTipoClasificacionModels> lista = new List<CatTipoClasificacionModels>();
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(EventoFlete.Conexion, "spCSLDB_Combo_get_CatTipoClasificacionAll");
+                while (dr.Read())
+                {
+                    item = new CatTipoClasificacionModels();
+
+                    item.IDTipoClasificacionGasto = !dr.IsDBNull(dr.GetOrdinal("IDTipoClasificacion")) ? dr.GetInt32(dr.GetOrdinal("IDTipoClasificacion")) : 0;
+                    item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+
+                    lista.Add(item);
+                }
+                dr.Close();
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region Tipos eventos
+        public List<CatTipoEventoEnvioModels> GetTiposEventos(EventoFleteModels EventoFlete)
+        {
+            try
+            {
+                CatTipoEventoEnvioModels item;
+                List<CatTipoEventoEnvioModels> lista = new List<CatTipoEventoEnvioModels>();
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(EventoFlete.Conexion, "spCSLDB_Combo_get_CatTipoEventoEnvio");
+                while (dr.Read())
+                {
+                    item = new CatTipoEventoEnvioModels();
+
+                    item.IDTipoEventoEnvio = !dr.IsDBNull(dr.GetOrdinal("idTipoEvento")) ? dr.GetInt32(dr.GetOrdinal("idTipoEvento")) : 0;
+                    item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("nombreEvento")) ? dr.GetString(dr.GetOrdinal("nombreEvento")) : string.Empty;
+                    item.MarcarMerma = !dr.IsDBNull(dr.GetOrdinal("marcarMerma")) ? dr.GetBoolean(dr.GetOrdinal("marcarMerma")) : false;
+
+                    lista.Add(item);
+                }
+                dr.Close();
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region FleteEvento
+        public EventoFleteModels GetFleteEvento(EventoFleteModels EventoFlete)
+        {
+            object[] parametros =
+            {
+                EventoFlete.Id_flete,
+                EventoFlete.Id_eventoFlete
+            };
+            SqlDataReader dr = null;
+            dr = SqlHelper.ExecuteReader(EventoFlete.Conexion, "spCSLDB_Flete_get_FleteEventoXIDFlete", parametros);
+
+            while (dr.Read())
+            {
+                EventoFlete.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+
+                if (EventoFlete.RespuestaAjax.Success)
+                {
+                    EventoFlete.Id_eventoFlete = !dr.IsDBNull(dr.GetOrdinal("id_eventoFlete")) ? dr.GetString(dr.GetOrdinal("id_eventoFlete")) : string.Empty;
+                    EventoFlete.Id_documentoPorCobrarDetalle = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorCobrarDetalle")) ? dr.GetString(dr.GetOrdinal("id_documentoPorCobrarDetalle")) : string.Empty;
+                    EventoFlete.Id_tipoEvento = !dr.IsDBNull(dr.GetOrdinal("id_tipoEvento")) ? dr.GetInt32(dr.GetOrdinal("id_tipoEvento")) : 0;
+                    EventoFlete.Cantidad = !dr.IsDBNull(dr.GetOrdinal("cantidad")) ? dr.GetInt32(dr.GetOrdinal("cantidad")) : 0;
+                    EventoFlete.Lugar = !dr.IsDBNull(dr.GetOrdinal("lugar")) ? dr.GetString(dr.GetOrdinal("lugar")) : string.Empty;
+                    EventoFlete.FechaDeteccion = !dr.IsDBNull(dr.GetOrdinal("fechaDeteccion")) ? dr.GetDateTime(dr.GetOrdinal("fechaDeteccion")) : DateTime.Now;
+                    EventoFlete.HoraDeteccion = !dr.IsDBNull(dr.GetOrdinal("horaDeteccion")) ? dr.GetTimeSpan(dr.GetOrdinal("horaDeteccion")) : DateTime.Now.TimeOfDay;
+                    EventoFlete.Observacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
+                    EventoFlete.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagenBase64")) ? dr.GetString(dr.GetOrdinal("imagenBase64")) : string.Empty;
+                    EventoFlete.AplicaDeduccion = !dr.IsDBNull(dr.GetOrdinal("aplicarDeduccion")) ? dr.GetBoolean(dr.GetOrdinal("aplicarDeduccion")) : false;
+                    EventoFlete.AplicaGanado = !dr.IsDBNull(dr.GetOrdinal("aplicarGanado")) ? dr.GetBoolean(dr.GetOrdinal("aplicarGanado")) : false;
+                    EventoFlete.MontoDeduccion = !dr.IsDBNull(dr.GetOrdinal("deduccion")) ? dr.GetDecimal(dr.GetOrdinal("deduccion")) : 0;
+                    EventoFlete.Id_TipoDeDeduccion = !dr.IsDBNull(dr.GetOrdinal("id_tipoDeduccion")) ? dr.GetInt16(dr.GetOrdinal("id_tipoDeduccion")) : 0;
+                }
+                else
+                {
+                    EventoFlete.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                }
+            }
+            dr.Close();
+            return EventoFlete;
+        }
+        #endregion
+
+
         #region Get
         #region Get AC_Flete
         public FleteModels Flete_get_ACFlete(FleteModels Flete)
@@ -221,13 +353,11 @@ namespace CreativaSL.Web.Ganados.Models
 
                 while (dr.Read())
                 {
-                    Flete.RecepcionOrigen.IDRecepcionOrigen = !dr.IsDBNull(dr.GetOrdinal("id_recepcionOrigen")) ? dr.GetString(dr.GetOrdinal("id_recepcionOrigen")) : string.Empty;
                     Flete.RecepcionOrigen.KilometrajeFinal = !dr.IsDBNull(dr.GetOrdinal("kilometrajeFinal")) ? dr.GetInt32(dr.GetOrdinal("kilometrajeFinal")) : 0;
                     Flete.RecepcionOrigen.HoraLlegada = !dr.IsDBNull(dr.GetOrdinal("horaLlegada")) ? dr.GetTimeSpan(dr.GetOrdinal("horaLlegada")) : DateTime.Now.TimeOfDay;
                     Flete.RecepcionOrigen.FechaLlegada = !dr.IsDBNull(dr.GetOrdinal("fechaLlegada")) ? dr.GetDateTime(dr.GetOrdinal("fechaLlegada")) : DateTime.Now;
                     Flete.RecepcionOrigen.Observacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
 
-                    Flete.RecepcionDestino.id_recepcion = !dr.IsDBNull(dr.GetOrdinal("id_recepcionDestino")) ? dr.GetString(dr.GetOrdinal("id_recepcionDestino")) : string.Empty;
                     Flete.RecepcionDestino.kiloTotalRecibido = !dr.IsDBNull(dr.GetOrdinal("kiloTotalRecibido")) ? dr.GetDecimal(dr.GetOrdinal("kiloTotalRecibido")) : 0;
                     Flete.RecepcionDestino.GanadosTotal = !dr.IsDBNull(dr.GetOrdinal("ganadoTotal")) ? dr.GetInt32(dr.GetOrdinal("ganadoTotal")) : 0;
                     Flete.RecepcionDestino.fechaLlegada = !dr.IsDBNull(dr.GetOrdinal("fechaLlegadaDestino")) ? dr.GetDateTime(dr.GetOrdinal("fechaLlegadaDestino")) : DateTime.Now;
@@ -1057,34 +1187,38 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
         #region Evento
-        public EventoEnvioModels AC_Evento(EventoEnvioModels Evento)
+        public RespuestaAjax AC_Evento(EventoFleteModels Evento)
         {
             try
             {
                 object[] parametros =
                 {
-                   Evento.IDEvento      ,Evento.IDEnvio                 ,Evento.IDTipoEvento        ,Evento.Cantidad
-                  ,Evento.Lugar         ,Evento.FechaDeteccion          ,Evento.HoraDetecccion      ,Evento.Observacion
-                  ,Evento.ImagenBase64  ,Evento.ListaProductosEvento    ,Evento.Usuario
+                    Evento.Id_eventoFlete,      Evento.Id_flete,
+                    Evento.Id_tipoEvento,       Evento.AplicaDeduccion,
+                    Evento.AplicaGanado,        Evento.Cantidad,
+                    Evento.Lugar,               Evento.FechaDeteccion,
+                    Evento.HoraDeteccion,       Evento.Observacion,
+                    Evento.ImagenBase64,        Evento.ListaIDGanadosDelEvento,
+                    Evento.Usuario,             Evento.Id_TipoDeDeduccion,
+                    Evento.MontoDeduccion
                 };
 
+                RespuestaAjax RespuestaAjax = new RespuestaAjax();
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Evento.Conexion, "spCSLDB_Flete_ac_Evento", parametros);
-
                 while (dr.Read())
                 {
-                    Evento.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
-                    Evento.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                    RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("Mensaje")) ? dr.GetString(dr.GetOrdinal("Mensaje")) : string.Empty;
                 }
                 dr.Close();
+                return RespuestaAjax;
             }
             catch (Exception ex)
             {
-                Evento.RespuestaAjax.Mensaje = ex.ToString();
-                Evento.RespuestaAjax.Success = false;
+                throw ex;
             }
 
-            return Evento;
         }
         public EventoEnvioModels DEL_Evento(EventoEnvioModels Evento)
         {
@@ -1123,7 +1257,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                   Flete.RecepcionDestino.id_recepcion,         Flete.RecepcionDestino.IDFlete,                 Flete.RecepcionDestino.kiloTotalRecibido,
+                   Flete.RecepcionDestino.IDFlete,                 Flete.RecepcionDestino.kiloTotalRecibido,
                    Flete.RecepcionDestino.GanadosTotal,         Flete.RecepcionDestino.fechaLlegada,            Flete.RecepcionDestino.HoraLlegada,
                    Flete.RecepcionDestino.HoraDescarga,         Flete.RecepcionDestino.recibidoPor,             Flete.RecepcionDestino.ValijaSellada,        Flete.RecepcionDestino.RecepcionDocumentos,     Flete.RecepcionDestino.observacion,
                    Flete.RecepcionDestino.Usuario
@@ -1155,7 +1289,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                   Flete.RecepcionOrigen.IDRecepcionOrigen,        Flete.RecepcionOrigen.IDFlete,             Flete.RecepcionOrigen.KilometrajeFinal,
+                   Flete.RecepcionOrigen.IDFlete,             Flete.RecepcionOrigen.KilometrajeFinal,
                    Flete.RecepcionOrigen.HoraLlegada,              Flete.RecepcionOrigen.FechaLlegada,        Flete.RecepcionOrigen.Observacion,
                    Flete.RecepcionOrigen.Usuario
                 };
@@ -1180,6 +1314,47 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
         #endregion
+
+        #region Documento detalles producto servicio
+        public DocumentosPorCobrarDetalleModels GetDatosProductoServicio(DocumentosPorCobrarDetalleModels documento, string Id_flete)
+        {
+            try
+            {
+                SqlDataReader dr = null;
+
+                object[] parametros =
+                {
+                    Id_flete,
+                    documento.Id_detalleDoctoCobrar
+                };
+                dr = SqlHelper.ExecuteReader(documento.Conexion, "spCSLDB_DocumentoPorCobrar_get_DocumentosDetallesProductoServicio", parametros);
+                while (dr.Read())
+                {
+                    documento.Id_documentoCobrar = !dr.IsDBNull(dr.GetOrdinal("id_documentoCobrar")) ? dr.GetString(dr.GetOrdinal("id_documentoCobrar")) : string.Empty;
+                    documento.Id_productoServicio = !dr.IsDBNull(dr.GetOrdinal("id_productoServicio")) ? dr.GetString(dr.GetOrdinal("id_productoServicio")) : string.Empty;
+                    documento.Id_conceptoDocumento = !dr.IsDBNull(dr.GetOrdinal("id_conceptoDocumento")) ? dr.GetInt16(dr.GetOrdinal("id_conceptoDocumento")) : 0;
+                    documento.Cantidad = !dr.IsDBNull(dr.GetOrdinal("cantidad")) ? dr.GetDecimal(dr.GetOrdinal("cantidad")) : 0;
+                    documento.PrecioUnitario = !dr.IsDBNull(dr.GetOrdinal("precioUnitario")) ? dr.GetDecimal(dr.GetOrdinal("precioUnitario")) : 0;
+                    documento.Subtotal = !dr.IsDBNull(dr.GetOrdinal("subtotal")) ? dr.GetDecimal(dr.GetOrdinal("subtotal")) : 0; ;
+                    documento.Id_producto = !dr.IsDBNull(dr.GetOrdinal("id_productoServicio")) ? dr.GetString(dr.GetOrdinal("id_productoServicio")) : string.Empty;
+                    documento.Id_almacen = !dr.IsDBNull(dr.GetOrdinal("id_almacen")) ? dr.GetString(dr.GetOrdinal("id_almacen")) : string.Empty;
+                    documento.Id_unidadProducto = !dr.IsDBNull(dr.GetOrdinal("id_unidadProducto")) ? dr.GetString(dr.GetOrdinal("id_unidadProducto")) : string.Empty;
+                    documento.Inventario = !dr.IsDBNull(dr.GetOrdinal("inventario")) ? dr.GetBoolean(dr.GetOrdinal("inventario")) : false;
+                    documento.NombreAlmacen = !dr.IsDBNull(dr.GetOrdinal("nombreAlmacen")) ? dr.GetString(dr.GetOrdinal("nombreAlmacen")) : string.Empty;
+                    documento.NombreProducto = !dr.IsDBNull(dr.GetOrdinal("nombreProducto")) ? dr.GetString(dr.GetOrdinal("nombreProducto")) : string.Empty;
+                }
+                dr.Close();
+                return documento;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        #endregion
+
+
 
         public Flete_TipoDocumentoModels Flete_del_DocumentoXIDDocumento(Flete_TipoDocumentoModels FleteTipo)
         {

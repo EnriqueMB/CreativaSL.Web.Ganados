@@ -462,15 +462,9 @@
     <Content Include="Content\js\CompraGanado.js" />
     <Content Include="Content\js\compraRecepcion.js" />
     <Content Include="Content\js\compraTransacciones.js" />
+    <Content Include="Content\js\fleteEvento.js" />
     <Content Include="Content\js\fleteImpuesto.js" />
-    <Content Include="Content\js\plugins\datatablesbtn\buttons.flash.min.js" />
-    <Content Include="Content\js\plugins\datatablesbtn\buttons.html5.min.js" />
-    <Content Include="Content\js\plugins\datatablesbtn\buttons.print.min.js" />
-    <Content Include="Content\js\plugins\datatablesbtn\dataTables.buttons.min.js" />
-    <Content Include="Content\js\plugins\datatablesbtn\jquery.dataTables.min.js" />
-    <Content Include="Content\js\plugins\datatablesbtn\jszip.min.js" />
-    <Content Include="Content\js\plugins\datatablesbtn\pdfmake.min.js" />
-    <Content Include="Content\js\plugins\datatablesbtn\vfs_fonts.js" />
+    <Content Include="Content\js\fleteTransacciones.js" />
     <Content Include="Content\js\Socios.js" />
     <Content Include="Content\js\conciliacionAlmacen.js" />
     <Content Include="Content\js\conciliacionAlmacenLista.js" />
@@ -1360,6 +1354,9 @@
     <Content Include="Content\css\fonts\ocampoIcons.ttf" />
     <Content Include="Content\css\fonts\ocampoIcons.woff" />
     <Content Include="Areas\Admin\Views\Flete\AC_FleteImpuestos.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\AC_FleteEvento.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\AC_FleteTransacciones.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\AC_FleteProductoServicio.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1539,6 +1536,7 @@
     <Compile Include="Models\EstadoModels.cs" />
     <Compile Include="Models\EventoEnvioDetalleModels.cs" />
     <Compile Include="Models\EventoEnvioModels.cs" />
+    <Compile Include="Models\EventoFleteModels.cs" />
     <Compile Include="Models\EventoVentaEnvioDetalleModels.cs" />
     <Compile Include="Models\EventoVentaModels.cs" />
     <Compile Include="Models\ExistenciaProductoAlmacenModels.cs" />
@@ -1595,6 +1593,7 @@
     <Compile Include="Models\ListaGenerica.cs" />
     <Compile Include="Models\TelefonosContactoSucursalModels.cs" />
     <Compile Include="Models\TipoUsuarioModels.cs" />
+    <Compile Include="Models\TransaccionesFleteModels.cs" />
     <Compile Include="Models\TrayectoModels.cs" />
     <Compile Include="Models\UnidadesProductosAlmacenModels.cs" />
     <Compile Include="Models\UPPProvedorModels.cs" />

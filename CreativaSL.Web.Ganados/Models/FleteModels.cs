@@ -95,6 +95,7 @@ namespace CreativaSL.Web.Ganados.Models
 
         public string Id_sucursal { get; set; }
         public List<CatSucursalesModels> ListaSucursales { get; set; }
+        public int OpcionImpuesto { get; set; }
 
         #region Datos De Control
         public string Conexion { get; set; }

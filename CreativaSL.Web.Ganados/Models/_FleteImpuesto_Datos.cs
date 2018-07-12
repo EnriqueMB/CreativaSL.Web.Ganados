@@ -148,15 +148,16 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                     FleteImpuesto.IDFlete//@id_flete char(36)
-                    ,FleteImpuesto.IDFleteImpuesto//,@id_fleteImpuesto char(36)
-                    ,FleteImpuesto.Impuesto.Clave//,@id_impuesto smallint
-                    ,FleteImpuesto.TipoFactor.Clave//,@id_tipoFactor smallint
-                    ,FleteImpuesto.TipoImpuesto.Clave//,@id_tipoImpuesto smallint
-                    ,FleteImpuesto.Base//,@base decimal(18,3)
-                    ,FleteImpuesto.TasaCuota//,@tasaCuota decimal(18,6)
-                    ,FleteImpuesto.Importe//,@importe money
-                    ,FleteImpuesto.Usuario//,@id_usuario char(36)
+                    FleteImpuesto.IDFlete,
+                    FleteImpuesto.IDFleteImpuesto,//@id_documentoCobrarDetalleImpuesto char(36)
+                    FleteImpuesto.Id_detalleDoctoCobrar,//,@id_detalleDoctoCobrar char(36)
+                    FleteImpuesto.TipoImpuesto.Clave,//,@id_tipoImpuesto smallint
+                    FleteImpuesto.Impuesto.Clave,//,@id_impuesto smallint
+                    FleteImpuesto.TipoFactor.Clave,//,@id_tipoFactor smallint
+                    FleteImpuesto.Base,//,@base decimal(18,3)
+                    FleteImpuesto.TasaCuota,//,@tasaCuota decimal(18,6)
+                    FleteImpuesto.Importe,//,@importe money
+                    FleteImpuesto.Usuario//,@id_usuario char(36)
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(FleteImpuesto.Conexion, "spCSLDB_FleteImpuesto_ac_FleteImpuesto", parametros);
@@ -164,6 +165,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     FleteImpuesto.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     FleteImpuesto.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                    FleteImpuesto.IDFlete = !dr.IsDBNull(dr.GetOrdinal("id_flete")) ? dr.GetString(dr.GetOrdinal("id_flete")) : string.Empty;
                 }
                 dr.Close();
                 return FleteImpuesto;
@@ -179,11 +181,12 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                     FleteImpuesto.IDFleteImpuesto//@id_fleteImpuesto char(36)
-                    ,FleteImpuesto.Usuario//,@id_usuario char(36)
+                    FleteImpuesto.IDFlete
+                    ,FleteImpuesto.IDFleteImpuesto
+                    ,FleteImpuesto.Usuario
                 };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(FleteImpuesto.Conexion, "spCSLDB_FleteImpuesto_del_FleteImpuestoXIDFleteImpueso", parametros);
+                dr = SqlHelper.ExecuteReader(FleteImpuesto.Conexion, "spCSLDB_FleteImpuesto_del_FleteImpuestoXIDFlete", parametros);
                 while (dr.Read())
                 {
                     FleteImpuesto.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
