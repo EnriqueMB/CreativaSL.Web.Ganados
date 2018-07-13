@@ -89,14 +89,37 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     //Adding reader data to DataSet()
                     var result = reader.AsDataSet(new ExcelDataSetConfiguration()
                     {
+                        //UseColumnDataType = false,
                         ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
                         {
                             UseHeaderRow = true
+                            //UseColumnDataType = false
                         }
                     });
+
+
                     reader.Close();
                     Asistencia.user = User.Identity.Name;
                     //Sending result data to View
+
+                    DataTable firstTable = result.Tables[0];
+
+                    DataTable dtCloned = firstTable.Clone();
+                    dtCloned.Columns[3].DataType = typeof(string);
+                    foreach (DataRow row in firstTable.Rows)
+                    {
+                        string fecha_row =  row[3].ToString();
+                        string fecha = fecha_row.Substring(0, 10);
+                        row[3] = fecha;
+
+                        dtCloned.ImportRow(row);
+                    }
+
+
+                    Asistencia.tablaAsistencia = dtCloned;
+
+                    string a = Asistencia.tablaAsistencia.Rows[0][3].ToString();
+                    Asistencia.fecha = Convert.ToDateTime(a);
                     Asistencia.tablaAsistencia = result.Tables[0];
                     
                     //string a = Asistencia.tablaAsistencia.Rows[0][3].ToString();

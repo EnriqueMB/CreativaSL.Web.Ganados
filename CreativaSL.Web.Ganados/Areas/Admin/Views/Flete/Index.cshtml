@@ -336,6 +336,10 @@
                     });
 
                 });
+                $(".transacciones").on("click", function () {
+                    var id = $(this).data("id")
+                    window.location.href = '/Admin/Flete/AC_FleteTransacciones?IDFlete=' + id;
+                });
 
             },
             "order": [[0, 'desc']]

@@ -5,9 +5,13 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 @section css{
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/validator.css")" />
     <style>
         .form-control[disabled], .form-control[readonly] {
             color: #000 !important;
+        }
+        div#validation_summary dd{
+            color: #e80c4d !important;
         }
     </style>
 }
@@ -28,12 +32,11 @@
         <div class="col-md-12">
             @{ Html.EnableClientValidation(false); }
             @using (Html.BeginForm("AC_FleteProductoServicio", "Flete", FormMethod.Post, new { id = "frm_productoServicio", @class = "form-horizontal", autocomplete = "off" }))
-    {
+            {
+                @Html.HiddenFor(model => model.Id_servicio);
+                @Html.HiddenFor(model => model.Id_documentoCobrar)
                 @Html.HiddenFor(model => model.Id_detalleDoctoCobrar);
                 @Html.HiddenFor(model => model.Id_unidadProducto)
-                @Html.HiddenFor(model => model.Id_documentoCobrar)
-                @Html.HiddenFor(model => model.Id_redireccionar)
-                @Html.HiddenFor(model => model.TipoServicio)
                 @Html.AntiForgeryToken()
 
                 <div class="panel panel-default">
@@ -150,10 +153,7 @@
                     </div>
                     <div class="panel-footer">
                         <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                        @if (Model.TipoServicio == 1 || Model.TipoServicio == 2)
-                        {
-                            <a id="regresar" href="@Url.Action("Transacciones", "Compra", new { IDCompra = Model.Id_redireccionar })" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
-                        }
+                        <a id="regresar" href="@Url.Action("AC_FleteTransacciones", "Flete", new { IDFlete = Model.Id_servicio })" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                     </div>
                 </div>
             }

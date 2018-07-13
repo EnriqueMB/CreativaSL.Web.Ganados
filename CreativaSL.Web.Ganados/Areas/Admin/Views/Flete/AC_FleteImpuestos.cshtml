@@ -28,115 +28,120 @@
         <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
             <h3></h3>
         </div>
-        <div class="col-md-12">
-            @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("AC_FleteImpuestos", "Flete", FormMethod.Post, new { id = "frm_AC_FleteImpuesto", @class = "form-horizontal", autocomplete = "off" }))
-            {
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-                <div id="validation_summary_AC_FleteImpuesto" class="field_error "></div>
-                @Html.HiddenFor(model => model.IDFlete);
-                @Html.HiddenFor(model => model.IDFleteImpuesto);
 
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Impuesto del flete</strong></h3>
+    <div class="col-md-12">
+        @{ Html.EnableClientValidation(false); }
+        @using (Html.BeginForm("A_Cobro", "Flete", FormMethod.Post, new { id = "frm_AC_Cobro", @class = "form-horizontal", autocomplete = "off" }))
+        {
+            @Html.HiddenFor(model => model.IDFlete)
+            @Html.HiddenFor(model => model.Id_documentoCobrarDetalleImpuesto)
+            @Html.HiddenFor(model => model.Id_detalleDoctoCobrar)
+            @Html.AntiForgeryToken()
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Impuestos</strong></h3>
+                    <ul class="panel-controls"></ul>
+                </div>
+                <div class="panel-body">
+                    @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
+                    <div id="validation_summary_AC_Cobro" class="field_error "></div><br />
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-6 controlError">
+                                <label class="col-md-2 control-label">Precio del flete</label>
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.precioFlete, "{0:f2}", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 controlError">
+                                <label class="col-md-2 control-label">Impuestos retenidos</label>
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.TotalImpuestoRetenido, "{0:f2}", new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 controlError">
+                                <label class="col-md-2 control-label">Impuestos trasladados</label>
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.TotalImpuestoTrasladado, "{0:f2}", new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <label class="col-md-2 control-label">Total</label>
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.TotalFlete, "{0:f2}", new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <ul class="panel-controls"> </ul>
-
-                    <div class="panel-body">
-                        <div class="form-group">
-                            <div class="col-md-6 controlError">
-                                <label class="col-md-3 control-label">Tipo de impuesto:</label>
-                                <div class="controls">
-                                    <div class="col-md-9 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.DropDownListFor(model => model.TipoImpuesto.Clave, new SelectList(Model.ListaTipoImpuesto, "Clave", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- START DEFAULT DATATABLE -->
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"></h3>
+                                    <ul class="panel-controls">
+                                        <li><a id="btnAddImpuesto" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo impuesto</a></li>
+                                        <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                        <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                    </ul>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-md-12">
+                                        <h3></h3>
+                                        <div class="table-responsive">
+                                            <table id="tblImpuesto" class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tipo de impuesto</th>
+                                                        <th>Impuesto</th>
+                                                        <th>Tipo de factor</th>
+                                                        <th>Base</th>
+                                                        <th>Tasa o cuota</th>
+                                                        <th>Importe</th>
+                                                        <th>Acción</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.TipoImpuesto.Clave)
                                     </div>
                                 </div>
-                            </div>
+                                <div class="panel-footer">
 
-                            <div class="col-md-6 controlError">
-                                <label class="col-md-3 control-label">Base:</label>
-                                <div class="controls">
-                                    <div class="col-md-9 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.Base, "{0:f2}", new { @class = "form-control" })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.Base)
-                                    </div>
                                 </div>
                             </div>
+                            <!-- END DEFAULT DATATABLE -->
                         </div>
-                        <div class="form-group">
-                            <div class="col-md-6 controlError">
-                                <label class="col-md-3 control-label">Impuesto</label>
-                                <div class="controls">
-                                    <div class="col-md-9 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.DropDownListFor(model => model.Impuesto.Clave, new SelectList(Model.ListaImpuesto, "Clave", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.Impuesto.Clave)
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 controlError">
-                                <label class="col-md-3 control-label">Tipo de factor</label>
-                                <div class="controls">
-                                    <div class="col-md-9 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.DropDownListFor(model => model.TipoFactor.Clave, new SelectList(Model.ListaTipoFactor, "Clave", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.TipoFactor.Clave)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-6 controlError">
-                                <label class="col-md-3 control-label">Tasa o cuota</label>
-                                <div class="controls">
-                                    <div class="col-md-9 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.TasaCuota, "{0:f2}", new { @class = "form-control" })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.TasaCuota)
-                                        <span class="help-block">Ejemplo: 16% = 0.16 ó 0.160000</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 controlError">
-                                <label class="col-md-3 control-label">Importe:</label>
-                                <div class="controls">
-                                    <div class="col-md-9 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.Importe, "{0:f2}", new { @class = "form-control", @readonly = "readonly" })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.Importe)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                    <div class="panel-footer">
-                        <a href="@Url.Action("AC_Flete", "Flete",  new { IDFlete = Model.IDFlete, opcion = 1 })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                        <button type="submit" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
                     </div>
                 </div>
-            }
-        </div>      
+                <div class="panel-footer">
+                    <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                    <a id="regresar" href="@Url.Action("AC_FleteTransacciones", "Flete", new { IDFlete = Model.IDFlete })" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                </div>
+            </div>
+        }
     </div>
+
+
     <script>
         var message = '@message';
         var typemessage = '@typemessage';

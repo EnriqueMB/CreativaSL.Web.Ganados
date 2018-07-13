@@ -244,6 +244,29 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return Content(FleteImpuesto.RespuestaAjax.Mensaje, "application/json");
         }
         #endregion
+        #region DatatableDetallesDocumentoPorCobrarFlete
+        [HttpPost]
+        public ContentResult DatatableDetallesDocumentoPorCobrarFlete(string Id_flete, string Id_documentoCobrar)
+        {
+            try
+            {
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                Flete.Conexion = Conexion;
+                Flete.id_flete = Id_flete;
+                Flete.Id_documentoPorCobrar = Id_documentoCobrar;
+                Flete.RespuestaAjax.Mensaje = FleteDatos.DatatableDetallesDocumentoPorCobrarFlete(Flete);
+
+                return Content(Flete.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Flete.RespuestaAjax.Mensaje = ex.Message;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
         [HttpPost]
         public ActionResult DatatableGanadoEnFlete(string Id_flete, string Id_eventoFlete)
         {
@@ -674,56 +697,166 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
-        #region Vista Producto/Servicio
+
+        #region Vista AC_FleteTransacciones
         [HttpGet]
-        public ActionResult AC_FleteProductoServicio(string IdCobro, string IdFlete)
+        public ActionResult AC_FleteTransacciones(string IDFlete)
         {
             try
             {
-                DocumentosPorCobrarDetalleModels DocumentoPorCobrarPago = new DocumentosPorCobrarDetalleModels();
-                _DocumentoXCobrar_Datos DocCobrarDatos = new _DocumentoXCobrar_Datos();
+                Token.SaveToken();
+                _Flete_Datos FleteDatos = new _Flete_Datos();
 
-                string Id_documentoPorCobrar = IdCobro;
-                string Id_flete = IdFlete;
-
-                //0 = nuevo, 36 = editar, pero ambos son válidos
-                if((Id_documentoPorCobrar.Length == 0 || Id_documentoPorCobrar.Length == 36) && (Id_flete.Length == 36))
+                string Id_flete = string.IsNullOrEmpty(IDFlete) ? string.Empty : IDFlete;
+                
+                if (Id_flete.Length == 36)
                 {
-                    Token.SaveToken();
-                    DocumentoPorCobrarPago.Id_documentoCobrar = Id_documentoPorCobrar;
-                    DocumentoPorCobrarPago.Conexion = Conexion;
+                    TransaccionesFleteModels TransaccionesFlete = new TransaccionesFleteModels();
+                    TransaccionesFlete.Conexion = Conexion;
+                    TransaccionesFlete.Id_flete = Id_flete;
+                    TransaccionesFlete.RespuestaAjax = new RespuestaAjax();
+                    TransaccionesFlete = FleteDatos.GetTransacciones(TransaccionesFlete);
+                    if (TransaccionesFlete.RespuestaAjax.Success)
+                    {
+                        return View(TransaccionesFlete);
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "No se puede cargar la vista, error: " + TransaccionesFlete.RespuestaAjax.Mensaje;
+                        return View("Index");
+                    }
                 }
                 else
                 {
-                    //no son validos, enviamos error
                     TempData["typemessage"] = "2";
-                    TempData["message"] = "No se puede cargar la vista, verifique sus datos.";
+                    TempData["message"] = "Verifique sus datos.";
                     return View("Index");
                 }
-                
-                DocumentoPorCobrarPago.ListaTipoClasificacionCobro = DocCobrarDatos.GetListadoTipoClasificacion(DocumentoPorCobrarPago);
-                DocumentoPorCobrarPago.ListaProductosServiciosCFDI = DocCobrarDatos.GetListadoCFDIProductosServiciosCompra(DocumentoPorCobrarPago);
-                CatAlmacenModels almacen = new CatAlmacenModels();
-                almacen.IDAlmacen = "";
-                almacen.Descripcion = "-- Seleccione --";
-                DocumentoPorCobrarPago.ListaAlmacen = new List<CatAlmacenModels>();
-                DocumentoPorCobrarPago.ListaAlmacen.Add(almacen);
-
-                CatProductosAlmacenModels producto = new CatProductosAlmacenModels();
-                producto.IDProductoAlmacen = "";
-                producto.Nombre = "-- Seleccione --";
-                DocumentoPorCobrarPago.ListaProductos = new List<CatProductosAlmacenModels>();
-                DocumentoPorCobrarPago.ListaProductos.Add(producto);
-
-                return View(DocumentoPorCobrarPago);
             }
             catch (Exception ex)
             {
                 TempData["typemessage"] = "2";
-                TempData["message"] = "Verifique sus datos";
+                TempData["message"] = "No se puede cargar la vista, error: " + ex.Message;
                 return View("Index");
             }
         }
+        
+
+
+        #endregion
+
+        #region Vista Producto/Servicio
+        [HttpGet]
+        public ActionResult AC_FleteProductoServicio(string Id_flete, string Id_documentoPorCobrar, string Id_detalleDocumento)
+        {
+            try
+            {
+                DocumentosPorCobrarDetalleModels DocumentoPorCobrarDetalle = new DocumentosPorCobrarDetalleModels();
+                _Flete_Datos FleteDatos = new _Flete_Datos();
+
+
+                //0 = nuevo, 36 = editar, pero ambos son válidos
+                if ((Id_flete.Length == 36) && (Id_documentoPorCobrar.Length == 36) && (Id_detalleDocumento.Length == 0 || Id_detalleDocumento.Length == 36 || string.IsNullOrEmpty(Id_detalleDocumento)))
+                {
+                    Token.SaveToken();
+                    DocumentoPorCobrarDetalle.Id_servicio = Id_flete;
+                    DocumentoPorCobrarDetalle.Id_documentoCobrar = Id_documentoPorCobrar;
+                    DocumentoPorCobrarDetalle.Id_detalleDoctoCobrar = Id_detalleDocumento;
+                    DocumentoPorCobrarDetalle.Conexion = Conexion;
+                    DocumentoPorCobrarDetalle.RespuestaAjax = new RespuestaAjax();
+                    DocumentoPorCobrarDetalle = FleteDatos.GetDetalleDocumentoPorCobrar(DocumentoPorCobrarDetalle);
+                    DocumentoPorCobrarDetalle.ListaTipoClasificacionCobro = FleteDatos.GetListadoTipoClasificacion(DocumentoPorCobrarDetalle);
+                    DocumentoPorCobrarDetalle.ListaProductosServiciosCFDI = FleteDatos.GetListadoCFDIProductosServiciosCompra(DocumentoPorCobrarDetalle);
+
+                    DocumentoPorCobrarDetalle.ListaAlmacen = FleteDatos.GetAlmacenesHabilitados(DocumentoPorCobrarDetalle);
+                    DocumentoPorCobrarDetalle.ListaProductos = FleteDatos.GetProductosAlmacen(DocumentoPorCobrarDetalle);
+
+
+
+                    return View(DocumentoPorCobrarDetalle);
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista, verifique sus datos.";
+                    return View("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos, error: " + ex.Message;
+                return View("Index");
+            }
+        }
+        [HttpPost]
+        public ActionResult AC_FleteProductoServicio(DocumentosPorCobrarDetalleModels DocumentoPorCobrarDetalle)
+        {
+            try
+            {
+                _Flete_Datos FleteDatos = new _Flete_Datos();
+                DocumentoPorCobrarDetalle.Conexion = Conexion;
+                DocumentoPorCobrarDetalle.Usuario = User.Identity.Name;
+                DocumentoPorCobrarDetalle.RespuestaAjax = new RespuestaAjax();
+                DocumentoPorCobrarDetalle = FleteDatos.AC_ProductoServicio_Compra(DocumentoPorCobrarDetalle);
+
+                if (DocumentoPorCobrarDetalle.RespuestaAjax.Success)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = DocumentoPorCobrarDetalle.RespuestaAjax.Mensaje;
+                    return RedirectToAction("AC_FleteTransacciones", "Flete", new { IDFlete = DocumentoPorCobrarDetalle.Id_servicio });
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = DocumentoPorCobrarDetalle.RespuestaAjax.Mensaje;
+                    return RedirectToAction("AC_FleteProductoServicio", "Flete", new { Id_flete = DocumentoPorCobrarDetalle.Id_servicio,  Id_documentoPorCobrar = DocumentoPorCobrarDetalle.Id_documentoCobrar, Id_detalleDocumento = DocumentoPorCobrarDetalle.Id_detalleDoctoCobrar } );
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos, error: " + ex.Message;
+                return RedirectToAction("Index", "Flete");
+            }
+        }
+        [HttpPost]
+        public ActionResult Del_ProductoServicio(DocumentosPorCobrarDetalleModels documento)
+        {
+            try
+            {
+                _Flete_Datos FleteDatos = new _Flete_Datos();
+                documento.Conexion = Conexion;
+                documento.Usuario = User.Identity.Name;
+                documento.RespuestaAjax = new RespuestaAjax();
+                documento = FleteDatos.DEL_ProductoServicioCompra(documento);
+
+                if (documento.RespuestaAjax.Success)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = documento.RespuestaAjax.Mensaje;
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = documento.RespuestaAjax.Mensaje;
+                }
+
+                return Content(documento.RespuestaAjax.ToJSON(), "application/json");
+            }
+            catch (Exception ex)
+            {
+                documento.RespuestaAjax = new RespuestaAjax();
+                documento.RespuestaAjax.Success = false;
+
+                TempData["typemessage"] = "2";
+                TempData["message"] = ex.Message;
+
+                return Content(documento.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
         #endregion
 
         /********************************************************************/
@@ -1146,6 +1279,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
+        
         #region Recepción destino
         public ActionResult AC_RecepcionDestino(FleteModels Flete)
         {

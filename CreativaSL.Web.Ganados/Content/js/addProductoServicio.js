@@ -120,16 +120,18 @@
             },
             ignore: "",
             rules: {
+                Id_conceptoDocumento: { min: 1 },
                 Cantidad: { required: true, min: 0.000001 },
                 PrecioUnitario: { required: true, min: 0.000001 },
                 Id_tipoClasificacionCobro: { min: 0.01 },
                 Id_productoServicio: {required:true}
             },
             messages: {
-                Cantidad: { required: "Ingrese una cantidad", min: "Ingrese una cantidad" },
-                PrecioUnitario: { required: "Ingrese un precio unitario", min: "Ingrese un precio unitario" },
-                Id_tipoClasificacionCobro: { min: "Seleccione una descripción" },
-                Id_productoServicio: { required: "Seleccione una clave o servicio" }
+                Id_conceptoDocumento: { min: "Por favor, seleccione un tipo de descripción." },
+                Cantidad: { required: "Por favor, ingrese una cantidad", min: "Por favor, ingrese una cantidad" },
+                PrecioUnitario: { required: "Por favor, ingrese un precio unitario.", min: "Por favor, ingrese un precio unitario." },
+                Id_tipoClasificacionCobro: { min: "Por favor, seleccione una descripción." },
+                Id_productoServicio: { required: "Por favor, seleccione una clave o servicio." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

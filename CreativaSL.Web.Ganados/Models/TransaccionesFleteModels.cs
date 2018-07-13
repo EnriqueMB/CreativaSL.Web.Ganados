@@ -14,6 +14,7 @@ namespace CreativaSL.Web.Ganados.Models
         public string Vehiculo { get; set; }
         public string PlacaVehiculo { get; set; }
         public DocumentosPorCobrarModels DocumentosPorCobrar { get; set; }
-
+        public string Conexion { get; set; }
+        public RespuestaAjax RespuestaAjax { get; set; }
     }
 }
