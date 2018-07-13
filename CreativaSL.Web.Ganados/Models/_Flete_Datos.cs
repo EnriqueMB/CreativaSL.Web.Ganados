@@ -239,7 +239,79 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
+        #region Vista Impuesto
+        public FleteImpuestoModels Get_AC_FleteImpuestos(FleteImpuestoModels FleteImpuesto)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     FleteImpuesto.IDFlete,
+                     FleteImpuesto.Id_detalleDoctoCobrar
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(FleteImpuesto.Conexion, "spCSLDB_FleteImpuesto_get_FleteImpuesto", parametros);
 
+                while (dr.Read())
+                {
+                    FleteImpuesto.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                    if (FleteImpuesto.RespuestaAjax.Success)
+                    {
+                        FleteImpuesto.PrecioProducto = !dr.IsDBNull(dr.GetOrdinal("precioUnitario")) ? dr.GetDecimal(dr.GetOrdinal("precioUnitario")) : 0;
+                        FleteImpuesto.TotalImpuestoRetencion = !dr.IsDBNull(dr.GetOrdinal("impuestos_retenidos")) ? dr.GetDecimal(dr.GetOrdinal("impuestos_retenidos")) : 0;
+                        FleteImpuesto.TotalImpuestoTrasladado = !dr.IsDBNull(dr.GetOrdinal("impuestos_trasladados")) ? dr.GetDecimal(dr.GetOrdinal("impuestos_trasladados")) : 0;
+                        FleteImpuesto.TotalImpuestos = !dr.IsDBNull(dr.GetOrdinal("impuestos")) ? dr.GetDecimal(dr.GetOrdinal("impuestos")) : 0;
+                        FleteImpuesto.SubTotal = !dr.IsDBNull(dr.GetOrdinal("subtotal")) ? dr.GetDecimal(dr.GetOrdinal("subtotal")) : 0;
+                        FleteImpuesto.Total = !dr.IsDBNull(dr.GetOrdinal("total")) ? dr.GetDecimal(dr.GetOrdinal("total")) : 0;
+                    }
+                    else
+                    {
+                        FleteImpuesto.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    }
+                }
+                dr.Close();
+                return FleteImpuesto;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public FleteImpuestoModels Flete_ac_ImpuestoProductoServicio(FleteImpuestoModels FleteImpuesto)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    FleteImpuesto.IDFlete,
+                    FleteImpuesto.IDFleteImpuesto,//@id_documentoCobrarDetalleImpuesto char(36)
+                    FleteImpuesto.Id_detalleDoctoCobrar,//,@id_detalleDoctoCobrar char(36)
+                    FleteImpuesto.TipoImpuesto.Clave,//,@id_tipoImpuesto smallint
+                    FleteImpuesto.Impuesto.Clave,//,@id_impuesto smallint
+                    FleteImpuesto.TipoFactor.Clave,//,@id_tipoFactor smallint
+                    FleteImpuesto.Base,//,@base decimal(18,3)
+                    FleteImpuesto.TasaCuota,//,@tasaCuota decimal(18,6)
+                    FleteImpuesto.Importe,//,@importe money
+                    FleteImpuesto.Usuario//,@id_usuario char(36)
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(FleteImpuesto.Conexion, "spCSLDB_Flete_ac_ImpuestoProductoServicio", parametros);
+                while (dr.Read())
+                {
+                    FleteImpuesto.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    FleteImpuesto.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                dr.Close();
+                return FleteImpuesto;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        #endregion
         #region Tipos deduccion
         public List<CatTipoClasificacionModels> GetTiposDeduccion(EventoFleteModels EventoFlete)
         {
@@ -337,7 +409,7 @@ namespace CreativaSL.Web.Ganados.Models
             return EventoFlete;
         }
         #endregion
-
+       
 
         #region Get
         #region Get AC_Flete

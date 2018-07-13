@@ -1,7 +1,6 @@
 ﻿@model CreativaSL.Web.Ganados.Models.FleteImpuestoModels
-
 @{
-    ViewBag.Title = "AC_FleteImpuestos";
+    ViewBag.Title = "AC_FleteImpuesto_ProductoServicio";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -30,12 +29,13 @@
         </div>
         <div class="col-md-12">
             @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("AC_FleteImpuestos", "Flete", FormMethod.Post, new { id = "frm_AC_FleteImpuesto", @class = "form-horizontal", autocomplete = "off" }))
+            @using (Html.BeginForm("AC_FleteImpuesto_ProductoServicio", "Flete", FormMethod.Post, new { id = "frm_AC_FleteImpuesto", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
                 <div id="validation_summary_AC_FleteImpuesto" class="field_error "></div>
                 @Html.HiddenFor(model => model.IDFlete);
+                @Html.HiddenFor(model => model.Id_detalleDoctoCobrar);
                 @Html.HiddenFor(model => model.IDFleteImpuesto);
 
                 <div class="panel panel-default">
@@ -130,8 +130,9 @@
 
                     </div>
                     <div class="panel-footer">
-                        <a href="@Url.Action("AC_Flete", "Flete",  new { IDFlete = Model.IDFlete, opcion = 1 })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                        <button type="submit" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
+                        @*<%: Url.Action("GetByList", "Listing", new { name = "John", contact = "calgary, vancouver" }) %>*@
+                        <a href="@Url.Action("AC_FleteImpuestoProductoServicio", "Flete",  new { @Id_1=Model.IDFlete, @Id_2=Model.Id_detalleDoctoCobrar })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                        <button type="submit" class="btn btn-primary pull-right">Guardar<span class="fa fa-floppy-o fa-right"></span></button>
                     </div>
                 </div>
             }
@@ -151,12 +152,12 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/fleteImpuesto.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/fleteImpuesto_ProductoServicio.js")"></script>
 
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
-            FleteImpuesto.init();
+            FleteImpuesto_ProductoServicio.init();
         });
     </script>
 }

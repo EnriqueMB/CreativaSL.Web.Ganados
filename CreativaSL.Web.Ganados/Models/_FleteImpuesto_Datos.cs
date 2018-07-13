@@ -9,6 +9,27 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class _FleteImpuesto_Datos
     {
+        public string GetJsonTableFleteImpuestoXIDDocumentoDetalle(FleteImpuestoModels FleteImpuesto)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    FleteImpuesto.IDFlete,
+                    FleteImpuesto.Id_detalleDoctoCobrar
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(FleteImpuesto.Conexion, "spCSLDB_FleteImpuesto_get_FleteImpuestoXIDDocumentoDetalle", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         public string GetJsonTableFleteImpuestoXIDFlete(FleteImpuestoModels FleteImpuesto)
         {
             try

@@ -110,6 +110,10 @@
                     var Id_detalleDoctoCobrar = $(this).data("id");
                     window.location.href = '/Admin/Flete/EditProductoServicio?&Id_detalleDoctoCobrar=' + Id_detalleDoctoCobrar + '&Id_redireccionar=' + IDCompra + '&TipoServicio=' + TipoServicio;
                 });
+                $(".impuestos").on("click", function () {
+                    var Id_detalleDoctoCobrar = $(this).data("id");
+                    window.location.href = '/Admin/Flete/AC_FleteImpuestoProductoServicio?&Id_1=' + Id_flete + '&Id_2=' + Id_detalleDoctoCobrar;
+                });
                 $(".deleteDetalle").on("click", function () {
                     var url = $(this).attr('data-hrefa');
                     var id_detalle = $(this).attr('data-id');

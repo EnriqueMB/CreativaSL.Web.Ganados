@@ -1,4 +1,4 @@
-﻿var FleteImpuesto = function () {
+﻿var FleteImpuesto_ProductoServicio = function () {
     "use strict"
                    
     /*INICIA IMPUESTO*/
@@ -26,46 +26,20 @@
             },
             ignore: "",
             rules: {
-                "TipoImpuesto.Clave": {
-                    min: 1
-                },
-                Base: {
-                    required: true,
-                    BaseSAT: true
-                },
-                "Impuesto.Clave": {
-                    min: 1,
-                },
-                "TipoFactor.Clave": {
-                    min: 1,
-                },
-                "TasaCuota": {
-                    required: true,
-                    TasaCuotaSAT: true
-                },
-                Importe: {
-                    required: true
-                }
+                "TipoImpuesto.Clave": { min: 1 },
+                Base: { required: true,  BaseSAT: true },
+                "Impuesto.Clave": { min: 1 },
+                "TipoFactor.Clave": { min: 1 },
+                "TasaCuota": { required: true, TasaCuotaSAT: true },
+                Importe: {  required: true   }
             },
             messages: {
-                "TipoImpuesto.Clave": {
-                    min: "Seleccione un tipo de impuesto."
-                },
-                Base: {
-                    required: "Ingrese una cantidad base."
-                },
-                "Impuesto.Clave": {
-                    min: "Seleccione un Impuesto."
-                },
-                "TipoFactor.Clave": {
-                    min: "Seleccione un Tipo o Factor."
-                },
-                "TasaCuota": {
-                    required: "Ingrese una tasa o cuota."
-                },
-                Importe: {
-                    required: "Ingrese un importe."
-                }
+                "TipoImpuesto.Clave": { min: "Por favor, seleccione un tipo de impuesto." },
+                Base: { required: "Por favor, escriba una cantidad base." },
+                "Impuesto.Clave": { min: "Por favor, seleccione un impuesto." },
+                "TipoFactor.Clave": { min: "Por favor, seleccione un Tipo o Factor." },
+                "TasaCuota": { required: "Por favor, escriba una tasa o cuota." },
+                Importe: { required: "Por favor, escriba un importe." }
             },
             invalidHandler: function (event, validator) {
                 successHandler1.hide();
