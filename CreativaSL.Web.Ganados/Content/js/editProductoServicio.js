@@ -6,11 +6,11 @@
     function divInventario() {
         if (Inventario.localeCompare("True") == 0)
         {
-            $('#esconder').show(1000);
+            $('#DivInventario').show(1000);
         }
         else
         {
-            $('#esconder').hide(0);
+            $('#DivInventario').hide(0);
         }
         
         

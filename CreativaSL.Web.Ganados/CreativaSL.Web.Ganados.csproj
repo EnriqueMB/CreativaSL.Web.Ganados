@@ -463,6 +463,7 @@
     <Content Include="Content\js\compraRecepcion.js" />
     <Content Include="Content\js\compraTransacciones.js" />
     <Content Include="Content\js\Configuracion.js" />
+    <Content Include="Content\js\fleteCobro.js" />
     <Content Include="Content\js\fleteEvento.js" />
     <Content Include="Content\js\fleteImpuesto.js" />
     <Content Include="Content\js\fleteImpuestoProductoServicio.js" />
@@ -1361,6 +1362,8 @@
     <Content Include="Areas\Admin\Views\Flete\AC_FleteProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\AC_FleteImpuestoProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\AC_FleteImpuesto_ProductoServicio.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\Edit_FleteProductoServicio.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\AC_FleteCobro.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

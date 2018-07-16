@@ -76,21 +76,22 @@
                 $(".deleteImpuesto").on("click", function () {
                     var url = $(this).attr('data-hrefa');
                     var IDFleteImpuesto = $(this).attr('data-id');
-                    var box = $("#mb-remove-row");
+                    var box = $("#mb-delete-impuesto");
                     box.addClass("open");
                     box.find(".mb-control-yes").on("click", function () {
+                        console.log("ajax");
                         box.removeClass("open");
                         $.ajax({
                             url: url,
-                            data: { IDFleteImpuesto: IDFleteImpuesto, IDFlete: IDFlete },
+                            data: { IDFleteImpuesto: IDFleteImpuesto, IDFlete: Id1 },
                             type: 'POST',
                             dataType: 'json',
                             success: function (result) {
                                 box.find(".mb-control-yes").prop('onclick', null).off('click');
-                                window.location.href = '/Admin/Flete/AC_Flete?IDFlete=' + IDFlete + '&opcion=1';
+                                location.reload();
                             },
                             error: function (result) {
-                                window.location.href = '/Admin/Flete/AC_Flete?IDFlete=' + IDFlete + '&opcion=1';
+                                location.reload();
                             }
                         });
                     });
