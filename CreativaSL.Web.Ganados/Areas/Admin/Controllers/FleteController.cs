@@ -7,6 +7,9 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Reporting.WebForms;
+using System.Web.UI.WebControls;
+using System.IO;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -949,7 +952,52 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View("Index");
             }
         }
+        #region Del comprobante COBRO
+        public ActionResult DelComprobante(DocumentosPorCobrarDetallePagosModels DocumentoPorCobrarPago)
+        {
+            try
+            {
 
+                if (Token.IsTokenValid())
+                {
+                    DocumentoPorCobrarPago.Usuario = User.Identity.Name;
+                    DocumentoPorCobrarPago.Conexion = Conexion;
+                    DocumentoPorCobrarPago.RespuestaAjax = new RespuestaAjax();
+                    _Flete_Datos FleteDatos = new _Flete_Datos();
+                    DocumentoPorCobrarPago = FleteDatos.DEL_ComprobanteCobro(DocumentoPorCobrarPago);
+
+                    if (DocumentoPorCobrarPago.RespuestaAjax.Success)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = DocumentoPorCobrarPago.RespuestaAjax.Mensaje;
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = DocumentoPorCobrarPago.RespuestaAjax.Mensaje;
+                    }
+
+                    return Content(DocumentoPorCobrarPago.RespuestaAjax.ToJSON(), "application/json");
+                }
+                else
+                {
+                    DocumentoPorCobrarPago.RespuestaAjax = new RespuestaAjax();
+                    DocumentoPorCobrarPago.RespuestaAjax.Success = false;
+
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos";
+
+                    return Content(DocumentoPorCobrarPago.RespuestaAjax.ToJSON(), "application/json");
+                }
+            }
+            catch (Exception ex)
+            {
+                DocumentoPorCobrarPago.RespuestaAjax = new RespuestaAjax();
+                DocumentoPorCobrarPago.RespuestaAjax.Mensaje = "Verifique sus datos, error: " + ex.Message;
+                return Content(DocumentoPorCobrarPago.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
         #endregion
 
         #region Vista impuesto productoServicio
@@ -1909,7 +1957,209 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Json("");
             }
         }
-        
+
         #endregion
+
+        #region Carta Porte
+        public ActionResult CartaPorte(string id)
+        {
+            try
+            {
+
+                Reporte_Datos R = new Reporte_Datos();
+                CartaPorteModels reporte = new CartaPorteModels();
+                _Flete_Datos reporteDatos = new _Flete_Datos();
+                FleteModels Flete = new FleteModels();
+                Flete.id_flete = id;
+                Flete.Conexion = Conexion;
+                reporte = reporteDatos.GetCartaPorte(Flete);
+                reporte.ListaDetallesCartaPorte = reporteDatos.GetCartaPorteDetalles(Flete);
+                LocalReport Rtp = new LocalReport();
+                Rtp.EnableExternalImages = true;
+                Rtp.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Formatos"), "CartaPorte.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Flete");
+                }
+                ReportParameter[] Parametros = new ReportParameter[22];
+                Parametros[0] = new ReportParameter("numFolio", reporte.Folio);
+                Parametros[1] = new ReportParameter("nombreCliente", reporte.NombreCliente);
+                Parametros[2] = new ReportParameter("RFC", reporte.RFCCliente);
+                Parametros[3] = new ReportParameter("nombreConductor", reporte.NombreConductor);
+                Parametros[4] = new ReportParameter("nombreVehiculo", reporte.Vehiculo);
+                Parametros[5] = new ReportParameter("placasVehiculo", reporte.PlacaVehiculo);
+                Parametros[6] = new ReportParameter("LogoRFC", reporte.LogoRFC);
+                Parametros[7] = new ReportParameter("kilometros", reporte.Kilometros);
+                Parametros[8] = new ReportParameter("nombreRemitente", reporte.Remitente);
+                Parametros[9] = new ReportParameter("nombreDestinatario", reporte.Destinatario);
+                Parametros[10] = new ReportParameter("domicilioRemitente", reporte.DomicilioRemitente);
+                Parametros[11] = new ReportParameter("domicilioDestinatario", reporte.DomicilioDestinatario);
+                Parametros[12] = new ReportParameter("recogeraEn", reporte.LugarOrigen);
+                Parametros[13] = new ReportParameter("recibiraEn", reporte.LugarDestino);
+                Parametros[14] = new ReportParameter("fechaEntrega", reporte.FechaEntrega.ToString());
+                Parametros[15] = new ReportParameter("pesoAproximado", reporte.PesoAproximado.ToString());
+                Parametros[16] = new ReportParameter("importeConLetras", reporte.ImporteConLetra);
+                Parametros[17] = new ReportParameter("total", reporte.Total.ToString());
+                Parametros[18] = new ReportParameter("condicionPago", reporte.CondicionPago);
+                Parametros[19] = new ReportParameter("FormasPago", reporte.FormaPago);
+                Parametros[20] = new ReportParameter("metodoPago", reporte.MetodoPago);
+                Parametros[21] = new ReportParameter("subtotal", reporte.Total.ToString());
+
+                Rtp.SetParameters(Parametros);
+                Rtp.DataSources.Add(new ReportDataSource("DetallesCartaPorte", reporte.ListaDetallesCartaPorte));
+                string reportType = "PDF";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + id + "</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + ex.Message;
+                return View("Index");
+            }
+        }
+        #endregion
+
+        #region Carta Porte
+        public ActionResult ReporteGanadoPropio(string id)
+        {
+            try
+            {
+
+                Reporte_Datos R = new Reporte_Datos();
+                List<ReporteGanadoModels> Listareporte = new List<ReporteGanadoModels>();
+                _Flete_Datos reporteDatos = new _Flete_Datos();
+                FleteModels Flete = new FleteModels();
+                Flete.id_flete = id;
+                Flete.Conexion = Conexion;
+                Listareporte = reporteDatos.GetReporteGanadoDetalles(Flete);
+                LocalReport Rtp = new LocalReport();
+                Rtp.EnableExternalImages = true;
+                Rtp.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Formatos"), "ListadoGanado.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Flete");
+                }
+                //ReportParameter[] Parametros = new ReportParameter[22];
+                //Parametros[0] = new ReportParameter("numFolio", reporte.Folio);
+                //Parametros[1] = new ReportParameter("nombreCliente", reporte.NombreCliente);
+                //Parametros[2] = new ReportParameter("RFC", reporte.RFCCliente);
+                //Parametros[3] = new ReportParameter("nombreConductor", reporte.NombreConductor);
+                //Parametros[4] = new ReportParameter("nombreVehiculo", reporte.Vehiculo);
+                //Parametros[5] = new ReportParameter("placasVehiculo", reporte.PlacaVehiculo);
+                //Parametros[6] = new ReportParameter("LogoRFC", reporte.LogoRFC);
+                //Parametros[7] = new ReportParameter("kilometros", reporte.Kilometros);
+                //Parametros[8] = new ReportParameter("nombreRemitente", reporte.Remitente);
+                //Parametros[9] = new ReportParameter("nombreDestinatario", reporte.Destinatario);
+                //Parametros[10] = new ReportParameter("domicilioRemitente", reporte.DomicilioRemitente);
+                //Parametros[11] = new ReportParameter("domicilioDestinatario", reporte.DomicilioDestinatario);
+                //Parametros[12] = new ReportParameter("recogeraEn", reporte.LugarOrigen);
+                //Parametros[13] = new ReportParameter("recibiraEn", reporte.LugarDestino);
+                //Parametros[14] = new ReportParameter("fechaEntrega", reporte.FechaEntrega.ToString());
+                //Parametros[15] = new ReportParameter("pesoAproximado", reporte.PesoAproximado.ToString());
+                //Parametros[16] = new ReportParameter("importeConLetras", reporte.ImporteConLetra);
+                //Parametros[17] = new ReportParameter("total", reporte.Total.ToString());
+                //Parametros[18] = new ReportParameter("condicionPago", reporte.CondicionPago);
+                //Parametros[19] = new ReportParameter("FormasPago", reporte.FormaPago);
+                //Parametros[20] = new ReportParameter("metodoPago", reporte.MetodoPago);
+                //Parametros[21] = new ReportParameter("subtotal", reporte.Total.ToString());
+
+                //Rtp.SetParameters(Parametros);
+                Rtp.DataSources.Add(new ReportDataSource("ListaGanado", Listareporte));
+                Rtp.Refresh();
+                string reportType = "EXCEL";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + id + "</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + ex.Message;
+                return View("Index");
+            }
+        }
+        #endregion
+
+        #region Vista Documentos
+        [HttpGet]
+        public ActionResult AC_FleteDocumentos(string id_1)
+        {
+            try
+            {
+                Token.SaveToken();
+
+                string Id_flete = string.IsNullOrEmpty(id_1) ? string.Empty : id_1;
+                //0 = nuevo, 36 = edit, si es diferente es un id no valido
+                if (Id_flete.Length == 36)
+                {
+                    ViewBag.Id_flete = id_1;
+                    return View();
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return View("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + ex.Message;
+                return View("Index");
+            }
+        }
+        #endregion
+
     }
 }
