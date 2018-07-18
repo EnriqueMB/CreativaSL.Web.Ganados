@@ -1777,6 +1777,7 @@
     <EmbeddedResource Include="Reports\prueba.rdlc">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ReporteDiasLaborados.rdlc" />
     <EmbeddedResource Include="Reports\ReporteEntradas.rdlc" />
     <EmbeddedResource Include="Reports\ReporteFletes.rdlc" />
     <EmbeddedResource Include="Reports\ReporteGanadosMuertoCompra.rdlc" />
@@ -1787,6 +1788,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ReporteProveedorVendioMasG.rdlc" />
     <EmbeddedResource Include="Reports\ReporteGanadosMuertoVenta.rdlc" />
+    <EmbeddedResource Include="Reports\ReporteSaldos.rdlc" />
     <EmbeddedResource Include="Reports\RptCorral.rdlc" />
     <EmbeddedResource Include="Reports\RptSalidas.rdlc" />
     <EmbeddedResource Include="Reports\RptSocios.rdlc" />

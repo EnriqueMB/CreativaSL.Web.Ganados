@@ -299,8 +299,8 @@ namespace CreativaSL.Web.Ganados.Models
                             Datos.DiasPeriodo = Dr.GetInt32(Dr.GetOrdinal("DiasPeriodo"));
                             Datos.PeriodoFechas = "DEL " + Datos.FechaInicio.ToShortDateString() + " AL " + Datos.FechaFin.ToShortDateString();
                         }
-                        if (Datos.Opcion == 1) //Quitar el if solo esta puesto para hacer dinamino Una parte
-                        {
+                       // if (Datos.Opcion == 1) //Quitar el if solo esta puesto para hacer dinamino Una parte
+                        //{
                             DataTableReader Dr2 = Ds.Tables[1].CreateDataReader();
                             List<NominaResumenDetalleModels> Lista = new List<NominaResumenDetalleModels>();
                             NominaResumenDetalleModels Item;
@@ -308,21 +308,21 @@ namespace CreativaSL.Web.Ganados.Models
                             {
                                 Item = new NominaResumenDetalleModels();
                                 Item.NombreEmpleado = Dr2.GetString(Dr2.GetOrdinal("Empleado"));
-                                Item.DiasLaborados = Dr2.GetInt32(Dr2.GetOrdinal("DiasLaborados"));
-                                Item.DiasDescanso = Dr2.GetInt32(Dr2.GetOrdinal("DiasDescanso"));
-                                Item.Faltas = Dr2.GetInt32(Dr2.GetOrdinal("Faltas"));
-                                Item.DiasDescuentoFaltas = Dr2.GetInt32(Dr2.GetOrdinal("DiasDescuentoFaltas"));
-                                Item.Retardos = Dr2.GetInt32(Dr2.GetOrdinal("Retardos"));
-                                Item.FaltasRetardo = Dr2.GetInt32(Dr2.GetOrdinal("FaltasRetardos"));
-                                Item.DiasDescuentoRetardos = Dr2.GetInt32(Dr2.GetOrdinal("DiasDescuentoRetardos"));
-                                Item.DiasDescuentoTotales = Dr2.GetInt32(Dr2.GetOrdinal("DiasDescuentoTotales"));
-                                Item.DiasFestivos = Dr2.GetInt32(Dr2.GetOrdinal("DiasFestivos"));
-                                Item.DiasDomingo = Dr2.GetInt32(Dr2.GetOrdinal("DiasDomingo"));
-                                Item.DiasVacaciones = Dr2.GetInt32(Dr2.GetOrdinal("DiasVacaciones"));
+                                Item.DiasLaborados = Dr2.GetInt16(Dr2.GetOrdinal("DiasLaborados"));
+                                Item.DiasDescanso = Dr2.GetInt16(Dr2.GetOrdinal("DiasDescanso"));
+                                Item.Faltas = Dr2.GetInt16(Dr2.GetOrdinal("Faltas"));
+                                Item.DiasDescuentoFaltas = Dr2.GetInt16(Dr2.GetOrdinal("DiasDescuentoFaltas"));
+                                Item.Retardos = Dr2.GetInt16(Dr2.GetOrdinal("Retardos"));
+                                Item.FaltasRetardo = Dr2.GetInt16(Dr2.GetOrdinal("FaltasRetardos"));
+                                Item.DiasDescuentoRetardos = Dr2.GetInt16(Dr2.GetOrdinal("DiasDescuentoRetardos"));
+                                Item.DiasDescuentoTotales = Dr2.GetInt16(Dr2.GetOrdinal("DiasDescuentoTotales"));
+                                Item.DiasFestivos = Dr2.GetInt16(Dr2.GetOrdinal("DiasFestivos"));
+                                Item.DiasDomingo = Dr2.GetInt16(Dr2.GetOrdinal("DiasDomingo"));
+                                Item.DiasVacaciones = Dr2.GetInt16(Dr2.GetOrdinal("DiasVacaciones"));
                                 Lista.Add(Item);
                             }
                             Datos.ListaResumenDetalleNomina = Lista;
-                        }
+                        
                         Datos.Completado = true;
                     }
                 }
@@ -454,6 +454,18 @@ namespace CreativaSL.Web.Ganados.Models
                 return Datos;
             }
             catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+        public List<NominaResumenDetalleModels> ObtenerDiasLaborados(NominaModels datos)
+        {
+            try
+            {
+                return new List<NominaResumenDetalleModels>();
+            }
+            catch (Exception)
             {
 
                 throw;
