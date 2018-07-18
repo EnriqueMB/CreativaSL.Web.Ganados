@@ -35,6 +35,8 @@
     vertical-align: middle !important;
 }
 /* PREDEFINED CLASSES */
+
+
 td.center .dropdown-menu {
   text-align: left;
 }
@@ -3273,6 +3275,22 @@ blockquote.pull-right {
   float: left;
   width: 100%;
 }
+
+.dataTables_wrapper .dt-buttons button {
+    background-color: #17191e;
+    color: #fff;
+    padding: 1% 2%;
+    border: 1px solid transparent;
+    margin-bottom: 2%;
+    font-size: 14px;
+    transition: ease all 0.2s;
+}
+.dataTables_wrapper .dt-buttons button:hover{
+    background-color: transparent;
+    border: 1px solid #17191e;
+    color: #17191e;
+}
+
 .dataTables_length {
   width: 50%;
   float: left;

@@ -39,6 +39,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.FechaInicio = !dr.IsDBNull(dr.GetOrdinal("FechaInicio")) ? dr.GetDateTime(dr.GetOrdinal("FechaInicio")) : DateTime.Today;
                     Item.FechaFin = !dr.IsDBNull(dr.GetOrdinal("FechaFin")) ? dr.GetDateTime(dr.GetOrdinal("FechaFin")) : DateTime.Today;
                     Item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
+                    Item.Estatus = !dr.IsDBNull(dr.GetOrdinal("EstatusNomina")) ? dr.GetBoolean(dr.GetOrdinal("EstatusNomina")) : false;
                     Lista.Add(Item);
                 }
                 dr.Close();
@@ -430,6 +431,32 @@ namespace CreativaSL.Web.Ganados.Models
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public NominaModels GenerarNomina(NominaModels Datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Datos.IDNomina, Datos.Usuario
+                };
+                object Resultado = SqlHelper.ExecuteScalar(Datos.Conexion, "spCSLDB_Nomina_set_GenerarNomina", parametros);
+                if (Resultado != null)
+                {
+                    if(!string.IsNullOrEmpty(Resultado.ToString()))
+                    {
+                      Datos.Completado = true;
+                        Datos.IDNomina = Resultado.ToString();
+                    }
+                }
+                return Datos;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
             }
         }
     }

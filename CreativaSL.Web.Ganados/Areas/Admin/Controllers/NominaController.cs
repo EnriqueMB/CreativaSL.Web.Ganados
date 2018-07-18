@@ -88,7 +88,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-               
+
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return View(Nomina);
@@ -251,7 +251,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         TempData["typemessage"] = "1";
                         TempData["message"] = "Los datos se guardarón correctamente.";
                         Token.ResetToken();
-                       // return View(Nomina);
+                        // return View(Nomina);
                         return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
                     }
                     else
@@ -289,7 +289,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte soporte técnico.";
                 return View(Nomina);
-               // return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
+                // return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
             }
         }
         // GET: Admin/EntregaCombustible/Delete/5
@@ -300,7 +300,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/EntregaCombustible/Delete/5
         [HttpPost]
-        public ActionResult DeleteConcepto(string id,string id2,bool id3,FormCollection collection)
+        public ActionResult DeleteConcepto(string id, string id2, bool id3, FormCollection collection)
         {
             try
             {
@@ -328,7 +328,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
             }
         }
-
 
         //GET: Admin/Nomina/RptDiasLaborados/3/3
         [HttpGet]
@@ -382,7 +381,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         "--header-font-size \"10\" " +
                         "--footer-right \"Pag: [page] de [toPage]\"");
 
-                var report = new ActionAsPdf("RptDiasLaborados", new { id , id2} )
+                var report = new ActionAsPdf("RptDiasLaborados", new { id, id2 })
                 {
                     //FileName = "Invoice.pdf",
                     PageOrientation = Rotativa.Options.Orientation.Landscape,
@@ -391,7 +390,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     //pageMargins = new Rotativa.Options.Margins()
                 };
                 return report;
-             
+
             }
             catch (Exception)
             {
@@ -462,7 +461,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Nomina.Conexion = Conexion;
 
                 Nomina.ListaNomina = NominaDatos.ObtenerListaNominaEmpleado(Nomina);
-               
+
                 return Content(Nomina.ListaNomina.ToJSON(), "application/json");
                 //return Json(Nomina.ListaNomina, JsonRequestBehavior.AllowGet);
             }
@@ -470,6 +469,40 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 ex.Message.ToString();
                 return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        // GET:// Admin/Nomina/GenerarNomina/3/3
+        [HttpGet]
+        public ActionResult GenerarNomina(string id, string id2)
+        {
+            try
+            {
+                NominaModels Nomina = new NominaModels();
+                Nomina.IDNomina = id;
+                Nomina.IDSucursal = id2;
+                Nomina.Conexion = Conexion;
+                Nomina.Usuario = User.Identity.Name;
+                Nomina_Datos DatosNomina = new Nomina_Datos();
+                Nomina = DatosNomina.GenerarNomina(Nomina);
+                if (Nomina.Completado == true)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "Los datos se generarón correctamente.";
+                    return RedirectToAction("RptSaldos", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal});
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Ocurrio un error al intentar generar la nomina. Intente más tarde.";
+                    return RedirectToAction("Index", "Nomina");
+                }
+               
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }
