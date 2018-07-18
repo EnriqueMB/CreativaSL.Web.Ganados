@@ -463,8 +463,11 @@
     <Content Include="Content\js\compraRecepcion.js" />
     <Content Include="Content\js\compraTransacciones.js" />
     <Content Include="Content\js\Configuracion.js" />
+    <Content Include="Content\js\fleteCobro.js" />
     <Content Include="Content\js\fleteEvento.js" />
     <Content Include="Content\js\fleteImpuesto.js" />
+    <Content Include="Content\js\fleteImpuestoProductoServicio.js" />
+    <Content Include="Content\js\fleteImpuesto_ProductoServicio.js" />
     <Content Include="Content\js\fleteTransacciones.js" />
     <Content Include="Content\js\Socios.js" />
     <Content Include="Content\js\conciliacionAlmacen.js" />
@@ -1262,7 +1265,6 @@
     <Content Include="Areas\Admin\Views\CompraAlmacen\Detail.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\AddProduct.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Flete\ModalEvento.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\DatosContacto.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\NuevoDatosContacto.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorAlmacen\DatosBancarios.cshtml" />
@@ -1355,6 +1357,13 @@
     <Content Include="Content\css\fonts\ocampoIcons.ttf" />
     <Content Include="Content\css\fonts\ocampoIcons.woff" />
     <Content Include="Areas\Admin\Views\Flete\AC_FleteImpuestos.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\AC_FleteEvento.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\AC_FleteTransacciones.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\AC_FleteProductoServicio.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\AC_FleteImpuestoProductoServicio.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\AC_FleteImpuesto_ProductoServicio.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\Edit_FleteProductoServicio.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\AC_FleteCobro.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

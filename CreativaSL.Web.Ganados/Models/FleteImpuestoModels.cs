@@ -38,6 +38,12 @@ namespace CreativaSL.Web.Ganados.Models
         
         
         public string IDFlete { get; set; }
+        public decimal PrecioProducto { get; set; }
+        public decimal TotalImpuestoRetencion { get; set; }
+        public decimal TotalImpuestoTrasladado { get; set; }
+        public decimal TotalImpuestos { get; set; }
+        public decimal SubTotal { get; set; }
+        public decimal Total { get; set; }
 
         #region Datos De Control
         public RespuestaAjax RespuestaAjax { get; set; }

@@ -1,0 +1,160 @@
+﻿@model CreativaSL.Web.Ganados.Models.DocumentosPorCobrarDetalleModels
+
+@{
+    ViewBag.Title = "Edit_FleteProductoServicio";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section css{
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/validator.css")" />
+    <style>
+        .form-control[disabled], .form-control[readonly] {
+            color: #000 !important;
+        }
+
+        div#validation_summary dd {
+            color: #e80c4d !important;
+        }
+    </style>
+}
+
+@section featured
+{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("AC_FleteProductoServicio", "Flete", FormMethod.Post, new { id = "frm_productoServicio", @class = "form-horizontal", autocomplete = "off" }))
+            {
+                @Html.HiddenFor(model => model.Id_servicio)
+                @Html.HiddenFor(model => model.Id_documentoCobrar)
+                @Html.HiddenFor(model => model.Id_detalleDoctoCobrar)
+                @Html.HiddenFor(model => model.Inventario)
+                @Html.AntiForgeryToken()
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Editar Producto/Servicio</strong></h3>
+                        <ul class="panel-controls"></ul>
+                    </div>
+                    <div class="panel-body">
+                        @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
+                        <div id="validation_summary" class="field_error "></div><br />
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-6 controlError">
+                                    <label class="col-md-3 control-label">Descripcion</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.DescripcionDocumento, new { @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 controlError">
+                                    <label class="col-md-3 control-label">Clave del producto o servicio</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.DropDownListFor(model => model.Id_productoServicio, new SelectList(Model.ListaProductosServiciosCFDI, "Clave", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="DivInventario" class="inventario form-group">
+                                <div class="form-group">
+                                    <div class="col-md-6 controlError">
+                                        <label class="col-md-3 control-label">Almacen</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.NombreAlmacen, new { @class = "form-control", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 controlError">
+                                        <label class="col-md-3 control-label">Producto</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.NombreProducto, new { @class = "form-control", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-6 controlError">
+                                    <label class="col-md-3 control-label">Cantidad</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Cantidad, "{0:f2}", new { @class = "form-control", type = "number", min = "0", disabled = "disabled" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 controlError">
+                                    <label class="col-md-3 control-label">Precio unitario</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.PrecioUnitario, "{0:f2}", new { @class = "form-control", type = "number", min = "0", disabled = "disabled" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-6 controlError">
+                                    <label class="col-md-3 control-label">Subtotal</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Subtotal, "{0:f2}", new { @class = "form-control", disabled = "disabled" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                        <a id="regresar" href="@Url.Action("AC_FleteTransacciones", "Flete", new { IDFlete = Model.Id_servicio })" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+    <script>
+        var message     = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+
+@section script
+{
+    <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+    <script src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/editProductoServicio.js")"></script>
+    <script>
+
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            EditProductoServicio.init();
+        });
+    </script>
+}
