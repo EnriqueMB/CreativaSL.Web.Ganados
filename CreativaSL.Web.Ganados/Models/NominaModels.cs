@@ -44,6 +44,7 @@ namespace CreativaSL.Web.Ganados.Models
             _PeriodoFechas = string.Empty;
             _ListaNominaDetalle = new List<NominaDetalleModels>();
             _DatosEmpresa = new DatosEmpresaViewModels();
+            _Estatus = false;
         }
 
         private DatosEmpresaViewModels _DatosEmpresa;
@@ -275,6 +276,14 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _ListaNominaDetalle; }
             set { _ListaNominaDetalle = value; }
+        }
+
+        private bool _Estatus;
+
+        public bool Estatus
+        {
+            get { return _Estatus; }
+            set { _Estatus = value; }
         }
 
 

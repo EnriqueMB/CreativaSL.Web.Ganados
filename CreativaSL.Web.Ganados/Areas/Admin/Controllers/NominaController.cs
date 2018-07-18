@@ -9,7 +9,10 @@ using CreativaSL.Web.Ganados.Models;
 using System.Data;
 using CreativaSL.Web.Ganados.ViewModels;
 using Rotativa;
+using System.Web.UI.WebControls;
 using CreativaSL.Web.Ganados.App_Start;
+using Microsoft.Reporting.WebForms;
+using System.IO;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -88,7 +91,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-               
+
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return View(Nomina);
@@ -251,7 +254,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         TempData["typemessage"] = "1";
                         TempData["message"] = "Los datos se guardarón correctamente.";
                         Token.ResetToken();
-                       // return View(Nomina);
+                        // return View(Nomina);
                         return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
                     }
                     else
@@ -289,7 +292,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte soporte técnico.";
                 return View(Nomina);
-               // return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
+                // return RedirectToAction("DetalleEmpleado", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal, id3 = Nomina.IDEmpleado });
             }
         }
         // GET: Admin/EntregaCombustible/Delete/5
@@ -300,7 +303,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/EntregaCombustible/Delete/5
         [HttpPost]
-        public ActionResult DeleteConcepto(string id,string id2,bool id3,FormCollection collection)
+        public ActionResult DeleteConcepto(string id, string id2, bool id3, FormCollection collection)
         {
             try
             {
@@ -329,27 +332,97 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-
         //GET: Admin/Nomina/RptDiasLaborados/3/3
         [HttpGet]
         public ActionResult RptDiasLaborados(string id, string id2)
         {
+                //NominaModels Nomina = new NominaModels();
+                //Nomina_Datos NominaD = new Nomina_Datos();
+                //Nomina.Conexion = Conexion;
+                //Nomina.IDNomina = id;
+                //Nomina.IDSucursal = id2;
+                //Nomina = NominaD.ObtenerDatosEmpresaTipo1(Nomina);
+                //NominaD.ObtenerReporteNominaDetalle(Nomina);
+                //return View(Nomina);
+
+
+
+            ///###########################################
             try
             {
+                
                 NominaModels Nomina = new NominaModels();
                 Nomina_Datos NominaD = new Nomina_Datos();
+                List<NominaResumenDetalleModels> lista = new List<NominaResumenDetalleModels>();
                 Nomina.Conexion = Conexion;
                 Nomina.IDNomina = id;
                 Nomina.IDSucursal = id2;
                 Nomina = NominaD.ObtenerDatosEmpresaTipo1(Nomina);
                 NominaD.ObtenerReporteNominaDetalle(Nomina);
-                return View(Nomina);
-            }
-            catch (Exception)
-            {
+                lista = Nomina.ListaResumenDetalleNomina;
+                //reporte.DatosEmpresa = R.ObtenerDatosEmpresaTipo1(Conexion);
+                //reporte.listaRptProveedorMerma = reporteDatos.obtenerListaProveedoresMermaAlta(reporte);
+                LocalReport Rtp = new LocalReport();
+                Rtp.EnableExternalImages = true;
+                Rtp.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Reports"), "ReporteDiasLaborados.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Nomina");
+                }
+                ReportParameter[] Parametros = new ReportParameter[11];
+                Parametros[0] = new ReportParameter("Empresa", Nomina.DatosEmpresa.RazonFiscal);
+                Parametros[1] = new ReportParameter("Direccion", Nomina.DatosEmpresa.DireccionFiscal);
+                Parametros[2] = new ReportParameter("RFC", Nomina.DatosEmpresa.RFC);
+                Parametros[3] = new ReportParameter("TelefonoCasa", Nomina.DatosEmpresa.NumTelefonico1);
+                Parametros[4] = new ReportParameter("TelefonoMovil", Nomina.DatosEmpresa.NumTelefonico2);
+                Parametros[5] = new ReportParameter("NombreSucursal", Nomina.DatosEmpresa.NombreSucursal);
+                Parametros[6] = new ReportParameter("UrlLogo", Nomina.DatosEmpresa.LogoEmpresa);
+                Parametros[7] = new ReportParameter("FechaInicio", Nomina.FechaInicio.ToShortTimeString());
+                Parametros[8] = new ReportParameter("FechaFin", Nomina.FechaFin.ToShortTimeString());
+                Parametros[9] = new ReportParameter("DiasPeriodo", Nomina.DiasPeriodo.ToString());
+                Parametros[10] = new ReportParameter("PeriodoFechas", Nomina.PeriodoFechas.ToString());
+                Rtp.SetParameters(Parametros);
+                Rtp.DataSources.Add(new ReportDataSource("NominaDetalle", lista));
+                string reportType = "PDF";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
 
-                throw;
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + id + "</OutputFormat>" +
+                //"  <PageWidth>8.5in</PageWidth>" +
+                //"  <PageHeight>11in</PageHeight>" +
+                //"  <MarginTop>0.5in</MarginTop>" +
+                //"  <MarginLeft>1in</MarginLeft>" +
+                //"  <MarginRight>1in</MarginRight>" +
+                //"  <MarginBottom>0.5in</MarginBottom>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
             }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Nomina");
+            }
+            //############################################
         }
 
         [HttpGet]
@@ -382,7 +455,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         "--header-font-size \"10\" " +
                         "--footer-right \"Pag: [page] de [toPage]\"");
 
-                var report = new ActionAsPdf("RptDiasLaborados", new { id , id2} )
+                var report = new ActionAsPdf("RptDiasLaborados", new { id, id2 })
                 {
                     //FileName = "Invoice.pdf",
                     PageOrientation = Rotativa.Options.Orientation.Landscape,
@@ -391,7 +464,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     //pageMargins = new Rotativa.Options.Margins()
                 };
                 return report;
-             
+
             }
             catch (Exception)
             {
@@ -462,7 +535,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Nomina.Conexion = Conexion;
 
                 Nomina.ListaNomina = NominaDatos.ObtenerListaNominaEmpleado(Nomina);
-               
+
                 return Content(Nomina.ListaNomina.ToJSON(), "application/json");
                 //return Json(Nomina.ListaNomina, JsonRequestBehavior.AllowGet);
             }
@@ -470,6 +543,40 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 ex.Message.ToString();
                 return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        // GET:// Admin/Nomina/GenerarNomina/3/3
+        [HttpGet]
+        public ActionResult GenerarNomina(string id, string id2)
+        {
+            try
+            {
+                NominaModels Nomina = new NominaModels();
+                Nomina.IDNomina = id;
+                Nomina.IDSucursal = id2;
+                Nomina.Conexion = Conexion;
+                Nomina.Usuario = User.Identity.Name;
+                Nomina_Datos DatosNomina = new Nomina_Datos();
+                Nomina = DatosNomina.GenerarNomina(Nomina);
+                if (Nomina.Completado == true)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "Los datos se generarón correctamente.";
+                    return RedirectToAction("RptSaldos", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal});
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Ocurrio un error al intentar generar la nomina. Intente más tarde.";
+                    return RedirectToAction("Index", "Nomina");
+                }
+               
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }

@@ -39,6 +39,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.FechaInicio = !dr.IsDBNull(dr.GetOrdinal("FechaInicio")) ? dr.GetDateTime(dr.GetOrdinal("FechaInicio")) : DateTime.Today;
                     Item.FechaFin = !dr.IsDBNull(dr.GetOrdinal("FechaFin")) ? dr.GetDateTime(dr.GetOrdinal("FechaFin")) : DateTime.Today;
                     Item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
+                    Item.Estatus = !dr.IsDBNull(dr.GetOrdinal("EstatusNomina")) ? dr.GetBoolean(dr.GetOrdinal("EstatusNomina")) : false;
                     Lista.Add(Item);
                 }
                 dr.Close();
@@ -298,8 +299,8 @@ namespace CreativaSL.Web.Ganados.Models
                             Datos.DiasPeriodo = Dr.GetInt32(Dr.GetOrdinal("DiasPeriodo"));
                             Datos.PeriodoFechas = "DEL " + Datos.FechaInicio.ToShortDateString() + " AL " + Datos.FechaFin.ToShortDateString();
                         }
-                        if (Datos.Opcion == 1) //Quitar el if solo esta puesto para hacer dinamino Una parte
-                        {
+                       // if (Datos.Opcion == 1) //Quitar el if solo esta puesto para hacer dinamino Una parte
+                        //{
                             DataTableReader Dr2 = Ds.Tables[1].CreateDataReader();
                             List<NominaResumenDetalleModels> Lista = new List<NominaResumenDetalleModels>();
                             NominaResumenDetalleModels Item;
@@ -307,21 +308,21 @@ namespace CreativaSL.Web.Ganados.Models
                             {
                                 Item = new NominaResumenDetalleModels();
                                 Item.NombreEmpleado = Dr2.GetString(Dr2.GetOrdinal("Empleado"));
-                                Item.DiasLaborados = Dr2.GetInt32(Dr2.GetOrdinal("DiasLaborados"));
-                                Item.DiasDescanso = Dr2.GetInt32(Dr2.GetOrdinal("DiasDescanso"));
-                                Item.Faltas = Dr2.GetInt32(Dr2.GetOrdinal("Faltas"));
-                                Item.DiasDescuentoFaltas = Dr2.GetInt32(Dr2.GetOrdinal("DiasDescuentoFaltas"));
-                                Item.Retardos = Dr2.GetInt32(Dr2.GetOrdinal("Retardos"));
-                                Item.FaltasRetardo = Dr2.GetInt32(Dr2.GetOrdinal("FaltasRetardos"));
-                                Item.DiasDescuentoRetardos = Dr2.GetInt32(Dr2.GetOrdinal("DiasDescuentoRetardos"));
-                                Item.DiasDescuentoTotales = Dr2.GetInt32(Dr2.GetOrdinal("DiasDescuentoTotales"));
-                                Item.DiasFestivos = Dr2.GetInt32(Dr2.GetOrdinal("DiasFestivos"));
-                                Item.DiasDomingo = Dr2.GetInt32(Dr2.GetOrdinal("DiasDomingo"));
-                                Item.DiasVacaciones = Dr2.GetInt32(Dr2.GetOrdinal("DiasVacaciones"));
+                                Item.DiasLaborados = Dr2.GetInt16(Dr2.GetOrdinal("DiasLaborados"));
+                                Item.DiasDescanso = Dr2.GetInt16(Dr2.GetOrdinal("DiasDescanso"));
+                                Item.Faltas = Dr2.GetInt16(Dr2.GetOrdinal("Faltas"));
+                                Item.DiasDescuentoFaltas = Dr2.GetInt16(Dr2.GetOrdinal("DiasDescuentoFaltas"));
+                                Item.Retardos = Dr2.GetInt16(Dr2.GetOrdinal("Retardos"));
+                                Item.FaltasRetardo = Dr2.GetInt16(Dr2.GetOrdinal("FaltasRetardos"));
+                                Item.DiasDescuentoRetardos = Dr2.GetInt16(Dr2.GetOrdinal("DiasDescuentoRetardos"));
+                                Item.DiasDescuentoTotales = Dr2.GetInt16(Dr2.GetOrdinal("DiasDescuentoTotales"));
+                                Item.DiasFestivos = Dr2.GetInt16(Dr2.GetOrdinal("DiasFestivos"));
+                                Item.DiasDomingo = Dr2.GetInt16(Dr2.GetOrdinal("DiasDomingo"));
+                                Item.DiasVacaciones = Dr2.GetInt16(Dr2.GetOrdinal("DiasVacaciones"));
                                 Lista.Add(Item);
                             }
                             Datos.ListaResumenDetalleNomina = Lista;
-                        }
+                        
                         Datos.Completado = true;
                     }
                 }
@@ -430,6 +431,44 @@ namespace CreativaSL.Web.Ganados.Models
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public NominaModels GenerarNomina(NominaModels Datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Datos.IDNomina, Datos.Usuario
+                };
+                object Resultado = SqlHelper.ExecuteScalar(Datos.Conexion, "spCSLDB_Nomina_set_GenerarNomina", parametros);
+                if (Resultado != null)
+                {
+                    if(!string.IsNullOrEmpty(Resultado.ToString()))
+                    {
+                      Datos.Completado = true;
+                        Datos.IDNomina = Resultado.ToString();
+                    }
+                }
+                return Datos;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+        public List<NominaResumenDetalleModels> ObtenerDiasLaborados(NominaModels datos)
+        {
+            try
+            {
+                return new List<NominaResumenDetalleModels>();
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }
