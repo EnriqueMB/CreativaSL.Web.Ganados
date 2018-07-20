@@ -14,6 +14,9 @@
     var ListaLugarDestino = $("#Flete_Trayecto_id_lugarDestino");
     var Validation_summary = $("#validation_summary");
     var opcionFlete = $("#CobrarFlete").val();
+    var FechaTentativaFlete = $("#Flete_FechaTentativaEntrega");
+    var FormaPago = $("#Flete_FormaPago_Clave");
+    var MetodoPago = $("#Flete_MetodoPago_Clave");
                 
     /*INICIA FLETE*/
     var InitMap = function () {
@@ -91,7 +94,10 @@
                 "Flete.kmInicialVehiculo": { required: true, min: 0 },
                 "Flete.precioFlete": { required: true, min: 0 },
                 "Flete.Trayecto.id_lugarOrigen": { required: true },
-                "Flete.Trayecto.id_lugarDestino": { required: true }
+                "Flete.Trayecto.id_lugarDestino": { required: true },
+                "Flete.MetodoPago.Clave": { required: true },
+                "Flete.FormaPago.Clave": {min: 1},
+                "Flete.FechaTentativaEntrega": {required: true }
             },
             messages: {
                 Id_sucursal: { required: "Por favor, seleccione una sucursal." },
@@ -108,7 +114,10 @@
                 "Flete.kmInicialVehiculo": { required: "Por favor, ingrese el kilometraje inicial, puede ser 0.", min: "El kilometraje inicial debe ser mayor o igual a 0." },
                 "Flete.precioFlete": { required: "Por favor, ingrese un precio del flete, puede ser 0.", min: "El precio del flete debe ser mayor o igual a 0." },
                 "Flete.Trayecto.id_lugarOrigen": { required: "Por favor, seleccione un lugar de origen." },
-                "Flete.Trayecto.id_lugarDestino": { required: "Por favor, seleccione un lugar de destino." }
+                "Flete.Trayecto.id_lugarDestino": { required: "Por favor, seleccione un lugar de destino." },
+                "Flete.MetodoPago.Clave": { required: "Por favor, seleccioe un método de pago." },
+                "Flete.FormaPago.Clave": { min: "Por favor, seleccione una forma de pago." },
+                "Flete.FechaTentativaEntrega": { required: "Por favor, seleccione una fecha tentativa del flete." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -189,6 +198,31 @@
             }
         });
     }
+    function GetEmpresas(opcion_flete) {
+        $.ajax({
+            url: '/Admin/Venta/GetEmpresas/',
+            type: "POST",
+            dataType: 'json',
+            data: { opcion: opcion_flete },
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "1");
+            },
+            success: function (result) {
+
+                $("#Flete_Id_empresa option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#Flete_Id_empresa").append('<option value="' + result[i].IDEmpresa + '">' + result[i].RazonFiscal + '</option>');
+                }
+                $('#Flete_Id_empresa.select').selectpicker('refresh');
+
+                var Id_empresa = $("#Flete_Id_empresa").val();
+                GetChoferesXIDEmpresa(Id_empresa);
+                GetVehiculosXIDEmpresa(Id_empresa);
+                GetLugaresXIDEmpresa(Id_empresa);
+
+            }
+        });
+    }
     function GetChoferesXIDEmpresa(Id_empresa) {
         $.ajax({
             url: '/Admin/Venta/GetChoferesXIDEmpresa/',
@@ -256,6 +290,7 @@
                 Mensaje("Ocurrió un error al cargar el combo", "1");
             },
             success: function (result) {
+                
                 $("#Flete_Trayecto_id_lugarOrigen option").remove();
                 for (var i = 0; i < result.length; i++) {
                     $("#Flete_Trayecto_id_lugarOrigen").append('<option value="' + result[i].id_lugar + '" data-latitud="' + result[i].latitud + '" data-longitud="' + result[i].longitud + '">' + result[i].descripcion + '</option>');
@@ -264,14 +299,18 @@
         });
     }
     function ToggleDivFlete(opcion) {
+        GetEmpresas(opcion);
+
         if (opcion == 1 || opcion == 2) {
             $('#divFlete').show(1000);
             AgregarValidaciones();
         }
+        
         else if(opcion == 0 || opcion == 3 || opcion === ''){
             $('#divFlete').hide(1000);
             QuitarValidaciones();
         }
+
     }
     function AgregarValidaciones() {
         FechaEmbarque.rules("add", { required: true });
@@ -285,6 +324,10 @@
         PrecioFlete.rules("add", { required: true, min: 0 });
         ListaLugarOrigen.rules("add", { required: true });
         ListaLugarDestino.rules("add", { required: true });
+        FechaTentativaFlete.rules("add", { required: true });
+        FormaPago.rules("add", { min: 1 });
+        MetodoPago.rules("add", { required: true });
+
     }
     function QuitarValidaciones() {
         FechaEmbarque.rules("remove", "required");
@@ -298,6 +341,9 @@
         PrecioFlete.rules("remove", "required min");
         ListaLugarOrigen.rules("remove", "required");
         ListaLugarDestino.rules("remove", "required");
+        FechaTentativaFlete.rules("remove", "required");
+        FormaPago.rules("remove", "min");
+        MetodoPago.rules("remove", "required" );
 
         FechaEmbarque.closest(".controlError").removeClass("has-success has-error");
         HoraEmbarque.closest(".controlError").removeClass("has-success has-error");
@@ -310,6 +356,9 @@
         PrecioFlete.closest(".controlError").removeClass("has-success has-error");
         ListaLugarOrigen.closest(".controlError").removeClass("has-success has-error");
         ListaLugarDestino.closest(".controlError").removeClass("has-success has-error");
+        FechaTentativaFlete.closest(".controlError").removeClass("has-success has-error");
+        FormaPago.closest(".controlError").removeClass("has-success has-error");
+        MetodoPago.closest(".controlError").removeClass("has-success has-error");
 
         Validation_summary.find("dd[for='Flete_Id_empresa']").addClass('help-block valid').text('');
         Validation_summary.find("dd[for='Flete_id_chofer']").addClass('help-block valid').text('');
@@ -321,6 +370,9 @@
         Validation_summary.find("dd[for='Flete_FechaSalida']").addClass('help-block valid').text('');
         Validation_summary.find("dd[for='Flete_kmInicialVehiculo']").addClass('help-block valid').text('');
         Validation_summary.find("dd[for='Flete_precioFlete']").addClass('help-block valid').text('');
+        Validation_summary.find("dd[for='Flete_FechaTentativaEntrega']").addClass('help-block valid').text('');
+        Validation_summary.find("dd[for='Flete.FormaPago.Clave']").addClass('help-block valid').text('');
+        Validation_summary.find("dd[for='Flete.MetodoPago.Clave']").addClass('help-block valid').text('');
     }
 
    

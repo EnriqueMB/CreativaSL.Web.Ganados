@@ -221,14 +221,24 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-12 controlError">
-                                <label class="col-md-1 control-label">Linea fletera</label>
-                                <div class="col-md-11 col-xs-12">
+                            <div class="col-md-6 controlError">
+                                <label class="col-md-2 control-label">Linea fletera</label>
+                                <div class="col-md-10 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                         @Html.DropDownListFor(model => model.Flete.Id_empresa, new SelectList(Model.Flete.ListaEmpresa, "IDEmpresa", "RazonFiscal"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control", @readonly = "readonly" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Flete.Id_empresa)
+                                </div>
+                            </div>
+                            <div class="col-md-6 controlError">
+                                <label class="col-md-2 control-label">Fecha tentativa</label>
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.Flete.FechaTentativaEntrega, "{0:dd/MM/yyyy}", new { autocomplete = "off", @class = "form-control datepicker", @readonly = "readonly" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Flete.FechaTentativaEntrega)
                                 </div>
                             </div>
                         </div>
@@ -258,19 +268,56 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-4 controlError">
-                                <label class="col-md-3 control-label">Kilómetraje Inicial</label>
-                                <div class="col-md-9 col-xs-12">
+                            <div class="col-md-6 controlError">
+                                <label class="col-md-2 control-label">Condición de pago</label>
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.Flete.CondicionPago, new { @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Flete.CondicionPago)
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 controlError">
+                                <label class="col-md-2 control-label">Método de pago:</label>
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.DropDownListFor(model => model.Flete.MetodoPago.Clave, new SelectList(Model.Flete.ListaMetodoPago, "Clave", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Flete.MetodoPago.Clave)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6 controlError">
+                                <label class="col-md-2 control-label">Forma de pago</label>
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.DropDownListFor(model => model.Flete.FormaPago.Clave, new SelectList(Model.Flete.ListaFormaPago, "Clave", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Flete.FormaPago.Clave)
+                                </div>
+                            </div>
+                            <div class="col-md-6 controlError">
+                                <label class="col-md-2 control-label">Kilómetraje Inicial</label>
+                                <div class="col-md-10 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-tachometer"></span></span>
-                                        @Html.TextBoxFor(model => model.Flete.kmInicialVehiculo, new { @class = "form-control", @type="number" })
+                                        @Html.TextBoxFor(model => model.Flete.kmInicialVehiculo, new { @class = "form-control", @type = "number" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Flete.kmInicialVehiculo)
                                 </div>
                             </div>
-                            <div class="col-md-4 controlError">
-                                <label class="col-md-3 control-label">Núm.de fleje</label>@*no es un documento agregarlo a la tabla*@
-                                <div class="col-md-9 col-xs-12">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6 controlError">
+                                <label class="col-md-2 control-label">Núm.de fleje</label>@*no es un documento agregarlo a la tabla*@
+                                <div class="col-md-10 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                         @Html.TextBoxFor(model => model.Flete.NumFleje, new { @class = "form-control" })
@@ -278,11 +325,11 @@
                                     @Html.ValidationMessageFor(model => model.Flete.NumFleje)
                                 </div>
                             </div>
-                            <div class="col-md-4 controlError">
-                                <label class="col-md-3 control-label">Costo del flete</label>
-                                <div class="col-md-9 col-xs-12">
+                            <div class="col-md-6 controlError">
+                                <label class="col-md-2 control-label">Costo del flete</label>
+                                <div class="col-md-10 col-xs-12">
                                     <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <span class="input-group-addon"><span class="fa fa-money"></span></span>
                                         @Html.TextBoxFor(model => model.Flete.precioFlete, "{0:f2}", new { @class = "form-control", placeholder = "Escriba el precio del flete." })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Flete.precioFlete)

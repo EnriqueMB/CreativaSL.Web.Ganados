@@ -1040,6 +1040,7 @@
     <Content Include="Content\js\compraAlmacenLista.js" />
     <Content Include="Content\js\Vehiculo.js" />
     <Content Include="Content\js\venta.js" />
+    <Content Include="Content\js\ventaDocumentos.js" />
     <Content Include="Content\js\ventaEvento.js" />
     <Content Include="Content\js\ventaEventoRecepcion.js" />
     <Content Include="Content\js\ventaFlete.js" />
@@ -1365,6 +1366,7 @@
     <Content Include="Areas\Admin\Views\Flete\Edit_FleteProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\AC_FleteCobro.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\AC_FleteDocumentos.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaDocumentos.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1532,6 +1534,7 @@
     <Compile Include="Models\CuentaBancariasProveedorAlmacenModels.cs" />
     <Compile Include="Models\DataTableParameters.cs" />
     <Compile Include="Models\DataTableResultSet.cs" />
+    <Compile Include="Models\DatosGeneralesGanados.cs" />
     <Compile Include="Models\DocumentoCompraModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
     <Compile Include="Models\DocumentoPorPagarModels.cs" />
