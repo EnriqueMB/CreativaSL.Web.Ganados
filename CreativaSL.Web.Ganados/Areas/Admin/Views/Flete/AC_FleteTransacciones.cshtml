@@ -157,12 +157,16 @@
                                                                     <th>Precio unitario</th>
                                                                     <th>Impuesto</th>
                                                                     <th>Subtotal</th>
+                                                                    <th>Total</th>
                                                                     <th>Acción</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody></tbody>
                                                         </table>
                                                     </div>
+                                                </div>
+                                                <div class="panel-footer">
+                                                    <a id="regresar" href="@Url.Action("Index", "Flete")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                                                 </div>
                                             </div>
                                             <!-- END DEFAULT DATATABLE -->
@@ -283,9 +287,9 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th>Forma de pago</th>
+                                                                    <th>Fecha</th>
                                                                     <th>Monto</th>
                                                                     <th>Observación</th>
-                                                                    <th>Fecha</th>
                                                                     <th>Acción</th>
                                                                 </tr>
                                                             </thead>
@@ -300,6 +304,9 @@
                                     </div>
                                 </div>
 
+                            </div>
+                            <div class="panel-footer">
+                                <a id="regresar" href="@Url.Action("Index", "Flete")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                             </div>
                         </div>
                     }

@@ -1364,6 +1364,7 @@
     <Content Include="Areas\Admin\Views\Flete\AC_FleteImpuesto_ProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\Edit_FleteProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\AC_FleteCobro.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\AC_FleteDocumentos.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1456,6 +1457,8 @@
     <Compile Include="Models\AsistenciaEmpleadoModels.cs" />
     <Compile Include="Models\Auxiliar.cs" />
     <Compile Include="Models\CalendarioModels.cs" />
+    <Compile Include="Models\CartaPorteDetallesModels.cs" />
+    <Compile Include="Models\CartaPorteModels.cs" />
     <Compile Include="Models\CatAlmacenModels.cs" />
     <Compile Include="Models\CatBancoModels.cs" />
     <Compile Include="Models\CatCategoriaPuestoModels.cs" />
@@ -1575,6 +1578,7 @@
     <Compile Include="Models\RecepcionOrigenModels.cs" />
     <Compile Include="Models\RecepcionDestinoModels.cs" />
     <Compile Include="Models\RecepcionOrigenVentaModels.cs" />
+    <Compile Include="Models\ReporteGanadoModels.cs" />
     <Compile Include="Models\Reporte_Datos.cs" />
     <Compile Include="Models\RespuestaAjax.cs" />
     <Compile Include="Models\ResumenGastosAjustesModels.cs" />
@@ -1774,6 +1778,8 @@
     <Folder Include="Areas\Admin\Views\CatBodega\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Formatos\CartaPorte.rdlc" />
+    <EmbeddedResource Include="Formatos\ListadoGanado.rdlc" />
     <EmbeddedResource Include="Reports\prueba.rdlc">
       <SubType>Designer</SubType>
     </EmbeddedResource>

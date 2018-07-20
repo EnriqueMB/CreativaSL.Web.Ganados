@@ -46,7 +46,7 @@
             <div class="row">
                 <div class="col-md-12">
                     @{ Html.EnableClientValidation(false); }
-                    @using (Html.BeginForm("AC_FleteCobro", "Flete", FormMethod.Post, new { id = "form_Comprobante", @class = "form-horizontal", autocomplete = "off" }))
+                    @using (Html.BeginForm("AC_FleteCobro", "Flete", FormMethod.Post, new { id = "form_Comprobante", @class = "form-horizontal", autocomplete = "off", enctype = "multipart/form-data" }))
                     {
                         @Html.AntiForgeryToken()
                         <div class="field_error" id="validation_summary"></div>
@@ -57,11 +57,13 @@
                                 <ul class="panel-controls"></ul>
                             </div>
                             <div class="panel-body">
+                                @Html.HiddenFor(model => model.Id_padre)
+                                @Html.HiddenFor(model => model.Id_documentoPorCobrarDetallePagos)
+                                @Html.HiddenFor(model => model.Id_documentoPorCobrarDetallePagosBancarizado)
                                 @Html.HiddenFor(model => model.ExtensionImagenBase64)
                                 @Html.HiddenFor(model => model.ImagenMostrar)
                                 @Html.HiddenFor(model => model.ImagenBase64)
                                 @Html.HiddenFor(model => model.Bancarizado)
-                                @Html.HiddenFor(model => model.Id_padre)
 
                                 <div class="form-group">
                                     <div class="col-md-6">
@@ -76,7 +78,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="col-md-2 control-label">Proveedor / Cliente</label>
+                                        <label class="col-md-2 control-label">Proveedor</label>
                                         <div class="controls">
                                             <div class="col-md-10 col-xs-12">
                                                 <div class="input-group">
@@ -120,7 +122,7 @@
                                             <div class="col-md-10 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Monto, new { @class = "form-control", type = "number" })
+                                                    @Html.TextBoxFor(model => model.Monto, "{0:f2}",new { @class = "form-control", type = "number" })
                                                 </div>
                                                 <span class="help-block">Monto o cantidad.</span>
                                             </div>
@@ -335,7 +337,7 @@
                                             <div class="col-md-11 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-camera"></span></span>
-                                                    @Html.TextBoxFor(model => model.HttpImagen, new { id = "HttpImagen", name = "HttpImagen[]", @type = "file", @class = "form-control", @data_imgbd = "" })
+                                                    @Html.TextBoxFor(model => model.HttpImagen, new { id = "HttpImagen", name = "HttpImagen", @type = "file", @class = "form-control", @data_imgbd = "" })
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.HttpImagen)
                                                 <span class="help-block">Ingrese por lo menos 1 imagen.</span>
@@ -373,11 +375,8 @@
 
                             </div>
                             <div class="panel-footer">
-                                <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
-                                @if (Model.TipoServicio == 1 || Model.TipoServicio == 2)
-                                {
-                                    <a id="regresar" href="@Url.Action("Transacciones", "Compra", new { IDCompra = Model.Id_compra })" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
-                                }
+                                <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                                <a id="regresar" href="@Url.Action("AC_FleteTransacciones", "Flete", new { IDFlete = Model.Id_padre })" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                             </div>
                         </div>
                     }
