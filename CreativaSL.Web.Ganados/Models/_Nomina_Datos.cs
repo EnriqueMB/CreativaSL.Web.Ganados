@@ -404,7 +404,36 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        #region MetodosAuxReporteSaldos
+        //Metodo auxiliar que retornan una lista, solo para poder usar el objeto de -ObtenerReporteNominaSaldos-
+        //para el reporte de Saldos
+        public List<NominaDetalleModels> AuxListaNominaDetalleSaldos(NominaModels datos)
+        {
+            try
+            {
+                return new List<NominaDetalleModels>();
+            }
+            catch (Exception ex)
+            {
 
+                throw ex;
+            }
+        }
+        //Metodo auxiliar que retornan una lista, solo para poder usar el objeto de -ObtenerReporteNominaSaldos-
+        //para el reporte de Saldos
+        public List<NominaConceptosFijosModels> AuxListaNominaConceltosFojosSaldos(NominaModels datos)
+        {
+            try
+            {
+                return new List<NominaConceptosFijosModels>();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        #endregion
         public NominaModels ObtenerDatosEmpresaTipo1(NominaModels Datos)
         {
             try

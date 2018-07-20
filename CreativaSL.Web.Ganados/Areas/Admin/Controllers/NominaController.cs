@@ -374,7 +374,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     return RedirectToAction("Index", "Nomina");
                 }
-                ReportParameter[] Parametros = new ReportParameter[11];
+                ReportParameter[] Parametros = new ReportParameter[12];
                 Parametros[0] = new ReportParameter("Empresa", Nomina.DatosEmpresa.RazonFiscal);
                 Parametros[1] = new ReportParameter("Direccion", Nomina.DatosEmpresa.DireccionFiscal);
                 Parametros[2] = new ReportParameter("RFC", Nomina.DatosEmpresa.RFC);
@@ -386,6 +386,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Parametros[8] = new ReportParameter("FechaFin", Nomina.FechaFin.ToShortTimeString());
                 Parametros[9] = new ReportParameter("DiasPeriodo", Nomina.DiasPeriodo.ToString());
                 Parametros[10] = new ReportParameter("PeriodoFechas", Nomina.PeriodoFechas.ToString());
+                Parametros[11] = new ReportParameter("ClaveNomina", Nomina.ClaveNomina);
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("NominaDetalle", lista));
                 string reportType = "PDF";
@@ -478,19 +479,83 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                //NominaModels Nomina = new NominaModels();
+                //Nomina_Datos NominaD = new Nomina_Datos();
+                //Nomina.Conexion = Conexion;
+                //Nomina.IDNomina = id;
+                //Nomina.IDSucursal = id2;
+                //Nomina = NominaD.ObtenerDatosEmpresaTipo1(Nomina);
+                //NominaD.ObtenerReporteNominaSaldos(Nomina);
+                //return View(Nomina);
                 NominaModels Nomina = new NominaModels();
                 Nomina_Datos NominaD = new Nomina_Datos();
+                //List<NominaResumenDetalleModels> lista = new List<NominaResumenDetalleModels>();
                 Nomina.Conexion = Conexion;
                 Nomina.IDNomina = id;
                 Nomina.IDSucursal = id2;
                 Nomina = NominaD.ObtenerDatosEmpresaTipo1(Nomina);
                 NominaD.ObtenerReporteNominaSaldos(Nomina);
-                return View(Nomina);
+                //lista = Nomina.ListaResumenDetalleNomina;
+                LocalReport Rtp = new LocalReport();
+                Rtp.EnableExternalImages = true;
+                Rtp.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Reports"), "ReporteSaldos.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Nomina");
+                }
+                ReportParameter[] Parametros = new ReportParameter[10];
+                Parametros[0] = new ReportParameter("Empresa", Nomina.DatosEmpresa.RazonFiscal);
+                Parametros[1] = new ReportParameter("Direccion", Nomina.DatosEmpresa.DireccionFiscal);
+                Parametros[2] = new ReportParameter("RFC", Nomina.DatosEmpresa.RFC);
+                Parametros[3] = new ReportParameter("TelefonoCasa", Nomina.DatosEmpresa.NumTelefonico1);
+                Parametros[4] = new ReportParameter("TelefonoMovil", Nomina.DatosEmpresa.NumTelefonico2);
+                Parametros[5] = new ReportParameter("NombreSucursal", Nomina.DatosEmpresa.NombreSucursal);
+                Parametros[6] = new ReportParameter("UrlLogo", Nomina.DatosEmpresa.LogoEmpresa);
+                Parametros[7] = new ReportParameter("DiasPeriodo", Nomina.DiasPeriodo.ToString());
+                Parametros[8] = new ReportParameter("PeriodoFecha", Nomina.PeriodoFechas.ToString());
+                Parametros[9] = new ReportParameter("ClaveNomina", Nomina.ClaveNomina);
+                Rtp.SetParameters(Parametros);
+                Rtp.DataSources.Add(new ReportDataSource("NominaDetalle", Nomina.ListaNominaDetalle));
+                Rtp.DataSources.Add(new ReportDataSource("NominaConceptos", Nomina.ListaConceptosFijo));
+                string reportType = "PDF";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + id + "</OutputFormat>" +
+                //"  <PageWidth>8.5in</PageWidth>" +
+                //"  <PageHeight>11in</PageHeight>" +
+                //"  <MarginTop>0.5in</MarginTop>" +
+                //"  <MarginLeft>1in</MarginLeft>" +
+                //"  <MarginRight>1in</MarginRight>" +
+                //"  <MarginBottom>0.5in</MarginBottom>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
 
