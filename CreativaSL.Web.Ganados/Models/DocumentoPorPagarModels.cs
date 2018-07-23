@@ -25,7 +25,21 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _listaDocumentoPorPagarDetalle; }
             set { _listaDocumentoPorPagarDetalle = value; }
         }
+        private List<CatTipoProveedorModels> _LisTipoProveedor;
 
+        public List<CatTipoProveedorModels> LisTipoProveedor
+        {
+            get { return _LisTipoProveedor; }
+            set { _LisTipoProveedor = value; }
+        }
+
+        private List<CatProveedorModels> _LisProveedor;
+
+        public List<CatProveedorModels> LisProveedor
+        {
+            get { return _LisProveedor; }
+            set { _LisProveedor = value; }
+        }
 
         private string _IDDocumentoPagar;
 
@@ -33,6 +47,13 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _IDDocumentoPagar; }
             set { _IDDocumentoPagar = value; }
+        }
+        private int _IDTProveedor;
+
+        public int IDTProveedor
+        {
+            get { return _IDTProveedor; }
+            set { _IDTProveedor = value; }
         }
         private int _IDTipoDocumento;
 
@@ -49,6 +70,13 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _IDSucursal; }
             set { _IDSucursal = value; }
         }
+        private string _IDProveedor;
+
+        public string IDProveedor
+        {
+            get { return _IDProveedor; }
+            set { _IDProveedor = value; }
+        }
 
         private string _NombreSucursal;
 
@@ -57,7 +85,13 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _NombreSucursal; }
             set { _NombreSucursal = value; }
         }
+        private List<CatSucursalesModels> _listaSucursal;
 
+        public List<CatSucursalesModels> ListaSucursal
+        {
+            get { return _listaSucursal; }
+            set { _listaSucursal = value; }
+        }
         private string _EstatusNombre;
 
         public string EstatusNombre
@@ -122,7 +156,77 @@ namespace CreativaSL.Web.Ganados.Models
             set { _ListaDocumentos = value; }
         }
 
+        private List<CatTipoConciliacionModels> _ListaConciliacion;
 
+        public List<CatTipoConciliacionModels> ListaConciliacion
+        {
+            get { return _ListaConciliacion; }
+            set { _ListaConciliacion = value; }
+
+        }
+        private List<CatEstatusDocumentoModels> _ListaEstatus;
+
+        public List<CatEstatusDocumentoModels> ListaEstatus
+        {
+            get { return _ListaEstatus; }
+            set { _ListaEstatus = value; }
+
+        }
+        //ready
+        private List<CatTipoDocumentoModels> _ListaCDocumento;
+
+        public List<CatTipoDocumentoModels> ListaCDocumento
+        {
+            get { return _ListaCDocumento; }
+            set { _ListaCDocumento = value; }
+
+        }
+        //[spCSLDB_DocumentoPorPagar_AC]
+        #region DetalleDocumentos
+        private string _id_detalleDoc;
+
+        public string id_detalleDoc
+        {
+            get { return _id_detalleDoc; }
+            set { _id_detalleDoc = value; }
+        }
+        private int _id_tipoConc;
+
+        public int id_tipoConc
+        {
+            get { return _id_tipoConc; }
+            set { _id_tipoConc = value; }
+        }
+        private int _id_concepto;
+
+        public int id_concepto
+        {
+            get { return _id_concepto; }
+            set { _id_concepto = value; }
+        }
+        private decimal _cantidad;
+
+        public decimal cantidad
+        {
+            get { return _cantidad; }
+            set { _cantidad = value; }
+        }
+        private decimal _precio;
+
+        public decimal precio
+        {
+            get { return _precio; }
+            set { _precio = value; }
+        }
+        private decimal _subtotal;
+
+        public decimal subtotal
+        {
+            get { return _subtotal; }
+            set { _subtotal = value; }
+        }
+
+        #endregion
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }
