@@ -153,5 +153,351 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public List<DocumentoPorPagarDetallePagosModels> ObtenerListaDetallePagos(DocumentoPorPagarDetallePagosModels datos)
+        {
+            try
+            {
+                List<DocumentoPorPagarDetallePagosModels> Lista = new List<DocumentoPorPagarDetallePagosModels>();
+                DocumentoPorPagarDetallePagosModels Item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_DocumentoPorPagar_get_DocumentosDetallesPagos", datos.Id_documentoPorPagar);
+                while (dr.Read())
+                {
+                    Item = new DocumentoPorPagarDetallePagosModels();
+                    Item.Id_documentoPorPagarDetallePagos = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorPagarDetallePagos")) ? dr.GetString(dr.GetOrdinal("id_documentoPorPagarDetallePagos")) : string.Empty;
+                    Item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    Item.Monto = !dr.IsDBNull(dr.GetOrdinal("monto")) ? dr.GetDecimal(dr.GetOrdinal("monto")) : 0;
+                    Item.fecha = !dr.IsDBNull(dr.GetOrdinal("fecha")) ? dr.GetDateTime(dr.GetOrdinal("fecha")) : DateTime.Now;
+                    Lista.Add(Item);
+                }
+                return Lista;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public DocumentoPorPagarModels AbcDocumentoXPagar(DocumentoPorPagarModels datos)
+        {
+            try
+            {
+
+                object[] parametros = {
+                            datos.Opcion,
+                            datos.IDDocumentoPagar ?? string.Empty,
+                            datos.IDSucursal ?? string.Empty,
+                            datos.Fecha,
+                            datos.Usuario,
+                            datos.id_concepto,
+                            datos.precio,
+                            datos.IDTProveedor,
+                            datos.IDProveedor
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_DocumentoPorPagar_AC", parametros);
+                datos.IDDocumentoPagar = aux.ToString();
+                if (!string.IsNullOrEmpty(datos.IDDocumentoPagar))
+                {
+                    datos.Completado = true;
+                }
+                else
+                {
+                    datos.Completado = false;
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public List<CatTipoDocumentoModels> ObtenerConceptosDocumento(string Conexion)
+        {
+            try
+            {
+                List<CatTipoDocumentoModels> Lista = new List<CatTipoDocumentoModels>();
+                CatTipoDocumentoModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Combo_get_ConceptosDocPagar");
+                while (Dr.Read())
+                {
+                    Item = new CatTipoDocumentoModels();
+                    Item.IDTipoDocumento = !Dr.IsDBNull(Dr.GetOrdinal("IdConcepto")) ? Dr.GetInt32(Dr.GetOrdinal("IdConcepto")) : 0;
+                    Item.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                Dr.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<ListaGenerica> GetListadoAsignarPagos(DocumentoPorPagarDetallePagosModels DocumentosPorPagarModels)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    DocumentosPorPagarModels.TipoServicio,
+                    DocumentosPorPagarModels.Id_documentoPorPagar
+                };
+                ListaGenerica item;
+                List<ListaGenerica> lista = new List<ListaGenerica>();
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(DocumentosPorPagarModels.Conexion, "spCSLDB_DocumentoPorPagar_get_IDDocPorAsignar", parametros);
+                while (dr.Read())
+                {
+                    item = new ListaGenerica();
+                    item.Id = !dr.IsDBNull(dr.GetOrdinal("id_documento")) ? dr.GetString(dr.GetOrdinal("id_documento")) : string.Empty;
+                    item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    item.Nombre = !dr.IsDBNull(dr.GetOrdinal("nombre")) ? dr.GetString(dr.GetOrdinal("nombre")) : string.Empty;
+                    item.Id_2 = !dr.IsDBNull(dr.GetOrdinal("id2")) ? dr.GetString(dr.GetOrdinal("id2")) : string.Empty;
+
+                    if (!string.IsNullOrEmpty(item.Id.Trim()))
+                        lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<CFDI_FormaPagoModels> GetListadoCFDIFormaPago(DocumentoPorPagarDetallePagosModels DocumentosPorPagarModels)
+        {
+            try
+            {
+                CFDI_FormaPagoModels item;
+                List<CFDI_FormaPagoModels> lista = new List<CFDI_FormaPagoModels>();
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(DocumentosPorPagarModels.Conexion, "spCSLDB_Combo_get_CFDIFormaPago");
+                while (dr.Read())
+                {
+                    item = new CFDI_FormaPagoModels
+                    {
+                        Clave = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetInt16(dr.GetOrdinal("ID")) : 0,
+                        Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty,
+                        Bancarizado = !dr.IsDBNull(dr.GetOrdinal("Bancarizado")) ? dr.GetInt32(dr.GetOrdinal("Bancarizado")) : 0,
+                    };
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public DocumentoPorPagarDetallePagosModels GetNombreEmpresaProveedorCliente(DocumentoPorPagarDetallePagosModels DocumentoPagarDetallePagos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    DocumentoPagarDetallePagos.Id_documentoPorPagar
+                };
+                SqlDataReader dr = null;
+                string nombre = string.Empty;
+
+                dr = SqlHelper.ExecuteReader(DocumentoPagarDetallePagos.Conexion, "spCSLDB_DocumentoPorPagar_get_NombreProveedorCliente_Empresa", parametros);
+                while (dr.Read())
+                {
+                    DocumentoPagarDetallePagos.NombreEmpresa = !dr.IsDBNull(dr.GetOrdinal("nombreEmpresa")) ? dr.GetString(dr.GetOrdinal("nombreEmpresa")) : string.Empty;
+                    DocumentoPagarDetallePagos.NombreProveedor_Cliente = !dr.IsDBNull(dr.GetOrdinal("nombreProveedorCliente")) ? dr.GetString(dr.GetOrdinal("nombreProveedorCliente")) : string.Empty;
+                }
+                return DocumentoPagarDetallePagos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<CuentaBancariaModels> GetListadoCuentasBancarias(DocumentoPorPagarDetallePagosModels DocumentoPagarDetallePagos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    DocumentoPagarDetallePagos.TipoCuentaBancaria,
+                    DocumentoPagarDetallePagos.Id_documentoPorPagar
+                };
+                CuentaBancariaModels item;
+                List<CuentaBancariaModels> lista = new List<CuentaBancariaModels>();
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(DocumentoPagarDetallePagos.Conexion, "spCSLDB_DocumentosPorPagar_Compras_get_CuentasBancarias", parametros);
+                while (dr.Read())
+                {
+                    item = new CuentaBancariaModels();
+                    item.IDDatosBancarios = !dr.IsDBNull(dr.GetOrdinal("id_datosBancarios")) ? dr.GetString(dr.GetOrdinal("id_datosBancarios")) : string.Empty;
+                    item.Banco = new CatBancoModels();
+                    item.Banco.IDBanco = !dr.IsDBNull(dr.GetOrdinal("id_banco")) ? dr.GetInt32(dr.GetOrdinal("id_banco")) : 0;
+                    item.Banco.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    item.Titular = !dr.IsDBNull(dr.GetOrdinal("titular")) ? dr.GetString(dr.GetOrdinal("titular")) : string.Empty;
+                    item.Clabe = !dr.IsDBNull(dr.GetOrdinal("clabeInterbancaria")) ? dr.GetString(dr.GetOrdinal("clabeInterbancaria")) : string.Empty;
+                    item.NumCuenta = !dr.IsDBNull(dr.GetOrdinal("numCuenta")) ? dr.GetString(dr.GetOrdinal("numCuenta")) : string.Empty;
+                    item.NumTarjeta = !dr.IsDBNull(dr.GetOrdinal("numTarjeta")) ? dr.GetString(dr.GetOrdinal("numTarjeta")) : string.Empty;
+
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public DocumentoPorPagarDetallePagosModels GetDetalleDocumentoPago(DocumentoPorPagarDetallePagosModels DocumentoPago)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    DocumentoPago.Id_documentoPorPagarDetallePagos
+                    //DocumentoPago.TipoServicio
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(DocumentoPago.Conexion, "spCSLDB_DocumentoPorPagar_get_GetDetalleDocumentoPago", parametros);
+                while (dr.Read())
+                {
+                    DocumentoPago.Id_documentoPorPagarDetallePagos = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorPagarDetallePagos")) ? dr.GetString(dr.GetOrdinal("id_documentoPorPagarDetallePagos")) : string.Empty;
+                    DocumentoPago.Monto = !dr.IsDBNull(dr.GetOrdinal("monto")) ? dr.GetDecimal(dr.GetOrdinal("monto")) : 0;
+                    DocumentoPago.Id_documentoPorPagarDetallePagosBancarizado = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorPagarDetallePagosBancarizado")) ? dr.GetString(dr.GetOrdinal("id_documentoPorPagarDetallePagosBancarizado")) : string.Empty;
+                    DocumentoPago.NombreBancoOrdenante = !dr.IsDBNull(dr.GetOrdinal("nombreBancoOrdenante")) ? dr.GetString(dr.GetOrdinal("nombreBancoOrdenante")) : string.Empty;
+                    DocumentoPago.NumeroAutorizacion = !dr.IsDBNull(dr.GetOrdinal("numeroAutorizacion")) ? dr.GetString(dr.GetOrdinal("numeroAutorizacion")) : string.Empty;
+                    DocumentoPago.NombreBancoBeneficiante = !dr.IsDBNull(dr.GetOrdinal("nombreBancoBeneficiante")) ? dr.GetString(dr.GetOrdinal("nombreBancoBeneficiante")) : string.Empty;
+                    DocumentoPago.TipoCadenaPago = !dr.IsDBNull(dr.GetOrdinal("tipoCadenaPago")) ? dr.GetString(dr.GetOrdinal("tipoCadenaPago")) : string.Empty;
+                    DocumentoPago.Id_documentoPorPagar = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorPagar")) ? dr.GetString(dr.GetOrdinal("id_documentoPorPagar")) : string.Empty;
+                    DocumentoPago.Observacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
+                    DocumentoPago.Id_cuentaBancariaOrdenante = !dr.IsDBNull(dr.GetOrdinal("id_cuentaBancariaOrdenante")) ? dr.GetString(dr.GetOrdinal("id_cuentaBancariaOrdenante")) : string.Empty;
+                    DocumentoPago.Id_cuentaBancariaBeneficiante = !dr.IsDBNull(dr.GetOrdinal("id_cuentaBancariaBeneficiante")) ? dr.GetString(dr.GetOrdinal("id_cuentaBancariaBeneficiante")) : string.Empty;
+                    DocumentoPago.RfcEmisorOrdenante = !dr.IsDBNull(dr.GetOrdinal("rfcEmisorOrdenante")) ? dr.GetString(dr.GetOrdinal("rfcEmisorOrdenante")) : string.Empty;
+                    DocumentoPago.RfcEmisorBeneficiario = !dr.IsDBNull(dr.GetOrdinal("rfcEmisorBeneficiario")) ? dr.GetString(dr.GetOrdinal("rfcEmisorBeneficiario")) : string.Empty;
+                    DocumentoPago.FolioIFE = !dr.IsDBNull(dr.GetOrdinal("folioIFE")) ? dr.GetString(dr.GetOrdinal("folioIFE")) : string.Empty;
+                    DocumentoPago.Id_formaPago = !dr.IsDBNull(dr.GetOrdinal("id_formaPago")) ? dr.GetInt16(dr.GetOrdinal("id_formaPago")) : 0;
+                    DocumentoPago.fecha = !dr.IsDBNull(dr.GetOrdinal("fecha")) ? dr.GetDateTime(dr.GetOrdinal("fecha")) : DateTime.Now;
+                    DocumentoPago.Id_cuentaBancariaBeneficiante = !dr.IsDBNull(dr.GetOrdinal("id_cuentaBancariaBeneficiante")) ? dr.GetString(dr.GetOrdinal("id_cuentaBancariaBeneficiante")) : string.Empty;
+                    DocumentoPago.NombreBancoOrdenante = !dr.IsDBNull(dr.GetOrdinal("nombreBancoOrdenante")) ? dr.GetString(dr.GetOrdinal("nombreBancoOrdenante")) : string.Empty;
+                    DocumentoPago.NumCuentaOrdenante = !dr.IsDBNull(dr.GetOrdinal("numCuentaOrdenante")) ? dr.GetString(dr.GetOrdinal("numCuentaOrdenante")) : string.Empty;
+                    DocumentoPago.NumCuentaBeneficiante = !dr.IsDBNull(dr.GetOrdinal("numCuentaBeneficiante")) ? dr.GetString(dr.GetOrdinal("numCuentaBeneficiante")) : string.Empty;
+                    DocumentoPago.Bancarizado = !dr.IsDBNull(dr.GetOrdinal("bancarizado")) ? dr.GetBoolean(dr.GetOrdinal("bancarizado")) : false;
+                    DocumentoPago.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
+                }
+                return DocumentoPago;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public DocumentoPorPagarDetallePagosModels AC_ComprobanteCompra(DocumentoPorPagarDetallePagosModels DocumentosPagarModels)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    DocumentosPagarModels.Id_documentoPorPagarDetallePagos,    DocumentosPagarModels.Id_documentoPorPagar,
+                    DocumentosPagarModels.Id_formaPago,                         DocumentosPagarModels.Monto,
+                    DocumentosPagarModels.Observacion,                          DocumentosPagarModels.fecha,
+                    DocumentosPagarModels.Id_cuentaBancariaOrdenante,           DocumentosPagarModels.Id_documentoPorPagarDetallePagosBancarizado,
+                    DocumentosPagarModels.Id_cuentaBancariaBeneficiante,        DocumentosPagarModels.NombreBancoOrdenante,
+                    DocumentosPagarModels.NumeroAutorizacion,                   DocumentosPagarModels.NumCuentaOrdenante,
+                    DocumentosPagarModels.NombreBancoBeneficiante,              DocumentosPagarModels.NumCuentaBeneficiante,
+                    DocumentosPagarModels.FolioIFE,                             DocumentosPagarModels.Usuario,
+                    DocumentosPagarModels.Bancarizado,                          DocumentosPagarModels.RfcEmisorOrdenante,
+                    DocumentosPagarModels.RfcEmisorBeneficiario,                DocumentosPagarModels.ImagenBase64
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(DocumentosPagarModels.Conexion, "spCSLDB_DocumentoPorPagar_AC_DetallesPago", parametros);
+                while (dr.Read())
+                {
+                    DocumentosPagarModels.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    DocumentosPagarModels.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    DocumentosPagarModels.Completado = true;
+                }
+                return DocumentosPagarModels;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<CatTipoProveedorModels> ObteneComboCatTipoProveedor(string Conexion)
+        {
+            try
+            {
+                List<CatTipoProveedorModels> lista = new List<CatTipoProveedorModels>();
+                CatTipoProveedorModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Combo_get_CatTipoProveedor");
+                // lista.Add(new CatGeneroModels { IDGenero = string.Empty, NombreSucursal = " - Seleccione -" });
+                while (dr.Read())
+                {
+                    item = new CatTipoProveedorModels();
+                    item.IDTipoProveedor = !dr.IsDBNull(dr.GetOrdinal("id_tipoProveedor")) ? dr.GetInt32(dr.GetOrdinal("id_tipoProveedor")) : 0;
+                    item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<CatProveedorModels> ObteneComboProveedoresXID(DocumentoPorPagarModels Datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Datos.IDTProveedor,
+
+                };
+                CatProveedorModels item;
+                List<CatProveedorModels> lista = new List<CatProveedorModels>();
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Combo_get_CatTipoProveedorXID", parametros);
+                while (dr.Read())
+                {
+                    item = new CatProveedorModels();
+                    item.IDProveedor = !dr.IsDBNull(dr.GetOrdinal("id_proveedor")) ? dr.GetString(dr.GetOrdinal("id_proveedor")) : string.Empty;
+                    item.NombreRazonSocial = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public DocumentoPorPagarDetallePagosModels EliminarPagoDocumentoPorPagar(DocumentoPorPagarDetallePagosModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.Id_documentoPorPagarDetallePagos,datos.Id_documentoPorPagar, datos.Usuario
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_DocumentoPorPagar_DEL_DetallesPago", parametros);
+                if (aux != null)
+                {
+                    int Resultado = 0;
+                    int.TryParse(aux.ToString(), out Resultado);
+                    if (Resultado == 1)
+                    {
+                        datos.Completado = true;
+                    }
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

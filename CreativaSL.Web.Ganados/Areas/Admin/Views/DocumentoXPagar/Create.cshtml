@@ -1,0 +1,149 @@
+﻿@model CreativaSL.Web.Ganados.Models.DocumentoPorPagarModels
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+<div class="row">
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="col-md-12">
+        @*<form class="form-horizontal">*@
+        @{ Html.EnableClientValidation(false); }
+        @using (Html.BeginForm("Create", "DocumentoXPagar", FormMethod.Post, new { id = "form-DocumentoPagar", @class = "form-horizontal", autocomplete = "off" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                                                                                                                        <div id="validation_summary" class="field_error "></div> //JS
+
+            @Html.HiddenFor(model => model.IDDocumentoPagar)
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Información </strong> Documento por pagar</h3>
+                    <ul class="panel-controls">
+                        @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
+                    </ul>
+                </div>
+                <div class="panel-body">
+                   <div class="form-group">
+                       <div class="form-group">
+                           <label class="col-md-3 col-xs-12 control-label"><span>* </span> Sucursal </label>
+                           <div class="col-md-6 col-xs-12">
+                               @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursal, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
+                               @Html.ValidationMessageFor(model => model.IDSucursal)
+                           </div>
+                       </div>
+                       <div class="form-group">
+                           <label class="col-md-3 col-xs-12 control-label"><span>* </span> Fecha</label>
+                           <div class="col-md-6 col-xs-12">
+                               <div class="input-group date">
+                                   @Html.TextBoxFor(model => model.Fecha, "{0:dd/MM/yyyy}", new { id = "Fecha", @class = "form-control datepicker", @readonly = "readonly" })
+                                   <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                               </div>
+                               @Html.ValidationMessageFor(model => model.Fecha)
+                           </div>
+                       </div>
+                       <div class="form-group">
+                           <label class="col-md-3 col-xs-12 control-label"><span>* </span> Concepto Documento </label>
+                           <div class="col-md-6 col-xs-12">
+                               @Html.DropDownListFor(model => model.id_concepto, new SelectList(Model.ListaCDocumento, "IDTipoDocumento", "Descripcion"), new { id = "id_concepto", @class = "form-control select", data_live_search = "true" })
+                               @Html.ValidationMessageFor(model => model.id_concepto)
+                           </div>
+                       </div>
+                       <div class="form-group">
+                           <label class="col-md-3 col-xs-12 control-label"><span>* </span> Tipo Proveedor </label>
+                           <div class="col-md-6 col-xs-12">
+                               @Html.DropDownListFor(model => model.IDTProveedor, new SelectList(Model.LisTipoProveedor, "IDTipoProveedor", "Descripcion"), new { id = "IDTProveedor", @class = "form-control select", data_live_search = "true" })
+                               @Html.ValidationMessageFor(model => model.IDTProveedor)
+                           </div>
+                       </div>
+                       <div class="form-group">
+                           <label class="col-md-3 col-xs-12 control-label"><span>* </span> Proveedor </label>
+                           <div class="col-md-6 col-xs-12">
+                               @Html.DropDownListFor(model => model.IDProveedor, new SelectList(Model.LisProveedor, "IDProveedor", "NombreRazonSocial"), new { id = "IDProveedor", @class = "form-control select", data_live_search = "true" })
+                               @Html.ValidationMessageFor(model => model.IDProveedor)
+                           </div>
+                       </div>
+                       <div class="form-group">
+                           <label class="col-md-3 control-label">Monto</label>
+                           <div class="col-md-6 col-xs-12">
+                               <div class="input-group">
+                                   <span class="input-group-addon"><span class="fa fa-building-o"></span></span>
+                                   @Html.TextBoxFor(model => model.precio, "{0:f2}", new { id = "precio", autocomplete = "off", @class = "form-control", type = "number" })
+                               </div>
+                           </div>
+                       </div>                                                 
+                       @*<div class="form-group">
+                           <div class="col-md-4 controlError">
+                               <div class="controlError">
+                                   <label class="col-md-3 control-label">Subtotal</label>
+                                   <div class="col-md-9 col-xs-12">
+                                       <div class="input-group">
+                                           <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                           @Html.TextBoxFor(model => model.subtotal, "{0:f2}", new { id = "subtotal", autocomplete = "off", @class = "form-control", type = "number" })
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="col-md-4 controlError">
+                               <div class="controlError">
+                                   <label class="col-md-3 control-label">Total</label>
+                                   <div class="col-md-9 col-xs-12">
+                                       <div class="input-group">
+                                           <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                           @Html.TextBoxFor(model => model.Total, "{0:f2}", new { id = "Total", autocomplete = "off", @class = "form-control", type = "number" })
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                           
+                           
+                       </div>*@
+                   </div>
+                </div>
+                <div class="panel-footer">
+                    <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                    <a href="@Url.Action("Index","DocumentoXPagar")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                </div>
+            </div>
+            @*</form>*@
+        }
+    </div>
+</div>
+<script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+</script>
+}
+@section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/DocXPagarCreate.js")"></script>
+
+    <script>
+    jQuery(document).ready(function () {
+
+        Mensaje(message, typemessage);
+        DocXPagar.init();
+    });
+    </script>
+}
+
+
+
+
