@@ -1785,6 +1785,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ReporteDiasLaborados.rdlc" />
     <EmbeddedResource Include="Reports\ReporteEntradas.rdlc" />
+    <EmbeddedResource Include="Reports\ReporteEstadoCuentaProveedor.rdlc" />
     <EmbeddedResource Include="Reports\ReporteFletes.rdlc" />
     <EmbeddedResource Include="Reports\ReporteGanadosMuertoCompra.rdlc" />
     <EmbeddedResource Include="Reports\ReporteGanadosVendidos.rdlc" />
