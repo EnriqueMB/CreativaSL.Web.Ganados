@@ -437,5 +437,36 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public List<RptEstadoCuentaProveedorModels> ObtenerListaEstadoCuentaProveedor(RptEstadoCuentaProveedorModels datos)
+        {
+            try
+            {
+                List<RptEstadoCuentaProveedorModels> lista = new List<RptEstadoCuentaProveedorModels>();
+                RptEstadoCuentaProveedorModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Reporte_get_EstadoCuentaProveedor", datos.fechaInicio, datos.fechaFin);
+                if(dr != null)
+                {
+                    while(dr.Read())
+                    {
+                        item = new RptEstadoCuentaProveedorModels();
+                        item.folio = !dr.IsDBNull(dr.GetOrdinal("Folio")) ? dr.GetInt64(dr.GetOrdinal("Folio")) : 0;
+                        item.tipoProveedor = !dr.IsDBNull(dr.GetOrdinal("TipoProveedor")) ? dr.GetString(dr.GetOrdinal("TipoProveedor")) : string.Empty;
+                        item.nombreProveedor = !dr.IsDBNull(dr.GetOrdinal("NombreProveedor")) ? dr.GetString(dr.GetOrdinal("NombreProveedor")) : string.Empty;
+                        item.total = !dr.IsDBNull(dr.GetOrdinal("Total")) ? dr.GetDecimal(dr.GetOrdinal("Total")) : 0;
+                        item.pagos = !dr.IsDBNull(dr.GetOrdinal("Pagos")) ? dr.GetDecimal(dr.GetOrdinal("Pagos")) : 0;
+                        item.pendiente = !dr.IsDBNull(dr.GetOrdinal("Pendiente")) ? dr.GetDecimal(dr.GetOrdinal("Pendiente")) : 0;
+                        lista.Add(item);
+                    }
+                    dr.Close();
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }
