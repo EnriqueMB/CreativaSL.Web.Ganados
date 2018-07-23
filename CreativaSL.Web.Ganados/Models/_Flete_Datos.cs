@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -2004,10 +2005,20 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.ImagenBase64_1 = !dr.IsDBNull(dr.GetOrdinal("imagen1")) ? dr.GetString(dr.GetOrdinal("imagen1")) : Auxiliar.SinImagen();
                     Item.ImagenBase64_2 = !dr.IsDBNull(dr.GetOrdinal("imagen2")) ? dr.GetString(dr.GetOrdinal("imagen2")) : Auxiliar.SinImagen();
                     Item.ImagenBase64_3 = !dr.IsDBNull(dr.GetOrdinal("imagen3")) ? dr.GetString(dr.GetOrdinal("imagen3")) : Auxiliar.SinImagen();
+                    Item.NombreCorral = !dr.IsDBNull(dr.GetOrdinal("corral")) ? dr.GetString(dr.GetOrdinal("corral")) : string.Empty;
+                    Item.PesoInicial = !dr.IsDBNull(dr.GetOrdinal("pesoInicial")) ? dr.GetString(dr.GetOrdinal("pesoInicial")) : string.Empty;
+                    Item.PesoFinal = !dr.IsDBNull(dr.GetOrdinal("pesoFinal")) ? dr.GetString(dr.GetOrdinal("pesoFinal")) : string.Empty;
+                    Item.PesoPagado = !dr.IsDBNull(dr.GetOrdinal("pesoPagado")) ? dr.GetString(dr.GetOrdinal("pesoPagado")) : string.Empty;
+                    Item.PrecioPorKilo = !dr.IsDBNull(dr.GetOrdinal("precioKilo")) ? dr.GetString(dr.GetOrdinal("precioKilo")) : string.Empty;
+                    Item.Subtotal = !dr.IsDBNull(dr.GetOrdinal("subtotal")) ? dr.GetString(dr.GetOrdinal("subtotal")) : string.Empty;
+                    Item.Repeso = !dr.IsDBNull(dr.GetOrdinal("repeso")) ? dr.GetBoolean(dr.GetOrdinal("repeso")) : false;
 
-                    Item.ExtensionImagenBase64_1 = Auxiliar.ObtenerExtensionImagenBase64(Item.ImagenBase64_1);
-                    Item.ExtensionImagenBase64_2 = Auxiliar.ObtenerExtensionImagenBase64(Item.ImagenBase64_2);
-                    Item.ExtensionImagenBase64_3 = Auxiliar.ObtenerExtensionImagenBase64(Item.ImagenBase64_3);
+                    Item.PesoInicial = Auxiliar.StringToKilos(Item.PesoInicial);
+                    Item.PesoFinal = Auxiliar.StringToKilos(Item.PesoFinal);
+                    Item.PesoPagado = Auxiliar.StringToKilos(Item.PesoPagado);
+
+                    Item.PrecioPorKilo = Auxiliar.StringToMoneda_MX(Item.PrecioPorKilo);
+                    Item.Subtotal = Auxiliar.StringToMoneda_MX(Item.Subtotal);
 
                     Lista.Add(Item);
                 }

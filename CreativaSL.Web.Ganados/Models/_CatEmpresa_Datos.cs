@@ -267,5 +267,33 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public CatEmpresaModels GetDatosEmpresaPrincipal(CatEmpresaModels Empresa)
+        {
+            try
+            {
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Empresa.Conexion, "spCSLDB_EMPRESA_get_CatEmpresasIDTIPO1");
+                while (dr.Read())
+                {
+                    Empresa.LogoEmpresa = !dr.IsDBNull(dr.GetOrdinal("LogoEmpresa")) ? dr.GetString(dr.GetOrdinal("LogoEmpresa")) : string.Empty;
+                    Empresa.RazonFiscal = !dr.IsDBNull(dr.GetOrdinal("RazonFiscal")) ? dr.GetString(dr.GetOrdinal("RazonFiscal")) : string.Empty;
+                    Empresa.DireccionFiscal = !dr.IsDBNull(dr.GetOrdinal("DireccionFiscal")) ? dr.GetString(dr.GetOrdinal("DireccionFiscal")) : string.Empty;
+                    Empresa.RFC = !dr.IsDBNull(dr.GetOrdinal("RFC")) ? dr.GetString(dr.GetOrdinal("RFC")) : string.Empty;
+                    Empresa.Representante = !dr.IsDBNull(dr.GetOrdinal("representante")) ? dr.GetString(dr.GetOrdinal("representante")) : string.Empty;
+                    Empresa.NumTelefonico1 = !dr.IsDBNull(dr.GetOrdinal("NumTelefono1")) ? dr.GetString(dr.GetOrdinal("NumTelefono1")) : string.Empty;
+                    Empresa.NumTelefonico2 = !dr.IsDBNull(dr.GetOrdinal("NumTelefono2")) ? dr.GetString(dr.GetOrdinal("NumTelefono2")) : string.Empty;
+                    Empresa.Email = !dr.IsDBNull(dr.GetOrdinal("Correo")) ? dr.GetString(dr.GetOrdinal("Correo")) : string.Empty;
+                    Empresa.HorarioAtencion = !dr.IsDBNull(dr.GetOrdinal("HorarioAtencion")) ? dr.GetString(dr.GetOrdinal("HorarioAtencion")) : string.Empty;
+                    Empresa.LogoEmpresa = Empresa.ValidarStringImage(Empresa.LogoEmpresa);
+                }
+                dr.Close();
+                return Empresa;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
