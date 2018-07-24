@@ -94,7 +94,7 @@ $.validator.addMethod("ImagenRequerida", function (value, element, params) {
         }
     }
 
-}, 'Debe seleccionar una imagen.');
+}, 'Por favor, debe seleccionar una imagen.');
 $.validator.addMethod("validarImgEdit", function (value, element, params) {
     //Bandera que me indica si hay o no imagen en el servidor
     var imgBD = element.dataset.imgbd;

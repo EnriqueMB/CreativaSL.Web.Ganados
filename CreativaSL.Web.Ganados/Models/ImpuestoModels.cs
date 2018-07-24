@@ -6,10 +6,10 @@ using System.Web;
 
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class FleteImpuestoModels
+    public class ImpuestoModels
     {
         #region Constructor
-        public FleteImpuestoModels()
+        public ImpuestoModels()
         {
             Impuesto = new CFDI_ImpuestoModels();
             TipoImpuesto = new CFDI_TipoImpuestoModels();
@@ -17,17 +17,16 @@ namespace CreativaSL.Web.Ganados.Models
             RespuestaAjax = new RespuestaAjax();
         }
         #endregion
-
         public string Id_documentoCobrarDetalleImpuesto { get; set; }
         public string Id_detalleDoctoCobrar { get; set; }
 
-        public string IDFleteImpuesto { get; set; }
+        public string IDImpuesto { get; set; }
         [SAT_BaseAttribute(ErrorMessage = "La Base debe ser mayor que cero, hasta 6 decimales.")]
         public decimal Base { get; set; }
         [SAT_TasaCuotaAttribute(ErrorMessage = "La Tasa o Cuota debe ser un número entero, seguido de hasta 6 decimales.")]
         public decimal TasaCuota { get; set; }
         public decimal Importe { get; set; }
-        
+
         public CFDI_ImpuestoModels Impuesto { get; set; }
         public CFDI_TipoImpuestoModels TipoImpuesto { get; set; }
         public CFDI_TipoFactorModels TipoFactor { get; set; }
@@ -35,8 +34,8 @@ namespace CreativaSL.Web.Ganados.Models
         public List<CFDI_ImpuestoModels> ListaImpuesto { get; set; }
         public List<CFDI_TipoImpuestoModels> ListaTipoImpuesto { get; set; }
         public List<CFDI_TipoFactorModels> ListaTipoFactor { get; set; }
-        
-        public string IDFlete { get; set; }
+
+        public string IDModulo { get; set; }
         public decimal PrecioProducto { get; set; }
         public decimal TotalImpuestoRetencion { get; set; }
         public decimal TotalImpuestoTrasladado { get; set; }
