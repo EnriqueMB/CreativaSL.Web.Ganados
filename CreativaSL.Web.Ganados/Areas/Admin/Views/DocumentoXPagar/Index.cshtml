@@ -29,14 +29,14 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            @*<li><a href="@Url.Action("Create","DocumentoXPagar")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Documento</a></li>*@
+                           <li><a href="@Url.Action("Create","DocumentoXPagar")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Documento</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
                         </ul>
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table class="table datatable2">
+                            <table class="table datatable">
                                 <thead>
                                     <tr>
                                         <th>Tipo Documento</th>
@@ -80,25 +80,57 @@
                                             <td>@Doc.Fecha.ToShortDateString()</td>
                                             <td>@Doc.Total.ToString("0.00").Replace(',', '.')</td>
                                             <td>@Doc.Pendientes.ToString("0.00").Replace(',', '.')</td>
-                                            <td style="text-align:center;">
-                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Detalle Documento" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento})" class="btn btn-green tooltips" data-placement="top" data-original-title="Detalle Documento"><i class="fa fa-eye"></i></a>
-                                                </div>
-                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                    <div class="btn-group">
-                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                        </a>
-                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento})">
-                                                                    <i class="fa fa-eye"></i> Detalle Documento
-                                                                </a>
-                                                            </li>
-                                                        </ul>
+                                            @if (Doc.EsSistema)
+                                            {                                               
+                                                <td style="text-align:center;">
+                                                    <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                        <a title="Detalle Documento" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento})" class="btn btn-green tooltips" data-placement="top" data-original-title="Detalle Documento"><i class="fa fa-eye"></i></a>
                                                     </div>
-                                                </div>
-                                            </td>
+                                                    <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                        <div class="btn-group">
+                                                            <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                            </a>
+                                                            <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                <li>
+                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento})">
+                                                                        <i class="fa fa-eye"></i> Detalle Documento
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td style="text-align:center;">
+                                                    <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                        <a title="Detalle Documento" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento})" class="btn btn-green tooltips" data-placement="top" data-original-title="Detalle Documento"><i class="fa fa-eye"></i></a>
+                                                        <a title="Pagos" class="btn btn-green" href="@Url.Action("DetallePagos", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar })"><i class="fa fa-money"></i></a>                                                    
+                                                    </div>
+                                                    <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                        <div class="btn-group">
+                                                            <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                            </a>
+                                                            <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                <li>
+                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento})">
+                                                                        <i class="fa fa-eye"></i> Detalle Documento
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("DetallePagos", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar })">
+                                                                        <i class="fa fa-money"></i> Detalle de pagos
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            }
+
                                         </tr>
                                     }
                                 </tbody>
@@ -143,22 +175,6 @@
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
-        var uiDatatable = function () {
-            if ($(".datatable2").length > 0) {
-                $(".datatable2").dataTable({
-                    "order": [],
-                    "language": {
-                        "url": "/Content/assets/json/Spanish.json"
-                    },
-                    responsive: true
-                });
-                $(".datatable2").on('page.dt', function () {
-                    onresize(100);
-                });
-            }
-        };//END Datatable
-
-        uiDatatable();
         });
     </script>
 }

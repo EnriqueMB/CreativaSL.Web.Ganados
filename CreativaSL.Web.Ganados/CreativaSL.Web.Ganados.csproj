@@ -463,6 +463,8 @@
     <Content Include="Content\js\compraRecepcion.js" />
     <Content Include="Content\js\compraTransacciones.js" />
     <Content Include="Content\js\Configuracion.js" />
+    <Content Include="Content\js\documentoXPagarPagos.js" />
+    <Content Include="Content\js\DocXPagarCreate.js" />
     <Content Include="Content\js\fleteCobro.js" />
     <Content Include="Content\js\fleteEvento.js" />
     <Content Include="Content\js\fleteImpuesto.js" />
@@ -1377,6 +1379,10 @@
     <Content Include="Areas\Admin\Views\Venta\VentaEditProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaImpuestoProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Venta_ProductoServicio.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXPagar\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXPagar\DetallePagos.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXPagar\PagosCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXPagar\PagosEdit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1487,6 +1493,7 @@
     <Compile Include="Models\CatEmpleadoModels.cs" />
     <Compile Include="Models\CatEmpresaModels.cs" />
     <Compile Include="Models\CatEstadoModels.cs" />
+    <Compile Include="Models\CatEstatusDocumentoModels.cs" />
     <Compile Include="Models\CatEstatusGanadoModels.cs" />
     <Compile Include="Models\CatFierroModels.cs" />
     <Compile Include="Models\CatGeneroModels.cs" />
@@ -1547,6 +1554,7 @@
     <Compile Include="Models\DatosGeneralesGanados.cs" />
     <Compile Include="Models\DocumentoCompraModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
+    <Compile Include="Models\DocumentoPorPagarDetallePagosModels.cs" />
     <Compile Include="Models\DocumentoPorPagarModels.cs" />
     <Compile Include="Models\DocumentosPorCobrarDetalleImpuestoModels.cs" />
     <Compile Include="Models\DocumentosPorCobrarDetalleModels.cs" />
@@ -1598,6 +1606,7 @@
     <Compile Include="Models\ResumenGastosAjustesModels.cs" />
     <Compile Include="Models\ResumenGastosModels.cs" />
     <Compile Include="Models\RptEntradaModels.cs" />
+    <Compile Include="Models\RptEstadoCuentaProveedorModels.cs" />
     <Compile Include="Models\RptFletesModels.cs" />
     <Compile Include="Models\RptGanadosMtoCompraModels.cs" />
     <Compile Include="Models\RptGanadosMtoVentaModels.cs" />
@@ -1800,6 +1809,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ReporteDiasLaborados.rdlc" />
     <EmbeddedResource Include="Reports\ReporteEntradas.rdlc" />
+    <EmbeddedResource Include="Reports\ReporteEstadoCuentaProveedor.rdlc" />
     <EmbeddedResource Include="Reports\ReporteFletes.rdlc" />
     <EmbeddedResource Include="Reports\ReporteGanadosMuertoCompra.rdlc" />
     <EmbeddedResource Include="Reports\ReporteGanadosVendidos.rdlc" />
