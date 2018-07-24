@@ -37,13 +37,13 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <div class="col-md-4">
-                                <label class="col-md-12 control-label text-center">Descripción del puesto</label>
+                                <label class="col-md-12 control-label text-center">Categoría del puesto</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                         @Html.TextBoxFor(model => model.descripcion, new { id = "Nombre", @class = "form-control" })
                                     </div>
-                                    <span class="help-block text-center">Descripción del lugar</span>
+                                    <span class="help-block text-center">Categoría del puesto</span>
                                     @Html.ValidationMessageFor(model => model.descripcion)
                                 </div>
                             </div>

@@ -289,7 +289,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     empleadoNomina.Baja = false;
                 }
-                dr.Close();
+               // dr.Close();
                 return empleadoNomina;
             }
             catch (Exception ex)
@@ -328,7 +328,7 @@ namespace CreativaSL.Web.Ganados.Models
                 CatMotivoBajaModels item;
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Combo_get_CatMotivoBaja");
-                lista.Add(new CatMotivoBajaModels { IDMotivoBaja = 0, Descripcion = " - Seleccione -" });
+                //lista.Add(new CatMotivoBajaModels { IDMotivoBaja = 0, Descripcion = " - Seleccione -" });
                 while (dr.Read())
                 {
                     item = new CatMotivoBajaModels();
