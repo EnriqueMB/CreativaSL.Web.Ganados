@@ -15,6 +15,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     {
         private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
+        
+            public CatProveedorCombustibleController()
+        {
+            TempData["message"] = "";
+        }
         // GET: Admin/CatProveedorCombustible
         public ActionResult Index()
         {

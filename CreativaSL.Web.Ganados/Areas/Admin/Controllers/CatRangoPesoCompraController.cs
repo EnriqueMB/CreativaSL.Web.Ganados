@@ -212,7 +212,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 if (Rango.Completado == true)
                 {
                     TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se ha eliminado correctamente";
+                  //  TempData["message"] = "El registro se ha eliminado correctamente";
                 }
                 return Json("");
             }
