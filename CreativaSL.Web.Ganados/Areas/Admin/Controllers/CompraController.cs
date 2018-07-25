@@ -11,6 +11,7 @@ using System.IO;
 using System.Net;
 using Newtonsoft.Json;
 using CreativaSL.Web.Ganados.App_Start;
+using Microsoft.Reporting.WebForms;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -62,6 +63,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
                 Compra.Flete.ListaMetodoPago = CompraDatos.GetMetodosPagos(Compra);
                 Compra.Flete.ListaFormaPago = CompraDatos.GetListadoCFDIFormaPago(Compra);
+                Compra.ListaFierros = CompraDatos.GetListadoFierros(Compra);
+                Compra.Fierro.ImgFierro = Auxiliar.SetDefaultImage();
+                Compra.Fierro.Extension = Auxiliar.ObtenerExtensionImagenBase64(Compra.Fierro.ImgFierro);
+                Compra.ListaFierrosString = Compra.ListaFierros.ToJSON();
 
                 return View(Compra);
             }
@@ -311,13 +316,44 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
                 Compra = new CompraModels();
-                Compra.RespuestaAjax.Mensaje = ex.ToString();
+                Compra.RespuestaAjax.Mensaje = Mensaje;
                 Compra.RespuestaAjax.Success = false;
                 return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
             }
         }
         #endregion
+        #region DatatableGanadoProgramado 
+        [HttpPost]
+        public ActionResult DatatableGanadoProgramado(string IDCompra)
+        {
+            try
+            {
+                IDCompra = IDCompra.Trim();
+                Compra = new CompraModels();
+                CompraDatos = new _Compra_Datos();
+                Compra.Conexion = Conexion;
+                Compra.IDCompra = IDCompra;
+
+                Compra.RespuestaAjax = new RespuestaAjax();
+                Compra.RespuestaAjax.Mensaje = CompraDatos.GetGanadoProgramado(Compra);
+                Compra.RespuestaAjax.Success = true;
+
+                return Content(Compra.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                Compra = new CompraModels();
+                Compra.RespuestaAjax.Mensaje = Mensaje;
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+
         #region Index
         // GET: Admin/Compra
         public ActionResult Index()
@@ -367,7 +403,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                string[] camposValidar = { "IDProveedor", "IDSucursal", "IDPLugarProveedor", "GanadosPactadoMachos", "GanadosPactadoHembras", "FechaHoraProgramada" };
+                string[] camposValidar = { "IDProveedor", "IDSucursal", "IDPLugarProveedor", "FechaHoraProgramada" };
                 bool formularioValido = true;
                 var errors = ModelState.Keys.Where(k => ModelState[k].Errors.Count > 0).Select(k => new { propertyName = k, errorMessage = ModelState[k].Errors[0].ErrorMessage });
 
@@ -664,7 +700,61 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
+        #region Ganado Programado
+        [HttpPost]
+        public ActionResult AC_GanadoProgramado(string IDCompra, string IDGanado, string numArete, string id_genero,
+            int indiceActual, string id_fierro1, string id_fierro2, string id_fierro3)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                Compra = new CompraModels();
+                Compra.IDCompra = IDCompra;
+                Compra.Ganado.id_Ganados = IDGanado;
+                Compra.Ganado.numArete = numArete;
+                Compra.Ganado.genero = id_genero;
+                Compra.Ganado.IDFierro1 = id_fierro1;
+                Compra.Ganado.IDFierro2 = id_fierro2;
+                Compra.Ganado.IDFierro3 = id_fierro3;
 
+                Compra.Conexion = Conexion;
+                Compra.Usuario = User.Identity.Name;
+                Compra = CompraDatos.Compras_ac_GanadoProgramado(Compra, indiceActual);
+               
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+            catch (Exception ex)
+            {
+                Compra.RespuestaAjax.Mensaje = ex.ToString();
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DEL_GanadoProgramado(string IDCompra, string IDGanado)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                Compra = new CompraModels();
+                Compra.IDCompra = IDCompra;
+                Compra.Ganado.id_Ganados = IDGanado;
+                Compra.Conexion = Conexion;
+                Compra.Usuario = User.Identity.Name;
+
+                Compra = CompraDatos.Compras_del_GanadoProgramado(Compra);
+
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+            catch (Exception ex)
+            {
+                Compra.RespuestaAjax.Mensaje = ex.ToString();
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
 
         #endregion
         #region Funciones combo
@@ -1221,7 +1311,243 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id_1">Id del fierro</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult GetFierroXIDFierro(string Id_1)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                Compra = new CompraModels();
+                Compra.Conexion = Conexion;
+                Compra.Fierro.IDFierro = Id_1;
+                Compra.RespuestaAjax = CompraDatos.GetFierroXIDFierro(Compra);
 
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                Compra.RespuestaAjax.Mensaje = Mensaje;
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+        #region Vista Documentos
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id_1">Id de la venta</param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult DocumentosCompra(string Id_1)
+        {
+            try
+            {
+                Token.SaveToken();
+
+                string Id_compra = string.IsNullOrEmpty(Id_1) ? string.Empty : Id_1;
+                //0 = nuevo, 36 = edit, si es diferente es un id no valido
+                if (Id_compra.Length == 36)
+                {
+                    _Compra_Datos CompraDatos = new _Compra_Datos();
+                    Compra = new CompraModels();
+                    Compra.IDCompra = Id_compra;
+                    Compra.Conexion = Conexion;
+                    Compra.RespuestaAjax = new RespuestaAjax();
+
+                    ViewBag.Id_compra = Id_compra;
+                    return View();
+
+                    //Compra = CompraDatos.GetVentaDocumentos(Venta);
+                    //if (Compra.RespuestaAjax.Success)
+                    //{
+                    //    ViewBag.Id_compra = Id_compra;
+                    //    return View();
+                    //}
+                    //else
+                    //{
+                    //    TempData["typemessage"] = "2";
+                    //    TempData["message"] = Compra.RespuestaAjax.Mensaje;
+                    //    return View("Index");
+                    //}
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return View("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
+                return View("Index");
+            }
+        }
+        #endregion
+
+        #region Otros
+        #region ImagenesProveedor
+        public ActionResult ImagenesProveedor(string id)
+        {
+            try
+            {
+
+                Reporte_Datos R = new Reporte_Datos();
+                CompraModels Compra = new CompraModels();
+                _Compra_Datos reporteDatos = new _Compra_Datos();
+               
+                Compra.IDCompra = id;
+                Compra.Conexion = Conexion;
+                Compra = reporteDatos.GetImagenesProveedor(Compra);
+
+                LocalReport Rtp = new LocalReport();
+                Rtp.EnableExternalImages = true;
+                Rtp.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Formatos"), "ImagenesProveedor.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Compra");
+                }
+                ReportParameter[] Parametros = new ReportParameter[3];
+                Parametros[0] = new ReportParameter("IneProveedor", Compra.Proveedor.ImgINE);
+                Parametros[1] = new ReportParameter("ManifestacionFierroProveedor", Compra.Proveedor.ImgManifestacionFierro);
+                Parametros[2] = new ReportParameter("UPPProveedor", Compra.UPP);
+
+                Rtp.SetParameters(Parametros);
+                
+                string reportType = "PDF";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + "Imagenes Proveedor "+ "</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
+                return View("Index");
+            }
+        }
+        #endregion
+        #region ImagenesProveedor
+        public ActionResult GanadoProgramado(string id)
+        {
+            try
+            {
+
+                Reporte_Datos R = new Reporte_Datos();
+                CompraModels Compra = new CompraModels();
+                _Compra_Datos reporteDatos = new _Compra_Datos();
+                List<ReporteGanadoModels> Reporte = new List<ReporteGanadoModels>();
+                CatEmpresaModels Empresa = new CatEmpresaModels();
+                _CatEmpresa_Datos EmpresaDatos = new _CatEmpresa_Datos();
+                Empresa.Conexion = Conexion;
+                Empresa = EmpresaDatos.GetDatosEmpresaPrincipal(Empresa);
+
+                Compra.IDCompra = id;
+                Compra.Conexion = Conexion;
+                Reporte = reporteDatos.GetReporteGanadoDetalles(Compra);
+
+                LocalReport Rtp = new LocalReport();
+                Rtp.EnableExternalImages = true;
+                Rtp.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Formatos"), "ListadoGanadoParaCompra.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Compra");
+                }
+
+                string GeneralesEmpresa = "<b>Representante: </b>" + Empresa.Representante + "<br/>";
+                GeneralesEmpresa += "<b>RFC: </b>" + Empresa.RFC + "<br/>";
+                GeneralesEmpresa += "<b>Horario de atención: </b>" + Empresa.HorarioAtencion + "<br/>";
+                string Telefonos = string.IsNullOrEmpty(Empresa.NumTelefonico1) ? string.Empty : Empresa.NumTelefonico1;
+                Telefonos += string.IsNullOrEmpty(Empresa.NumTelefonico2) ? string.Empty : " " + Empresa.NumTelefonico1;
+                if (!string.IsNullOrEmpty(Telefonos))
+                    GeneralesEmpresa += "<b>Teléfono(s): </b>" + Telefonos + "<br/>";
+                if (!string.IsNullOrEmpty(Empresa.Email))
+                    GeneralesEmpresa += "<b>Email: </b>" + Empresa.Email;
+
+                ReportParameter[] Parametros = new ReportParameter[4];
+                Parametros[0] = new ReportParameter("LogoEmpresa", Empresa.LogoEmpresa);
+                Parametros[1] = new ReportParameter("NombreEmpresa", Empresa.RazonFiscal);
+                Parametros[2] = new ReportParameter("DireccionEmpresa", Empresa.DireccionFiscal);
+                Parametros[3] = new ReportParameter("GeneralesEmpresa", GeneralesEmpresa);
+
+                Rtp.SetParameters(Parametros);
+                Rtp.DataSources.Add(new ReportDataSource("ListaGanado", Reporte));
+                Rtp.Refresh();
+
+                string reportType = "EXCEL";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + "Ganado programado" + "</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
+                return View("Index");
+            }
+        }
+        #endregion
+        #endregion
 
     }
 }
