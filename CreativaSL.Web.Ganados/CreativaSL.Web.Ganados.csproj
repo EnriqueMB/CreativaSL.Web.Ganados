@@ -1042,11 +1042,15 @@
     <Content Include="Content\js\compraAlmacenLista.js" />
     <Content Include="Content\js\Vehiculo.js" />
     <Content Include="Content\js\venta.js" />
+    <Content Include="Content\js\ventaCobro.js" />
     <Content Include="Content\js\ventaDocumentos.js" />
     <Content Include="Content\js\ventaEvento.js" />
     <Content Include="Content\js\ventaEventoRecepcion.js" />
     <Content Include="Content\js\ventaFlete.js" />
     <Content Include="Content\js\ventaGanado.js" />
+    <Content Include="Content\js\ventaImpuestoProductoServicio.js" />
+    <Content Include="Content\js\ventaTransacciones.js" />
+    <Content Include="Content\js\venta_ProductoServicio.js" />
     <Content Include="Content\Ocampo.ico" />
     <Content Include="Content\js\RangoCompra.js" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -1369,6 +1373,12 @@
     <Content Include="Areas\Admin\Views\Flete\AC_FleteCobro.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\AC_FleteDocumentos.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaDocumentos.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaTransacciones.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaCobro.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaProductoServicio.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaEditProductoServicio.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaImpuestoProductoServicio.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\Venta_ProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\Create.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\DetallePagos.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\PagosCreate.cshtml" />
@@ -1570,6 +1580,7 @@
     <Compile Include="Models\Flete_TipoDocumentoModels.cs" />
     <Compile Include="Models\GanadoModels.cs" />
     <Compile Include="Models\GeneroGanadoModels.cs" />
+    <Compile Include="Models\ImpuestoModels.cs" />
     <Compile Include="Models\IncidenteFleteModels.cs" />
     <Compile Include="Models\LicenciaChoferModels.cs" />
     <Compile Include="Models\MenuModels.cs" />
@@ -1646,6 +1657,7 @@
     <Compile Include="Models\VentaGanadoModels.cs" />
     <Compile Include="Models\VentaModels.cs" />
     <Compile Include="Models\VentaModels2.cs" />
+    <Compile Include="Models\VentaTransacionesModels.cs" />
     <Compile Include="Models\VerAlmacenInventarioModels.cs" />
     <Compile Include="Models\VerificacionJaulaModels.cs" />
     <Compile Include="Models\_Almacen_Datos.cs" />

@@ -530,9 +530,8 @@
                     });
 
                     $(".transacciones").on("click", function () {
-                        //para agregar nuevos servicios o productos y/o para registrar los pagos o cobros realizados
-                        var IDCompra = $(this).data("id")
-                        window.location.href = '/Admin/Venta/Transacciones?IDVenta=' + IDCompra;
+                        var Id_venta = $(this).data("id")
+                        window.location.href = '/Admin/Venta/VentaTransacciones?IDVenta=' + Id_venta;
                     });
                     $(".enviar").on("click", function () {
                         var id = $(this).attr('data-id');

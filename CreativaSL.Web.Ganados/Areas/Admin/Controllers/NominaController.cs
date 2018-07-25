@@ -357,6 +357,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Nomina.Conexion = Conexion;
                 Nomina.IDNomina = id;
                 Nomina.IDSucursal = id2;
+                string id3 = "PDF";
                 Nomina = NominaD.ObtenerDatosEmpresaTipo1(Nomina);
                 NominaD.ObtenerReporteNominaDetalle(Nomina);
                 lista = Nomina.ListaResumenDetalleNomina;
@@ -389,7 +390,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Parametros[11] = new ReportParameter("ClaveNomina", Nomina.ClaveNomina);
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("NominaDetalle", lista));
-                string reportType = "PDF";
+                string reportType = id3;
                 string mimeType;
                 string encoding;
                 string fileNameExtension;
