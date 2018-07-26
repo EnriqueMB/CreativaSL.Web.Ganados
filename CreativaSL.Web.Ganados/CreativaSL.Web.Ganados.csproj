@@ -459,6 +459,7 @@
     <Content Include="Content\js\catFierro.js" />
     <Content Include="Content\js\compraAgendar.js" />
     <Content Include="Content\js\CompraAlmacenDetalle.js" />
+    <Content Include="Content\js\compraDocumentos.js" />
     <Content Include="Content\js\CompraGanado.js" />
     <Content Include="Content\js\compraRecepcion.js" />
     <Content Include="Content\js\compraTransacciones.js" />
@@ -1383,6 +1384,7 @@
     <Content Include="Areas\Admin\Views\DocumentoXPagar\DetallePagos.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\PagosCreate.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\PagosEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\DocumentosCompra.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1803,7 +1805,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Formatos\CartaPorte.rdlc" />
+    <EmbeddedResource Include="Formatos\ImagenesProveedor.rdlc" />
     <EmbeddedResource Include="Formatos\ListadoGanado.rdlc" />
+    <EmbeddedResource Include="Formatos\ListadoGanadoParaCompra.rdlc" />
     <EmbeddedResource Include="Reports\prueba.rdlc">
       <SubType>Designer</SubType>
     </EmbeddedResource>

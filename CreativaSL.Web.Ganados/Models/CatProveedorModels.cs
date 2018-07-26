@@ -335,6 +335,8 @@ namespace CreativaSL.Web.Ganados.Models
             set { _ListaPeriodo = value; }
         }
 
+        public string TipoProveedor { get; set; }
+
 
         #region Datos De Control
         public string Conexion { get; set; }

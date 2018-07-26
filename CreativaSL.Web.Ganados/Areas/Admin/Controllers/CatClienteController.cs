@@ -464,7 +464,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         //ASIGNAR LUGARES AL CLIENTE
-        [HttpPost]
+       // [HttpPost]
         public ActionResult Lugares(string id, string id2)
         {
             try
