@@ -105,7 +105,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Documento.Usuario = User.Identity.Name;
                 Documento.RespuestaAjax = new RespuestaAjax();
 
-                Documento.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(DocumentoDatos.GetDocumentosDetallesCompra(Documento));
+                Documento.RespuestaAjax.Mensaje = DocumentoDatos.GetDocumentosDetallesCompra(Documento);
                 Documento.RespuestaAjax.Success = true;
 
                 return Content(Documento.RespuestaAjax.Mensaje, "application/json");

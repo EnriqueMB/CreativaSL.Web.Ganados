@@ -136,13 +136,13 @@
         </Paragraphs>
         <rd:DefaultName>Textbox4</rd:DefaultName>
         <Top>5.76474cm</Top>
-        <Left>4.445cm</Left>
+        <Left>5.08cm</Left>
         <Height>0.6cm</Height>
         <Width>4.00812cm</Width>
         <ZIndex>4</ZIndex>
         <Style>
           <Border>
-            <Style>None</Style>
+            <Style>Solid</Style>
           </Border>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
@@ -157,7 +157,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value />
+                <Value>=Parameters!TotalGanadoMachos.Value</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -168,13 +168,13 @@
         </Paragraphs>
         <rd:DefaultName>Textbox5</rd:DefaultName>
         <Top>5.76474cm</Top>
-        <Left>8.62951cm</Left>
+        <Left>9.26451cm</Left>
         <Height>0.6cm</Height>
         <Width>2.92333cm</Width>
         <ZIndex>5</ZIndex>
         <Style>
           <Border>
-            <Style>None</Style>
+            <Style>Solid</Style>
           </Border>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
@@ -189,7 +189,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value />
+                <Value>=Parameters!TotalGanadoHembras.Value</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -200,13 +200,13 @@
         </Paragraphs>
         <rd:DefaultName>Textbox5</rd:DefaultName>
         <Top>5.76474cm</Top>
-        <Left>16.59347cm</Left>
+        <Left>17.22847cm</Left>
         <Height>0.6cm</Height>
         <Width>2.92333cm</Width>
         <ZIndex>6</ZIndex>
         <Style>
           <Border>
-            <Style>None</Style>
+            <Style>Solid</Style>
           </Border>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
@@ -232,13 +232,13 @@
         </Paragraphs>
         <rd:DefaultName>Textbox4</rd:DefaultName>
         <Top>5.76474cm</Top>
-        <Left>12.25021cm</Left>
+        <Left>12.88521cm</Left>
         <Height>0.6cm</Height>
         <Width>4.16687cm</Width>
         <ZIndex>7</ZIndex>
         <Style>
           <Border>
-            <Style>None</Style>
+            <Style>Solid</Style>
           </Border>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
@@ -253,7 +253,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value />
+                <Value>=Parameters!TotalGanado.Value</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -264,13 +264,13 @@
         </Paragraphs>
         <rd:DefaultName>Textbox5</rd:DefaultName>
         <Top>5.76474cm</Top>
-        <Left>23.21215cm</Left>
+        <Left>23.84715cm</Left>
         <Height>0.6cm</Height>
         <Width>2.92333cm</Width>
         <ZIndex>8</ZIndex>
         <Style>
           <Border>
-            <Style>None</Style>
+            <Style>Solid</Style>
           </Border>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
@@ -296,13 +296,13 @@
         </Paragraphs>
         <rd:DefaultName>Textbox4</rd:DefaultName>
         <Top>5.76474cm</Top>
-        <Left>20.29764cm</Left>
+        <Left>20.93264cm</Left>
         <Height>0.6cm</Height>
         <Width>2.73812cm</Width>
         <ZIndex>9</ZIndex>
         <Style>
           <Border>
-            <Style>None</Style>
+            <Style>Solid</Style>
           </Border>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
@@ -654,7 +654,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>ListaGanado</DataSetName>
-        <Top>7.48453cm</Top>
+        <Top>6.90245cm</Top>
         <Height>6.08948cm</Height>
         <Width>36.41708cm</Width>
         <ZIndex>10</ZIndex>
@@ -802,6 +802,24 @@
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
     <ReportParameter Name="GeneralesEmpresa">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="TotalGanadoMachos">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="TotalGanadoHembras">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="TotalGanado">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>

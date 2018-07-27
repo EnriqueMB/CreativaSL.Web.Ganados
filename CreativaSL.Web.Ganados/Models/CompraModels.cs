@@ -28,6 +28,8 @@ namespace CreativaSL.Web.Ganados.Models
         public string LineaFletera { get; set; }
         /*Fin Para los detalles*/
 
+        public int Id_ganadoProgramado { get; set; }
+
         public string Descripcion_bascula { get; set; }
         public string Observacion_programacion { get; set; }
         public RecepcionOrigenModels RecepcionOrigen { get; set; }
