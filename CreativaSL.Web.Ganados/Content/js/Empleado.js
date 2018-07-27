@@ -36,15 +36,15 @@
 
             },
             messages: {
-                Nombre: { required: "Ingrese el nombre del empleado.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 70 caracteres." },
+                Nombre: { required: "Ingrese el nombre del empleado.", texto: "Ingrese un nombre válido.", maxlength: "El campo nombre admite máximo 70 caracteres." },
                 ApellidoPat: { required: "Ingrese el apellido paterno.", texto: "Ingrese un apellido paterno válido.", maxlength: "El campo apellido paterno admite máximo 50 caracteres." },
                 IDSucursalActual: { required: "Seleccione una sucursal." },
                 IDGrupoSanguineo: { CMBINT: "Seleccione un grupo sanguineo." },
                 IDPuesto: { CMBINT: "Seleccione un puesto." },
                 IDCategoriaPuesto: { required: "Seleccione una categoria del puesto"},
                 Telefono: { telefono: "Ingrese un número de teléfono válido." },
-                DirCalle: { direccion: "Ingrese una calle valida", maxlength: "El campo calle admite máximo 90 caracteres." },
-                DirColonia: { direccion: "Ingrese una colonia valida", maxlength: "El campo colonia admite máximo 50 caracteres." }
+                DirCalle: { direccion: "Ingrese una calle válida", maxlength: "El campo calle admite máximo 90 caracteres." },
+                DirColonia: { direccion: "Ingrese una colonia válida", maxlength: "El campo colonia admite máximo 50 caracteres." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -118,7 +118,6 @@
         //main function to initiate template pages
         init: function () {
             runValidator1();
-            runDatePicker();
             runCombos();
         }
     };
