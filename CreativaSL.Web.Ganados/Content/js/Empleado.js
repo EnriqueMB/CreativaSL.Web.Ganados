@@ -32,8 +32,8 @@
                 IDCategoriaPuesto: { required: true},
                 Telefono: { telefono: true },
                 DirCalle: { direccion: true, maxlength: 90 },
-                DirColonia: { direccion: true, maxlength: 90 }
-
+                DirColonia: { direccion: true, maxlength: 90 },
+                DirNumero: { number: true, maxlength: 10 }
             },
             messages: {
                 Nombre: { required: "Ingrese el nombre del empleado.", texto: "Ingrese un nombre válido.", maxlength: "El campo nombre admite máximo 70 caracteres." },
@@ -44,7 +44,8 @@
                 IDCategoriaPuesto: { required: "Seleccione una categoria del puesto"},
                 Telefono: { telefono: "Ingrese un número de teléfono válido." },
                 DirCalle: { direccion: "Ingrese una calle válida", maxlength: "El campo calle admite máximo 90 caracteres." },
-                DirColonia: { direccion: "Ingrese una colonia válida", maxlength: "El campo colonia admite máximo 50 caracteres." }
+                DirColonia: { direccion: "Ingrese una colonia válida", maxlength: "El campo colonia admite máximo 50 caracteres." },
+                DirNumero: { number: "Ingrese un número válido", maxlength: "El campo número admite máximo 10 caracteres." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
