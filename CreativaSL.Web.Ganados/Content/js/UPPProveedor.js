@@ -17,7 +17,7 @@
         }, 'Debe seleccionar una imagen.');
 
         $('#form-dg').validate({
-            debug:true,
+            //debug:true,
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),

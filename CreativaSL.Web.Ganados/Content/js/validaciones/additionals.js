@@ -60,7 +60,6 @@ $.validator.addMethod("CMBINT", function (value, element) {
 }, 'Seleccione un valor del combo.');
 
 $.validator.addMethod("imagenExtesion", function (value, element, params) {
-    console.log(element.value.length);
     //Checamos que tenga un archivo el input file
     if (element.value.length == 0) {
         return false;
@@ -79,11 +78,14 @@ $.validator.addMethod("imagenExtesion", function (value, element, params) {
 }, 'Solo archivos con formato PNG, JPG, JPEG y BMP.');
 
 $.validator.addMethod("ImagenRequerida", function (value, element, params) {
-    //console.log(element.value.length);
+    console.log(value);
+    console.log(element);
+    console.log($(element));
+    console.log(params);
     //Checamos que tenga un archivo el input file
     if (element.value.length == 0) {
         var imagenServidor = document.getElementById(params[0]).value;
-        console.log(imagenServidor.length);
+        
         if (imagenServidor.length < 0)
             return false;
         else

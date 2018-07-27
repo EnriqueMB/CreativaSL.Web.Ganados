@@ -87,14 +87,16 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="col-md-12 control-label text-center">Fecha Alta</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group date">
-                                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        @Html.TextBoxFor(model => model.fechaAlta, "{0:dd/MM/yyyy}", new { id = "fechaAlta", @class = "form-control datepicker" })
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Fecha Alta</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group date">
+                                            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            @Html.TextBoxFor(model => model.fechaAlta, "{0:dd/MM/yyyy}", new { id = "fechaAlta", @class = "form-control datepicker" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.fechaAlta)
+                                        <span class="help-block">Ingrese la fecha de alta</span>
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.fechaAlta)
-                                    <span class="help-block">Ingrese la fecha de alta</span>
                                 </div>
                             </div>
                         </div>
@@ -199,36 +201,17 @@
             maxFileCount: 1,
             overwriteInitial: true,
             showUploadedThumbs: false,
-            allowedFileExtensions: ['png', 'jpg', 'jpeg', 'bmp'],
             initialPreview: [
             '<img class="file-preview-image"  style=" width: auto !important; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64,@Model.ImagenMostrar" />'
             ],
             initialPreviewConfig: [
                { caption: 'Imagen' }
             ],
-            @*@if (!string.IsNullOrEmpty(Model.Imagen))
-            {
-                <text>initialPreview: [
-                 "<img class='file-preview-image' if; height: auto; max-width: 100%; max-height: 100%;' src='data:image/png;base64, @Model.ImagenMostrar'/>'"
-                ],
-                initialPreviewConfig: [
-                    { caption: 'UPPProveedor' }
-                ],</text>
-            }
-            else {
-                <text>initialPreview: [
-                 "<img class='file-preview-image' if; height: auto; max-width: 100%; max-height: 100%;' src='/Content/img/GrupoOcampo.png'/>'"
-                ],
-                initialPreviewConfig: [
-                    { caption: 'Default' }
-                ],</text>
-            }*@
             initialPreviewShowDelete: false,
             showRemove: false,
             showClose: false,
             showUpload: false,
-            layoutTemplates: { actionDelete: '' },
-            required: true
+            layoutTemplates: { actionDelete: '' }
             })
         });
         jQuery(document).ready(function () {
