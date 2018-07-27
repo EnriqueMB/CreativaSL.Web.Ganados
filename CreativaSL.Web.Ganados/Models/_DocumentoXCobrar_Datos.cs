@@ -11,7 +11,7 @@ namespace CreativaSL.Web.Ganados.Models
     {
         #region JSON tablas
         #region Json Documentos Detalles
-        public SqlDataReader GetDocumentosDetallesCompra(DocumentosPorCobrarDetalleModels Documento)
+        public string GetDocumentosDetallesCompra(DocumentosPorCobrarDetalleModels Documento)
         {
             object[] parametros =
             {
@@ -22,8 +22,9 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_DocumentoPorCobrar_get_DocumentosDetalles", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
-                return dr;
+                return datatable;
             }
             catch (Exception ex)
             {
