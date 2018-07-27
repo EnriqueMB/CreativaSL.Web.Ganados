@@ -224,11 +224,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Banco.IDBanco = id;
                 Banco.Usuario = User.Identity.Name;
                 Banco = BancoDatos.EliminarCatBanco(Banco);
-                if (Banco.Completado == true)
-                {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se ha eliminado correctamente";
-                }
+                //if (Banco.Completado == true)
+                //{
+                //    TempData["typemessage"] = "1";
+                //    TempData["message"] = "El registro se ha eliminado correctamente";
+                //}
                 return Json("");
 
 
@@ -237,8 +237,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 CatBancoModels Bancos = new CatBancoModels();
 
-                TempData["typemessage"] = "2";
-                TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
+                //TempData["typemessage"] = "2";
+                //TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
                 return Json("");
 
             }

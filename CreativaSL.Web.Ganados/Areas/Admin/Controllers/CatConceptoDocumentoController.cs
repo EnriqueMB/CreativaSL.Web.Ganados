@@ -190,15 +190,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Concepto.IDConceptosDocumento = id;
                 Concepto.Usuario = User.Identity.Name;
                 Concepto = ConceptoDatos.EliminarCatConceptoDocumento(Concepto);
-                TempData["typemessage"] = "1";
-                TempData["message"] = "El registro se ha eliminado correctamente";
+                //TempData["typemessage"] = "1";
+                //TempData["message"] = "El registro se ha eliminado correctamente";
                 return Json("");
             }
             catch
             {
                 CatConceptoDetalleDocumentosModels Conceptos = new CatConceptoDetalleDocumentosModels();
-                TempData["typemessage"] = "2";
-                TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
+                //TempData["typemessage"] = "2";
+                //TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
                 return Json("");
 
             }

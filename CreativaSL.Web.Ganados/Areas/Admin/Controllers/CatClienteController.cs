@@ -403,12 +403,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Cliente.IDCliente = id;
                 Cliente.IDSucursal = id2;
                 ClienteDatos.EliminarCliente(Cliente);
-                TempData["typemessage"] = "1";
-                TempData["message"] = "El registro se ha eliminado correctamente";
+                //TempData["typemessage"] = "1";
+                //TempData["message"] = "El registro se ha eliminado correctamente";
                 return Json("");
             }
             catch
             {
+                CatClienteModels Cliente = new CatClienteModels();
+
                 return Json("");
             }
         }
@@ -753,7 +755,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Json("");
             }
             catch
-            {
+            {                
                 return View();
             }
         }
