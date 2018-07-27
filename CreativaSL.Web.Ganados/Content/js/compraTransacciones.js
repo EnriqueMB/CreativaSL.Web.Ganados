@@ -170,7 +170,7 @@
                 "dataSrc": ''
             },
             "columns": [
-                { "data": "descripcion" },
+                { "data": "formaPago" },
                 {
                     "data": "monto",
                     "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
@@ -195,70 +195,8 @@
                             data;
                     }
                 },
-                {
-                    "data": null,
-                    "render": function (data, type, full) {
-
-                        return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='btn btn-yellow tooltips btn-sm editCobro' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
-                            "<a data-hrefa='/Admin/Compra/DelComprobante/' title='Eliminar' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='btn btn-danger tooltips btn-sm delComprobante' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
-                            "</div>" +
-                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
-                            "<div class='btn-group'>" +
-                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
-                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
-                            "</a>" +
-                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
-                            "<li>" +
-                            "<a data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='editCobro' role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-edit'></i> Editar" +
-                            "</a>" +
-                            "</li>" +
-                            "<li>" +
-                            "<a data-hrefa='/Admin/Compra/DelComprobante/' class='delComprobante' role='menuitem' tabindex='-1' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "'>" +
-                            "<i class='fa fa-trash-o'></i> Eliminar" +
-                            "</a>" +
-                            "</li>" +
-                            "</ul>" +
-                            "</div>" +
-                            "</div>";
-                    }
-                }
             ],
-            "drawCallback": function (settings) {
-                $(".editCobro").on("click", function () {
-                    var Id_documentoPorCobrarDetalle = $(this).data("id");
-                    window.location.href = '/Admin/DocumentoXCobrar/EditComprobante?Id_documentoPorCobrarDetallePagos=' + Id_documentoPorCobrarDetalle + '&TipoServicio=' + TipoServicio + '&Id_documentoPorCobrar=' + Id_documentoPorCobrar;
-                });
-                $(".delComprobante").on("click", function () {
-                    var url = $(this).attr('data-hrefa');
-                    var id_pago = $(this).attr('data-id');
-                    var box = $("#mb-delComprobante");
-                    box.addClass("open");
-                    box.find(".mb-control-yes").on("click", function () {
-                        box.removeClass("open");
-                        $.ajax({
-                            url: url,
-                            data: { Id_documentoPorCobrarDetallePagos: id_pago, Id_documentoPorCobrar: Id_documentoPorCobrar },
-                            type: 'POST',
-                            dataType: 'json',
-                            success: function (result) {
-                                if (result.Success) {
-                                    box.find(".mb-control-yes").prop('onclick', null).off('click');
-                                    Mensaje(result.Mensaje, "1");
-                                    $("#Modal").modal('hide');
-                                    tbl_documentosPorCobrarDetallesPagos.ajax.reload();
-                                }
-                                else
-                                    Mensaje(result.Mensaje, "2");
-                            },
-                            error: function (result) {
-                                Mensaje(result.Mensaje, "2");
-                            }
-                        });
-                    });
-                });
-            }
+          
         });
     };
 

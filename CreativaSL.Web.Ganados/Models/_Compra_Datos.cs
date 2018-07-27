@@ -142,14 +142,14 @@ namespace CreativaSL.Web.Ganados.Models
         {
             object[] parametros =
             {
-               // Documento.Id_documentoPorCobrar,
+                Documento.Id_documentoPorCobrar,
                 Documento.Id_compra
             };
 
             try
             {
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Compra_get_DetallesDocXcobrar", parametros);
+                dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Compra_get_DetallesDocumentoPorCobrarCobros", parametros);
                 string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
                 return datatable;
