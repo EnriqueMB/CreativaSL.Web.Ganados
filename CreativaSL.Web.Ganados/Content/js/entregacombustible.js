@@ -37,9 +37,9 @@
                 NoTicket: { required: true },
                 IDSucursal: { required: true },
                 IDProveedor: { required: true },
-                Litros: {CMBINT:true, required: true },
-                KMInicial: { required: true },
-                Total: { CMBINT:true, required: true },
+                Litros: {min:0.1, required: true },
+                KMInicial: { required: true, min: 0 },
+                Total: { min:1, required: true },
                 ImgTicket: { validarImagen: true, formatoPNG: true },
                 IDVehiculo: { required: true },
                 IDTipoCombustible: { CMBINT: true }
@@ -47,9 +47,10 @@
             messages: {
                 NoTicket: { required: "Ingrese el número del ticket" },
                 IDSucursal: { required: "Seleccione una sucursal." },
-                Litros: {CMBINT:"Ingrese litros mayor que 0 ", required: "Ingrese la cantidad en litros" },
-                KMInicial: { required: "Ingrese el Kilometraje inicial" },
-                Total: { CMBINT: "El total debe ser mayor a 0", required: "Ingrese el importe total del ticket" },
+                IDProveedor: { required: "Seleccione un proveedor" },
+                Litros: {min:"Ingrese litros mayor que 0 ", required: "Ingrese la cantidad en litros" },
+                KMInicial: { required: "Ingrese el Kilometraje inicial.", min:"El KMInicial no puede ser un valor negativo." },
+                Total: { min: "El total debe ser mayor a 0", required: "Ingrese el importe total del ticket" },
                 ImgTicket: { validarImagen:"Ingrese una imagen correcta", formatoPNG: "El formato de la imagen debe ser png" },
                 IDVehiculo: { required: "Seleccione un vehículo" },
                 IDTipoCombustible: { CMBINT: "Seleccione un tipo de combustible" }
