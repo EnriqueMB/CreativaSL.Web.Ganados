@@ -336,18 +336,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult RptDiasLaborados(string id, string id2)
         {
-                //NominaModels Nomina = new NominaModels();
-                //Nomina_Datos NominaD = new Nomina_Datos();
-                //Nomina.Conexion = Conexion;
-                //Nomina.IDNomina = id;
-                //Nomina.IDSucursal = id2;
-                //Nomina = NominaD.ObtenerDatosEmpresaTipo1(Nomina);
-                //NominaD.ObtenerReporteNominaDetalle(Nomina);
-                //return View(Nomina);
-
-
-
-            ///###########################################
             try
             {
                 
@@ -361,8 +349,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Nomina = NominaD.ObtenerDatosEmpresaTipo1(Nomina);
                 NominaD.ObtenerReporteNominaDetalle(Nomina);
                 lista = Nomina.ListaResumenDetalleNomina;
-                //reporte.DatosEmpresa = R.ObtenerDatosEmpresaTipo1(Conexion);
-                //reporte.listaRptProveedorMerma = reporteDatos.obtenerListaProveedoresMermaAlta(reporte);
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
                 Rtp.DataSources.Clear();
@@ -424,7 +410,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 return RedirectToAction("Index", "Nomina");
             }
-            //############################################
         }
 
         [HttpGet]
@@ -480,23 +465,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                //NominaModels Nomina = new NominaModels();
-                //Nomina_Datos NominaD = new Nomina_Datos();
-                //Nomina.Conexion = Conexion;
-                //Nomina.IDNomina = id;
-                //Nomina.IDSucursal = id2;
-                //Nomina = NominaD.ObtenerDatosEmpresaTipo1(Nomina);
-                //NominaD.ObtenerReporteNominaSaldos(Nomina);
-                //return View(Nomina);
                 NominaModels Nomina = new NominaModels();
                 Nomina_Datos NominaD = new Nomina_Datos();
-                //List<NominaResumenDetalleModels> lista = new List<NominaResumenDetalleModels>();
                 Nomina.Conexion = Conexion;
                 Nomina.IDNomina = id;
                 Nomina.IDSucursal = id2;
                 Nomina = NominaD.ObtenerDatosEmpresaTipo1(Nomina);
                 NominaD.ObtenerReporteNominaSaldos(Nomina);
-                //lista = Nomina.ListaResumenDetalleNomina;
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
                 Rtp.DataSources.Clear();

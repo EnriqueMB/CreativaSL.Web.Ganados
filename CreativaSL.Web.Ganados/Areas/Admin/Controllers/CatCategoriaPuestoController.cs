@@ -214,7 +214,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CategoriaPuestos = CategoriaPuestosDatos.EliminarCategoriaPuesto(CategoriaPuestos);
                 TempData["typemessage"] = "1";
                 TempData["message"] = "El registro se ha eliminado correctamente";
-                return Json("");
+                return Json(View());
                 // TODO: Add delete logic here
             }
             catch
