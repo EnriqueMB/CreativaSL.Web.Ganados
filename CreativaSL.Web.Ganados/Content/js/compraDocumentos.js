@@ -1,22 +1,12 @@
-﻿var Combustible = function () {
+﻿var CompraDocumentos = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator1 = function () {
-        var form1 = $('#form-ec');
+        var form1 = $('#form-catalm');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
-        $.validator.addMethod("validarImagen", function () {
-            console.log(document.getElementById("ImgTicket").value);
-            if (document.getElementById("ImgTicket").value === '') {
-                if ((document.getElementById("ImgTicket").value === ''))
-                    return false;
-                else
-                    return true;
-            }
-            else
-                return true;
-        }, 'Debe seleccionar una imagen.');
-        $('#form-ec').validate({
+
+        $('#form-catalm').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -34,26 +24,42 @@
             },
             ignore: "",
             rules: {
-                NoTicket: { required: true },
+
                 IDSucursal: { required: true },
-                IDProveedor: { required: true },
-                Litros: {min:0.1, required: true },
-                KMInicial: { required: true, min: 0 },
-                Total: { min:1, required: true },
-                ImgTicket: { validarImagen: true, formatoPNG: true },
-                IDVehiculo: { required: true },
-                IDTipoCombustible: { CMBINT: true }
+
+                ClaveAlmacen: { required: true },
+
+                Descripcion: { required: true },
+                nombre: { required: true },
+
+                //NombreRazonSocial: { required: true, texto: true, maxlength: 300 },
+                //IDRegimenFiscal: { required: true },
+                //RFC: { required: true, rfc: true },
+                //Direccion: { direccion: true, maxlength: 300 },
+                //FechaIngreso: { required: true },
+                //NombreResponsable: { nombre: true, maxlength: 300 }, //{ nombre: true, maxlenght: 300 },
+                //Celular: { telefono: true },
+                //Telefono: { telefono: true },
+                //CorreoElectronico: { required: true, email: true }
+
             },
             messages: {
-                NoTicket: { required: "Ingrese el número del ticket" },
+
                 IDSucursal: { required: "Seleccione una sucursal." },
-                IDProveedor: { required: "Seleccione un proveedor" },
-                Litros: {min:"Ingrese litros mayor que 0 ", required: "Ingrese la cantidad en litros" },
-                KMInicial: { required: "Ingrese el Kilometraje inicial.", min:"El KMInicial no puede ser un valor negativo." },
-                Total: { min: "El total debe ser mayor a 0", required: "Ingrese el importe total del ticket" },
-                ImgTicket: { validarImagen:"Ingrese una imagen correcta", formatoPNG: "El formato de la imagen debe ser png" },
-                IDVehiculo: { required: "Seleccione un vehículo" },
-                IDTipoCombustible: { CMBINT: "Seleccione un tipo de combustible" }
+
+                ClaveAlmacen: { required: "Ingrese la clave del almacén" },
+                Descripcion: { required: "Ingrese una descripción del almacén" },
+                nombre: { required: "Ingrese un nombre del almacén" },
+
+                //NombreRazonSocial: { required: "Ingrese el nombre o Razón social.", texto: "Ingrese un nombre o razón social válido.", maxlength: "El campo nombre o razón social admite máximo 300 caracteres." },
+                //IDRegimenFiscal: { required: "Seleccione un régimen fiscal." },
+                //RFC: { required: "Ingrese el RFC del cliente.", rfc: "Ingrese un RFC válido." },
+                //Direccion: { direccion: "Ingrese un dirección válida.", maxlength: "El campo domicilio fiscal admite máximo 300 caracteres." },
+                //FechaIngreso: { required: "Ingrese la fecha de inicio de relación." },
+                //NombreResponsable: { nombre: "Ingrese un nombre de contacto válido.", maxlength: "El campo nombre de contacto admite máximo 300 caracteres." }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
+                //Celular: { telefono: "Ingrese un número de celular válido." },
+                //Telefono: { telefono: "Ingrese un número de teléfono válido." },
+                //CorreoElectronico: { required: "Ingrese el correo electrónico del cliente.", email: "Ingrese un correo electrónico válido." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -88,7 +94,7 @@
     var runElements = function () {
         $('#Fecha').datepicker({
             format: 'dd/mm/yyyy'
-        });        
+        });
         //$('.bootstrap-select-searchbox').append("<span class='glyphicon form-control-feedback'></span>");
         //$('.bootstrap-select-searchbox').focusout(function () {
         //    console.log($(this).closest('.form-group').find('select'));
@@ -101,10 +107,8 @@
 
         $('#IDSucursal').on('change', function (event) {
             $("#IDVehiculo option").remove();
-            $("#IDProveedor option").remove();
             var IdSucursal = $(this).val();
             getCatVehiculos(IdSucursal);
-            getCatProveedores(IdSucursal);
             //$(this).trigger("focusout");
         });
         function getCatVehiculos(IdSucursal) {
@@ -125,30 +129,10 @@
                 }
             });
         }
-
-        function getCatProveedores(IdSucursal) {
-            $.ajax({
-                url: "/Admin/EntregaCombustible/ObtenerComboProveedores",
-                data: { IDSucursal: IdSucursal },
-                async: false,
-                dataType: "json",
-                type: "POST",
-                error: function () {
-                    Mensaje("Ocurrió un error al cargar el combo", "2");
-                },
-                success: function (result) {
-                    for (var i = 0; i < result.length; i++) {
-                        $("#IDProveedor").append('<option value="' + result[i].IDProveedor + '">' + result[i].NombreRazonSocial + '</option>');
-                    }
-                    $('#IDProveedor.select').selectpicker('refresh');
-                }
-            });
-        }
-
     };
 
     var runFileInput = function () {
-        
+
         //console.log(band);
         //if (!band)
         //{
@@ -193,16 +177,16 @@
         //        required: true
         //    })
         //}
-        
+
     };
 
     return {
         //main function to initiate template pages
-        init: function (band, img64 ) {
-            runValidator1();
-            runElements();
-            runCombos();
-            runFileInput();
+        init: function () {
+            //runValidator1();
+            //runElements();
+            //runCombos();
+            //runFileInput();
         }
     };
 }();

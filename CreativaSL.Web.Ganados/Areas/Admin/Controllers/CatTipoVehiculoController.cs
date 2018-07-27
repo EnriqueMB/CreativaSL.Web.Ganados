@@ -202,8 +202,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TipoVehiculo = TipoVehiculoDatos.EliminarTipoVehiculo(TipoVehiculo);
                 if (TipoVehiculo.Completado == true)
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se ha eliminado correctamente";
+                    //TempData["typemessage"] = "1";
+                    //TempData["message"] = "El registro se ha eliminado correctamente";
                 }
                 return Json("");
             }
