@@ -58,18 +58,19 @@ $.validator.addMethod("CMBINT", function (value, element) {
         return true;
     }
 }, 'Seleccione un valor del combo.');
-$.validator.addMethod("formatoPNG", function (value, element, params) {
 
+$.validator.addMethod("imagenExtesion", function (value, element, params) {
+    console.log(element.value.length);
     //Checamos que tenga un archivo el input file
     if (element.value.length == 0) {
-        return true;
+        return false;
     }
     //Si hay obtenemos la extensión
     var arrayString = element.value.split(".");
     var longitud = arrayString.length;
     var extension = arrayString[longitud - 1];
-   
-    if (extension.localeCompare("png") == 0 || extension.localeCompare("jpg") == 0 || extension.localeCompare("jpeg") == 0 || extension.localeCompare("bmp") == 0 ) {
+
+    if (extension.localeCompare("png") == 0 || extension.localeCompare("jpg") == 0 || extension.localeCompare("jpeg") == 0 || extension.localeCompare("bmp") == 0) {
         return true;
     }
     else {
@@ -78,6 +79,32 @@ $.validator.addMethod("formatoPNG", function (value, element, params) {
 }, 'Solo archivos con formato PNG, JPG, JPEG y BMP.');
 
 $.validator.addMethod("ImagenRequerida", function (value, element, params) {
+    //console.log(element.value.length);
+    //Checamos que tenga un archivo el input file
+    if (element.value.length == 0) {
+        var imagenServidor = document.getElementById(params[0]).value;
+        console.log(imagenServidor.length);
+        if (imagenServidor.length < 0)
+            return false;
+        else
+            return true;
+    }
+    else {
+        //Si hay obtenemos la extensión
+        var arrayString = element.value.split(".");
+        var longitud = arrayString.length;
+        var extension = arrayString[longitud - 1];
+
+        if (extension.localeCompare("png") == 0 || extension.localeCompare("jpg") == 0 || extension.localeCompare("jpeg") == 0 || extension.localeCompare("bmp") == 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}, 'Solo archivos con formato PNG, JPG, JPEG y BMP.');
+
+$.validator.addMethod("formatoPNG", function (value, element, params) {
     //Bandera que me indica si hay o no imagen en el servidor
     var imgBD = element.dataset.imgbd;
     //Hay imagen en el servidor?

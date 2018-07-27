@@ -231,12 +231,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Empleado.Usuario = User.Identity.Name;
                 Empleado.IDEmpleado = id;
                 EmpleadoDatos.EliminarEmpleado(Empleado);
-                TempData["typemessage"] = "1";
-                TempData["message"] = "El registro se ha eliminado correctamente";
+                //TempData["typemessage"] = "1";
+                //TempData["message"] = "El registro se ha eliminado correctamente";
                 return Json("");
             }
             catch
             {
+                CatEmpleadoModels Empleado = new CatEmpleadoModels();
+
                 return View();
             }
         }

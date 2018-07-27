@@ -202,12 +202,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 conceptos.IDConceptoNomina = id;
                 conceptos.Usuario = User.Identity.Name;
                 conceptosD.EliminarConcetoNomina(conceptos);
-                TempData["typemessage"] = "1";
-                TempData["message"] = "El registro se ha eliminado correctamente";
+                //TempData["typemessage"] = "1";
+                //TempData["message"] = "El registro se ha eliminado correctamente";
                 return Json("");
             }
             catch
             {
+                CatConceptosNominaModels conceptos = new CatConceptosNominaModels();
                 return View();
             }
         }

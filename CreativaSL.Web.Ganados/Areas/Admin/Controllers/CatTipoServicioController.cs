@@ -197,8 +197,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TipoServicio = TipoServicioDatos.EliminarTipoServicio(TipoServicio);
                 if (TipoServicio.Completado == true)
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se ha eliminado correctamente";
+                    //TempData["typemessage"] = "1";
+                    //TempData["message"] = "El registro se ha eliminado correctamente";
                 }
                 return Json("");
             }
