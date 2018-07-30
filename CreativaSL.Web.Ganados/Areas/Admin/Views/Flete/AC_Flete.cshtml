@@ -216,7 +216,6 @@
                         @{ Html.EnableClientValidation(false); }
                         @using (Html.BeginForm("AC_Trayecto", "Flete", FormMethod.Post, new { id = "frm_AC_Trayecto", @class = "form-horizontal", autocomplete = "off" }))
                         {
-                            @Html.HiddenFor(model => model.id_flete);
                             @Html.HiddenFor(model => model.Trayecto.id_trayecto);
                             @Html.AntiForgeryToken()
 

@@ -213,7 +213,6 @@
 
     /*INICIA PAGOS*/
     var Load_tbl_documentoPorPagarDetalles = function () {
-        console.log("pagar detalles");
 
         tbl_documentoPorPagarDetalles = $('#tbl_documentoPorPagarDetalles').DataTable({
             "language": {
@@ -222,9 +221,9 @@
             responsive: true,
             "ajax": {
                 "data": {
-                    "IDDocumentoPagar": Id_documentoPorPagar, "Id_servicio": IDCompra
+                    "IDDocumentoPagar": Id_documentoPorPagar, "Id_servicio2": IDCompra
                 },
-                "url": "/Admin/Compra/DatatableDocumentosPorPagarDetalles/",
+                "url": "/Admin/Compra/DatatableDocumentosPorPagarCompra/",
                 "type": "POST",
                 "datatype": "json",
                 "dataSrc": ''
@@ -319,7 +318,7 @@
             EventosCobro();
             Load_tbl_documentosPorCobrarDetallesPagos();
 
-            Load_tbl_documentoPorPagarDetalles();
+            //Load_tbl_documentoPorPagarDetalles();
         }
     };
 }();
