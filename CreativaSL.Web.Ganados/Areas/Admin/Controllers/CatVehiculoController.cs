@@ -265,12 +265,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Vehiculo.Usuario = User.Identity.Name;
                 // TODO: Add delete logic here
                 Vehiculo = VehiculoDatos.EliminarVehiculo(Vehiculo);
-                TempData["typemessage"] = "1";
-                TempData["message"] = "El registro se ha eliminado correctamente";
+                //TempData["typemessage"] = "1";
+                //TempData["message"] = "El registro se ha eliminado correctamente";
                 return Json("");
             }
             catch
             {
+                CatVehiculoModels Vehiculo = new CatVehiculoModels();
+
                 return View();
             }
         }
