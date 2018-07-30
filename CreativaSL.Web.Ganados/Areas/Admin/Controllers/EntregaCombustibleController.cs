@@ -353,7 +353,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Rendimiento(RendimientoCombustibleViewModels Rendimiento)
+        public ActionResult Rendimiento(RendimientoCombustibleViewModels Rendimientoactual, FormCollection COLL)
         {
             //RendimientoCombustibleViewModels Rendimiento = new RendimientoCombustibleViewModels();
             _EntregaCombustible_Datos EntregaCombustibleDatos = new _EntregaCombustible_Datos();
@@ -363,14 +363,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        Rendimiento.Usuario = User.Identity.Name;
-                        Rendimiento.Conexion = Conexion;
+                        Rendimientoactual.Usuario = User.Identity.Name;
+                        Rendimientoactual.Conexion = Conexion;
                         //Rendimiento.IDEntregaCombustible = collection["IDEntregaCombustible"];
                         //Rendimiento.KMFinal = Convert.ToInt32(collection["KMFinal"]);
                         //Rendimiento.Rendimiento = Convert.ToDecimal(collection["Rendimiento"]);
-                        Rendimiento = EntregaCombustibleDatos.setRendimiento(Rendimiento);
+                        Rendimientoactual = EntregaCombustibleDatos.setRendimiento(Rendimientoactual);
 
-                        if (Rendimiento.Completado == true)
+                        if (Rendimientoactual.Completado == true)
                         {
                             TempData["typemessage"] = "1";
                             TempData["message"] = "El registro se guardo correctamente.";
@@ -381,12 +381,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrió un error al guardar el registro.";
-                            return View(Rendimiento);
+                            return View(Rendimientoactual);
                         }
                     }
                     else
                     {
-                        return View(Rendimiento);
+                        return View(Rendimientoactual);
                     }
                 }
                 else
