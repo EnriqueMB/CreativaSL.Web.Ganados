@@ -209,6 +209,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch
             {
+                CatTipoVehiculoModels TipoVehiculo = new CatTipoVehiculoModels();
+
                 return View();
             }
         }

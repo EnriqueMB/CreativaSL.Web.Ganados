@@ -215,8 +215,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 provserv = proveedorDatos.EliminarProveedorServicio(provserv);
                 if (provserv.Completado == true)
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se elimino correctamente.";
+                    //TempData["typemessage"] = "1";
+                    //TempData["message"] = "El registro se elimino correctamente.";
                     return Json("");
                 }
                 else
@@ -228,6 +228,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch
             {
+                CatProveedorServicioModels provserv = new CatProveedorServicioModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrió un error el intentar guardar. Contacte a soporte técnico";
                 return View();

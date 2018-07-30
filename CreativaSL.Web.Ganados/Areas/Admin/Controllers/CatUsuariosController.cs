@@ -220,12 +220,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 usuario.opcion = 3;
                 usuario.user = User.Identity.Name;
                 usuario = UsuarioDatos.EliminarUsuario(usuario);
-                TempData["typemessage"] = "1";
-                TempData["message"] = "El registro se elimino correctamente.";
+                //TempData["typemessage"] = "1";
+                //TempData["message"] = "El registro se elimino correctamente.";
                 return Json("");
             }
             catch
             {
+                UsuarioModels usuario = new UsuarioModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrió un error el intentar guardar. Contacte a soporte técnico";
                 return View();

@@ -204,6 +204,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch
             {
+                CatTipoServicioModels TipoServicio = new CatTipoServicioModels();
                 return View();
             }
         }

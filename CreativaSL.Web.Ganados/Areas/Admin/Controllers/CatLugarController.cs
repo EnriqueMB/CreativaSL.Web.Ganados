@@ -229,8 +229,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Lugar.id_lugar = id;
                 Lugar.user = User.Identity.Name;
                 Lugar = LugarDatos.EliminarLugar(Lugar);
-                TempData["typemessage"] = "1";
-              //  TempData["message"] = "El registro se ha eliminado correctamente";
+                //TempData["typemessage"] = "1";
+                //TempData["message"] = "El registro se ha eliminado correctamente";
                 return Json("");
                 // TODO: Add delete logic here
             }
