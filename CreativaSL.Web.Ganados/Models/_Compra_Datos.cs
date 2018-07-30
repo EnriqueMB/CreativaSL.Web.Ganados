@@ -142,14 +142,14 @@ namespace CreativaSL.Web.Ganados.Models
         {
             object[] parametros =
             {
-               // Documento.Id_documentoPorCobrar,
+                Documento.Id_documentoPorCobrar,
                 Documento.Id_compra
             };
 
             try
             {
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Compra_get_DetallesDocXcobrar", parametros);
+                dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Compra_get_DetallesDocumentoPorCobrarCobros", parametros);
                 string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
                 return datatable;
@@ -185,6 +185,29 @@ namespace CreativaSL.Web.Ganados.Models
                 object[] parametros = { Compra.IDCompra };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_Ganado", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region DatatableDocumentosPorPagarDetalles
+        public string DatatableDocumentosPorPagarDetalles(DocumentoPorPagarDetalleModels Documento)
+        {
+            object[] parametros =
+            {
+                Documento.IDDocumentoPagar,
+                Documento.Id_servicio
+            };
+
+            try
+            {
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Compra_get_DocumentosPorPagarDetalles", parametros);
                 string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
                 return datatable;

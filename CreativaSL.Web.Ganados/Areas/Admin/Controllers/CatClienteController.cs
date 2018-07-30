@@ -432,7 +432,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 if (Datos.Completado)
                 {
                     TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se ha eliminado correctamente";
+                 //   TempData["message"] = "El registro se ha eliminado correctamente";
                     return Json("");
                 }
                 else
@@ -574,7 +574,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 ClienteDatos.EliminarLugarCliente(Cliente);
                 TempData["typemessage"] = "1";
-                TempData["message"] = "El registro se ha eliminado correctamente";
+               // TempData["message"] = "El registro se ha eliminado correctamente";
                 return Json("");
             }
             catch

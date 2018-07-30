@@ -206,7 +206,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 unidad.Opcion = 3;
                 unidad.Usuario = User.Identity.Name;
                 unidad = unidadDatos.EliminarUnidad(unidad);
-                TempData["typemessage"] = "1";
+               // TempData["typemessage"] = "1";
                // TempData["message"] = "El registro se elimino correctamente.";
                 return Json("");
                 

@@ -105,7 +105,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         }
                         else
                         {
-
+                            Vehiculo.ListaEmpresas = VehiculoDatos.obtenerListaEmpresas(Vehiculo);
                             Vehiculo.listaTipoVehiculos = VehiculoDatos.obtenerListaTipoVehiculo(Vehiculo);
                             Vehiculo.listaSucursal = VehiculoDatos.obtenerListaSucursales(Vehiculo);
                             Vehiculo.listaMarcas = VehiculoDatos.obtenerListaMarcas(Vehiculo);
@@ -120,6 +120,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Vehiculo.listaTipoVehiculos = VehiculoDatos.obtenerListaTipoVehiculo(Vehiculo);
                         Vehiculo.listaSucursal = VehiculoDatos.obtenerListaSucursales(Vehiculo);
                         Vehiculo.listaMarcas = VehiculoDatos.obtenerListaMarcas(Vehiculo);
+                        Vehiculo.ListaEmpresas = VehiculoDatos.obtenerListaEmpresas(Vehiculo);
                         return View(Vehiculo);
 
                     }
@@ -135,6 +136,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Vehiculo.listaTipoVehiculos = VehiculoDatos.obtenerListaTipoVehiculo(Vehiculo);
                 Vehiculo.listaSucursal = VehiculoDatos.obtenerListaSucursales(Vehiculo);
                 Vehiculo.listaMarcas = VehiculoDatos.obtenerListaMarcas(Vehiculo);
+                Vehiculo.ListaEmpresas = VehiculoDatos.obtenerListaEmpresas(Vehiculo);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
                 return View(Vehiculo);

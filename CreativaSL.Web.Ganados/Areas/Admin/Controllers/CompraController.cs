@@ -1167,7 +1167,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
             }
         }
-        #region ocumentos por cobrar Detalles Pagos
+        #region documentos por cobrar Detalles Pagos
         [HttpPost]
         public ActionResult DatatableDocumentosPorCobrarDetallesPagos(DocumentosPorCobrarDetallePagosModels DocumentoPagos)
         {
@@ -1192,6 +1192,32 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(DocumentoPagos.RespuestaAjax.ToJSON(), "application/json");
             }
         }
+        #region Documentos por pagar Detalles 
+        [HttpPost]
+        public ActionResult DatatableDocumentosPorPagarDetalles(DocumentoPorPagarDetalleModels Documento)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                Documento.Conexion = Conexion;
+                Documento.Usuario = User.Identity.Name;
+                Documento.RespuestaAjax = new RespuestaAjax();
+
+                Documento.RespuestaAjax.Mensaje = CompraDatos.DatatableDocumentosPorPagarDetalles(Documento);
+                Documento.RespuestaAjax.Success = true;
+
+                return Content(Documento.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Documento.RespuestaAjax = new RespuestaAjax();
+                Documento.RespuestaAjax.Mensaje = ex.ToString();
+                Documento.RespuestaAjax.Success = false;
+                return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
         #endregion
         #endregion
         #endregion

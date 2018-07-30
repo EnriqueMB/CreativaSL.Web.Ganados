@@ -30,7 +30,8 @@
         <div class="col-md-12">
             @{ Html.EnableClientValidation(false); }
             @using (Html.BeginForm("UPPProveedor", "CatProveedor", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off", @enctype = "multipart/form-data" }))
-            {
+            {   
+                @Html.HiddenFor(model=>model.Imagen)
                 @Html.AntiForgeryToken()
                 @*@Html.ValidationSummary(true)*@
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
@@ -86,14 +87,16 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="col-md-12 control-label text-center">Fecha Alta</label>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="input-group date">
-                                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        @Html.TextBoxFor(model => model.fechaAlta, "{0:dd/MM/yyyy}", new { id = "fechaAlta", @class = "form-control datepicker" })
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Fecha Alta</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group date">
+                                            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            @Html.TextBoxFor(model => model.fechaAlta, "{0:dd/MM/yyyy}", new { id = "fechaAlta", @class = "form-control datepicker" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.fechaAlta)
+                                        <span class="help-block">Ingrese la fecha de alta</span>
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.fechaAlta)
-                                    <span class="help-block">Ingrese la fecha de alta</span>
                                 </div>
                             </div>
                         </div>
@@ -142,9 +145,9 @@
                             <div class="col-md-6 col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.TextBoxFor(model => model.Imagen, new { id = "Imagen", @type = "file", @class = "form-control" })
+                                    @Html.TextBoxFor(model => model.ImagenHttp, new { id = "ImagenHttp", @type = "file", @class = "form-control" })
                                 </div>
-                                @Html.ValidationMessageFor(model => model.Imagen)
+                                @Html.ValidationMessageFor(model => model.ImagenHttp)
                                 <span class="help-block">Ingrese por lo menos 1 imagen.</span>
                             </div>
                         </div>
@@ -180,42 +183,30 @@
             Mensaje(message, typemessage);
             UPPProveedor.init();
 
-            $('#imagen').fileinput({
-                theme: 'fa',
-                language: 'es',
-                minfilecount: 1,
-                uploadurl: "#",
-                showupload: false,
-                showuploadedthumbs: false,
-                overwriteinitial: false,
-                allowedfileextensions: ['png'],
-                required: true
-            })
+            //$('#imagen').fileinput({
+            //    theme: 'fa',
+            //    language: 'es',
+            //    minfilecount: 1,
+            //    uploadurl: "#",
+            //    showupload: false,
+            //    showuploadedthumbs: false,
+            //    overwriteinitial: false,
+            //    allowedfileextensions: ['png'],
+            //    required: true
+            //})
 
-            $('#Imagen').fileinput({
+            $('#ImagenHttp').fileinput({
             theme: 'fa',
             language: 'es',
             maxFileCount: 1,
             overwriteInitial: true,
             showUploadedThumbs: false,
-            allowedFileExtensions: ['png'],
-            @if (!string.IsNullOrEmpty(Model.Imagen))
-            {
-                <text>initialPreview: [
-                 "<img class='file-preview-image' if; height: auto; max-width: 100%; max-height: 100%;' src='data:image/png;base64, @Model.Imagen'/>'"
-                ],
-                initialPreviewConfig: [
-                    { caption: 'UPPProveedor' }
-                ],</text>
-            }
-            else {
-                <text>initialPreview: [
-                 "<img class='file-preview-image' if; height: auto; max-width: 100%; max-height: 100%;' src='/Content/img/GrupoOcampo.png'/>'"
-                ],
-                initialPreviewConfig: [
-                    { caption: 'Default' }
-                ],</text>
-            }
+            initialPreview: [
+            '<img class="file-preview-image"  style=" width: auto !important; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64,@Model.ImagenMostrar" />'
+            ],
+            initialPreviewConfig: [
+               { caption: 'Imagen' }
+            ],
             initialPreviewShowDelete: false,
             showRemove: false,
             showClose: false,
