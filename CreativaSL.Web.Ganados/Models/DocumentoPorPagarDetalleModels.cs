@@ -174,6 +174,8 @@ namespace CreativaSL.Web.Ganados.Models
             set { _listaDocumentosDetalle = value; }
         }
 
+        public RespuestaAjax RespuestaAjax { get; set; }
+        public string Id_servicio { get; set; }
 
         #region Datos De Control
         public string Conexion { get; set; }
