@@ -1038,7 +1038,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 FleteImpuestoModels DocumentoPorCobrarDetalleImpuesto = new FleteImpuestoModels();
                 _Flete_Datos FleteDatos = new _Flete_Datos();
 
-                //0 = nuevo, 36 = editar, pero ambos son válidos
                 if (( Id_1.Length == 36 ) && ( Id_2.Length == 36 ))
                 {
                     Token.SaveToken();
@@ -2212,6 +2211,5 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
-
     }
 }

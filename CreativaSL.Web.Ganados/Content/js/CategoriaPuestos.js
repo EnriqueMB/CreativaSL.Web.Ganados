@@ -24,24 +24,14 @@
             },
             ignore: "",
             rules: {
-
-                //ListSucursal: { required: true },
                 descripcion: { required: true, texto: true, maxlength: 80 },
-              
                 id_puesto: { CMBINT: true },
-                sueldoBase: { required: true },
-               
-
+                sueldoBase: { required: true }
             },
             messages: {
-
-                //ListSucursal: { required: "Seleccione una sucursal." },
-                descripcion: { required: "Ingrese nombre de la categoria.", texto: "Ingrese un formato valido", maxlength: "El campo nombre admite máximo 80 caracteres." },
-               
-              
+                descripcion: { required: "Ingrese nombre de la categoria.", texto: "Ingrese un formato válido", maxlength: "El campo nombre admite máximo 80 caracteres." },
                 id_puesto: { CMBINT: "Seleccione un puesto." },
-                sueldoBase: { required: "Ingrese el sueldo del puesto."},
-                
+                sueldoBase: { required: "Ingrese el sueldo del puesto."}
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -79,7 +69,6 @@
         //main function to initiate template pages
         init: function () {
             runValidator1();
-
         }
     };
 }();

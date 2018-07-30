@@ -24,16 +24,16 @@
             },
             ignore: "",
             rules: {
-                PesoMinimo: { CMBINT: true, required:true},
-                PesoMaximo: { CMBINT: true, required: true },
-                Precio: { CMBINT: true, required: true },
+                PesoMinimo: { CMBINT: true, required:true,numeros:true},
+                PesoMaximo: { CMBINT: true, required: true, numeros: true },
+                Precio: { CMBINT: true, required: true, numeros: true },
                 IDTipoProveedor: { CMBINT: true, required: true }
             },
             messages: {
                 
-                PesoMinimo: { CMBINT: "Ingrese un peso mínimo mayor a 0.", required: "Ingrese un valor" },
-                PesoMaximo: { CMBINT: "Ingrese un peso máximo mayor a 0.",required: "Ingrese un valor" },
-                Precio: { CMBINT: "Ingrese un precio mayor a 0.", required: "Ingrese un valor" },
+                PesoMinimo: { CMBINT: "Ingrese un peso mínimo mayor a 0.", required: "Ingrese un peso mínimo",numeros:"Ingrese un peso mínimo válido" },
+                PesoMaximo: { CMBINT: "Ingrese un peso máximo mayor a 0.", required: "Ingrese un peso máximo", numeros: "Ingrese un peso máximo válido" },
+                Precio: { CMBINT: "Ingrese un precio mayor a 0.", required: "Ingrese un precio", numeros: "Ingrese un precio válido" },
                 IDTipoProveedor: { CMBINT: 'Seleccion un tipo de proveedor.', required: 'Seleccione un valor válido' }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit

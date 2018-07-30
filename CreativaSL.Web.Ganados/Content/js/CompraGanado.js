@@ -13,7 +13,7 @@
     var LoadTableGanado = function () {
         tblGanado = $('#tblGanado').DataTable({
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                "url": "/Content/assets/json/Spanish.json"
             },
             "searching": false,
             "ordering": false,
@@ -47,7 +47,7 @@
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
                     AgergarFilas(
-                        data[i].id_ganado, true, "Registrado", data[i].numArete, data[i].genero,
+                        data[i].id_ganado, data[i].guardado, data[i].Estatus, data[i].numArete, data[i].genero,
                         data[i].pesoInicial, data[i].pesoFinal, data[i].merma, data[i].pesoPagado, data[i].precioKilo,
                         data[i].id_corral, data[i].subtotal, data[i].id_detalleDocumentoPorPagar, data[i].id_fierro1, data[i].id_fierro2, data[i].id_fierro3);
                 }
@@ -60,7 +60,9 @@
         id_corral, total, iddetalledocumento, id_fierro1, id_fierro2, id_fierro3) {
         //columna, imagen y aviso
         var html_imagen = '';
-        if (guardado)
+        guardado = String(guardado);
+
+        if (guardado.localeCompare("1") == 0)
             html_imagen = '<img id="img_' + id_fila + '" class="cslElegido"  src="/Content/img/tabla/ok.png" alt="" height="42" width="42"> <label id="lbl_' + id_fila + '" class="cslElegido" for="' + mensaje + '">' + mensaje + '</label>';
         else
             html_imagen = '<img id="img_' + id_fila + '" class="cslElegido" src="/Content/img/tabla/cancel.png" alt="" height="42" width="42"> <label id="lbl_' + id_fila + '" class="cslElegido" for="' + mensaje + '">' + mensaje + '</label>';
@@ -98,7 +100,7 @@
 
         for (var item in listaCorrales) {
             var id_corral_server = parseInt(listaCorrales[item].Id_corral);
-            //console.log("server : " + id_corral_server + "  id_corral: " + id_corral);
+            
             if (id_corral_server == id_corral) {
                 
                 opciones_corrales += '<option value="' + listaCorrales[item].Descripcion + '" data-id="' + listaCorrales[item].Id_corral +'" selected>' + listaCorrales[item].Descripcion + '</option>';
@@ -213,7 +215,9 @@
             box.addClass("open");
             box.find(".mb-control-yes").on("click", function () {
                 box.removeClass("open");
+                //console.log(id_ganado.length);
                 if (id_ganado.length == 36) {
+
                     $.ajax({
                         url: url,
                         data: { IDCompra: IDCompra, IDGanado: id_ganado, Id_detalleDocumentoPorCobrar: Id_detalleDocumentoPorCobrar },
@@ -224,9 +228,15 @@
                                 box.find(".mb-control-yes").prop('onclick', null).off('click');
                                 $("#Modal").modal('hide');
                                 Mensaje("Ganado eliminado correctamente", "1");
-                                var obj = JSON.parse(result.Mensaje);
-                                ActualizarGenerales(obj.CantidadMachos, obj.CantidadHembras, obj.CantidadTotal, obj.MermaMachos, obj.MermaHembras, obj.MermaTotal, obj.KilosMachos, obj.KilosHembras, obj.KilosTotal, obj.MontoTotalGanado)
                                 tblGanado.row(tr).remove().draw(false);
+                                try
+                                {
+                                    var obj = JSON.parse(result.Mensaje);
+                                    ActualizarGenerales(obj.CantidadMachos, obj.CantidadHembras, obj.CantidadTotal, obj.MermaMachos, obj.MermaHembras, obj.MermaTotal, obj.KilosMachos, obj.KilosHembras, obj.KilosTotal, obj.MontoTotalGanado)
+                                }
+                                catch (e){
+
+                                }
                             }
                             else
                                 Mensaje(result.Mensaje, "2");
@@ -276,7 +286,6 @@
             var NUM_ELEMENTOS_FILA = 16;
 
             guardarIDs = eliminarDuplicadosArray(guardarIDs);
-            //console.log(nNodes);
 
             for (var index = 0; index < guardarIDs.length; index++) {
                 var id_guardado = guardarIDs[index];
@@ -288,7 +297,6 @@
                     if (id_guardado == id_fila) {
                         /*INICIA VALIDACION*/
                         //arete
-                        //console.log(nNodes[i + ARETE]);
                         if (nNodes[i + ARETE].value.length < longitud_permitida_arete || nNodes[i + ARETE].value === '' || nNodes[i + ARETE].value == null) {
                             nNodes[i + ARETE].classList.remove('okCSLGanado');
                             nNodes[i + ARETE].classList.add('errorCSLGanado');
@@ -381,7 +389,6 @@
 
                                     if (response.Success) {
                                         //imagen
-                                        //console.log(nNodes[indice]);
                                         nNodes[indice].src = "/Content/img/tabla/ok.png";
                                         nNodes[indice].id = "img_" + obj.id_ganado;
                                         //label
@@ -420,9 +427,6 @@
                                         ActualizarGenerales(obj.CantidadMachos, obj.CantidadHembras, obj.CantidadTotal, obj.MermaMachos, obj.MermaHembras, obj.MermaTotal, obj.KilosMachos, obj.KilosHembras, obj.KilosTotal, obj.MontoTotalGanado)
                                     }
                                     else {
-                                        //console.log(nNodes[indice]);
-                                        //console.log(nNodes[indice + MENSAJE]);
-
                                         nNodes[indice].src = "/Content/img/tabla/cancel.png";
                                         nNodes[indice + MENSAJE].innerText = obj.Mensaje;
                                     }
@@ -578,7 +582,6 @@
         total = TotalPagar(pesoPagar, precioXkilo);
         //corral, no seleccione el correcto despues de 3 o 4 veces
         //var corral = CorralSugerido(pesoPagar, genero);
-        //console.log("corral: " + corral);
         //quitamos lo seleccionado del select 
         //$("#" + fila[CORRAL].id + " option").removeAttr('selected');
         //agregamos el seleccionado

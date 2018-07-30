@@ -11,6 +11,7 @@ using System.IO;
 using System.Net;
 using Newtonsoft.Json;
 using CreativaSL.Web.Ganados.App_Start;
+using Microsoft.Reporting.WebForms;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -62,6 +63,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
                 Compra.Flete.ListaMetodoPago = CompraDatos.GetMetodosPagos(Compra);
                 Compra.Flete.ListaFormaPago = CompraDatos.GetListadoCFDIFormaPago(Compra);
+                Compra.ListaFierros = CompraDatos.GetListadoFierros(Compra);
+                Compra.Fierro.ImgFierro = Auxiliar.SetDefaultImage();
+                Compra.Fierro.Extension = Auxiliar.ObtenerExtensionImagenBase64(Compra.Fierro.ImgFierro);
+                Compra.ListaFierrosString = Compra.ListaFierros.ToJSON();
 
                 return View(Compra);
             }
@@ -71,7 +76,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["message"] = "No se puede cargar la vista, error: " + ex.Message;
                 return View("Index");
             }
-            
+
         }
         #endregion
         #region CompraGanado
@@ -129,7 +134,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Compra.IDCompra = IDCompra;
                     Compra.Conexion = Conexion;
                     Compra = CompraDatos.GetRecepcionCompra(Compra);
-                    if(Compra.RecepcionOrigen == null)
+                    if (Compra.RecepcionOrigen == null)
                     {
                         Compra.RecepcionOrigen = new RecepcionOrigenModels();
                         Compra.RecepcionOrigen.Inicializar();
@@ -218,7 +223,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
         #region Funcion Json Ganado
         [HttpPost]
-        public ActionResult TableJsonGanadoCompra(string  IDCompra)
+        public ActionResult TableJsonGanadoCompra(string IDCompra)
         {
             try
             {
@@ -311,13 +316,44 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
                 Compra = new CompraModels();
-                Compra.RespuestaAjax.Mensaje = ex.ToString();
+                Compra.RespuestaAjax.Mensaje = Mensaje;
                 Compra.RespuestaAjax.Success = false;
                 return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
             }
         }
         #endregion
+        #region DatatableGanadoProgramado 
+        [HttpPost]
+        public ActionResult DatatableGanadoProgramado(string IDCompra)
+        {
+            try
+            {
+                IDCompra = IDCompra.Trim();
+                Compra = new CompraModels();
+                CompraDatos = new _Compra_Datos();
+                Compra.Conexion = Conexion;
+                Compra.IDCompra = IDCompra;
+
+                Compra.RespuestaAjax = new RespuestaAjax();
+                Compra.RespuestaAjax.Mensaje = CompraDatos.GetGanadoProgramado(Compra);
+                Compra.RespuestaAjax.Success = true;
+
+                return Content(Compra.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                Compra = new CompraModels();
+                Compra.RespuestaAjax.Mensaje = Mensaje;
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+        
         #region Index
         // GET: Admin/Compra
         public ActionResult Index()
@@ -367,7 +403,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                string[] camposValidar = { "IDProveedor", "IDSucursal", "IDPLugarProveedor", "GanadosPactadoMachos", "GanadosPactadoHembras", "FechaHoraProgramada" };
+                string[] camposValidar = { "IDProveedor", "IDSucursal", "IDPLugarProveedor", "FechaHoraProgramada" };
                 bool formularioValido = true;
                 var errors = ModelState.Keys.Where(k => ModelState[k].Errors.Count > 0).Select(k => new { propertyName = k, errorMessage = ModelState[k].Errors[0].ErrorMessage });
 
@@ -515,15 +551,37 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 CompraDatos = new _Compra_Datos();
                 Compra = new CompraModels();
-                Compra.IDCompra = IDCompra;
-                Compra.Ganado.id_Ganados = IDGanado;
-                Compra.Ganado.CompraGanado.Id_detalleDocumentoPorCobrar = Id_detalleDocumentoPorCobrar;
-                Compra.Conexion = Conexion;
-                Compra.Usuario = User.Identity.Name;
+                string id_ganado = IDGanado.Trim();
+                int id_ganadoProgramado = 0;
+                bool valido = int.TryParse(id_ganado, out id_ganadoProgramado);
 
-                Compra = CompraDatos.Compras_del_Ganado(Compra);
+                if (valido)
+                {
+                    Compra.Id_ganadoProgramado = id_ganadoProgramado;
+                    Compra.IDCompra = IDCompra;
+                    Compra.Conexion = Conexion;
+                    Compra.Usuario = User.Identity.Name;
 
-                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+                    Compra = CompraDatos.Compras_del_GanadoProgramado2(Compra);
+                    return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+                }
+                else if(IDCompra.Length == 36)
+                {
+                    Compra.IDCompra = IDCompra;
+                    Compra.Ganado.id_Ganados = IDGanado;
+                    Compra.Ganado.CompraGanado.Id_detalleDocumentoPorCobrar = Id_detalleDocumentoPorCobrar;
+                    Compra.Conexion = Conexion;
+                    Compra.Usuario = User.Identity.Name;
+
+                    Compra = CompraDatos.Compras_del_Ganado(Compra);
+                    return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+                }
+                else
+                {
+                    Compra.RespuestaAjax.Success = false;
+                    Compra.RespuestaAjax.Mensaje = "Verifique sus datos.";
+                    return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+                }
             }
             catch (Exception ex)
             {
@@ -664,7 +722,61 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
+        #region Ganado Programado
+        [HttpPost]
+        public ActionResult AC_GanadoProgramado(string IDCompra, string IDGanado, string numArete, string id_genero,
+            int indiceActual, string id_fierro1, string id_fierro2, string id_fierro3)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                Compra = new CompraModels();
+                Compra.IDCompra = IDCompra;
+                Compra.Ganado.id_Ganados = IDGanado;
+                Compra.Ganado.numArete = numArete;
+                Compra.Ganado.genero = id_genero;
+                Compra.Ganado.IDFierro1 = id_fierro1;
+                Compra.Ganado.IDFierro2 = id_fierro2;
+                Compra.Ganado.IDFierro3 = id_fierro3;
 
+                Compra.Conexion = Conexion;
+                Compra.Usuario = User.Identity.Name;
+                Compra = CompraDatos.Compras_ac_GanadoProgramado(Compra, indiceActual);
+               
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+            catch (Exception ex)
+            {
+                Compra.RespuestaAjax.Mensaje = ex.ToString();
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DEL_GanadoProgramado(string IDCompra, string IDGanado)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                Compra = new CompraModels();
+                Compra.IDCompra = IDCompra;
+                Compra.Ganado.id_Ganados = IDGanado;
+                Compra.Conexion = Conexion;
+                Compra.Usuario = User.Identity.Name;
+
+                Compra = CompraDatos.Compras_del_GanadoProgramado(Compra);
+
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+            catch (Exception ex)
+            {
+                Compra.RespuestaAjax.Mensaje = ex.ToString();
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
 
         #endregion
         #region Funciones combo
@@ -992,22 +1104,276 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
             return RedirectToAction("Index", "Compra");
         }
+
+        #region Vista Transacciones
         [HttpGet]
         public ActionResult Transacciones(string IDCompra)
         {
-            Compra = new CompraModels();
-            CompraDatos = new _Compra_Datos();
-            //Asigno valores para los querys
-            Compra.Conexion = Conexion;
-            Compra.IDCompra = IDCompra;
-            //obtengo los generales
-            Compra.DocumentoPorCobrar = CompraDatos.GetGeneralesDocumentoPorCobrar(Compra);
-            Compra.Id_documentoPorCobrar = Compra.DocumentoPorCobrar.Id_documentoCobrar;
-            Compra.DocumentoPorPagar = CompraDatos.GetGeneralesDocumentoPorPagar(Compra);
-            Compra.Id_documentoPorPagar = Compra.DocumentoPorPagar.IDDocumentoPagar;
+            try
+            {
+                if(string.IsNullOrEmpty(IDCompra))
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista, verifique sus datos.";
+                    return RedirectToAction("Index", "Compra");
+                }
+                else if (IDCompra.Length == 36)
+                {
+                    Compra = new CompraModels();
+                    CompraDatos = new _Compra_Datos();
+                    //Asigno valores para los querys
+                    Compra.Conexion = Conexion;
+                    Compra.IDCompra = IDCompra;
+                    //obtengo los generales
+                    Compra.DocumentoPorCobrar = CompraDatos.GetGeneralesDocumentoPorCobrar(Compra);
+                    Compra.Id_documentoPorCobrar = Compra.DocumentoPorCobrar.Id_documentoCobrar;
+                    Compra.DocumentoPorPagar = CompraDatos.GetGeneralesDocumentoPorPagar(Compra);
+                    Compra.Id_documentoPorPagar = Compra.DocumentoPorPagar.IDDocumentoPagar;
 
-            return View(Compra);
+                    return View(Compra);
+                }
+                return RedirectToAction("Index", "Compra");
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
+                return RedirectToAction("Index", "Compra");
+            }
         }
+        #region Documentos por cobrar Detalles 
+        [HttpPost]
+        public ActionResult DatatableDocumentosPorCobrarDetalles(DocumentosPorCobrarDetalleModels Documento)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                Documento.Conexion = Conexion;
+                Documento.Usuario = User.Identity.Name;
+                Documento.RespuestaAjax = new RespuestaAjax();
+
+                Documento.RespuestaAjax.Mensaje = CompraDatos.DatatableDocumentosPorCobrarDetalles(Documento);
+                Documento.RespuestaAjax.Success = true;
+
+                return Content(Documento.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Documento.RespuestaAjax = new RespuestaAjax();
+                Documento.RespuestaAjax.Mensaje = ex.ToString();
+                Documento.RespuestaAjax.Success = false;
+                return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #region ocumentos por cobrar Detalles Pagos
+        [HttpPost]
+        public ActionResult DatatableDocumentosPorCobrarDetallesPagos(DocumentosPorCobrarDetallePagosModels DocumentoPagos)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                DocumentoPagos.Conexion = Conexion;
+                DocumentoPagos.Usuario = User.Identity.Name;
+                DocumentoPagos.RespuestaAjax = new RespuestaAjax();
+
+                DocumentoPagos.RespuestaAjax.Mensaje = CompraDatos.DatatableDocumentosPorCobrarDetallesPagos(DocumentoPagos);
+                DocumentoPagos.RespuestaAjax.Success = true;
+
+                return Content(DocumentoPagos.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                DocumentoPagos.RespuestaAjax = new RespuestaAjax();
+                DocumentoPagos.RespuestaAjax.Mensaje = ex.ToString();
+                DocumentoPagos.RespuestaAjax.Success = false;
+                return Content(DocumentoPagos.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+        #endregion
+        #endregion
+
+        #region Vista ProductoServicio
+        [HttpGet]
+        public ActionResult ProductoServicioCompra(string Id_compra, string Id_documentoPorCobrar, string Id_detalleDocumento)
+        {
+            try
+            {
+                DocumentosPorCobrarDetalleModels DocumentoPorCobrarDetalle = new DocumentosPorCobrarDetalleModels();
+                _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                CompraDatos = new _Compra_Datos();
+
+                //0 = nuevo, 36 = editar, pero ambos son válidos
+                if ((Id_compra.Length == 36) && (Id_documentoPorCobrar.Length == 36) && (Id_detalleDocumento.Length == 0 || Id_detalleDocumento.Length == 36 || string.IsNullOrEmpty(Id_detalleDocumento)))
+                {
+                    Token.SaveToken();
+                    DocumentoPorCobrarDetalle.Id_servicio = Id_compra;
+                    DocumentoPorCobrarDetalle.Id_documentoCobrar = Id_documentoPorCobrar;
+                    DocumentoPorCobrarDetalle.Id_detalleDoctoCobrar = Id_detalleDocumento;
+                    DocumentoPorCobrarDetalle.Conexion = Conexion;
+                    DocumentoPorCobrarDetalle.RespuestaAjax = new RespuestaAjax();
+                    DocumentoPorCobrarDetalle = CompraDatos.GetDetalleDocumentoPorCobrar(DocumentoPorCobrarDetalle);
+                    DocumentoPorCobrarDetalle.ListaTipoClasificacionCobro = CompraDatos.GetListadoTipoClasificacion(DocumentoPorCobrarDetalle);
+                    DocumentoPorCobrarDetalle.ListaProductosServiciosCFDI = CompraDatos.GetListadoCFDIProductosServiciosCompra(DocumentoPorCobrarDetalle);
+
+                    DocumentoPorCobrarDetalle.ListaAlmacen = CompraDatos.GetAlmacenesHabilitados(DocumentoPorCobrarDetalle);
+                    DocumentoPorCobrarDetalle.ListaProductos = CompraDatos.GetProductosAlmacen(DocumentoPorCobrarDetalle);
+
+                    return View(DocumentoPorCobrarDetalle);
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista, verifique sus datos.";
+                    return View("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos, error: " + Mensaje;
+                return View("Index");
+            }
+        }
+        [HttpPost]
+        public ActionResult ProductoServicioCompra(DocumentosPorCobrarDetalleModels DocumentoPorCobrarDetalle)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    CompraDatos = new _Compra_Datos();
+                    DocumentoPorCobrarDetalle.Conexion = Conexion;
+                    DocumentoPorCobrarDetalle.Usuario = User.Identity.Name;
+                    DocumentoPorCobrarDetalle.RespuestaAjax = new RespuestaAjax();
+                    DocumentoPorCobrarDetalle = CompraDatos.AC_ProductoServicio(DocumentoPorCobrarDetalle);
+
+                    if (DocumentoPorCobrarDetalle.RespuestaAjax.Success)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = DocumentoPorCobrarDetalle.RespuestaAjax.Mensaje;
+                        Token.ResetToken();
+                        return RedirectToAction("Transacciones", "Compra", new { IDCompra = DocumentoPorCobrarDetalle.Id_servicio });
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = DocumentoPorCobrarDetalle.RespuestaAjax.Mensaje;
+                        return RedirectToAction("ProductoServicioCompra", "Compra", new { Id_compra = DocumentoPorCobrarDetalle.Id_servicio, Id_documentoPorCobrar = DocumentoPorCobrarDetalle.Id_documentoCobrar, Id_detalleDocumento = DocumentoPorCobrarDetalle.Id_detalleDoctoCobrar });
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index", "Compra");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos, error: " + Mensaje;
+                return RedirectToAction("Index", "Compra");
+            }
+        }
+        [HttpPost]
+        public ActionResult Del_ProductoServicio(DocumentosPorCobrarDetalleModels documento)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    CompraDatos = new _Compra_Datos();
+                    documento.Conexion = Conexion;
+                    documento.Usuario = User.Identity.Name;
+                    documento.RespuestaAjax = new RespuestaAjax();
+                    documento = CompraDatos.DEL_ProductoServicioCompra(documento);
+
+                    if (documento.RespuestaAjax.Success)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = documento.RespuestaAjax.Mensaje;
+                        Token.ResetToken();
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = documento.RespuestaAjax.Mensaje;
+                    }
+
+                    return Content(documento.RespuestaAjax.ToJSON(), "application/json");
+                }
+                else
+                {
+                    documento.RespuestaAjax = new RespuestaAjax();
+                    documento.RespuestaAjax.Success = false;
+
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos";
+
+                    return Content(documento.RespuestaAjax.ToJSON(), "application/json");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                documento.RespuestaAjax = new RespuestaAjax();
+                documento.RespuestaAjax.Success = false;
+
+                TempData["typemessage"] = "2";
+                TempData["message"] = Mensaje;
+
+                return Content(documento.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        [HttpGet]
+        public ActionResult Edit_ProductoServicio(string Id_compra, string Id_documentoPorCobrar, string Id_detalleDocumento)
+        {
+            try
+            {
+                DocumentosPorCobrarDetalleModels DocumentoPorCobrarDetalle = new DocumentosPorCobrarDetalleModels();
+                _Flete_Datos FleteDatos = new _Flete_Datos();
+
+
+                //0 = nuevo, 36 = editar, pero ambos son válidos
+                if ((Id_compra.Length == 36) && (Id_documentoPorCobrar.Length == 36) && (Id_detalleDocumento.Length == 0 || Id_detalleDocumento.Length == 36 || string.IsNullOrEmpty(Id_detalleDocumento)))
+                {
+                    Token.SaveToken();
+                    DocumentoPorCobrarDetalle.Id_servicio = Id_compra;
+                    DocumentoPorCobrarDetalle.Id_documentoCobrar = Id_documentoPorCobrar;
+                    DocumentoPorCobrarDetalle.Id_detalleDoctoCobrar = Id_detalleDocumento;
+                    DocumentoPorCobrarDetalle.Conexion = Conexion;
+                    DocumentoPorCobrarDetalle.RespuestaAjax = new RespuestaAjax();
+                    DocumentoPorCobrarDetalle = FleteDatos.GetDetalleDocumentoPorCobrarEdit(DocumentoPorCobrarDetalle);
+                    DocumentoPorCobrarDetalle.ListaProductosServiciosCFDI = FleteDatos.GetListadoCFDIProductosServiciosCompra(DocumentoPorCobrarDetalle);
+
+                    return View(DocumentoPorCobrarDetalle);
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista, verifique sus datos.";
+                    return View("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos, error: " + Mensaje;
+                return View("Index");
+            }
+        }
+        #endregion
+
+
+
         /********************************************************************/
         //Funciones imagenes - fierro
         #region Imágenes
@@ -1221,7 +1587,262 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id_1">Id del fierro</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult GetFierroXIDFierro(string Id_1)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                Compra = new CompraModels();
+                Compra.Conexion = Conexion;
+                Compra.Fierro.IDFierro = Id_1;
+                Compra.RespuestaAjax = CompraDatos.GetFierroXIDFierro(Compra);
 
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                Compra.RespuestaAjax.Mensaje = Mensaje;
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+        #region Vista Documentos
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id_1">Id de la venta</param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult DocumentosCompra(string Id_1)
+        {
+            try
+            {
+                Token.SaveToken();
+
+                string Id_compra = string.IsNullOrEmpty(Id_1) ? string.Empty : Id_1;
+                //0 = nuevo, 36 = edit, si es diferente es un id no valido
+                if (Id_compra.Length == 36)
+                {
+                    _Compra_Datos CompraDatos = new _Compra_Datos();
+                    Compra = new CompraModels();
+                    Compra.IDCompra = Id_compra;
+                    Compra.Conexion = Conexion;
+                    Compra.RespuestaAjax = new RespuestaAjax();
+
+                    ViewBag.Id_compra = Id_compra;
+                    return View();
+
+                    //Compra = CompraDatos.GetVentaDocumentos(Venta);
+                    //if (Compra.RespuestaAjax.Success)
+                    //{
+                    //    ViewBag.Id_compra = Id_compra;
+                    //    return View();
+                    //}
+                    //else
+                    //{
+                    //    TempData["typemessage"] = "2";
+                    //    TempData["message"] = Compra.RespuestaAjax.Mensaje;
+                    //    return View("Index");
+                    //}
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return View("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
+                return View("Index");
+            }
+        }
+        #endregion
+
+        #region Otros
+        #region ImagenesProveedor
+        public ActionResult ImagenesProveedor(string id)
+        {
+            try
+            {
+
+                Reporte_Datos R = new Reporte_Datos();
+                CompraModels Compra = new CompraModels();
+                _Compra_Datos reporteDatos = new _Compra_Datos();
+               
+                Compra.IDCompra = id;
+                Compra.Conexion = Conexion;
+                Compra = reporteDatos.GetImagenesProveedor(Compra);
+
+                LocalReport Rtp = new LocalReport();
+                Rtp.EnableExternalImages = true;
+                Rtp.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Formatos"), "ImagenesProveedor.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Compra");
+                }
+                ReportParameter[] Parametros = new ReportParameter[3];
+                Parametros[0] = new ReportParameter("IneProveedor", Compra.Proveedor.ImgINE);
+                Parametros[1] = new ReportParameter("ManifestacionFierroProveedor", Compra.Proveedor.ImgManifestacionFierro);
+                Parametros[2] = new ReportParameter("UPPProveedor", Compra.UPP);
+
+                Rtp.SetParameters(Parametros);
+                
+                string reportType = "PDF";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + "Imagenes Proveedor "+ "</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
+                return View("Index");
+            }
+        }
+        #endregion
+        #region ImagenesProveedor
+        public ActionResult GanadoProgramado(string id)
+        {
+            try
+            {
+
+                Reporte_Datos R = new Reporte_Datos();
+                CompraModels Compra = new CompraModels();
+                _Compra_Datos reporteDatos = new _Compra_Datos();
+                List<ReporteGanadoModels> Reporte = new List<ReporteGanadoModels>();
+                CatEmpresaModels Empresa = new CatEmpresaModels();
+                _CatEmpresa_Datos EmpresaDatos = new _CatEmpresa_Datos();
+                Empresa.Conexion = Conexion;
+                Empresa = EmpresaDatos.GetDatosEmpresaPrincipal(Empresa);
+
+                Compra.IDCompra = id;
+                Compra.Conexion = Conexion;
+                Reporte = reporteDatos.GetReporteGanadoDetalles(Compra);
+
+                int TotalGanadoMachos = 0, TotalGanadoHembras = 0, TotalGanado = 0;
+
+                for (int i = 0; i < Reporte.Count; i++)
+                {
+                    if (string.Equals(Reporte[i].Genero.Trim(), "MACHO"))
+                    {
+                        TotalGanadoMachos += 1;
+                    }
+                    else if (string.Equals(Reporte[i].Genero.Trim(), "HEMBRA"))
+                    {
+                        TotalGanadoHembras += 1;
+                    }
+                }
+
+                TotalGanado = TotalGanadoMachos + TotalGanadoHembras;
+
+                LocalReport Rtp = new LocalReport();
+                Rtp.EnableExternalImages = true;
+                Rtp.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Formatos"), "ListadoGanadoParaCompra.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Compra");
+                }
+
+                string GeneralesEmpresa = "<b>Representante: </b>" + Empresa.Representante + "<br/>";
+                GeneralesEmpresa += "<b>RFC: </b>" + Empresa.RFC + "<br/>";
+                GeneralesEmpresa += "<b>Horario de atención: </b>" + Empresa.HorarioAtencion + "<br/>";
+                string Telefonos = string.IsNullOrEmpty(Empresa.NumTelefonico1) ? string.Empty : Empresa.NumTelefonico1;
+                Telefonos += string.IsNullOrEmpty(Empresa.NumTelefonico2) ? string.Empty : " " + Empresa.NumTelefonico1;
+                if (!string.IsNullOrEmpty(Telefonos))
+                    GeneralesEmpresa += "<b>Teléfono(s): </b>" + Telefonos + "<br/>";
+                if (!string.IsNullOrEmpty(Empresa.Email))
+                    GeneralesEmpresa += "<b>Email: </b>" + Empresa.Email;
+
+                ReportParameter[] Parametros = new ReportParameter[7];
+                Parametros[0] = new ReportParameter("LogoEmpresa", Empresa.LogoEmpresa);
+                Parametros[1] = new ReportParameter("NombreEmpresa", Empresa.RazonFiscal);
+                Parametros[2] = new ReportParameter("DireccionEmpresa", Empresa.DireccionFiscal);
+                Parametros[3] = new ReportParameter("GeneralesEmpresa", GeneralesEmpresa);
+                Parametros[4] = new ReportParameter("TotalGanadoMachos", TotalGanadoMachos.ToString());
+                Parametros[5] = new ReportParameter("TotalGanadoHembras", TotalGanadoHembras.ToString());
+                Parametros[6] = new ReportParameter("TotalGanado", TotalGanado.ToString());
+
+                Rtp.SetParameters(Parametros);
+                Rtp.DataSources.Add(new ReportDataSource("ListaGanado", Reporte));
+                Rtp.Refresh();
+
+                string reportType = "EXCEL";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + "Ganado programado" + "</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
+                return View("Index");
+            }
+        }
+        #endregion
+        #endregion
 
     }
 }

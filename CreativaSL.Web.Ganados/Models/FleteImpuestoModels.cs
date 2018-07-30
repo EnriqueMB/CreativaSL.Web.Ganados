@@ -36,7 +36,6 @@ namespace CreativaSL.Web.Ganados.Models
         public List<CFDI_TipoImpuestoModels> ListaTipoImpuesto { get; set; }
         public List<CFDI_TipoFactorModels> ListaTipoFactor { get; set; }
         
-        
         public string IDFlete { get; set; }
         public decimal PrecioProducto { get; set; }
         public decimal TotalImpuestoRetencion { get; set; }

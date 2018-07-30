@@ -222,17 +222,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Almacen.IDAlmacen = id;
                 Almacen.Usuario = User.Identity.Name;
                 Almacen = AlmacenDatos.EliminarAlmacen(Almacen);
-                TempData["typemessage"] = "1";
-                TempData["message"] = "El registro se ha eliminado correctamente";
+                //TempData["typemessage"] = "1";
+                //TempData["message"] = "El registro se ha eliminado correctamente";
                 return Json("");
                 // TODO: Add delete logic here
             }
             catch
             {
-                CatChoferModels Chofer = new CatChoferModels();
+                CatAlmacenModels Almacen = new CatAlmacenModels();
 
-                TempData["typemessage"] = "2";
-                TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
+                //TempData["typemessage"] = "2";
+                //TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
                 return Json("");
 
             }

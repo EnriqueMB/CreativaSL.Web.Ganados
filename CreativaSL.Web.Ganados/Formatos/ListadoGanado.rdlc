@@ -748,6 +748,7 @@
         <Value>=Parameters!LogoEmpresa.Value</Value>
         <MIMEType>image/png</MIMEType>
         <Sizing>FitProportional</Sizing>
+        <Left>0.02646cm</Left>
         <Height>5.01896cm</Height>
         <Width>9.93479cm</Width>
         <ZIndex>1</ZIndex>
@@ -844,7 +845,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox22</rd:DefaultName>
         <Top>2.1084cm</Top>
-        <Left>10.11118cm</Left>
+        <Left>10.13764cm</Left>
         <Height>2.91056cm</Height>
         <Width>20.17417cm</Width>
         <ZIndex>4</ZIndex>

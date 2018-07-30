@@ -16,6 +16,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatUnidadMedida
+        public CatUnidadMedidaController()
+        {
+            TempData["message"] = "";
+        }
         [HttpGet]
         public ActionResult Index()
         {
@@ -33,6 +37,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"]= "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return View(Unidad);
+
             }
             
         }
@@ -49,6 +54,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+               
                 Token.SaveToken();
                 CatUnidadMedidaModels Unidad = new CatUnidadMedidaModels();
                 return View(Unidad);
@@ -200,15 +206,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 unidad.Opcion = 3;
                 unidad.Usuario = User.Identity.Name;
                 unidad = unidadDatos.EliminarUnidad(unidad);
-                TempData["typemessage"] = "1";
-                TempData["message"] = "El registro se elimino correctamente.";
+               // TempData["typemessage"] = "1";
+               // TempData["message"] = "El registro se elimino correctamente.";
                 return Json("");
+                
             }
             catch
             {
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrió un error el intentar guardar. Contacte a soporte técnico";
                 return View();
+
             }
         }
     }

@@ -178,6 +178,68 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(venta.RespuestaAjax.ToJSON(), "application/json");
             }
         }
+        [HttpPost]
+        public ContentResult DatatableDetallesDocumentoPorCobrarVenta(string Id_venta, string Id_documentoCobrar)
+        {
+            try
+            {
+                _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                VentaModels2 Venta = new VentaModels2();
+                Venta.RespuestaAjax = new RespuestaAjax();
+                Venta.Conexion = Conexion;
+                Venta.Id_venta = Id_venta;
+                Venta.Id_documentoXCobrar = Id_documentoCobrar;
+                Venta.RespuestaAjax.Mensaje = VentaDatos.DatatableDetallesDocumentoPorCobrarVenta(Venta);
+
+                return Content(Venta.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                VentaModels2 Venta = new VentaModels2();
+                Venta.RespuestaAjax = new RespuestaAjax();
+                Venta.RespuestaAjax.Mensaje = Mensaje;
+                return Content(Venta.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        [HttpPost]
+        public ContentResult DatatableDetallesDocumentoPorCobrarFleteCobros(string Id_venta, string Id_documentoCobrar)
+        {
+            try
+            {
+                _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                VentaModels2 Venta = new VentaModels2();
+                Venta.RespuestaAjax = new RespuestaAjax();
+                Venta.Conexion = Conexion;
+                Venta.Id_venta = Id_venta;
+                Venta.Id_documentoXCobrar = Id_documentoCobrar;
+                Venta.RespuestaAjax.Mensaje = VentaDatos.DatatableDetallesDocumentoPorCobrarVentaCobro(Venta);
+
+                return Content(Venta.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                VentaModels2 Venta = new VentaModels2();
+                Venta.RespuestaAjax = new RespuestaAjax();
+                Venta.RespuestaAjax.Mensaje = Mensaje;
+                return Content(Venta.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        [HttpPost]
+        public ContentResult DatatableImpuestoXIdDocDetalle(string Id1, string Id2)
+        {
+            ImpuestoModels Impuesto = new ImpuestoModels();
+            _Venta2_Datos VentaDatos = new _Venta2_Datos();
+            Impuesto.Conexion = Conexion;
+            Impuesto.IDModulo = Id1;
+            Impuesto.Id_detalleDoctoCobrar = Id2;
+            Impuesto.RespuestaAjax.Mensaje = VentaDatos.DatatableImpuestoXIDDocumentoDetalle(Impuesto);
+
+            return Content(Impuesto.RespuestaAjax.Mensaje, "application/json");
+        }
         #endregion
 
         #region Otros
@@ -335,7 +397,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 _Venta2_Datos VentaDatos = new _Venta2_Datos();
                 VentaModels2 Venta = new VentaModels2();
                 Venta.RespuestaAjax = new RespuestaAjax();
-                
+
                 string Id_venta = string.IsNullOrEmpty(IDVenta) ? string.Empty : IDVenta;
 
                 if (Id_venta.Length == 0 || Id_venta.Length == 36)
@@ -528,7 +590,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Venta = VentaDatos.GetVentaEvento(Venta);
                     if (Venta.RespuestaAjax.Success)
                     {
-                        if(string.IsNullOrEmpty(Venta.EventoVenta.ImagenBase64))
+                        if (string.IsNullOrEmpty(Venta.EventoVenta.ImagenBase64))
                         {
                             Venta.EventoVenta.ImagenMostrar = Auxiliar.SetDefaultImage();
                         }
@@ -574,7 +636,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     _Venta2_Datos VentaDatos = new _Venta2_Datos();
                     Evento.Conexion = Conexion;
                     Evento.Usuario = User.Identity.Name;
-                    if(Evento.HttpImagen != null)
+                    if (Evento.HttpImagen != null)
                     {
                         Evento.ImagenBase64 = Auxiliar.ImageToBase64(Evento.HttpImagen);
                     }
@@ -868,6 +930,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
+
         #region Carta Porte
         public ActionResult CartaPorte(string id)
         {
@@ -1046,6 +1109,610 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
                 return View("Index");
+            }
+        }
+        #endregion
+
+        #region Vista transacciones
+        [HttpGet]
+        public ActionResult VentaTransacciones(string IDVenta)
+        {
+            try
+            {
+                Token.SaveToken();
+                _Venta2_Datos VentaDatos = new _Venta2_Datos();
+
+                string Id_venta = string.IsNullOrEmpty(IDVenta) ? string.Empty : IDVenta;
+
+                if (Id_venta.Length == 36)
+                {
+                    VentaTransacionesModels TransaccionesVenta = new VentaTransacionesModels();
+                    TransaccionesVenta.Conexion = Conexion;
+                    TransaccionesVenta.Id_venta = Id_venta;
+                    TransaccionesVenta.RespuestaAjax = new RespuestaAjax();
+                    TransaccionesVenta = VentaDatos.GetTransacciones(TransaccionesVenta);
+                    if (TransaccionesVenta.RespuestaAjax.Success)
+                    {
+                        return View(TransaccionesVenta);
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "No se puede cargar la vista, error: " + TransaccionesVenta.RespuestaAjax.Mensaje;
+                        return View("Index");
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return View("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
+                return View("Index");
+            }
+        }
+        [HttpPost]
+        public ActionResult DelComprobante(DocumentosPorCobrarDetallePagosModels DocumentoPorCobrarPago)
+        {
+            try
+            {
+
+                if (Token.IsTokenValid())
+                {
+                    DocumentoPorCobrarPago.Usuario = User.Identity.Name;
+                    DocumentoPorCobrarPago.Conexion = Conexion;
+                    DocumentoPorCobrarPago.RespuestaAjax = new RespuestaAjax();
+                    _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                    DocumentoPorCobrarPago = VentaDatos.DEL_ComprobanteCobro(DocumentoPorCobrarPago);
+
+                    if (DocumentoPorCobrarPago.RespuestaAjax.Success)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = DocumentoPorCobrarPago.RespuestaAjax.Mensaje;
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = DocumentoPorCobrarPago.RespuestaAjax.Mensaje;
+                    }
+
+                    return Content(DocumentoPorCobrarPago.RespuestaAjax.ToJSON(), "application/json");
+                }
+                else
+                {
+                    DocumentoPorCobrarPago.RespuestaAjax = new RespuestaAjax();
+                    DocumentoPorCobrarPago.RespuestaAjax.Success = false;
+
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos";
+
+                    return Content(DocumentoPorCobrarPago.RespuestaAjax.ToJSON(), "application/json");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                DocumentoPorCobrarPago.RespuestaAjax = new RespuestaAjax();
+                DocumentoPorCobrarPago.RespuestaAjax.Mensaje = "Verifique sus datos, error: " + Mensaje;
+                return Content(DocumentoPorCobrarPago.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        [HttpPost]
+        public ActionResult DEL_Impuesto(ImpuestoModels ImpuestoProducto)
+        {
+            try
+            {
+                if (ImpuestoProducto.IDImpuesto.Length == 36)
+                {
+                    if (Token.IsTokenValid())
+                    {
+                        _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                        ImpuestoProducto.Conexion = Conexion;
+                        ImpuestoProducto.Usuario = User.Identity.Name;
+                        ImpuestoProducto = VentaDatos.Del_Impuesto(ImpuestoProducto);
+
+                        if (ImpuestoProducto.RespuestaAjax.Success)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = ImpuestoProducto.RespuestaAjax.Mensaje;
+                            return Content(ImpuestoProducto.RespuestaAjax.ToJSON(), "application/json");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = ImpuestoProducto.RespuestaAjax.Mensaje;
+                            return Content(ImpuestoProducto.RespuestaAjax.ToJSON(), "application/json");
+                        }
+                    }
+                    else
+                    {
+                        ImpuestoProducto.RespuestaAjax.Success = false;
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Impuesto no válido.";
+                        return Content(ImpuestoProducto.RespuestaAjax.ToJSON(), "application/json");
+                    }
+                }
+                else
+                {
+                    ImpuestoProducto.RespuestaAjax.Success = false;
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Impuesto no válido.";
+                    return Content(ImpuestoProducto.RespuestaAjax.ToJSON(), "application/json");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                ImpuestoProducto.RespuestaAjax.Success = false;
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Contacte con soporte técnico, error: " + Mensaje;
+                return Content(ImpuestoProducto.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+
+        #region Vista Cobro
+        /// <summary>
+        /// Vista que actualiza o crea un cobro
+        /// </summary>
+        /// <param name="id_1">El id de la venta</param>
+        /// <param name="id_2">El id del documento por cobrar detalle pago</param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult VentaCobro(string id_1, string id_2)
+        {
+            try
+            {
+                Token.SaveToken();
+                _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                DocumentosPorCobrarDetallePagosModels DocumentoPorCobrarPago = new DocumentosPorCobrarDetallePagosModels();
+                DocumentoPorCobrarPago.RespuestaAjax = new RespuestaAjax();
+
+                string Id_venta = string.IsNullOrEmpty(id_1) ? string.Empty : id_1;
+                string Id_documentoPorCobrarDetallePago = string.IsNullOrEmpty(id_2) ? string.Empty : id_2;
+
+                if (Id_venta.Length == 36 && (Id_documentoPorCobrarDetallePago.Length == 0 || Id_documentoPorCobrarDetallePago.Length == 36))
+                {
+                    DocumentoPorCobrarPago.Conexion = Conexion;
+                    DocumentoPorCobrarPago.Id_padre = Id_venta;
+                    DocumentoPorCobrarPago.Id_documentoPorCobrarDetallePagos = Id_documentoPorCobrarDetallePago;
+
+                    DocumentoPorCobrarPago = VentaDatos.GetDetalleDocumentoPago(DocumentoPorCobrarPago);
+
+                    if (DocumentoPorCobrarPago.RespuestaAjax.Success)
+                    {
+                        if (string.IsNullOrEmpty(DocumentoPorCobrarPago.ImagenBase64))
+                        {
+                            DocumentoPorCobrarPago.ImagenMostrar = Auxiliar.SetDefaultImage();
+                        }
+                        else
+                        {
+                            DocumentoPorCobrarPago.ImagenMostrar = DocumentoPorCobrarPago.ImagenBase64;
+                        }
+                        DocumentoPorCobrarPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(DocumentoPorCobrarPago.ImagenMostrar);
+
+
+                        DocumentoPorCobrarPago.ListaFormaPagos = VentaDatos.GetListadoCFDIFormaPago(DocumentoPorCobrarPago);
+                        DocumentoPorCobrarPago = VentaDatos.GetNombreEmpresaCliente(DocumentoPorCobrarPago);
+                        DocumentoPorCobrarPago.TipoCuentaBancaria = 1;
+                        DocumentoPorCobrarPago.ListaCuentasBancariasEmpresa = VentaDatos.GetListadoCuentasBancarias(DocumentoPorCobrarPago);
+                        DocumentoPorCobrarPago.TipoCuentaBancaria = 2;
+                        DocumentoPorCobrarPago.ListaCuentasBancariasProveedor = VentaDatos.GetListadoCuentasBancarias(DocumentoPorCobrarPago);
+                        return View(DocumentoPorCobrarPago);
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "No se puede cargar la vista, error: " + DocumentoPorCobrarPago.RespuestaAjax.Mensaje;
+                        return View("Index");
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return View("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
+                return View("Index");
+            }
+        }
+        [HttpPost]
+        public ActionResult VentaCobro(DocumentosPorCobrarDetallePagosModels DocumentoPorCobrarPago)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+
+                    DocumentoPorCobrarPago.Usuario = User.Identity.Name;
+                    DocumentoPorCobrarPago.Conexion = Conexion;
+                    DocumentoPorCobrarPago.RespuestaAjax = new RespuestaAjax();
+                    if (DocumentoPorCobrarPago.Bancarizado)
+                    {
+                        if (DocumentoPorCobrarPago.HttpImagen == null)
+                        {
+                            DocumentoPorCobrarPago.ImagenBase64 = DocumentoPorCobrarPago.ImagenMostrar;
+                        }
+                        else
+                        {
+                            DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorCobrarPago.HttpImagen);
+                        }
+                    }
+                    _Venta2_Datos VentaDatos = new _Venta2_Datos();
+
+                    DocumentoPorCobrarPago = VentaDatos.AC_ComprobanteCobro(DocumentoPorCobrarPago);
+
+                    if (DocumentoPorCobrarPago.RespuestaAjax.Success)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Datos guardados correctamente.";
+                        Token.ResetToken();
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = DocumentoPorCobrarPago.RespuestaAjax.Mensaje;
+
+                    }
+                    return RedirectToAction("VentaTransacciones", "Venta", new { IDVenta = DocumentoPorCobrarPago.Id_padre });
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index", "Venta");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos, error: " + Mensaje;
+                return RedirectToAction("Index", "Venta");
+            }
+        }
+        #endregion
+
+        #region Vista Producto/Servicio
+        [HttpGet]
+        public ActionResult VentaProductoServicio(string Id_venta, string Id_documentoPorCobrar, string Id_detalleDocumento)
+        {
+            try
+            {
+                DocumentosPorCobrarDetalleModels DocumentoPorCobrarDetalle = new DocumentosPorCobrarDetalleModels();
+                _Venta2_Datos VentaDatos = new _Venta2_Datos();
+
+
+                //0 = nuevo, 36 = editar, pero ambos son válidos
+                if ((Id_venta.Length == 36) && (Id_documentoPorCobrar.Length == 36) && (Id_detalleDocumento.Length == 0 || Id_detalleDocumento.Length == 36 || string.IsNullOrEmpty(Id_detalleDocumento)))
+                {
+                    Token.SaveToken();
+                    DocumentoPorCobrarDetalle.Id_servicio = Id_venta;
+                    DocumentoPorCobrarDetalle.Id_documentoCobrar = Id_documentoPorCobrar;
+                    DocumentoPorCobrarDetalle.Id_detalleDoctoCobrar = Id_detalleDocumento;
+                    DocumentoPorCobrarDetalle.Conexion = Conexion;
+                    DocumentoPorCobrarDetalle.RespuestaAjax = new RespuestaAjax();
+                    DocumentoPorCobrarDetalle = VentaDatos.GetDetalleDocumentoPorCobrar(DocumentoPorCobrarDetalle);
+                    DocumentoPorCobrarDetalle.ListaTipoClasificacionCobro = VentaDatos.GetListadoTipoClasificacion(DocumentoPorCobrarDetalle);
+                    DocumentoPorCobrarDetalle.ListaProductosServiciosCFDI = VentaDatos.GetListadoCFDIProductosServiciosCompra(DocumentoPorCobrarDetalle);
+
+                    DocumentoPorCobrarDetalle.ListaAlmacen = VentaDatos.GetAlmacenesHabilitados(DocumentoPorCobrarDetalle);
+                    DocumentoPorCobrarDetalle.ListaProductos = VentaDatos.GetProductosAlmacen(DocumentoPorCobrarDetalle);
+
+                    return View(DocumentoPorCobrarDetalle);
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista, verifique sus datos.";
+                    return View("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos, error: " + Mensaje;
+                return View("Index");
+            }
+        }
+        [HttpPost]
+        public ActionResult VentaProductoServicio(DocumentosPorCobrarDetalleModels DocumentoPorCobrarDetalle)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                    DocumentoPorCobrarDetalle.Conexion = Conexion;
+                    DocumentoPorCobrarDetalle.Usuario = User.Identity.Name;
+                    DocumentoPorCobrarDetalle.RespuestaAjax = new RespuestaAjax();
+                    DocumentoPorCobrarDetalle = VentaDatos.AC_ProductoServicio(DocumentoPorCobrarDetalle);
+
+                    if (DocumentoPorCobrarDetalle.RespuestaAjax.Success)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = DocumentoPorCobrarDetalle.RespuestaAjax.Mensaje;
+                        Token.ResetToken();
+                        return RedirectToAction("VentaTransacciones", "Venta", new { IDVenta = DocumentoPorCobrarDetalle.Id_servicio });
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = DocumentoPorCobrarDetalle.RespuestaAjax.Mensaje;
+                        return RedirectToAction("VentaProductoServicio", "Venta", new { IDVenta = DocumentoPorCobrarDetalle.Id_servicio, Id_documentoPorCobrar = DocumentoPorCobrarDetalle.Id_documentoCobrar, Id_detalleDocumento = DocumentoPorCobrarDetalle.Id_detalleDoctoCobrar });
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index", "Venta");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos, error: " + Mensaje;
+                return RedirectToAction("Index", "Venta");
+            }
+        }
+        [HttpPost]
+        public ActionResult Del_ProductoServicio(DocumentosPorCobrarDetalleModels documento)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                    documento.Conexion = Conexion;
+                    documento.Usuario = User.Identity.Name;
+                    documento.RespuestaAjax = new RespuestaAjax();
+                    documento = VentaDatos.DEL_ProductoServicioCompra(documento);
+
+                    if (documento.RespuestaAjax.Success)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = documento.RespuestaAjax.Mensaje;
+                        Token.ResetToken();
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = documento.RespuestaAjax.Mensaje;
+                    }
+
+                    return Content(documento.RespuestaAjax.ToJSON(), "application/json");
+                }
+                else
+                {
+                    documento.RespuestaAjax = new RespuestaAjax();
+                    documento.RespuestaAjax.Success = false;
+
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos";
+
+                    return Content(documento.RespuestaAjax.ToJSON(), "application/json");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                documento.RespuestaAjax = new RespuestaAjax();
+                documento.RespuestaAjax.Success = false;
+
+                TempData["typemessage"] = "2";
+                TempData["message"] = Mensaje;
+
+                return Content(documento.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        [HttpGet]
+        public ActionResult Edit_FleteProductoServicio(string Id_flete, string Id_documentoPorCobrar, string Id_detalleDocumento)
+        {
+            try
+            {
+                DocumentosPorCobrarDetalleModels DocumentoPorCobrarDetalle = new DocumentosPorCobrarDetalleModels();
+                _Flete_Datos FleteDatos = new _Flete_Datos();
+
+
+                //0 = nuevo, 36 = editar, pero ambos son válidos
+                if ((Id_flete.Length == 36) && (Id_documentoPorCobrar.Length == 36) && (Id_detalleDocumento.Length == 0 || Id_detalleDocumento.Length == 36 || string.IsNullOrEmpty(Id_detalleDocumento)))
+                {
+                    Token.SaveToken();
+                    DocumentoPorCobrarDetalle.Id_servicio = Id_flete;
+                    DocumentoPorCobrarDetalle.Id_documentoCobrar = Id_documentoPorCobrar;
+                    DocumentoPorCobrarDetalle.Id_detalleDoctoCobrar = Id_detalleDocumento;
+                    DocumentoPorCobrarDetalle.Conexion = Conexion;
+                    DocumentoPorCobrarDetalle.RespuestaAjax = new RespuestaAjax();
+                    DocumentoPorCobrarDetalle = FleteDatos.GetDetalleDocumentoPorCobrarEdit(DocumentoPorCobrarDetalle);
+                    DocumentoPorCobrarDetalle.ListaProductosServiciosCFDI = FleteDatos.GetListadoCFDIProductosServiciosCompra(DocumentoPorCobrarDetalle);
+
+                    return View(DocumentoPorCobrarDetalle);
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista, verifique sus datos.";
+                    return View("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos, error: " + Mensaje;
+                return View("Index");
+            }
+        }
+        #endregion
+
+        #region Vista impuesto productoServicio
+        /// <summary>
+        /// Muestra los impuestos de un producto
+        /// </summary>
+        /// <param name="Id1">Id de la venta</param>
+        /// <param name="Id2">Id del detalle Documento por Cobrar</param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult VentaImpuestoProductoServicio(string Id_1, string Id_2)
+        {
+            try
+            {
+                ImpuestoModels DocumentoPorCobrarDetalleImpuesto = new ImpuestoModels();
+                _Venta2_Datos VentaDatos = new _Venta2_Datos();
+
+                if ((Id_1.Length == 36) && (Id_2.Length == 36))
+                {
+                    Token.SaveToken();
+                    DocumentoPorCobrarDetalleImpuesto.IDModulo = Id_1;
+                    DocumentoPorCobrarDetalleImpuesto.Id_detalleDoctoCobrar = Id_2;
+                    DocumentoPorCobrarDetalleImpuesto.Conexion = Conexion;
+                    DocumentoPorCobrarDetalleImpuesto.RespuestaAjax = new RespuestaAjax();
+                    DocumentoPorCobrarDetalleImpuesto = VentaDatos.Get_AC_Impuestos(DocumentoPorCobrarDetalleImpuesto);
+
+                    return View(DocumentoPorCobrarDetalleImpuesto);
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista, verifique sus datos.";
+                    return View("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos, error: " + Mensaje;
+                return View("Index");
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id1">Id flete</param>
+        /// <param name="Id2">Id documento detalle</param>
+        /// <param name="Id3">Id documento detalle impuesto</param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Venta_ProductoServicio(string Id1, string Id2, string Id3)
+        {
+            try
+            {
+                Token.SaveToken();
+
+                string Id_modulo = string.IsNullOrEmpty(Id1) ? string.Empty : Id1;
+                string Id_detalleDocumento = string.IsNullOrEmpty(Id2) ? string.Empty : Id2;
+
+                if (string.IsNullOrEmpty(Id_modulo) || string.IsNullOrEmpty(Id_detalleDocumento))
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return View("Index");
+                }
+                else
+                {
+                    string Id_Impuesto = string.IsNullOrEmpty(Id3) ? string.Empty : Id3;
+
+                    if (Id_Impuesto.Length == 0 || Id_Impuesto.Length == 36)
+                    {
+                        ImpuestoModels Impuesto = new ImpuestoModels();
+                        _Venta2_Datos VentaDatos = new _Venta2_Datos();
+
+                        Impuesto.Conexion = Conexion;
+                        Impuesto.IDModulo = Id1;
+                        Impuesto.Id_detalleDoctoCobrar = Id2;
+                        Impuesto.IDImpuesto = Id3;
+
+                        Impuesto.Conexion = Conexion;
+                        Impuesto = VentaDatos.GetImpuestoXIDImpuesto(Impuesto);
+
+                        if (Impuesto.RespuestaAjax.Success)
+                        {
+                            Impuesto.ListaImpuesto = VentaDatos.GetListadoImpuesto(Impuesto);
+                            Impuesto.ListaTipoImpuesto = VentaDatos.GetListadoTipoImpuesto(Impuesto);
+                            Impuesto.ListaTipoFactor = VentaDatos.GetListadoTipoFactor(Impuesto);
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "No se puede cargar la vista, error: " + Impuesto.RespuestaAjax.Mensaje;
+                            return View("Index");
+                        }
+
+                        return View(Impuesto);
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Verifique sus datos.";
+                        return View("Index");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
+                return View("Index");
+            }
+        }
+        [HttpPost]
+        public ActionResult Venta_ProductoServicio(ImpuestoModels ImpuestoProducto)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                    ImpuestoProducto.Conexion = Conexion;
+                    ImpuestoProducto.Usuario = User.Identity.Name;
+                    ImpuestoProducto.RespuestaAjax = new RespuestaAjax();
+                    ImpuestoProducto = VentaDatos.AC_ImpuestoProductoServicio(ImpuestoProducto);
+
+                    if (ImpuestoProducto.RespuestaAjax.Success)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = ImpuestoProducto.RespuestaAjax.Mensaje;
+                        Token.ResetToken();
+                        return RedirectToAction("VentaImpuestoProductoServicio", "Venta", new { Id_1 = ImpuestoProducto.IDModulo, Id_2 = ImpuestoProducto.Id_detalleDoctoCobrar });
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = ImpuestoProducto.RespuestaAjax.Mensaje;
+                        return RedirectToAction("VentaImpuestoProductoServicio", "Venta", new { Id_1 = ImpuestoProducto.IDModulo, Id_2 = ImpuestoProducto.Id_detalleDoctoCobrar });
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index", "Venta");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos, error: " + Mensaje;
+                return RedirectToAction("Index", "Venta");
             }
         }
         #endregion

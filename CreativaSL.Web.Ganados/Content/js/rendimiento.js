@@ -24,10 +24,10 @@
             },
             ignore: "",
             rules: {
-                KMFinal: { required: true }                
+                KMFinal: { required: true, min:1 }                
             },
             messages: {
-                KMFinal: { required: "Ingrese el Kilometraje final." }
+                KMFinal: { required: "Ingrese el Kilometraje final.", min: "Ingrese un Kilometraje final mayor a cero." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
