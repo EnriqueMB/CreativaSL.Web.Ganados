@@ -213,13 +213,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Marca = MarcaDatos.EliminarMarca(Marca);
                 if (Marca.Completado == true)
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se ha eliminado correctamente";
+                    //TempData["typemessage"] = "1";
+                    //TempData["message"] = "El registro se ha eliminado correctamente";
                 }
                 return Json("");
             }
             catch
             {
+                CatMarcaVehiculoModels Marca = new CatMarcaVehiculoModels();
                 return View();
             }
         }

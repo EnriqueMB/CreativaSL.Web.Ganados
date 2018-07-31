@@ -12,14 +12,15 @@ namespace CreativaSL.Web.Ganados.Models
     public class CatFierro_Datos
     {
 
-        public SqlDataReader DatatableIndex(CatFierroModels fierro)
+        public string DatatableIndex(CatFierroModels fierro)
         {
             try
             {
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(fierro.Conexion, "spCSLDB_Catalogo_get_CatFierro");
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
-                return dr;
+                return datatable;
             }
             catch (Exception ex)
             {

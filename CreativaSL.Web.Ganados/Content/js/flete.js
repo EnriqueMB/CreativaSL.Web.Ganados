@@ -6,6 +6,7 @@
     var tableDocumentos, tableProductoGanado, tableProductoGeneral, tblModalGanadoActual, tblModalGanadoExterno;
     var numeroFila = 1;
     var mostrarCobro;
+    var id_fleteGlobal = $("#id_flete");
 
     var InitMap = function () {
         directionsService = new google.maps.DirectionsService;
@@ -974,7 +975,7 @@
                     Mensaje("Datos guardados con éxito.", "1");
                     //Recogo los valores
                     var json = JSON.parse(response.Mensaje);
-                    $("#id_flete").val = json.id_flete;
+                   id_flete.val = json.id_flete;
                     $("#Folio").text("Folio del flete: " + json.folio);
                     //Habilitamos el tab cliente
                     document.getElementById("tabTrayecto").dataset.toggle = "tab";
@@ -989,6 +990,7 @@
     function AC_Trayecto() {
         var form = $("#frm_AC_Trayecto")[0];
         var formData = new FormData(form);
+        formData.append("id_flete", id_fleteGlobal.val());
 
         $.ajax({
             type: 'POST',

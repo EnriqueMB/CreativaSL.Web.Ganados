@@ -194,12 +194,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Socio.Conexion = Conexion;
                 Socio.Usuario = User.Identity.Name;
                 Socio = DBSocio.EliminarSocio(Socio);
-                TempData["typemessage"] = "1";
-                TempData["message"] = "El registro se ha eliminado correctamente";
+                //TempData["typemessage"] = "1";
+                //TempData["message"] = "El registro se ha eliminado correctamente";
                 return Json("");
             }
             catch
             {
+                CatSociosModels Socio = new CatSociosModels();
                 return View();
             }
         }

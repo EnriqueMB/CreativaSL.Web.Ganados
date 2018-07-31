@@ -227,16 +227,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Chofer.IDChofer = id;
                 Chofer.Usuario = User.Identity.Name;
                 Chofer = ChoferDatos.EliminarChofer(Chofer);
-                TempData["typemessage"] = "1";
-                TempData["message"] = "El registro se ha eliminado correctamente";
+                //TempData["typemessage"] = "1";
+                //TempData["message"] = "El registro se ha eliminado correctamente";
                 return Json("");
             }
             catch
             {
                 CatChoferModels Chofer = new CatChoferModels();
                 Chofer.TablaDatos = new DataTable();
-                TempData["typemessage"] = "2";
-                TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
+                //TempData["typemessage"] = "2";
+                //TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
                 return Json("");
                
             }
@@ -253,10 +253,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Chofer.IDEmpresa = IDEmpresa;
                 Chofer.Usuario = User.Identity.Name;
                 Chofer.listaSucursales = ChoferDatos.ObtenerSucursalesXIDEmpresa(Chofer);
-                return Content(Chofer.listaSucursales.ToJSON(), "application/json");
+                return Content(Chofer.listaSucursales.ToJSON(), "application/json");                
             }
             catch
             {
+
+
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error. Por favor contacte a soporte técnico";
                 return Json("");

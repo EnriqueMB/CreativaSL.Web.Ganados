@@ -964,6 +964,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 uPPProvedor.listaPaises = ProveedorDatos.obtenerListaPaises(uPPProvedor);
                 uPPProvedor.listaEstado = ProveedorDatos.obtenerListaEstados(uPPProvedor);
                 uPPProvedor.listaMunicipio = ProveedorDatos.obtenerListaMunicipios(uPPProvedor);
+
+                if (string.IsNullOrEmpty(uPPProvedor.Imagen))
+                {
+                    uPPProvedor.ImagenMostrar = Auxiliar.SetDefaultImage();
+                }
+                else
+                {
+                    uPPProvedor.ImagenMostrar = uPPProvedor.Imagen;
+                }
+
                 return View(uPPProvedor);
             }
             catch (Exception)
@@ -981,21 +991,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 if(Token.IsTokenValid())
                 {
-                    HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                    if (!string.IsNullOrEmpty(bannerImage.FileName))
+                    //HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                    if (uPPProvedor.ImagenHttp != null)
                     {
-                        if (bannerImage != null && bannerImage.ContentLength > 0)
-                        {
-                            Stream s = bannerImage.InputStream;
-                            Bitmap img = new Bitmap(s);
-                            uPPProvedor.Imagen = img.ToBase64String(ImageFormat.Png);
-                        }
+                        uPPProvedor.Imagen = Auxiliar.ImageToBase64(uPPProvedor.ImagenHttp);
                     }
-                    else
-                    {
-                        uPPProvedor.BandImg = true;
-                        ModelState.AddModelError(string.Empty, "Cargar imagen UPPProveedor");
-                    }
+                    
+
                     if (ModelState.IsValid)
                     {
                         uPPProvedor.Conexion = Conexion;

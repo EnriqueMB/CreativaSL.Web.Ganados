@@ -28,7 +28,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 fierro.Conexion = Conexion;
                 fierro.RespuestaAjax = new RespuestaAjax();
-                fierro.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(fierroDatos.DatatableIndex(fierro));
+                fierro.RespuestaAjax.Mensaje = fierroDatos.DatatableIndex(fierro);
                 fierro.RespuestaAjax.Success = true;
 
                 return Content(fierro.RespuestaAjax.Mensaje, "application/json");

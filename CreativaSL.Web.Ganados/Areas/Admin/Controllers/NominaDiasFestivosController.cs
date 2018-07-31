@@ -202,13 +202,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 nomina = nominaDatos.EliminarNomDiasFestivos(nomina);
                 if (nomina.Completado == true)
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se elimino correctamente.";
+                    //TempData["typemessage"] = "1";
+                    //TempData["message"] = "El registro se elimino correctamente.";
                     return Json("");
                 }
                 else
                 {
-
                     TempData["typemessage"] = "2";
                     TempData["message"] = "Ocurrió un error al intentar eliminar.";
                     return View(nomina);
@@ -216,6 +215,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch
             {
+                NominaDiasFestivosModels nomina = new NominaDiasFestivosModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrió un error el intentar guardar. Contacte a soporte técnico";
                 return View();

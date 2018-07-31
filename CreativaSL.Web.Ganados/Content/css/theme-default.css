@@ -2375,6 +2375,15 @@ input[type=checkbox] {
 .form-group:last-child {
   margin-bottom: 0px;
 }
+/* ClienteLugar clases*/
+.groupClienteLugar > * {
+    display: inline-block;
+}
+.groupClienteLugar label{
+    width: auto;
+    margin-left: 2%;
+}
+/* End ClienteLugar*/
 .form-group-separated {
   border-top: 1px dashed #D5D5D5;
 }

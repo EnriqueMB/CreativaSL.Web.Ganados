@@ -210,8 +210,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 proveedor = proveedorDatos.EliminarProveedorAlmacen(proveedor);
                 if (proveedor.Completado == true)
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se elimino correctamente.";
+                    //TempData["typemessage"] = "1";
+                    //TempData["message"] = "El registro se elimino correctamente.";
                     return Json("");
                 }
                 else
@@ -223,6 +223,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch
             {
+                CatProveedorAlmacenModels proveedor = new CatProveedorAlmacenModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrió un error el intentar guardar. Contacte a soporte técnico";
                 return View();

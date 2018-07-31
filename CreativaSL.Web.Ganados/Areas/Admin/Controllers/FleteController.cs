@@ -1326,7 +1326,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     }
 
                     Token.ResetToken();
-
+                    Token.SaveToken();
                     return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
                 }
                 else
@@ -1345,20 +1345,22 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         #endregion
         #region Trayecto
-        public ActionResult AC_Trayecto(FleteModels Flete)
+        public ActionResult AC_Trayecto(FleteModels FleteActual)
         {
             try
             {
                 if (Token.IsTokenValid())
                 {
-                    if (Flete.id_flete.Length == 36)
+                    if (FleteActual.id_flete.Length == 36)
                     {
                         FleteDatos = new _Flete_Datos();
-                        Flete.Conexion = Conexion;
-                        Flete.Usuario = User.Identity.Name;
-                        Flete = FleteDatos.Flete_ac_FleteTrayecto(Flete);
+                        FleteActual.Conexion = Conexion;
+                        FleteActual.Usuario = User.Identity.Name;
+                        FleteActual = FleteDatos.Flete_ac_FleteTrayecto(FleteActual);
 
-                        return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+                        Token.ResetToken();
+                        Token.SaveToken();
+                        return Content(FleteActual.RespuestaAjax.ToJSON(), "application/json");
                     }
                     else
                     {
@@ -1375,9 +1377,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
-                Flete.RespuestaAjax.Mensaje = Mensaje;
-                Flete.RespuestaAjax.Success = false;
-                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+                FleteActual.RespuestaAjax.Mensaje = Mensaje;
+                FleteActual.RespuestaAjax.Success = false;
+                return Content(FleteActual.RespuestaAjax.ToJSON(), "application/json");
             }
         }
         #endregion

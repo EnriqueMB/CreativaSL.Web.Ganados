@@ -212,16 +212,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CategoriaPuestos.id_categoria = id;
                 CategoriaPuestos.Usuario = User.Identity.Name;
                 CategoriaPuestos = CategoriaPuestosDatos.EliminarCategoriaPuesto(CategoriaPuestos);
-                TempData["typemessage"] = "1";
-                TempData["message"] = "El registro se ha eliminado correctamente";
-                return Json(View());
+                //TempData["typemessage"] = "1";
+                //TempData["message"] = "El registro se ha eliminado correctamente";
+                return Json("");
                 // TODO: Add delete logic here
             }
             catch
             {
                 CatCategoriaPuestoModels CategoriaPuestos = new CatCategoriaPuestoModels();
-                TempData["typemessage"] = "2";
-                TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
+                //TempData["typemessage"] = "2";
+                //TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
                 return Json("");
 
             }

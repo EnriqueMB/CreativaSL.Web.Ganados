@@ -8,15 +8,16 @@
         $.validator.addMethod("validarImagen", function () {
             if (document.getElementById("Imagen").value === '') {
                 if ((document.getElementById("Imagen").value === ''))
-                    return false;
+                    {return false;}
                 else
-                    return true;
+                    {return true;}
             }
             else
                 return true;
         }, 'Debe seleccionar una imagen.');
 
         $('#form-dg').validate({
+            //debug:true,
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -38,7 +39,8 @@
                 nombrePredio: { required: true, texto: true, maxlength: 200 },
                 propietario: { required: true, texto: true },
                 fechaAlta: { required: true },
-                Imagen: { validarImagen: true },
+                // Imagen: { validarImagen: true },
+                ImagenHttp: { ImagenRequerida: true, ImagenRequerida: ["Imagen"] },
                 id_municipio: { CMBINT: true },
                 id_estadoCodigo: { required: true },
                 id_pais: { required: true },
@@ -50,7 +52,7 @@
                 propietario: { required: "Ingrese el nombre del propietario", texto: "Ingrese un nombre valido" },
                 fechaAlta: { required: "Ingrese la fecha de alta." },
 
-                Imagen: { validarImagen: "Seleccione una imagén válida de la UPP" },
+                //Imagen: { validarImagen: "Seleccione una imagén válida de la UPP" },
                 id_municipio: { CMBINT: "Seleccione un municipio." },
                 id_estadoCodigo: { required: "Ingrese un estado válido." },
                 id_pais: { required: "Ingrese un pais válido." },

@@ -209,13 +209,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Puesto = PuestoDatos.EliminarPuesto(Puesto);
                 if (Puesto.Completado == true)
                 {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se ha eliminado correctamente";
+                    //TempData["typemessage"] = "1";
+                    //TempData["message"] = "El registro se ha eliminado correctamente";
                 }
                 return Json("");
             }
             catch
             {
+                CatPuestoModels Puesto = new CatPuestoModels();
                 return View();
             }
         }
