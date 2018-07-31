@@ -11,6 +11,11 @@ namespace CreativaSL.Web.Ganados.Models
         public RptJaulasXVentaModels()
         {
             _chofer = string.Empty;
+            _merma = 0;
+            _pesoTotal = 0;
+            _machos = 0;
+            _hembras = 0;
+            _cliente = string.Empty;
             _folio = 0;
             _totalGanados = 0;
             _montoTotal = 0;
@@ -33,6 +38,48 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _listaJaulas; }
             set { _listaJaulas = value; }
+        }
+        private string _cliente;
+
+        public string cliente
+        {
+            get { return _cliente; }
+            set { _cliente = value; }
+        }
+        private int _machos;
+
+        public int machos
+        {
+            get { return _machos; }
+            set { _machos = value; }
+        }
+        private int _hembras;
+
+        public int hembras
+        {
+            get { return _hembras; }
+            set { _hembras = value; }
+        }
+        private decimal _pesoTotal;
+
+        public decimal pesoTotal
+        {
+            get { return _pesoTotal; }
+            set { _pesoTotal = value; }
+        }
+        private decimal _merma;
+
+        public decimal merma
+        {
+            get { return _merma; }
+            set { _merma = value; }
+        }
+        private string _color;
+
+        public string color
+        {
+            get { return _color; }
+            set { _color = value; }
         }
 
         private string _chofer;
