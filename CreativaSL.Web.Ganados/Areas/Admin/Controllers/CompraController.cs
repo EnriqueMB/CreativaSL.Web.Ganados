@@ -1194,27 +1194,27 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         #region Documentos por pagar Detalles 
         [HttpPost]
-        public ActionResult DatatableDocumentosPorPagarDetalles(DocumentoPorPagarDetalleModels Documento)
+        public ActionResult DatatableDocumentosPorPagarCompra(DocumentoPorPagarDetalleModels DocumentoPago)
         {
             try
             {
                 CompraDatos = new _Compra_Datos();
-                Documento.Conexion = Conexion;
-                Documento.Usuario = User.Identity.Name;
-                Documento.RespuestaAjax = new RespuestaAjax();
+                DocumentoPago.Conexion = Conexion;
+                DocumentoPago.Usuario = User.Identity.Name;
+                DocumentoPago.RespuestaAjax = new RespuestaAjax();
 
-                Documento.RespuestaAjax.Mensaje = CompraDatos.DatatableDocumentosPorPagarDetalles(Documento);
-                Documento.RespuestaAjax.Success = true;
+                DocumentoPago.RespuestaAjax.Mensaje = CompraDatos.DatatableDocumentosPorPagarDetalles(DocumentoPago);
+                DocumentoPago.RespuestaAjax.Success = true;
 
-                return Content(Documento.RespuestaAjax.Mensaje, "application/json");
+                return Content(DocumentoPago.RespuestaAjax.Mensaje, "application/json");
 
             }
             catch (Exception ex)
             {
-                Documento.RespuestaAjax = new RespuestaAjax();
-                Documento.RespuestaAjax.Mensaje = ex.ToString();
-                Documento.RespuestaAjax.Success = false;
-                return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
+                DocumentoPago.RespuestaAjax = new RespuestaAjax();
+                DocumentoPago.RespuestaAjax.Mensaje = ex.ToString();
+                DocumentoPago.RespuestaAjax.Success = false;
+                return Content(DocumentoPago.RespuestaAjax.ToJSON(), "application/json");
             }
         }
         #endregion

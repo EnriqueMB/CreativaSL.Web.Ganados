@@ -320,8 +320,12 @@ namespace CreativaSL.Web.Ganados.Models
                     item.modelo = !ds.IsDBNull(ds.GetOrdinal("Modelo")) ? ds.GetString(ds.GetOrdinal("Modelo")) : string.Empty;
                     item.noSerie = !ds.IsDBNull(ds.GetOrdinal("NoSerie")) ? ds.GetString(ds.GetOrdinal("NoSerie")) : string.Empty;
                     item.montoTotal = !ds.IsDBNull(ds.GetOrdinal("MontoTotal")) ? ds.GetDecimal(ds.GetOrdinal("MontoTotal")) : 0;
-                    item.capacidad = !ds.IsDBNull(ds.GetOrdinal("Capacidad")) ? ds.GetString(ds.GetOrdinal("Capacidad")) : string.Empty;
-                    item.totalGanados = !ds.IsDBNull(ds.GetOrdinal("TotalGanado")) ? ds.GetInt32(ds.GetOrdinal("TotalGanado")) : 0;
+                    item.cliente = !ds.IsDBNull(ds.GetOrdinal("Cliente")) ? ds.GetString(ds.GetOrdinal("Cliente")) : string.Empty;
+                    item.machos = !ds.IsDBNull(ds.GetOrdinal("Machos")) ? ds.GetInt32(ds.GetOrdinal("Machos")) : 0;
+                    item.hembras = !ds.IsDBNull(ds.GetOrdinal("Hembras")) ? ds.GetInt32(ds.GetOrdinal("Hembras")) : 0;
+                    item.merma = !ds.IsDBNull(ds.GetOrdinal("merma")) ? ds.GetDecimal(ds.GetOrdinal("merma")) : 0;
+                    item.pesoTotal = !ds.IsDBNull(ds.GetOrdinal("pesoTotalEnviado")) ? ds.GetDecimal(ds.GetOrdinal("pesoTotalEnviado")) : 0;
+                    item.color = !ds.IsDBNull(ds.GetOrdinal("Color")) ? ds.GetString(ds.GetOrdinal("Color")) : string.Empty;
                     lista.Add(item);
                 }
                 ds.Close();  

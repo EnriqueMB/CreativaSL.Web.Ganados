@@ -196,18 +196,18 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
         #region DatatableDocumentosPorPagarDetalles
-        public string DatatableDocumentosPorPagarDetalles(DocumentoPorPagarDetalleModels Documento)
+        public string DatatableDocumentosPorPagarDetalles(DocumentoPorPagarDetalleModels DocumentoPago)
         {
             object[] parametros =
             {
-                Documento.IDDocumentoPagar,
-                Documento.Id_servicio
+                DocumentoPago.IDDocumentoPagar,
+                DocumentoPago.Id_servicio2
             };
 
             try
             {
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Compra_get_DocumentosPorPagarDetalles", parametros);
+                dr = SqlHelper.ExecuteReader(DocumentoPago.Conexion, "spCSLDB_Compra_get_DocumentosPorPagarDetalles", parametros);
                 string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
                 return datatable;
