@@ -500,7 +500,7 @@
                       <Paragraph>
                         <TextRuns>
                           <TextRun>
-                            <Value>=Fields!NombreProveedor.Value</Value>
+                            <Value>=UCase(Fields!NombreProveedor.Value)</Value>
                             <Style />
                           </TextRun>
                         </TextRuns>
@@ -549,15 +549,15 @@
             <ChartMember>
               <Group Name="Chart1_CategoryGroup">
                 <GroupExpressions>
-                  <GroupExpression>=Fields!NombreCompra.Value</GroupExpression>
+                  <GroupExpression>=Fields!NombreProveedor.Value</GroupExpression>
                 </GroupExpressions>
               </Group>
               <SortExpressions>
                 <SortExpression>
-                  <Value>=Fields!NombreCompra.Value</Value>
+                  <Value>=Fields!NombreProveedor.Value</Value>
                 </SortExpression>
               </SortExpressions>
-              <Label>=Fields!NombreCompra.Value</Label>
+              <Label>=UCase(Fields!NombreProveedor.Value)</Label>
             </ChartMember>
           </ChartMembers>
         </ChartCategoryHierarchy>
@@ -574,58 +574,17 @@
                   <Value>=Fields!NombreProveedor.Value</Value>
                 </SortExpression>
               </SortExpressions>
-              <ChartMembers>
-                <ChartMember>
-                  <Label>Ganado Comprado Machos</Label>
-                </ChartMember>
-                <ChartMember>
-                  <Label>Ganado Comprado Hembra</Label>
-                </ChartMember>
-              </ChartMembers>
-              <Label>=Fields!NombreProveedor.Value</Label>
+              <Label>=UCase(Fields!NombreProveedor.Value)</Label>
             </ChartMember>
           </ChartMembers>
         </ChartSeriesHierarchy>
         <ChartData>
           <ChartSeriesCollection>
-            <ChartSeries Name="GanadoCompradoMachos">
-              <ChartDataPoints>
-                <ChartDataPoint>
-                  <ChartDataPointValues>
-                    <Y>=Sum(Fields!GanadoCompradoMachos.Value)</Y>
-                  </ChartDataPointValues>
-                  <ChartDataLabel>
-                    <Style />
-                  </ChartDataLabel>
-                  <Style />
-                  <ChartMarker>
-                    <Style />
-                  </ChartMarker>
-                  <DataElementOutput>Output</DataElementOutput>
-                </ChartDataPoint>
-              </ChartDataPoints>
-              <Style />
-              <ChartEmptyPoints>
-                <Style />
-                <ChartMarker>
-                  <Style />
-                </ChartMarker>
-                <ChartDataLabel>
-                  <Style />
-                </ChartDataLabel>
-              </ChartEmptyPoints>
-              <ValueAxisName>Primary</ValueAxisName>
-              <CategoryAxisName>Primary</CategoryAxisName>
-              <ChartSmartLabel>
-                <CalloutLineColor>Black</CalloutLineColor>
-                <MinMovingDistance>0pt</MinMovingDistance>
-              </ChartSmartLabel>
-            </ChartSeries>
             <ChartSeries Name="GanadoCompradoHembra">
               <ChartDataPoints>
                 <ChartDataPoint>
                   <ChartDataPointValues>
-                    <Y>=Sum(Fields!GanadoCompradoHembra.Value)</Y>
+                    <Y>=Sum(Fields!TotalGanado.Value)</Y>
                   </ChartDataPointValues>
                   <ChartDataLabel>
                     <Style />
@@ -661,7 +620,7 @@
             <ChartCategoryAxes>
               <ChartAxis Name="Primary">
                 <Style>
-                  <FontSize>8pt</FontSize>
+                  <FontSize>6pt</FontSize>
                 </Style>
                 <ChartAxisTitle>
                   <Caption>Título del eje</Caption>
@@ -691,6 +650,7 @@
                 <CrossAt>NaN</CrossAt>
                 <Minimum>NaN</Minimum>
                 <Maximum>NaN</Maximum>
+                <LabelsAutoFitDisabled>true</LabelsAutoFitDisabled>
                 <ChartAxisScaleBreak>
                   <Style />
                 </ChartAxisScaleBreak>
