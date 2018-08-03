@@ -78,10 +78,6 @@ $.validator.addMethod("imagenExtesion", function (value, element, params) {
 }, 'Solo archivos con formato PNG, JPG, JPEG y BMP.');
 
 $.validator.addMethod("ImagenRequerida", function (value, element, params) {
-    console.log(value);
-    console.log(element);
-    console.log($(element));
-    console.log(params);
     //Checamos que tenga un archivo el input file
     if (element.value.length == 0) {
         var imagenServidor = document.getElementById(params[0]).value;
@@ -230,3 +226,30 @@ $.validator.addMethod("validarTblEventoGanadoVenta", function () {
     else
         return true;
 }, 'Debe seleccionar una imagen.');
+
+$.validator.addMethod("numeroConComas", function (value, element, params) {
+    //Checamos que tenga un dato el input
+    if (value === '') {
+        return false;
+    }
+    //Si hay obtenemos la extensión
+    var valorInput = element.value;
+    var numero = Number.parseFloat(valorInput.replace(/,/g, ''));
+
+    if (Number.isNaN(numero)) {
+        return false;
+    }
+    else {
+        if (numero > 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+}, 'Por favor, escriba un número mayor a 0.');
+
+$.validator.addMethod("horas24", function (value, element) {
+    return this.optional(element) || /^([0-5][0-9])(:[0-5][0-9])$/i.test(value);
+}, "Por favor, seleccione una hora válida (hh:mm).");

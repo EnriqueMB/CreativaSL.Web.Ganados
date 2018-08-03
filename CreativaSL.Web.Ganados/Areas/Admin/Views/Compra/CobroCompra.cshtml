@@ -1,0 +1,421 @@
+﻿@model CreativaSL.Web.Ganados.Models.DocumentosPorCobrarDetallePagosModels
+@{
+    ViewBag.Title = "CobroCompra";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section css
+{
+    <!--FILEINPUT-->
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/select.bootstrap.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
+    <style>
+        body {
+            overflow-x: visible !important;
+        }
+
+        .page-content {
+            height: 100% !important;
+        }
+
+        .form-control[disabled], .form-control[readonly] {
+            color: #000 !important;
+        }
+    </style>
+}
+@section featured
+{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    @{ Html.EnableClientValidation(false); }
+                    @using (Html.BeginForm("CobroCompra", "Compra", FormMethod.Post, new { id = "form_Comprobante", @class = "form-horizontal", autocomplete = "off", enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="field_error" id="validation_summary"></div>
+                        @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Comprobante de cobro</strong></h3>
+                    <ul class="panel-controls"></ul>
+                </div>
+                <div class="panel-body">
+                    @Html.HiddenFor(model => model.Id_padre)
+                    @Html.HiddenFor(model => model.Id_documentoPorCobrarDetallePagos)
+                    @Html.HiddenFor(model => model.Id_documentoPorCobrarDetallePagosBancarizado)
+                    @Html.HiddenFor(model => model.ExtensionImagenBase64)
+                    @Html.HiddenFor(model => model.ImagenMostrar)
+                    @Html.HiddenFor(model => model.ImagenBase64)
+                    @Html.HiddenFor(model => model.Bancarizado)
+
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <label class="col-md-2 control-label">Empresa</label>
+                            <div class="controls">
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-building-o"></span></span>
+                                        @Html.TextBoxFor(model => model.NombreEmpresa, new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-md-2 control-label">Proveedor</label>
+                            <div class="controls">
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-user"></span></span>
+                                        @Html.TextBoxFor(model => model.NombreProveedor_Cliente, new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-6 controlError">
+                            <label class="col-md-2 control-label">Forma de pago:</label>
+                            <div class="controls">
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        <select id="Id_formaPago" name="Id_formaPago" class="form-control select" data-live-search="true" , data-style="form-control" data-size="5">
+                                            @foreach (var formaPago in Model.ListaFormaPagos)
+                                            {
+                                                <option value="@formaPago.Clave" data-bancarizado="@formaPago.Bancarizado"
+                                                        @if (Model.Id_formaPago == formaPago.Clave) { <text>
+                                                        selected="selected"
+                                                        </text>    }>
+                                                    @formaPago.Descripcion
+                                                </option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <span class="help-block">Forma de pago.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6 controlError">
+                            <label class="col-md-2 control-label">Monto:</label>
+                            <div class="controls">
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+                                        @Html.TextBoxFor(model => model.Monto, "{0:f2}", new { @class = "form-control", type = "number" })
+                                    </div>
+                                    <span class="help-block">Monto o cantidad.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 controlError">
+                            <label class="col-md-2 control-label">Fecha de pago:</label>
+                            <div class="controls">
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                        @Html.TextBoxFor(model => model.fecha, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker", @readonly = "readonly" })
+                                    </div>
+                                    <span class="help-block">Fecha de pago.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="col-md-1 control-label">Nota</label>
+                            <div class="controls">
+                                <div class="col-md-11 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-eye"></span></span>
+                                        @Html.TextAreaFor(model => model.Observacion, new { @class = "form-control" })
+                                    </div>
+                                    <span class="help-block">Nota u observación.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divBancarizado">
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <div class="col-md-12 controlError">
+                                        <label class="col-md-2 control-label">Cuentas bancarias:</label>
+                                        <div class="controls">
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <select id="Id_cuentaBancariaBeneficiante" name="Id_cuentaBancariaBeneficiante" class="form-control select" data-live-search="true" , data-style="form-control">
+                                                        @foreach (var cuentaBancaria in Model.ListaCuentasBancariasEmpresa)
+                                                        {
+                                                            <option value="@cuentaBancaria.IDDatosBancarios"
+                                                                    data-titular="@cuentaBancaria.Titular"
+                                                                    data-numcuenta="@cuentaBancaria.NumCuenta"
+                                                                    data-numclabe="@cuentaBancaria.Clabe"
+                                                                    data-numtarjeta="@cuentaBancaria.NumTarjeta"
+                                                                    data-banco="@cuentaBancaria.Banco.Descripcion"
+                                                                    data-idbanco="@cuentaBancaria.Banco.IDBanco"
+                                                                    @if (Model.Id_cuentaBancariaBeneficiante == cuentaBancaria.IDDatosBancarios) { <text>
+                                                                    selected="selected"
+                                                                    </text>    }>
+                                                                @cuentaBancaria.Titular
+                                                            </option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <span class="help-block">Cuentas bancarias de la empresa.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label class="col-md-3 control-label">Banco</label>
+                                        <div class="controls">
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.NombreBancoBeneficiante, new { @class = "form-control", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label class="col-md-3 control-label">Núm. Cuenta</label>
+                                        <div class="controls">
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.NumCuentaBeneficiante, new { @class = "form-control", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label class="col-md-3 control-label">Núm. tarjeta</label>
+                                        <div class="controls">
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.NumTarjetaBeneficiante, new { @class = "form-control", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label class="col-md-3 control-label">Clabe</label>
+                                        <div class="controls">
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.NumClabeBeneficiante, new { @class = "form-control", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-12 controlError">
+                                        <label class="col-md-2 control-label">Cuentas bancarias:</label>
+                                        <div class="controls">
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <select id="Id_cuentaBancariaOrdenante" name="Id_cuentaBancariaOrdenante" class="form-control select" data-live-search="true" , data-style="form-control">
+                                                        @foreach (var cuentaBancaria in Model.ListaCuentasBancariasProveedor)
+                                                        {
+                                                            <option value="@cuentaBancaria.IDDatosBancarios"
+                                                                    data-titular="@cuentaBancaria.Titular"
+                                                                    data-numcuenta="@cuentaBancaria.NumCuenta"
+                                                                    data-numclabe="@cuentaBancaria.Clabe"
+                                                                    data-numtarjeta="@cuentaBancaria.NumTarjeta"
+                                                                    data-banco="@cuentaBancaria.Banco.Descripcion"
+                                                                    data-idbanco="@cuentaBancaria.Banco.IDBanco"
+                                                                    @if (Model.Id_cuentaBancariaOrdenante == cuentaBancaria.IDDatosBancarios) { <text>
+                                                                    selected="selected"
+                                                                    </text>    }>
+                                                                @cuentaBancaria.Titular
+                                                            </option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <span class="help-block">Cuentas bancarias del proveedor / cliente.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label class="col-md-3 control-label">Banco</label>
+                                        <div class="controls">
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.NombreBancoOrdenante, new { @class = "form-control", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label class="col-md-3 control-label">Núm. Cuenta</label>
+                                        <div class="controls">
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.NumCuentaOrdenante, new { @class = "form-control", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label class="col-md-3 control-label">Núm. tarjeta</label>
+                                        <div class="controls">
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.NumTarjetaOrdenante, new { @class = "form-control", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label class="col-md-3 control-label">Clabe</label>
+                                        <div class="controls">
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.NumClabeOrdenante, new { @class = "form-control", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <div class="controlError col-md-12">
+                                <label class="col-md-1 control-label">Imagen</label>
+                                <div class="col-md-11 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+                                        @Html.TextBoxFor(model => model.HttpImagen, new { id = "HttpImagen", name = "HttpImagen", @type = "file", @class = "form-control", @data_imgbd = "" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.HttpImagen)
+                                    <span class="help-block">Ingrese por lo menos 1 imagen.</span>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="form-group controlError">
+                            <div class="col-md-6">
+                                <label class="col-md-2 control-label">Folio INE:</label>
+                                <div class="controls">
+                                    <div class="col-md-10 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.FolioIFE, new { @class = "form-control" })
+                                        </div>
+                                        <span class="help-block">Folio del INE.</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 controlError">
+                                <label class="col-md-2 control-label">Número de autorización:</label>
+                                <div class="controls">
+                                    <div class="col-md-10 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.NumeroAutorizacion, new { @class = "form-control " })
+                                        </div>
+                                        <span class="help-block">Número de autorización.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                    </div>
+
+                </div>
+                <div class="panel-footer">
+                    <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                    <a id="regresar" href="@Url.Action("Transacciones", "Compra", new { IDCompra = Model.Id_padre })" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                </div>
+            </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var message     = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+
+@section script
+{
+    <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+    <script src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/compraCobro.js")"></script>
+    <!--FILEINPUT-->
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/popper.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            CompraCobro.init();
+        });
+    </script>
+}
+
+
+
+
+
+

@@ -58,9 +58,9 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#proveedor" aria-controls="proveedor" role="tab" data-toggle="tab">Proveedor</a></li>
-                <li id="liFierro" role="presentation" class="disabled"><a id="tabFierro" href="#fierro" aria-controls="fierro" role="tab" data-toggle="">Ganado</a></li>
+                @*<li id="liFierro" role="presentation" class="disabled"><a id="tabFierro" href="#fierro" aria-controls="fierro" role="tab" data-toggle="">Ganado</a></li>*@
                 <li id="liFlete" role="presentation" class="disabled"><a id="tabFlete" href="#flete" aria-controls="flete" role="tab" data-toggle="">Flete</a></li>
-                <li id="liDocumentos" role="presentation" class="disabled"><a id="tabDocumentos" href="#documentos" aria-controls="documentos" role="tab" data-toggle="">Documentos</a></li>
+                @*<li id="liDocumentos" role="presentation" class="disabled"><a id="tabDocumentos" href="#documentos" aria-controls="documentos" role="tab" data-toggle="">Documentos</a></li>*@
             </ul>
 
             <!-- Tab panes -->
@@ -87,8 +87,8 @@
                                     <div class="form-group">
                                         <div class="col-md-6">
                                             <div class="controlError">
-                                                <label class="col-md-2 control-label">Sucursal</label>
-                                                <div class="col-md-10 col-xs-12">
+                                                <label class="col-md-3 control-label">Sucursal</label>
+                                                <div class="col-md-9 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-building-o"></span></span>
                                                         @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { @class = "form-control select classSelect", data_live_search = "true", data_style = "form-control" })
@@ -97,10 +97,12 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="form-group">
                                         <div class="controlError col-md-6">
                                             <div class="controlError">
-                                                <label class="col-md-2 control-label">Fecha programada</label>
-                                                <div class="col-md-10 col-xs-12">
+                                                <label class="col-md-3 control-label">Fecha programada</label>
+                                                <div class="col-md-9 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
                                                         @Html.TextBoxFor(model => model.FechaHoraProgramada, "{0:dd/MM/yyyy}", new { id = "FechaProgramada", autocomplete = "off", @class = "form-control datepicker", @readonly = "readonly" })
@@ -109,12 +111,24 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div class="controlError">
+                                                <label class="col-md-3 control-label">Hora programada</label>
+                                                <div class="col-md-9 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                        @Html.TextBoxFor(model => model.HoraProgramada, new { @class = "form-control Hora24hrs", @readonly = "readonly" } )
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.HoraProgramada)
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-6">
                                             <div class="controlError">
-                                                <label class="col-md-2 control-label">Nombre del proveedor</label>
-                                                <div class="col-md-10 col-xs-12">
+                                                <label class="col-md-3 control-label">Nombre del proveedor</label>
+                                                <div class="col-md-9 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
                                                         @Html.DropDownListFor(model => model.IDProveedor, new SelectList(Model.ListaProveedores, "IDProveedor", "NombreRazonSocial"), new { @class = "form-control select classSelect", data_live_search = "true", data_style = "form-control" })
@@ -125,8 +139,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="controlError">
-                                                <label class="col-md-2 control-label">Lugares del proveedor</label>
-                                                <div class="col-md-10 col-xs-12">
+                                                <label class="col-md-3 control-label">Lugares del proveedor</label>
+                                                <div class="col-md-9 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></span>
                                                         @Html.DropDownListFor(model => model.IDPLugarProveedor, new SelectList(Model.ListaLugaresProveedor, "id_lugar", "descripcion"), new { @class = "form-control select classSelect", data_live_search = "true", data_style = "form-control" })
@@ -138,8 +152,34 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-6">
-                                            <label class="col-md-2 control-label">Anotaciones de la báscula</label>
-                                            <div class="col-md-10 col-xs-12">
+                                            <div class="controlError">
+                                                <label class="col-md-3 control-label">Ganado programado machos</label>
+                                                <div class="col-md-9 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="icon-ocampo-head"></span></span>
+                                                        @Html.TextBoxFor(model=>model.GanadosPactadoMachos, new { @class = "form-control" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.GanadosPactadoMachos)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="controlError">
+                                                <label class="col-md-3 control-label">Ganado programado hembras</label>
+                                                <div class="col-md-9 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="icon-ocampo-head"></span></span>
+                                                        @Html.TextBoxFor(model => model.GanadosPactadoHembras, new { @class = "form-control" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.GanadosPactadoHembras)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <label class="col-md-3 control-label">Anotaciones de la báscula</label>
+                                            <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                                     @Html.TextAreaFor(model=>model.Descripcion_bascula, new { @class="form-control", @style="resize:none", @rows = "5" })
@@ -147,8 +187,8 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <label class="col-md-2 control-label">Nota</label>
-                                            <div class="col-md-10 col-xs-12">
+                                            <label class="col-md-3 control-label">Nota</label>
+                                            <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                                     @Html.TextAreaFor(model => model.Observacion_programacion, new { @class = "form-control", @style = "resize:none", @rows="5"})
@@ -165,7 +205,7 @@
                         }
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane" id="fierro">
+                @*<div role="tabpanel" class="tab-pane" id="fierro">
                     <div class="col-md-12">
                         @{ Html.EnableClientValidation(false); }
                         @using (Html.BeginForm("AC_Fierro", "Fierro", FormMethod.Post, new { id = "frmProveedor", @class = "form-horizontal", autocomplete = "off" }))
@@ -257,7 +297,7 @@
                             </div>
                         }
                     </div>
-                </div>
+                </div>*@
                 <div role="tabpanel" class="tab-pane" id="flete">
                     <div class="col-md-12">
                         @{ Html.EnableClientValidation(false); }
@@ -265,10 +305,10 @@
                         {
                             @Html.HiddenFor(model => model.IDFlete);
                             @Html.HiddenFor(model => model.IDCompra);
-                            @Html.HiddenFor(model => model.DocumentosPorCobrarDetallePagos.Bancarizado);
+                            @*@Html.HiddenFor(model => model.DocumentosPorCobrarDetallePagos.Bancarizado);
                             @Html.HiddenFor(model => model.DocumentosPorCobrarDetallePagos.ExtensionImagenBase64)
                             @Html.HiddenFor(model => model.DocumentosPorCobrarDetallePagos.ImagenMostrar)
-                            @Html.HiddenFor(model => model.DocumentosPorCobrarDetallePagos.ImagenBase64)
+                            @Html.HiddenFor(model => model.DocumentosPorCobrarDetallePagos.ImagenBase64)*@
                             @Html.AntiForgeryToken()
 
                             <div class="panel panel-default">
@@ -295,20 +335,18 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div id="divNoAplicaFlete">
-                                        <div class="form-group">
-                                            <div class="col-md-12 controlError">
-                                                <label class="col-md-1 control-label">Linea fletera</label>
-                                                <div class="col-md-11 col-xs-12">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        @Html.DropDownListFor(model => model.IDEmpresa, new SelectList(Model.ListaEmpresas, "IDEmpresa", "RazonFiscal"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control", @readonly = "readonly" })
-                                                    </div>
-                                                    @Html.ValidationMessageFor(model => model.IDEmpresa)
+                                        <div class="col-md-6 controlError">
+                                            <label class="col-md-2 control-label">Linea fletera</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.DropDownListFor(model => model.IDEmpresa, new SelectList(Model.ListaEmpresas, "IDEmpresa", "RazonFiscal"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control", @readonly = "readonly" })
                                                 </div>
+                                                @Html.ValidationMessageFor(model => model.IDEmpresa)
                                             </div>
                                         </div>
+                                    </div>
+                                    <div id="divNoAplicaFlete">
                                         <div class="form-group">
                                             <div class="col-md-6 controlError">
                                                 <label class="col-md-2 control-label">Chofer</label>
@@ -337,13 +375,23 @@
                                                 <label class="col-md-2 control-label">Kilómetraje Inicial</label>
                                                 <div class="col-md-10 col-xs-12">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        @Html.TextBoxFor(model => model.Flete.kmInicialVehiculo, new { @class = "form-control", placeholder = "Escriba el km. inicial del vehículo." })
+                                                        <span class="input-group-addon">KM.</span>
+                                                        @Html.TextBoxFor(model => model.Flete.kmInicialVehiculo, new { @class = "form-control" })
                                                     </div>
                                                     @Html.ValidationMessageFor(model => model.Flete.kmInicialVehiculo)
                                                 </div>
                                             </div>
                                             <div class="col-md-6 controlError">
+                                                <label class="col-md-2 control-label">Costo del flete</label>
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrarDetallePagos.Monto, "{0:f2}" ,new { @class = "form-control" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.DocumentosPorCobrarDetallePagos.Monto)
+                                                </div>
+                                            </div>
+                                            @*<div class="col-md-6 controlError">
                                                 <label class="col-md-2 control-label">Núm. de fleje</label>
                                                 <div class="col-md-10 col-xs-12">
                                                     <div class="input-group">
@@ -352,9 +400,9 @@
                                                     </div>
                                                     @Html.ValidationMessageFor(model => model.Flete.NumFleje)
                                                 </div>
-                                            </div>
+                                            </div>*@
                                         </div>
-                                        <div class="form-group">
+                                        @*<div class="form-group">
                                             <div class="col-md-6 controlError">
                                                 <label class="col-md-2 control-label">Fecha del pago</label>
                                                 <div class="col-md-10 col-xs-12">
@@ -365,18 +413,8 @@
                                                     @Html.ValidationMessageFor(model => model.DocumentosPorCobrarDetallePagos.fecha)
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 controlError">
-                                                <label class="col-md-2 control-label">Costo del flete</label>
-                                                <div class="col-md-10 col-xs-12">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrarDetallePagos.Monto, "{0:f2}", new { @class = "form-control", placeholder = "Escriba el precio del flete." })
-                                                    </div>
-                                                    @Html.ValidationMessageFor(model => model.DocumentosPorCobrarDetallePagos.Monto)
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
+                                        </div>*@
+                                        @*<div class="form-group">
                                             <div class="col-md-4 controlError">
                                                 <label class="col-md-3 control-label">Método de pago</label>
                                                 <div class="col-md-9 col-xs-12">
@@ -418,9 +456,9 @@
                                                 </div>
                                             </div>
 
-                                        </div>
+                                        </div>*@
 
-                                        <div class="form-group">
+                                        @*<div class="form-group">
                                             <div class="col-md-12">
                                                 <label class="col-md-1 control-label">Nota</label>
                                                 <div class="controls">
@@ -433,9 +471,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>*@
 
-                                        <div id="divBancarizado">
+                                        @*<div id="divBancarizado" style="display:none">
                                             <div class="row">
                                                 <div class="col-md-6">
 
@@ -650,7 +688,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>*@
 
 
 
@@ -700,7 +738,7 @@
                         }
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane" id="documentos">
+                @*<div role="tabpanel" class="tab-pane" id="documentos">
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -748,7 +786,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>*@
             </div>
 
         </div>
@@ -809,6 +847,7 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-timepicker.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/compraAgendar.js")"></script>
     <!--FILEINPUT-->
@@ -822,11 +861,12 @@
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
 
-            var listaFierros = @Html.Raw(Json.Encode(Model.ListaFierrosString))
+            @*var listaFierros = @Html.Raw(Json.Encode(Model.ListaFierrosString))
             listaFierros = listaFierros.replace("\\", "");
-            listaFierros = $.parseJSON(listaFierros);
+            listaFierros = $.parseJSON(listaFierros);*@
         
-            CompraAgendar.init(listaFierros);
+            //CompraAgendar.init(listaFierros);
+            CompraAgendar.init();
         });
     </script>
 }

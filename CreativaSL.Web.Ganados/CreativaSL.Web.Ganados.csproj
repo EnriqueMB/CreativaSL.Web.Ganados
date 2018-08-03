@@ -459,10 +459,14 @@
     <Content Include="Content\js\catFierro.js" />
     <Content Include="Content\js\compraAgendar.js" />
     <Content Include="Content\js\CompraAlmacenDetalle.js" />
+    <Content Include="Content\js\compraDocumento.js" />
     <Content Include="Content\js\compraDocumentos.js" />
     <Content Include="Content\js\CompraGanado.js" />
+    <Content Include="Content\js\compraImpuestosProductoServicio.js" />
+    <Content Include="Content\js\compraPago.js" />
     <Content Include="Content\js\compraRecepcion.js" />
     <Content Include="Content\js\compraTransacciones.js" />
+    <Content Include="Content\js\compraCobro.js" />
     <Content Include="Content\js\Configuracion.js" />
     <Content Include="Content\js\documentoXPagarPagos.js" />
     <Content Include="Content\js\DocXPagarCreate.js" />
@@ -472,6 +476,8 @@
     <Content Include="Content\js\fleteImpuestoProductoServicio.js" />
     <Content Include="Content\js\fleteImpuesto_ProductoServicio.js" />
     <Content Include="Content\js\fleteTransacciones.js" />
+    <Content Include="Content\js\ImpuestoProductoServicioACCompra.js" />
+    <Content Include="Content\js\plugins\jquery.maskMoney.js" />
     <Content Include="Content\js\Socios.js" />
     <Content Include="Content\js\conciliacionAlmacen.js" />
     <Content Include="Content\js\conciliacionAlmacenLista.js" />
@@ -1165,7 +1171,6 @@
     <Content Include="Areas\Admin\Views\CatAlmacen\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatAlmacen\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatAlmacen\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Compra\ModalCobro.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Index.cshtml" />
@@ -1176,7 +1181,6 @@
     <Content Include="Areas\Admin\Views\CatRemolque\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatRemolque\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Compra\ModalPago.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Details.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\Index.cshtml" />
@@ -1386,6 +1390,12 @@
     <Content Include="Areas\Admin\Views\DocumentoXPagar\PagosEdit.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\DocumentosCompra.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ProductoServicioCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\DocumentoCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\CobroCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\EditProductoServicioCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\ImpuestosProductoServicioCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\ImpuestoProductoServicioACCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\PagoCompra.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1545,6 +1555,7 @@
     <Compile Include="Models\CompraAlmacenDetalleModels.cs" />
     <Compile Include="Models\CompraAlmacenModels.cs" />
     <Compile Include="Models\CompraGanadoModels.cs" />
+    <Compile Include="Models\CompraImpuestoModels.cs" />
     <Compile Include="Models\CompraModels.cs" />
     <Compile Include="Models\Comun.cs" />
     <Compile Include="Models\ConciliacionAlmacenDetalleModel.cs" />
@@ -1556,6 +1567,7 @@
     <Compile Include="Models\DataTableResultSet.cs" />
     <Compile Include="Models\DatosGeneralesGanados.cs" />
     <Compile Include="Models\DocumentoCompraModels.cs" />
+    <Compile Include="Models\DocumentoModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetallePagosModels.cs" />
     <Compile Include="Models\DocumentoPorPagarModels.cs" />

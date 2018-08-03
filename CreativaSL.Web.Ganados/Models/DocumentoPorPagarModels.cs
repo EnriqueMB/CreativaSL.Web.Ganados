@@ -18,6 +18,10 @@ namespace CreativaSL.Web.Ganados.Models
             _EstatusNombre = string.Empty;
             _ListaDocumentos = new List<DocumentoPorPagarModels>();
         }
+        public decimal Impuestos { get; set; }
+        public decimal Subtotal { get; set; }
+        public decimal Cambio { get; set; }
+
         private List<DocumentoPorPagarDetalleModels> _listaDocumentoPorPagarDetalle;
 
         public List<DocumentoPorPagarDetalleModels> listaDocumentoPorPagarDetalle

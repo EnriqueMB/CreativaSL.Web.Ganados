@@ -1,4 +1,4 @@
-﻿
+﻿@model CreativaSL.Web.Ganados.Models.DocumentoModels
 @{
     ViewBag.Title = "DocumentosCompra";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -36,6 +36,19 @@
         a:hover {
             color: #ffffff;
         }
+        #btnGuardar{
+            background-color: #E04B4A;
+            border-color: #E04B4A;
+            color: #fff;
+        }
+        #btnGuardar:hover {
+            background-color: #a43f3e;
+            border-color:  #a43f3e;
+            color: #fff;
+        }
+        div#validation_summary dd {
+            color: #e80c4d !important;
+        }
     </style>
 }
 
@@ -57,9 +70,8 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
                 <li id="liDocumentacion" role="presentation" class="active"><a id="tabDocumentacion" class="pestaña" href="#documentacion" aria-controls="documentacion" role="tab" data-toggle="tab">Documentación</a></li>
-                <li id="liGenerar_documentos" role="presentation"><a id="tabGenerar_documentos" class="pestaña" href="#generar_documentos" aria-controls="generar_documentos" role="tab" data-toggle="tab">Generar Documentos</a></li>
+                @*<li id="liGenerar_documentos" role="presentation"><a id="tabGenerar_documentos" class="pestaña" href="#generar_documentos" aria-controls="generar_documentos" role="tab" data-toggle="tab">Generar Documentos</a></li>*@
             </ul>
-            <input type="hidden" id="id_flete" value="@ViewBag.Id_flete" />
             <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="documentacion">
@@ -72,8 +84,41 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <!-- START DEFAULT DATATABLE -->
                                         <div class="panel panel-default">
+                                            @{ Html.EnableClientValidation(false); }
+                                            @using (Html.BeginForm("AC_CostoDocumentos", "Compra", FormMethod.Post, new { id = "frm_documento", @class = "form-horizontal", autocomplete = "off" }))
+                                            {
+                                                <div id="validation_summary" class="field_error "></div> //JS
+                                                <br />
+                                                @Html.AntiForgeryToken()
+                                                @Html.HiddenFor(model => model.Id_servicio)
+                                                @Html.HiddenFor(model=>model.Id_documentoPorPagar)
+
+                                                <div class="form-group">
+                                                    <div class="col-md-5 controlError">
+                                                        <label class="col-md-5 control-label">Precio por la documentación:</label>
+                                                        <div class="col-md-7 col-xs-12">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+                                                                @Html.TextBoxFor(model => model.PrecioUnitarioDocumentacion, "{0:f2}", new { @class = "form-control" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5 controlError">
+                                                        <label class="col-md-5 control-label">Concepto de salida de gasto:</label>
+                                                        <div class="col-md-7 col-xs-12">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                @Html.DropDownListFor(model => model.Id_conceptoSalidaDeduccion, new SelectList(Model.ListaConceptosSalidaDeduccion, "IDTipoClasificacionGasto", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button type="submit" id="btnGuardar" class="btn ">Guardar <i class="fa fa-save"></i></button>
+                                                    </div>
+                                                </div>
+                                            }
+                                            <br />
                                             <div class="panel-heading">
                                                 <h3 class="panel-title"></h3>
                                                 <ul class="panel-controls">
@@ -112,7 +157,7 @@
                     </div>
                 </div>
 
-                <div role="tabpanel" class="tab-pane" id="generar_documentos">
+                @*<div role="tabpanel" class="tab-pane" id="generar_documentos">
                     <div class="row">
                         <div class="panel panel-default">
                             <div class="panel-body">
@@ -138,18 +183,13 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>*@
             </div>
         </div>
 
 
         <!--TERMINA TABS-->
 
-        <div id="ModalDocumento" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
-            <div class="modal-dialog modal-lg" id="ContenidoModalDocumento">
-
-            </div>
-        </div>
         <div class="message-box animated fadeIn" data-sound="alert" id="mb-deleteDocumento">
             <div class="mb-container">
                 <div class="mb-middle">
@@ -197,7 +237,7 @@
 
         Mensaje(message, typemessage);
 
-        CompraDocumentos.init(opcionImpuesto);
+        CompraDocumentos.init();
     });
     </script>
 }

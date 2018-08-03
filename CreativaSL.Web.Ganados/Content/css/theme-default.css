@@ -7547,3 +7547,7 @@ display:none;
 .icon-ocampo-head:before {
   content: "\e900";
 }
+
+.select {
+    width: 100% !important;
+}

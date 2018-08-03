@@ -27,6 +27,9 @@
     var IDCompra = $("#IDCompra").val();
     var guardarIDs = new Array();
     var longitud_permitida_arete = 10;
+    var Flete_kmInicial = $('#Flete_kmInicialVehiculo');
+    var Monto = $('#DocumentosPorCobrarDetallePagos_Monto');
+
     var IMAGEN = 0, MENSAJE = 1, ARETE = 2, GENERO = 3, FIERRO1 = 4, FIERRO2 = 5, FIERRO3 = 6, BTN_ELIMINAR = 7, BTN_ELIMINAR_MIN = 8;
 
 
@@ -44,7 +47,47 @@
         $('#tabFlete').on("click", function () {
             CalculateAndDisplayRoute(directionsService, directionsDisplay, map);
         });
+        $('#Flete_kmInicialVehiculo').on({
+            "focus": function (event) {
+                $(event.target).select();
+            },
+            "keyup": function (event) {
+                $(event.target).val(function (index, v) {
+                    var number = cpf(v);
+                    return number;
+                });
+            }
+        });
+        $('#DocumentosPorCobrarDetallePagos_Monto').on({
+            "focus": function (event) {
+                $(event.target).select();
+            },
+            "keyup": function (event) {
+                $(event.target).val(function (index, value) {
+                    var number = cpf(value);
+                    return number;
+                });
+            }
+        });
+        $('#Flete_kmInicialVehiculo').val(cpf($('#Flete_kmInicialVehiculo').val()));
+        $('#DocumentosPorCobrarDetallePagos_Monto').val(cpf($('#DocumentosPorCobrarDetallePagos_Monto').val()));
+        $('.Hora24hrs').timepicker({
+            minuteStep: 1,
+            showMeridian: false
+        });
     }
+  
+    function cpf(v) {
+        v = v.replace(/([^0-9\.]+)/g, '');
+        v = v.replace(/^[\.]/, '');
+        v = v.replace(/[\.][\.]/g, '');
+        v = v.replace(/\.(\d)(\d)(\d)/g, '.$1$2');
+        v = v.replace(/\.(\d{1,2})\./g, '.$1');
+        v = v.toString().split('').reverse().join('').replace(/(\d{3})/g, '$1,');
+        v = v.split('').reverse().join('').replace(/^[\,]/, '');
+        return v;
+    }
+    
     var LoadValidationProveedor = function () {
         var form1 = $('#frmProveedor');
         var errorHandler1 = $('.errorHandler', form1);
@@ -69,50 +112,22 @@
             },
             ignore: "",
             rules: {
-                IDProveedor: {
-                    required: true
-                },
-                IDSucursal: {
-                    required: true
-                },
-                IDPLugarProveedor: {
-                    required: true
-                },
-                GanadosPactadoMachos: {
-                    required: true,
-                    digits: true
-                },
-                GanadosPactadoHembras: {
-                    required: true,
-                    digits: true
-                },
-                FechaHoraProgramada: {
-                    required: true,
-                    fecha: true
-                }
+                IDProveedor: { required: true },
+                IDSucursal: { required: true },
+                IDPLugarProveedor: { required: true },
+                GanadosPactadoMachos: { required: true,  digits: true  },
+                GanadosPactadoHembras: { required: true, digits: true  },
+                FechaHoraProgramada: { required: true, fecha: true },
+                HoraProgramada: { required:true, horas24:true }
             },
             messages: {
-                IDProveedor: {
-                    required: "-Seleccione un Proveedor"
-                },
-                IDSucursal: {
-                    required: "-Seleccione una Sucursal"
-                },
-                IDPLugarProveedor: {
-                    required: "-Seleccione un lugar del proveedor"
-                },
-                GanadosPactadoMachos: {
-                    required: "-Seleccione una cantidad de ganado machos",
-                    digits: "-El campo: Ganados Pactado Machos, debe ser igual o mayor que 0 (solo números enteros)."
-                },
-                GanadosPactadoHembras: {
-                    required: "-Seleccione una cantidad de ganado hembras",
-                    digits: "-El campo: Ganados Pactado Hembras, debe ser igual o mayor que 0 (solo números enteros)."
-                },
-                FechaHoraProgramada: {
-                    required: "-Seleccione una Fecha para la compra a realizar",
-                    date: "-Debe ser una fecha con formado dd/mm/aaaa"
-                }
+                IDProveedor: {  required: "Por favor, seleccione un proveedor."  },
+                IDSucursal: {   required: "Por favor, seleccione una Sucursal."  },
+                IDPLugarProveedor: { required: "Por favor, seleccione un lugar del proveedor." },
+                GanadosPactadoMachos: {  required: "Por favor, escriba una cantidad de ganado machos.", digits: "Por favor, el ganado pactado machos, debe ser igual o mayor que 0 (solo números enteros)." },
+                GanadosPactadoHembras: { required: "Por favor, escriba una cantidad de ganado hembras", digits: "Por favor, el ganado pactado hembras, debe ser igual o mayor que 0 (solo números enteros)." },
+                FechaHoraProgramada: { required: "Por favor, seleccione una fecha para la compra a realizar.",   date: "Por favor, la fecha de la compra es con formado dd/mm/aaaa." },
+                HoraProgramada: { required: "Por favor, seleccione una hora para la compra a realizar." }
             },
             invalidHandler: function (event, validator) {
                 successHandler1.hide();
@@ -167,79 +182,82 @@
 
     /*INICIA FLETE*/
     var RunEventsFlete = function () {
-        $("#Empresa_IDEmpresa").on("change", function () {
+        $("#IDEmpresa").on("change", function () {
             var IDEmpresa = $(this).val();
+            console.log("empresa: " + IDEmpresa);
             GetChoferesXIDEmpresa(IDEmpresa);
             GetVehiculosXIDEmpresa(IDEmpresa);
-            GetJaulasXIDEmpresa(IDEmpresa);
-            GetRemolquesXIDEmpresa(IDEmpresa);
+            //GetJaulasXIDEmpresa(IDEmpresa);
+            //GetRemolquesXIDEmpresa(IDEmpresa);
             GetLugaresXIDEmpresa(IDEmpresa);
         });
         $("#TipoFlete").on("change", function () {
             var opcion = $(this).val();
+            GetEmpresaXTipoFlete(opcion);
             opcionServer = opcion;
             ToggleDivTipoFlete(opcion);
             InitMap();
         });
 
-        $("#DocumentosPorCobrarDetallePagos_Id_formaPago").on("change", function () {
-            var opcion = $(this).find(":selected").data("bancarizado");
-            Bancarizado.val(opcion);
-            ToggleDivBancarizado(opcion);
-        });
+        //$("#DocumentosPorCobrarDetallePagos_Id_formaPago").on("change", function () {
+        //    var opcion = $(this).find(":selected").data("bancarizado");
+        //    Bancarizado.val(opcion);
+        //    ToggleDivBancarizado(opcion);
+        //});
 
-        $("#DocumentosPorCobrarDetallePagos_Id_cuentaBancariaBeneficiante").on("change", function () {
-            var opcion = $('#DocumentosPorCobrarDetallePagos_Id_cuentaBancariaBeneficiante').find(":selected");
+        //$("#DocumentosPorCobrarDetallePagos_Id_cuentaBancariaBeneficiante").on("change", function () {
+        //    var opcion = $('#DocumentosPorCobrarDetallePagos_Id_cuentaBancariaBeneficiante').find(":selected");
 
-            $("#DocumentosPorCobrarDetallePagos_NombreBancoBeneficiante").val(opcion[0].dataset.banco);
-            $("#DocumentosPorCobrarDetallePagos_NumCuentaBeneficiante").val(opcion[0].dataset.numcuenta);
-            $("#DocumentosPorCobrarDetallePagos_NumClabeBeneficiante").val(opcion[0].dataset.clabe);
-            $("#DocumentosPorCobrarDetallePagos_NumTarjetaBeneficiante").val(opcion[0].dataset.numtarjeta);
-        });
-        $("#DocumentosPorCobrarDetallePagos_Id_cuentaBancariaOrdenante").on("change", function () {
-            var opcion = $('#DocumentosPorCobrarDetallePagos_Id_cuentaBancariaOrdenante').find(":selected");
+        //    $("#DocumentosPorCobrarDetallePagos_NombreBancoBeneficiante").val(opcion[0].dataset.banco);
+        //    $("#DocumentosPorCobrarDetallePagos_NumCuentaBeneficiante").val(opcion[0].dataset.numcuenta);
+        //    $("#DocumentosPorCobrarDetallePagos_NumClabeBeneficiante").val(opcion[0].dataset.clabe);
+        //    $("#DocumentosPorCobrarDetallePagos_NumTarjetaBeneficiante").val(opcion[0].dataset.numtarjeta);
+        //});
 
-            $("#DocumentosPorCobrarDetallePagos_NombreBancoOrdenante").val(opcion[0].dataset.banco);
-            $("#DocumentosPorCobrarDetallePagos_NumCuentaOrdenante").val(opcion[0].dataset.numcuenta);
-            $("#DocumentosPorCobrarDetallePagos_NumClabeOrdenante").val(opcion[0].dataset.clabe);
-            $("#DocumentosPorCobrarDetallePagos_NumTarjetaOrdenante").val(opcion[0].dataset.numtarjeta);
-        });
+        //$("#DocumentosPorCobrarDetallePagos_Id_cuentaBancariaOrdenante").on("change", function () {
+        //    var opcion = $('#DocumentosPorCobrarDetallePagos_Id_cuentaBancariaOrdenante').find(":selected");
 
-        var Imagen = document.getElementById("DocumentosPorCobrarDetallePagos_ImagenMostrar").value;
-        var ExtensionImagen = document.getElementById("DocumentosPorCobrarDetallePagos_ExtensionImagenBase64").value;
-        var ImagenServidor = document.getElementById("DocumentosPorCobrarDetallePagos_ImagenBase64").value;
-        if (ImagenServidor === null || ImagenServidor.length == 0 || ImagenServidor == '') {
-            document.getElementById("DocumentosPorCobrarDetallePagos_HttpImagen").dataset.imgBD = "0";
-        }
-        else {
-            document.getElementById("DocumentosPorCobrarDetallePagos_HttpImagen").dataset.imgbd = "1";
-        }
+        //    $("#DocumentosPorCobrarDetallePagos_NombreBancoOrdenante").val(opcion[0].dataset.banco);
+        //    $("#DocumentosPorCobrarDetallePagos_NumCuentaOrdenante").val(opcion[0].dataset.numcuenta);
+        //    $("#DocumentosPorCobrarDetallePagos_NumClabeOrdenante").val(opcion[0].dataset.clabe);
+        //    $("#DocumentosPorCobrarDetallePagos_NumTarjetaOrdenante").val(opcion[0].dataset.numtarjeta);
+        //});
+
+        //var Imagen = document.getElementById("DocumentosPorCobrarDetallePagos_ImagenMostrar").value;
+        //var ExtensionImagen = document.getElementById("DocumentosPorCobrarDetallePagos_ExtensionImagenBase64").value;
+        //var ImagenServidor = document.getElementById("DocumentosPorCobrarDetallePagos_ImagenBase64").value;
+        //if (ImagenServidor === null || ImagenServidor.length == 0 || ImagenServidor == '') {
+        //    document.getElementById("DocumentosPorCobrarDetallePagos_HttpImagen").dataset.imgBD = "0";
+        //}
+        //else {
+        //    document.getElementById("DocumentosPorCobrarDetallePagos_HttpImagen").dataset.imgbd = "1";
+        //}
 
 
-        $('#DocumentosPorCobrarDetallePagos_HttpImagen').fileinput({
-            theme: 'fa',
-            language: 'es',
-            showUpload: false,
-            uploadUrl: "#",
-            autoReplace: true,
-            overwriteInitial: true,
-            showUploadedThumbs: false,
-            maxFileCount: 1,
-            initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:' + ExtensionImagen + ';base64,' + Imagen + '" />'
-            ],
-            initialPreviewConfig: [
-                { caption: 'Imagen del recibo' }
-            ],
-            initialPreviewShowDelete: false,
-            showRemove: false,
-            showClose: false,
-            layoutTemplates: { actionDelete: '' },
-            allowedFileExtensions: ["png", "jpg", "jpeg",]
-        })
-        $('#DocumentosPorCobrarDetallePagos_HttpImagen').on('fileclear', function (event) {
-            document.getElementById("DocumentosPorCobrarDetallePagos_ImagenMostrar").value = "";
-        });
+        //$('#DocumentosPorCobrarDetallePagos_HttpImagen').fileinput({
+        //    theme: 'fa',
+        //    language: 'es',
+        //    showUpload: false,
+        //    uploadUrl: "#",
+        //    autoReplace: true,
+        //    overwriteInitial: true,
+        //    showUploadedThumbs: false,
+        //    maxFileCount: 1,
+        //    initialPreview: [
+        //        '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:' + ExtensionImagen + ';base64,' + Imagen + '" />'
+        //    ],
+        //    initialPreviewConfig: [
+        //        { caption: 'Imagen del recibo' }
+        //    ],
+        //    initialPreviewShowDelete: false,
+        //    showRemove: false,
+        //    showClose: false,
+        //    layoutTemplates: { actionDelete: '' },
+        //    allowedFileExtensions: ["png", "jpg", "jpeg",]
+        //})
+        //$('#DocumentosPorCobrarDetallePagos_HttpImagen').on('fileclear', function (event) {
+        //    document.getElementById("DocumentosPorCobrarDetallePagos_ImagenMostrar").value = "";
+        //});
     }
     var LoadValidationFlete = function () {
         var form1 = $('#frmFlete');
@@ -269,38 +287,38 @@
                 IDSucursal: { required: true },
                 IDChofer: { required: true },
                 IDVehiculo: { required: true },
-                "Flete.kmInicialVehiculo": { required: true, digits: true },
-                "Flete.precioFlete":{ required:true, min: 0 },
+                "Flete.kmInicialVehiculo": { numeroConComas: true },
+                "Flete.precioFlete": { numeroConComas:true },
                 TipoFlete: { required: true },
-                "Flete.Id_metodoPago": { required:true },
-                "Flete.Id_formaPago": { min: 1 },
+                //"Flete.Id_metodoPago": { required:true },
+                //"Flete.Id_formaPago": { min: 1 },
                 "Trayecto.id_lugarOrigen": { required: true },
                 "Trayecto.id_lugarDestino": { required: true },
+               // "DocumentosPorCobrarDetallePagos.Monto": { min: 1, required: true} 
                 //bancarizado
-                "DocumentosPorCobrarDetallePagos.FolioIFE": { required: true },
-                "DocumentosPorCobrarDetallePagos.NumeroAutorizacion": { required: true },
-                "DocumentosPorCobrarDetallePagos.HttpImagen": { ImagenRequerida: true },
-                "DocumentosPorCobrarDetallePagos.Id_cuentaBancariaOrdenante": { required: true },
-                "DocumentosPorCobrarDetallePagos.Id_cuentaBancariaBeneficiante": { required: true }
+                //"DocumentosPorCobrarDetallePagos.FolioIFE": { required: true },
+                //"DocumentosPorCobrarDetallePagos.NumeroAutorizacion": { required: true },
+                //"DocumentosPorCobrarDetallePagos.HttpImagen": { ImagenRequerida: true },
+                //"DocumentosPorCobrarDetallePagos.Id_cuentaBancariaOrdenante": { required: true },
+                //"DocumentosPorCobrarDetallePagos.Id_cuentaBancariaBeneficiante": { required: true }
             },
             messages: {
                 IDEmpresa: {  required: "Por favor, seleccione una línea fletera." },
                 IDSucursal: { required: "Por favor, seleccione una sucursal." },
                 IDChofer: { required: "Por favor, seleccione un chofer." },
                 IDVehiculo: { required: "Por favor, seleccione un vehículo." },
-                "Flete.kmInicialVehiculo": { required: "Por favor, ingrese el kilómetraje inicial.", digits: "Por favor, ingrese un número entero mayor o igual a 0 (cero). " },
-                "Flete.precioFlete": { required: "Por favor, ingrese un precio del flete, puede ser 0 (cero).", min: "Por favor, ingrese un precio del flete, debe ser mayor o igual a 0 (cero)." },
                 TipoFlete: { required: "Por favor, seleccione un tipo de flete." },
-                "Flete.Id_metodoPago": { required: "Por favor, seleccione un metodo de pago." },
-                "Flete.Id_formaPago": { min: "Por favor, seleccione una forma de pago." },
+                //"Flete.Id_metodoPago": { required: "Por favor, seleccione un metodo de pago." },
+                //"Flete.Id_formaPago": { min: "Por favor, seleccione una forma de pago." },
                 "Trayecto.id_lugarOrigen": { required: "Por favor, seleccione un lugar de origen." },
                 "Trayecto.id_lugarDestino": { required: "Por favor, seleccione un lugar destino." },
+                //"DocumentosPorCobrarDetallePagos.Monto": { min: "Por favor, escriba una cantidad para el cobro del flete el cual debe ser mayor o igual a 1.", required: "Por favor, ingrese una cantidad para el cobro del flete el cual debe ser mayor o igual a 1." }
                 //bancarizado
-                "DocumentosPorCobrarDetallePagos.FolioIFE": { required: "Por favor, escriba el número de folio del INE." },
-                "DocumentosPorCobrarDetallePagos.NumeroAutorizacion": { required: "Por favor, escriba el número de autorización." },
-                "DocumentosPorCobrarDetallePagos.HttpImagen": { ImagenRequerida: "Por favor, seleccione una imagen del comprobante del cobro." },
-                "DocumentosPorCobrarDetallePagos.Id_cuentaBancariaOrdenante": { required: "Por favor, seleccione una cuenta bancaria de la empresa." },
-                "DocumentosPorCobrarDetallePagos.Id_cuentaBancariaBeneficiante": { required: "Por favor, seleccione una cuenta bancaria del cliente." }
+                //"DocumentosPorCobrarDetallePagos.FolioIFE": { required: "Por favor, escriba el número de folio del INE." },
+                //"DocumentosPorCobrarDetallePagos.NumeroAutorizacion": { required: "Por favor, escriba el número de autorización." },
+                //"DocumentosPorCobrarDetallePagos.HttpImagen": { ImagenRequerida: "Por favor, seleccione una imagen del comprobante del cobro." },
+                //"DocumentosPorCobrarDetallePagos.Id_cuentaBancariaOrdenante": { required: "Por favor, seleccione una cuenta bancaria de la empresa." },
+                //"DocumentosPorCobrarDetallePagos.Id_cuentaBancariaBeneficiante": { required: "Por favor, seleccione una cuenta bancaria del cliente." }
             },
             invalidHandler: function (event, validator) {
                 successHandler1.hide();
@@ -331,6 +349,14 @@
         var IDSucursal = $("#IDSucursal").val();
         formData.append("IDSucursal", IDSucursal);
 
+        var monto = Monto.val();
+        monto = Number.parseFloat(monto.replace(/,/g, ''));
+        formData.set("DocumentosPorCobrarDetallePagos.Monto", monto);
+
+        var km = Flete_kmInicial.val();
+        km = Number.parseFloat(km.replace(/,/g, ''));
+        formData.set("Flete.kmInicialVehiculo", km);
+
         $("body").css("cursor", "progress");
         $.ajax({
             type: 'POST',
@@ -347,6 +373,7 @@
                     $('input[name=IDFlete]').val(json.IDFlete);
                 }
                 else {
+                    window.location.href = '/Admin/Compra/Index/';
                     Mensaje(response.Mensaje, "2");
                 }
                     
@@ -511,6 +538,25 @@
             }
         });
     }
+    function GetEmpresaXTipoFlete(TipoFlete) {
+
+        $.ajax({
+            url: '/Admin/Compra/GetEmpresaXTipoFlete/',
+            type: "POST",
+            dataType: 'json',
+            data: { TipoFlete: TipoFlete },
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "2");
+            },
+            success: function (result) {
+                $("#IDEmpresa option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#IDEmpresa").append('<option value="' + result[i].IDEmpresa + '">' + result[i].RazonFiscal + '</option>');
+                }
+                $('#IDEmpresa.select').selectpicker('refresh');
+            }
+        });
+    }
     var InitMap = function () {
         directionsDisplay = new google.maps.DirectionsRenderer;
         directionsService = new google.maps.DirectionsService;
@@ -573,6 +619,7 @@
             QuitarValidaciones();
             $('#divNoAplicaFlete').hide(1000);
         }
+        
     }
     function ToggleDivBancarizado(opcion) {
         opcion = String(opcion);
@@ -619,47 +666,51 @@
         IDSucursal.rules("add", { required: true });
         IDChofer.rules("add", { required: true });
         IDVehiculo.rules("add", { required: true });
-        Flete_kmInicialVehiculo.rules("add", { required: true });
-        DocumentosPorCobrarDetallePagos_Monto.rules("add", { required: true });
-        Flete_Id_metodoPago.rules("add", { required: true });
-        DocumentosPorCobrarDetallePagos_Id_formaPago.rules("add", { required: true, min: 0 });
+        //DocumentosPorCobrarDetallePagos_Monto.rules("add", { required: true, min: 1 });
+        //Flete_Id_metodoPago.rules("add", { required: true });
+        //DocumentosPorCobrarDetallePagos_Id_formaPago.rules("add", { required: true, min: 0 });
         Trayecto_id_lugarOrigen.rules("add", { required: true });
         Trayecto_id_lugarDestino.rules("add", { required: true });
+        Flete_kmInicial.rules("add", { numeroConComas: true });
+        Monto.rules("add", { numeroConComas: true });
     }
     function QuitarValidaciones() {
         IDEmpresa.rules("remove", "required");
         IDSucursal.rules("remove", "required");
         IDChofer.rules("remove", "required");
         IDVehiculo.rules("remove", "required");
-        Flete_kmInicialVehiculo.rules("remove", "required digits");
-        DocumentosPorCobrarDetallePagos_Monto.rules("remove", "required min");
-        Flete_Id_metodoPago.rules("remove", "required");
-        DocumentosPorCobrarDetallePagos_Id_formaPago.rules("remove", "min");
+        //DocumentosPorCobrarDetallePagos_Monto.rules("remove", "required min");
+        //Flete_Id_metodoPago.rules("remove", "required");
+        //DocumentosPorCobrarDetallePagos_Id_formaPago.rules("remove", "min");
         Trayecto_id_lugarOrigen.rules("remove", "required");
         Trayecto_id_lugarDestino.rules("remove", "required");
+        Flete_kmInicial.rules("remove", "numeroConComas");
+        Monto.rules("remove", "numeroConComas");
 
         IDEmpresa.closest(".controlError").removeClass("has-success has-error");
         IDSucursal.closest(".controlError").removeClass("has-success has-error");
         IDChofer.closest(".controlError").removeClass("has-success has-error");
         IDVehiculo.closest(".controlError").removeClass("has-success has-error");
-        Flete_kmInicialVehiculo.closest(".controlError").removeClass("has-success has-error");
         DocumentosPorCobrarDetallePagos_Monto.closest(".controlError").removeClass("has-success has-error");
-        Flete_Id_metodoPago.closest(".controlError").removeClass("has-success has-error");
-        DocumentosPorCobrarDetallePagos_Id_formaPago.closest(".controlError").removeClass("has-success has-error");
+        //Flete_Id_metodoPago.closest(".controlError").removeClass("has-success has-error");
+        //DocumentosPorCobrarDetallePagos_Id_formaPago.closest(".controlError").removeClass("has-success has-error");
         Trayecto_id_lugarOrigen.closest(".controlError").removeClass("has-success has-error");
         Trayecto_id_lugarDestino.closest(".controlError").removeClass("has-success has-error");
+        Flete_kmInicial.closest(".controlError").removeClass("has-success has-error");
+        Monto.closest(".controlError").removeClass("has-success has-error");
 
         Validation_summary_flete.find("dd[for='IDEmpresa']").addClass('help-block valid').text('');
         Validation_summary_flete.find("dd[for='IDSucursal']").addClass('help-block valid').text('');
         Validation_summary_flete.find("dd[for='IDChofer']").addClass('help-block valid').text('');
         Validation_summary_flete.find("dd[for='IDVehiculo']").addClass('help-block valid').text('');
-        Validation_summary_flete.find("dd[for='Flete_kmInicialVehiculo']").addClass('help-block valid').text('');
         Validation_summary_flete.find("dd[for='DocumentosPorCobrarDetallePagos_Monto']").addClass('help-block valid').text('');
-        Validation_summary_flete.find("dd[for='Flete_Id_metodoPago']").addClass('help-block valid').text('');
-        Validation_summary_flete.find("dd[for='DocumentosPorCobrarDetallePagos_Id_formaPago']").addClass('help-block valid').text('');
+        //Validation_summary_flete.find("dd[for='Flete_Id_metodoPago']").addClass('help-block valid').text('');
+        //Validation_summary_flete.find("dd[for='DocumentosPorCobrarDetallePagos_Id_formaPago']").addClass('help-block valid').text('');
         Validation_summary_flete.find("dd[for='Trayecto_id_lugarOrigen']").addClass('help-block valid').text('');
         Validation_summary_flete.find("dd[for='Trayecto_id_lugarDestino']").addClass('help-block valid').text('');
-    }
+        Validation_summary_flete.find("dd[for='Flete_kmInicialVehiculo']").addClass('help-block valid').text('');
+        Validation_summary_flete.find("dd[for='DocumentosPorCobrarDetallePagos_Monto']").addClass('help-block valid').text('');
+    } 
 
     /*TERMINA FLETE*/
 
@@ -1371,37 +1422,37 @@
             $('#tabFlete').data('toggle', "tab")
             $("#liFlete").removeClass('disabled').addClass('pestaña');
 
-            document.getElementById("tabFierro").dataset.toggle = "tab";
-            $('#tabFierro').data('toggle', "tab")
-            $("#liFierro").removeClass('disabled').addClass('pestaña');
+            //document.getElementById("tabFierro").dataset.toggle = "tab";
+            //$('#tabFierro').data('toggle', "tab")
+            //$("#liFierro").removeClass('disabled').addClass('pestaña');
         }
-        if (flete.val().length == 36) {
-            //Hay un flete desbloqueamos los demas tabs
-            document.getElementById("tabDocumentos").dataset.toggle = "tab";
-            $('#tabDocumentos').data('toggle', "tab")
-            $("#liDocumentos").removeClass('disabled').addClass('pestaña');
-            LoadTableDocumentos();
+        //if (flete.val().length == 36) {
+        //    //Hay un flete desbloqueamos los demas tabs
+        //    document.getElementById("tabDocumentos").dataset.toggle = "tab";
+        //    $('#tabDocumentos').data('toggle', "tab")
+        //    $("#liDocumentos").removeClass('disabled').addClass('pestaña');
+        //    LoadTableDocumentos();
             
-        }
+        //}
     }
 
     $("a[href='#flete']").on('show.bs.tab', function (e) {
         ToggleDivTipoFlete(opcionServer);
-        ToggleDivBancarizado(Bancarizado.val());
+        //ToggleDivBancarizado(Bancarizado.val());
     });
 
     /*TERMINA FUNCIONES MIXTAS*/
     return {
         init: function (listafierro) {
-            listaFierros = listafierro;
+            //listaFierros = listafierro;
             DesbloquearTabs();
             LoadValidationProveedor();
             RunEventsProveedor();
             InitMap();
             LoadValidationFlete();
             RunEventsFlete();
-            LoadTableGanadoProgramado();
-            RunEventsFierro();
+            //LoadTableGanadoProgramado();
+            //RunEventsFierro();
            
         }
     };

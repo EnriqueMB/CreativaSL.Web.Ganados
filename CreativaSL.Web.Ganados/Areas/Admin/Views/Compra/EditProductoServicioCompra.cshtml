@@ -1,6 +1,6 @@
 ﻿@model CreativaSL.Web.Ganados.Models.DocumentosPorCobrarDetalleModels
 @{
-    ViewBag.Title = "ProductoServicioCompra";
+    ViewBag.Title = "EditProductoServicioCompra";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -34,15 +34,15 @@
             @{ Html.EnableClientValidation(false); }
             @using (Html.BeginForm("ProductoServicioCompra", "Compra", FormMethod.Post, new { id = "frm_productoServicio", @class = "form-horizontal", autocomplete = "off" }))
             {
-                @Html.HiddenFor(model => model.Id_servicio);
+                @Html.HiddenFor(model => model.Id_servicio)
                 @Html.HiddenFor(model => model.Id_documentoCobrar)
-                @Html.HiddenFor(model => model.Id_detalleDoctoCobrar);
-                @Html.HiddenFor(model => model.Id_unidadProducto)
+                @Html.HiddenFor(model => model.Id_detalleDoctoCobrar)
+                @Html.HiddenFor(model => model.Inventario)
                 @Html.AntiForgeryToken()
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Producto/Servicio</strong></h3>
+                        <h3 class="panel-title"><strong>Editar Producto/Servicio</strong></h3>
                         <ul class="panel-controls"></ul>
                     </div>
                     <div class="panel-body">
@@ -55,14 +55,7 @@
                                     <div class="col-md-8 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            <select id="Id_conceptoDocumento" name="Id_conceptoDocumento" class="form-control select" data-live-search="true" , data-style="form-control">
-                                                @foreach (var tipo in Model.ListaTipoClasificacionCobro)
-                                                {
-                                                    <option value="@tipo.Id_tipoClasificacionCobro" data-inventario="@tipo.Inventario">
-                                                        @tipo.Descripcion
-                                                    </option>
-                                                }
-                                            </select>
+                                            @Html.TextBoxFor(model => model.DescripcionDocumento, new { @class = "form-control", @readonly = "readonly" })
                                         </div>
                                     </div>
                                 </div>
@@ -73,19 +66,19 @@
                                     <div class="col-md-10 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.DropDownListFor(model => model.Id_productoServicio, new SelectList(Model.ListaProductosServiciosCFDI, "Clave", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                            @Html.DropDownListFor(model => model.Id_productoServicio, new SelectList(Model.ListaProductosServiciosCFDI, "Clave", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control", data_width = "auto" })
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div id="inventario" class="inventario form-group">
+                            <div id="DivInventario" class="inventario form-group">
                                 <div class="form-group">
                                     <div class="col-md-6 controlError">
                                         <label class="col-md-4 control-label">Almacen</label>
                                         <div class="col-md-8 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.DropDownListFor(model => model.Id_almacen, new SelectList(Model.ListaAlmacen, "IDAlmacen", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                @Html.TextBoxFor(model => model.NombreAlmacen, new { @class = "form-control", @readonly = "readonly" })
                                             </div>
                                         </div>
                                     </div>
@@ -94,27 +87,7 @@
                                         <div class="col-md-8 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.DropDownListFor(model => model.Id_producto, new SelectList(Model.ListaProductos, "IDProductoAlmacen", "Nombre"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-6 controlError">
-                                        <label class="col-md-4 control-label">Existencia</label>
-                                        <div class="col-md-8 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.Existencia, "{0:f2}", new { @class = "form-control", type = "number", @readonly = "readonly" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 controlError">
-                                        <label class="col-md-4 control-label">Precio promedio</label>
-                                        <div class="col-md-8 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                @Html.TextBoxFor(model => model.PrecioPromedio, "{0:f2}", new { @class = "form-control", type = "text", @readonly = "readonly" })
+                                                @Html.TextBoxFor(model => model.NombreProducto, new { @class = "form-control", @readonly = "readonly" })
                                             </div>
                                         </div>
                                     </div>
@@ -127,16 +100,16 @@
                                     <div class="col-md-8 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.Cantidad, "{0:f2}", new { @class = "form-control", type = "number", min = "0" })
+                                            @Html.TextBoxFor(model => model.Cantidad, "{0:f2}", new { @class = "form-control", type = "number", min = "0", disabled = "disabled" })
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 controlError">
-                                    <label class="col-md-4 control-label">Precio unitario</label>
-                                    <div class="col-md-8 col-xs-12">
+                                    <label class="col-md-3 control-label">Precio unitario</label>
+                                    <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                            @Html.TextBoxFor(model => model.PrecioUnitario, "{0:f2}", new { @class = "form-control", type = "number", min = "0" })
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.PrecioUnitario, "{0:f2}", new { @class = "form-control", type = "number", min = "0", disabled = "disabled" })
                                         </div>
                                     </div>
                                 </div>
@@ -146,8 +119,8 @@
                                     <label class="col-md-4 control-label">Subtotal</label>
                                     <div class="col-md-8 col-xs-12">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                            @Html.TextBoxFor(model => model.Subtotal, "{0:f2}", new { @class = "form-control", @readonly = "readonly" })
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Subtotal, "{0:f2}", new { @class = "form-control", disabled = "disabled" })
                                         </div>
                                     </div>
                                 </div>
@@ -178,13 +151,18 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/addProductoServicio.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/editProductoServicio.js")"></script>
     <script>
 
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
-            AddProductoServicio.init();
+            EditProductoServicio.init();
         });
     </script>
 }
+
+
+
+
+
 

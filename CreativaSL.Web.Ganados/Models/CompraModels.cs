@@ -12,6 +12,7 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CompraModels
     {
+        public TimeSpan HoraProgramada { get; set; }
         #region Variables
         #region Variables de control
         public string Conexion { get; set; }
