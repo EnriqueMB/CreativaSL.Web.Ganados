@@ -131,6 +131,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                     return Content(Fierro.RespuestaAjax.Mensaje, "application/json");
                 }
+                return View(Fierro);
             }
             catch (Exception ex)
             {

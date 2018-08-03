@@ -56,6 +56,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(Documentos);
             }
         }
+
         public ActionResult DetalleDocumento(string id, string id1, int id2)
         {
             try

@@ -40,6 +40,7 @@
                                 <thead>
                                     <tr>
                                         <th>Tipo Documento</th>
+                                        <th>No. Factura</th>
                                         <th>Sucursal</th>
                                         <th>Estatus</th>
                                         <th>Fecha</th>
@@ -68,6 +69,7 @@
                                             {
                                                 <td>Mtto Servicio</td>
                                             }
+                                            <td>@Doc.numFactura</td>
                                             <td>@Doc.NombreSucursal</td>
                                             @if (Doc.IDEstatus == 1)
                                             {
