@@ -75,6 +75,7 @@ namespace CreativaSL.Web.Ganados.Models
                 while (dr.Read())
                 {
                     Item = new DocumentoPorPagarModels();
+                    Item.numFactura = !dr.IsDBNull(dr.GetOrdinal("Factura")) ? dr.GetString(dr.GetOrdinal("Factura")) : string.Empty;
                     Item.IDTipoDocumento = !dr.IsDBNull(dr.GetOrdinal("IDTipo")) ? dr.GetInt32(dr.GetOrdinal("IDTipo")) : 0;
                     Item.IDDocumentoPagar = !dr.IsDBNull(dr.GetOrdinal("IDDocuemntoPagar")) ? dr.GetString(dr.GetOrdinal("IDDocuemntoPagar")) : string.Empty;
                     Item.IDSucursal = !dr.IsDBNull(dr.GetOrdinal("IDSucursal")) ? dr.GetString(dr.GetOrdinal("IDSucursal")) : string.Empty;

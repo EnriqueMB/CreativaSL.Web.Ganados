@@ -11,6 +11,7 @@ namespace CreativaSL.Web.Ganados.Models
         public DocumentoPorPagarModels()
         {
             _IDDocumentoPagar = string.Empty;
+            _numFactura = string.Empty;
             Conexion = string.Empty;
             Usuario = string.Empty;
             _NombreSucursal = string.Empty;
@@ -76,6 +77,13 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _IDProveedor; }
             set { _IDProveedor = value; }
+        }
+        private string _numFactura;
+
+        public string numFactura
+        {
+            get { return _numFactura; }
+            set { _numFactura = value; }
         }
 
         private string _NombreSucursal;
