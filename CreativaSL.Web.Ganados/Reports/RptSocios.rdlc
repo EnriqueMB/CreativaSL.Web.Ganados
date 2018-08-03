@@ -686,48 +686,10 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>1.45846cm</Top>
-              <Left>0.30207cm</Left>
-              <Height>0.6cm</Height>
-              <Width>8.77063cm</Width>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="Textbox3">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>EMPRESA: </Value>
-                      <Style>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Parameters!Empresa.Value</Value>
-                      <Style>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox3</rd:DefaultName>
-              <Top>0.11748cm</Top>
+              <Top>0.15276cm</Top>
               <Left>6.264cm</Left>
               <Height>0.6cm</Height>
-              <Width>8.82354cm</Width>
-              <ZIndex>1</ZIndex>
+              <Width>8.82359cm</Width>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -762,10 +724,10 @@
               </Paragraphs>
               <rd:DefaultName>Textbox11</rd:DefaultName>
               <Top>1.45846cm</Top>
-              <Left>9.0727cm</Left>
+              <Left>6.264cm</Left>
               <Height>0.6cm</Height>
-              <Width>6.01486cm</Width>
-              <ZIndex>2</ZIndex>
+              <Width>8.82356cm</Width>
+              <ZIndex>1</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -783,13 +745,14 @@
               <Sizing>FitProportional</Sizing>
               <Top>0.11748cm</Top>
               <Left>0.30207cm</Left>
-              <Height>1.3057cm</Height>
+              <Height>1.94098cm</Height>
               <Width>5.92667cm</Width>
-              <ZIndex>3</ZIndex>
+              <ZIndex>2</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
                 </Border>
+                <PaddingLeft>20pt</PaddingLeft>
               </Style>
             </Image>
             <Textbox Name="Textbox4">
@@ -831,7 +794,7 @@
               <Left>6.264cm</Left>
               <Height>0.63514cm</Height>
               <Width>8.82354cm</Width>
-              <ZIndex>4</ZIndex>
+              <ZIndex>3</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>

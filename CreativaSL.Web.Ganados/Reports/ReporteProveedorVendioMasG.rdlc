@@ -339,7 +339,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Sum(Fields!GanadoCompradoMachos.Value)</Value>
-                              <Style />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -370,7 +372,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Sum(Fields!GanadoCompradoHembra.Value)</Value>
-                              <Style />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -401,7 +405,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Sum(Fields!TotalGanado.Value)</Value>
-                              <Style />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -414,6 +420,147 @@
                           <Style>Solid</Style>
                         </Border>
                         <BackgroundColor>Silver</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.6cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox2">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox2</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Black</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox3">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!GanadoCompradoMachos.Value)</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox3</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Black</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox8">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!GanadoCompradoHembra.Value)</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox8</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Black</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox11">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!TotalGanado.Value)</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox11</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Black</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -530,12 +677,50 @@
                 </TablixMember>
               </TablixMembers>
             </TablixMember>
+            <TablixMember>
+              <TablixHeader>
+                <Size>3.47366cm</Size>
+                <CellContents>
+                  <Textbox Name="Textbox1">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value>Total</Value>
+                            <Style>
+                              <FontWeight>Bold</FontWeight>
+                              <Color>White</Color>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style />
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>Textbox1</rd:DefaultName>
+                    <Style>
+                      <Border>
+                        <Color>LightGrey</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <BackgroundColor>Black</BackgroundColor>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixHeader>
+              <KeepWithGroup>Before</KeepWithGroup>
+            </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>ListaMasVendido</DataSetName>
         <Top>0.34078cm</Top>
         <Left>0.85455cm</Left>
-        <Height>2.2498cm</Height>
+        <Height>2.8498cm</Height>
         <Width>14.78549cm</Width>
         <Style>
           <Border>
@@ -817,7 +1002,7 @@
           </Style>
         </ChartNoDataMessage>
         <DataSetName>ListaMasVendido</DataSetName>
-        <Top>3.00509cm</Top>
+        <Top>3.64009cm</Top>
         <Left>0.85455cm</Left>
         <Height>5.66944cm</Height>
         <Width>15.29415cm</Width>
@@ -832,7 +1017,7 @@
         </Style>
       </Chart>
     </ReportItems>
-    <Height>3.436in</Height>
+    <Height>3.7485in</Height>
     <Style />
   </Body>
   <Width>16.86308cm</Width>
@@ -861,48 +1046,10 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>1.45846cm</Top>
-              <Left>0.30207cm</Left>
-              <Height>0.6cm</Height>
-              <Width>8.77063cm</Width>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="Textbox8">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>EMPRESA: </Value>
-                      <Style>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Parameters!Empresa.Value</Value>
-                      <Style>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox3</rd:DefaultName>
-              <Top>0.11748cm</Top>
-              <Left>6.264cm</Left>
+              <Top>0.08221cm</Top>
+              <Left>6.26402cm</Left>
               <Height>0.6cm</Height>
               <Width>8.82354cm</Width>
-              <ZIndex>1</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -937,10 +1084,10 @@
               </Paragraphs>
               <rd:DefaultName>Textbox11</rd:DefaultName>
               <Top>1.45846cm</Top>
-              <Left>9.0727cm</Left>
+              <Left>6.26402cm</Left>
               <Height>0.6cm</Height>
-              <Width>6.01486cm</Width>
-              <ZIndex>2</ZIndex>
+              <Width>8.82354cm</Width>
+              <ZIndex>1</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -958,13 +1105,14 @@
               <Sizing>FitProportional</Sizing>
               <Top>0.11748cm</Top>
               <Left>0.30207cm</Left>
-              <Height>1.3057cm</Height>
+              <Height>1.94098cm</Height>
               <Width>5.92667cm</Width>
-              <ZIndex>3</ZIndex>
+              <ZIndex>2</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
                 </Border>
+                <PaddingLeft>20pt</PaddingLeft>
               </Style>
             </Image>
             <Textbox Name="Textbox10">
@@ -1006,7 +1154,7 @@
               <Left>6.264cm</Left>
               <Height>0.63514cm</Height>
               <Width>8.82354cm</Width>
-              <ZIndex>4</ZIndex>
+              <ZIndex>3</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
