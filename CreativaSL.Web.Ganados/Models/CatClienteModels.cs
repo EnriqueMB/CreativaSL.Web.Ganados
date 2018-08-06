@@ -32,6 +32,8 @@ namespace CreativaSL.Web.Ganados.Models
             Conexion = string.Empty;
             Usuario = string.Empty;
         }
+
+        public string PSGCliente { get; set; }
         private List<ClienteLugarModels> _listaClienteLugares;
 
         public List<ClienteLugarModels> listaClienteLugares

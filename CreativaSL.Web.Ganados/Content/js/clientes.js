@@ -33,8 +33,8 @@
                 NombreResponsable: { nombre: true, maxlength: 300}, //{ nombre: true, maxlenght: 300 },
                 Celular: { telefono: true },
                 Telefono: { telefono: true },
-                CorreoElectronico: { required: true, email: true }
-                
+                CorreoElectronico: { required: true, email: true },
+                PSGCliente: {required: true}
             },
             messages: {
                 IDSucursal: { required: "Seleccione una sucursal." },
@@ -46,7 +46,8 @@
                 NombreResponsable: { nombre: "Ingrese un nombre de contacto válido.", maxlength: "El campo nombre de contacto admite máximo 300 caracteres." }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
                 Celular: { telefono: "Ingrese un número de celular válido." },
                 Telefono: { telefono: "Ingrese un número de teléfono válido." },
-                CorreoElectronico: { required: "Ingrese el correo electrónico del cliente.", email: "Ingrese un correo electrónico válido." }
+                CorreoElectronico: { required: "Ingrese el correo electrónico del cliente.", email: "Ingrese un correo electrónico válido." },
+                PSGCliente: { required: "Ingrese el P.S.G. del cliente." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

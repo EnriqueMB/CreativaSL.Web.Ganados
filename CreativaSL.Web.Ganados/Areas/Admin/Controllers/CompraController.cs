@@ -1363,6 +1363,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
+
+
         #region Imágenes
         [HttpPost]
         public ContentResult SaveImageFierro(string IDCompra)
@@ -1453,12 +1455,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Compra = CompraDatos.GetDetails(Compra);
                     return View(Compra);
                 }
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos";
                 return RedirectToAction("Index", "Compra");
             }
             catch (Exception ex)
             {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
                 TempData["typemessage"] = "2";
-                TempData["message"] = "No se puede cargar la vista, error: " + ex.ToString();
+                TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
             }
             return View(Compra);
         }
@@ -2216,11 +2221,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Compra = new CompraModels();
                         Compra.Conexion = Conexion;
                         DocumentoPorPagarPago.ListaFormaPagos = CompraDatos.GetListadoCFDIFormaPago(Compra);
-                        DocumentoPorPagarPago = CompraDatos.GetNombreEmpresaCliente(DocumentoPorPagarPago);
+                        DocumentoPorPagarPago = CompraDatos.GetNombreEmpresaCliente_PorPagar(DocumentoPorPagarPago);
                         DocumentoPorPagarPago.TipoCuentaBancaria = 1;
-                        DocumentoPorPagarPago.ListaCuentasBancariasEmpresa = CompraDatos.GetListadoCuentasBancarias(DocumentoPorPagarPago);
+                        DocumentoPorPagarPago.ListaCuentasBancariasEmpresa = CompraDatos.GetListadoCuentasBancarias_Pagos(DocumentoPorPagarPago);
                         DocumentoPorPagarPago.TipoCuentaBancaria = 2;
-                        DocumentoPorPagarPago.ListaCuentasBancariasProveedor = CompraDatos.GetListadoCuentasBancarias(DocumentoPorPagarPago);
+                        DocumentoPorPagarPago.ListaCuentasBancariasProveedor = CompraDatos.GetListadoCuentasBancarias_Pagos(DocumentoPorPagarPago);
                         return View(DocumentoPorPagarPago);
                     }
                     else
@@ -2245,6 +2250,107 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View("Index");
             }
         }
+        [HttpPost]
+        public ActionResult PagoCompra(DocumentoPorPagarDetallePagosModels DocumentoPorPagarPago)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+
+                    DocumentoPorPagarPago.Usuario = User.Identity.Name;
+                    DocumentoPorPagarPago.Conexion = Conexion;
+                    DocumentoPorPagarPago.RespuestaAjax = new RespuestaAjax();
+                    if (DocumentoPorPagarPago.Bancarizado)
+                    {
+                        if (DocumentoPorPagarPago.HttpImagen == null)
+                        {
+                            DocumentoPorPagarPago.ImagenBase64 = DocumentoPorPagarPago.ImagenMostrar;
+                        }
+                        else
+                        {
+                            DocumentoPorPagarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorPagarPago.HttpImagen);
+                        }
+                    }
+                    CompraDatos = new _Compra_Datos();
+
+                    DocumentoPorPagarPago = CompraDatos.AC_ComprobantePago(DocumentoPorPagarPago);
+
+                    if (DocumentoPorPagarPago.RespuestaAjax.Success)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = "Datos guardados correctamente.";
+                        Token.ResetToken();
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = DocumentoPorPagarPago.RespuestaAjax.Mensaje;
+
+                    }
+                    return RedirectToAction("Transacciones", "Compra", new { IDCompra = DocumentoPorPagarPago.Id_padre });
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index", "Compra");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos, error: " + Mensaje;
+                return RedirectToAction("Index", "Compra");
+            }
+        }
+        #region Del comprobante PAGO
+        public ActionResult DelComprobantePago(DocumentoPorPagarDetallePagosModels DocumentoPorPagarPago)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    DocumentoPorPagarPago.Usuario = User.Identity.Name;
+                    DocumentoPorPagarPago.Conexion = Conexion;
+                    DocumentoPorPagarPago.RespuestaAjax = new RespuestaAjax();
+                    CompraDatos = new _Compra_Datos();
+                    DocumentoPorPagarPago = CompraDatos.DEL_ComprobantePago(DocumentoPorPagarPago);
+
+                    if (DocumentoPorPagarPago.RespuestaAjax.Success)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = DocumentoPorPagarPago.RespuestaAjax.Mensaje;
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = DocumentoPorPagarPago.RespuestaAjax.Mensaje;
+                    }
+
+                    return Content(DocumentoPorPagarPago.RespuestaAjax.ToJSON(), "application/json");
+                }
+                else
+                {
+                    DocumentoPorPagarPago.RespuestaAjax = new RespuestaAjax();
+                    DocumentoPorPagarPago.RespuestaAjax.Success = false;
+
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos";
+
+                    return Content(DocumentoPorPagarPago.RespuestaAjax.ToJSON(), "application/json");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                DocumentoPorPagarPago.RespuestaAjax = new RespuestaAjax();
+                DocumentoPorPagarPago.RespuestaAjax.Mensaje = "Verifique sus datos, error: " + Mensaje;
+                return Content(DocumentoPorPagarPago.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
         #endregion
 
         #region Otros

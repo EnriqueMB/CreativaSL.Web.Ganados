@@ -57,7 +57,7 @@
                 bancarizadoForm.value = true;
                 cuentaBeneficiante.rules("add", { required: true });
                 cuentaOrdenante.rules("add", { required: true });
-                imagen.rules("add", { ImagenRequerida: true });
+                imagen.rules("add", { ImagenRequerida: true, ImagenRequerida: ["ImagenBase64"] });
                 //folioINE.rules("add", { required: true });
                 //numeroAutorizacion.rules("add", { required: true });
             }
@@ -129,19 +129,19 @@
             },
             ignore: "",
             rules: {
-                Id_documentoPorCobrar: { required: true },
+                //Id_documentoPorCobrar: { required: true },
                 Id_formaPago: { required: true, min: 1 },
                 Monto: { required: true, min: 1 },
                 fecha: { required: true  },
                 //bancarizado
                 //"FolioIFE": { required: true },
                 //"NumeroAutorizacion": { required: true },
-                "HttpImagen":{ ImagenRequerida: true },
+                "HttpImagen": { ImagenRequerida: true, ImagenRequerida: ["ImagenBase64"] },
                 "Id_cuentaBancariaOrdenante": { required: true },
                 "Id_cuentaBancariaBeneficiante":{ required: true }
             },
             messages: {
-                Id_documentoPorCobrar: { required: "Por favor, seleccione a quien se le asignara el cobro." },
+                //Id_documentoPorCobrar: { required: "Por favor, seleccione a quien se le asignara el cobro." },
                 Id_formaPago: { required: "Por favor, seleccione la forma de pago.", min: "Por favor, seleccione la forma de pago." },
                 Monto: { required: "Por favor, escriba el monto.", min: "Por favor, escriba el monto." },
                 fecha: { required: "Por favor, seleccione la fecha." },
@@ -149,8 +149,8 @@
                 //FolioIFE: { required: "Por favor, escriba el folio del INE" },
                 //NumeroAutorizacion: { required: "Por favor, escriba el numero de autorización" },
                 HttpImagen: { required: "Por favor, ingrese una imagen" },
-                Id_cuentaBancariaOrdenante: { required: "Por favar, seleccione una cuenta de banco de la empresa." },
-                Id_cuentaBancariaBeneficiante: { required: "Por favor, seleccione una cuenta de banco del cliente." }
+                Id_cuentaBancariaOrdenante: { required: "Por favor, seleccione una cuenta de banco del cliente." },
+                Id_cuentaBancariaBeneficiante: { required: "Por favor, seleccione una cuenta de banco de la empresa." }
             },
             invalidHandler: function (event, validator) {
                 successHandler1.hide();

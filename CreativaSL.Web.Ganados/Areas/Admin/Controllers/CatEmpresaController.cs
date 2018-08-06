@@ -285,15 +285,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         if (Sucursal.Completado == true)
                         {
                             TempData["typemessage"] = "1";
-                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            TempData["message"] = Sucursal.Mensaje;
                             Token.ResetToken();
                             return RedirectToAction("IndexSucursales", new { id = Sucursal.IDEmpresa, nombreEmpresa = Sucursal.NombreSucursalMatriz });
                         }
                         else
                         {
                             TempData["typemessage"] = "2";
-                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                            return View(Sucursal);
+                            TempData["message"] = Sucursal.Mensaje;
+                            return RedirectToAction("CreateSucursal", new { id = Sucursal.IDEmpresa, nombreEmpresa = Sucursal.NombreSucursalMatriz });
                         }
                     }
                     return View(Sucursal);
@@ -354,15 +354,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         if (Sucursal.Completado == true)
                         {
                             TempData["typemessage"] = "1";
-                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            TempData["message"] = Sucursal.Mensaje;
                             Token.ResetToken();
                             return RedirectToAction("IndexSucursales", new { id = Sucursal.IDEmpresa, nombreEmpresa = Sucursal.NombreSucursalMatriz });
                         }
                         else
                         {
                             TempData["typemessage"] = "2";
-                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde. Error: " + Sucursal.Mensaje;
-                            return View(Sucursal);
+                            TempData["message"] = Sucursal.Mensaje;
+                            return RedirectToAction("EditSucursal", new { id = Sucursal.IDEmpresa, nombreEmpresa = Sucursal.NombreSucursalMatriz });
                         }
                     }
                     return View(Sucursal);

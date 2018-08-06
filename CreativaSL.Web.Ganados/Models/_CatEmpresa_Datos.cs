@@ -68,6 +68,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Empresa.NumTelefonico2 = !dr.IsDBNull(dr.GetOrdinal("numTelefonico2")) ? dr.GetString(dr.GetOrdinal("numTelefonico2")) : string.Empty;
                     Empresa.Email = !dr.IsDBNull(dr.GetOrdinal("email")) ? dr.GetString(dr.GetOrdinal("email")) : string.Empty;
                     Empresa.HorarioAtencion = !dr.IsDBNull(dr.GetOrdinal("horarioAtencion")) ? dr.GetString(dr.GetOrdinal("horarioAtencion")) : string.Empty;
+                    Empresa.PSGEmpresa = !dr.IsDBNull(dr.GetOrdinal("psgEmpresa")) ? dr.GetString(dr.GetOrdinal("psgEmpresa")) : string.Empty;
+                    Empresa.Rubro = !dr.IsDBNull(dr.GetOrdinal("rubro")) ? dr.GetString(dr.GetOrdinal("rubro")) : string.Empty;
                     Empresa.LogoEmpresaHttp = null;
 
                     //No hay imgEmpresa en BD
@@ -106,7 +108,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Empresa.Representante,//,@representante NVARCHAR(100)
                     Empresa.LogoRFC,//,@logoRFC NVARCHAR(MAX)
                     Empresa.IDUsuario,//,@id_usuario CHAR(36)
-                    Empresa.ImagBDEmpresa
+                    Empresa.PSGEmpresa,
+                    Empresa.Rubro
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Empresa.Conexion, "spCSLDB_EMPRESA_a_CatEmpresaXID", parametros);

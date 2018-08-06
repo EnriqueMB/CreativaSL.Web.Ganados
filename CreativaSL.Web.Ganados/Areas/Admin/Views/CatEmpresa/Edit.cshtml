@@ -164,6 +164,31 @@
 
                                     <div class="form-group">
                                         <div class="controlError col-md-6">
+                                            <label class="col-md-3 control-label text-center">P.S.G. de la empresa</label>
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.PSGEmpresa, new { @class = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.PSGEmpresa)
+                                                <span class="help-block">Ingrese el P.S.G. de la empresaa </span>
+                                            </div>
+                                        </div>
+                                        <div class="controlError col-md-6">
+                                            <label class="col-md-3 control-label text-center">Rubro:</label>
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.Rubro, new { @class = "form-control" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Rubro)
+                                                <span class="help-block">Ingrese el rubro de la empresa</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="controlError col-md-6">
                                             <label class="col-md-3 control-label">Ingrese logo de la empresa</label>
                                             <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">

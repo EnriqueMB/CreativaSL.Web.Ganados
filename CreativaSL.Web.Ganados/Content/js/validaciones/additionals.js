@@ -81,11 +81,13 @@ $.validator.addMethod("ImagenRequerida", function (value, element, params) {
     //Checamos que tenga un archivo el input file
     if (element.value.length == 0) {
         var imagenServidor = document.getElementById(params[0]).value;
-        
-        if (imagenServidor.length < 0)
+
+        if (imagenServidor.length <= 0) {
             return false;
-        else
+        }
+        else {
             return true;
+        }
     }
     else {
         //Si hay obtenemos la extensión

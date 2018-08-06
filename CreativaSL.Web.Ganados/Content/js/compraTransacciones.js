@@ -295,57 +295,9 @@
                     {
                         "data": "subtotal",
                         "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
-                    },
-                    {
-                        "data": null,
-                        "render": function (data, type, full) {
-                            var opcionSistema = "";
-                            var opcionSistemaMin = "";
-
-                            if (full["esSistema"] != true) {
-                                opcionSistema = "<a data-hrefa='/Admin/Compra/Del_ProductoServicio/' title='Eliminar' data-id='" + full["id_detalleDoctoPagar"] + "' class='btn btn-danger tooltips btn-sm deleteDetalle' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>";
-                                opcionSistemaMin =
-                                "<li>" +
-                                "<a data-hrefa='/Admin/Compra/Del_ProductoServicio/' class='deleteDetalle' role='menuitem' tabindex='-1' data-id='" + full["id_detalleDoctoPagar"] + "'>" +
-                                "<i class='fa fa-trash-o'></i> Eliminar" +
-                                "</a>" +
-                                "</li>";
-                            }
-
-                            var menu = "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                                "<a data-id='" + full["id_detalleDoctoPagar"] + "' class='btn btn-green tooltips btn-sm impuestos' title='Impuestos'  data-placement='top' data-original-title='Impuestos'><i class='fa fa-money'></i></a>" +
-                                "<a data-id='" + full["id_detalleDoctoPagar"] + "' class='btn btn-yellow tooltips btn-sm editDetalle' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
-                                opcionSistema +
-                                "</div>" +
-                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
-                                "<div class='btn-group'>" +
-                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
-                                "<i class='fa fa-cog'></i> <span class='caret'></span>" +
-                                "</a>" +
-                                "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
-                                "<li>" +
-                                "<a data-id='" + full["id_detalleDoctoPagar"] + "' class='impuestoDetalle' role='menuitem' tabindex='-1'>" +
-                                "<i class='fa fa-edit'></i> Editar" +
-                                "</a>" +
-                                "</li>" +
-                                "<li>" +
-                                "<a data-id='" + full["id_detalleDoctoPagar"] + "' class='editDetalle' role='menuitem' tabindex='-1'>" +
-                                "<i class='fa fa-edit'></i> Editar" +
-                                "</a>" +
-                                "</li>" +
-                                opcionSistemaMin +
-                                "</ul>" +
-                                "</div>" +
-                                "</div>";
-                            return menu;
-                        }
                     }
                 ],
                 "drawCallback": function (settings) {
-                    $(".editDetallePago").on("click", function () {
-                        var Id_detalleDoctoCobrar = $(this).data("id");
-                        window.location.href = '/Admin/Compra/Edit_ProductoServicio?Id_compra=' + IDCompra + '&Id_documentoPorCobrar=' + Id_documentoPorCobrar + '&Id_detalleDocumento=' + Id_detalleDoctoCobrar;
-                    });
                     $(".deleteDetalle").on("click", function () {
                         var url = $(this).attr('data-hrefa');
                         var id_detalle = $(this).attr('data-id');
@@ -419,7 +371,7 @@
 
                         var menu = "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
                             "<a data-id='" + full["id_documentoPorPagarDetallePagos"] + "' class='btn btn-yellow tooltips btn-sm editPago' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
-                            "<a data-hrefa='/Admin/Compra/DelComprobantePorPagar/' title='Eliminar' data-id='" + full["id_documentoPorPagarDetallePagos"] + "' class='btn btn-danger tooltips btn-sm deletePago' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "<a data-hrefa='/Admin/Compra/DelComprobantePago/' title='Eliminar' data-id='" + full["id_documentoPorPagarDetallePagos"] + "' class='btn btn-danger tooltips btn-sm deletePago' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                             "<div class='btn-group'>" +
@@ -433,7 +385,7 @@
                             "</a>" +
                             "</li>" +
                             "<li>" +
-                            "<a data-hrefa='/Admin/Compra/DelComprobantePorPagar/' class='deletePago' role='menuitem' tabindex='-1' data-id='" + full["id_documentoPorPagarDetallePagos"] + "'>" +
+                            "<a data-hrefa='/Admin/Compra/DelComprobantePago/' class='deletePago' role='menuitem' tabindex='-1' data-id='" + full["id_documentoPorPagarDetallePagos"] + "'>" +
                             "<i class='fa fa-trash-o'></i> Eliminar" +
                             "</a>" +
                             "</li>" +
@@ -453,13 +405,13 @@
                 $(".deletePago").on("click", function () {
                     var url = $(this).attr('data-hrefa');
                     var id_detalle = $(this).attr('data-id');
-                    var box = $("#mb-delComprobante");
+                    var box = $("#mb-delComprobantePago");
                     box.addClass("open");
                     box.find(".mb-control-yes").on("click", function () {
                         box.removeClass("open");
                         $.ajax({
                             url: url,
-                            data: { Id_documentoPorCobrarDetallePagos: id_detalle, Id_documentoPorCobrar: Id_documentoPorCobrar },
+                            data: { Id_documentoPorPagarDetallePagos: id_detalle, Id_documentoPorPagar: Id_documentoPorPagar },
                             type: 'POST',
                             dataType: 'json',
                             success: function (result) {
@@ -477,9 +429,6 @@
     };
 
     var EventosPago = function () {
-        $("#btnAddPagoArticuloServicio").on("click", function () {
-            window.location.href = '/Admin/Compra/ProductoServicioCompraPago?Id_compra=' + IDCompra + '&Id_documentoPorCobrar=' + Id_documentoPorCobrar + '&Id_detalleDocumento=';
-        });
         $("#btnAddPagoComprobantePago").on("click", function () {
             window.location.href = '/Admin/Compra/PagoCompra?id_1=' + IDCompra + '&id_2=';
         });
