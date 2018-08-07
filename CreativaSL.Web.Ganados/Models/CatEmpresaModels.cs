@@ -16,6 +16,8 @@ namespace CreativaSL.Web.Ganados.Models
 
         public string NombreSucursal { get; set; }
         public bool PermitirSucursales { get; set; }
+        public string PSGEmpresa { get; set; }
+        public string Rubro { get; set; }
 
         [Required]
         [DisplayName("razón fiscal")]

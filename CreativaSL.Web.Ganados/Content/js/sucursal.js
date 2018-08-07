@@ -9,7 +9,7 @@
         var successHandler1 = $('.successHandler', form1);
         $('#frmSucursal').validate({ // initialize the plugin
             //debug: true,
-            errorElement: "span", // contain the error msg in a span tag
+            errorElement: "dd", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
             errorPlacement: function (error, element) { // render error placement for each input type
@@ -39,10 +39,13 @@
                     minlength: 5,
                     maxlength: 300
                 },
-                MermaPredeterminada: {
-                    required: true,
-                    digits: true
+                IDLugar: {
+                    required:true
                 }
+                //MermaPredeterminada: {
+                //    required: true,
+                //    digits: true
+                //}
             },
             messages: {
                 NombreSucursalMatriz: {
@@ -50,19 +53,22 @@
                     maxlength: jQuery.validator.format("-El campo: Nombre Empresa,  debe tener un máximo de caracteres de: {0}")
                 },
                 NombreSucursal: {
-                    required: "-El campo: Nombre Sucursal, es requerido",
+                    required: "Por favor, escriba el nombre de la sucursal.",
                     minlength: jQuery.validator.format("-El campo: Nombre Sucursal,  debe tener un mínimo de caracteres de: {0}"),
                     maxlength: jQuery.validator.format("-El campo: Nombre Sucursal,  debe tener un máximo de caracteres de: {0}")
                 },
                 Direccion: {
-                    required: "-El campo: Dirección, es requerido",
+                    required: "Por favor, escriba la dirección de la sucursal.",
                     minlength: jQuery.validator.format("-El campo: Dirección,  debe tener un mínimo de caracteres de: {0}"),
                     maxlength: jQuery.validator.format("-El campo: Dirección,  debe tener un máximo de caracteres de: {0}")
                 },
-                MermaPredeterminada: {
-                    required: "-El campo: Merma predeterminada, es requerido",
-                    digits: "-El campo: Merma predeterminada, debe ser igual o mayor que 0 (solo números enteros)."
+                IDLugar: {
+                    required: "Por favor, seleccione un lugar de la sucursal."
                 }
+                //MermaPredeterminada: {
+                //    required: "-El campo: Merma predeterminada, es requerido",
+                //    digits: "-El campo: Merma predeterminada, debe ser igual o mayor que 0 (solo números enteros)."
+                //}
             },
             invalidHandler: function (event, validator) { 
                 successHandler1.hide();

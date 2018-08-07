@@ -23,7 +23,7 @@
             showRemove: false,
             showClose: false,
             layoutTemplates: { actionDelete: '' },
-            allowedFileExtensions: ["png"],
+            allowedFileExtensions: ["png", "jpg", "jpeg", "bmp"],
             required: true
         })
         $('#LogoRFCHttp').fileinput({
@@ -47,7 +47,7 @@
             showRemove: false,
             showClose: false,
             layoutTemplates: { actionDelete: '' },
-            allowedFileExtensions: ["png"],
+            allowedFileExtensions: [["png", "jpg", "jpeg", "bmp"]],
             required: true
         })
     };
@@ -155,7 +155,7 @@
         var successHandler1 = $('.successHandler', form1);
         $('#frmEditEmpresa').validate({ // initialize the plugin
             //debug: true,
-            errorElement: "span", // contain the error msg in a span tag
+            errorElement: "dd", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
             errorPlacement: function (error, element) { // render error placement for each input type
@@ -211,33 +211,39 @@
                     maxlength: 100
                 },
                 LogoEmpresaHttp: {
-                    validarImgEdit: true,
-                    formatoPNG: true
+                    ImagenRequerida: true,
+                    ImagenRequerida: ["LogoEmpresa"]
                 },
                 LogoRFCHttp: {
-                    validarImgEdit: true,
-                    formatoPNG: true
+                    ImagenRequerida: true,
+                    ImagenRequerida: ["LogoRFC"]
+                },
+                PSGEmpresa: {
+                    required: true
+                },
+                Rubro: {
+                    required: true
                 }
             },
             messages: {
                 RazonFiscal: {
-                    required: "Razón Fiscal es un campo requerido",
+                    required: "Por favor, escriba la razón fiscal.",
                     minlength: jQuery.validator.format("Razón Fiscal mínimo de caracteres: {0}"),
                     maxlength: jQuery.validator.format("Razón Fiscal máximo de caracteres: {0}")
                 },
                 DireccionFiscal: {
-                    required: "Direccion Fiscal es un campo requerido",
+                    required: "Por favor, escriba la dirección fiscal.",
                     minlength: jQuery.validator.format("Direccion Fiscal, mínimo de caracteres: {0}"),
                     maxlength: jQuery.validator.format("Direccion Fiscal, máximo de caracteres: {0}")
                 },
                 RFC: {
-                    required: "R.F.C. es un campo requerido",
+                    required: "Por favor, escriba el R.F.C.",
                     minlength: jQuery.validator.format("R.F.C., mínimo de caracteres: {0}"),
                     maxlength: jQuery.validator.format("R.F.C., máximo de caracteres: {0}"),
                     rfc:      "R.F.C. no válido"
                 },
                 NumTelefonico1: {
-                    required: "Núm. Telefónico 1 es un campo requerido",
+                    required: "Por favor, escriba un número telefónico.",
                     minlength: jQuery.validator.format("Núm. Telefónico 1, mínimo de caracteres: {0}"),
                     maxlength: jQuery.validator.format("Núm. Telefónico 1, máximo de caracteres: {0}")
                 },
@@ -245,7 +251,7 @@
                     maxlength: jQuery.validator.format("Núm. Telefónico 2, máximo de caracteres: {0}")
                 },
                 Email: {
-                    required: "Email es un campo requerido",
+                    required: "Por favor, escriba un email.",
                     email: "Formato de correo no válido",
                     minlength: jQuery.validator.format("Email, mínimo de caracteres: {0}"),
                     maxlength: jQuery.validator.format("Email, máximo de caracteres: {0}")
@@ -258,13 +264,11 @@
                     minlength: jQuery.validator.format("Representante, Mínimo de caracteres: {0}"),
                     maxlength: jQuery.validator.format("Representante, Máximo de caracteres: {0}")
                 },
-                LogoEmpresaHttp: {
-                    validarImgEdit: "Debe de seleccionar una imagen para el Logo de la Empresa",
-                    formatoPNG:     "El Logo de la Empresa debe ser formato: PNG"
+                PSGEmpresa: {
+                    required: "Por favor, escriba el P.S.G."
                 },
-                LogoRFCHttp: {
-                    validarImgEdit: "Debe de seleccionar una imagen para el R.F.C.",
-                    formatoPNG: "La imagen del R.F.C. debe ser formato: PNG"
+                Rubro: {
+                    required: "Por favor, escriba el rubro."
                 }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit

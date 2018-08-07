@@ -85,7 +85,8 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.EsPersonaFisica,
                     datos.Direccion ?? string.Empty,
                     datos.IDRegimenFiscal ?? string.Empty,
-                    datos.Usuario ?? string.Empty
+                    datos.Usuario ?? string.Empty,
+                    datos.PSGCliente ?? string.Empty
                 };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatCliente", parametros);
                 datos.IDCliente = aux.ToString();
@@ -309,6 +310,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.EsPersonaFisica = !dr.IsDBNull(dr.GetOrdinal("EsPersona")) ? dr.GetBoolean(dr.GetOrdinal("EsPersona")) : false;
                     datos.Direccion = !dr.IsDBNull(dr.GetOrdinal("Direccion")) ? dr.GetString(dr.GetOrdinal("Direccion")) : string.Empty;
                     datos.IDRegimenFiscal = !dr.IsDBNull(dr.GetOrdinal("IDRegimenFiscal")) ? dr.GetString(dr.GetOrdinal("IDRegimenFiscal")) : string.Empty;
+                    datos.PSGCliente = !dr.IsDBNull(dr.GetOrdinal("psgCliente")) ? dr.GetString(dr.GetOrdinal("psgCliente")) : string.Empty;
                 }
                 dr.Close();
                 return datos;

@@ -58,6 +58,17 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> P.S.G.</label>
+                                            <div class="col-md-6 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.PSGCliente, new { @class = "form-control", placeholder = "Ingrese el  P.S.G. del cliente." })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.PSGCliente)
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
                                             <label class="col-md-2 col-xs-12 control-label">¿Es persona Física?</label>
                                             <div class="col-md-6 col-xs-12">
                                                 @Html.CheckBoxFor(model => model.EsPersonaFisica, new { @class = "icheckbox" })

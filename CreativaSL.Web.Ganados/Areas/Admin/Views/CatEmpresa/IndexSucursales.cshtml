@@ -40,7 +40,7 @@
                                     <tr>
                                         <th>Nombre sucursal</th>
                                         <th>Dirección</th>
-                                        <th>Merma establecida (%)</th>
+                                        @*<th>Merma establecida (%)</th>*@
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
@@ -50,7 +50,7 @@
                                         <tr id="@Sucursal.IDSucursal">
                                             <td>@Sucursal.NombreSucursal</td>
                                             <td>@Sucursal.Direccion</td>
-                                            <td>@Sucursal.MermaPredeterminada.ToString("0")</td>
+                                            @*<td>@Sucursal.MermaPredeterminada.ToString("0")</td>*@
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     <a title="Editar" class="btn btn-yellow" href="@Url.Action("EditSucursal", "CatEmpresa", new { id = Sucursal.IDSucursal,nombreEmpresa = Model.NombreSucursalMatriz })"><i class="fa fa-edit"></i></a>

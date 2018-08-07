@@ -224,7 +224,7 @@
 
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><strong>Pagos</strong></h3>
+                                <h3 class="panel-title"><strong>Pagos de la compra</strong></h3>
                                 <ul class="panel-controls"></ul>
                             </div>
                             <div class="panel-body">
@@ -249,7 +249,7 @@
                                             <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                    @Html.TextBoxFor(model => model.DocumentoPorPagar.Subtotal, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                    @Html.TextBoxFor(model => model.DocumentoPorPagar.subtotal, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                 </div>
                                             </div>
                                         </div>
@@ -269,7 +269,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-4 controlError">
-                                        <label class="col-md-3 control-label">Pagos</label>
+                                        <label class="col-md-3 control-label">Pagos realizados</label>
                                         <div class="col-md-9 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
@@ -307,8 +307,6 @@
                                                 <div class="panel-heading">
                                                     <h3 class="panel-title"></h3>
                                                     <ul class="panel-controls">
-                                                        <li><a id="btnAddPagoArticuloServicio" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar producto o servicio por cobrar </a></li>
-                                                        @*<li><a id="btnListadoPrecio" class="btn btn-default btnCrear"><span class="fa fa-eye"></span> Ver listado de precios </a></li>*@
                                                         <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                                                         <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                                                     </ul>
@@ -322,7 +320,6 @@
                                                                     <th>Cantidad</th>
                                                                     <th>Precio unitario</th>
                                                                     <th>Subtotal</th>
-                                                                    <th>Acción</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody></tbody>
@@ -398,6 +395,23 @@
             </div>
         </div>
     </div>
+<div class="message-box animated fadeIn" data-sound="alert" id="mb-delComprobantePago">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>comprobante de pago</strong> ?</div>
+            <div class="mb-content">
+                <p>¿Seguro que quieres eliminar este comprobante de pago?</p>
+                <p>Presione "sí" si está seguro.</p>
+            </div>
+            <div class="mb-footer">
+                <div class="pull-right">
+                    <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                    <button class="btn btn-default btn-lg mb-control-close">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <div class="message-box animated fadeIn" data-sound="alert" id="mb-deleteDetalle">
         <div class="mb-container">
             <div class="mb-middle">
