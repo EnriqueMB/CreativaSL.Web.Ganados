@@ -1558,6 +1558,50 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpPost]
+        public ActionResult DatatableDetalleDocXCobrarPagos(string IDCompra)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                Compra = new CompraModels();
+                Compra.Conexion = Conexion;
+                Compra.IDCompra = IDCompra;
+                Compra.RespuestaAjax.Mensaje = CompraDatos.DatatableDetalleDocXCobrarPagos(Compra);
+                Compra.RespuestaAjax.Success = true;
+
+                return Content(Compra.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Compra.RespuestaAjax.Mensaje = ex.ToString();
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        [HttpPost]
+        public ActionResult DatatableDetalleDocXPagarPagos(string IDCompra)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                Compra = new CompraModels();
+                Compra.Conexion = Conexion;
+                Compra.IDCompra = IDCompra;
+                Compra.RespuestaAjax.Mensaje = CompraDatos.DatatableDetalleDocXPagarPagos(Compra);
+                Compra.RespuestaAjax.Success = true;
+
+                return Content(Compra.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Compra.RespuestaAjax.Mensaje = ex.ToString();
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        [HttpPost]
         public ActionResult JsonDetallesDocXcobrar(string IDCompra)
         {
             try
