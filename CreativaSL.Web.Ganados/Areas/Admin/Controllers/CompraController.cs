@@ -2216,11 +2216,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Compra = new CompraModels();
                         Compra.Conexion = Conexion;
                         DocumentoPorPagarPago.ListaFormaPagos = CompraDatos.GetListadoCFDIFormaPago(Compra);
-                        DocumentoPorPagarPago = CompraDatos.GetNombreEmpresaCliente(DocumentoPorPagarPago);
-                        DocumentoPorPagarPago.TipoCuentaBancaria = 1;
-                        DocumentoPorPagarPago.ListaCuentasBancariasEmpresa = CompraDatos.GetListadoCuentasBancarias(DocumentoPorPagarPago);
-                        DocumentoPorPagarPago.TipoCuentaBancaria = 2;
-                        DocumentoPorPagarPago.ListaCuentasBancariasProveedor = CompraDatos.GetListadoCuentasBancarias(DocumentoPorPagarPago);
+                        //DocumentoPorPagarPago = CompraDatos.GetNombreEmpresaCliente(DocumentoPorPagarPago);
+                        //DocumentoPorPagarPago.TipoCuentaBancaria = 1;
+                        //DocumentoPorPagarPago.ListaCuentasBancariasEmpresa = CompraDatos.GetListadoCuentasBancarias(DocumentoPorPagarPago);
+                        //DocumentoPorPagarPago.TipoCuentaBancaria = 2;
+                        //DocumentoPorPagarPago.ListaCuentasBancariasProveedor = CompraDatos.GetListadoCuentasBancarias(DocumentoPorPagarPago);
                         return View(DocumentoPorPagarPago);
                     }
                     else

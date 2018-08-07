@@ -28,6 +28,7 @@
                         <ul class="panel-controls">
                             @{ string IDP = Model.Id_documentoPorPagar;}
                             <li><a href="@Url.Action("PagosCreate","DocumentoXPagar", new { id = IDP})" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Pago</a></li>
+                            <li><a href="@Url.Action("Index","DocumentoXPagar")" class="btn btn-danger btnCrear"><span class="fa fa-arrow-circle-o-left"></span> Regresar</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                         </ul>
@@ -48,8 +49,8 @@
                                     {
                                         <tr id="@Documento.Id_documentoPorPagarDetallePagos">
                                             <td>@Documento.Descripcion</td>
-                                            <td>@Documento.Monto</td>
-                                            <td>@Documento.fecha</td>                                           
+                                            <td>@Documento.Monto.ToString("C")</td>
+                                            <td>@Documento.fecha.ToShortDateString()</td>                                           
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">                                                    
                                                     <a title="Editar" href="@Url.Action("PagosEdit", "DocumentoXPagar", new { id = Documento.Id_documentoPorPagarDetallePagos,id2=IDP })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
