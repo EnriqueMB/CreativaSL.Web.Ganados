@@ -40,7 +40,7 @@
                                 <thead>
                                     <tr>
                                         <th>Tipo Documento</th>
-                                        <th>No. Factura</th>
+                                        <th>No. Factura / Folio</th>
                                         <th>Sucursal</th>
                                         <th>Estatus</th>
                                         <th>Fecha</th>
@@ -68,6 +68,10 @@
                                             else if (Doc.IDTipoDocumento == 4)
                                             {
                                                 <td>Mtto Servicio</td>
+                                            }
+                                            else if (Doc.IDTipoDocumento == 5)
+                                            {
+                                                <td>No sistema</td>
                                             }
                                             <td>@Doc.numFactura</td>
                                             <td>@Doc.NombreSucursal</td>

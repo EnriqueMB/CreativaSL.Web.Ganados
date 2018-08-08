@@ -1,5 +1,6 @@
 ﻿using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
+using CreativaSL.Web.Ganados.ViewModels;
 using Microsoft.Reporting.WebForms;
 using System;
 using System.Collections.Generic;
@@ -854,6 +855,79 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Parametros[8] = new ReportParameter("FechaFin", id3);
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("ListaEstadoCuentaProveedor", reporte.listEstadoCuentaProveedor));
+                string reportType = id;
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + id + "</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public ActionResult RptCuentaEstadoProveedorActualizado(string id, string id2, string id3)
+        {
+            try
+            {
+                RptCuentaEstadoProveedorActualizadoModels reporte = new RptCuentaEstadoProveedorActualizadoModels();
+                Reporte_Datos R = new Reporte_Datos();
+                DateTime Fecha1 = DateTime.Today;
+                DateTime Fecha2 = DateTime.Today;
+                DateTime.TryParse(id2.ToString(), out Fecha1);
+                DateTime.TryParse(id3.ToString(), out Fecha2);
+                reporte.FechaInicio = Fecha1;
+                reporte.FechaFin = Fecha2;
+                reporte.Conexion = Conexion;
+                reporte.DatosEmpresa = new DatosEmpresaViewModels();
+
+                reporte.DatosEmpresa = R.ObtenerDatosEmpresaTipo1(Conexion);
+                List<RptCuentaEstadoProveedorActualizadoModels> lista = new List<RptCuentaEstadoProveedorActualizadoModels>();
+                lista = R.ObtenerListaEstadoCuentaProveedorActualizado(reporte);
+                LocalReport Rtp = new LocalReport();
+                Rtp.EnableExternalImages = true;
+                Rtp.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Reports"), "ReporteEstadoCuentaProveedorActualizado.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Reportes");
+                }
+                ReportParameter[] Parametros = new ReportParameter[4];
+                //Parametros[0] = new ReportParameter("Empresa", reporte.DatosEmpresa.RazonFiscal);
+                //Parametros[1] = new ReportParameter("Direccion", reporte.DatosEmpresa.DireccionFiscal);
+                //Parametros[2] = new ReportParameter("RFC", reporte.DatosEmpresa.RFC);
+                //Parametros[3] = new ReportParameter("TelefonoCasa", reporte.DatosEmpresa.NumTelefonico1);
+                //Parametros[4] = new ReportParameter("TelefonoMovil", reporte.DatosEmpresa.NumTelefonico2);
+                Parametros[0] = new ReportParameter("NombreSucursal", reporte.DatosEmpresa.NombreSucursal);
+                Parametros[1] = new ReportParameter("UrlLogo", reporte.DatosEmpresa.LogoEmpresa);
+                Parametros[2] = new ReportParameter("FechaInicio", id2);
+                Parametros[3] = new ReportParameter("FechaFin", id3);
+                Rtp.SetParameters(Parametros);
+                Rtp.DataSources.Add(new ReportDataSource("ListaEstadoCuentaProveedorActualizado", lista));
                 string reportType = id;
                 string mimeType;
                 string encoding;

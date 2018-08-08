@@ -1422,7 +1422,7 @@
     <Compile Include="App_Start\TokenModule.cs" />
     <Compile Include="App_Start\TokenProcessor.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Content\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatAlmacenController.cs" />
@@ -1621,6 +1621,7 @@
     <Compile Include="Models\RespuestaAjax.cs" />
     <Compile Include="Models\ResumenGastosAjustesModels.cs" />
     <Compile Include="Models\ResumenGastosModels.cs" />
+    <Compile Include="Models\RptCuentaEstadoProveedorActualizadoModels.cs" />
     <Compile Include="Models\RptEntradaModels.cs" />
     <Compile Include="Models\RptEstadoCuentaProveedorModels.cs" />
     <Compile Include="Models\RptFletesModels.cs" />
@@ -1828,6 +1829,7 @@
     <EmbeddedResource Include="Reports\ReporteDiasLaborados.rdlc" />
     <EmbeddedResource Include="Reports\ReporteEntradas.rdlc" />
     <EmbeddedResource Include="Reports\ReporteEstadoCuentaProveedor.rdlc" />
+    <EmbeddedResource Include="Reports\ReporteEstadoCuentaProveedorActualizado.rdlc" />
     <EmbeddedResource Include="Reports\ReporteFletes.rdlc" />
     <EmbeddedResource Include="Reports\ReporteGanadosMuertoCompra.rdlc" />
     <EmbeddedResource Include="Reports\ReporteGanadosVendidos.rdlc" />

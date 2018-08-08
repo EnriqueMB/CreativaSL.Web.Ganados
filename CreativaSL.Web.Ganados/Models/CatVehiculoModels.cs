@@ -21,6 +21,7 @@ namespace CreativaSL.Web.Ganados.Models
             _IDMarca = 0;
             _IDTipoVehiculo = 0;
             _EsPropio = true;
+            _Gps = string.Empty;
             _Capacidad = string.Empty;
             _Modelo = string.Empty;
             _Color = string.Empty;
@@ -194,6 +195,15 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _EsPropio; }
             set { _EsPropio = value; }
+        }
+
+        private string _Gps;
+
+        
+        public string Gps
+        {
+            get { return _Gps; }
+            set { _Gps = value; }
         }
 
         private string _Capacidad;

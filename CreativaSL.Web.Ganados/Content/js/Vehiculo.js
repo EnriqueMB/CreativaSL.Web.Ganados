@@ -34,6 +34,8 @@
                 Capacidad: { required: true, texto: true, maxlength: 30 },
                 Color: { required: true, texto: true, maxlength: 30 },
                 NoSerie: { required: true, texto: true, maxlength: 30 },
+                Gps: { maxlength: 10},
+
             },
             messages: {
                 
@@ -47,6 +49,7 @@
                 Capacidad: { required: "Ingrese la capacidad del vehículo.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
                 Color: { required: "Ingrese el color del vehiculo.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
                 NoSerie: { required: "Ingrese el numero de serie del vehículo.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
+                Gps: { maxlength: "El campo GPS admite máximo 10 caracteres." },
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

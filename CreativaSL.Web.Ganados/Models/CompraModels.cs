@@ -12,6 +12,9 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CompraModels
     {
+        public decimal PrecioPorDocumentacion { get; set; }
+        public string TipoSalidaDocumentacion { get; set; }
+
         public TimeSpan HoraProgramada { get; set; }
         #region Variables
         #region Variables de control

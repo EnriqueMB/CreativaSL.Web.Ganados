@@ -320,6 +320,46 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public string DatatableDetalleDocXCobrarPagos(CompraModels Compra)
+        {
+            try
+            {
+                object[] parametros =
+                    {
+                        Compra.IDCompra
+                    };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_DetallesDocXcobrarPAGOS", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string DatatableDetalleDocXPagarPagos(CompraModels Compra)
+        {
+            try
+            {
+                object[] parametros =
+                    {
+                        Compra.IDCompra
+                    };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_DetallesDocXpagarPAGOS", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public string JsonDetallesDocXcobrar(CompraModels Compra)
         {
             try
@@ -1557,6 +1597,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.Vehiculo.nombreTipoVehiculo = !dr.IsDBNull(dr.GetOrdinal("vehiculo")) ? dr.GetString(dr.GetOrdinal("vehiculo")) : string.Empty;
                     Compra.LineaFletera = !dr.IsDBNull(dr.GetOrdinal("lineaFletera")) ? dr.GetString(dr.GetOrdinal("lineaFletera")) : string.Empty;
                     Compra.Tolerancia = !dr.IsDBNull(dr.GetOrdinal("tolerancia")) ? dr.GetDecimal(dr.GetOrdinal("tolerancia")) : 0;
+                    Compra.PrecioPorDocumentacion = !dr.IsDBNull(dr.GetOrdinal("subtotal")) ? dr.GetDecimal(dr.GetOrdinal("subtotal")) : 0;
+                    Compra.TipoSalidaDocumentacion = !dr.IsDBNull(dr.GetOrdinal("TipoSalidaDocumentacion")) ? dr.GetString(dr.GetOrdinal("TipoSalidaDocumentacion")) : string.Empty;
                 }
                 dr.Close();
                 return Compra;
