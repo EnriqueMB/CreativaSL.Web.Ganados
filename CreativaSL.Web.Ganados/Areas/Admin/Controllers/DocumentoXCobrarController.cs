@@ -1,4 +1,5 @@
-﻿using CreativaSL.Web.Ganados.Filters;
+﻿using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,26 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     [Autorizado]
     public class DocumentoXCobrarController : Controller
     {
+        private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/DocumentosXCobrar
         public ActionResult Index()
         {
-            return View();
+            try
+            {
+                DocumentosPorCobrarModels Documentos = new DocumentosPorCobrarModels();
+                _DocumentoXCobrar_Datos DocumentosDatos = new _DocumentoXCobrar_Datos();
+                Documentos.Conexion = Conexion;
+                Documentos.ListaDocumentos = DocumentosDatos.ObtenerListaDocumentosCobrar(Documentos);
+                return View(Documentos);
+            }
+            catch (Exception)
+            {
+                DocumentosPorCobrarModels Documentos = new DocumentosPorCobrarModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Documentos);
+            }
         }
 
         // GET: Admin/DocumentosXCobrar/Details/5
@@ -28,7 +44,28 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         // GET: Admin/DocumentosXCobrar/Create
         public ActionResult Create()
         {
-            return View();
+            try
+            {
+                Token.SaveToken();
+                _Combos_Datos CMB = new _Combos_Datos();
+                _DocumentoXCobrar_Datos datos = new _DocumentoXCobrar_Datos();
+                DocumentosPorCobrarModels documentos = new DocumentosPorCobrarModels();
+                documentos.Fecha = DateTime.Now;
+                documentos.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
+                documentos.ListaCDocumento = datos.ObtenerConceptosDocumento(Conexion);
+                //documentos.LisTipoProveedor = datos.ObteneComboCatTipoProveedor(Conexion);
+                //documentos.IDTProveedor = 0;
+                documentos.Conexion = Conexion;
+                //documentos.LisProveedor = datos.ObteneComboProveedoresXID(documentos);
+                return View(documentos);
+            }
+            catch (Exception)
+            {
+                DocumentosPorCobrarModels documentos = new DocumentosPorCobrarModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(documentos);
+            }
         }
 
         // POST: Admin/DocumentosXCobrar/Create
