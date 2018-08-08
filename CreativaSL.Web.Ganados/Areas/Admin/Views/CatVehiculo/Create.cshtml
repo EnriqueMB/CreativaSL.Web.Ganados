@@ -217,8 +217,26 @@
                                         </div>
 
                                     </div>
+  
+                                </div>
+                            </div>  
+                            
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">GPS</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Gps, new { id = "Gps", @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Gps)
+                                        <span class="help-block">Ingrese GPS del vehículo</span>
+                                    </div>    
+
                                 </div>
                             </div>
+                                                 
                            
                         </div>
                         
