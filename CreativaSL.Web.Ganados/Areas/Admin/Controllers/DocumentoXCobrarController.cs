@@ -22,6 +22,23 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         // GET: Admin/DocumentosXCobrar/Details/5
         public ActionResult Details(int id)
         {
+            //try
+            //{
+            //    DocumentosPorCobrarDetalleModels Documentos = new DocumentosPorCobrarDetalleModels();
+            //    DocumentoXPagar_Datos DocumentosDatos = new DocumentoXPagar_Datos();
+            //    Documentos.Conexion = Conexion;
+            //    Documentos.IDDocumentoPagar = id;
+            //    Documentos.IDTipoDocumento = id2;
+            //    Documentos.listaDocumentosDetalle = DocumentosDatos.ObtenerDetalleListaDocumentosPagar(Documentos);
+            //    return View(Documentos);
+            //}
+            //catch (Exception)
+            //{
+            //    DocumentoPorPagarDetalleModels Documentos = new DocumentoPorPagarDetalleModels();
+            //    TempData["typemessage"] = "2";
+            //    TempData["message"] = "No se puede cargar la vista";
+            //    return View(Documentos);
+            //}
             return View();
         }
 
