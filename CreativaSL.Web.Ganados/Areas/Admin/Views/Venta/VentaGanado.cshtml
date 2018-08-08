@@ -47,7 +47,10 @@
     @{ Html.EnableClientValidation(false); }
     @using (Html.BeginForm("VentaGanado", "Venta", FormMethod.Post, new { id = "frm_venta", @class = "form-horizontal", autocomplete = "off" }))
     {
-        <div id="validation_summary" class="field_error "></div> //JS
+        <div id="validation_summary" class="field_error ">
+            <dd for="Ganado" class="validacionCSL" style="color: #ff004d !important; "></dd>
+            <dd for="ME" class="validacionCSL" style="color: #ff004d !important; "></dd>
+        </div> //JS
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.Id_venta)
 
@@ -167,6 +170,18 @@
                                     @Html.TextBoxFor(model => model.CostoTotal, new { @class = "form-control", disabled = "disabled" })
                                 </div>
                                 <span class="help-block">Costo total del ganado</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">M.E.</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.ME, new { @class = "form-control", @type="number" })
+                                </div>
+                                <span class="help-block">M.E.</span>
                             </div>
                         </div>
                     </div>

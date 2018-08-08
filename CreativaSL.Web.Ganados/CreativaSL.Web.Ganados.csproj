@@ -1050,6 +1050,7 @@
     <Content Include="Content\js\Vehiculo.js" />
     <Content Include="Content\js\venta.js" />
     <Content Include="Content\js\ventaCobro.js" />
+    <Content Include="Content\js\ventaDocumento.js" />
     <Content Include="Content\js\ventaDocumentos.js" />
     <Content Include="Content\js\ventaEvento.js" />
     <Content Include="Content\js\ventaEventoRecepcion.js" />
@@ -1396,6 +1397,8 @@
     <Content Include="Areas\Admin\Views\Compra\ImpuestosProductoServicioCompra.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ImpuestoProductoServicioACCompra.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\PagoCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaDocumento.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaDetalles.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1670,6 +1673,7 @@
     <Compile Include="Models\Validaciones\TelefonoAttribute.cs" />
     <Compile Include="Models\Validaciones\TestAttribute.cs" />
     <Compile Include="Models\Validaciones\TextoAttribute.cs" />
+    <Compile Include="Models\VentaDetalleModels.cs" />
     <Compile Include="Models\VentaGanadoModels.cs" />
     <Compile Include="Models\VentaModels.cs" />
     <Compile Include="Models\VentaModels2.cs" />
@@ -1822,6 +1826,7 @@
     <EmbeddedResource Include="Formatos\ImagenesProveedor.rdlc" />
     <EmbeddedResource Include="Formatos\ListadoGanado.rdlc" />
     <EmbeddedResource Include="Formatos\ListadoGanadoParaCompra.rdlc" />
+    <EmbeddedResource Include="Formatos\ListadoGanadoV2.rdlc" />
     <EmbeddedResource Include="Reports\prueba.rdlc">
       <SubType>Designer</SubType>
     </EmbeddedResource>

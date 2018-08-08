@@ -52,7 +52,7 @@
 
         $("#CobrarFlete").on("change", function () {
             var opcion = $(this).val();
-            ToggleDivFlete(opcion);
+            ToggleDivFlete(opcion,1);
         });
     }
     var Validaciones = function () {
@@ -82,7 +82,7 @@
             rules: {
                 Id_sucursal: { required: true },
                 Id_cliente: { required: true },
-                NombreVenta: { required: true },
+                //NombreVenta: { required: true },
                 CobrarFlete: {required: true },
                 "Flete.FechaEmbarque": { required: true },
                 "Flete.HoraEmbarque": { required: true },
@@ -91,18 +91,18 @@
                 "Flete.Id_empresa": { required: true },
                 "Flete.id_chofer": { required: true },
                 "Flete.id_vehiculo": { required: true },
-                "Flete.kmInicialVehiculo": { required: true, min: 0 },
+                //"Flete.kmInicialVehiculo": { required: true, min: 0 },
                 "Flete.precioFlete": { required: true, min: 0 },
                 "Flete.Trayecto.id_lugarOrigen": { required: true },
                 "Flete.Trayecto.id_lugarDestino": { required: true },
-                "Flete.MetodoPago.Clave": { required: true },
-                "Flete.FormaPago.Clave": {min: 1},
+                //"Flete.MetodoPago.Clave": { required: true },
+                //"Flete.FormaPago.Clave": {min: 1},
                 "Flete.FechaTentativaEntrega": {required: true }
             },
             messages: {
                 Id_sucursal: { required: "Por favor, seleccione una sucursal." },
                 Id_cliente: { required: "Por favor, seleccione un cliente." },
-                NombreVenta: { required: "Por favor, ingrese el nombre para la venta." },
+                //NombreVenta: { required: "Por favor, ingrese el nombre para la venta." },
                 CobrarFlete: { required: "Por favor, seleccione un tipo del flete." },
                 "Flete.FechaEmbarque": { required: "Por favor, seleccione una fecha del embarque." },
                 "Flete.HoraEmbarque": { required: "Por favor, seleccione una hora del embarque." },
@@ -111,12 +111,12 @@
                 "Flete.Id_empresa": { required: "Por favor, seleccione una línea fletera." },
                 "Flete.id_chofer": { required: "Por favor, seleccione, un chofer. " },
                 "Flete.id_vehiculo": { required: "Por favor, seleccione un vehículo." },
-                "Flete.kmInicialVehiculo": { required: "Por favor, ingrese el kilometraje inicial, puede ser 0.", min: "El kilometraje inicial debe ser mayor o igual a 0." },
+                //"Flete.kmInicialVehiculo": { required: "Por favor, ingrese el kilometraje inicial, puede ser 0.", min: "El kilometraje inicial debe ser mayor o igual a 0." },
                 "Flete.precioFlete": { required: "Por favor, ingrese un precio del flete, puede ser 0.", min: "El precio del flete debe ser mayor o igual a 0." },
                 "Flete.Trayecto.id_lugarOrigen": { required: "Por favor, seleccione un lugar de origen." },
                 "Flete.Trayecto.id_lugarDestino": { required: "Por favor, seleccione un lugar de destino." },
-                "Flete.MetodoPago.Clave": { required: "Por favor, seleccioe un método de pago." },
-                "Flete.FormaPago.Clave": { min: "Por favor, seleccione una forma de pago." },
+                //"Flete.MetodoPago.Clave": { required: "Por favor, seleccioe un método de pago." },
+                //"Flete.FormaPago.Clave": { min: "Por favor, seleccione una forma de pago." },
                 "Flete.FechaTentativaEntrega": { required: "Por favor, seleccione una fecha tentativa del flete." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
@@ -298,8 +298,10 @@
             }
         });
     }
-    function ToggleDivFlete(opcion) {
-        GetEmpresas(opcion);
+    function ToggleDivFlete(opcion, recargarDatosServer) {
+
+        if(recargarDatosServer == 1)
+            GetEmpresas(opcion);
 
         if (opcion == 1 || opcion == 2) {
             $('#divFlete').show(1000);
@@ -320,13 +322,13 @@
         Id_empresa.rules("add", { required: true });
         Id_chofer.rules("add", { required: true });
         Id_vehiculo.rules("add", { required: true });
-        KmInicialVehiculo.rules("add", { required: true, min: 0 });
+        //KmInicialVehiculo.rules("add", { required: true, min: 0 });
         PrecioFlete.rules("add", { required: true, min: 0 });
         ListaLugarOrigen.rules("add", { required: true });
         ListaLugarDestino.rules("add", { required: true });
         FechaTentativaFlete.rules("add", { required: true });
-        FormaPago.rules("add", { min: 1 });
-        MetodoPago.rules("add", { required: true });
+        //FormaPago.rules("add", { min: 1 });
+        //MetodoPago.rules("add", { required: true });
 
     }
     function QuitarValidaciones() {
@@ -337,13 +339,13 @@
         Id_empresa.rules("remove", "required");
         Id_chofer.rules("remove", "required");
         Id_vehiculo.rules("remove", "required");
-        KmInicialVehiculo.rules("remove", "required min");
+        //KmInicialVehiculo.rules("remove", "required min");
         PrecioFlete.rules("remove", "required min");
         ListaLugarOrigen.rules("remove", "required");
         ListaLugarDestino.rules("remove", "required");
         FechaTentativaFlete.rules("remove", "required");
-        FormaPago.rules("remove", "min");
-        MetodoPago.rules("remove", "required" );
+        //FormaPago.rules("remove", "min");
+       // MetodoPago.rules("remove", "required" );
 
         FechaEmbarque.closest(".controlError").removeClass("has-success has-error");
         HoraEmbarque.closest(".controlError").removeClass("has-success has-error");
@@ -352,13 +354,13 @@
         Id_empresa.closest(".controlError").removeClass("has-success has-error");
         Id_chofer.closest(".controlError").removeClass("has-success has-error");
         Id_vehiculo.closest(".controlError").removeClass("has-success has-error");
-        KmInicialVehiculo.closest(".controlError").removeClass("has-success has-error");
+        //KmInicialVehiculo.closest(".controlError").removeClass("has-success has-error");
         PrecioFlete.closest(".controlError").removeClass("has-success has-error");
         ListaLugarOrigen.closest(".controlError").removeClass("has-success has-error");
         ListaLugarDestino.closest(".controlError").removeClass("has-success has-error");
         FechaTentativaFlete.closest(".controlError").removeClass("has-success has-error");
-        FormaPago.closest(".controlError").removeClass("has-success has-error");
-        MetodoPago.closest(".controlError").removeClass("has-success has-error");
+        //FormaPago.closest(".controlError").removeClass("has-success has-error");
+        //MetodoPago.closest(".controlError").removeClass("has-success has-error");
 
         Validation_summary.find("dd[for='Flete_Id_empresa']").addClass('help-block valid').text('');
         Validation_summary.find("dd[for='Flete_id_chofer']").addClass('help-block valid').text('');
@@ -368,11 +370,11 @@
         Validation_summary.find("dd[for='Flete_FechaEmbarque']").addClass('help-block valid').text('');
         Validation_summary.find("dd[for='Flete_HoraEmbarque']").addClass('help-block valid').text('');
         Validation_summary.find("dd[for='Flete_FechaSalida']").addClass('help-block valid').text('');
-        Validation_summary.find("dd[for='Flete_kmInicialVehiculo']").addClass('help-block valid').text('');
+        //Validation_summary.find("dd[for='Flete_kmInicialVehiculo']").addClass('help-block valid').text('');
         Validation_summary.find("dd[for='Flete_precioFlete']").addClass('help-block valid').text('');
         Validation_summary.find("dd[for='Flete_FechaTentativaEntrega']").addClass('help-block valid').text('');
-        Validation_summary.find("dd[for='Flete.FormaPago.Clave']").addClass('help-block valid').text('');
-        Validation_summary.find("dd[for='Flete.MetodoPago.Clave']").addClass('help-block valid').text('');
+        //Validation_summary.find("dd[for='Flete.FormaPago.Clave']").addClass('help-block valid').text('');
+        //Validation_summary.find("dd[for='Flete.MetodoPago.Clave']").addClass('help-block valid').text('');
     }
 
    
@@ -383,7 +385,8 @@
             Validaciones();
             Eventos();
 
-            ToggleDivFlete(opcionFlete);
+            console.log(opcion);
+            ToggleDivFlete(opcion,0);
         }
     };
 }();

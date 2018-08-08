@@ -139,41 +139,48 @@
             var objGanado, cantidad = 0;
             var listaGanado = new Array();
 
-            //console.log("ganado: " + ganado);
-            if (ganado.length == 0) {
-                $("#tblGanadoJaula").addClass("errorTableCSL");
-                $("#validation_summary").append("");
-                $("#validation_summary").append("<dd style='color: #ff004d !important; '>-Debe de seleccionar un ganado para su venta</dd>");
-            }
-            else {
+            var error = Validar();
+            if (error == 1) {
+                console.log("se mostraron los errores");
+            } else {
+                console.log("enviar");
                 
-                $("#validation_summary").append("");
-
-                for (var i = 0 ; i < ganado.length ; i++) {
-                    listaGanado.unshift(ganado[i].id_ganado);
-                    cantidad = i + 1;
-                }
-
-                var formData = new FormData();
-                //datos de las tablas
-                formData.append('IDVenta', Id_venta);
-                formData.append('ListaIDGanadosParaVender', listaGanado);
-
-                $.ajax({
-                    type: 'POST',
-                    data: formData,
-                    url: '/Admin/Venta/VentaGanado/',
-                    contentType: false,
-                    processData: false,
-                    cache: false,
-                    success: function (response) {
-                        window.location.href = '/Admin/Venta/Index';
-                    },
-                    error: function (request, status, error) {
-                        window.location.href = '/Admin/Venta/Index';
-                    }
-                });
             }
+            
+            //if (ganado.length == 0) {
+            //    $("#tblGanadoJaula").addClass("errorTableCSL");
+            //    $("#validation_summary").append("");
+            //    $("#validation_summary").append("<dd style='color: #ff004d !important; '>-Debe de seleccionar un ganado para su venta</dd>");
+            //}
+            //else {
+                
+            //    $("#validation_summary").append("");
+
+            //    for (var i = 0 ; i < ganado.length ; i++) {
+            //        listaGanado.unshift(ganado[i].id_ganado);
+            //        cantidad = i + 1;
+            //    }
+
+            //    var formData = new FormData();
+            //    //datos de las tablas
+            //    formData.append('IDVenta', Id_venta);
+            //    formData.append('ListaIDGanadosParaVender', listaGanado);
+
+            //    $.ajax({
+            //        type: 'POST',
+            //        data: formData,
+            //        url: '/Admin/Venta/VentaGanado/',
+            //        contentType: false,
+            //        processData: false,
+            //        cache: false,
+            //        success: function (response) {
+            //            window.location.href = '/Admin/Venta/Index';
+            //        },
+            //        error: function (request, status, error) {
+            //            window.location.href = '/Admin/Venta/Index';
+            //        }
+            //    });
+            //}
         });
         
         //Pasar y regresar filas en las tablas
@@ -258,6 +265,43 @@
             tblGanadoJaula.row('.selected').remove().draw(false);
         });
     };
+    function Validar() {
+        var error = 0;
+        var ganado = tblGanadoJaula.rows().data();
+
+        if (ganado.length == 0) {
+            console.log("SIN GANADO");
+            $("#tblGanadoJaula").addClass("errorTableCSL");
+            $("#validation_summary").find("dd[for='Ganado']").addClass('help-block valid').text('-Debe de seleccionar un ganado para su venta');
+        }
+        else {
+            console.log("YA TIENE GANADO");
+            $("#validation_summary").find("dd[for='Ganado']").addClass('help-block valid').text('');
+            error = 1;
+        }
+
+        var me = $("#ME").val();
+        if (Number.isNaN(me)) {
+            
+            console.log("NO ES UN NUMERO");
+            $("#validation_summary").find("dd[for='ME']").addClass('help-block valid').text('-M.E. debe ser un número positivo mayor o igual a 0.');
+            error = 1;
+        }
+        else {
+
+            if (me >= 0) {
+                console.log("MAYOR O IGUAL A 0");
+                $("#validation_summary").find("dd[for='ME']").addClass('help-block valid').text('');
+            }
+            else {
+                console.log("MENOR A 0");
+                $("#validation_summary").find("dd[for='ME']").addClass('help-block valid').text('-M.E. debe ser un número positivo mayor o igual a 0.');
+                error = 1;
+            }
+            
+        }
+        return error;
+    }
     function ActualizarInputs() {
         ref_cabezas_machos.val(cabezas_machos);
         ref_cabezas_hembras.val(cabezas_hembras);
