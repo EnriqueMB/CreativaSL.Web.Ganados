@@ -108,7 +108,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/DocumentoXPagar/Create
         [HttpPost]
-        public ActionResult Create(DocumentoPorPagarModels documentos)
+        public ActionResult Create(DocumentoPorPagarModels documentosss)
         {
             _Combos_Datos CMB = new _Combos_Datos();
             DocumentoXPagar_Datos documentoDatos = new DocumentoXPagar_Datos();
@@ -118,11 +118,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        documentos.Conexion = Conexion;
-                        documentos.Opcion = 1;
-                        documentos.Usuario = User.Identity.Name;
-                        documentos = documentoDatos.AbcDocumentoXPagar(documentos);
-                        if (documentos.Completado == true)
+                        documentosss.Conexion = Conexion;
+                        documentosss.Opcion = 1;
+                        documentosss.Usuario = User.Identity.Name;
+                        documentosss = documentoDatos.AbcDocumentoXPagar(documentosss);
+                        if (documentosss.Completado == true)
                         {
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
@@ -131,26 +131,26 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         }
                         else
                         {
-                            documentos.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
-                            documentos.ListaCDocumento = documentoDatos.ObtenerConceptosDocumento(Conexion);
-                            documentos.LisTipoProveedor = documentoDatos.ObteneComboCatTipoProveedor(Conexion);
-                            documentos.IDTProveedor = 0;
-                            documentos.Conexion = Conexion;
-                            documentos.LisProveedor = documentoDatos.ObteneComboProveedoresXID(documentos);
+                            documentosss.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
+                            documentosss.ListaCDocumento = documentoDatos.ObtenerConceptosDocumento(Conexion);
+                            documentosss.LisTipoProveedor = documentoDatos.ObteneComboCatTipoProveedor(Conexion);
+                            documentosss.IDTProveedor = 0;
+                            documentosss.Conexion = Conexion;
+                            documentosss.LisProveedor = documentoDatos.ObteneComboProveedoresXID(documentosss);
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrió un error al intentar guardar.";
-                            return View(documentos);
+                            return View(documentosss);
                         }
                     }
                     else
                     {
-                        documentos.Conexion = Conexion;
-                        documentos.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
-                        documentos.ListaCDocumento = documentoDatos.ObtenerConceptosDocumento(Conexion);
-                        documentos.LisTipoProveedor = documentoDatos.ObteneComboCatTipoProveedor(Conexion);
-                        documentos.IDTProveedor = 0;
-                        documentos.LisProveedor = documentoDatos.ObteneComboProveedoresXID(documentos);
-                        return View(documentos);
+                        documentosss.Conexion = Conexion;
+                        documentosss.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
+                        documentosss.ListaCDocumento = documentoDatos.ObtenerConceptosDocumento(Conexion);
+                        documentosss.LisTipoProveedor = documentoDatos.ObteneComboCatTipoProveedor(Conexion);
+                        documentosss.IDTProveedor = 0;
+                        documentosss.LisProveedor = documentoDatos.ObteneComboProveedoresXID(documentosss);
+                        return View(documentosss);
                     }
                 }
                 else
@@ -160,15 +160,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch
             {
-                documentos.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
-                documentos.ListaCDocumento = documentoDatos.ObtenerConceptosDocumento(Conexion);
-                documentos.LisTipoProveedor = documentoDatos.ObteneComboCatTipoProveedor(Conexion);
-                documentos.IDTProveedor = 0;
-                documentos.Conexion = Conexion;
-                documentos.LisProveedor = documentoDatos.ObteneComboProveedoresXID(documentos);
+                documentosss.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
+                documentosss.ListaCDocumento = documentoDatos.ObtenerConceptosDocumento(Conexion);
+                documentosss.LisTipoProveedor = documentoDatos.ObteneComboCatTipoProveedor(Conexion);
+                documentosss.IDTProveedor = 0;
+                documentosss.Conexion = Conexion;
+                documentosss.LisProveedor = documentoDatos.ObteneComboProveedoresXID(documentosss);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrió un error el intentar guardar. Contacte a soporte técnico";
-                return View(documentos);
+                return View(documentosss);
             }
         }
         [HttpPost]
