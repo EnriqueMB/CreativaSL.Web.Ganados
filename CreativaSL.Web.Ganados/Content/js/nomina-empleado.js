@@ -111,12 +111,12 @@
     var runDatePicker = function () {
         $('#FechaInicio').datepicker({
             format: 'dd/mm/yyyy',
-            startDate: '-0d',
+            //startDate: '-0d',
             autoclose: true
         });
         $('#FechaFin').datepicker({
             format: 'dd/mm/yyyy',
-            startDate: '0d',
+            //startDate: '0d',
             autoclose: true
         });
         //$('#FechaFin').datepicker('setDaysOfWeekDisabled', [1,6]);

@@ -7,6 +7,9 @@
 {
     <!--CSS GENERAL-->
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
+    <style>
+        .vista_previa {cursor: pointer;}
+    </style>
 }
 @section featured
 {
@@ -30,6 +33,7 @@
                 <li role="presentation" class=""><a href="#ganado" aria-controls="ganado" role="tab" data-toggle="tab">Ganado</a></li>
                 <li role="presentation" class=""><a href="#pagos" aria-controls="pagos" role="tab" data-toggle="tab">Pagos</a></li>
                 <li role="presentation" class=""><a href="#cobros" aria-controls="cobros" role="tab" data-toggle="tab">Cobros</a></li>
+                <li role="presentation" class=""><a href="#documentos" aria-controls="documentos" role="tab" data-toggle="tab">Documentos</a></li>
             </ul>
 
             <!-- Tab panes -->
@@ -122,7 +126,9 @@
                                 </div>
                              
                             </div>
-                            <div class="panel-footer"></div>
+                            <div class="panel-footer">
+                                <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -173,8 +179,8 @@
                                             <th>Peso final - Repeso (kg.)</th>
                                             <th>Diferencia de peso(kg.)</th>
                                             <th>Merma obtenida (%)</th>
-                                            <th>Precio por kilo ($)</th>
                                             <th>Peso pagado (kg.)</th>
+                                            <th>Precio por kilo ($)</th>
                                             <th>Subtotal ($)</th>
                                         </tr>
                                     </thead>
@@ -202,14 +208,17 @@
                                             <th>Peso final - Repeso (kg.)</th>
                                             <th>Diferencia de peso(kg.)</th>
                                             <th>Merma obtenida (%)</th>
-                                            <th>Precio por kilo ($)</th>
                                             <th>Peso pagado (kg.)</th>
+                                            <th>Precio por kilo ($)</th>
                                             <th>Subtotal ($)</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
                                 </table>
                             </div>
+                        </div>
+                        <div class="panel-footer">
+                            <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                         </div>
                     </div>
                     </div>
@@ -254,54 +263,26 @@
                             <div class="panel-body">
                                 <div class="table-responsive">
                                     <div class="table-responsive">
-                                        <table class="table">
+                                        <table id="tbl_docxpagardetallesPagos" class="table">
                                             <thead>
                                                 <tr>
                                                     <th>Tipo de pago</th>
-                                                    <th>Forma de pago</th>
                                                     <th>Banco</th>
                                                     <th>Número: Cuenta / Tarjeta / Clabe</th>
-                                                    <th>Descripción</th>
                                                     <th>Observación</th>
                                                     <th>Fecha realizada</th>
+                                                    <th>Imagen</th>
                                                     <th>Cantidad</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>Efectivo</td>
-                                                    <td>Pago a proveedor</td>
-                                                    <td> - NO APLICA -</td>
-                                                    <td> - NO APLICA - </td>
-                                                    <td>Pago inicial y parcialidades</td>
-                                                    <td>Solo se tenía por el momento esta cantidad.</td>
-                                                    <td>06/04/2018</td>
-                                                    <td>20000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Transferencia</td>
-                                                    <td>Pago a proveedor</td>
-                                                    <td>Bancomer</td>
-                                                    <td>1597532648595456</td>
-                                                    <td>Pago en parcialidades o diferido</td>
-                                                    <td>Se realizó el pago en el transcurso de la tarde.</td>
-                                                    <td>06/04/2018</td>
-                                                    <td>26580</td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td><b>TOTAL</b></td>
-                                                    <td><b>46580</b></td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="panel-footer">
+                                <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                             </div>
                         </div>
                     </div>
@@ -349,54 +330,81 @@
                             <div class="panel-body">
                                 <div class="table-responsive">
                                     <div class="table-responsive">
-                                        <table class="table">
+                                        <table id="tbl_docxcobrardetallesPagos" class="table">
                                             <thead>
                                                 <tr>
                                                     <th>Tipo de pago</th>
-                                                    <th>Forma de pago</th>
                                                     <th>Banco</th>
                                                     <th>Número: Cuenta / Tarjeta / Clabe</th>
-                                                    <th>Descripción</th>
                                                     <th>Observación</th>
                                                     <th>Fecha realizada</th>
+                                                    <th>Imagen</th>
                                                     <th>Cantidad</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>Efectivo</td>
-                                                    <td>Pago a proveedor</td>
-                                                    <td> - NO APLICA -</td>
-                                                    <td> - NO APLICA - </td>
-                                                    <td>Pago inicial y parcialidades</td>
-                                                    <td>Solo se tenía por el momento esta cantidad.</td>
-                                                    <td>06/04/2018</td>
-                                                    <td>20000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Transferencia</td>
-                                                    <td>Pago a proveedor</td>
-                                                    <td>Bancomer</td>
-                                                    <td>1597532648595456</td>
-                                                    <td>Pago en parcialidades o diferido</td>
-                                                    <td>Se realizó el pago en el transcurso de la tarde.</td>
-                                                    <td>06/04/2018</td>
-                                                    <td>26580</td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td><b>TOTAL</b></td>
-                                                    <td><b>46580</b></td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="panel-footer">
+                                <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="documentos">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">DOCUMENTOS UTILIZADOS DURANTE LA COMPRA</h3>
+                                <ul class="panel-controls">
+                                    <li><a id="p4" class="exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-6 ">
+                                            <label class="col-md-4 control-label">Costo de la documentación:</label>
+                                            <div class="col-md-8 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.PrecioPorDocumentacion, "{0:f2}", new { @class = "form-control", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 controlError">
+                                            <label class="col-md-2 control-label">Tipo de salida:</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.TipoSalidaDocumentacion, new { @class = "form-control", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        <table id="tbl_documentos" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tipo de documentos</th>
+                                                    <th>Clave</th>
+                                                    <th>Imagen</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="panel-footer">
+                                <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                             </div>
                         </div>
                     </div>
@@ -406,6 +414,26 @@
 
             <!--TERMINA TABS-->
         </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modalImagen" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Imagen</h4>
+                </div>
+                <div class="modal-body">
+                    <img id="imagen_previa" src="" alt="Imagen_previa"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
         <script>
         var message     = '@message';
         var typemessage = '@typemessage';
@@ -425,9 +453,18 @@
         jQuery(document).ready(function () {
             var IDCompra = $("#IDCompra").val();
 
+            
+
+            //$('img').bind('click', function () {
+            //    console.log("click image");
+            //    var src_image = $(this).attr('src');
+            //    $("#imagen_previa").attr("src", src_image);
+            //    $("#modalImagen").modal();
+            //});
+
             var tbl_generalGanado = $('#tbl_generalGanado').DataTable({
                 "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                    "url": "/Content/assets/json/Spanish.json"
                 },
                 responsive: true,
                 "ajax": {
@@ -471,7 +508,7 @@
             });
             var tbl_ganadoDetalleMachos = $('#tbl_ganadoDetalleMachos').DataTable({
                 "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                    "url": "/Content/assets/json/Spanish.json"
                 },
                 responsive: true,
                 "ajax": {
@@ -533,7 +570,7 @@
             });
             var tbl_ganadoDetalleHembras = $('#tbl_ganadoDetalleHembras').DataTable({
                 "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                    "url": "/Content/assets/json/Spanish.json"
                 },
                 responsive: true,
                 "ajax": {
@@ -595,7 +632,7 @@
             });
             var tbl_docxpagardetalles = $('#tbl_docxpagardetalles').DataTable({
                 "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                    "url": "/Content/assets/json/Spanish.json"
                 },
                 responsive: true,
                 "ajax": {
@@ -620,9 +657,102 @@
                     }
                 ]
             });
+            var tbl_docxpagardetallesPagos = $('#tbl_docxpagardetallesPagos').DataTable({
+                "language": {
+                    "url": "/Content/assets/json/Spanish.json"
+                },
+                responsive: true,
+                "ajax": {
+                    "data": {
+                        "IDCompra": IDCompra
+                    },
+                    "url": "/Admin/Compra/DatatableDetalleDocXPagarPagos/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "dataSrc": ''
+                },
+                "columns": [
+                    { "data": "TipoPago" },
+                    { "data": "Banco" },
+                    { "data": "NumCuenta" },
+                    { "data": "Observacion" },
+                    {
+                        "data": "Fecha",
+                        "render": function (data, type, row) {
+                            var fecha;
+                            if (data === null)
+                                fecha = "Sin dato";
+                            else {
+                                var dateSplit = data.split('-');
+                                var dia = dateSplit[2];
+                                dia = dia.split('T');
+                                dia = dia[0];
+                                var mes = dateSplit[1];
+                                var año = dateSplit[0];
+                                fecha = dia + '-' + mes + '-' + año;
+                            }
+
+                            return fecha;
+                        }
+                    },
+                     {
+                         "data": null,
+                         "render": function (data, type, full) {
+                             var imagen64 = full["Imagen"];
+
+                             var img = "";
+
+                             if (imagen64) {
+                                 var extension = "";
+                                 var position = imagen64.indexOf("iVBOR");
+                                 //imagen png
+                                 if (position != -1)
+                                     extension = "image/png";
+
+                                 position = imagen64.indexOf("/9j/4");
+                                 if (position != -1)
+                                     extension = "image/jpeg";
+                                 //bmp de 256 colores
+                                 position = imagen64.indexOf("Qk3");
+                                 if (position == 0)
+                                     extension = "image/bmp";
+
+                                 //bmp de monocromatico colores
+                                 position = imagen64.indexOf("Qk2");
+                                 if (position == 0)
+                                     extension = "image/bmp";
+
+                                 //bmp de 16 colores
+                                 position = imagen64.indexOf("Qk1");
+                                 if (position == 0)
+                                     extension = "image/bmp";
+
+                                 img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='data:" + extension + ";base64," + imagen64 + "' />";
+                             }
+                             else {
+                                 img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
+                             }
+                             return img;
+                         }
+                     },
+                    {
+                        "data": "Cantidad",
+                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                    }
+                ],
+                "drawCallback": function (settings) {
+
+                    $('img.vista_previa').on('click', function () {
+                        var src_image = $(this).attr('src');
+                        $("#imagen_previa").attr("src", src_image);
+                        $("#modalImagen").modal();
+                    });
+
+                }
+            });
             var tbl_docxcobrardetalles = $('#tbl_docxcobrardetalles').DataTable({
                 "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                    "url": "/Content/assets/json/Spanish.json"
                 },
                 responsive: true,
                 "ajax": {
@@ -660,7 +790,167 @@
                     }
                 ]
             });
-            
+            var tbl_docxcobrardetallesPagos = $('#tbl_docxcobrardetallesPagos').DataTable({
+                "language": {
+                    "url": "/Content/assets/json/Spanish.json"
+                },
+                responsive: true,
+                "ajax": {
+                    "data": {
+                        "IDCompra": IDCompra
+                    },
+                    "url": "/Admin/Compra/DatatableDetalleDocXCobrarPagos/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "dataSrc": ''
+                },
+                "columns": [
+                    { "data": "TipoPago" },
+                    { "data": "Banco" },
+                    { "data": "NumCuenta" },
+                    { "data": "Observacion" },
+                    {
+                        "data": "Fecha",
+                        "render": function (data, type, row) {
+                            var fecha;
+                            if (data === null)
+                                fecha = "Sin dato";
+                            else {
+                                var dateSplit = data.split('-');
+                                var dia = dateSplit[2];
+                                dia = dia.split('T');
+                                dia = dia[0];
+                                var mes = dateSplit[1];
+                                var año = dateSplit[0];
+                                fecha = dia + '-' + mes + '-' + año;
+                            }
+
+                            return fecha;
+                        }
+                    },
+                     {
+                         "data": null,
+                         "render": function (data, type, full) {
+                             var imagen64 = full["Imagen"];
+
+                             var img = "";
+
+                             if (imagen64) {
+                                 var extension = "";
+                                 var position = imagen64.indexOf("iVBOR");
+                                 //imagen png
+                                 if (position != -1)
+                                     extension = "image/png";
+
+                                 position = imagen64.indexOf("/9j/4");
+                                 if (position != -1)
+                                     extension = "image/jpeg";
+                                 //bmp de 256 colores
+                                 position = imagen64.indexOf("Qk3");
+                                 if (position == 0)
+                                     extension = "image/bmp";
+
+                                 //bmp de monocromatico colores
+                                 position = imagen64.indexOf("Qk2");
+                                 if (position == 0)
+                                     extension = "image/bmp";
+
+                                 //bmp de 16 colores
+                                 position = imagen64.indexOf("Qk1");
+                                 if (position == 0)
+                                     extension = "image/bmp";
+
+                                 img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='data:" + extension + ";base64," + imagen64 + "' />";
+                             }
+                             else {
+                                 img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
+                             }
+                             return img;
+                         }
+                     },
+                    {
+                        "data": "Cantidad",
+                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                    }
+                ],
+                "drawCallback": function (settings) {
+
+                    $('img.vista_previa').on('click', function () {
+                        var src_image = $(this).attr('src');
+                        $("#imagen_previa").attr("src", src_image);
+                        $("#modalImagen").modal();
+                    });
+
+                }
+            });
+            var tbl_documentos = $('#tbl_documentos').DataTable({
+                "language": {
+                    "url": "/Content/assets/json/Spanish.json"
+                },
+                responsive: true,
+                "ajax": {
+                    "data": {
+                        "IDCompra": IDCompra
+                    },
+                    "url": "/Admin/Compra/TableJsonDocumentos/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "dataSrc": ''
+                },
+                "columns": [
+                    { "data": "descripcion" },
+                    { "data": "clave" },
+                    {
+                        "data": null,
+                        "render": function (data, type, full) {
+                            var imagen64 = full["imagen"];
+                            var img = "";
+
+                            if (imagen64) {
+                                var extension = "";
+                                var position = imagen64.indexOf("iVBOR");
+                                //imagen png
+                                if (position != -1)
+                                    extension = "image/png";
+
+                                position = imagen64.indexOf("/9j/4");
+                                if (position != -1)
+                                    extension = "image/jpeg";
+                                //bmp de 256 colores
+                                position = imagen64.indexOf("Qk3");
+                                if (position == 0)
+                                    extension = "image/bmp";
+
+                                //bmp de monocromatico colores
+                                position = imagen64.indexOf("Qk2");
+                                if (position == 0)
+                                    extension = "image/bmp";
+
+                                //bmp de 16 colores
+                                position = imagen64.indexOf("Qk1");
+                                if (position == 0)
+                                    extension = "image/bmp";
+
+                                img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='data:" + extension + ";base64," + imagen64 + "' />";
+                            }
+                            else {
+                                img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
+                            }
+                            return img;
+                         }
+                    }
+                ],
+                "drawCallback": function (settings) {
+
+                    $('img.vista_previa').on('click', function () {
+                        var src_image = $(this).attr('src');
+                        $("#imagen_previa").attr("src", src_image);
+                        $("#modalImagen").modal();
+                    });
+                
+                }   
+            });
+
             Mensaje(message, typemessage);
         });
     </script>

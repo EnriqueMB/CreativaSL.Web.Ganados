@@ -472,5 +472,55 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public List<RptCuentaEstadoProveedorActualizadoModels> ObtenerListaEstadoCuentaProveedorActualizado(RptCuentaEstadoProveedorActualizadoModels datos)
+        {
+            try
+            {
+                List<RptCuentaEstadoProveedorActualizadoModels> lista = new List<RptCuentaEstadoProveedorActualizadoModels>();
+                RptCuentaEstadoProveedorActualizadoModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Reporte_get_EstadoCuentaProveedorActualizado", datos.FechaInicio, datos.FechaFin);
+                if (dr != null)
+                {
+                    decimal totalDescontado = 0;
+                    int numFila = 0;
+                    int filaAnterior = 0;
+                    long folioAnterior = 0;
+                    
+                    while (dr.Read())
+                    {
+                        item = new RptCuentaEstadoProveedorActualizadoModels();
+                        item.TipoProveedor = !dr.IsDBNull(dr.GetOrdinal("tipoProveedor")) ? dr.GetString(dr.GetOrdinal("tipoProveedor")) : string.Empty;
+                        item.NombreProveedor = !dr.IsDBNull(dr.GetOrdinal("nombreProveedor")) ? dr.GetString(dr.GetOrdinal("nombreProveedor")) : string.Empty;
+                        item.NumeroFolio = !dr.IsDBNull(dr.GetOrdinal("folio")) ? dr.GetInt64(dr.GetOrdinal("folio")) : 0;
+                        item.Anticipo = !dr.IsDBNull(dr.GetOrdinal("anticipo")) ? dr.GetDecimal(dr.GetOrdinal("anticipo")) : 0;
+                        item.GranTotal = !dr.IsDBNull(dr.GetOrdinal("granTotal")) ? dr.GetDecimal(dr.GetOrdinal("granTotal")) : 0;
+                        item.NuevoTotal = item.GranTotal;
+                        item.Finiquito = item.GranTotal - item.Anticipo;
+                        item.FechaPago = !dr.IsDBNull(dr.GetOrdinal("fechaPago")) ? dr.GetDateTime(dr.GetOrdinal("fechaPago")) : DateTime.Today;
+
+                        if (numFila > 0)
+                        {
+                            filaAnterior = numFila - 1;
+                            folioAnterior = lista[filaAnterior].NumeroFolio;
+                            if(folioAnterior == item.NumeroFolio)
+                            {
+                                item.NuevoTotal = item.GranTotal - lista[filaAnterior].Finiquito;
+                                item.Finiquito = lista[filaAnterior].Finiquito - item.Anticipo;
+                            }
+                        }
+                        lista.Add(item);
+                        numFila += 1;
+                    }
+                    dr.Close();
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }
