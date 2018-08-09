@@ -851,6 +851,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Venta.CostoMachos = !dr.IsDBNull(dr.GetOrdinal("costoMachos")) ? dr.GetDecimal(dr.GetOrdinal("costoMachos")) : 0;
                     Venta.CostoHembras = !dr.IsDBNull(dr.GetOrdinal("costoHembras")) ? dr.GetDecimal(dr.GetOrdinal("costoHembras")) : 0;
                     Venta.CostoTotal = !dr.IsDBNull(dr.GetOrdinal("costoTotal")) ? dr.GetDecimal(dr.GetOrdinal("costoTotal")) : 0;
+                    Venta.ME = !dr.IsDBNull(dr.GetOrdinal("me")) ? dr.GetDecimal(dr.GetOrdinal("me")) : 0;
                 }
                 else
                 {
@@ -1462,7 +1463,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    datos.Id_venta, datos.ListaIDGanadosParaVender, datos.Usuario
+                    datos.Id_venta, datos.ListaIDGanadosParaVender, datos.Usuario, datos.ME
                 };
 
                 RespuestaAjax RespuestaAjax = new RespuestaAjax();

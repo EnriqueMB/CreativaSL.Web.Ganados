@@ -135,17 +135,41 @@
             e.preventDefault();
             
             //datos de las tablas
-            var ganado = tblGanadoJaula.rows().data();
-            var objGanado, cantidad = 0;
-            var listaGanado = new Array();
+
 
             var error = Validar();
-            if (error == 1) {
-                console.log("se mostraron los errores");
-            } else {
-                console.log("enviar");
-                
-            }
+            console.log(error);
+            if (error == 0) {
+                var ganado = tblGanadoJaula.rows().data();
+                var me = $("#ME").val();
+                var objGanado, cantidad = 0;
+                var listaGanado = new Array();
+
+                for (var i = 0 ; i < ganado.length ; i++) {
+                        listaGanado.unshift(ganado[i].id_ganado);
+                        cantidad = i + 1;
+                }
+                var formData = new FormData();
+                //datos de las tablas
+                formData.append('IDVenta', Id_venta);
+                formData.append('ListaIDGanadosParaVender', listaGanado);
+                formData.append('ME', me);
+
+                $.ajax({
+                    type: 'POST',
+                    data: formData,
+                    url: '/Admin/Venta/VentaGanado/',
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    success: function (response) {
+                        window.location.href = '/Admin/Venta/Index';
+                    },
+                    error: function (request, status, error) {
+                        window.location.href = '/Admin/Venta/Index';
+                    }
+                });
+            } 
             
             //if (ganado.length == 0) {
             //    $("#tblGanadoJaula").addClass("errorTableCSL");
@@ -270,31 +294,39 @@
         var ganado = tblGanadoJaula.rows().data();
 
         if (ganado.length == 0) {
-            console.log("SIN GANADO");
+            //console.log("SIN GANADO");
             $("#tblGanadoJaula").addClass("errorTableCSL");
+            $("#tblGanadoJaula").removeClass("okCSLGanado");
             $("#validation_summary").find("dd[for='Ganado']").addClass('help-block valid').text('-Debe de seleccionar un ganado para su venta');
+            error = 1;
         }
         else {
-            console.log("YA TIENE GANADO");
+            //console.log("YA TIENE GANADO");
+            $("#tblGanadoJaula").addClass("okCSLGanado");
+            $("#tblGanadoJaula").removeClass("errorTableCSL");
             $("#validation_summary").find("dd[for='Ganado']").addClass('help-block valid').text('');
-            error = 1;
         }
 
         var me = $("#ME").val();
         if (Number.isNaN(me)) {
-            
-            console.log("NO ES UN NUMERO");
+            //console.log("NO ES UN NUMERO");
+            $("#txtME").addClass("has-error");
+            $("#txtME").removeClass("has-success");
             $("#validation_summary").find("dd[for='ME']").addClass('help-block valid').text('-M.E. debe ser un número positivo mayor o igual a 0.');
             error = 1;
         }
         else {
 
             if (me >= 0) {
-                console.log("MAYOR O IGUAL A 0");
+                //console.log("MAYOR O IGUAL A 0");
+                $("#txtME").addClass("has-success");
+                $("#txtME").removeClass("has-error");
                 $("#validation_summary").find("dd[for='ME']").addClass('help-block valid').text('');
             }
             else {
-                console.log("MENOR A 0");
+                //console.log("MENOR A 0");
+                $("#txtME").addClass("has-error");
+                $("#txtME").removeClass("has-success");
                 $("#validation_summary").find("dd[for='ME']").addClass('help-block valid').text('-M.E. debe ser un número positivo mayor o igual a 0.');
                 error = 1;
             }

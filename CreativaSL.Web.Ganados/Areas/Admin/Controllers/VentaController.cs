@@ -457,7 +457,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpPost]
-        public ActionResult VentaGanado(string ListaIDGanadosParaVender, string IDVenta)
+        public ActionResult VentaGanado(string ListaIDGanadosParaVender, string IDVenta, decimal ME)
         {
             try
             {
@@ -469,6 +469,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Venta.Usuario = User.Identity.Name;
                     Venta.ListaIDGanadosParaVender = ListaIDGanadosParaVender;
                     Venta.Id_venta = IDVenta;
+                    Venta.ME = ME;
                     Venta.RespuestaAjax = VentaDatos.AC_Ganado(Venta);
 
                     if (Venta.RespuestaAjax.Success)
