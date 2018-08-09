@@ -142,6 +142,8 @@
             if (error == 0) {
                 var ganado = tblGanadoJaula.rows().data();
                 var me = $("#ME").val();
+                me = Number.parseFloat(me.replace(/,/g, ''));
+
                 var objGanado, cantidad = 0;
                 var listaGanado = new Array();
 
@@ -288,7 +290,29 @@
             }
             tblGanadoJaula.row('.selected').remove().draw(false);
         });
+        
+        $('#ME').on({
+            "focus": function (event) {
+                $(event.target).select();
+            },
+            "keyup": function (event) {
+                $(event.target).val(function (index, v) {
+                    var number = cpf(v);
+                    return number;
+                });
+            }
+        });
     };
+    function cpf(v) {
+        v = v.replace(/([^0-9]+)/g, '');
+        v = v.replace(/^[\.]/, '');
+        v = v.replace(/[\.][\.]/g, '');
+        //v = v.replace(/\.(\d)(\d)(\d)/g, '.$1$2');
+        //v = v.replace(/\.(\d{1,2})\./g, '.$1');
+        v = v.toString().split('').reverse().join('').replace(/(\d{3})/g, '$1,');
+        v = v.split('').reverse().join('').replace(/^[\,]/, '');
+        return v;
+    }
     function Validar() {
         var error = 0;
         var ganado = tblGanadoJaula.rows().data();
@@ -308,30 +332,62 @@
         }
 
         var me = $("#ME").val();
-        if (Number.isNaN(me)) {
-            //console.log("NO ES UN NUMERO");
+
+        if (me === '') {
+            $("#txtME").addClass("has-error");
+            $("#txtME").removeClass("has-success");
+            $("#validation_summary").find("dd[for='ME']").addClass('help-block valid').text('-M.E. debe ser un número positivo mayor o igual a 0.');
+            error = 1;
+        }
+        //Si hay le quitamos la coma, en caso que sean miles
+        var numero = Number.parseFloat(me.replace(/,/g, ''));
+
+        if (Number.isNaN(numero)) {
             $("#txtME").addClass("has-error");
             $("#txtME").removeClass("has-success");
             $("#validation_summary").find("dd[for='ME']").addClass('help-block valid').text('-M.E. debe ser un número positivo mayor o igual a 0.');
             error = 1;
         }
         else {
-
-            if (me >= 0) {
-                //console.log("MAYOR O IGUAL A 0");
+            if (numero >= 0) {
                 $("#txtME").addClass("has-success");
                 $("#txtME").removeClass("has-error");
                 $("#validation_summary").find("dd[for='ME']").addClass('help-block valid').text('');
             }
             else {
-                //console.log("MENOR A 0");
                 $("#txtME").addClass("has-error");
                 $("#txtME").removeClass("has-success");
                 $("#validation_summary").find("dd[for='ME']").addClass('help-block valid').text('-M.E. debe ser un número positivo mayor o igual a 0.');
                 error = 1;
             }
-            
         }
+
+
+
+        //if (Number.isNaN(me)) {
+        //    //console.log("NO ES UN NUMERO");
+        //    $("#txtME").addClass("has-error");
+        //    $("#txtME").removeClass("has-success");
+        //    $("#validation_summary").find("dd[for='ME']").addClass('help-block valid').text('-M.E. debe ser un número positivo mayor o igual a 0.');
+        //    error = 1;
+        //}
+        //else {
+
+        //    if (me >= 0) {
+        //        //console.log("MAYOR O IGUAL A 0");
+        //        $("#txtME").addClass("has-success");
+        //        $("#txtME").removeClass("has-error");
+        //        $("#validation_summary").find("dd[for='ME']").addClass('help-block valid').text('');
+        //    }
+        //    else {
+        //        //console.log("MENOR A 0");
+        //        $("#txtME").addClass("has-error");
+        //        $("#txtME").removeClass("has-success");
+        //        $("#validation_summary").find("dd[for='ME']").addClass('help-block valid').text('-M.E. debe ser un número positivo mayor o igual a 0.');
+        //        error = 1;
+        //    }
+            
+        //}
         return error;
     }
     function ActualizarInputs() {

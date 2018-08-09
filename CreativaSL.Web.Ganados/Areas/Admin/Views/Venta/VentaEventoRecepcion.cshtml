@@ -111,9 +111,9 @@
                             <ul class="panel-controls"></ul>
                         </div>
                         @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
-                        <div id="validation_summary_recepcion" class="field_error "></div><br />
+                        <div id="validation_summary" class="field_error "></div><br />
                         <div class="panel-body">
-                            <div class="form-group">
+                            @*<div class="form-group">
                                 <div class="col-md-6">
                                     <label class="col-md-3 control-label">Fecha de llegada</label>
                                     <div class="col-md-9 col-xs-12">
@@ -137,8 +137,8 @@
                                     </div>
                                 </div>
                                
-                            </div>
-                            <div class="form-group">
+                            </div>*@
+                            @*<div class="form-group">
                                 <div class="col-md-6">
                                     <label class="col-md-3 control-label">Kilómetraje final </label>
                                     <div class="col-md-9 col-xs-12">
@@ -162,9 +162,34 @@
                                         <span class="help-block">Hora de llegada de la unidad.</span>
                                     </div>
                                 </div>
+                            </div>*@
+                            <div class="form-group">
+                                @*<div class="col-md-6">
+                                    <label class="col-md-3 control-label">Kilómetraje final </label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.RecepcionOrigen.KilometrajeFinal, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.RecepcionOrigen.KilometrajeFinal)
+                                        <span class="help-block">Kilómetraje final de la unidad.</span>
+                                    </div>
+                                </div>*@
+
+                                <div class="col-md-6 controlError">
+                                    <label class="col-md-2 control-label">Merma destino </label>
+                                    <div class="col-md-10 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">%</span>
+                                            @Html.TextBoxFor(model => model.RecepcionOrigen.MermaDestino, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.RecepcionOrigen.MermaDestino)
+                                        <span class="help-block">Hora de llegada de la unidad.</span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-md-12">
+                                <div class="col-md-12 controlError">
                                     <label class="col-md-1 control-label">Observación</label>
                                     <div class="col-md-11 col-xs-12">
                                         <div class="input-group">

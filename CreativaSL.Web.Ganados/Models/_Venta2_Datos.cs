@@ -1904,7 +1904,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 List<ReporteGanadoModels> Lista = new List<ReporteGanadoModels>();
                 ReporteGanadoModels Item;
-                object[] parametros = { Venta.Id_flete };
+                object[] parametros = { Venta.Id_venta };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_ReporteListaGanado", parametros);
 
@@ -1931,6 +1931,68 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.PrecioPorKilo = Auxiliar.StringToMoneda_MX(Item.PrecioPorKilo);
                     Item.Subtotal = Auxiliar.StringToMoneda_MX(Item.Subtotal);
 
+                    Lista.Add(Item);
+                }
+                dr.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ReporteCabeceraGanado GetReporteCabeceraGanadoDetalles(VentaModels2 Venta)
+        {
+            try
+            {
+                ReporteCabeceraGanado Item = new ReporteCabeceraGanado(); ;
+                object[] parametros = { Venta.Id_venta };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_ReporteCabeceraListaGanado", parametros);
+
+                while (dr.Read())
+                {
+                    Item.NombreChofer = !dr.IsDBNull(dr.GetOrdinal("nombreChofer")) ? dr.GetString(dr.GetOrdinal("nombreChofer")) : string.Empty;
+                    Item.UnidadVehiculo = !dr.IsDBNull(dr.GetOrdinal("numeroUnidad")) ? dr.GetString(dr.GetOrdinal("numeroUnidad")) : string.Empty;
+                    Item.ModeloVehiculo = !dr.IsDBNull(dr.GetOrdinal("modelo")) ? dr.GetString(dr.GetOrdinal("modelo")) : string.Empty;
+                    Item.MarcaVehiculo = !dr.IsDBNull(dr.GetOrdinal("marca")) ? dr.GetString(dr.GetOrdinal("marca")) : string.Empty;
+                    Item.ColorVehiculo = !dr.IsDBNull(dr.GetOrdinal("color")) ? dr.GetString(dr.GetOrdinal("color")) : string.Empty;
+                    Item.CapacidadVehiculo = !dr.IsDBNull(dr.GetOrdinal("capacidad")) ? dr.GetString(dr.GetOrdinal("capacidad")) : string.Empty;
+                    Item.GPS = !dr.IsDBNull(dr.GetOrdinal("gps")) ? dr.GetString(dr.GetOrdinal("gps")) : string.Empty;
+                    Item.FechaHoraSalida = !dr.IsDBNull(dr.GetOrdinal("fechaHoraSalida")) ? dr.GetString(dr.GetOrdinal("fechaHoraSalida")) : string.Empty;
+                    Item.FechaHoraEmbarque = !dr.IsDBNull(dr.GetOrdinal("fechaHoraEmbarque")) ? dr.GetString(dr.GetOrdinal("fechaHoraEmbarque")) : string.Empty;
+                    Item.LugarOrigen = !dr.IsDBNull(dr.GetOrdinal("lugarOrigen")) ? dr.GetString(dr.GetOrdinal("lugarOrigen")) : string.Empty;
+                    Item.LugarDestino = !dr.IsDBNull(dr.GetOrdinal("lugarDestino")) ? dr.GetString(dr.GetOrdinal("lugarDestino")) : string.Empty;
+                    Item.PSGOrigen = !dr.IsDBNull(dr.GetOrdinal("PSGOrigen")) ? dr.GetString(dr.GetOrdinal("PSGOrigen")) : string.Empty;
+                    Item.PSGDestino = !dr.IsDBNull(dr.GetOrdinal("PSGDestino")) ? dr.GetString(dr.GetOrdinal("PSGDestino")) : string.Empty;
+                    Item.TotalGanadoMachos = !dr.IsDBNull(dr.GetOrdinal("totalGanadoMachos")) ? dr.GetInt32(dr.GetOrdinal("totalGanadoMachos")) : 0;
+                    Item.TotalGanadoHembras = !dr.IsDBNull(dr.GetOrdinal("totalGanadoHembras")) ? dr.GetInt32(dr.GetOrdinal("totalGanadoHembras")) : 0;
+                    Item.TotalGanado = !dr.IsDBNull(dr.GetOrdinal("totalGanado")) ? dr.GetInt32(dr.GetOrdinal("totalGanado")) : 0;
+                    Item.TotalKilosGanado = !dr.IsDBNull(dr.GetOrdinal("totalKilosGanado")) ? dr.GetDecimal(dr.GetOrdinal("totalKilosGanado")) : 0;
+                }
+                dr.Close();
+                return Item;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<CatFierroModels> GetReporteFierrosVenta(VentaModels2 Venta)
+        {
+            try
+            {
+                CatFierroModels Item;
+                List<CatFierroModels> Lista = new List<CatFierroModels>();
+
+                object[] parametros = { Venta.Id_venta };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_ListaFierros", parametros);
+
+                while (dr.Read())
+                {
+                    Item = new CatFierroModels();
+                    Item.ImgFierro = !dr.IsDBNull(dr.GetOrdinal("fierro")) ? dr.GetString(dr.GetOrdinal("fierro")) : string.Empty;
                     Lista.Add(Item);
                 }
                 dr.Close();

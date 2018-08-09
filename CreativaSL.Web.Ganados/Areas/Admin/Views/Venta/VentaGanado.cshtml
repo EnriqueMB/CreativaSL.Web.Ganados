@@ -70,7 +70,7 @@
                             <label class="col-md-3 control-label">Cbz. Machos</label>
                             <div class="col-md-9">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    <span class="input-group-addon"><span class="icon-ocampo-head"></span></span>
                                     @Html.TextBoxFor(model => model.CbzMachos, new { @class = "form-control", disabled = "disabled" })
                                 </div>
                                 <span class="help-block">Cantidad de ganado machos</span>
@@ -82,7 +82,7 @@
                             <label class="col-md-3 control-label">Cbz. Hembras</label>
                             <div class="col-md-9">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    <span class="input-group-addon"><span class="icon-ocampo-head"></span></span>
                                     @Html.TextBoxFor(model=>model.CbzHembras, new { @class = "form-control", disabled = "disabled"})
                                 </div>
                                 <span class="help-block">Cantidad de ganado hembras</span>
@@ -94,7 +94,7 @@
                             <label class="col-md-3 control-label">Cbz. Total</label>
                             <div class="col-md-9">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    <span class="input-group-addon"><span class="icon-ocampo-head"></span></span>
                                     @Html.TextBoxFor(model => model.CbzTotal, new { @class = "form-control", disabled = "disabled" })
                                 </div>
                                 <span class="help-block">Cantidad total de ganado</span>
@@ -107,7 +107,7 @@
                             <label class="col-md-3 control-label">Kg. Machos</label>
                             <div class="col-md-9">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    <span class="input-group-addon">KG.</span>
                                     @Html.TextBoxFor(model => model.KgMachos, new { @class = "form-control", disabled = "disabled" })
                                 </div>
                                 <span class="help-block">Cantidad de kilos ganado machos</span>
@@ -119,7 +119,7 @@
                             <label class="col-md-3 control-label">Kg. Hembras</label>
                             <div class="col-md-9">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    <span class="input-group-addon">KG.</span>
                                     @Html.TextBoxFor(model => model.KgHembras, new { @class = "form-control", disabled = "disabled" })
                                 </div>
                                 <span class="help-block">Cantidad de kilos ganado hembras</span>
@@ -131,7 +131,7 @@
                             <label class="col-md-3 control-label">Kg. Total</label>
                             <div class="col-md-9">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    <span class="input-group-addon">KG.</span>
                                     @Html.TextBoxFor(model => model.KgTotal, new { @class = "form-control", disabled = "disabled" })
                                 </div>
                                 <span class="help-block">Cantidad total de kilos ganado</span>
@@ -144,8 +144,8 @@
                             <label class="col-md-3 control-label">Costo Machos</label>
                             <div class="col-md-9">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.TextBoxFor(model => model.CostoMachos, new { @class = "form-control", disabled = "disabled" })
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+                                    @Html.TextBoxFor(model => model.CostoMachos, "{0:C2}", new { @class = "form-control", disabled = "disabled" })
                                 </div>
                                 <span class="help-block">Costo del  ganado machos</span>
                             </div>
@@ -156,8 +156,8 @@
                             <label class="col-md-3 control-label">Costo Hembras</label>
                             <div class="col-md-9">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.TextBoxFor(model => model.CostoHembras, new { @class = "form-control", disabled = "disabled" })
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+                                    @Html.TextBoxFor(model => model.CostoHembras, "{0:C2}", new { @class = "form-control", disabled = "disabled" })
                                 </div>
                                 <span class="help-block">Costo del ganado hembras</span>
                             </div>
@@ -168,8 +168,8 @@
                             <label class="col-md-3 control-label">Costo Total</label>
                             <div class="col-md-9">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.TextBoxFor(model => model.CostoTotal, new { @class = "form-control", disabled = "disabled" })
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+                                    @Html.TextBoxFor(model => model.CostoTotal, "{0:C2}",new { @class = "form-control", disabled = "disabled" })
                                 </div>
                                 <span class="help-block">Costo total del ganado</span>
                             </div>
@@ -180,8 +180,8 @@
                             <label class="col-md-3 control-label">M.E.</label>
                             <div class="col-md-9">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.TextBoxFor(model => model.ME, new { @class = "form-control", @type="number" })
+                                    <span class="input-group-addon">KG.</span>
+                                    @Html.TextBoxFor(model => model.ME, "{0:#,#}", new { @class = "form-control", @type="text" })
                                 </div>
                                 <span class="help-block">M.E.</span>
                             </div>

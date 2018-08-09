@@ -5,8 +5,8 @@
     var cuentaBeneficiante = $("#Id_cuentaBancariaBeneficiante");
     var cuentaOrdenante = $("#Id_cuentaBancariaOrdenante");
     var imagen = $("#HttpImagen");
-    var folioINE = $("#FolioIFE");
-    var numeroAutorizacion = $("#NumeroAutorizacion");
+    //var folioINE = $("#FolioIFE");
+    //var numeroAutorizacion = $("#NumeroAutorizacion");
 
     var RunEventsComprobantePago = function () {
         var Imagen = document.getElementById("ImagenMostrar").value;
@@ -60,8 +60,8 @@
                 cuentaBeneficiante.rules("add", { required: true });
                 cuentaOrdenante.rules("add", { required: true });
                 imagen.rules("add", { ImagenRequerida: true });
-                folioINE.rules("add", { required: true });
-                numeroAutorizacion.rules("add", { required: true });
+                //folioINE.rules("add", { required: true });
+                //numeroAutorizacion.rules("add", { required: true });
             }
             else{
                 $('#divBancarizado').hide(1000);
@@ -92,17 +92,17 @@
         cuentaBeneficiante.rules("remove", "required");
         cuentaOrdenante.rules("remove", "required");
         imagen.rules("remove", "ImagenRequerida");
-        folioINE.rules("remove", "required");
-        numeroAutorizacion.rules("remove", "required");
+        //folioINE.rules("remove", "required");
+        //numeroAutorizacion.rules("remove", "required");
 
         cuentaBeneficiante.closest(".controlError").removeClass("has-success has-error");
         cuentaOrdenante.closest(".controlError").removeClass("has-success has-error");
         imagen.closest(".controlError").removeClass("has-success has-error");
-        folioINE.closest(".controlError").removeClass("has-success has-error");
-        numeroAutorizacion.closest(".controlError").removeClass("has-success has-error");
+        //folioINE.closest(".controlError").removeClass("has-success has-error");
+        //numeroAutorizacion.closest(".controlError").removeClass("has-success has-error");
 
-        $("#validation_summary").find("dd[for='FolioIFE']").addClass('help-block valid').text('');
-        $("#validation_summary").find("dd[for='NumeroAutorizacion']").addClass('help-block valid').text('');
+        //$("#validation_summary").find("dd[for='FolioIFE']").addClass('help-block valid').text('');
+        //$("#validation_summary").find("dd[for='NumeroAutorizacion']").addClass('help-block valid').text('');
         $("#validation_summary").find("dd[for='HttpImagen']").addClass('help-block valid').text('');
         $("#validation_summary").find("dd[for='Id_cuentaBancariaOrdenante']").addClass('help-block valid').text('');
         $("#validation_summary").find("dd[for='Id_cuentaBancariaBeneficiante']").addClass('help-block valid').text('');
@@ -147,14 +147,15 @@
                     required: true
                 },
                 //bancarizado
-                "FolioIFE": {
-                    required: true
-                },
-                "NumeroAutorizacion": {
-                    required: true
-                },
+                //"FolioIFE": {
+                //    required: true
+                //},
+                //"NumeroAutorizacion": {
+                //    required: true
+                //},
                 "HttpImagen":{
-                    ImagenRequerida: true
+                    ImagenRequerida: true,
+                    ImagenRequerida: ["ImagenMostrar"]
                 },
                 "Id_cuentaBancariaOrdenante": {
                     required: true
@@ -179,12 +180,12 @@
                     required: "Por favor, seleccione la fecha."
                 },
                 //bancarizado
-                FolioIFE: {
-                    required: "Por favor, escriba el folio del INE"
-                },
-                NumeroAutorizacion: {
-                    required: "Por favor, escriba el numero de autorización"
-                },
+                //FolioIFE: {
+                //    required: "Por favor, escriba el folio del INE"
+                //},
+                //NumeroAutorizacion: {
+                //    required: "Por favor, escriba el numero de autorización"
+                //},
                 HttpImagen: {
                     required: "Por favor, ingrese una imagen"
                 },
