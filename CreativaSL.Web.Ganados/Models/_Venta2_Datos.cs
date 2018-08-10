@@ -178,6 +178,25 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public string DatatableGeneralesGanado(VentaModels2 Venta)
+        {
+            try
+            {
+                object[] parametros =
+                    {
+                        Venta.Id_venta
+                    };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Compras_get_JsonGeneralesGanado", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
 
         #region Combos

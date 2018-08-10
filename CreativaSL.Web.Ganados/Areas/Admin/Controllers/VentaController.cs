@@ -265,6 +265,29 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(Venta.RespuestaAjax.ToJSON(), "application/json");
             }
         }
+        [HttpPost]
+        public ActionResult DatatableGeneralesGanado(string Id_venta)
+        {
+            try
+            {
+                _Venta2_Datos VentaDatos= new _Venta2_Datos();
+                VentaModels2 Venta = new VentaModels2();
+                Venta.Conexion = Conexion;
+                Venta.Id_venta = Id_venta;
+                Venta.RespuestaAjax.Mensaje = VentaDatos.DatatableGeneralesGanado(Venta);
+                Venta.RespuestaAjax.Success = true;
+
+                return Content(Venta.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                VentaModels2 Venta = new VentaModels2();
+                Venta.RespuestaAjax.Mensaje = ex.Message;
+                Venta.RespuestaAjax.Success = false;
+                return Content(Venta.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
         #endregion
 
         #region Otros

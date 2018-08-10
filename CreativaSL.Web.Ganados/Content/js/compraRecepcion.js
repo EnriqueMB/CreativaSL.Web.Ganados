@@ -7,7 +7,7 @@
     var LoadTableEventos = function () {
         tblEventos = $('#tblEventos').DataTable({
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                "url": "/Content/assets/json/Spanish.json"
             },
             responsive: true,
             "ajax": {
@@ -113,7 +113,7 @@
     function LoadTableGanadoCargado(IDEvento) {
         tblGanadoCargado = $('#tblGanadoCargado').DataTable({
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                "url": "/Content/assets/json/Spanish.json"
             },
             responsive: true,
             "ajax": {
@@ -144,7 +144,7 @@
     function LoadTableGanadoAccidentado(IDEvento) {
         tblGanadoSufrioEvento = $('#tblGanadoSufrioEvento').DataTable({
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                "url": "/Content/assets/json/Spanish.json"
             },
             responsive: true,
             "ajax": {
@@ -394,10 +394,10 @@
                 "RecepcionOrigen.HoraLlegada": {
                     required: true
                 },
-                "RecepcionOrigen.KilometrajeFinal": {
-                    required: true,
-                    min: 1
-                }
+                //"RecepcionOrigen.KilometrajeFinal": {
+                //    required: true,
+                //    min: 1
+                //}
             },
             messages: {
                 "RecepcionOrigen.FechaLlegada": {
@@ -406,10 +406,10 @@
                 "RecepcionOrigen.HoraLlegada": {
                     required: "Seleccione una hora de llegada"
                 },
-                "RecepcionOrigen.KilometrajeFinal": {
-                    required: "Ingrese el kilometraje final",
-                    min: "Ingrese el kilometraje final"
-                }
+                //"RecepcionOrigen.KilometrajeFinal": {
+                //    required: "Ingrese el kilometraje final",
+                //    min: "Ingrese el kilometraje final"
+                //}
             },
             invalidHandler: function (event, validator) {
                 successHandler1.hide();

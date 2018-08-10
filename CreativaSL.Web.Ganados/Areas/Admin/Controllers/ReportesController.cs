@@ -816,6 +816,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 throw ex;
             }
         }
+
         public ActionResult RptCuentaEstadoProveedor(string id, string id2, string id3)
         {
             try
@@ -956,6 +957,75 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
 
                 throw ex;
+            }
+        }
+
+        public ActionResult RptEntradasV2(string id, string id2, string id3)
+        {
+            try
+            {
+                ReportViewer Rtp = new ReportViewer();
+                Rtp.ProcessingMode = ProcessingMode.Local;
+                //Rtp.SizeToReportContent = true;
+                Rtp.Width = Unit.Percentage(100);
+                Rtp.Height = Unit.Percentage(100);
+                Reporte_Datos RDEntra = new Reporte_Datos();
+                RptEntradaModels REntradas = new RptEntradaModels();
+                DateTime Fecha1 = DateTime.Today;
+                DateTime Fecha2 = DateTime.Today;
+                DateTime.TryParse(id2.ToString(), out Fecha1);
+                DateTime.TryParse(id3.ToString(), out Fecha2);
+                REntradas.FechaInicio = Fecha1;
+                REntradas.FechaFin = Fecha2;
+                REntradas.Conexion = Conexion;
+                REntradas.DatosEmpresa = RDEntra.ObtenerDatosEmpresaTipo1(Conexion);
+                REntradas.ListaEntradas = RDEntra.ObtenerEntradasV2(REntradas);
+                Rtp.LocalReport.EnableExternalImages = true;
+                Rtp.LocalReport.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Reports"), "ReporteEntradasV2.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.LocalReport.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Reportes");
+                }
+                ReportParameter[] Parametros = new ReportParameter[5];
+                Parametros[0] = new ReportParameter("Empresa", REntradas.DatosEmpresa.RazonFiscal);
+                Parametros[1] = new ReportParameter("NombreSucursal", REntradas.DatosEmpresa.NombreSucursal);
+                Parametros[2] = new ReportParameter("UrlLogo", REntradas.DatosEmpresa.LogoEmpresa);
+                Parametros[3] = new ReportParameter("FechaInicio", id2);
+                Parametros[4] = new ReportParameter("FechaFin", id3);
+                Rtp.LocalReport.SetParameters(Parametros);
+                Rtp.LocalReport.DataSources.Add(new ReportDataSource("ListaEntradasV2", REntradas.ListaEntradas));
+                string reportType = id;
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + id + "</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.LocalReport.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

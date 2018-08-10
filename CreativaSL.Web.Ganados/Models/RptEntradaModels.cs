@@ -22,6 +22,8 @@ namespace CreativaSL.Web.Ganados.Models
             _DatosEmpresa = new DatosEmpresaViewModels();
         }
 
+        public decimal Totalv2 { get; set; }
+
         private string _NombreCliente;
 
         public string NombreCliente

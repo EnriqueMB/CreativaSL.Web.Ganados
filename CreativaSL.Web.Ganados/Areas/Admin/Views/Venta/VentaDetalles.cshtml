@@ -444,50 +444,51 @@
         jQuery(document).ready(function () {
             var Id_venta = $("#Id_venta").val();
 
-            //var tbl_generalGanado = $('#tbl_generalGanado').DataTable({
-            //    "language": {
-            //        "url": "/Content/assets/json/Spanish.json"
-            //    },
-            //    responsive: true,
-            //    "ajax": {
-            //        "data": {
-            //            "IDCompra": IDCompra
-            //        },
-            //        "url": "/Admin/Compra/JsonGeneralesGanado/",
-            //        "type": "POST",
-            //        "datatype": "json",
-            //        "dataSrc": ''
-            //    },
-            //    "columns": [
-            //        { "data": "genero" },
-            //        { "data": "totalGanado" },
-            //        {
-            //            "data": null,
-            //            "render": function (data, type, row) {
-            //                var totalPeso = row["kilosTotalPesoInicial"];
-            //                return totalPeso + ' kg.'
-            //            }
-            //        },
-            //        {
-            //            "data": null,
-            //            "render": function (data, type, row) {
-            //                var totalRepeso = row["kilosTotalRepeso"];
-            //                return totalRepeso + ' kg.'
-            //            }
-            //        },
-            //        {
-            //            "data": null,
-            //            "render": function (data, type, row) {
-            //                var merma = row["mermaPromedio"];
-            //                return merma.toFixed(2) + ' %';
-            //            }
-            //        },
-            //        {
-            //            "data": "subtotal",
-            //            "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
-            //        },
-            //    ]
-            //});
+            var tbl_generalGanado = $('#tbl_generalGanado').DataTable({
+                "language": {
+                    "url": "/Content/assets/json/Spanish.json"
+                },
+                responsive: true,
+                "ajax": {
+                    "data": {
+                        "IDCompra": IDCompra
+                    },
+                    "url": "/Admin/Compra/JsonGeneralesGanado/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "dataSrc": ''
+                },
+                "columns": [
+                    { "data": "genero" },
+                    { "data": "totalGanado" },
+                    {
+                        "data": null,
+                        "render": function (data, type, row) {
+                            var totalPeso = row["kilosTotalPesoInicial"];
+                            return totalPeso + ' kg.'
+                        }
+                    },
+                    {
+                        "data": null,
+                        "render": function (data, type, row) {
+                            var totalRepeso = row["kilosTotalRepeso"];
+                            return totalRepeso + ' kg.'
+                        }
+                    },
+                    {
+                        "data": null,
+                        "render": function (data, type, row) {
+                            var merma = row["mermaPromedio"];
+                            return merma.toFixed(2) + ' %';
+                        }
+                    },
+                    {
+                        "data": "subtotal",
+                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                    },
+                ]
+            });
+
             //var tbl_ganadoDetalleMachos = $('#tbl_ganadoDetalleMachos').DataTable({
             //    "language": {
             //        "url": "/Content/assets/json/Spanish.json"
