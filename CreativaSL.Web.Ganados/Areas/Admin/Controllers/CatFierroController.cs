@@ -143,7 +143,89 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(Fierro.RespuestaAjax.Mensaje, "application/json");
             }
         }
+        public ActionResult UploadImagen()
+        {
+            try
+            {
+                Token.SaveToken();
+                CatFierroModels Fierro = new CatFierroModels();
+                return View(Fierro);
+            }
+            catch (Exception)
+            {
+                CatFierroModels Fierro = new CatFierroModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Fierro);
+            }
+        }
 
+        // POST: Admin/CatFierro/Create
+        [HttpPost]
+        public ActionResult UploadImagen(CatFierroModels Fierro)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                    if (!string.IsNullOrEmpty(bannerImage.FileName))
+                    {
+                        if (bannerImage != null && bannerImage.ContentLength > 0)
+                        {
+
+                            Stream s = bannerImage.InputStream;
+                            Bitmap img = new Bitmap(s);
+                            Fierro.ImgFierro = img.ToBase64String(ImageFormat.Png);
+                            //ModelState.Remove("ImgFierro");
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Cargar imagen Fierro");
+                    }
+                        CatFierro_Datos FierroDatos = new CatFierro_Datos();
+                        Fierro.Conexion = Conexion;
+                        Fierro.Opcion = 1;
+                        Fierro.Usuario = User.Identity.Name;
+
+                        Fierro = FierroDatos.AbcCatFierro(Fierro);
+                        if (Fierro.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Fierro);
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos";
+
+                    Fierro.RespuestaAjax = new RespuestaAjax();
+                    Fierro.RespuestaAjax.Success = false;
+
+                    return Content(Fierro.RespuestaAjax.Mensaje, "application/json");
+                }
+                return View(Fierro);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                Fierro.RespuestaAjax = new RespuestaAjax();
+                Fierro.RespuestaAjax.Success = false;
+
+                return Content(Fierro.RespuestaAjax.Mensaje, "application/json");
+            }
+        }
         // GET: Admin/CatFierro/Edit/5
         [HttpGet]
         public ActionResult Edit(string IDFierro)

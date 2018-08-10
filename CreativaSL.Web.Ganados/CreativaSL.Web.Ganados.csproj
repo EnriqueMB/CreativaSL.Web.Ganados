@@ -457,6 +457,7 @@
     <Content Include="Content\js\CatContactosClientes.js" />
     <Content Include="Content\js\catEvento.js" />
     <Content Include="Content\js\catFierro.js" />
+    <Content Include="Content\js\CatFierroSubir.js" />
     <Content Include="Content\js\compraAgendar.js" />
     <Content Include="Content\js\CompraAlmacenDetalle.js" />
     <Content Include="Content\js\compraDocumento.js" />
@@ -1384,7 +1385,6 @@
     <Content Include="Areas\Admin\Views\Venta\VentaEditProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaImpuestoProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Venta_ProductoServicio.cshtml" />
-    <Content Include="Areas\Admin\Views\DocumentoXCobrar\Create.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\DetallePagos.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\PagosCreate.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\PagosEdit.cshtml" />
@@ -1396,10 +1396,12 @@
     <Content Include="Areas\Admin\Views\Compra\ImpuestosProductoServicioCompra.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ImpuestoProductoServicioACCompra.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\PagoCompra.cshtml" />
-    <Content Include="Areas\Admin\Views\Venta\VentaDocumento.cshtml" />
-    <Content Include="Areas\Admin\Views\Venta\VentaDetalles.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\Create.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\DetalleDocumento.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\DetalleDocumento.cshtml" />
+    <Content Include="Areas\Admin\Views\CatFierro\UploadImagen.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
