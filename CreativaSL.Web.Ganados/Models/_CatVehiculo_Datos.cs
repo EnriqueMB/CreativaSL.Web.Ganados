@@ -65,7 +65,8 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.tarjetaCirculacion ?? string.Empty,
                     datos.fechaIngreso != null ? datos.fechaIngreso : DateTime.Today,
                     datos.Usuario ?? string.Empty,
-                    datos.IDEmpresa ?? string.Empty
+                    datos.IDEmpresa ?? string.Empty,
+                    datos.PlacaJaula ?? string.Empty
                 };
                 object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatVehiculo", parametros);
                 datos.IDVehiculo = Resultado.ToString();
@@ -139,7 +140,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.tarjetaCirculacion = !dr.IsDBNull(dr.GetOrdinal("tarjetaCirculacion")) ? dr.GetString(dr.GetOrdinal("tarjetaCirculacion")) : string.Empty;
                     datos.fechaIngreso = !dr.IsDBNull(dr.GetOrdinal("fechaIngreso")) ? dr.GetDateTime(dr.GetOrdinal("fechaIngreso")) : DateTime.Now;
                     datos.IDEmpresa = !dr.IsDBNull(dr.GetOrdinal("id_empresa")) ? dr.GetString(dr.GetOrdinal("id_empresa")) : string.Empty;
-
+                    datos.PlacaJaula = !dr.IsDBNull(dr.GetOrdinal("placaJaula")) ? dr.GetString(dr.GetOrdinal("placaJaula")) : string.Empty;
                 }
                 dr.Close();
                 return datos;

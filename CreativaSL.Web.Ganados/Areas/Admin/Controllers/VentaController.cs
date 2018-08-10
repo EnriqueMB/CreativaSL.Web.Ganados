@@ -240,6 +240,31 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
             return Content(Impuesto.RespuestaAjax.Mensaje, "application/json");
         }
+        [HttpPost]
+        public ActionResult DatatableDocumentos(string Id_venta)
+        {
+            try
+            {
+                VentaModels2 Venta = new VentaModels2();
+                _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                Venta.Conexion = Conexion;
+                Venta.Id_venta = Id_venta;
+                Venta.RespuestaAjax = new RespuestaAjax();
+                Venta.RespuestaAjax.Mensaje = VentaDatos.DatatableDocumentos(Venta);
+                Venta.RespuestaAjax.Success = true;
+
+                return Content(Venta.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                VentaModels2 Venta = new VentaModels2();
+                Venta.RespuestaAjax = new RespuestaAjax();
+                Venta.RespuestaAjax.Mensaje = ex.Message;
+                Venta.RespuestaAjax.Success = false;
+                return Content(Venta.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
         #endregion
 
         #region Otros
@@ -432,7 +457,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpPost]
-        public ActionResult VentaGanado(string ListaIDGanadosParaVender, string IDVenta)
+        public ActionResult VentaGanado(string ListaIDGanadosParaVender, string IDVenta, decimal ME)
         {
             try
             {
@@ -444,6 +469,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Venta.Usuario = User.Identity.Name;
                     Venta.ListaIDGanadosParaVender = ListaIDGanadosParaVender;
                     Venta.Id_venta = IDVenta;
+                    Venta.ME = ME;
                     Venta.RespuestaAjax = VentaDatos.AC_Ganado(Venta);
 
                     if (Venta.RespuestaAjax.Success)
@@ -891,26 +917,28 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Token.SaveToken();
 
                 string Id_venta = string.IsNullOrEmpty(Id_1) ? string.Empty : Id_1;
-                //0 = nuevo, 36 = edit, si es diferente es un id no valido
+                //0 = nuevo, 36 = edit
                 if (Id_venta.Length == 36)
                 {
                     _Venta2_Datos VentaDatos = new _Venta2_Datos();
                     VentaModels2 Venta = new VentaModels2();
-                    Venta.Id_venta = Id_venta;
+                    DocumentoModels Documentacion = new DocumentoModels();
+
                     Venta.Conexion = Conexion;
-                    Venta.RespuestaAjax = new RespuestaAjax();
-                    Venta = VentaDatos.GetVentaDocumentos(Venta);
-                    if (Venta.RespuestaAjax.Success)
+                    Documentacion.Id_servicio = Id_venta;
+                    Documentacion.Conexion = Conexion;
+                    Documentacion.RespuestaAjax = new RespuestaAjax();
+                    Documentacion = VentaDatos.GetVentaDocumentos(Documentacion);
+
+                    if (Documentacion.RespuestaAjax.Success)
                     {
-                        ViewBag.Id_venta = Id_venta;
-                        ViewBag.Id_flete = Venta.Id_flete;
-                        ViewBag.CobrarFlete = Venta.CobrarFlete;
-                        return View();
+                        Documentacion.ListaConceptosSalidaDeduccion = VentaDatos.GetTiposDeduccion(Venta);
+                        return View(Documentacion);
                     }
                     else
                     {
                         TempData["typemessage"] = "2";
-                        TempData["message"] = Venta.RespuestaAjax.Mensaje;
+                        TempData["message"] = Documentacion.RespuestaAjax.Mensaje;
                         return View("Index");
                     }
                 }
@@ -927,6 +955,172 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
                 return View("Index");
+            }
+        }
+        [HttpPost]
+        public ActionResult AC_CostoDocumentos(DocumentoModels Documento)
+        {
+            try
+            {
+                Documento.RespuestaAjax = new RespuestaAjax();
+                if (Token.IsTokenValid())
+                {
+                    _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                    Documento.Conexion = Conexion;
+                    Documento.Usuario = User.Identity.Name;
+                    Documento = VentaDatos.AC_CostoDocumentos(Documento);
+                    Token.ResetToken();
+                    Token.SaveToken();
+                    if (!Documento.RespuestaAjax.Success)
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = Documento.RespuestaAjax.Mensaje;
+                    }
+                    return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
+                }
+                else
+                {
+                    Documento.RespuestaAjax.Success = false;
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                Documento.RespuestaAjax.Success = false;
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos, error: " + Mensaje;
+                return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+
+        #region Vista Documento 
+        [HttpGet]
+        public ActionResult VentaDocumento(string Id_venta, string IDDocumento)
+        {
+            {
+                if(string.IsNullOrEmpty(Id_venta) || string.IsNullOrEmpty(IDDocumento))
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return View("Index");
+                }
+
+                if (Id_venta.Length == 0 || Id_venta.Length == 36)
+                {
+                    _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                    DocumentoModels Documento = new DocumentoModels();
+                    Documento.Id_servicio = Id_venta;
+                    Documento.IDDocumento = IDDocumento;
+                    Documento.Conexion = Conexion;
+
+                    Documento = VentaDatos.GetDocumentoXIDDocumento(Documento);
+                    Documento.ListaTipoDocumentos = VentaDatos.GetListaTiposDocumentos(Documento);
+
+                    return View(Documento);
+                }
+                else
+                {
+                    return View("Index");
+                }
+            }
+        }
+        [HttpPost]
+        public ActionResult VentaDocumento(DocumentoModels Documento)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    if (Documento.Id_servicio.Length == 36)
+                    {
+                        _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                        Documento.Conexion = Conexion;
+                        Documento.Usuario = User.Identity.Name;
+
+                        if (Documento.ImagenPost != null)
+                        {
+                            Documento.ImagenServer = Auxiliar.ImageToBase64(Documento.ImagenPost);
+                        }
+                        Documento.RespuestaAjax = new RespuestaAjax();
+                        Documento = VentaDatos.AC_Documento(Documento);
+                        if (Documento.RespuestaAjax.Success)
+                        {
+                            Token.ResetToken();
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = Documento.RespuestaAjax.Mensaje;
+                            return RedirectToAction("VentaDocumentos", "Venta", new { Id_1 = Documento.Id_servicio });
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = Documento.RespuestaAjax.Mensaje;
+                            return RedirectToAction("Index", "Venta");
+                        }
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Verifique sus datos.";
+                        return RedirectToAction("Index", "Venta");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Venta");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
+                return RedirectToAction("Index", "Venta");
+            }
+        }
+        [HttpPost]
+        public ActionResult DEL_Documento(DocumentoModels Documento)
+        {
+            try
+            {
+                Documento.RespuestaAjax = new RespuestaAjax();
+                if (Token.IsTokenValid())
+                {
+                    if (Documento.Id_servicio.Length == 36)
+                    {
+                        _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                        Documento.Conexion = Conexion;
+                        Documento.Usuario = User.Identity.Name;
+                        Documento = VentaDatos.DEL_DocumentoXIDDocumento(Documento);
+                        Token.ResetToken();
+                        Token.SaveToken();
+                        return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
+                    }
+                    else
+                    {
+                        Documento.RespuestaAjax.Success = false;
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Verifique sus datos.";
+                        return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
+                    }
+                }
+                else
+                {
+                    Documento.RespuestaAjax.Success = false;
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                Documento.RespuestaAjax.Mensaje = Mensaje;
+                Documento.RespuestaAjax.Success = false;
+                return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
             }
         }
         #endregion
@@ -1029,7 +1223,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 VentaModels2 Venta = new VentaModels2();
                 CatEmpresaModels Empresa = new CatEmpresaModels();
                 _CatEmpresa_Datos EmpresaDatos = new _CatEmpresa_Datos();
-                Venta.Id_flete = id;
+                Venta.Id_venta = id;
                 Venta.Conexion = Conexion;
                 Empresa.Conexion = Conexion;
                 Listareporte = reporteDatos.GetReporteGanadoDetalles(Venta);
@@ -1077,6 +1271,95 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("ListaGanado", Listareporte));
+                Rtp.Refresh();
+                string reportType = "EXCEL";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + id + "</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
+                return View("Index");
+            }
+        }
+
+        public ActionResult ReporteGanadoV2(string id)
+        {
+            try
+            {
+
+                Reporte_Datos R = new Reporte_Datos();
+                List<ReporteGanadoModels> Listareporte = new List<ReporteGanadoModels>();
+                _Venta2_Datos reporteDatos = new _Venta2_Datos();
+                VentaModels2 Venta = new VentaModels2();
+                ReporteCabeceraGanado Cabezera = new ReporteCabeceraGanado();
+                List<CatFierroModels> ListaFierros = new List<CatFierroModels>();
+
+                Venta.Id_venta = id;
+                Venta.Conexion = Conexion;
+                Listareporte = reporteDatos.GetReporteGanadoDetalles(Venta);
+                Cabezera = reporteDatos.GetReporteCabeceraGanadoDetalles(Venta);
+                ListaFierros = reporteDatos.GetReporteFierrosVenta(Venta);
+
+                LocalReport Rtp = new LocalReport();
+                Rtp.EnableExternalImages = true;
+                Rtp.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Formatos"), "ListadoGanadoV2.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Venta");
+                }
+                ReporteGanadoModels ReporteGanado = new ReporteGanadoModels();
+
+                ReportParameter[] Parametros = new ReportParameter[17];
+                Parametros[0] = new ReportParameter("NombreChofer", Cabezera.NombreChofer);
+                Parametros[1] = new ReportParameter("UnidadVehiculo", Cabezera.UnidadVehiculo);
+                Parametros[2] = new ReportParameter("ModeloVehiculo", Cabezera.ModeloVehiculo);
+                Parametros[3] = new ReportParameter("MarcaVehiculo", Cabezera.MarcaVehiculo);
+                Parametros[4] = new ReportParameter("ColorVehiculo", Cabezera.ColorVehiculo);
+                Parametros[5] = new ReportParameter("CapacidadVehiculo", Cabezera.CapacidadVehiculo);
+                Parametros[6] = new ReportParameter("GPS", Cabezera.GPS);
+                Parametros[7] = new ReportParameter("FechaHoraSalida", Cabezera.FechaHoraSalida.ToString());
+                Parametros[8] = new ReportParameter("FechaHoraEmbarque", Cabezera.FechaHoraEmbarque.ToString());
+                Parametros[9] = new ReportParameter("LugarOrigen", Cabezera.LugarOrigen);
+                Parametros[10] = new ReportParameter("LugarDestino", Cabezera.LugarDestino);
+                Parametros[11] = new ReportParameter("PSGOrigen", Cabezera.PSGOrigen);
+                Parametros[12] = new ReportParameter("PSGDestino", Cabezera.PSGDestino);
+                Parametros[13] = new ReportParameter("TotalGanadoMachos", Cabezera.TotalGanadoMachos.ToString());
+                Parametros[14] = new ReportParameter("TotalGanadoHembras", Cabezera.TotalGanadoHembras.ToString());
+                Parametros[15] = new ReportParameter("TotalGanado", Cabezera.TotalGanado.ToString());
+                Parametros[16] = new ReportParameter("TotalKilosGanado", Convert.ToInt32(Cabezera.TotalKilosGanado).ToString());
+
+                Rtp.SetParameters(Parametros);
+                Rtp.DataSources.Add(new ReportDataSource("ListaGanado", Listareporte));
+                Rtp.DataSources.Add(new ReportDataSource("ListaFierros", ListaFierros));
                 Rtp.Refresh();
                 string reportType = "EXCEL";
                 string mimeType;
@@ -1716,5 +1999,49 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
+
+        #region Vista detalles
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id_1">Id de la venta</param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult VentaDetalles(string Id_1)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Id_1))
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista, verifique sus datos.";
+                    return View("Index");
+                }
+                if(Id_1.Length != 36)
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista, verifique sus datos.";
+                    return View("Index");
+                }
+
+                Token.SaveToken();
+                VentaDetalleModels VentaDetalle = new VentaDetalleModels();
+                _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                VentaDetalle.Id_venta = Id_1;
+                VentaDetalle.Conexion = Conexion;
+                VentaDetalle = VentaDatos.Get_detallesVenta(VentaDetalle);
+
+                return View(VentaDetalle);
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos, error: " + Mensaje;
+                return View("Index");
+            }
+        }
+        #endregion
+
     }
 }
