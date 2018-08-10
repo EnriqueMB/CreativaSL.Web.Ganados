@@ -52,6 +52,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.IDTipoVehiculo,
                     datos.IDMarca,
                     datos.EsPropio,
+                    datos.Gps,
                     datos.Capacidad ?? string.Empty,
                     datos.Modelo ?? string.Empty,
                     datos.Color ?? string.Empty,
@@ -60,12 +61,12 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Estatus,
                     datos.numeroUnidad ?? string.Empty,
                     datos.img64 ?? string.Empty,
-                    datos.BandImg,
-                    
+                    datos.BandImg,                    
                     datos.tarjetaCirculacion ?? string.Empty,
                     datos.fechaIngreso != null ? datos.fechaIngreso : DateTime.Today,
                     datos.Usuario ?? string.Empty,
-                    datos.IDEmpresa ?? string.Empty
+                    datos.IDEmpresa ?? string.Empty,
+                    datos.PlacaJaula ?? string.Empty
                 };
                 object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatVehiculo", parametros);
                 datos.IDVehiculo = Resultado.ToString();
@@ -127,6 +128,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.IDSucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty;
                     datos.IDMarca = !dr.IsDBNull(dr.GetOrdinal("id_marca")) ? dr.GetInt16(dr.GetOrdinal("id_marca")) : 0;
                     datos.EsPropio = !dr.IsDBNull(dr.GetOrdinal("propio")) ? dr.GetBoolean(dr.GetOrdinal("propio")) : false;
+                    datos.Gps = !dr.IsDBNull(dr.GetOrdinal("gps")) ? dr.GetString(dr.GetOrdinal("gps")) : string.Empty;
                     datos.Capacidad = !dr.IsDBNull(dr.GetOrdinal("capacidad")) ? dr.GetString(dr.GetOrdinal("capacidad")) : string.Empty;
                     datos.Modelo = !dr.IsDBNull(dr.GetOrdinal("modelo")) ? dr.GetString(dr.GetOrdinal("modelo")) : string.Empty;
                     datos.Color = !dr.IsDBNull(dr.GetOrdinal("color")) ? dr.GetString(dr.GetOrdinal("color")) : string.Empty;
@@ -134,11 +136,11 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.numeroUnidad = !dr.IsDBNull(dr.GetOrdinal("numeroUnidad")) ? dr.GetString(dr.GetOrdinal("numeroUnidad")) : string.Empty;
                     datos.NoSerie = !dr.IsDBNull(dr.GetOrdinal("noSerie")) ? dr.GetString(dr.GetOrdinal("noSerie")) : string.Empty;
                     datos.Estatus = !dr.IsDBNull(dr.GetOrdinal("estatus")) ? dr.GetBoolean(dr.GetOrdinal("estatus")) : false;
-                    datos.img64 = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
+                    datos.img64 = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;                    
                     datos.tarjetaCirculacion = !dr.IsDBNull(dr.GetOrdinal("tarjetaCirculacion")) ? dr.GetString(dr.GetOrdinal("tarjetaCirculacion")) : string.Empty;
                     datos.fechaIngreso = !dr.IsDBNull(dr.GetOrdinal("fechaIngreso")) ? dr.GetDateTime(dr.GetOrdinal("fechaIngreso")) : DateTime.Now;
                     datos.IDEmpresa = !dr.IsDBNull(dr.GetOrdinal("id_empresa")) ? dr.GetString(dr.GetOrdinal("id_empresa")) : string.Empty;
-
+                    datos.PlacaJaula = !dr.IsDBNull(dr.GetOrdinal("placaJaula")) ? dr.GetString(dr.GetOrdinal("placaJaula")) : string.Empty;
                 }
                 dr.Close();
                 return datos;

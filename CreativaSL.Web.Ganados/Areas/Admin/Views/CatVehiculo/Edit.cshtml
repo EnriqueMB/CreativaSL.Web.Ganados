@@ -98,6 +98,21 @@
                         <div class="form-group">
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Modelo</label>
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Modelo, new { id = "Modelo", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Modelo)
+                                    <span class="help-block ">Ingrese modelo del vehículo</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label class="col-md-12 control-label text-center">Placas</label>
                                     <div class="col-md-12 col-xs-12">
                                         <div class="input-group">
@@ -111,12 +126,15 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-md-12 control-label text-center">Modelo</label>
-                                    <div class="col-md-12">
-                                        @Html.TextBoxFor(model => model.Modelo, new { id = "Modelo", @class = "form-control" })
+                                    <label class="col-md-12 control-label text-center">Placas jaula</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.PlacaJaula, new { id = "PlacaJaula", @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Placas)
+                                        <span class="help-block ">Ingrese la Placas de la jaula</span>
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.Modelo)
-                                    <span class="help-block ">Ingrese modelo del vehículo</span>
                                 </div>
                             </div>
                         </div>
@@ -216,6 +234,21 @@
                                         </div>
 
                                     </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">GPS</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Gps, new { id = "Gps", @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Gps)
+                                        <span class="help-block">Ingrese GPS del vehículo</span>
+                                    </div>
+
                                 </div>
                             </div>
 

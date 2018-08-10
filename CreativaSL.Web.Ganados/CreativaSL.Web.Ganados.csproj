@@ -1051,6 +1051,7 @@
     <Content Include="Content\js\Vehiculo.js" />
     <Content Include="Content\js\venta.js" />
     <Content Include="Content\js\ventaCobro.js" />
+    <Content Include="Content\js\ventaDocumento.js" />
     <Content Include="Content\js\ventaDocumentos.js" />
     <Content Include="Content\js\ventaEvento.js" />
     <Content Include="Content\js\ventaEventoRecepcion.js" />
@@ -1260,7 +1261,6 @@
     <Content Include="Areas\Admin\Views\Flete\AC_Flete.cshtml" />
     <Content Include="App_Browsers\qt.browser" />
     <Content Include="Areas\Admin\Views\AsistenciaEmpleados\Upload.cshtml" />
-    <Content Include="Areas\Admin\Views\DocumentoXPagar\DetalleDocumento.cshtml" />
     <Content Include="Areas\Admin\Views\FleteImpuesto\ModalFleteImpuesto.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\AC_FleteRecepcion.cshtml" />
     <Content Include="Areas\Admin\Views\AsistenciaEmpleados\Index.cshtml" />
@@ -1385,7 +1385,7 @@
     <Content Include="Areas\Admin\Views\Venta\VentaEditProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaImpuestoProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Venta_ProductoServicio.cshtml" />
-    <Content Include="Areas\Admin\Views\DocumentoXPagar\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\Create.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\DetallePagos.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\PagosCreate.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\PagosEdit.cshtml" />
@@ -1423,7 +1423,7 @@
     <Compile Include="App_Start\TokenModule.cs" />
     <Compile Include="App_Start\TokenProcessor.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Content\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AlmacenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatAlmacenController.cs" />
@@ -1617,6 +1617,7 @@
     <Compile Include="Models\RecepcionOrigenModels.cs" />
     <Compile Include="Models\RecepcionDestinoModels.cs" />
     <Compile Include="Models\RecepcionOrigenVentaModels.cs" />
+    <Compile Include="Models\ReporteCabeceraGanado.cs" />
     <Compile Include="Models\ReporteGanadoModels.cs" />
     <Compile Include="Models\Reporte_Datos.cs" />
     <Compile Include="Models\RespuestaAjax.cs" />
@@ -1672,6 +1673,7 @@
     <Compile Include="Models\Validaciones\TelefonoAttribute.cs" />
     <Compile Include="Models\Validaciones\TestAttribute.cs" />
     <Compile Include="Models\Validaciones\TextoAttribute.cs" />
+    <Compile Include="Models\VentaDetalleModels.cs" />
     <Compile Include="Models\VentaGanadoModels.cs" />
     <Compile Include="Models\VentaModels.cs" />
     <Compile Include="Models\VentaModels2.cs" />
@@ -1824,6 +1826,7 @@
     <EmbeddedResource Include="Formatos\ImagenesProveedor.rdlc" />
     <EmbeddedResource Include="Formatos\ListadoGanado.rdlc" />
     <EmbeddedResource Include="Formatos\ListadoGanadoParaCompra.rdlc" />
+    <EmbeddedResource Include="Formatos\ListadoGanadoV2.rdlc" />
     <EmbeddedResource Include="Reports\prueba.rdlc">
       <SubType>Designer</SubType>
     </EmbeddedResource>

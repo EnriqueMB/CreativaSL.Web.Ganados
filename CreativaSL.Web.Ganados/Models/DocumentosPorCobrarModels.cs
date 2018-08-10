@@ -8,6 +8,7 @@ namespace CreativaSL.Web.Ganados.Models
     public class DocumentosPorCobrarModels
     {
         public string Id_documentoCobrar { get; set; }
+        public int Id_tipoDocumento { get; set; }
         public string Id_sucursal { get; set; }
         public string Id_metodoPago { get; set; }
         public DateTime Fecha { get; set; }
@@ -18,10 +19,33 @@ namespace CreativaSL.Web.Ganados.Models
         public decimal Pagos { get; set; }
         public decimal Pendiente { get; set; }
         public decimal Subtotal { get; set; }
-
-        public string Conexion { get; set; }
+        public string NombreSucursal { get; set; }
+        public string Conexion { get; set; }    
         public string Usuario { get; set; }
+        public long Folio { get; set; }
 
         public DocumentosPorCobrarModels DocumentoPorCobraFlete;
+
+        private List<DocumentosPorCobrarModels> _ListaDocumentos;
+        public List<DocumentosPorCobrarModels> ListaDocumentos
+        {
+            get { return _ListaDocumentos; }
+            set { _ListaDocumentos = value; }
+        }
+
+        private List<CatSucursalesModels> _listaSucursal;
+        public List<CatSucursalesModels> ListaSucursal
+        {
+            get { return _listaSucursal; }
+            set { _listaSucursal = value; }
+        }
+
+        private List<CatTipoClasificacionCobroModels> _ListaCDocumento;
+        public List<CatTipoClasificacionCobroModels> ListaCDocumento
+        {
+            get { return _ListaCDocumento; }
+            set { _ListaCDocumento = value; }
+        }
+
     }
 }

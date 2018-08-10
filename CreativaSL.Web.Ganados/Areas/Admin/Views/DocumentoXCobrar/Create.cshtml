@@ -1,4 +1,4 @@
-﻿@model CreativaSL.Web.Ganados.Models.DocumentoPorPagarModels
+﻿@model CreativaSL.Web.Ganados.Models.DocumentosPorCobrarModels
 @{
     ViewBag.Title = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -19,11 +19,11 @@
     <div class="col-md-12">
         @*<form class="form-horizontal">*@
         @{ Html.EnableClientValidation(false); }
-        @using (Html.BeginForm("Create", "DocumentoXPagar", FormMethod.Post, new { id = "form-DocumentoPagar", @class = "form-horizontal", autocomplete = "off" }))
+        @using (Html.BeginForm("Create", "DocumentoXCobrar", FormMethod.Post, new { id = "form-DocumentoCobrar", @class = "form-horizontal", autocomplete = "off" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-            <div id="validation_summary" class="field_error "></div> //JS
+                                                                                                                        <div id="validation_summary" class="field_error "></div> //JS
 
             @Html.HiddenFor(model => model.IDDocumentoPagar)
             <div class="panel panel-default">

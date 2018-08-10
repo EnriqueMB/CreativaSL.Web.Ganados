@@ -357,6 +357,69 @@ namespace CreativaSL.Web.Ganados.Models
 
         #region Get
         #region Asignado a
+
+
+        public List<DocumentosPorCobrarModels> ObtenerListaDocumentosCobrar(DocumentosPorCobrarModels datos)
+        {
+            try
+            {
+                List<DocumentosPorCobrarModels> Lista = new List<DocumentosPorCobrarModels>();
+                DocumentosPorCobrarModels Item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Documento_get_DocumentoXCobrar");
+                while (dr.Read())
+                {
+                    Item = new DocumentosPorCobrarModels();
+                    Item.Id_tipoDocumento = !dr.IsDBNull(dr.GetOrdinal("IDTipo")) ? dr.GetInt32(dr.GetOrdinal("IDTipo")) : 0;
+                    Item.EsSistema = !dr.IsDBNull(dr.GetOrdinal("EsSistema")) ? dr.GetBoolean(dr.GetOrdinal("EsSistema")) : false;
+                    Item.Id_documentoCobrar = !dr.IsDBNull(dr.GetOrdinal("IDDocumentoCobrar")) ? dr.GetString(dr.GetOrdinal("IDDocumentoCobrar")) : string.Empty;
+                    Item.Id_sucursal = !dr.IsDBNull(dr.GetOrdinal("IDSucursal")) ? dr.GetString(dr.GetOrdinal("IDSucursal")) : string.Empty;
+                    Item.Id_metodoPago = !dr.IsDBNull(dr.GetOrdinal("MetodoPago")) ? dr.GetString(dr.GetOrdinal("MetodoPago")) : string.Empty;
+                    Item.Folio = !dr.IsDBNull(dr.GetOrdinal("Folio")) ? dr.GetInt64(dr.GetOrdinal("Folio")) : 0;
+                    Item.Fecha = !dr.IsDBNull(dr.GetOrdinal("Fecha")) ? dr.GetDateTime(dr.GetOrdinal("Fecha")) : DateTime.Today;
+                    Item.Impuestos = !dr.IsDBNull(dr.GetOrdinal("Impuesto")) ? dr.GetDecimal(dr.GetOrdinal("Impuesto")) : 0;
+                    Item.Subtotal = !dr.IsDBNull(dr.GetOrdinal("Subtotal")) ? dr.GetDecimal(dr.GetOrdinal("Subtotal")) : 0;
+                    Item.Total = !dr.IsDBNull(dr.GetOrdinal("Total")) ? dr.GetDecimal(dr.GetOrdinal("Total")) : 0;
+                    Item.Cambio = !dr.IsDBNull(dr.GetOrdinal("Cambio")) ? dr.GetDecimal(dr.GetOrdinal("Cambio")) : 0;
+                    Item.Pagos = !dr.IsDBNull(dr.GetOrdinal("Pagos")) ? dr.GetDecimal(dr.GetOrdinal("Pagos")) : 0;
+                    Item.Pendiente = !dr.IsDBNull(dr.GetOrdinal("Pendiente")) ? dr.GetDecimal(dr.GetOrdinal("Pendiente")) : 0;
+                    Item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                dr.Close();
+                return Lista;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CatTipoClasificacionCobroModels> ObtenerConceptosDocumento(string Conexion)
+        {
+            try
+            {
+                List<CatTipoClasificacionCobroModels> Lista = new List<CatTipoClasificacionCobroModels>();
+                CatTipoClasificacionCobroModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Combo_get_CatTipoClasificacionCobro");
+                while (Dr.Read())
+                {
+                    Item = new CatTipoClasificacionCobroModels();
+                    Item.Id_tipoClasificacionCobro = !Dr.IsDBNull(Dr.GetOrdinal("ID")) ? Dr.GetInt32(Dr.GetOrdinal("ID")) : 0;
+                    Item.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty;
+                    Item.Inventario = !Dr.IsDBNull(Dr.GetOrdinal("Inventario")) ? Dr.GetBoolean(Dr.GetOrdinal("Inventario")) : false;
+                    Lista.Add(Item);
+                }
+                Dr.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<ListaGenerica> GetGeneralesDocumentoPorCobrarPago(DocumentosPorCobrarDetalleModels DocumentosPorCobrarModels)
         {
             try
@@ -654,7 +717,6 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
-
-
+        
     }
 }

@@ -216,7 +216,6 @@ $.validator.addMethod("BaseSAT", function (value, element) {
     return this.optional(element) || /^[1-9]([0-9]+)?([.][0-9]{1,6})?$/i.test(value);
 }, "La Base debe ser mayor que cero, hasta 6 decimales.");
 
-
 $.validator.addMethod("validarTblEventoGanadoVenta", function () {
 
     if (document.getElementById("ImgINEE").value === '') {
@@ -234,7 +233,7 @@ $.validator.addMethod("numeroConComas", function (value, element, params) {
     if (value === '') {
         return false;
     }
-    //Si hay obtenemos la extensión
+    //Si hay le quitamos la coma, en caso que sean miles
     var valorInput = element.value;
     var numero = Number.parseFloat(valorInput.replace(/,/g, ''));
 

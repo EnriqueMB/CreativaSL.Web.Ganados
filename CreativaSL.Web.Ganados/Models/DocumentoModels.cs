@@ -12,6 +12,7 @@ namespace CreativaSL.Web.Ganados.Models
         /// Puede ser el id de la compra, venta o flete
         /// </summary>
         public string Id_servicio { get; set; }
+        public int CobrarFlete { get; set; }
         public string Id_documentoPorPagar { get; set; }
         public decimal PrecioUnitarioDocumentacion { get; set; }
         public int Id_conceptoSalidaDeduccion { get; set; }
@@ -20,8 +21,6 @@ namespace CreativaSL.Web.Ganados.Models
         public RespuestaAjax RespuestaAjax { get; set; }
         public string Conexion { get; set; }
         public string Usuario { get; set; }
-
-
 
         public int IDTipoDocumento { get; set; }
         public string IDDocumento { get; set; }
