@@ -1383,7 +1383,6 @@
     <Content Include="Areas\Admin\Views\Venta\VentaEditProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaImpuestoProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Venta_ProductoServicio.cshtml" />
-    <Content Include="Areas\Admin\Views\DocumentoXCobrar\Create.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\DetallePagos.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\PagosCreate.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\PagosEdit.cshtml" />
@@ -1397,6 +1396,9 @@
     <Content Include="Areas\Admin\Views\Compra\PagoCompra.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\Create.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\DetalleDocumento.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\DetalleDocumento.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

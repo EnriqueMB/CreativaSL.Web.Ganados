@@ -1,0 +1,234 @@
+@model CreativaSL.Web.Ganados.Models.DocumentosPorCobrarDetalleModels
+@{
+    ViewBag.Title = "DetalleDocumento";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Documentos por Cobar </h2>
+    </div>
+    <!-- END PAGE TITLE -->
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Detalle </strong> del documento por Cobrar </h3>
+                        <ul class="panel-controls"></ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-6">
+                            <div class="row">
+                                @foreach (var item in Model.listaDocumentosDetalle)
+                                {
+                                    if (@item.Id_tipoDocumento == 1)
+                                    {
+                                        <div class="form-group">
+                                            <label class="col-md-6 col-xs-12 control-label">Nombre Razón Social :</label>
+                                            <div class="col-md-6 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-ok"></span></span>
+                                                    <label class="form-control">@item.nombreRazonSocial</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-6 col-xs-12 control-label">Ganado Total</label>
+                                            <div class="col-md-6 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa fa-check"></span></span>
+                                                    <label class="form-control">@item.ganadoTotal</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-6 col-xs-12 control-label">Kilo :</label>
+                                            <div class="col-md-6 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa fa-check"></span></span>
+                                                    <label class="form-control">@item.kiloTotal</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    }
+                                    if (@item.Id_tipoDocumento == 2)
+                                    {
+                                        <div class="form-group">
+                                            <label class="col-md-6 col-xs-12 control-label">Fecha :</label>
+                                            <div class="col-md-6 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                                    <label class="form-control">@item.FechaVenta.ToShortDateString()</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-6 col-xs-12 control-label">Número de Factura</label>
+                                            <div class="col-md-6 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa fa-check"></span></span>
+                                                    <label class="form-control">@item.Folio</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                    }
+                                    if (@item.Id_tipoDocumento == 3)
+                                    {
+                                        <div class="form-group">
+                                            <label class="col-md-6 col-xs-12 control-label">Folio:</label>
+                                            <div class="col-md-6 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                                    <label class="form-control">@item.Folio</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-6 col-xs-12 control-label">Tipo Flete  :</label>
+                                            <div class="col-md-6 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa fa-check"></span></span>
+                                                    <label class="form-control">@item.TipoFlete</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-6 col-xs-12 control-label">fecha Salida :</label>
+                                            <div class="col-md-6 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa fa-check"></span></span>
+                                                    <label class="form-control">@item.FechaSalida</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-6 col-xs-12 control-label">Fecha Llegada :</label>
+                                            <div class="col-md-6 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa fa-check"></span></span>
+                                                    <label class="form-control">@item.FechaLlegada</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    if (@item.Id_tipoDocumento == 4)
+                                    {
+                                        <div class="form-group">
+                                            <label class="col-md-6 col-xs-12 control-label">Fecha :</label>
+                                            <div class="col-md-6 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                                    <label class="form-control">@item.Subtotal</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                     }
+                                }
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="panel-footer">
+
+                        <a  href="@Url.Action("Details", "DocumentoXCobrar", new { id = Model.Id_documentoCobrar, id2 = Model.Id_tipoDocumento})"class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    </div>
+                </div>
+                <!-- END DEFAULT DATATABLE -->
+            </div>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Detalle del registro</h5>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <div class="col-md-12 classError">
+                                        <label class="col-md-3 col-xs-12 control-label">Concepto</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <label> Hola este es el primer texto</label>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12 classError">
+                                        <label class="col-md-3 control-label">Sueldo</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+
+                                                <label> Hola este es un texto</label>
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres eliminar esta fila?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    var message = '@message';
+    var typemessage = '@typemessage';
+    </script>
+}
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script>
+    jQuery(document).ready(function () {
+        Mensaje(message, typemessage);
+        });
+    </script>
+}

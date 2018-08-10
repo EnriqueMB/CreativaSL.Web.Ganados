@@ -70,7 +70,7 @@
                                             {
                                                 <td>No Sistema</td>
                                             }
-                                            <td>@Doc.Folio.ToString("0.00").Replace(',', '.')</td>
+                                            <td>@Doc.Folio</td>
                                             <td>@Doc.NombreSucursal.ToString()</td>
                                             <td>@Doc.Fecha.ToShortDateString()</td>
                                             <td>@Doc.Impuestos.ToString("0.00").Replace(',', '.')</td>
@@ -81,7 +81,7 @@
                                             {
                                                 <td style="text-align:center;">
                                                     <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                        <a title="Detalle Documento" href="@Url.Action("Details", "DocumentoXCobrar", new { id = Doc.Id_documentoCobrar})" class="btn btn-green tooltips" data-placement="top" data-original-title="Detalle Documento"><i class="fa fa-eye"></i></a>
+                                                        <a title="Detalle Documento" href="@Url.Action("Details", "DocumentoXCobrar", new { id = Doc.Id_documentoCobrar, id2 = Doc.Id_tipoDocumento})" class="btn btn-green tooltips" data-placement="top" data-original-title="Detalle Documento"><i class="fa fa-eye"></i></a>
                                                     </div>
                                                     <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                         <div class="btn-group">
@@ -90,7 +90,7 @@
                                                             </a>
                                                             <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                                 <li>
-                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "DocumentoXCobrar", new { id = Doc.Id_documentoCobrar})">
+                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "DocumentoXCobrar", new { id = Doc.Id_documentoCobrar, id2 = Doc.Id_tipoDocumento })">
                                                                         <i class="fa fa-eye"></i> Detalle Documento
                                                                     </a>
                                                                 </li>
@@ -103,8 +103,8 @@
                                             {
                                                 <td style="text-align:center;">
                                                     <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                        <a title="Detalle Documento" href="@Url.Action("Details", "DocumentoXCobrar", new { id = Doc.Id_documentoCobrar})" class="btn btn-green tooltips" data-placement="top" data-original-title="Detalle Documento"><i class="fa fa-eye"></i></a>
-                                                        <a title="Pagos" class="btn btn-green" href="@Url.Action("DetalleCobro", "DocumentoXCobrar", new { id = Doc.Id_documentoCobrar })"><i class="fa fa-money"></i></a>
+                                                        <a title="Detalle Documento" href="@Url.Action("Details", "DocumentoXCobrar", new { id = Doc.Id_documentoCobrar, id2 = Doc.Id_tipoDocumento })" class="btn btn-green tooltips" data-placement="top" data-original-title="Detalle Documento"><i class="fa fa-eye"></i></a>
+                                                        <a title="Pagos" class="btn btn-green" href="@Url.Action("DetallePagos", "DocumentoXCobrar", new { id = Doc.Id_documentoCobrar })"><i class="fa fa-money"></i></a>
                                                     </div>
                                                     <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                         <div class="btn-group">
@@ -113,7 +113,7 @@
                                                             </a>
                                                             <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                                 <li>
-                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "DocumentoXCobrar", new { id = Doc.Id_documentoCobrar})">
+                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "DocumentoXCobrar", new { id = Doc.Id_documentoCobrar, id2 = Doc.Id_tipoDocumento })">
                                                                         <i class="fa fa-eye"></i> Detalle Documento
                                                                     </a>
                                                                 </li>
