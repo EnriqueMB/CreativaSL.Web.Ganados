@@ -424,7 +424,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     Item = new DocumentosPorCobrarDetalleModels();
                     Item.Id_tipoDocumento = !dr.IsDBNull(dr.GetOrdinal("IDTipo")) ? dr.GetInt32(dr.GetOrdinal("IDTipo")) : 0;
-                    Item.Id_documentoCobrar = !dr.IsDBNull(dr.GetOrdinal("IDDocumentoPagar")) ? dr.GetString(dr.GetOrdinal("IDDocumentoPagar")) : string.Empty;
+                    Item.Id_documentoCobrar = !dr.IsDBNull(dr.GetOrdinal("IDDocumentoCobrar")) ? dr.GetString(dr.GetOrdinal("IDDocumentoCobrar")) : string.Empty;
                     Item.nombreConciliacion = !dr.IsDBNull(dr.GetOrdinal("NombreConciliacion")) ? dr.GetString(dr.GetOrdinal("NombreConciliacion")) : string.Empty;
                     Item.nombreClasificacion = !dr.IsDBNull(dr.GetOrdinal("NombreClasificacion")) ? dr.GetString(dr.GetOrdinal("NombreClasificacion")) : string.Empty;
                     Item.Cantidad = !dr.IsDBNull(dr.GetOrdinal("Cantidad")) ? dr.GetDecimal(dr.GetOrdinal("Cantidad")) : 0;
