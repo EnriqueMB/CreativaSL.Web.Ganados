@@ -35,6 +35,8 @@ namespace CreativaSL.Web.Ganados.Models
         public int Opcion { get; set; }
         public bool Completado { get; set; }
 
+        public string NumeroFactura { get; set; }
+        
         public DocumentosPorCobrarModels DocumentoPorCobraFlete;
 
         private string _IDSucursal;
