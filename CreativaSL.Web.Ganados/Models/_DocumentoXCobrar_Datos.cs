@@ -480,6 +480,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.EsSistema = !dr.IsDBNull(dr.GetOrdinal("EsSistema")) ? dr.GetBoolean(dr.GetOrdinal("EsSistema")) : false;
                     Item.Id_documentoCobrar = !dr.IsDBNull(dr.GetOrdinal("IDDocumentoCobrar")) ? dr.GetString(dr.GetOrdinal("IDDocumentoCobrar")) : string.Empty;
                     Item.Id_sucursal = !dr.IsDBNull(dr.GetOrdinal("IDSucursal")) ? dr.GetString(dr.GetOrdinal("IDSucursal")) : string.Empty;
+                    Item.Estatus = !dr.IsDBNull(dr.GetOrdinal("Estatus")) ? dr.GetInt16(dr.GetOrdinal("Estatus")) : 0;
                     Item.Id_metodoPago = !dr.IsDBNull(dr.GetOrdinal("MetodoPago")) ? dr.GetString(dr.GetOrdinal("MetodoPago")) : string.Empty;
                     Item.NumeroFactura = !dr.IsDBNull(dr.GetOrdinal("Folio")) ? dr.GetString(dr.GetOrdinal("Folio")) : string.Empty;
                     Item.Fecha = !dr.IsDBNull(dr.GetOrdinal("Fecha")) ? dr.GetDateTime(dr.GetOrdinal("Fecha")) : DateTime.Today;
@@ -559,6 +560,7 @@ namespace CreativaSL.Web.Ganados.Models
                             datos.Opcion,
                             datos.Id_documentoCobrar ?? string.Empty,
                             datos.Id_sucursal ?? string.Empty,
+                            datos.Estatus,
                             datos.Fecha,
                             datos.Usuario,
                             datos.Id_tipoDocumento,
