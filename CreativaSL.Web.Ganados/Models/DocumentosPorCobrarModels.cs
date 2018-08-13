@@ -7,6 +7,13 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class DocumentosPorCobrarModels
     {
+
+        public DocumentosPorCobrarModels()
+        {
+            //_IDSucursal = string.Empty;
+            Id_tipoDocumento = 0 ;
+        }
+
         public string Id_documentoCobrar { get; set; }
         public int Id_tipoDocumento { get; set; }
         public int id_tipoConciliacion { get; set; }
@@ -28,7 +35,11 @@ namespace CreativaSL.Web.Ganados.Models
         public int Opcion { get; set; }
         public bool Completado { get; set; }
 
+        public string NumeroFactura { get; set; }
+        
         public DocumentosPorCobrarModels DocumentoPorCobraFlete;
+
+       
 
         private List<DocumentosPorCobrarModels> _ListaDocumentos;
         public List<DocumentosPorCobrarModels> ListaDocumentos
