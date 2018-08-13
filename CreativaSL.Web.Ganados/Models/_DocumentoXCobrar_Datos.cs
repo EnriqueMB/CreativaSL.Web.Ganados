@@ -396,30 +396,6 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public List<CatTipoClasificacionCobroModels> ObtenerConceptosDocumento(string Conexion)
-        {
-            try
-            {
-                List<CatTipoClasificacionCobroModels> Lista = new List<CatTipoClasificacionCobroModels>();
-                CatTipoClasificacionCobroModels Item;
-                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Combo_get_CatTipoClasificacionCobro");
-                while (Dr.Read())
-                {
-                    Item = new CatTipoClasificacionCobroModels();
-                    Item.Id_tipoClasificacionCobro = !Dr.IsDBNull(Dr.GetOrdinal("ID")) ? Dr.GetInt32(Dr.GetOrdinal("ID")) : 0;
-                    Item.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty;
-                    Item.Inventario = !Dr.IsDBNull(Dr.GetOrdinal("Inventario")) ? Dr.GetBoolean(Dr.GetOrdinal("Inventario")) : false;
-                    Lista.Add(Item);
-                }
-                Dr.Close();
-                return Lista;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
         public List<ListaGenerica> GetGeneralesDocumentoPorCobrarPago(DocumentosPorCobrarDetalleModels DocumentosPorCobrarModels)
         {
             try

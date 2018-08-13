@@ -25,7 +25,7 @@
             @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
                                                                                                                         <div id="validation_summary" class="field_error "></div> //JS
 
-            @Html.HiddenFor(model => model.IDDocumentoPagar)
+            @Html.HiddenFor(model => model.Id_documentoCobrar)
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title"><strong>Información </strong> Documento por pagar</h3>
@@ -38,8 +38,8 @@
                        <div class="form-group">
                            <label class="col-md-3 col-xs-12 control-label"><span>* </span> Sucursal </label>
                            <div class="col-md-6 col-xs-12">
-                               @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursal, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
-                               @Html.ValidationMessageFor(model => model.IDSucursal)
+                               @Html.DropDownListFor(model => model.Id_sucursal, new SelectList(Model.ListaSucursal, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
+                               @Html.ValidationMessageFor(model => model.Id_sucursal)
                            </div>
                        </div>
                        <div class="form-group">
@@ -55,11 +55,11 @@
                        <div class="form-group">
                            <label class="col-md-3 col-xs-12 control-label"><span>* </span> Concepto Documento </label>
                            <div class="col-md-6 col-xs-12">
-                               @Html.DropDownListFor(model => model.id_concepto, new SelectList(Model.ListaCDocumento, "IDTipoDocumento", "Descripcion"), new { id = "id_concepto", @class = "form-control select", data_live_search = "true" })
-                               @Html.ValidationMessageFor(model => model.id_concepto)
+                               @Html.DropDownListFor(model => model.Id_tipoDocumento, new SelectList(Model.ListaCDocumento, "IDTipoDocumento", "Descripcion"), new { id = "id_concepto", @class = "form-control select", data_live_search = "true" })
+                               @Html.ValidationMessageFor(model => model.Id_tipoDocumento)
                            </div>
                        </div>
-                       <div class="form-group">
+                       @*<div class="form-group">
                            <label class="col-md-3 col-xs-12 control-label"><span>* </span> Tipo Proveedor </label>
                            <div class="col-md-6 col-xs-12">
                                @Html.DropDownListFor(model => model.IDTProveedor, new SelectList(Model.LisTipoProveedor, "IDTipoProveedor", "Descripcion"), new { id = "IDTProveedor", @class = "form-control select", data_live_search = "true" })
@@ -72,13 +72,13 @@
                                @Html.DropDownListFor(model => model.IDProveedor, new SelectList(Model.LisProveedor, "IDProveedor", "NombreRazonSocial"), new { id = "IDProveedor", @class = "form-control select", data_live_search = "true" })
                                @Html.ValidationMessageFor(model => model.IDProveedor)
                            </div>
-                       </div>
+                       </div>*@
                        <div class="form-group">
                            <label class="col-md-3 control-label">Monto</label>
                            <div class="col-md-6 col-xs-12">
                                <div class="input-group">
                                    <span class="input-group-addon"><span class="fa fa-building-o"></span></span>
-                                   @Html.TextBoxFor(model => model.precio, "{0:f2}", new { id = "precio", autocomplete = "off", @class = "form-control", type = "number" })
+                                   @Html.TextBoxFor(model => model.Total, "{0:f2}", new { id = "precio", autocomplete = "off", @class = "form-control", type = "number" })
                                </div>
                            </div>
                        </div>                                                 

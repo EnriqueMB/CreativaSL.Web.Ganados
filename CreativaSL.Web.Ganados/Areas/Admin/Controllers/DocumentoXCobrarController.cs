@@ -61,28 +61,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         // GET: Admin/DocumentosXCobrar/Create
         public ActionResult Create()
         {
-            try
-            {
-                Token.SaveToken();
-                _Combos_Datos CMB = new _Combos_Datos();
-                _DocumentoXCobrar_Datos datos = new _DocumentoXCobrar_Datos();
-                DocumentosPorCobrarModels documentos = new DocumentosPorCobrarModels();
-                documentos.Fecha = DateTime.Now;
-                documentos.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
-                documentos.ListaCDocumento = datos.ObtenerConceptosDocumento(Conexion);
-                //documentos.LisTipoProveedor = datos.ObteneComboCatTipoProveedor(Conexion);
-                //documentos.IDTProveedor = 0;
-                documentos.Conexion = Conexion;
-                //documentos.LisProveedor = datos.ObteneComboProveedoresXID(documentos);
-                return View(documentos);
-            }
-            catch (Exception)
-            {
-                DocumentosPorCobrarModels documentos = new DocumentosPorCobrarModels();
-                TempData["typemessage"] = "2";
-                TempData["message"] = "No se puede cargar la vista";
-                return View(documentos);
-            }
+                return View();
+            
         }
 
         // POST: Admin/DocumentosXCobrar/Create

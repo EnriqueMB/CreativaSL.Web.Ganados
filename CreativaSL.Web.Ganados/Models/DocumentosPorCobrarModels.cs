@@ -7,9 +7,16 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class DocumentosPorCobrarModels
     {
+
+        public DocumentosPorCobrarModels()
+        {
+            _IDSucursal = string.Empty;
+            Id_tipoDocumento = 0 ;
+        }
+
         public string Id_documentoCobrar { get; set; }
         public int Id_tipoDocumento { get; set; }
-        public string Id_sucursal { get; set; }
+        //public string Id_sucursal { get; set; }
         public string Id_metodoPago { get; set; }
         public DateTime Fecha { get; set; }
         public bool EsSistema { get; set; }
@@ -25,6 +32,13 @@ namespace CreativaSL.Web.Ganados.Models
         public long Folio { get; set; }
 
         public DocumentosPorCobrarModels DocumentoPorCobraFlete;
+
+        private string _IDSucursal;
+        public string Id_sucursal
+        {
+            get { return _IDSucursal; }
+            set { _IDSucursal = value; }
+        }
 
         private List<DocumentosPorCobrarModels> _ListaDocumentos;
         public List<DocumentosPorCobrarModels> ListaDocumentos
