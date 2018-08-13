@@ -470,6 +470,7 @@
     <Content Include="Content\js\compraCobro.js" />
     <Content Include="Content\js\Configuracion.js" />
     <Content Include="Content\js\documentoXPagarPagos.js" />
+    <Content Include="Content\js\DocXCobrarCreate.js" />
     <Content Include="Content\js\DocXPagarCreate.js" />
     <Content Include="Content\js\fleteCobro.js" />
     <Content Include="Content\js\fleteEvento.js" />

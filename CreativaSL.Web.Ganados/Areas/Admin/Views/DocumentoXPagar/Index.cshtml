@@ -93,8 +93,8 @@
                                                         <td><span class="label label-primary">@Doc.EstatusNombre</span></td>
                                                         }
                                                         <td>@Doc.Fecha.ToShortDateString()</td>
-                                                        <td>@Doc.Total.ToString("0.00").Replace(',', '.')</td>
-                                                        <td>@Doc.Pendientes.ToString("0.00").Replace(',', '.')</td>
+                                                        <td>@Doc.Total.ToString("C2")</td>
+                                                        <td>@Doc.Pendientes.ToString("C2")</td>
                                                         @if (Doc.EsSistema)
                                                         {
                                                         <td style="text-align:center;">
@@ -205,8 +205,8 @@
                                                                 <td><span class="label label-primary">@Doc.EstatusNombre</span></td>
                                                             }
                                                             <td>@Doc.Fecha.ToShortDateString()</td>
-                                                            <td>@Doc.Total.ToString("0.00").Replace(',', '.')</td>
-                                                            <td>@Doc.Pendientes.ToString("0.00").Replace(',', '.')</td>
+                                                            <td>@Doc.Total.ToString("C2")</td>
+                                                            <td>@Doc.Pendientes.ToString("C2")</td>
                                                             @if (Doc.EsSistema)
                                                             {
                                                                 <td style="text-align:center;">

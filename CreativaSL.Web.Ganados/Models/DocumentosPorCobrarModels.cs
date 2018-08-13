@@ -18,6 +18,7 @@ namespace CreativaSL.Web.Ganados.Models
         public int Id_tipoDocumento { get; set; }
         public int id_tipoConciliacion { get; set; }
         public string Id_sucursal { get; set; }
+        public int Estatus { get; set; }
         public string Id_metodoPago { get; set; }
         public DateTime Fecha { get; set; }
         public bool EsSistema { get; set; }
