@@ -1,13 +1,20 @@
-﻿@model CreativaSL.Web.Ganados.Models.VentaDetalleModels
-@{
-    ViewBag.Title = "VentaDetalles";
+﻿@model CreativaSL.Web.Ganados.Models.FleteDetallesModels
+@{ 
+    ViewBag.Title = "Detalles_Flete";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+
 @section css
 {
     <style>
-        .vista_previa { cursor: pointer; }
-        #imagen_previa {width: 100% !important;}
+        .vista_previa {
+            cursor: pointer;
+        }
+
+        #imagen_previa {
+            width: 100% !important;
+        }
+
         .form-control[disabled], .form-control[readonly] {
             color: #000 !important;
         }
@@ -44,7 +51,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">INFORMACION</h3>
-                                @Html.HiddenFor(model => model.Id_venta)
+                                @Html.HiddenFor(model => model.Id_flete)
                                 <ul class="panel-controls">
                                     <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                                     <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
@@ -54,18 +61,14 @@
                                 <div class="row">
                                     <div class="form-group">
                                         <div class="col-md-6">
-                                            <h4>Datos de la venta</h4>
+                                            <h4>Datos del flete</h4>
                                             <dl class="dl-horizontal">
                                                 <dt>Folio</dt>
-                                                <dd>@Model.VentaFolio</dd>
+                                                <dd>@Model.FleteFolio</dd>
                                                 <dt>Sucursal</dt>
-                                                <dd>@Model.VentaSucursal</dd>
-                                                <dt>Fecha finalizada</dt>
-                                                <dd>@Model.VentaFecha</dd>
-                                                <dt>Merma</dt>
-                                                <dd>@Model.VentaMerma</dd>
+                                                <dd>@Model.FleteSucursal</dd>
                                                 <dt>Observación</dt>
-                                                <dd>@Model.VentaObservacion</dd>
+                                                <dd>@Model.FleteObservacion</dd>
                                             </dl>
                                         </div>
                                     </div>
@@ -75,12 +78,12 @@
                                             <dl class="dl-horizontal">
                                                 <dt>Linea fletera</dt>
                                                 <dd>@Model.FleteLineaFletera</dd>
-                                                <dt>Lugar origen</dt>
-                                                <dd>@Model.FleteLugarOrigen</dd>
-                                                <dt>Lugar destino</dt>
-                                                <dd>@Model.FleteLugarDestino</dd>
+                                                <dt>Fecha finalizada</dt>
+                                                <dd>@Model.FleteFecha</dd>
                                                 <dt>Chofer</dt>
-                                                <dd>@Model.FleteNombreChofer</dd>
+                                                <dd>@Model.FleteChofer</dd>
+                                                <dt>Vehiculo</dt>
+                                                <dd>@Model.FleteVehiculo</dd>
                                                 <dt>Precio del flete</dt>
                                                 <dd>@Model.FletePrecio.ToString("C2")</dd>
                                             </dl>
@@ -89,41 +92,45 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <h4>Datos del Cliente</h4>
                                             <dl class="dl-horizontal">
                                                 <dt>Nombre completo</dt>
                                                 <dd>@Model.ClienteNombreRazonSocialCompleto</dd>
-                                                <dt>Regimen fiscal</dt>
-                                                <dd>@Model.ClienteRegimenFiscal</dd>
                                                 <dt>Dirección</dt>
                                                 <dd>@Model.ClienteDireccion</dd>
-                                                <dt>P.S.G.</dt>
-                                                <dd>@Model.ClientePSG</dd>
                                             </dl>
                                         </div>
 
-                                        <div class="col-md-6">
-                                            <h4>Datos de la Empresa</h4>
+                                        <div class="col-md-4">
+                                            <h4>Origen</h4>
                                             <dl class="dl-horizontal">
-                                                <dt>Nombre de la empresa</dt>
-                                                <dd>@Model.EmpresaRazonSocial</dd>
+                                                <dt>Lugar origen</dt>
+                                                <dd>@Model.FleteLugarOrigen</dd>
                                                 <dt>Dirección</dt>
-                                                <dd>@Model.EmpresaDireccion</dd>
-                                                <dt>R.F.C.</dt>
-                                                <dd>@Model.EmpresaRFC</dd>
-                                                <dt>P.S.G.</dt>
-                                                <dd>@Model.EmpresaPSG</dd>
+                                                <dd>@Model.FleteDireccionOrigen</dd>
                                             </dl>
+
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <h4>Destino</h4>
+                                            <dl class="dl-horizontal">
+                                                <dt>Lugar destino</dt>
+                                                <dd>@Model.FleteLugarDestino</dd>
+                                                <dt>Dirección</dt>
+                                                <dd>@Model.FleteDireccionDestino</dd>
+                                            </dl>
+
                                         </div>
                                     </div>
                                 </div>
                                 <hr />
-                                
+
 
                             </div>
                             <div class="panel-footer">
-                                <a href="@Url.Action("Index", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                                <a href="@Url.Action("Index", "Flete")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                             </div>
                         </div>
                     </div>
@@ -213,7 +220,7 @@
                                 </div>
                             </div>
                             <div class="panel-footer">
-                                <a href="@Url.Action("Index", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                                <a href="@Url.Action("Index", "Flete")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                             </div>
                         </div>
                     </div>
@@ -280,7 +287,7 @@
                                 </div>
                             </div>
                             <div class="panel-footer">
-                                <a href="@Url.Action("Index", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                                <a href="@Url.Action("Index", "Flete")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                             </div>
                         </div>
                     </div>
@@ -335,7 +342,7 @@
 
                             </div>
                             <div class="panel-footer">
-                                <a href="@Url.Action("Index", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                                <a href="@Url.Action("Index", "Flete")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                             </div>
                         </div>
                     </div>
@@ -379,7 +386,7 @@
 
     <script>
         jQuery(document).ready(function () {
-            var Id_venta = $("#Id_venta").val();
+            var Id_flete = $("#Id_flete").val();
 
             var tbl_generalGanado = $('#tbl_generalGanado').DataTable({
                 "language": {
@@ -388,9 +395,9 @@
                 responsive: true,
                 "ajax": {
                     "data": {
-                        "Id_venta": Id_venta
+                        "Id_flete": Id_flete
                     },
-                    "url": "/Admin/Venta/DatatableGeneralesGanado/",
+                    "url": "/Admin/Flete/DatatableGeneralesGanado/",
                     "type": "POST",
                     "datatype": "json",
                     "dataSrc": ''
@@ -756,6 +763,10 @@
         });
     </script>
 }
+
+
+
+
 
 
 
