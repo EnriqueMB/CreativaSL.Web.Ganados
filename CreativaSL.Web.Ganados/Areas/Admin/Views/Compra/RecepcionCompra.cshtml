@@ -103,29 +103,29 @@
                             <div id="validation_summary_recepcionOrigen" class="field_error "></div><br />
                             <div class="panel-body">
                                 <div class="form-group">
-                                    <div class="col-md-4">
-                                        <label class="col-md-3 control-label">Fecha de llegada</label>
-                                        <div class="col-md-9 col-xs-12">
+                                    <div class="col-md-6">
+                                        <label class="col-md-2 control-label">Fecha de llegada</label>
+                                        <div class="col-md-10 col-xs-12">
                                             <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
                                                 @Html.TextBoxFor(model => model.RecepcionOrigen.FechaLlegada, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker", @readonly = "readonly"} )
                                             </div>
                                             @Html.ValidationMessageFor(model => model.RecepcionOrigen.FechaLlegada)
                                             <span class="help-block">Fecha de llegada  de la unidad.</span>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label class="col-md-3 control-label">Hora de llegada </label>
-                                        <div class="col-md-9 col-xs-12">
+                                    <div class="col-md-6">
+                                        <label class="col-md-2 control-label">Hora de llegada </label>
+                                        <div class="col-md-10 col-xs-12">
                                             <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                                                 @Html.TextBoxFor(model => model.RecepcionOrigen.HoraLlegada, new { @class = "form-control Hora24hrs" })
                                             </div>
                                             @Html.ValidationMessageFor(model => model.RecepcionOrigen.HoraLlegada)
                                             <span class="help-block">Hora de llegada de la unidad.</span>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    @*<div class="col-md-4">
                                         <label class="col-md-3 control-label">Kilómetraje final </label>
                                         <div class="col-md-9 col-xs-12">
                                             <div class="input-group">
@@ -135,7 +135,7 @@
                                             @Html.ValidationMessageFor(model => model.RecepcionOrigen.KilometrajeFinal)
                                             <span class="help-block">Kilómetraje final de la unidad.</span>
                                         </div>
-                                    </div>
+                                    </div>*@
                                 </div>
                        
                                 <div class="form-group">

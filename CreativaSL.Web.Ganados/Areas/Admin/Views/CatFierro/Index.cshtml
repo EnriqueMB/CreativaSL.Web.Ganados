@@ -37,7 +37,8 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("Create","CatFierro")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo fierro</a></li>
+                            <li><a href="@Url.Action("Create","CatFierro")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Dibujar Imagen</a></li>
+                            <li><a href="@Url.Action("UploadImagen","CatFierro")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Subir Imagen</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                         </ul>
@@ -164,7 +165,7 @@
                         "render": function (data, type, full) {
 
                             return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                                "<a data-id='" + full["IDFierro"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                                //"<a data-id='" + full["IDFierro"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
                                 "<a data-hrefa='/Admin/CatFierro/Delete/' title='Eliminar' data-id='" + full["IDFierro"] + "' class='btn btn-danger tooltips btn-sm delete' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
@@ -174,8 +175,8 @@
                                 "</a>" +
                                 "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
                                 "<li>" +
-                                "<a data-id='" + full["IDFierro"] + "' class='edit' role='menuitem' tabindex='-1'>" +
-                                "<i class='fa fa-edit'></i> Editar" +
+                                //"<a data-id='" + full["IDFierro"] + "' class='edit' role='menuitem' tabindex='-1'>" +
+                                //"<i class='fa fa-edit'></i> Editar" +
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +

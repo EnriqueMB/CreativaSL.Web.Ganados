@@ -158,6 +158,45 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public string DatatableDocumentos(VentaModels2 Venta)
+        {
+            object[] parametros =
+            {
+                Venta.Id_venta
+            };
+
+            try
+            {
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_DocumentosXIDVenta", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string DatatableGeneralesGanado(VentaModels2 Venta)
+        {
+            try
+            {
+                object[] parametros =
+                    {
+                        Venta.Id_venta
+                    };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Compras_get_JsonGeneralesGanado", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
 
         #region Combos
@@ -713,6 +752,33 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public List<CatTipoDocumentoModels> GetListaTiposDocumentos(DocumentoModels Documento)
+        {
+            try
+            {
+                CatTipoDocumentoModels TipoDocumento;
+                List<CatTipoDocumentoModels> ListaTipoDocumentos = new List<CatTipoDocumentoModels>();
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Combo_get_CatTipoDocumento2");
+                while (dr.Read())
+                {
+                    TipoDocumento = new CatTipoDocumentoModels
+                    {
+                        IDTipoDocumento = !dr.IsDBNull(dr.GetOrdinal("id_tipoDocumento")) ? dr.GetInt16(dr.GetOrdinal("id_tipoDocumento")) : 0,
+                        Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty,
+                    };
+
+                    ListaTipoDocumentos.Add(TipoDocumento);
+                }
+                dr.Close();
+                return ListaTipoDocumentos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
 
         #region Vistas
@@ -804,6 +870,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Venta.CostoMachos = !dr.IsDBNull(dr.GetOrdinal("costoMachos")) ? dr.GetDecimal(dr.GetOrdinal("costoMachos")) : 0;
                     Venta.CostoHembras = !dr.IsDBNull(dr.GetOrdinal("costoHembras")) ? dr.GetDecimal(dr.GetOrdinal("costoHembras")) : 0;
                     Venta.CostoTotal = !dr.IsDBNull(dr.GetOrdinal("costoTotal")) ? dr.GetDecimal(dr.GetOrdinal("costoTotal")) : 0;
+                    Venta.ME = !dr.IsDBNull(dr.GetOrdinal("me")) ? dr.GetDecimal(dr.GetOrdinal("me")) : 0;
                 }
                 else
                 {
@@ -888,31 +955,62 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
         #region VentaDocumentos
-        public VentaModels2 GetVentaDocumentos(VentaModels2 Venta)
+        public DocumentoModels GetVentaDocumentos(DocumentoModels Documentos)
         {
             object[] parametros =
             {
-                Venta.Id_venta
+                Documentos.Id_servicio
             };
             SqlDataReader dr = null;
-            dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_VentaDocumentosXIDVenta", parametros);
+            dr = SqlHelper.ExecuteReader(Documentos.Conexion, "spCSLDB_Venta_get_VentaDocumentosXIDVenta", parametros);
 
             while (dr.Read())
             {
-                Venta.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                Documentos.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
 
-                if (Venta.RespuestaAjax.Success)
+                if (Documentos.RespuestaAjax.Success)
                 {
-                    Venta.Id_flete = !dr.IsDBNull(dr.GetOrdinal("id_flete")) ? dr.GetString(dr.GetOrdinal("id_flete")) : string.Empty;
-                    Venta.CobrarFlete = !dr.IsDBNull(dr.GetOrdinal("cobrarFlete")) ? dr.GetInt16(dr.GetOrdinal("cobrarFlete")) : 0;
+                    Documentos.Id_servicio = !dr.IsDBNull(dr.GetOrdinal("id_venta")) ? dr.GetString(dr.GetOrdinal("id_venta")) : string.Empty;
+                    Documentos.Id_documentoPorPagar = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorPagar")) ? dr.GetString(dr.GetOrdinal("id_documentoPorPagar")) : string.Empty;
+                    Documentos.CobrarFlete = !dr.IsDBNull(dr.GetOrdinal("cobrarFlete")) ? dr.GetInt16(dr.GetOrdinal("cobrarFlete")) : 0;
+                    Documentos.Id_conceptoSalidaDeduccion = !dr.IsDBNull(dr.GetOrdinal("id_conceptoDocumento")) ? dr.GetInt16(dr.GetOrdinal("id_conceptoDocumento")) : 0;
+                    Documentos.PrecioUnitarioDocumentacion = !dr.IsDBNull(dr.GetOrdinal("precioUnitario")) ? dr.GetDecimal(dr.GetOrdinal("precioUnitario")) : 0;
                 }
                 else
                 {
-                    Venta.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Documentos.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                 }
             }
             dr.Close();
-            return Venta;
+            return Documentos;
+        }
+        public DocumentoModels AC_CostoDocumentos(DocumentoModels Documento)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     Documento.Id_servicio
+                    ,Documento.Id_documentoPorPagar
+                    ,Documento.Usuario
+                    ,Documento.PrecioUnitarioDocumentacion
+                    ,Documento.Id_conceptoSalidaDeduccion
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Venta_ac_PrecioDocumento", parametros);
+
+                while (dr.Read())
+                {
+                    Documento.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Documento.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                dr.Close();
+                return Documento;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         #endregion
         #region Vista cobro
@@ -1243,7 +1341,93 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         #endregion
+        #region Vista documento
+        public DocumentoModels GetDocumentoXIDDocumento(DocumentoModels Documento)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     Documento.IDDocumento, Documento.Id_servicio
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Venta_get_DocumentoXIDDocumento", parametros);
 
+                while (dr.Read())
+                {
+                    Documento.IDTipoDocumento = !dr.IsDBNull(dr.GetOrdinal("id_tipoDocumento")) ? dr.GetInt16(dr.GetOrdinal("id_tipoDocumento")) : 0;
+                    Documento.Clave = !dr.IsDBNull(dr.GetOrdinal("clave")) ? dr.GetString(dr.GetOrdinal("clave")) : string.Empty;
+                    //Solo para mostrar
+                    Documento.ImagenServer = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
+                }
+                if (string.IsNullOrEmpty(Documento.ImagenServer))
+                {
+                    //No hay imagen en el server
+                    Documento.MostrarImagen = Auxiliar.SetDefaultImage();
+                }
+                else
+                {
+                    //Guardamos el string de la imagen
+                    Documento.MostrarImagen = Documento.ImagenServer;
+                }
+                Documento.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Documento.MostrarImagen);
+                dr.Close();
+
+                return Documento;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region Vista detalles
+        public VentaDetalleModels Get_detallesVenta(VentaDetalleModels VentaDetalles)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     VentaDetalles.Id_venta
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(VentaDetalles.Conexion, "spCSLDB_Venta_get_Detalles", parametros);
+
+                while (dr.Read())
+                {
+                    VentaDetalles.VentaFolio = !dr.IsDBNull(dr.GetOrdinal("folio")) ? dr.GetString(dr.GetOrdinal("folio")) : string.Empty;
+                    VentaDetalles.VentaSucursal = !dr.IsDBNull(dr.GetOrdinal("nombreSuc")) ? dr.GetString(dr.GetOrdinal("nombreSuc")) : string.Empty;
+                    VentaDetalles.VentaFecha = !dr.IsDBNull(dr.GetOrdinal("fechaHoraVenta")) ? dr.GetString(dr.GetOrdinal("fechaHoraVenta")) : string.Empty;
+                    VentaDetalles.VentaMerma = !dr.IsDBNull(dr.GetOrdinal("merma")) ? dr.GetString(dr.GetOrdinal("merma")) : string.Empty;
+                    VentaDetalles.VentaObservacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
+
+                    VentaDetalles.FleteLineaFletera = !dr.IsDBNull(dr.GetOrdinal("lineaFletera")) ? dr.GetString(dr.GetOrdinal("lineaFletera")) : string.Empty;
+                    VentaDetalles.FleteLugarOrigen = !dr.IsDBNull(dr.GetOrdinal("lugarOrigen")) ? dr.GetString(dr.GetOrdinal("lugarOrigen")) : string.Empty;
+                    VentaDetalles.FleteLugarDestino = !dr.IsDBNull(dr.GetOrdinal("lugarDestino")) ? dr.GetString(dr.GetOrdinal("lugarDestino")) : string.Empty;
+                    VentaDetalles.FleteNombreChofer = !dr.IsDBNull(dr.GetOrdinal("nombreCompletoChofer")) ? dr.GetString(dr.GetOrdinal("nombreCompletoChofer")) : string.Empty;
+                    VentaDetalles.FletePrecio = !dr.IsDBNull(dr.GetOrdinal("precioFlete")) ? dr.GetDecimal(dr.GetOrdinal("precioFlete")) : 0;
+
+                    VentaDetalles.ClienteNombreRazonSocialCompleto = !dr.IsDBNull(dr.GetOrdinal("nombreCompletoCliente")) ? dr.GetString(dr.GetOrdinal("nombreCompletoCliente")) : string.Empty;
+                    VentaDetalles.ClienteRegimenFiscal = !dr.IsDBNull(dr.GetOrdinal("regimenFiscalCliente")) ? dr.GetString(dr.GetOrdinal("regimenFiscalCliente")) : string.Empty;
+                    VentaDetalles.ClienteDireccion = !dr.IsDBNull(dr.GetOrdinal("direccionCliente")) ? dr.GetString(dr.GetOrdinal("direccionCliente")) : string.Empty;
+                    VentaDetalles.ClientePSG = !dr.IsDBNull(dr.GetOrdinal("psgCliente")) ? dr.GetString(dr.GetOrdinal("psgCliente")) : string.Empty;
+
+                    VentaDetalles.EmpresaRazonSocial = !dr.IsDBNull(dr.GetOrdinal("NombreEmpresa")) ? dr.GetString(dr.GetOrdinal("NombreEmpresa")) : string.Empty;
+                    VentaDetalles.EmpresaDireccion = !dr.IsDBNull(dr.GetOrdinal("DireccionEmpresa")) ? dr.GetString(dr.GetOrdinal("DireccionEmpresa")) : string.Empty;
+                    VentaDetalles.EmpresaRFC = !dr.IsDBNull(dr.GetOrdinal("RFCEmpresa")) ? dr.GetString(dr.GetOrdinal("RFCEmpresa")) : string.Empty;
+                    VentaDetalles.EmpresaPSG = !dr.IsDBNull(dr.GetOrdinal("psgEmpresa")) ? dr.GetString(dr.GetOrdinal("psgEmpresa")) : string.Empty;
+                }
+                
+                dr.Close();
+
+                return VentaDetalles;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
         #endregion
 
         #region AC
@@ -1256,17 +1440,21 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     datos.Id_venta,                                         datos.Id_cliente,                                       datos.Id_flete,
                     datos.Id_documentoXCobrar,                              datos.Id_sucursal,
-                    datos.NombreVenta,                                      datos.Descripcion_bascula,                              datos.Observacion,
+                    //datos.NombreVenta,
+                    datos.Descripcion_bascula,                              datos.Observacion,
                     datos.Usuario,                                          datos.CobrarFlete,                                      datos.Flete.precioFlete,
                     datos.Flete.Id_empresa,                                 datos.Flete.id_vehiculo,                                datos.Flete.id_chofer,
-                    datos.Flete.VerificacionJaula.Id_verificacionJaula,     datos.Flete.kmInicialVehiculo,                          datos.Flete.FechaSalida,
+                    //datos.Flete.VerificacionJaula.Id_verificacionJaula,
+                    datos.Flete.kmInicialVehiculo,                          datos.Flete.FechaSalida,
                     datos.Flete.HoraSalida,                                 datos.Flete.FechaEmbarque,                              datos.Flete.HoraEmbarque,
-                    datos.Flete.NumFleje,
-                    datos.Flete.VerificacionJaula.LimpiezaCompleta,         datos.Flete.VerificacionJaula.SoloPiso,                 datos.Flete.VerificacionJaula.Sucia,
-                    datos.Flete.VerificacionJaula.PuertasInternas,          datos.Flete.VerificacionJaula.Focos,                    datos.Flete.VerificacionJaula.RiesgosPunzoCortantes,
-                    datos.Flete.VerificacionJaula.LlantaRefaccion,          datos.Flete.VerificacionJaula.LlantasBuenEstado,        datos.Flete.VerificacionJaula.PisoAntiadherente,
-                    datos.Flete.Trayecto.id_lugarOrigen,                    datos.Flete.Trayecto.id_lugarDestino,                   datos.Flete.CondicionPago,
-                    datos.Flete.MetodoPago.Clave,                           datos.Flete.FormaPago.Clave,                            datos.Flete.FechaTentativaEntrega
+                    //datos.Flete.NumFleje,
+                    //datos.Flete.VerificacionJaula.LimpiezaCompleta,         datos.Flete.VerificacionJaula.SoloPiso,                 datos.Flete.VerificacionJaula.Sucia,
+                    //datos.Flete.VerificacionJaula.PuertasInternas,          datos.Flete.VerificacionJaula.Focos,                    datos.Flete.VerificacionJaula.RiesgosPunzoCortantes,
+                    //datos.Flete.VerificacionJaula.LlantaRefaccion,          datos.Flete.VerificacionJaula.LlantasBuenEstado,        datos.Flete.VerificacionJaula.PisoAntiadherente,
+                    datos.Flete.Trayecto.id_lugarOrigen,                    datos.Flete.Trayecto.id_lugarDestino,
+                    //datos.Flete.CondicionPago,
+                    //datos.Flete.MetodoPago.Clave,                           datos.Flete.FormaPago.Clave,
+                    datos.Flete.FechaTentativaEntrega
                 };
 
                 RespuestaAjax RespuestaAjax = new RespuestaAjax();
@@ -1294,7 +1482,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    datos.Id_venta, datos.ListaIDGanadosParaVender, datos.Usuario
+                    datos.Id_venta, datos.ListaIDGanadosParaVender, datos.Usuario, datos.ME
                 };
 
                 RespuestaAjax RespuestaAjax = new RespuestaAjax();
@@ -1449,9 +1637,39 @@ namespace CreativaSL.Web.Ganados.Models
 
 
         #endregion
+        #region AC_Documento
+        public DocumentoModels AC_Documento(DocumentoModels Documento)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     Documento.IDDocumento
+                    ,Documento.Id_servicio
+                    ,Documento.IDTipoDocumento
+                    ,Documento.Clave
+                    ,Documento.ImagenServer
+                    ,Documento.Usuario
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Venta_ac_Documento", parametros);
 
+                while (dr.Read())
+                {
+                    Documento.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Documento.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                dr.Close();
+                return Documento;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
         #region AC_Impuestos
-        
+
         #endregion
 
         #endregion
@@ -1559,6 +1777,34 @@ namespace CreativaSL.Web.Ganados.Models
                 }
                 dr.Close();
                 return ImpuestoProducto;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region Del Documento
+        public DocumentoModels DEL_DocumentoXIDDocumento(DocumentoModels Documento)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                     Documento.IDDocumento
+                    ,Documento.Usuario
+                    ,Documento.Id_servicio
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Venta_del_DocumentoXIDDocumento", parametros);
+
+                while (dr.Read())
+                {
+                    Documento.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Documento.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                dr.Close();
+                return Documento;
             }
             catch (Exception ex)
             {
@@ -1677,7 +1923,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 List<ReporteGanadoModels> Lista = new List<ReporteGanadoModels>();
                 ReporteGanadoModels Item;
-                object[] parametros = { Venta.Id_flete };
+                object[] parametros = { Venta.Id_venta };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_ReporteListaGanado", parametros);
 
@@ -1704,6 +1950,68 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.PrecioPorKilo = Auxiliar.StringToMoneda_MX(Item.PrecioPorKilo);
                     Item.Subtotal = Auxiliar.StringToMoneda_MX(Item.Subtotal);
 
+                    Lista.Add(Item);
+                }
+                dr.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ReporteCabeceraGanado GetReporteCabeceraGanadoDetalles(VentaModels2 Venta)
+        {
+            try
+            {
+                ReporteCabeceraGanado Item = new ReporteCabeceraGanado(); ;
+                object[] parametros = { Venta.Id_venta };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_ReporteCabeceraListaGanado", parametros);
+
+                while (dr.Read())
+                {
+                    Item.NombreChofer = !dr.IsDBNull(dr.GetOrdinal("nombreChofer")) ? dr.GetString(dr.GetOrdinal("nombreChofer")) : string.Empty;
+                    Item.UnidadVehiculo = !dr.IsDBNull(dr.GetOrdinal("numeroUnidad")) ? dr.GetString(dr.GetOrdinal("numeroUnidad")) : string.Empty;
+                    Item.ModeloVehiculo = !dr.IsDBNull(dr.GetOrdinal("modelo")) ? dr.GetString(dr.GetOrdinal("modelo")) : string.Empty;
+                    Item.MarcaVehiculo = !dr.IsDBNull(dr.GetOrdinal("marca")) ? dr.GetString(dr.GetOrdinal("marca")) : string.Empty;
+                    Item.ColorVehiculo = !dr.IsDBNull(dr.GetOrdinal("color")) ? dr.GetString(dr.GetOrdinal("color")) : string.Empty;
+                    Item.CapacidadVehiculo = !dr.IsDBNull(dr.GetOrdinal("capacidad")) ? dr.GetString(dr.GetOrdinal("capacidad")) : string.Empty;
+                    Item.GPS = !dr.IsDBNull(dr.GetOrdinal("gps")) ? dr.GetString(dr.GetOrdinal("gps")) : string.Empty;
+                    Item.FechaHoraSalida = !dr.IsDBNull(dr.GetOrdinal("fechaHoraSalida")) ? dr.GetString(dr.GetOrdinal("fechaHoraSalida")) : string.Empty;
+                    Item.FechaHoraEmbarque = !dr.IsDBNull(dr.GetOrdinal("fechaHoraEmbarque")) ? dr.GetString(dr.GetOrdinal("fechaHoraEmbarque")) : string.Empty;
+                    Item.LugarOrigen = !dr.IsDBNull(dr.GetOrdinal("lugarOrigen")) ? dr.GetString(dr.GetOrdinal("lugarOrigen")) : string.Empty;
+                    Item.LugarDestino = !dr.IsDBNull(dr.GetOrdinal("lugarDestino")) ? dr.GetString(dr.GetOrdinal("lugarDestino")) : string.Empty;
+                    Item.PSGOrigen = !dr.IsDBNull(dr.GetOrdinal("PSGOrigen")) ? dr.GetString(dr.GetOrdinal("PSGOrigen")) : string.Empty;
+                    Item.PSGDestino = !dr.IsDBNull(dr.GetOrdinal("PSGDestino")) ? dr.GetString(dr.GetOrdinal("PSGDestino")) : string.Empty;
+                    Item.TotalGanadoMachos = !dr.IsDBNull(dr.GetOrdinal("totalGanadoMachos")) ? dr.GetInt32(dr.GetOrdinal("totalGanadoMachos")) : 0;
+                    Item.TotalGanadoHembras = !dr.IsDBNull(dr.GetOrdinal("totalGanadoHembras")) ? dr.GetInt32(dr.GetOrdinal("totalGanadoHembras")) : 0;
+                    Item.TotalGanado = !dr.IsDBNull(dr.GetOrdinal("totalGanado")) ? dr.GetInt32(dr.GetOrdinal("totalGanado")) : 0;
+                    Item.TotalKilosGanado = !dr.IsDBNull(dr.GetOrdinal("totalKilosGanado")) ? dr.GetDecimal(dr.GetOrdinal("totalKilosGanado")) : 0;
+                }
+                dr.Close();
+                return Item;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<CatFierroModels> GetReporteFierrosVenta(VentaModels2 Venta)
+        {
+            try
+            {
+                CatFierroModels Item;
+                List<CatFierroModels> Lista = new List<CatFierroModels>();
+
+                object[] parametros = { Venta.Id_venta };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_ListaFierros", parametros);
+
+                while (dr.Read())
+                {
+                    Item = new CatFierroModels();
+                    Item.ImgFierro = !dr.IsDBNull(dr.GetOrdinal("fierro")) ? dr.GetString(dr.GetOrdinal("fierro")) : string.Empty;
                     Lista.Add(Item);
                 }
                 dr.Close();

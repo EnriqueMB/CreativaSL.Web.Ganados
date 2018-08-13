@@ -16,7 +16,8 @@ namespace CreativaSL.Web.Ganados.Models
 
         public string Id_documentoCobrar { get; set; }
         public int Id_tipoDocumento { get; set; }
-        //public string Id_sucursal { get; set; }
+        public int id_tipoConciliacion { get; set; }
+        public string Id_sucursal { get; set; }
         public string Id_metodoPago { get; set; }
         public DateTime Fecha { get; set; }
         public bool EsSistema { get; set; }
@@ -30,6 +31,9 @@ namespace CreativaSL.Web.Ganados.Models
         public string Conexion { get; set; }    
         public string Usuario { get; set; }
         public long Folio { get; set; }
+
+        public int Opcion { get; set; }
+        public bool Completado { get; set; }
 
         public DocumentosPorCobrarModels DocumentoPorCobraFlete;
 
@@ -59,6 +63,13 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _ListaCDocumento; }
             set { _ListaCDocumento = value; }
+        }
+
+        private List<CFDI_MetodoPagoModels> _ListaMetodoPago;
+        public List<CFDI_MetodoPagoModels> ListaMetodoPago
+        {
+            get { return _ListaMetodoPago; }
+            set { _ListaMetodoPago = value; }
         }
 
     }

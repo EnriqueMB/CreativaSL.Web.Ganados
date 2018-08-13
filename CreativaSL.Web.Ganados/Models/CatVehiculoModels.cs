@@ -44,6 +44,8 @@ namespace CreativaSL.Web.Ganados.Models
             ListaEmpresas = new List<CatEmpresaModels>();
             IDEmpresa = string.Empty;
         }
+        public string PlacaJaula { get; set; }
+
         [Required(AllowEmptyStrings = false, ErrorMessage = "Seleccione una empresa.")]
         public string IDEmpresa { get; set; }
         public List<CatEmpresaModels> ListaEmpresas { get; set; }

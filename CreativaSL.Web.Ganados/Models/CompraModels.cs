@@ -12,6 +12,7 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CompraModels
     {
+        public string StringTipoFlete { get; set; }
         public decimal PrecioPorDocumentacion { get; set; }
         public string TipoSalidaDocumentacion { get; set; }
 

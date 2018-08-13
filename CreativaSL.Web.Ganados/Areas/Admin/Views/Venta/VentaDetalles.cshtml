@@ -1,0 +1,944 @@
+﻿@model CreativaSL.Web.Ganados.Models.VentaDetalleModels
+@{
+    ViewBag.Title = "VentaDetalles";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section css
+{
+    <!--CSS GENERAL-->
+    
+    <style>
+        .vista_previa {
+            cursor: pointer;
+        }
+    </style>
+}
+@section featured
+{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty; ;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <!--INICIA TABS-->
+        <div class="panel panel-default tabs">
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
+                <li role="presentation" class=""><a href="#ganado" aria-controls="ganado" role="tab" data-toggle="tab">Ganado</a></li>
+                <li role="presentation" class=""><a href="#pagos" aria-controls="pagos" role="tab" data-toggle="tab">Pagos</a></li>
+                <li role="presentation" class=""><a href="#cobros" aria-controls="cobros" role="tab" data-toggle="tab">Cobros</a></li>
+                <li role="presentation" class=""><a href="#documentos" aria-controls="documentos" role="tab" data-toggle="tab">Documentos</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="general">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">INFORMACION</h3>
+                                @Html.HiddenFor(model => model.Id_venta)
+                                <ul class="panel-controls">
+                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <h4>Datos de la venta</h4>
+                                            <dl class="dl-horizontal">
+                                                <dt>Folio</dt>
+                                                <dd>@Model.VentaFolio</dd>
+                                                <dt>Sucursal</dt>
+                                                <dd>@Model.VentaSucursal</dd>
+                                                <dt>Fecha finalizada</dt>
+                                                <dd>@Model.VentaFecha</dd>
+                                                <dt>Merma</dt>
+                                                <dd>@Model.VentaMerma</dd>
+                                                <dt>Observación</dt>
+                                                <dd>@Model.VentaObservacion</dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <h4>Datos del flete</h4>
+                                            <dl class="dl-horizontal">
+                                                <dt>Linea fletera</dt>
+                                                <dd>@Model.FleteLineaFletera</dd>
+                                                <dt>Lugar origen</dt>
+                                                <dd>@Model.FleteLugarOrigen</dd>
+                                                <dt>Lugar destino</dt>
+                                                <dd>@Model.FleteLugarDestino</dd>
+                                                <dt>Chofer</dt>
+                                                <dd>@Model.FleteNombreChofer</dd>
+                                                <dt>Precio del flete</dt>
+                                                <dd>@Model.FletePrecio.ToString("C2")</dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <h4>Datos del Cliente</h4>
+                                            <dl class="dl-horizontal">
+                                                <dt>Nombre completo</dt>
+                                                <dd>@Model.ClienteNombreRazonSocialCompleto</dd>
+                                                <dt>Regimen fiscal</dt>
+                                                <dd>@Model.ClienteRegimenFiscal</dd>
+                                                <dt>Dirección</dt>
+                                                <dd>@Model.ClienteDireccion</dd>
+                                                <dt>P.S.G.</dt>
+                                                <dd>@Model.ClientePSG</dd>
+                                            </dl>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <h4>Datos de la Empresa</h4>
+                                            <dl class="dl-horizontal">
+                                                <dt>Nombre de la empresa</dt>
+                                                <dd>@Model.EmpresaRazonSocial</dd>
+                                                <dt>Dirección</dt>
+                                                <dd>@Model.EmpresaDireccion</dd>
+                                                <dt>R.F.C.</dt>
+                                                <dd>@Model.EmpresaRFC</dd>
+                                                <dt>P.S.G.</dt>
+                                                <dd>@Model.EmpresaPSG</dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                
+
+                            </div>
+                            <div class="panel-footer">
+                                <a href="@Url.Action("Index", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="ganado">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">GANADO</h3>
+                                <ul class="panel-controls">
+                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel panel-body">
+                                <div class="table-responsive">
+                                    <table id="tbl_generalGanado" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Género</th>
+                                                <th>Cantidad</th>
+                                                <th>Total de kilos - peso</th>
+                                                <th>Total de kilos - repeso</th>
+                                                <th>Merma promedio (%)</th>
+                                                <th>Subtotal ($)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">GANADO MACHOS</h3>
+                                <ul class="panel-controls">
+                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel panel-body">
+                                <div class="table-responsive">
+                                    <table id="tbl_ganadoDetalleMachos" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Número de arete</th>
+                                                <th>Género</th>
+                                                <th>Peso inicial (kg.)</th>
+                                                <th>Peso final - Repeso (kg.)</th>
+                                                <th>Diferencia de peso(kg.)</th>
+                                                <th>Merma obtenida (%)</th>
+                                                <th>Peso pagado (kg.)</th>
+                                                <th>Precio por kilo ($)</th>
+                                                <th>Subtotal ($)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">GANADO HEMBRAS</h3>
+                                <ul class="panel-controls">
+                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel panel-body">
+                                <div class="table-responsive">
+                                    <table id="tbl_ganadoDetalleHembras" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Número de arete</th>
+                                                <th>Género</th>
+                                                <th>Peso inicial (kg.)</th>
+                                                <th>Peso final - Repeso (kg.)</th>
+                                                <th>Diferencia de peso(kg.)</th>
+                                                <th>Merma obtenida (%)</th>
+                                                <th>Peso pagado (kg.)</th>
+                                                <th>Precio por kilo ($)</th>
+                                                <th>Subtotal ($)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <a href="@Url.Action("Index", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="pagos">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">PRODUCTOS O SERVICIOS POR PAGAR REALIZADOS DURANTE LA COMPRA</h3>
+                                <ul class="panel-controls">
+                                    <li><a id="p4" class="exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <div class="table-responsive">
+                                        <table id="tbl_docxpagardetalles" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Descripción</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Precio unitario</th>
+                                                    <th>Subtotal</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">PAGOS REALIZADOS DURANTE LA COMPRA</h3>
+                                <ul class="panel-controls">
+                                    <li><a id="p4" class="exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <div class="table-responsive">
+                                        <table id="tbl_docxpagardetallesPagos" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tipo de pago</th>
+                                                    <th>Banco</th>
+                                                    <th>Número: Cuenta / Tarjeta / Clabe</th>
+                                                    <th>Observación</th>
+                                                    <th>Fecha realizada</th>
+                                                    <th>Imagen</th>
+                                                    <th>Cantidad</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <a href="@Url.Action("Index", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="cobros">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">PRODUCTOS O SERVICIOS POR COBRAR REALIZADOS DURANTE LA COMPRA</h3>
+                                <ul class="panel-controls">
+                                    <li><a id="p4" class="exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <div class="table-responsive">
+                                        <table id="tbl_docxcobrardetalles" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Producto o Servicio</th>
+                                                    <th>Descripción</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Precio unitario</th>
+                                                    <th>Impuestos retenidos</th>
+                                                    <th>Impuestos trasladados</th>
+                                                    <th>Impuestos</th>
+                                                    <th>Subtotal</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">COBROS REALIZADOS DURANTE LA COMPRA</h3>
+                                <ul class="panel-controls">
+                                    <li><a id="p4" class="exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <div class="table-responsive">
+                                        <table id="tbl_docxcobrardetallesPagos" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tipo de pago</th>
+                                                    <th>Banco</th>
+                                                    <th>Número: Cuenta / Tarjeta / Clabe</th>
+                                                    <th>Observación</th>
+                                                    <th>Fecha realizada</th>
+                                                    <th>Imagen</th>
+                                                    <th>Cantidad</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <a href="@Url.Action("Index", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="documentos">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">DOCUMENTOS UTILIZADOS DURANTE LA COMPRA</h3>
+                                <ul class="panel-controls">
+                                    <li><a id="p4" class="exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-6 ">
+                                            <label class="col-md-4 control-label">Costo de la documentación:</label>
+                                            <div class="col-md-8 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.DocumentosPrecioDocumentacion, "{0:f2}", new { @class = "form-control", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 controlError">
+                                            <label class="col-md-2 control-label">Tipo de salida:</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.DocumentosTipoSalidaDocumentacion, new { @class = "form-control", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        <table id="tbl_documentos" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tipo de documentos</th>
+                                                    <th>Clave</th>
+                                                    <th>Imagen</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="panel-footer">
+                                <a href="@Url.Action("Index", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--TERMINA TABS-->
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modalImagen" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Imagen</h4>
+                </div>
+                <div class="modal-body">
+                    <img id="imagen_previa" src="" alt="Imagen_previa" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        var message     = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            var Id_venta = $("#Id_venta").val();
+
+            var tbl_generalGanado = $('#tbl_generalGanado').DataTable({
+                "language": {
+                    "url": "/Content/assets/json/Spanish.json"
+                },
+                responsive: true,
+                "ajax": {
+                    "data": {
+                        "IDCompra": IDCompra
+                    },
+                    "url": "/Admin/Compra/JsonGeneralesGanado/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "dataSrc": ''
+                },
+                "columns": [
+                    { "data": "genero" },
+                    { "data": "totalGanado" },
+                    {
+                        "data": null,
+                        "render": function (data, type, row) {
+                            var totalPeso = row["kilosTotalPesoInicial"];
+                            return totalPeso + ' kg.'
+                        }
+                    },
+                    {
+                        "data": null,
+                        "render": function (data, type, row) {
+                            var totalRepeso = row["kilosTotalRepeso"];
+                            return totalRepeso + ' kg.'
+                        }
+                    },
+                    {
+                        "data": null,
+                        "render": function (data, type, row) {
+                            var merma = row["mermaPromedio"];
+                            return merma.toFixed(2) + ' %';
+                        }
+                    },
+                    {
+                        "data": "subtotal",
+                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                    },
+                ]
+            });
+
+            //var tbl_ganadoDetalleMachos = $('#tbl_ganadoDetalleMachos').DataTable({
+            //    "language": {
+            //        "url": "/Content/assets/json/Spanish.json"
+            //    },
+            //    responsive: true,
+            //    "ajax": {
+            //        "data": {
+            //            "IDCompra": IDCompra
+            //        },
+            //        "url": "/Admin/Compra/JsonDetallesGanadoMacho/",
+            //        "type": "POST",
+            //        "datatype": "json",
+            //        "dataSrc": ''
+            //    },
+            //    "columns": [
+            //        { "data": "numArete" },
+            //        { "data": "genero" },
+            //        {
+            //            "data": null,
+            //            "render": function (data, type, row) {
+            //                var totalPeso = row["peso"];
+            //                return totalPeso + ' kg.'
+            //            }
+            //        },
+            //        {
+            //            "data": null,
+            //            "render": function (data, type, row) {
+            //                var totalRepeso = row["repeso"];
+            //                return totalRepeso + ' kg.'
+            //            }
+            //        },
+            //        {
+            //            "data": null,
+            //            "render": function (data, type, row) {
+            //                var totalRepeso = row["diferenciaPeso"];
+            //                return totalRepeso + ' kg.'
+            //            }
+            //        },
+            //        {
+            //            "data": null,
+            //            "render": function (data, type, row) {
+            //                var merma = row["merma"];
+            //                return merma.toFixed(2) + ' %';
+            //            }
+            //        },
+            //        {
+            //            "data": null,
+            //            "render": function (data, type, row) {
+            //                var totalRepeso = row["pesoPagado"];
+            //                return totalRepeso + ' kg.'
+            //            }
+            //        },
+            //        {
+            //            "data": "precioXkilo",
+            //            "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+            //        },
+            //        {
+            //            "data": "subtotal",
+            //            "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+            //        },
+            //    ]
+            //});
+            //var tbl_ganadoDetalleHembras = $('#tbl_ganadoDetalleHembras').DataTable({
+            //    "language": {
+            //        "url": "/Content/assets/json/Spanish.json"
+            //    },
+            //    responsive: true,
+            //    "ajax": {
+            //        "data": {
+            //            "IDCompra": IDCompra
+            //        },
+            //        "url": "/Admin/Compra/JsonDetallesGanadoHembra/",
+            //        "type": "POST",
+            //        "datatype": "json",
+            //        "dataSrc": ''
+            //    },
+            //    "columns": [
+            //        { "data": "numArete" },
+            //        { "data": "genero" },
+            //        {
+            //            "data": null,
+            //            "render": function (data, type, row) {
+            //                var totalPeso = row["peso"];
+            //                return totalPeso + ' kg.'
+            //            }
+            //        },
+            //        {
+            //            "data": null,
+            //            "render": function (data, type, row) {
+            //                var totalRepeso = row["repeso"];
+            //                return totalRepeso + ' kg.'
+            //            }
+            //        },
+            //        {
+            //            "data": null,
+            //            "render": function (data, type, row) {
+            //                var totalRepeso = row["diferenciaPeso"];
+            //                return totalRepeso + ' kg.'
+            //            }
+            //        },
+            //        {
+            //            "data": null,
+            //            "render": function (data, type, row) {
+            //                var merma = row["merma"];
+            //                return merma.toFixed(2) + ' %';
+            //            }
+            //        },
+            //        {
+            //            "data": null,
+            //            "render": function (data, type, row) {
+            //                var totalRepeso = row["pesoPagado"];
+            //                return totalRepeso + ' kg.'
+            //            }
+            //        },
+            //        {
+            //            "data": "precioXkilo",
+            //            "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+            //        },
+            //        {
+            //            "data": "subtotal",
+            //            "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+            //        },
+            //    ]
+            //});
+            //var tbl_docxpagardetalles = $('#tbl_docxpagardetalles').DataTable({
+            //    "language": {
+            //        "url": "/Content/assets/json/Spanish.json"
+            //    },
+            //    responsive: true,
+            //    "ajax": {
+            //        "data": {
+            //            "IDCompra": IDCompra
+            //        },
+            //        "url": "/Admin/Compra/JsonDetallesDocXpagar/",
+            //        "type": "POST",
+            //        "datatype": "json",
+            //        "dataSrc": ''
+            //    },
+            //    "columns": [
+            //        { "data": "descripcion" },
+            //        { "data": "cantidad" },
+            //        {
+            //            "data": "precioUnitario",
+            //            "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+            //        },
+            //        {
+            //            "data": "subtotal",
+            //            "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+            //        }
+            //    ]
+            //});
+            //var tbl_docxpagardetallesPagos = $('#tbl_docxpagardetallesPagos').DataTable({
+            //    "language": {
+            //        "url": "/Content/assets/json/Spanish.json"
+            //    },
+            //    responsive: true,
+            //    "ajax": {
+            //        "data": {
+            //            "IDCompra": IDCompra
+            //        },
+            //        "url": "/Admin/Compra/DatatableDetalleDocXPagarPagos/",
+            //        "type": "POST",
+            //        "datatype": "json",
+            //        "dataSrc": ''
+            //    },
+            //    "columns": [
+            //        { "data": "TipoPago" },
+            //        { "data": "Banco" },
+            //        { "data": "NumCuenta" },
+            //        { "data": "Observacion" },
+            //        {
+            //            "data": "Fecha",
+            //            "render": function (data, type, row) {
+            //                var fecha;
+            //                if (data === null)
+            //                    fecha = "Sin dato";
+            //                else {
+            //                    var dateSplit = data.split('-');
+            //                    var dia = dateSplit[2];
+            //                    dia = dia.split('T');
+            //                    dia = dia[0];
+            //                    var mes = dateSplit[1];
+            //                    var año = dateSplit[0];
+            //                    fecha = dia + '-' + mes + '-' + año;
+            //                }
+
+            //                return fecha;
+            //            }
+            //        },
+            //         {
+            //             "data": null,
+            //             "render": function (data, type, full) {
+            //                 var imagen64 = full["Imagen"];
+
+            //                 var img = "";
+
+            //                 if (imagen64) {
+            //                     var extension = "";
+            //                     var position = imagen64.indexOf("iVBOR");
+            //                     //imagen png
+            //                     if (position != -1)
+            //                         extension = "image/png";
+
+            //                     position = imagen64.indexOf("/9j/4");
+            //                     if (position != -1)
+            //                         extension = "image/jpeg";
+            //                     //bmp de 256 colores
+            //                     position = imagen64.indexOf("Qk3");
+            //                     if (position == 0)
+            //                         extension = "image/bmp";
+
+            //                     //bmp de monocromatico colores
+            //                     position = imagen64.indexOf("Qk2");
+            //                     if (position == 0)
+            //                         extension = "image/bmp";
+
+            //                     //bmp de 16 colores
+            //                     position = imagen64.indexOf("Qk1");
+            //                     if (position == 0)
+            //                         extension = "image/bmp";
+
+            //                     img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='data:" + extension + ";base64," + imagen64 + "' />";
+            //                 }
+            //                 else {
+            //                     img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
+            //                 }
+            //                 return img;
+            //             }
+            //         },
+            //        {
+            //            "data": "Cantidad",
+            //            "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+            //        }
+            //    ],
+            //    "drawCallback": function (settings) {
+
+            //        $('img.vista_previa').on('click', function () {
+            //            var src_image = $(this).attr('src');
+            //            $("#imagen_previa").attr("src", src_image);
+            //            $("#modalImagen").modal();
+            //        });
+
+            //    }
+            //});
+            //var tbl_docxcobrardetalles = $('#tbl_docxcobrardetalles').DataTable({
+            //    "language": {
+            //        "url": "/Content/assets/json/Spanish.json"
+            //    },
+            //    responsive: true,
+            //    "ajax": {
+            //        "data": {
+            //            "IDCompra": IDCompra
+            //        },
+            //        "url": "/Admin/Compra/JsonDetallesDocXcobrar/",
+            //        "type": "POST",
+            //        "datatype": "json",
+            //        "dataSrc": ''
+            //    },
+            //    "columns": [
+            //        { "data": "productoServicio" },
+            //        { "data": "tipoClasificacion" },
+            //        { "data": "cantidad" },
+            //        {
+            //            "data": "precioUnitario",
+            //            "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+            //        },
+            //        {
+            //            "data": "impuestos_retenidos",
+            //            "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+            //        },
+            //        {
+            //            "data": "impuestos_trasladados",
+            //            "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+            //        },
+            //        {
+            //            "data": "impuestos",
+            //            "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+            //        },
+            //        {
+            //            "data": "subtotal",
+            //            "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+            //        }
+            //    ]
+            //});
+            //var tbl_docxcobrardetallesPagos = $('#tbl_docxcobrardetallesPagos').DataTable({
+            //    "language": {
+            //        "url": "/Content/assets/json/Spanish.json"
+            //    },
+            //    responsive: true,
+            //    "ajax": {
+            //        "data": {
+            //            "IDCompra": IDCompra
+            //        },
+            //        "url": "/Admin/Compra/DatatableDetalleDocXCobrarPagos/",
+            //        "type": "POST",
+            //        "datatype": "json",
+            //        "dataSrc": ''
+            //    },
+            //    "columns": [
+            //        { "data": "TipoPago" },
+            //        { "data": "Banco" },
+            //        { "data": "NumCuenta" },
+            //        { "data": "Observacion" },
+            //        {
+            //            "data": "Fecha",
+            //            "render": function (data, type, row) {
+            //                var fecha;
+            //                if (data === null)
+            //                    fecha = "Sin dato";
+            //                else {
+            //                    var dateSplit = data.split('-');
+            //                    var dia = dateSplit[2];
+            //                    dia = dia.split('T');
+            //                    dia = dia[0];
+            //                    var mes = dateSplit[1];
+            //                    var año = dateSplit[0];
+            //                    fecha = dia + '-' + mes + '-' + año;
+            //                }
+
+            //                return fecha;
+            //            }
+            //        },
+            //         {
+            //             "data": null,
+            //             "render": function (data, type, full) {
+            //                 var imagen64 = full["Imagen"];
+
+            //                 var img = "";
+
+            //                 if (imagen64) {
+            //                     var extension = "";
+            //                     var position = imagen64.indexOf("iVBOR");
+            //                     //imagen png
+            //                     if (position != -1)
+            //                         extension = "image/png";
+
+            //                     position = imagen64.indexOf("/9j/4");
+            //                     if (position != -1)
+            //                         extension = "image/jpeg";
+            //                     //bmp de 256 colores
+            //                     position = imagen64.indexOf("Qk3");
+            //                     if (position == 0)
+            //                         extension = "image/bmp";
+
+            //                     //bmp de monocromatico colores
+            //                     position = imagen64.indexOf("Qk2");
+            //                     if (position == 0)
+            //                         extension = "image/bmp";
+
+            //                     //bmp de 16 colores
+            //                     position = imagen64.indexOf("Qk1");
+            //                     if (position == 0)
+            //                         extension = "image/bmp";
+
+            //                     img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='data:" + extension + ";base64," + imagen64 + "' />";
+            //                 }
+            //                 else {
+            //                     img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
+            //                 }
+            //                 return img;
+            //             }
+            //         },
+            //        {
+            //            "data": "Cantidad",
+            //            "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+            //        }
+            //    ],
+            //    "drawCallback": function (settings) {
+
+            //        $('img.vista_previa').on('click', function () {
+            //            var src_image = $(this).attr('src');
+            //            $("#imagen_previa").attr("src", src_image);
+            //            $("#modalImagen").modal();
+            //        });
+
+            //    }
+            //});
+            //var tbl_documentos = $('#tbl_documentos').DataTable({
+            //    "language": {
+            //        "url": "/Content/assets/json/Spanish.json"
+            //    },
+            //    responsive: true,
+            //    "ajax": {
+            //        "data": {
+            //            "IDCompra": IDCompra
+            //        },
+            //        "url": "/Admin/Compra/TableJsonDocumentos/",
+            //        "type": "POST",
+            //        "datatype": "json",
+            //        "dataSrc": ''
+            //    },
+            //    "columns": [
+            //        { "data": "descripcion" },
+            //        { "data": "clave" },
+            //        {
+            //            "data": null,
+            //            "render": function (data, type, full) {
+            //                var imagen64 = full["imagen"];
+            //                var img = "";
+
+            //                if (imagen64) {
+            //                    var extension = "";
+            //                    var position = imagen64.indexOf("iVBOR");
+            //                    //imagen png
+            //                    if (position != -1)
+            //                        extension = "image/png";
+
+            //                    position = imagen64.indexOf("/9j/4");
+            //                    if (position != -1)
+            //                        extension = "image/jpeg";
+            //                    //bmp de 256 colores
+            //                    position = imagen64.indexOf("Qk3");
+            //                    if (position == 0)
+            //                        extension = "image/bmp";
+
+            //                    //bmp de monocromatico colores
+            //                    position = imagen64.indexOf("Qk2");
+            //                    if (position == 0)
+            //                        extension = "image/bmp";
+
+            //                    //bmp de 16 colores
+            //                    position = imagen64.indexOf("Qk1");
+            //                    if (position == 0)
+            //                        extension = "image/bmp";
+
+            //                    img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='data:" + extension + ";base64," + imagen64 + "' />";
+            //                }
+            //                else {
+            //                    img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
+            //                }
+            //                return img;
+            //             }
+            //        }
+            //    ],
+            //    "drawCallback": function (settings) {
+
+            //        $('img.vista_previa').on('click', function () {
+            //            var src_image = $(this).attr('src');
+            //            $("#imagen_previa").attr("src", src_image);
+            //            $("#modalImagen").modal();
+            //        });
+
+            //    }
+            //});
+
+            Mensaje(message, typemessage);
+        });
+    </script>
+}
+
+
+
+

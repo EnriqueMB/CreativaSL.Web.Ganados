@@ -404,7 +404,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-       public List<RptFletesModels> ObtenerListaFletes(RptFletesModels datos)
+        public List<RptFletesModels> ObtenerListaFletes(RptFletesModels datos)
         {
             try
             {
@@ -441,6 +441,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
         public List<RptEstadoCuentaProveedorModels> ObtenerListaEstadoCuentaProveedor(RptEstadoCuentaProveedorModels datos)
         {
             try
@@ -472,6 +473,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
         public List<RptCuentaEstadoProveedorActualizadoModels> ObtenerListaEstadoCuentaProveedorActualizado(RptCuentaEstadoProveedorActualizadoModels datos)
         {
             try
@@ -520,6 +522,33 @@ namespace CreativaSL.Web.Ganados.Models
             {
 
                 throw ex;
+            }
+        }
+
+        public List<RptEntradaModels> ObtenerEntradasV2(RptEntradaModels Datos)
+        {
+            try
+            {
+                object[] parametros = { Datos.FechaInicio, Datos.FechaFin };
+                List<RptEntradaModels> Lista = new List<RptEntradaModels>();
+                RptEntradaModels item;
+                SqlDataReader ds = null;
+                ds = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reportes_get_ReporteEntradasV2", parametros);
+                while (ds.Read())
+                {
+                    item = new RptEntradaModels();
+                    item.Fecha = !ds.IsDBNull(ds.GetOrdinal("fecha")) ? ds.GetDateTime(ds.GetOrdinal("fecha")) : DateTime.Today;
+                    item.Totalv2 = !ds.IsDBNull(ds.GetOrdinal("total")) ? ds.GetDecimal(ds.GetOrdinal("total")) : 0;
+                    item.Descripcion = !ds.IsDBNull(ds.GetOrdinal("descripcion")) ? ds.GetString(ds.GetOrdinal("descripcion")) : string.Empty;
+                    Lista.Add(item);
+                }
+                ds.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
             }
         }
     }

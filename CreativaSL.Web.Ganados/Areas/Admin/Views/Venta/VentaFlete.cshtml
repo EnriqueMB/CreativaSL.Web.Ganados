@@ -111,7 +111,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    @*<div class="form-group">
                         <div class="col-md-12 controlError">
                             <label class="col-md-1 control-label">Nombre</label>
                             <div class="col-md-11 col-xs-12">
@@ -122,9 +122,9 @@
                                 @Html.ValidationMessageFor(model => model.NombreVenta)
                             </div>
                         </div>
-                    </div>
+                    </div>*@
 
-                    <div class="form-group">
+                    @*<div class="form-group">
                         <div class="col-md-6 controlError">
                             <label class="col-md-2 control-label">Anotaciones de la báscula</label>
                             <div class="col-md-10 col-xs-12">
@@ -143,7 +143,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>*@
 
                     <div class="form-group">
                         <div class="col-md-6 controlError">
@@ -267,7 +267,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        @*<div class="form-group">
                             <div class="col-md-6 controlError">
                                 <label class="col-md-2 control-label">Condición de pago</label>
                                 <div class="col-md-10 col-xs-12">
@@ -289,10 +289,10 @@
                                     @Html.ValidationMessageFor(model => model.Flete.MetodoPago.Clave)
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
 
                         <div class="form-group">
-                            <div class="col-md-6 controlError">
+                            @*<div class="col-md-6 controlError">
                                 <label class="col-md-2 control-label">Forma de pago</label>
                                 <div class="col-md-10 col-xs-12">
                                     <div class="input-group">
@@ -301,8 +301,8 @@
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Flete.FormaPago.Clave)
                                 </div>
-                            </div>
-                            <div class="col-md-6 controlError">
+                            </div>*@
+                            @*<div class="col-md-6 controlError">
                                 <label class="col-md-2 control-label">Kilómetraje Inicial</label>
                                 <div class="col-md-10 col-xs-12">
                                     <div class="input-group">
@@ -311,20 +311,7 @@
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Flete.kmInicialVehiculo)
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 controlError">
-                                <label class="col-md-2 control-label">Núm.de fleje</label>@*no es un documento agregarlo a la tabla*@
-                                <div class="col-md-10 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.Flete.NumFleje, new { @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Flete.NumFleje)
-                                </div>
-                            </div>
+                            </div>*@
                             <div class="col-md-6 controlError">
                                 <label class="col-md-2 control-label">Costo del flete</label>
                                 <div class="col-md-10 col-xs-12">
@@ -338,6 +325,20 @@
                         </div>
 
                         <div class="form-group">
+                            @*<div class="col-md-6 controlError">
+                                <label class="col-md-2 control-label">Núm.de fleje</label>
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.Flete.NumFleje, new { @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Flete.NumFleje)
+                                </div>
+                            </div>*@
+                            
+                        </div>
+
+                        @*<div class="form-group">
                             <div class="col-md-12">
                                 <div class="table-responsive">
                                     <table id="tblJaulaCheck" style="width:100%">
@@ -430,7 +431,7 @@
                                     </table>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
 
                         <div class="form-group">
                             <div class="col-md-12">
@@ -521,7 +522,7 @@
 
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
-            var opcion = @Model.Opcion
+            var opcion = @Model.CobrarFlete
             VentaFlete.init(opcion);
         });
     </script>

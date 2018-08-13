@@ -1587,7 +1587,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.Proveedor.RFC = !dr.IsDBNull(dr.GetOrdinal("rfcProveedor")) ? dr.GetString(dr.GetOrdinal("rfcProveedor")) : string.Empty;
                     Compra.FechaHoraProgramada = !dr.IsDBNull(dr.GetOrdinal("fechaHoraProgramada")) ? dr.GetDateTime(dr.GetOrdinal("fechaHoraProgramada")) : DateTime.Now;
                     Compra.GanadosPactadoMachos = !dr.IsDBNull(dr.GetOrdinal("ganadoPactadoMachos")) ? dr.GetInt32(dr.GetOrdinal("ganadoPactadoMachos")) : 0;
-                    Compra.GanadosPactadoHembras = !dr.IsDBNull(dr.GetOrdinal("ganadoCompradoHembras")) ? dr.GetInt32(dr.GetOrdinal("ganadoCompradoHembras")) : 0;
+                    Compra.GanadosPactadoHembras = !dr.IsDBNull(dr.GetOrdinal("ganadoPactadoHembras")) ? dr.GetInt32(dr.GetOrdinal("ganadoPactadoHembras")) : 0;
                     Compra.GanadosPactadoTotal = !dr.IsDBNull(dr.GetOrdinal("ganadoTotalPactado")) ? dr.GetInt32(dr.GetOrdinal("ganadoTotalPactado")) : 0;
                     Compra.Trayecto.LugarOrigen.descripcion = !dr.IsDBNull(dr.GetOrdinal("lugarOrigen")) ? dr.GetString(dr.GetOrdinal("lugarOrigen")) : string.Empty;
                     Compra.Trayecto.LugarDestino.descripcion = !dr.IsDBNull(dr.GetOrdinal("lugarDestino")) ? dr.GetString(dr.GetOrdinal("lugarDestino")) : string.Empty;
@@ -1599,6 +1599,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.Tolerancia = !dr.IsDBNull(dr.GetOrdinal("tolerancia")) ? dr.GetDecimal(dr.GetOrdinal("tolerancia")) : 0;
                     Compra.PrecioPorDocumentacion = !dr.IsDBNull(dr.GetOrdinal("subtotal")) ? dr.GetDecimal(dr.GetOrdinal("subtotal")) : 0;
                     Compra.TipoSalidaDocumentacion = !dr.IsDBNull(dr.GetOrdinal("TipoSalidaDocumentacion")) ? dr.GetString(dr.GetOrdinal("TipoSalidaDocumentacion")) : string.Empty;
+                    Compra.StringTipoFlete = !dr.IsDBNull(dr.GetOrdinal("tipoFlete")) ? dr.GetString(dr.GetOrdinal("tipoFlete")) : string.Empty;
                 }
                 dr.Close();
                 return Compra;
@@ -1609,6 +1610,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
+        
         #region Documento detalles producto servicio
         public DocumentosPorCobrarDetalleModels GetDetalleDocumentoPorCobrar(DocumentosPorCobrarDetalleModels documento)
         {
@@ -2303,6 +2305,7 @@ namespace CreativaSL.Web.Ganados.Models
         #endregion
 
         #endregion
+        
         #region Imagenes
         public CompraModels DeleteImageFierro(CompraModels Compra)
         {
@@ -2486,6 +2489,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
+        
         #region Vista cobro
         public DocumentosPorCobrarDetallePagosModels GetDetalleDocumentoPago(DocumentosPorCobrarDetallePagosModels DocumentoPago)
         {
@@ -2946,6 +2950,68 @@ namespace CreativaSL.Web.Ganados.Models
                 }
                 dr.Close();
                 return CompraImpuesto;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region Comprobante compra
+        public ComprobanteCompraCabeceraModels GetComprobanteCompraCabecera(CompraModels Compra)
+        {
+            try
+            {
+                ComprobanteCompraCabeceraModels Item = new ComprobanteCompraCabeceraModels();
+                object[] parametros = { Compra.IDCompra };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_ComprobanteCompraDetallesCabecera", parametros);
+
+                while (dr.Read())
+                {
+                    Item.UrlLogo = !dr.IsDBNull(dr.GetOrdinal("logoEmpresa")) ? dr.GetString(dr.GetOrdinal("logoEmpresa")) : string.Empty;
+                    Item.NombreEmpresa = !dr.IsDBNull(dr.GetOrdinal("nombreEmpresa")) ? dr.GetString(dr.GetOrdinal("nombreEmpresa")) : string.Empty;
+                    Item.RubroEmpresa = !dr.IsDBNull(dr.GetOrdinal("rubroEmpresa")) ? dr.GetString(dr.GetOrdinal("rubroEmpresa")) : string.Empty;
+                    Item.TelefonoEmpresa = !dr.IsDBNull(dr.GetOrdinal("telefonoEmpresa")) ? dr.GetString(dr.GetOrdinal("telefonoEmpresa")) : string.Empty;
+                    Item.DireccionEmpresa = !dr.IsDBNull(dr.GetOrdinal("direccionEmpresa")) ? dr.GetString(dr.GetOrdinal("direccionEmpresa")) : string.Empty;
+                    Item.Folio = !dr.IsDBNull(dr.GetOrdinal("folio")) ? dr.GetString(dr.GetOrdinal("folio")) : string.Empty;
+                    Item.NombreProveedor = !dr.IsDBNull(dr.GetOrdinal("nombreProveedor")) ? dr.GetString(dr.GetOrdinal("nombreProveedor")) : string.Empty;
+                    Item.TelefonoProveedor = !dr.IsDBNull(dr.GetOrdinal("telefonoProveedor")) ? dr.GetString(dr.GetOrdinal("telefonoProveedor")) : string.Empty;
+                    Item.RFCProveedor = !dr.IsDBNull(dr.GetOrdinal("rfcProveedor")) ? dr.GetString(dr.GetOrdinal("rfcProveedor")) : string.Empty;
+                    Item.AnnoImpresion = !dr.IsDBNull(dr.GetOrdinal("anno")) ? dr.GetString(dr.GetOrdinal("anno")) : string.Empty;
+                    Item.MesImpresion = !dr.IsDBNull(dr.GetOrdinal("mes")) ? dr.GetString(dr.GetOrdinal("mes")) : string.Empty;
+                    Item.DiaImpresion = !dr.IsDBNull(dr.GetOrdinal("dia")) ? dr.GetString(dr.GetOrdinal("dia")) : string.Empty;
+                }
+                dr.Close();
+                return Item;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<ComprobanteCompraDetallesModels> GetComprobanteCompraDetalles(CompraModels Compra)
+        {
+            try
+            {
+                List<ComprobanteCompraDetallesModels> Lista = new List<ComprobanteCompraDetallesModels>();
+                ComprobanteCompraDetallesModels Item;
+                object[] parametros = { Compra.IDCompra };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_ComprobanteCompraDetalles", parametros);
+
+                while (dr.Read())
+                {
+                    Item = new ComprobanteCompraDetallesModels();
+                    Item.Concepto = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    Item.Cantidad = !dr.IsDBNull(dr.GetOrdinal("cantidad")) ? dr.GetDecimal(dr.GetOrdinal("cantidad")) : 0;
+                    Item.Subtotal = !dr.IsDBNull(dr.GetOrdinal("subtotal")) ? dr.GetDecimal(dr.GetOrdinal("subtotal")) : 0;
+
+                    Lista.Add(Item);
+                }
+                dr.Close();
+                return Lista;
             }
             catch (Exception ex)
             {

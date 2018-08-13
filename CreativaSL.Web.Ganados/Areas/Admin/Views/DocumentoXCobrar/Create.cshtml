@@ -19,16 +19,16 @@
     <div class="col-md-12">
         @*<form class="form-horizontal">*@
         @{ Html.EnableClientValidation(false); }
-        @using (Html.BeginForm("Create", "DocumentoXCobrar", FormMethod.Post, new { id = "form-DocumentoCobrar", @class = "form-horizontal", autocomplete = "off" }))
+        @using (Html.BeginForm("Create", "DocumentoXCobrar", FormMethod.Post, new { id = "form-DocumentoPagar", @class = "form-horizontal", autocomplete = "off" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-                                                                                                                        <div id="validation_summary" class="field_error "></div> //JS
+            <div id="validation_summary" class="field_error "></div> //JS
 
             @Html.HiddenFor(model => model.Id_documentoCobrar)
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><strong>Información </strong> Documento por pagar</h3>
+                    <h3 class="panel-title"><strong>Información </strong> Documento por cobrar</h3>
                     <ul class="panel-controls">
                         @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
                     </ul>
@@ -55,24 +55,29 @@
                        <div class="form-group">
                            <label class="col-md-3 col-xs-12 control-label"><span>* </span> Concepto Documento </label>
                            <div class="col-md-6 col-xs-12">
-                               @Html.DropDownListFor(model => model.Id_tipoDocumento, new SelectList(Model.ListaCDocumento, "IDTipoDocumento", "Descripcion"), new { id = "id_concepto", @class = "form-control select", data_live_search = "true" })
+                               @Html.DropDownListFor(model => model.Id_tipoDocumento, new SelectList(Model.ListaCDocumento, "Id_tipoClasificacionCobro", "Descripcion"), new { id = "Id_tipoDocumento", @class = "form-control select", data_live_search = "true" })
                                @Html.ValidationMessageFor(model => model.Id_tipoDocumento)
                            </div>
                        </div>
-                       @*<div class="form-group">
-                           <label class="col-md-3 col-xs-12 control-label"><span>* </span> Tipo Proveedor </label>
+                       
+                       <div class="form-group">
+                           <label class="col-md-3 col-xs-12 control-label"><span>* </span> Metodo De Pago </label>
                            <div class="col-md-6 col-xs-12">
-                               @Html.DropDownListFor(model => model.IDTProveedor, new SelectList(Model.LisTipoProveedor, "IDTipoProveedor", "Descripcion"), new { id = "IDTProveedor", @class = "form-control select", data_live_search = "true" })
-                               @Html.ValidationMessageFor(model => model.IDTProveedor)
+                               @Html.DropDownListFor(model => model.Id_metodoPago, new SelectList(Model.ListaMetodoPago, "Clave", "Descripcion"), new { id = "Clave", @class = "form-control select", data_live_search = "true" })
+                               @Html.ValidationMessageFor(model => model.Id_tipoDocumento)
                            </div>
                        </div>
-                       <div class="form-group">
-                           <label class="col-md-3 col-xs-12 control-label"><span>* </span> Proveedor </label>
+
+                       @*<div class="form-group">
+                           <label class="col-md-3 control-label">Impuesto</label>
                            <div class="col-md-6 col-xs-12">
-                               @Html.DropDownListFor(model => model.IDProveedor, new SelectList(Model.LisProveedor, "IDProveedor", "NombreRazonSocial"), new { id = "IDProveedor", @class = "form-control select", data_live_search = "true" })
-                               @Html.ValidationMessageFor(model => model.IDProveedor)
+                               <div class="input-group">
+                                   <span class="input-group-addon"><span class="fa fa-building-o"></span></span>
+                                   @Html.TextBoxFor(model => model.Impuestos, "{0:f2}", new { id = "Impuesto", autocomplete = "off", @class = "form-control", type = "number" })
+                               </div>
                            </div>
-                       </div>*@
+                       </div>*@     
+
                        <div class="form-group">
                            <label class="col-md-3 control-label">Monto</label>
                            <div class="col-md-6 col-xs-12">

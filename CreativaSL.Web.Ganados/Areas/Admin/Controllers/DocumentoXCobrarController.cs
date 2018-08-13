@@ -36,48 +36,134 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         // GET: Admin/DocumentosXCobrar/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string id, int id2)
         {
-            //try
-            //{
-            //    DocumentosPorCobrarDetalleModels Documentos = new DocumentosPorCobrarDetalleModels();
-            //    DocumentoXPagar_Datos DocumentosDatos = new DocumentoXPagar_Datos();
-            //    Documentos.Conexion = Conexion;
-            //    Documentos.IDDocumentoPagar = id;
-            //    Documentos.IDTipoDocumento = id2;
-            //    Documentos.listaDocumentosDetalle = DocumentosDatos.ObtenerDetalleListaDocumentosPagar(Documentos);
-            //    return View(Documentos);
-            //}
-            //catch (Exception)
-            //{
-            //    DocumentoPorPagarDetalleModels Documentos = new DocumentoPorPagarDetalleModels();
-            //    TempData["typemessage"] = "2";
-            //    TempData["message"] = "No se puede cargar la vista";
-            //    return View(Documentos);
-            //}
-            return View();
+            try
+            {
+                DocumentosPorCobrarDetalleModels Documentos = new DocumentosPorCobrarDetalleModels();
+                _DocumentoXCobrar_Datos DocumentosDatos = new _DocumentoXCobrar_Datos();
+                Documentos.Conexion = Conexion;
+                Documentos.Id_documentoCobrar = id;
+                Documentos.Id_tipoDocumento = id2;
+                Documentos.listaDocumentosDetalle = DocumentosDatos.ObtenerDetalleListaDocumentosCobrar(Documentos);
+                return View(Documentos);
+            }
+            catch (Exception)
+            {
+                DocumentosPorCobrarDetalleModels Documentos = new DocumentosPorCobrarDetalleModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Documentos);
+            }
+        }
+
+        public ActionResult DetalleDocumento(string id, string id1, int id2)
+        {
+            try
+            {
+                DocumentosPorCobrarDetalleModels Documentos = new DocumentosPorCobrarDetalleModels();
+                _DocumentoXCobrar_Datos DocumentosDatos = new _DocumentoXCobrar_Datos();
+                Documentos.Conexion = Conexion;
+                Documentos.Id_documentoCobrar = id;
+                Documentos.Id_tipoDocumento = id2;
+                Documentos.Id_detalleDoctoCobrar = id1;
+                Documentos.listaDocumentosDetalle = DocumentosDatos.ObtenerDetalleListaDocumentosCobrarDetalle(Documentos);
+                return View(Documentos);
+            }
+            catch (Exception)
+            {
+                DocumentoPorPagarDetalleModels Documentos = new DocumentoPorPagarDetalleModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Documentos);
+            }
         }
 
         // GET: Admin/DocumentosXCobrar/Create
         public ActionResult Create()
         {
-                return View();
-            
-        }
-
-        // POST: Admin/DocumentosXCobrar/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
             try
             {
-                // TODO: Add insert logic here
+                Token.SaveToken();
+                _Combos_Datos CMB = new _Combos_Datos();
+                _DocumentoXCobrar_Datos datos = new _DocumentoXCobrar_Datos();
+                DocumentosPorCobrarModels documentos = new DocumentosPorCobrarModels();
+                documentos.Fecha = DateTime.Now;
+                documentos.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
+                documentos.ListaCDocumento = datos.ObtenerConceptosDocumento(Conexion);
+                documentos.ListaMetodoPago = datos.ObtenerMetodoPago(Conexion);
+                //documentos.LisTipoProveedor = datos.ObteneComboCatTipoProveedor(Conexion);
+                //documentos.IDTProveedor = 0;
+                documentos.Conexion = Conexion;
+                //documentos.LisProveedor = datos.ObteneComboProveedoresXID(documentos);
+                return View(documentos);
+            }
+            catch (Exception)
+            {
+                DocumentosPorCobrarModels documentos = new DocumentosPorCobrarModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(documentos);
+            }
+        }
 
-                return RedirectToAction("Index");
+        //POST: Admin/DocumentosXCobrar/Create
+        [HttpPost]
+        public ActionResult Create(DocumentosPorCobrarModels documentosss)
+        {
+            _Combos_Datos CMB = new _Combos_Datos();
+            _DocumentoXCobrar_Datos documentoDatos = new _DocumentoXCobrar_Datos();
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        documentosss.Conexion = Conexion;
+                        documentosss.Opcion = 1;
+                        documentosss.Usuario = User.Identity.Name;
+                        documentosss = documentoDatos.AbcDocumentoXCobrar(documentosss);
+                        if (documentosss.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            documentosss.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
+                            documentosss.ListaCDocumento = documentoDatos.ObtenerConceptosDocumento(Conexion);
+                            documentosss.ListaMetodoPago = documentoDatos.ObtenerMetodoPago(Conexion);
+                            documentosss.Conexion = Conexion;
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrió un error al intentar guardar.";
+                            return View(documentosss);
+                        }
+                    }
+                    else
+                    {
+                        documentosss.Conexion = Conexion;
+                        documentosss.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
+                        documentosss.ListaCDocumento = documentoDatos.ObtenerConceptosDocumento(Conexion);
+                        documentosss.ListaMetodoPago = documentoDatos.ObtenerMetodoPago(Conexion);
+                        return View(documentosss);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
             catch
             {
-                return View();
+                documentosss.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
+                documentosss.ListaCDocumento = documentoDatos.ObtenerConceptosDocumento(Conexion);
+                documentosss.ListaMetodoPago = documentoDatos.ObtenerMetodoPago(Conexion);
+                documentosss.Conexion = Conexion;
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrió un error el intentar guardar. Contacte a soporte técnico";
+                return View(documentosss);
             }
         }
 
@@ -125,7 +211,25 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-
+        //public ActionResult DetallePagos(string id)
+        //{
+        //    try
+        //    {
+        //        DocumentosPorCobrarDetallePagosModels pago = new DocumentosPorCobrarDetallePagosModels();
+        //        DocumentoXPagar_Datos documentoDatos = new DocumentoXPagar_Datos();
+        //        pago.Conexion = Conexion;
+        //        pago.Id_documentoPorPagar = id;
+        //        pago.ListaPagosDocumento = documentoDatos.ObtenerListaDetallePagos(pago);
+        //        return View(pago);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        DocumentoPorPagarModels docu = new DocumentoPorPagarModels();
+        //        TempData["typemessage"] = "2";
+        //        TempData["message"] = "No se puede cargar la vista";
+        //        return RedirectToAction("Index");
+        //    }
+        //}
 
         #region JSON tablas
         #region Json Documentos Detalles
