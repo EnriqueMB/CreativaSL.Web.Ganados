@@ -10,7 +10,7 @@ namespace CreativaSL.Web.Ganados.Models
 
         public DocumentosPorCobrarModels()
         {
-            _IDSucursal = string.Empty;
+            //_IDSucursal = string.Empty;
             Id_tipoDocumento = 0 ;
         }
 
@@ -39,12 +39,7 @@ namespace CreativaSL.Web.Ganados.Models
         
         public DocumentosPorCobrarModels DocumentoPorCobraFlete;
 
-        private string _IDSucursal;
-        public string Id_sucursal
-        {
-            get { return _IDSucursal; }
-            set { _IDSucursal = value; }
-        }
+       
 
         private List<DocumentosPorCobrarModels> _ListaDocumentos;
         public List<DocumentosPorCobrarModels> ListaDocumentos
