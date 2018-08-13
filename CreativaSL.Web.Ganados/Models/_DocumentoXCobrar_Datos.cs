@@ -617,6 +617,33 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
         #region GetDetalleDocumentoPago
+
+        public List<DocumentosPorCobrarDetallePagosModels> ObtenerListaDetallePagos(DocumentosPorCobrarDetallePagosModels datos)
+        {
+            try
+            {
+                List<DocumentosPorCobrarDetallePagosModels> Lista = new List<DocumentosPorCobrarDetallePagosModels>();
+                DocumentosPorCobrarDetallePagosModels Item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_DocumentoPorPagar_get_DocumentosDetallesPagos", datos.Id_documentoPorCobrar);
+                while (dr.Read())
+                {
+                    Item = new DocumentosPorCobrarDetallePagosModels();
+                    Item.Id_documentoPorCobrarDetallePagos = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorPagarDetallePagos")) ? dr.GetString(dr.GetOrdinal("id_documentoPorPagarDetallePagos")) : string.Empty;
+                    Item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    Item.Monto = !dr.IsDBNull(dr.GetOrdinal("monto")) ? dr.GetDecimal(dr.GetOrdinal("monto")) : 0;
+                    Item.fecha = !dr.IsDBNull(dr.GetOrdinal("fecha")) ? dr.GetDateTime(dr.GetOrdinal("fecha")) : DateTime.Now;
+                    Lista.Add(Item);
+                }
+                return Lista;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public DocumentosPorCobrarDetallePagosModels GetDetalleDocumentoPago(DocumentosPorCobrarDetallePagosModels DocumentoPago)
         {
             try

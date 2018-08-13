@@ -1402,6 +1402,9 @@
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\Details.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\DetalleDocumento.cshtml" />
     <Content Include="Areas\Admin\Views\CatFierro\UploadImagen.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\DetallePagos.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\PagosCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\PagosEdit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
