@@ -470,6 +470,7 @@
     <Content Include="Content\js\compraCobro.js" />
     <Content Include="Content\js\Configuracion.js" />
     <Content Include="Content\js\documentoXPagarPagos.js" />
+    <Content Include="Content\js\DocXCobrarCreate.js" />
     <Content Include="Content\js\DocXPagarCreate.js" />
     <Content Include="Content\js\fleteCobro.js" />
     <Content Include="Content\js\fleteDocumento.js" />
@@ -1404,6 +1405,9 @@
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\Details.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\DetalleDocumento.cshtml" />
     <Content Include="Areas\Admin\Views\CatFierro\UploadImagen.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\DetallePagos.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\PagosCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\PagosEdit.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaDetalles.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaDocumento.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\AC_FleteDocumento.cshtml" />

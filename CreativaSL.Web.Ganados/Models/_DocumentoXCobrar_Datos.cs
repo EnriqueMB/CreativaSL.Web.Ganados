@@ -480,8 +480,9 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.EsSistema = !dr.IsDBNull(dr.GetOrdinal("EsSistema")) ? dr.GetBoolean(dr.GetOrdinal("EsSistema")) : false;
                     Item.Id_documentoCobrar = !dr.IsDBNull(dr.GetOrdinal("IDDocumentoCobrar")) ? dr.GetString(dr.GetOrdinal("IDDocumentoCobrar")) : string.Empty;
                     Item.Id_sucursal = !dr.IsDBNull(dr.GetOrdinal("IDSucursal")) ? dr.GetString(dr.GetOrdinal("IDSucursal")) : string.Empty;
+                    Item.Estatus = !dr.IsDBNull(dr.GetOrdinal("Estatus")) ? dr.GetInt16(dr.GetOrdinal("Estatus")) : 0;
                     Item.Id_metodoPago = !dr.IsDBNull(dr.GetOrdinal("MetodoPago")) ? dr.GetString(dr.GetOrdinal("MetodoPago")) : string.Empty;
-                    Item.Folio = !dr.IsDBNull(dr.GetOrdinal("Folio")) ? dr.GetInt64(dr.GetOrdinal("Folio")) : 0;
+                    Item.NumeroFactura = !dr.IsDBNull(dr.GetOrdinal("Folio")) ? dr.GetString(dr.GetOrdinal("Folio")) : string.Empty;
                     Item.Fecha = !dr.IsDBNull(dr.GetOrdinal("Fecha")) ? dr.GetDateTime(dr.GetOrdinal("Fecha")) : DateTime.Today;
                     Item.Impuestos = !dr.IsDBNull(dr.GetOrdinal("Impuesto")) ? dr.GetDecimal(dr.GetOrdinal("Impuesto")) : 0;
                     Item.Subtotal = !dr.IsDBNull(dr.GetOrdinal("Subtotal")) ? dr.GetDecimal(dr.GetOrdinal("Subtotal")) : 0;
@@ -559,6 +560,7 @@ namespace CreativaSL.Web.Ganados.Models
                             datos.Opcion,
                             datos.Id_documentoCobrar ?? string.Empty,
                             datos.Id_sucursal ?? string.Empty,
+                            datos.Estatus,
                             datos.Fecha,
                             datos.Usuario,
                             datos.Id_tipoDocumento,
@@ -617,6 +619,33 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
         #region GetDetalleDocumentoPago
+
+        public List<DocumentosPorCobrarDetallePagosModels> ObtenerListaDetallePagos(DocumentosPorCobrarDetallePagosModels datos)
+        {
+            try
+            {
+                List<DocumentosPorCobrarDetallePagosModels> Lista = new List<DocumentosPorCobrarDetallePagosModels>();
+                DocumentosPorCobrarDetallePagosModels Item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_DocumentoPorPagar_get_DocumentosDetallesPagos", datos.Id_documentoPorCobrar);
+                while (dr.Read())
+                {
+                    Item = new DocumentosPorCobrarDetallePagosModels();
+                    Item.Id_documentoPorCobrarDetallePagos = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorPagarDetallePagos")) ? dr.GetString(dr.GetOrdinal("id_documentoPorPagarDetallePagos")) : string.Empty;
+                    Item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    Item.Monto = !dr.IsDBNull(dr.GetOrdinal("monto")) ? dr.GetDecimal(dr.GetOrdinal("monto")) : 0;
+                    Item.fecha = !dr.IsDBNull(dr.GetOrdinal("fecha")) ? dr.GetDateTime(dr.GetOrdinal("fecha")) : DateTime.Now;
+                    Lista.Add(Item);
+                }
+                return Lista;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public DocumentosPorCobrarDetallePagosModels GetDetalleDocumentoPago(DocumentosPorCobrarDetallePagosModels DocumentoPago)
         {
             try
