@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
     <style>
         .vista_previa {cursor: pointer;}
+        #imagen_previa {width: 100% !important;}
     </style>
 }
 @section featured
@@ -115,7 +116,8 @@
                                                 <dd>@Model.Flete.kmInicialVehiculo</dd>
                                                 <dt>Precio del flete</dt>
                                                 <dd>@Model.Flete.precioFlete.ToString("C2")</dd>
-                                                <dt>Cobrar flete</dt>
+                                                <dt>Tipo de cobro</dt>
+                                                <dd>@Model.StringTipoFlete</dd>
                                                 @*<dd>@if (Model.CobrarFlete)
                                                 { @Html.Raw("Si") }
                                                 else
@@ -149,9 +151,8 @@
                                         <tr>
                                             <th>Género</th>
                                             <th>Cantidad</th>
-                                            <th>Total de kilos - peso</th>
-                                            <th>Total de kilos - repeso</th>
-                                            <th>Merma promedio (%)</th>
+                                            <th>Total de kilos</th>
+                                            <th>Merma (%)</th>
                                             <th>Subtotal ($)</th>
                                         </tr>
                                     </thead>
@@ -472,21 +473,14 @@
                     {
                         "data": null,
                         "render": function (data, type, row) {
-                            var totalPeso = row["kilosTotalPesoInicial"];
+                            var totalPeso = row["totalKg"];
                             return totalPeso + ' kg.'
                         }
                     },
                     {
                         "data": null,
                         "render": function (data, type, row) {
-                            var totalRepeso = row["kilosTotalRepeso"];
-                            return totalRepeso + ' kg.'
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var merma = row["mermaPromedio"];
+                            var merma = row["merma"];
                             return merma.toFixed(2) + ' %';
                         }
                     },

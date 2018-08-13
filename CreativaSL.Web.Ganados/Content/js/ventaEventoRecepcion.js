@@ -141,33 +141,90 @@
             }
 
         });
+    }
+    var Validaciones = function () {
+        //Seleccionar filas 
+        var form1 = $('#frmRecepcion');
+        var errorHandler1 = $('.errorHandler', form1);
+        var successHandler1 = $('.successHandler', form1);
 
-        $(document).on('submit', 'form#frmRecepcion', function (e) {
-            console.log("entro en el submit");
-            e.preventDefault();
-            var form = $('form#frmRecepcion')[0];
-            var formData = new FormData(form);
+        form1.validate({ // initialize the plugin
+            // debug: true,
+            errorElement: "dd", // contain the error msg in a span tag
+            errorClass: 'help-block text-danger',
+            errorLabelContainer: $("#validation_summary"),
+            errorPlacement: function (error, element) { // render error placement for each input type
+                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
+                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
+                    error.insertAfter($(element).closest('.form-group').children('div'));
+                } else if (element.attr("type") == "text") {
+                    error.insertAfter($(element).closest('.input-group').children('div'));
+                } else {
+                    error.insertAfter(element);
+                    // for other inputs, just perform default behavior
+                }
+            },
+            ignore: "",
+            rules: {
+                "RecepcionOrigen.MermaDestino": { min: 0 }
+            },
+            messages: {
+                "RecepcionOrigen.MermaDestino": { min: "Por favor, ingrese un cantidad para la merma la cual debe ser mayor o igual a 0 (cero)." }
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                successHandler1.hide();
+                errorHandler1.show();
+                //$("#validation_summary").text(validator.showErrors());
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');
+                // display OK icon
+                $(element).closest('.controlError').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+                // add the Bootstrap error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element).closest('.controlError').removeClass('has-error');
+                // set error class to the control group
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                label.removeClass('color');
+                // mark the current input as valid and display OK icon
+                $(element).closest('.controlError').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler1.show();
+                errorHandler1.hide();
+                //form.submit();
+                AC_Recepcion();
+            }
+        });
+    }
 
-            $.ajax({
-                type: 'POST',
-                data: formData,
-                url: '/Admin/Venta/VentaEventoRecepcion/',
-                contentType: false,
-                processData: false,
-                cache: false,
-                success: function (response) {
-                    if (response.Success) {
-                        var json = JSON.parse(response.Mensaje);
-                        Mensaje(json.Mensaje, "1");
-                        Id_recepcionOrigenVenta2.val(json.Id_recepcionOrigenVenta);
-                    } else {
-                        Mensaje(response.Mensaje, "2");
-                    }
-                },
-                error: function (response) {
+    function AC_Recepcion() {
+        var form = $('form#frmRecepcion')[0];
+        var formData = new FormData(form);
+
+        $.ajax({
+            type: 'POST',
+            data: formData,
+            url: '/Admin/Venta/VentaEventoRecepcion/',
+            contentType: false,
+            processData: false,
+            cache: false,
+            success: function (response) {
+                if (response.Success) {
+                    var json = JSON.parse(response.Mensaje);
+                    Mensaje(json.Mensaje, "1");
+                    Id_recepcionOrigenVenta2.val(json.Id_recepcionOrigenVenta);
+                } else {
                     Mensaje(response.Mensaje, "2");
                 }
-            });
+            },
+            error: function (response) {
+                Mensaje(response.Mensaje, "2");
+            }
         });
     }
     /*TERMINA RECEPCION*/
@@ -175,6 +232,7 @@
     return {
         init: function () {
             initFuncionesRecepcion();
+            Validaciones();
         }
     };
 }();

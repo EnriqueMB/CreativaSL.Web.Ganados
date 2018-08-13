@@ -47,17 +47,17 @@
         $('#tabFlete').on("click", function () {
             CalculateAndDisplayRoute(directionsService, directionsDisplay, map);
         });
-        $('#Flete_kmInicialVehiculo').on({
-            "focus": function (event) {
-                $(event.target).select();
-            },
-            "keyup": function (event) {
-                $(event.target).val(function (index, v) {
-                    var number = cpf(v);
-                    return number;
-                });
-            }
-        });
+        //$('#Flete_kmInicialVehiculo').on({
+        //    "focus": function (event) {
+        //        $(event.target).select();
+        //    },
+        //    "keyup": function (event) {
+        //        $(event.target).val(function (index, v) {
+        //            var number = cpf(v);
+        //            return number;
+        //        });
+        //    }
+        //});
         $('#DocumentosPorCobrarDetallePagos_Monto').on({
             "focus": function (event) {
                 $(event.target).select();
@@ -69,7 +69,7 @@
                 });
             }
         });
-        $('#Flete_kmInicialVehiculo').val(cpf($('#Flete_kmInicialVehiculo').val()));
+        //$('#Flete_kmInicialVehiculo').val(cpf($('#Flete_kmInicialVehiculo').val()));
         $('#DocumentosPorCobrarDetallePagos_Monto').val(cpf($('#DocumentosPorCobrarDetallePagos_Monto').val()));
         $('.Hora24hrs').timepicker({
             minuteStep: 1,
@@ -184,7 +184,7 @@
     var RunEventsFlete = function () {
         $("#IDEmpresa").on("change", function () {
             var IDEmpresa = $(this).val();
-            console.log("empresa: " + IDEmpresa);
+            //console.log("empresa: " + IDEmpresa);
             GetChoferesXIDEmpresa(IDEmpresa);
             GetVehiculosXIDEmpresa(IDEmpresa);
             //GetJaulasXIDEmpresa(IDEmpresa);
@@ -287,7 +287,7 @@
                 IDSucursal: { required: true },
                 IDChofer: { required: true },
                 IDVehiculo: { required: true },
-                "Flete.kmInicialVehiculo": { numeroConComas: true },
+                //"Flete.kmInicialVehiculo": { numeroConComas: true },
                 "Flete.precioFlete": { numeroConComas:true },
                 TipoFlete: { required: true },
                 //"Flete.Id_metodoPago": { required:true },
@@ -353,9 +353,9 @@
         monto = Number.parseFloat(monto.replace(/,/g, ''));
         formData.set("DocumentosPorCobrarDetallePagos.Monto", monto);
 
-        var km = Flete_kmInicial.val();
-        km = Number.parseFloat(km.replace(/,/g, ''));
-        formData.set("Flete.kmInicialVehiculo", km);
+        //var km = Flete_kmInicial.val();
+        //km = Number.parseFloat(km.replace(/,/g, ''));
+        //formData.set("Flete.kmInicialVehiculo", km);
 
         $("body").css("cursor", "progress");
         $.ajax({
@@ -671,7 +671,7 @@
         //DocumentosPorCobrarDetallePagos_Id_formaPago.rules("add", { required: true, min: 0 });
         Trayecto_id_lugarOrigen.rules("add", { required: true });
         Trayecto_id_lugarDestino.rules("add", { required: true });
-        Flete_kmInicial.rules("add", { numeroConComas: true });
+        //Flete_kmInicial.rules("add", { numeroConComas: true });
         Monto.rules("add", { numeroConComas: true });
     }
     function QuitarValidaciones() {
@@ -684,7 +684,7 @@
         //DocumentosPorCobrarDetallePagos_Id_formaPago.rules("remove", "min");
         Trayecto_id_lugarOrigen.rules("remove", "required");
         Trayecto_id_lugarDestino.rules("remove", "required");
-        Flete_kmInicial.rules("remove", "numeroConComas");
+        //Flete_kmInicial.rules("remove", "numeroConComas");
         Monto.rules("remove", "numeroConComas");
 
         IDEmpresa.closest(".controlError").removeClass("has-success has-error");
@@ -696,7 +696,7 @@
         //DocumentosPorCobrarDetallePagos_Id_formaPago.closest(".controlError").removeClass("has-success has-error");
         Trayecto_id_lugarOrigen.closest(".controlError").removeClass("has-success has-error");
         Trayecto_id_lugarDestino.closest(".controlError").removeClass("has-success has-error");
-        Flete_kmInicial.closest(".controlError").removeClass("has-success has-error");
+        //Flete_kmInicial.closest(".controlError").removeClass("has-success has-error");
         Monto.closest(".controlError").removeClass("has-success has-error");
 
         Validation_summary_flete.find("dd[for='IDEmpresa']").addClass('help-block valid').text('');
@@ -708,7 +708,7 @@
         //Validation_summary_flete.find("dd[for='DocumentosPorCobrarDetallePagos_Id_formaPago']").addClass('help-block valid').text('');
         Validation_summary_flete.find("dd[for='Trayecto_id_lugarOrigen']").addClass('help-block valid').text('');
         Validation_summary_flete.find("dd[for='Trayecto_id_lugarDestino']").addClass('help-block valid').text('');
-        Validation_summary_flete.find("dd[for='Flete_kmInicialVehiculo']").addClass('help-block valid').text('');
+        //Validation_summary_flete.find("dd[for='Flete_kmInicialVehiculo']").addClass('help-block valid').text('');
         Validation_summary_flete.find("dd[for='DocumentosPorCobrarDetallePagos_Monto']").addClass('help-block valid').text('');
     } 
 

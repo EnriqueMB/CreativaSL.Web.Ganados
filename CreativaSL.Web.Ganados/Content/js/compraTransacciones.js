@@ -432,6 +432,13 @@
         $("#btnAddPagoComprobantePago").on("click", function () {
             window.location.href = '/Admin/Compra/PagoCompra?id_1=' + IDCompra + '&id_2=';
         });
+        $("#btnGenerarComprobantePago").on("click", function () {
+            window.open
+            (
+                '/Admin/Compra/ComprobanteCompra?Id_1=' + IDCompra,
+                '_blank'
+            );
+        });
     }
     /*TERMINA PAGOS*/
     return {

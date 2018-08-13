@@ -457,6 +457,7 @@
     <Content Include="Content\js\CatContactosClientes.js" />
     <Content Include="Content\js\catEvento.js" />
     <Content Include="Content\js\catFierro.js" />
+    <Content Include="Content\js\CatFierroSubir.js" />
     <Content Include="Content\js\compraAgendar.js" />
     <Content Include="Content\js\CompraAlmacenDetalle.js" />
     <Content Include="Content\js\compraDocumento.js" />
@@ -1384,7 +1385,6 @@
     <Content Include="Areas\Admin\Views\Venta\VentaEditProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaImpuestoProductoServicio.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\Venta_ProductoServicio.cshtml" />
-    <Content Include="Areas\Admin\Views\DocumentoXCobrar\Create.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\DetallePagos.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\PagosCreate.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\PagosEdit.cshtml" />
@@ -1396,10 +1396,12 @@
     <Content Include="Areas\Admin\Views\Compra\ImpuestosProductoServicioCompra.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ImpuestoProductoServicioACCompra.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\PagoCompra.cshtml" />
-    <Content Include="Areas\Admin\Views\Venta\VentaDocumento.cshtml" />
-    <Content Include="Areas\Admin\Views\Venta\VentaDetalles.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\Create.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXPagar\DetalleDocumento.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\DetalleDocumento.cshtml" />
+    <Content Include="Areas\Admin\Views\CatFierro\UploadImagen.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1561,6 +1563,8 @@
     <Compile Include="Models\CompraGanadoModels.cs" />
     <Compile Include="Models\CompraImpuestoModels.cs" />
     <Compile Include="Models\CompraModels.cs" />
+    <Compile Include="Models\ComprobanteCompraCabeceraModels.cs" />
+    <Compile Include="Models\ComprobanteCompraDetallesModels.cs" />
     <Compile Include="Models\Comun.cs" />
     <Compile Include="Models\ConciliacionAlmacenDetalleModel.cs" />
     <Compile Include="Models\ConciliacionAlmacenModels.cs" />
@@ -1619,6 +1623,7 @@
     <Compile Include="Models\RecepcionOrigenModels.cs" />
     <Compile Include="Models\RecepcionDestinoModels.cs" />
     <Compile Include="Models\RecepcionOrigenVentaModels.cs" />
+    <Compile Include="Models\ReporteCabeceraGanado.cs" />
     <Compile Include="Models\ReporteGanadoModels.cs" />
     <Compile Include="Models\Reporte_Datos.cs" />
     <Compile Include="Models\RespuestaAjax.cs" />
@@ -1824,6 +1829,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Formatos\CartaPorte.rdlc" />
+    <EmbeddedResource Include="Formatos\ComprobanteCompra.rdlc" />
     <EmbeddedResource Include="Formatos\ImagenesProveedor.rdlc" />
     <EmbeddedResource Include="Formatos\ListadoGanado.rdlc" />
     <EmbeddedResource Include="Formatos\ListadoGanadoParaCompra.rdlc" />
@@ -1833,6 +1839,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ReporteDiasLaborados.rdlc" />
     <EmbeddedResource Include="Reports\ReporteEntradas.rdlc" />
+    <EmbeddedResource Include="Reports\ReporteEntradasV2.rdlc" />
     <EmbeddedResource Include="Reports\ReporteEstadoCuentaProveedor.rdlc" />
     <EmbeddedResource Include="Reports\ReporteEstadoCuentaProveedorActualizado.rdlc" />
     <EmbeddedResource Include="Reports\ReporteFletes.rdlc" />
