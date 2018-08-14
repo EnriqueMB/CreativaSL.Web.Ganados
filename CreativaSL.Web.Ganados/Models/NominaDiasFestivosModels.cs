@@ -16,6 +16,7 @@ namespace CreativaSL.Web.Ganados.Models
             _idDiasFestivos = string.Empty;
             _fecha = DateTime.Today;
             _Descripcion = string.Empty;
+            _LNominaDias = new List<NominaDiasFestivosModels>();
         }
 
         private string _idDiasFestivos;
