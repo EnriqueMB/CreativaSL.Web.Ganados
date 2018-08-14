@@ -18,9 +18,9 @@
     var kgMachos = parseFloat($("#KgMachos").val());
     var kgHembras = parseFloat($("#KgHembras").val());
     var kgTotal = parseFloat($("#KgTotal").val());
-    var costoMachos = parseFloat($("#CostoMachos").val());
-    var costoHembras = parseFloat($("#CostoHembras").val());
-    var costoTotal = parseFloat($("#CostoTotal").val());
+    var costoMachos = Number.parseFloat($("#CostoMachos").val().replace("$", '')); 
+    var costoHembras = Number.parseFloat($("#CostoHembras").val().replace("$", '')); 
+    var costoTotal = Number.parseFloat($("#CostoTotal").val().replace("$", ''));
 
     var genero;
 
@@ -138,7 +138,7 @@
 
 
             var error = Validar();
-            console.log(error);
+            
             if (error == 0) {
                 var ganado = tblGanadoJaula.rows().data();
                 var me = $("#ME").val();
@@ -246,6 +246,7 @@
                 cabezas_total = cabezas_machos + cabezas_hembras;
                 kgTotal = kgMachos + kgHembras;
                 costoTotal = costoMachos + costoHembras;
+
                 ActualizarInputs();
             }
             tblGanadoCorral.row('.selected').remove().draw(false);

@@ -361,6 +361,10 @@
                     var id = $(this).data("id")
                     window.location.href = '/Admin/Flete/AC_FleteDocumentos?id_1=' + id;
                 });
+                $(".details").on("click", function () {
+                    var id = $(this).data("id")
+                    window.location.href = '/Admin/Flete/Detalles_Flete?Id_1=' + id;
+                });
 
             },
             "order": [[0, 'desc']]

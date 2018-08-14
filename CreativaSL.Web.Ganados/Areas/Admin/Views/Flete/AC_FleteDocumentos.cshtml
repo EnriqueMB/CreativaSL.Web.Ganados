@@ -1,4 +1,4 @@
-﻿@model CreativaSL.Web.Ganados.Models.FleteModels
+﻿@model CreativaSL.Web.Ganados.Models.DocumentoModels
 
 @{
     ViewBag.Title = "AC_FleteDocumentos";
@@ -25,6 +25,19 @@
         a:visited {color:#ffffff;}
         a:active {color:#ffffff;}
         a:hover {color:#ffffff;}
+        div#validation_summary dd {
+            color: #e80c4d !important;
+        }
+        #btnGuardar{
+            background-color: #E04B4A;
+            border-color: #E04B4A;
+            color: #fff;
+        }
+        #btnGuardar:hover {
+            background-color: #a43f3e;
+            border-color:  #a43f3e;
+            color: #fff;
+        }
     </style>
 }
 
@@ -54,6 +67,41 @@
                 <div role="tabpanel" class="tab-pane active" id="documentacion">
                     <div class="col-md-12">
                         <div class="panel panel-default">
+                            @{ Html.EnableClientValidation(false); }
+                            @using (Html.BeginForm("AC_CostoDocumentos", "Flete", FormMethod.Post, new { id = "frm_documento", @class = "form-horizontal", autocomplete = "off" }))
+                            {
+                                <div id="validation_summary" class="field_error "></div> //JS
+                                <br />
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(model => model.Id_servicio)
+                                @Html.HiddenFor(model => model.Id_documentoPorPagar)
+
+                                <div class="form-group">
+                                    <div class="col-md-5 controlError">
+                                        <label class="col-md-5 control-label">Precio por la documentación:</label>
+                                        <div class="col-md-7 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+                                                @Html.TextBoxFor(model => model.PrecioUnitarioDocumentacion, "{0:f2}", new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 controlError">
+                                        <label class="col-md-5 control-label">Concepto de salida de gasto:</label>
+                                        <div class="col-md-7 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.DropDownListFor(model => model.Id_conceptoSalidaDeduccion, new SelectList(Model.ListaConceptosSalidaDeduccion, "IDTipoClasificacionGasto", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="submit" id="btnGuardar" class="btn ">Guardar <i class="fa fa-save"></i></button>
+                                    </div>
+                                </div>
+                            }
+                            <br />
+
                             <div class="panel-heading">
                                 <h3 class="panel-title"><strong>Documentación</strong> para el flete</h3>
                                 <ul class="panel-controls"></ul>
@@ -108,73 +156,18 @@
                                 <div class="col-md-12">
                                    
                                     <div class="">
-                                        <div class="col-md-4">
+                                        @*<div class="col-md-4">
                                             <a id="carta_porte" class="tile tile-warning tile-valign2" href="@Url.Action("CartaPorte", "Flete", new { id = ViewBag.Id_flete })" target="_blank">
                                                 Carta Porte
                                                 <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Grupo Ocampo</div>
                                             </a>
-                                        </div>
+                                        </div>*@
                                         <div class="col-md-4">
                                             <a id="reporte_ganado" class="tile tile-warning tile-valign2" href="@Url.Action("ReporteGanadoPropio", "Flete", new { id = ViewBag.Id_flete })" target="_blank">
                                                 Fierros ganado propio
                                                 <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Grupo Ocampo</div>
                                             </a>
                                         </div>
-                                        
-                                        @*<div class="col-md-4">
-        <a id="BTN3" class="tile tile-warning tile-valign2">
-            Salidas
-            <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-        </a>
-    </div>
-    <div class="col-md-4">
-        <a id="BTN4" class="tile tile-warning tile-valign2">
-            Ganado Vendidos
-            <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-        </a>
-    </div>
-    <div class="col-md-4">
-        <a id="BTN5" class="tile tile-warning tile-valign2">
-            Reporte ganados muertos por venta
-            <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-        </a>
-    </div>
-    <div class="col-md-4">
-        <a id="BTN6" class="tile tile-warning tile-valign2">
-            Reporte de Socios
-            <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-        </a>
-    </div>
-    <div class="col-md-4">
-        <a id="BTN7" class="tile tile-warning tile-valign2">
-            Reporte ganados muertos por compra
-            <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-        </a>
-    </div>
-    <div class="col-md-4">
-        <a id="BTN8" class="tile tile-warning tile-valign2">
-            Reporte de jaulas por venta
-            <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-        </a>
-    </div>
-    <div class="col-md-4">
-        <a id="BTN9" class="tile tile-warning tile-valign2">
-            Reporte Entradas
-            <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-        </a>
-    </div>
-    <div class="col-md-4">
-        <a id="BTN10" class="tile tile-warning tile-valign2">
-            Reporte Corrales
-            <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-        </a>
-    </div>
-    <div class="col-md-4">
-        <a id="BTN11" class="tile tile-warning tile-valign2">
-            Reporte de fletes
-            <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-        </a>
-    </div>*@
                                     </div>
                                 </div>
                             </div>
@@ -239,7 +232,7 @@
 
         Mensaje(message, typemessage);
 
-        FleteDocumentos.init(opcionImpuesto);
+        FleteDocumentos.init();
     });
     </script>
 }

@@ -187,7 +187,7 @@ namespace CreativaSL.Web.Ganados.Models
                         Venta.Id_venta
                     };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Compras_get_JsonGeneralesGanado", parametros);
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_DatatableGeneralesGanado", parametros);
                 string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
                 return datatable;
@@ -197,6 +197,103 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public string DatatableGanadoMacho(VentaModels2 Venta)
+        {
+            try
+            {
+                object[] parametros =
+                    {
+                        Venta.Id_venta
+                    };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_DetallesGanadoMacho", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string DatatableGanadoHembra(VentaModels2 Venta)
+        {
+            try
+            {
+                object[] parametros =
+                    {
+                        Venta.Id_venta
+                    };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_DetallesGanadoHembra", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string DatatableDetallesDocXcobrar(VentaModels2 Venta)
+        {
+            try
+            {
+                object[] parametros =
+                    {
+                        Venta.Id_venta
+                    };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_DetallesDocXcobrar", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string DatatableDetalleDocXCobrarPagos(VentaModels2 Venta)
+        {
+            try
+            {
+                object[] parametros =
+                    {
+                        Venta.Id_venta
+                    };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_DetallesDocXcobrarPAGOS", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string GetDocumentosDataTable(CompraModels Compra)
+        {
+            object[] parametros =
+            {
+                Compra.IDCompra
+            };
+
+            try
+            {
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_DocumentosXIDCompra", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         #endregion
 
         #region Combos
@@ -1416,6 +1513,9 @@ namespace CreativaSL.Web.Ganados.Models
                     VentaDetalles.EmpresaDireccion = !dr.IsDBNull(dr.GetOrdinal("DireccionEmpresa")) ? dr.GetString(dr.GetOrdinal("DireccionEmpresa")) : string.Empty;
                     VentaDetalles.EmpresaRFC = !dr.IsDBNull(dr.GetOrdinal("RFCEmpresa")) ? dr.GetString(dr.GetOrdinal("RFCEmpresa")) : string.Empty;
                     VentaDetalles.EmpresaPSG = !dr.IsDBNull(dr.GetOrdinal("psgEmpresa")) ? dr.GetString(dr.GetOrdinal("psgEmpresa")) : string.Empty;
+
+                    VentaDetalles.DocumentosPrecioDocumentacion = !dr.IsDBNull(dr.GetOrdinal("DocumentosPrecioDocumentacion")) ? dr.GetDecimal(dr.GetOrdinal("DocumentosPrecioDocumentacion")) : 0;
+                    VentaDetalles.DocumentosTipoSalidaDocumentacion = !dr.IsDBNull(dr.GetOrdinal("DocumentosTipoSalidaDocumentacion")) ? dr.GetString(dr.GetOrdinal("DocumentosTipoSalidaDocumentacion")) : string.Empty;
                 }
                 
                 dr.Close();

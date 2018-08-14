@@ -59,7 +59,7 @@
                 bancarizadoForm.value = true;
                 cuentaBeneficiante.rules("add", { required: true });
                 cuentaOrdenante.rules("add", { required: true });
-                imagen.rules("add", { ImagenRequerida: true });
+                imagen.rules("add", { ImagenRequerida: true, ImagenRequerida: ["ImagenBase64"] });
                 //folioINE.rules("add", { required: true });
                 //numeroAutorizacion.rules("add", { required: true });
             }
@@ -155,7 +155,7 @@
                 //},
                 "HttpImagen":{
                     ImagenRequerida: true,
-                    ImagenRequerida: ["ImagenMostrar"]
+                    ImagenRequerida: ["ImagenBase64"]
                 },
                 "Id_cuentaBancariaOrdenante": {
                     required: true
@@ -186,9 +186,9 @@
                 //NumeroAutorizacion: {
                 //    required: "Por favor, escriba el numero de autorización"
                 //},
-                HttpImagen: {
-                    required: "Por favor, ingrese una imagen"
-                },
+                //HttpImagen: {
+                //    required: "Por favor, ingrese una imagen"
+                //},
                 Id_cuentaBancariaOrdenante: {
                     required: "Por favar, seleccione una cuenta de banco de la empresa."
                 },
