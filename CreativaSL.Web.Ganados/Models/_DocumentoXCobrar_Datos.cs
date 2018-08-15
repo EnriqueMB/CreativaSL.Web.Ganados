@@ -628,7 +628,7 @@ namespace CreativaSL.Web.Ganados.Models
                 List<DocumentosPorCobrarDetallePagosModels> Lista = new List<DocumentosPorCobrarDetallePagosModels>();
                 DocumentosPorCobrarDetallePagosModels Item;
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_DocumentoPorPagar_get_DocumentosDetallesPagos", datos.Id_documentoPorCobrar);
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_DocumentoPorCobrar_get_DocumentosDetallesPagos", datos.Id_documentoPorCobrar);
                 while (dr.Read())
                 {
                     Item = new DocumentosPorCobrarDetallePagosModels();
@@ -646,6 +646,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
 
         public DocumentosPorCobrarDetallePagosModels GetDetalleDocumentoPago(DocumentosPorCobrarDetallePagosModels DocumentoPago)
         {
