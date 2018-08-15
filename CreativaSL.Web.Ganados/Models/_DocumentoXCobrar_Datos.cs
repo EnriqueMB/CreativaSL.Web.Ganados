@@ -443,6 +443,8 @@ namespace CreativaSL.Web.Ganados.Models
                     {
                         Item.FechaVenta = !dr.IsDBNull(dr.GetOrdinal("FechaVenta")) ? dr.GetDateTime(dr.GetOrdinal("FechaVenta")) : DateTime.Now;
                         Item.Folio = !dr.IsDBNull(dr.GetOrdinal("Folio")) ? dr.GetInt64(dr.GetOrdinal("Folio")) : 0;
+                        Item.NombreVenta = !dr.IsDBNull(dr.GetOrdinal("NombreVenta")) ? dr.GetString(dr.GetOrdinal("NombreVenta")) : string.Empty;
+
                     }
                     if (Item.Id_tipoDocumento == 3)
                     {
@@ -453,6 +455,12 @@ namespace CreativaSL.Web.Ganados.Models
                         Item.FechaLlegada = !dr.IsDBNull(dr.GetOrdinal("FechaLlegada")) ? dr.GetDateTime(dr.GetOrdinal("FechaSalida")) : DateTime.Now;
                         Item.FechaTentativaEntrega = !dr.IsDBNull(dr.GetOrdinal("FechaTentativaEntrega")) ? dr.GetDateTime(dr.GetOrdinal("FechaSalida")) : DateTime.Now;
                         Item.FechaFinalizadoFlete = !dr.IsDBNull(dr.GetOrdinal("FechaFinalizadoFlete")) ? dr.GetDateTime(dr.GetOrdinal("FechaSalida")) : DateTime.Now;
+                    }
+                    if (Item.Id_tipoDocumento == 4)
+                    {
+                        Item.Total = !dr.IsDBNull(dr.GetOrdinal("Total")) ? dr.GetDecimal(dr.GetOrdinal("Total")) : 0;
+                        Item.Pendiente = !dr.IsDBNull(dr.GetOrdinal("Pendiente")) ? dr.GetDecimal(dr.GetOrdinal("Pendiente")) : 0;
+                        Item.Fecha = !dr.IsDBNull(dr.GetOrdinal("Fecha")) ? dr.GetDateTime(dr.GetOrdinal("Fecha")) : DateTime.Now;
                     }
                     Lista.Add(Item);
                 }
