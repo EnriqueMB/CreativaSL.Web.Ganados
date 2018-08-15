@@ -312,6 +312,7 @@
                                                     <th>Impuestos trasladados</th>
                                                     <th>Impuestos</th>
                                                     <th>Subtotal</th>
+                                                    <th>Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody></tbody>
@@ -771,7 +772,11 @@
                     {
                         "data": "subtotal",
                         "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
-                    }
+                    },
+                     {
+                         "data": "total",
+                         "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                     }
                 ]
             });
             var tbl_docxcobrardetallesPagos = $('#tbl_docxcobrardetallesPagos').DataTable({

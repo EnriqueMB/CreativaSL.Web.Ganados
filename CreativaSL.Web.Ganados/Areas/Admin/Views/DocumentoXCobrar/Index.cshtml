@@ -49,6 +49,7 @@
                                                     <th>Tipo Documento</th>
                                                     <th>No. Folio</th>
                                                     <th>Sucursal</th>
+                                                    <th>Estatus</th>
                                                     <th>Fecha</th>
                                                     <th>Impuesto</th>
                                                     <th>Subtototal</th>
@@ -79,13 +80,22 @@
                                                         {
                                                             <td>No Sistema</td>
                                                         }
+
                                                         <td>@Doc.NumeroFactura</td>
                                                         <td>@Doc.NombreSucursal.ToString()</td>
+                                                        @if (Doc.IDEstatus == 1)
+                                                        {
+                                                            <td><span class="label label-success">@Doc.EstatusNombre</span></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td><span class="label label-primary">@Doc.EstatusNombre</span></td>
+                                                        }
                                                         <td>@Doc.Fecha.ToShortDateString()</td>
-                                                        <td>@Doc.Impuestos.ToString("0.00").Replace(',', '.')</td>
-                                                        <td>@Doc.Subtotal.ToString("0.00").Replace(',', '.')</td>
-                                                        <td>@Doc.Total.ToString("0.00").Replace(',', '.')</td>
-                                                        <td>@Doc.Pendiente.ToString("0.00").Replace(',', '.')</td>
+                                                        <td>@Doc.Impuestos.ToString("C2")</td>
+                                                        <td>@Doc.Subtotal.ToString("C2")</td>
+                                                        <td>@Doc.Total.ToString("C2")</td>
+                                                        <td>@Doc.Pendiente.ToString("C2")</td>
                                                         @if (Doc.EsSistema)
                                                         {
                                                             <td style="text-align:center;">
@@ -152,6 +162,7 @@
                                                     <th>Tipo Documento</th>
                                                     <th>No. Folio</th>
                                                     <th>Sucursal</th>
+                                                    <th>Estatus</th>
                                                     <th>Fecha</th>
                                                     <th>Impuesto</th>
                                                     <th>Subtototal</th>
@@ -184,11 +195,19 @@
                                                             }
                                                             <td>@Doc.NumeroFactura</td>
                                                             <td>@Doc.NombreSucursal.ToString()</td>
+                                                            @if (Doc.IDEstatus == 1)
+                                                            {
+                                                                <td><span class="label label-success">@Doc.EstatusNombre</span></td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td><span class="label label-primary">@Doc.EstatusNombre</span></td>
+                                                            }
                                                             <td>@Doc.Fecha.ToShortDateString()</td>
-                                                            <td>@Doc.Impuestos.ToString("0.00").Replace(',', '.')</td>
-                                                            <td>@Doc.Subtotal.ToString("0.00").Replace(',', '.')</td>
-                                                            <td>@Doc.Total.ToString("0.00").Replace(',', '.')</td>
-                                                            <td>@Doc.Pendiente.ToString("0.00").Replace(',', '.')</td>
+                                                            <td>@Doc.Impuestos.ToString("C2")</td>
+                                                            <td>@Doc.Subtotal.ToString("C2")</td>
+                                                            <td>@Doc.Total.ToString("C2")</td>
+                                                            <td>@Doc.Pendiente.ToString("C2")</td>
                                                             @if (Doc.EsSistema)
                                                             {
                                                                 <td style="text-align:center;">

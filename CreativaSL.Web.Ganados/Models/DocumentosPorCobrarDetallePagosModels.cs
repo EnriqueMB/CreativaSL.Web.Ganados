@@ -8,6 +8,8 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class DocumentosPorCobrarDetallePagosModels
     {
+        public decimal pendiente { get; set; }
+        public int id_status { get; set; }
         public string Id_compra { get; set; }
         public string Id_documentoPorCobrarDetallePagos { get; set; }
         public string Id_documentoPorCobrar { get; set; }
@@ -71,6 +73,8 @@ namespace CreativaSL.Web.Ganados.Models
 
         //vista producto servicio
         public List<CatTipoClasificacionCobroModels> ListaTipoClasificacionCobro { get; set; }
-
+        public List<DocumentosPorCobrarDetallePagosModels> ListaPagosDocumento { get; set; }
+        public string Descripcion { get; set; }
+        public bool Completado { get; internal set; }
     }
 }

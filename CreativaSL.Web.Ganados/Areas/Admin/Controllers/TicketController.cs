@@ -68,6 +68,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         ticket.Conexion = Conexion;
                         ticket.idTicket = id;
                         ticket.Usuario = User.Identity.Name;
+                        ticket.textoTicket1 = "Uno";
+                        ticket.textoTicket2 = "Dos";
+                        ticket.textoTicket3 = "Tres";
                         ticket = datos.C_Configuracion(ticket);
                         if (ticket.Completado == true)
                         {

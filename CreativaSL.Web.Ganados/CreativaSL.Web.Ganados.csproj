@@ -470,8 +470,11 @@
     <Content Include="Content\js\compraCobro.js" />
     <Content Include="Content\js\Configuracion.js" />
     <Content Include="Content\js\documentoXPagarPagos.js" />
+    <Content Include="Content\js\DocXCobrarCreate.js" />
     <Content Include="Content\js\DocXPagarCreate.js" />
     <Content Include="Content\js\fleteCobro.js" />
+    <Content Include="Content\js\fleteDocumento.js" />
+    <Content Include="Content\js\fleteDocumentos.js" />
     <Content Include="Content\js\fleteEvento.js" />
     <Content Include="Content\js\fleteImpuesto.js" />
     <Content Include="Content\js\fleteImpuestoProductoServicio.js" />
@@ -1403,8 +1406,15 @@
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\Details.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\DetalleDocumento.cshtml" />
     <Content Include="Areas\Admin\Views\CatFierro\UploadImagen.cshtml" />
-    <Content Include="Areas\Admin\Views\CatGanado\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\CatGanado\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\DetallePagos.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\PagosCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXCobrar\PagosEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaDetalles.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaDocumento.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\AC_FleteDocumento.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\Detalles_Flete.cshtml" />
+    <Content Include="Areas\Admin\Views\Ticket\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Ticket\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1602,6 +1612,7 @@
     <Compile Include="Models\ExistenciaProductoAlmacenModels.cs" />
     <Compile Include="Models\ExistenciaProductosAlmacenPrecioModels.cs" />
     <Compile Include="Models\FierroCompraModels.cs" />
+    <Compile Include="Models\FleteDetallesModels.cs" />
     <Compile Include="Models\FleteImpuestoModels.cs" />
     <Compile Include="Models\FleteModels.cs" />
     <Compile Include="Models\Flete_ProductoModels.cs" />

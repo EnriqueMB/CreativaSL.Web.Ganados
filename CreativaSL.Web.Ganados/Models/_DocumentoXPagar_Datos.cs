@@ -416,6 +416,7 @@ namespace CreativaSL.Web.Ganados.Models
                     DocumentosPagarModels.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     DocumentosPagarModels.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
                     DocumentosPagarModels.Completado = true;
+                    DocumentosPagarModels.pendiente= !dr.IsDBNull(dr.GetOrdinal("pendiente")) ? dr.GetDecimal(dr.GetOrdinal("pendiente")) :0;
                 }
                 return DocumentosPagarModels;
             }

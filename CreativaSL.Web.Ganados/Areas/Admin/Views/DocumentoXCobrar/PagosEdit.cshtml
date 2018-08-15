@@ -1,4 +1,4 @@
-﻿@model CreativaSL.Web.Ganados.Models.DocumentoPorPagarDetallePagosModels
+﻿@model CreativaSL.Web.Ganados.Models.DocumentosPorCobrarDetallePagosModels
 @{
     ViewBag.Title = "PagosEdit";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -32,7 +32,7 @@
             <div class="row">
                 <div class="col-md-12">
                     @{ Html.EnableClientValidation(false); }
-                    @using (Html.BeginForm("PagosEdit", "DocumentoXPagar", FormMethod.Post, new { id = "form_Comprobante", @class = "form-horizontal", autocomplete = "off" }))
+                    @using (Html.BeginForm("PagosEdit", "DocumentoXCobrar", FormMethod.Post, new { id = "form_Comprobante", @class = "form-horizontal", autocomplete = "off" }))
                     {
                         @Html.AntiForgeryToken()
                         <div class="field_error" id="validation_summary"></div>
@@ -48,12 +48,10 @@
                             @Html.HiddenFor(model => model.ImagenBase64)
                             @Html.HiddenFor(model => model.TipoServicio)
                             @Html.HiddenFor(model => model.Bancarizado)
-                            @Html.HiddenFor(model => model.Id_documentoPorPagar)
-                            @Html.HiddenFor(model => model.Id_documentoPorPagarDetallePagos)
-                            @Html.HiddenFor(model => model.Id_documentoPorPagarDetallePagosBancarizado)
+                            @Html.HiddenFor(model => model.Id_documentoPorCobrar)
+                            @Html.HiddenFor(model => model.Id_documentoPorCobrarDetallePagos)
+                            @Html.HiddenFor(model => model.Id_documentoPorCobrarDetallePagosBancarizado)
                             @Html.HiddenFor(model => model.Id_compra)
-                            @Html.HiddenFor(model => model.id_status)
-
 
                             <div class="form-group">
                                 <div class="col-md-6">
@@ -80,7 +78,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                @*<div class="col-md-6 controlError">
+                                <div class="col-md-6 controlError">
                                     <label class="col-md-2 control-label">Asignar:</label>
                                     <div class="controls">
                                         <div class="col-md-10 col-xs-12">
@@ -90,7 +88,7 @@
                                                     @foreach (var documentos in Model.ListaAsignar)
                                                     {
                                                         <option value="@documentos.Id" data-nombre="@documentos.Nombre"
-                                                                @if (Model.Id_documentoPorPagar == documentos.Id) { <text>
+                                                                @if (Model.Id_documentoPorCobrar == documentos.Id) { <text>
                                                                 selected="selected"
                                                                 </text> }>
                                                             @documentos.Descripcion
@@ -101,7 +99,7 @@
                                             <span class="help-block">Asignar pago.</span>
                                         </div>
                                     </div>
-                                </div>*@
+                                </div>
 
                                 <div class="col-md-6 controlError">
                                     <label class="col-md-2 control-label">Forma de pago:</label>
@@ -387,7 +385,7 @@
                         </div>
                         <div class="panel-footer">
                             <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                            <a href="@Url.Action("DetallePagos","DocumentoXPagar",new { id = Model.Id_documentoPorPagar,id2=Model.id_status })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                            <a href="@Url.Action("DetallePagos","DocumentoXCobrar",new { id = Model.Id_documentoPorCobrar })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                         </div>
                     </div>
                     }
@@ -412,7 +410,10 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/documentoXPagarPagos.js")"></script>
+
+    @*Validaciones*@
+    <script type="text/javascript" src="@Url.Content("~/Content/js/documentoXCobrarPagos.js")"></script>
+    
     <!--FILEINPUT-->
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
@@ -423,7 +424,7 @@
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
-            DocumentoXPagar.init();
+            DocumentoXCobrar.init(); // validaciones
         });
     </script>
 }

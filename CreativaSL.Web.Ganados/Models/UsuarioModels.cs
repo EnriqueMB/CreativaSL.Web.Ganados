@@ -29,6 +29,10 @@ namespace CreativaSL.Web.Ganados.Models
             _url_foto = string.Empty;
             _cuenta = string.Empty;
             _contraseña = string.Empty;
+            _listaMenu = new List<MenuModels>();
+            _ListaMenuPermisos = new List<MenuModels>();
+            _ListaPermisos = new List<UsuarioModels>();
+            _ListaPermisosDetalle = new List<UsuarioModels>();
         }
         private string _id_usuario;
         public string id_usuario
