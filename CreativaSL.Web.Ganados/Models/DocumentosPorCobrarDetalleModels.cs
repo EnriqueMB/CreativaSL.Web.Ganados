@@ -60,13 +60,16 @@ namespace CreativaSL.Web.Ganados.Models
         public string nombreRazonSocial { get;  set; }
         public int ganadoTotal { get;  set; }
         public decimal kiloTotal { get;  set; }
-        public long Folio { get; internal set; }
-        public DateTime FechaVenta { get; internal set; }
-        public object TipoFlete { get; internal set; }
-        public DateTime FechaEmbarque { get; internal set; }
-        public DateTime FechaSalida { get; internal set; }
-        public DateTime FechaTentativaEntrega { get; internal set; }
-        public DateTime FechaFinalizadoFlete { get; internal set; }
-        public DateTime FechaLlegada { get; internal set; }
+        public long Folio { get;  set; }
+        public DateTime FechaVenta { get;  set; }
+        public object TipoFlete { get;  set; }
+        public DateTime FechaEmbarque { get;  set; }
+        public DateTime FechaSalida { get;  set; }
+        public DateTime FechaTentativaEntrega { get;  set; }
+        public DateTime FechaFinalizadoFlete { get;  set; }
+        public DateTime FechaLlegada { get;  set; }
+        public string NombreVenta { get;  set; }
+        public decimal Pendiente { get;  set; }
+        public DateTime Fecha { get;  set; }
     }
 }
