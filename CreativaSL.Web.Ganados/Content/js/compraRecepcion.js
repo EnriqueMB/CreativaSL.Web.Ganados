@@ -77,7 +77,8 @@
             "drawCallback": function (settings) {
                 $(".edit").on("click", function () {
                     var id_evento = $(this).data("id");
-                    ModalEvento(id_evento);
+                    window.location.href = '/Admin/Compra/EventoDetallesCompra?IDCompra=' + IDCompra + '&Id_eventoCompra=' + id_evento;
+                    
                 });
                 $(".delete").on("click", function () {
                     var url = $(this).attr('data-hrefa');

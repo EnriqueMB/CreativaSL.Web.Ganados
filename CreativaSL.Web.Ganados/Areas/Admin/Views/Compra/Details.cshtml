@@ -35,6 +35,7 @@
                 <li role="presentation" class=""><a href="#pagos" aria-controls="pagos" role="tab" data-toggle="tab">Pagos</a></li>
                 <li role="presentation" class=""><a href="#cobros" aria-controls="cobros" role="tab" data-toggle="tab">Cobros</a></li>
                 <li role="presentation" class=""><a href="#documentos" aria-controls="documentos" role="tab" data-toggle="tab">Documentos</a></li>
+                <li role="presentation" class=""><a href="#eventos" aria-controls="eventos" role="tab" data-toggle="tab">Eventos</a></li>
             </ul>
 
             <!-- Tab panes -->
@@ -404,6 +405,42 @@
                                     </div>
                                 </div>
                                 
+                            </div>
+                            <div class="panel-footer">
+                                <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="eventos">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">EVENTOS DURANTE LA COMPRA</h3>
+                                <ul class="panel-controls">
+                                    <li><a id="p4" class="exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        <table id="tblEventos" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tipo Evento</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Lugar</th>
+                                                    <th>Fecha</th>
+                                                    <th>Hora</th>
+                                                    <th>Acción</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="panel-footer">
                                 <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
@@ -940,6 +977,77 @@
                 }   
             });
 
+            var tblEventos = $('#tblEventos').DataTable({
+                "language": {
+                    "url": "/Content/assets/json/Spanish.json"
+                },
+                responsive: true,
+                "ajax": {
+                    "data": {
+                        "IDCompra": IDCompra
+                    },
+                    "url": "/Admin/Compra/TableJsonEventosCompra/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "dataSrc": ''
+                },
+                "columns": [
+                    { "data": "descripcion" },
+                    { "data": "cantidad" },
+                    { "data": "lugar" },
+                    {
+                        "data": "fechaDeteccion",
+                        "render": function (data, type, row) {
+                            if (data === null)
+                                fecha = "Sin dato";
+                            else {
+                                var dateSplit = data.split('-');
+                                var dia = dateSplit[2];
+                                dia = dia.split('T');
+                                dia = dia[0];
+                                var mes = dateSplit[1];
+                                var año = dateSplit[0];
+                                var fecha = dia + '-' + mes + '-' + año;
+                            }
+
+                            return type === "display" || type === "filter" ?
+                                fecha :
+                                data;
+                        }
+                    },
+                    { "data": "horaDeteccion" },
+                    {
+                        "data": null,
+                        "render": function (data, type, full) {
+
+                            return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                                "<a data-id='" + full["id_eventoCompra"] + "' class='btn btn-yellow tooltips btn-sm detalles' title='Editar'  data-placement='top' data-original-title='Editar'><i class='fa fa-edit'></i></a>" +
+                                "</div>" +
+                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                "<div class='btn-group'>" +
+                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                                "</a>" +
+                                "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                                "<li>" +
+                                "<a data-id='" + full["id_eventoCompra"] + "' class='detalles' data-id='" + full["id_eventoCompra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-edit'></i> Editar" +
+                                "</a>" +
+                                "</li>" +
+                                "</ul>" +
+                                "</div>" +
+                                "</div>";
+                        }
+                    }
+                ],
+                "drawCallback": function (settings) {
+                    $(".detalles").on("click", function () {
+                        var id_evento = $(this).data("id");
+                        window.location.href = '/Admin/Compra/EventoDetallesCompra_2?IDCompra=' + IDCompra + '&Id_eventoCompra=' + id_evento;
+
+                    });
+                }
+            });
             Mensaje(message, typemessage);
         });
     </script>

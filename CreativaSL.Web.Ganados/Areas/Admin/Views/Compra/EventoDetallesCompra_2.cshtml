@@ -1,0 +1,233 @@
+﻿@model CreativaSL.Web.Ganados.Models.EventoCompraModels
+
+@{
+    ViewBag.Title = "EventoDetallesCompra_2";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section css
+{
+    <!--FILEINPUT-->
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/select.bootstrap.min.css")" rel="stylesheet" />
+
+    <style>
+        .errorTableCSL {
+            border: 1px solid #ff004d !important;
+        }
+
+        .successTableCSL {
+            border: 1px solid #95b75d !important;
+        }
+
+        .errorCSLGanado {
+            border-color: #E04B4A !important;
+        }
+
+        .okCSLGanado {
+            border-color: #95b75d !important;
+        }
+
+        .form-control[disabled],
+        .form-control[readonly] {
+            color: #000 !important;
+        }
+
+        .page-content {
+            height: 100% !important;
+        }
+    </style>
+}
+
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            @Html.HiddenFor(model => model.ImagenMostrar)
+            @Html.HiddenFor(model => model.ExtensionImagenBase64)
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("AC_Evento", "Venta", FormMethod.Post, new { id = "frm_evento", @class = "form-horizontal", autocomplete = "off" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                                                                                                                            <div id="validation_summary" class="field_error "></div> //JS
+                @Html.HiddenFor(model => model.Id_eventoCompra)
+                @Html.HiddenFor(model => model.Id_compra)
+                @Html.HiddenFor(model => model.ImagenBase64)
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Eventos de la compra</strong></h3>
+                    </div>
+                    <ul class="panel-controls"></ul>
+
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-6 controlError">
+                                <div class="col-md-12">
+                                    <label class="col-md-2 control-label">Tipo de evento</label>
+                                    <div class="controls">
+                                        <div class="col-md-10 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.DropDownListFor(model => model.Id_tipoEvento, new SelectList(Model.ListaTiposEventos, "IDTipoEventoEnvio", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                            </div>
+                                            <span class="help-block">Tipo de evento.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 controlError">
+                                <div class="form-group">
+                                    <div class="col-md-12 controlError">
+                                        <label class="col-md-2 control-label">Lugar</label>
+                                        <div class="controls">
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.Lugar, new { @class = "form-control" })
+                                                </div>
+                                                <span class="help-block">Lugar del evento.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 controlError">
+                                <label class="col-md-2 control-label">Fecha</label>
+                                <div class="controls">
+                                    <div class="col-md-10 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.FechaDeteccion, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker", @readonly = "readonly" })
+                                        </div>
+                                        <span class="help-block">Fecha del evento.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group controlError">
+                                    <div class="col-md-12">
+                                        <label class="col-md-2 control-label">Hora</label>
+                                        <div class="controls">
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.HoraDeteccion, new { @class = "form-control Hora24hrs", @readonly = "readonly" })
+                                                </div>
+                                                <span class="help-block">Hora del evento.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="controlError col-md-12">
+                                <label class="col-md-1 control-label">Imagen</label>
+                                <div class="col-md-11 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+                                        @Html.TextBoxFor(model => model.HttpImagen, new { id = "HttpImagen", @type = "file", @class = "form-control", @multiple = "multiple" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.HttpImagen)
+                                    <span class="help-block">Ingrese una imagen (opcional).</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="controlError col-md-12">
+                                <label class="col-md-1 control-label">Observación</label>
+                                <div class="col-md-11 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-eye-open"></span></span>
+                                        @Html.TextAreaFor(model => model.Observacion, new { @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Observacion)
+                                    <span class="help-block">Ingrese una observación.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="divGanado">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3>Ganado con evento</h3>
+                                    <div class="table-responsive">
+                                        <table id="tblGanadoConEvento" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Núm. arete</th>
+                                                    <th>Genero</th>
+                                                    <th>Peso</th>
+                                                    <th>Antiguo costo por kilo</th>
+                                                    <th>Nuevo costo por kilo</th>
+                                                    <th>Costo de compra</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <a href="@Url.Action("Details", "Compra",  new { IDCompra = Model.Id_compra })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+
+    <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+    <script src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/compraEventoDetalles.js")"></script>
+    <!--FILEINPUT-->
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/popper.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-timepicker.min.js")"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            CompraEventoDetalles.init();
+        });
+    </script>
+}
+
+
+
+
+
+
+

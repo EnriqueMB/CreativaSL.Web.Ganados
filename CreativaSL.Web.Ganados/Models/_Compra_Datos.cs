@@ -3039,13 +3039,13 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        public string DatatableGanadoEventoXIDCompra(CompraModels Compra)
+        public string DatatableGanadoEventoXIDCompra(EventoCompraModels Evento)
         {
             try
             {
-                object[] parametros = { Compra.IDCompra };
+                object[] parametros = { Evento.Id_compra, Evento.Id_eventoCompra };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_GanadoEventoXIDCompra", parametros);
+                dr = SqlHelper.ExecuteReader(Evento.Conexion, "spCSLDB_Compras_get_GanadoEventoXIDCompra", parametros);
                 string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
                 return datatable;
@@ -3132,7 +3132,7 @@ namespace CreativaSL.Web.Ganados.Models
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Evento.Conexion, "spCSLDB_Compras_a_Evento", parametros);
-
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 while (dr.Read())
                 {
                     Evento.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;

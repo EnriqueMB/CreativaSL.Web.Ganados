@@ -463,6 +463,7 @@
     <Content Include="Content\js\compraDocumento.js" />
     <Content Include="Content\js\compraDocumentos.js" />
     <Content Include="Content\js\compraEvento.js" />
+    <Content Include="Content\js\compraEventoDetalles.js" />
     <Content Include="Content\js\CompraGanado.js" />
     <Content Include="Content\js\compraImpuestosProductoServicio.js" />
     <Content Include="Content\js\compraPago.js" />
@@ -1417,6 +1418,10 @@
     <Content Include="Areas\Admin\Views\Ticket\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Ticket\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\EventoCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\CatGanado\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatGanado\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\EventoDetallesCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\EventoDetallesCompra_2.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
