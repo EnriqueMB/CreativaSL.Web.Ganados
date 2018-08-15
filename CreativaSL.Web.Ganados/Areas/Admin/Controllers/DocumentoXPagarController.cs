@@ -295,8 +295,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 documentoPago.TipoServicio = 1;
                 documentoPago.ListaAsignar = DocPagarDatos.GetListadoAsignarPagos(documentoPago);
                 //es para el boton de regresar 1 es compra, 2 es flete de la compra
-                if (documentoPago.TipoServicio == 1 || documentoPago.TipoServicio == 2)
-                    documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
+                //if (documentoPago.TipoServicio == 1 || documentoPago.TipoServicio == 2)
+                //    documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
 
                 documentoPago.ListaFormaPagos = DocPagarDatos.GetListadoCFDIFormaPago(documentoPago);
                 documentoPago = DocPagarDatos.GetNombreEmpresaProveedorCliente(documentoPago);

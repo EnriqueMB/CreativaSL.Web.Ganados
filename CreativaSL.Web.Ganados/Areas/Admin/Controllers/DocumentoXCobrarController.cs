@@ -211,25 +211,255 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        //public ActionResult DetallePagos(string id)
-        //{
-        //    try
-        //    {
-        //        DocumentosPorCobrarDetallePagosModels pago = new DocumentosPorCobrarDetallePagosModels();
-        //        DocumentoXPagar_Datos documentoDatos = new DocumentoXPagar_Datos();
-        //        pago.Conexion = Conexion;
-        //        pago.Id_documentoPorPagar = id;
-        //        pago.ListaPagosDocumento = documentoDatos.ObtenerListaDetallePagos(pago);
-        //        return View(pago);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        DocumentoPorPagarModels docu = new DocumentoPorPagarModels();
-        //        TempData["typemessage"] = "2";
-        //        TempData["message"] = "No se puede cargar la vista";
-        //        return RedirectToAction("Index");
-        //    }
-        //}
+        public ActionResult DetallePagos(string id)
+        {
+            try
+            {
+                DocumentosPorCobrarDetallePagosModels pago = new DocumentosPorCobrarDetallePagosModels();
+                _DocumentoXCobrar_Datos documentoDatos = new _DocumentoXCobrar_Datos();
+                pago.Conexion = Conexion;
+                pago.Id_documentoPorCobrar = id;
+                pago.ListaPagosDocumento = documentoDatos.ObtenerListaDetallePagos(pago);
+                return View(pago);
+            }
+            catch (Exception)
+            {
+                DocumentoPorPagarModels docu = new DocumentoPorPagarModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
+        }
+
+        // GET: Admin/DocumentoXCobrar/PagosCreate/5
+        public ActionResult PagosCreate(string id)
+        {
+
+            try
+            {
+                Token.SaveToken();
+                DocumentosPorCobrarDetallePagosModels documentoPago = new DocumentosPorCobrarDetallePagosModels();
+                _DocumentoXCobrar_Datos DocPagarDatos = new _DocumentoXCobrar_Datos();
+                documentoPago.Id_documentoPorCobrar = id;
+                documentoPago.Usuario = User.Identity.Name;
+                documentoPago.Conexion = Conexion;
+                //documentoPago.TipoServicio = 1;
+                //documentoPago.ListaAsignar = DocPagarDatos.GetListadoAsignarPagos(documentoPago);
+                ////es para el boton de regresar 1 es compra, 2 es flete de la compra
+                //if (documentoPago.TipoServicio == 1 || documentoPago.TipoServicio == 2)
+                //    documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
+
+                documentoPago.ListaFormaPagos = DocPagarDatos.GetListadoCFDIFormaPago(documentoPago);
+                documentoPago = DocPagarDatos.GetNombreEmpresaProveedorCliente(documentoPago);
+                documentoPago.TipoCuentaBancaria = 1;
+                documentoPago.ListaCuentasBancariasEmpresa = DocPagarDatos.GetListadoCuentasBancarias(documentoPago);
+                documentoPago.TipoCuentaBancaria = 2;
+                documentoPago.ListaCuentasBancariasProveedor = DocPagarDatos.GetListadoCuentasBancarias(documentoPago);
+                documentoPago.fecha = DateTime.Now;
+                documentoPago.Bancarizado = false;
+
+                documentoPago.ImagenMostrar = Auxiliar.SetDefaultImage();
+                documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenMostrar);
+                return View(documentoPago);
+            }
+            catch
+            {
+                DocumentosPorCobrarDetallePagosModels documentoPago = new DocumentosPorCobrarDetallePagosModels();
+                _DocumentoXCobrar_Datos DocPagarDatos = new _DocumentoXCobrar_Datos();
+                documentoPago.Id_documentoPorCobrar = id;
+                documentoPago.Usuario = User.Identity.Name;
+                documentoPago.Conexion = Conexion;
+                //documentoPago.TipoServicio = 1;
+                //documentoPago.ListaAsignar = DocPagarDatos.GetListadoAsignarPagos(documentoPago);
+                //es para el boton de regresar 1 es compra, 2 es flete de la compra
+                //if (documentoPago.TipoServicio == 1 || documentoPago.TipoServicio == 2)
+                //    documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
+
+                documentoPago.ListaFormaPagos = DocPagarDatos.GetListadoCFDIFormaPago(documentoPago);
+                documentoPago = DocPagarDatos.GetNombreEmpresaProveedorCliente(documentoPago);
+                documentoPago.TipoCuentaBancaria = 1;
+                documentoPago.ListaCuentasBancariasEmpresa = DocPagarDatos.GetListadoCuentasBancarias(documentoPago);
+                documentoPago.TipoCuentaBancaria = 2;
+                documentoPago.ListaCuentasBancariasProveedor = DocPagarDatos.GetListadoCuentasBancarias(documentoPago);
+                documentoPago.fecha = DateTime.Now;
+                documentoPago.Bancarizado = false;
+
+                documentoPago.ImagenMostrar = Auxiliar.SetDefaultImage();
+                documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenMostrar);
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(documentoPago);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult PagosCreate(DocumentosPorCobrarDetallePagosModels DocumentoPorCobrarPago)
+        {
+            _DocumentoXCobrar_Datos DocumentoDatos = new _DocumentoXCobrar_Datos();
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        DocumentoPorCobrarPago.Conexion = Conexion;
+                        DocumentoPorCobrarPago.Usuario = User.Identity.Name;
+                        DocumentoPorCobrarPago.RespuestaAjax = new RespuestaAjax();
+                        if (DocumentoPorCobrarPago.Bancarizado)
+                        {
+                            if (DocumentoPorCobrarPago.HttpImagen == null)
+                            {
+                                DocumentoPorCobrarPago.ImagenBase64 = DocumentoPorCobrarPago.ImagenMostrar;
+                            }
+                            else
+                            {
+                                DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorCobrarPago.HttpImagen);
+                            }
+                        }
+                        DocumentoPorCobrarPago = DocumentoDatos.AC_ComprobanteCompra(DocumentoPorCobrarPago);
+                        if (DocumentoPorCobrarPago.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("DetallePagos", new { id = DocumentoPorCobrarPago.Id_documentoPorCobrar });
+                        }
+                        else
+                        {
+
+                            DocumentosPorCobrarDetallePagosModels documentoPago = new DocumentosPorCobrarDetallePagosModels();
+                            _DocumentoXCobrar_Datos DocPagarDatos = new _DocumentoXCobrar_Datos();
+                            documentoPago.Id_documentoPorCobrar = DocumentoPorCobrarPago.Id_documentoPorCobrar;
+                            documentoPago.Usuario = User.Identity.Name;
+                            documentoPago.Conexion = Conexion;
+                            documentoPago.TipoServicio = 1;
+                            documentoPago.ListaAsignar = DocPagarDatos.GetListadoAsignarPagos(documentoPago);
+                            //es para el boton de regresar 1 es compra, 2 es flete de la compra
+                            if (documentoPago.TipoServicio == 1 || documentoPago.TipoServicio == 2)
+                                documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
+
+                            documentoPago.ListaFormaPagos = DocPagarDatos.GetListadoCFDIFormaPago(documentoPago);
+                            documentoPago = DocPagarDatos.GetNombreEmpresaProveedorCliente(documentoPago);
+                            documentoPago.TipoCuentaBancaria = 1;
+                            documentoPago.ListaCuentasBancariasEmpresa = DocPagarDatos.GetListadoCuentasBancarias(documentoPago);
+                            documentoPago.TipoCuentaBancaria = 2;
+                            documentoPago.ListaCuentasBancariasProveedor = DocPagarDatos.GetListadoCuentasBancarias(documentoPago);
+                            documentoPago.fecha = DateTime.Now;
+                            documentoPago.Bancarizado = false;
+
+                            documentoPago.ImagenMostrar = Auxiliar.SetDefaultImage();
+                            documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenMostrar);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar";
+                            return View(documentoPago);
+                        }
+                    }
+                    else
+                    {
+                        DocumentosPorCobrarDetallePagosModels documentoPago = new DocumentosPorCobrarDetallePagosModels();
+                        _DocumentoXCobrar_Datos DocPagarDatos = new _DocumentoXCobrar_Datos();
+                        documentoPago.Id_documentoPorCobrar = DocumentoPorCobrarPago.Id_documentoPorCobrar;
+                        documentoPago.Usuario = User.Identity.Name;
+                        documentoPago.Conexion = Conexion;
+                        documentoPago.TipoServicio = 1;
+                        documentoPago.ListaAsignar = DocPagarDatos.GetListadoAsignarPagos(documentoPago);
+                        //es para el boton de regresar 1 es compra, 2 es flete de la compra
+                        if (documentoPago.TipoServicio == 1 || documentoPago.TipoServicio == 2)
+                            documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
+
+                        documentoPago.ListaFormaPagos = DocPagarDatos.GetListadoCFDIFormaPago(documentoPago);
+                        documentoPago = DocPagarDatos.GetNombreEmpresaProveedorCliente(documentoPago);
+                        documentoPago.TipoCuentaBancaria = 1;
+                        documentoPago.ListaCuentasBancariasEmpresa = DocPagarDatos.GetListadoCuentasBancarias(documentoPago);
+                        documentoPago.TipoCuentaBancaria = 2;
+                        documentoPago.ListaCuentasBancariasProveedor = DocPagarDatos.GetListadoCuentasBancarias(documentoPago);
+                        documentoPago.fecha = DateTime.Now;
+                        documentoPago.Bancarizado = false;
+
+                        documentoPago.ImagenMostrar = Auxiliar.SetDefaultImage();
+                        documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenMostrar);
+                        return View(documentoPago);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("DetallePagos", new { id = DocumentoPorCobrarPago.Id_documentoPorCobrar });
+                }
+            }
+            catch (Exception)
+            {
+                DocumentosPorCobrarDetallePagosModels documentoPago = new DocumentosPorCobrarDetallePagosModels();
+                _DocumentoXCobrar_Datos DocPagarDatos = new _DocumentoXCobrar_Datos();
+                documentoPago.Id_documentoPorCobrar = DocumentoPorCobrarPago.Id_documentoPorCobrar;
+                documentoPago.Usuario = User.Identity.Name;
+                documentoPago.Conexion = Conexion;
+                documentoPago.TipoServicio = 1;
+                documentoPago.ListaAsignar = DocPagarDatos.GetListadoAsignarPagos(documentoPago);
+                //es para el boton de regresar 1 es compra, 2 es flete de la compra
+                if (documentoPago.TipoServicio == 1 || documentoPago.TipoServicio == 2)
+                    documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
+
+                documentoPago.ListaFormaPagos = DocPagarDatos.GetListadoCFDIFormaPago(documentoPago);
+                documentoPago = DocPagarDatos.GetNombreEmpresaProveedorCliente(documentoPago);
+                documentoPago.TipoCuentaBancaria = 1;
+                documentoPago.ListaCuentasBancariasEmpresa = DocPagarDatos.GetListadoCuentasBancarias(documentoPago);
+                documentoPago.TipoCuentaBancaria = 2;
+                documentoPago.ListaCuentasBancariasProveedor = DocPagarDatos.GetListadoCuentasBancarias(documentoPago);
+                documentoPago.fecha = DateTime.Now;
+                documentoPago.Bancarizado = false;
+
+                documentoPago.ImagenMostrar = Auxiliar.SetDefaultImage();
+                documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenMostrar);
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error contacte a soporte tecnico";
+                return RedirectToAction("DetallePagos", new { id = DocumentoPorCobrarPago.Id_documentoPorCobrar });
+
+            }
+        }
+
+        public ActionResult PagosEdit(string id, string id2)
+        {
+            try
+            {
+                Token.SaveToken();
+                DocumentosPorCobrarDetallePagosModels DocumentoPagarDetPago = new DocumentosPorCobrarDetallePagosModels();
+                _DocumentoXCobrar_Datos DocCobrarDatos = new _DocumentoXCobrar_Datos();
+                DocumentoPagarDetPago.Usuario = User.Identity.Name;
+                DocumentoPagarDetPago.Conexion = Conexion;
+                DocumentoPagarDetPago.Id_documentoPorCobrarDetallePagos = id;
+                DocumentoPagarDetPago = DocCobrarDatos.GetDetalleDocumentoPago(DocumentoPagarDetPago);
+
+                DocumentoPagarDetPago.ListaAsignar = DocCobrarDatos.GetListadoAsignarPagos(DocumentoPagarDetPago);
+
+                if (DocumentoPagarDetPago.TipoServicio == 1 || DocumentoPagarDetPago.TipoServicio == 2)
+                    DocumentoPagarDetPago.Id_compra = DocumentoPagarDetPago.ListaAsignar[0].Id_2;
+
+
+                if (string.IsNullOrEmpty(DocumentoPagarDetPago.ImagenBase64))
+                {
+                    DocumentoPagarDetPago.ImagenMostrar = Auxiliar.SetDefaultImage();
+                }
+                else
+                {
+                    DocumentoPagarDetPago.ImagenMostrar = DocumentoPagarDetPago.ImagenBase64;
+                }
+                DocumentoPagarDetPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(DocumentoPagarDetPago.ImagenBase64);
+
+
+                DocumentoPagarDetPago.ListaFormaPagos = DocCobrarDatos.GetListadoCFDIFormaPago(DocumentoPagarDetPago);
+                DocumentoPagarDetPago = DocCobrarDatos.GetNombreEmpresaProveedorCliente(DocumentoPagarDetPago);
+                DocumentoPagarDetPago.TipoCuentaBancaria = 1;
+                DocumentoPagarDetPago.ListaCuentasBancariasEmpresa = DocCobrarDatos.GetListadoCuentasBancarias(DocumentoPagarDetPago);
+                DocumentoPagarDetPago.TipoCuentaBancaria = 2;
+                DocumentoPagarDetPago.ListaCuentasBancariasProveedor = DocCobrarDatos.GetListadoCuentasBancarias(DocumentoPagarDetPago);
+
+                return View(DocumentoPagarDetPago);
+            }
+            catch
+            {
+                return View();
+            }
+        }
 
         #region JSON tablas
         #region Json Documentos Detalles

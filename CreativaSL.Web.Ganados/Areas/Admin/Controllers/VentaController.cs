@@ -17,6 +17,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     {
         private TokenProcessor Token = TokenProcessor.GetInstance();
         private string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
+       
         #region Datatables
         [HttpPost]
         public ActionResult DatatableIndex()
@@ -274,6 +275,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 VentaModels2 Venta = new VentaModels2();
                 Venta.Conexion = Conexion;
                 Venta.Id_venta = Id_venta;
+                Venta.RespuestaAjax = new RespuestaAjax();
                 Venta.RespuestaAjax.Mensaje = VentaDatos.DatatableGeneralesGanado(Venta);
                 Venta.RespuestaAjax.Success = true;
 
@@ -283,11 +285,113 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 VentaModels2 Venta = new VentaModels2();
+                Venta.RespuestaAjax = new RespuestaAjax();
                 Venta.RespuestaAjax.Mensaje = ex.Message;
                 Venta.RespuestaAjax.Success = false;
                 return Content(Venta.RespuestaAjax.ToJSON(), "application/json");
             }
         }
+        [HttpPost]
+        public ActionResult DatatableGanadoMacho(string Id_venta)
+        {
+            try
+            {
+                _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                VentaModels2 Venta = new VentaModels2();
+                Venta.Conexion = Conexion;
+                Venta.Id_venta = Id_venta;
+                Venta.RespuestaAjax = new RespuestaAjax();
+                Venta.RespuestaAjax.Mensaje = VentaDatos.DatatableGanadoMacho(Venta);
+                Venta.RespuestaAjax.Success = true;
+
+                return Content(Venta.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                VentaModels2 Venta = new VentaModels2();
+                Venta.RespuestaAjax = new RespuestaAjax();
+                Venta.RespuestaAjax.Mensaje = ex.Message;
+                Venta.RespuestaAjax.Success = false;
+                return Content(Venta.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        [HttpPost]
+        public ActionResult DatatableGanadoHembra(string Id_venta)
+        {
+            try
+            {
+                _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                VentaModels2 Venta = new VentaModels2();
+                Venta.Conexion = Conexion;
+                Venta.Id_venta = Id_venta;
+                Venta.RespuestaAjax = new RespuestaAjax();
+                Venta.RespuestaAjax.Mensaje = VentaDatos.DatatableGanadoHembra(Venta);
+                Venta.RespuestaAjax.Success = true;
+
+                return Content(Venta.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                VentaModels2 Venta = new VentaModels2();
+                Venta.RespuestaAjax = new RespuestaAjax();
+                Venta.RespuestaAjax.Mensaje = ex.Message;
+                Venta.RespuestaAjax.Success = false;
+                return Content(Venta.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        [HttpPost]
+        public ActionResult DatatableDetallesDocXcobrar(string Id_venta)
+        {
+            try
+            {
+                _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                VentaModels2 Venta = new VentaModels2();
+                Venta.Conexion = Conexion;
+                Venta.Id_venta = Id_venta;
+                Venta.RespuestaAjax = new RespuestaAjax();
+                Venta.RespuestaAjax.Mensaje = VentaDatos.DatatableDetallesDocXcobrar(Venta);
+                Venta.RespuestaAjax.Success = true;
+
+                return Content(Venta.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                VentaModels2 Venta = new VentaModels2();
+                Venta.RespuestaAjax = new RespuestaAjax();
+                Venta.RespuestaAjax.Mensaje = ex.Message;
+                Venta.RespuestaAjax.Success = false;
+                return Content(Venta.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        [HttpPost]
+        public ActionResult DatatableDetalleDocXCobraPagos(string Id_venta)
+        {
+            try
+            {
+                _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                VentaModels2 Venta = new VentaModels2();
+                Venta.Conexion = Conexion;
+                Venta.Id_venta = Id_venta;
+                Venta.RespuestaAjax = new RespuestaAjax();
+                Venta.RespuestaAjax.Mensaje = VentaDatos.DatatableDetalleDocXCobrarPagos(Venta);
+                Venta.RespuestaAjax.Success = true;
+
+                return Content(Venta.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                VentaModels2 Venta = new VentaModels2();
+                Venta.RespuestaAjax = new RespuestaAjax();
+                Venta.RespuestaAjax.Mensaje = ex.Message;
+                Venta.RespuestaAjax.Success = false;
+                return Content(Venta.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        
         #endregion
 
         #region Otros

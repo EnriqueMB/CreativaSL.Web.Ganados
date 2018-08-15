@@ -12,12 +12,28 @@ namespace CreativaSL.Web.Ganados.Models
         {
             //_IDSucursal = string.Empty;
             Id_tipoDocumento = 0 ;
+            _EstatusNombre = string.Empty;
+            ListaDocumentos = new List<DocumentosPorCobrarModels>();
         }
 
         public string Id_documentoCobrar { get; set; }
         public int Id_tipoDocumento { get; set; }
         public int id_tipoConciliacion { get; set; }
         public string Id_sucursal { get; set; }
+
+        public string EstatusNombre
+        {
+            get { return _EstatusNombre; }
+            set { _EstatusNombre = value; }
+        }
+
+        private int _IDEstatus;
+
+        public int IDEstatus
+        {
+            get { return _IDEstatus; }
+            set { _IDEstatus = value; }
+        }
         public string Id_metodoPago { get; set; }
         public DateTime Fecha { get; set; }
         public bool EsSistema { get; set; }
@@ -68,6 +84,9 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _ListaMetodoPago; }
             set { _ListaMetodoPago = value; }
         }
+        private string _EstatusNombre;
+
+       
 
     }
 }

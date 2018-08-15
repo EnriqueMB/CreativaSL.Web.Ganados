@@ -19,7 +19,7 @@
     <div class="col-md-12">
         @*<form class="form-horizontal">*@
         @{ Html.EnableClientValidation(false); }
-        @using (Html.BeginForm("Create", "DocumentoXCobrar", FormMethod.Post, new { id = "form-DocumentoPagar", @class = "form-horizontal", autocomplete = "off" }))
+        @using (Html.BeginForm("Create", "DocumentoXCobrar", FormMethod.Post, new { id = "form-DocumentoCobrar", @class = "form-horizontal", autocomplete = "off" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
@@ -38,7 +38,7 @@
                        <div class="form-group">
                            <label class="col-md-3 col-xs-12 control-label"><span>* </span> Sucursal </label>
                            <div class="col-md-6 col-xs-12">
-                               @Html.DropDownListFor(model => model.Id_sucursal, new SelectList(Model.ListaSucursal, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
+                               @Html.DropDownListFor(model => model.Id_sucursal, new SelectList(Model.ListaSucursal, "IDSucursal", "NombreSucursal"), new { id = "Id_sucursal", @class = "form-control select", data_live_search = "true" })
                                @Html.ValidationMessageFor(model => model.Id_sucursal)
                            </div>
                        </div>
@@ -63,8 +63,8 @@
                        <div class="form-group">
                            <label class="col-md-3 col-xs-12 control-label"><span>* </span> Metodo De Pago </label>
                            <div class="col-md-6 col-xs-12">
-                               @Html.DropDownListFor(model => model.Id_metodoPago, new SelectList(Model.ListaMetodoPago, "Clave", "Descripcion"), new { id = "Clave", @class = "form-control select", data_live_search = "true" })
-                               @Html.ValidationMessageFor(model => model.Id_tipoDocumento)
+                               @Html.DropDownListFor(model => model.Id_metodoPago, new SelectList(Model.ListaMetodoPago, "Clave", "Descripcion"), new { id = "Id_metodoPago", @class = "form-control select", data_live_search = "true" })
+                               @Html.ValidationMessageFor(model => model.Id_metodoPago)
                            </div>
                        </div>
 
@@ -83,7 +83,7 @@
                            <div class="col-md-6 col-xs-12">
                                <div class="input-group">
                                    <span class="input-group-addon"><span class="fa fa-building-o"></span></span>
-                                   @Html.TextBoxFor(model => model.Total, "{0:f2}", new { id = "precio", autocomplete = "off", @class = "form-control", type = "number" })
+                                   @Html.TextBoxFor(model => model.Total, "{0:f2}", new { id = "Total", autocomplete = "off", @class = "form-control", type = "number" })
                                </div>
                            </div>
                        </div>                                                 
@@ -138,13 +138,13 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/DocXPagarCreate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/DocXCobrarCreate.js")"></script>
 
     <script>
     jQuery(document).ready(function () {
 
         Mensaje(message, typemessage);
-        DocXPagar.init();
+        DocXCobrar.init();
     });
     </script>
 }

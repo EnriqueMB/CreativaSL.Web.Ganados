@@ -18,6 +18,7 @@ namespace CreativaSL.Web.Ganados.Models
             _SoloLectura = false;
             Conexion = string.Empty;
             Usuario = string.Empty;
+            _ListaConceptoNomina = new List<CatConceptosNominaModels>();
         }
         private int _IDConceptoNomina;
         /// <summary>

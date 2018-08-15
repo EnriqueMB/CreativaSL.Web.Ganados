@@ -38,13 +38,13 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th>Texto Uno</th>
+                                        @*<th>Texto Uno</th>
                                         <th>Texto Dos</th>
-                                        <th>Texto Tres</th>
+                                        <th>Texto Tres</th>*@
                                         <th>Pago Días Festivos</th>
                                         <th>Pagos Días Domingo</th>
                                         <th>Pagos Días Vacaciones</th>
-                                        <th>Retardo Faltas</th>
+                                        @*<th>Retardo Faltas</th>*@
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
@@ -52,13 +52,13 @@
                                     @foreach (var ticket in Model.listaTicket)
                                     {
                                         <tr id="@ticket.idTicket">
-                                            <td>@ticket.textoTicket1</td>
+                                            @*<td>@ticket.textoTicket1</td>
                                             <td>@ticket.textoTicket2</td>
-                                            <td>@ticket.textoTicket3</td>
+                                            <td>@ticket.textoTicket3</td>*@
                                             <td>@ticket.pagosDiasFestivos</td>
                                             <td>@ticket.pagosDiasDomingos</td>
                                             <td>@ticket.pagosDiasVacaciones</td>
-                                            <td>@ticket.retardosFaltas</td>
+                                            @*<td>@ticket.retardosFaltas</td>*@
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     <a title="Editar" href="@Url.Action("Edit", "Ticket", new { id = ticket.idTicket })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>

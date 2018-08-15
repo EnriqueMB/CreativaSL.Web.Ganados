@@ -20,6 +20,11 @@ namespace CreativaSL.Web.Ganados.Models
             _telefonoCasa = string.Empty;
             _correo = string.Empty;
             _fechaIngreso = DateTime.Now;
+            _listaProveedoresCombustible = new List<CatProveedorModels>();
+            _listaProveedoresServicio = new List<CatProveedorServicioModels>();
+            _listaSucursal = new List<CatSucursalesModels>();
+            _IDProveedor = string.Empty;
+            _nombreSucursal = string.Empty;
         }
         private string _id_proveeedorServicio;
 
