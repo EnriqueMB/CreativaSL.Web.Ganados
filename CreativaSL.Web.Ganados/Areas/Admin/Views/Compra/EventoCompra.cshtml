@@ -1,7 +1,7 @@
-﻿@model CreativaSL.Web.Ganados.Models.EventoVentaModels
+﻿@model CreativaSL.Web.Ganados.Models.EventoCompraModels
 
 @{
-    ViewBag.Title = "VentaEVento";
+    ViewBag.Title = "EventoCompra";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -18,9 +18,18 @@
         .errorTableCSL {
             border: 1px solid #ff004d !important;
         }
-        .successTableCSL{
+
+        .successTableCSL {
             border: 1px solid #95b75d !important;
         }
+         .errorCSLGanado {
+            border-color: #E04B4A !important;
+        }
+
+        .okCSLGanado {
+            border-color: #95b75d !important;
+        }
+
         .form-control[disabled],
         .form-control[readonly] {
             color: #000 !important;
@@ -52,18 +61,16 @@
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-               <div id="validation_summary" class="field_error "></div> //JS
-                @Html.HiddenFor(model => model.Id_eventoVenta)
-                @Html.HiddenFor(model => model.Id_venta)
-                @Html.HiddenFor(model => model.Id_documentoPorCobrarDetalle)
+                                                                                                                            <div id="validation_summary" class="field_error "></div> //JS
+                @Html.HiddenFor(model => model.Id_eventoCompra)
+                @Html.HiddenFor(model => model.Id_compra)
                 @Html.HiddenFor(model => model.ImagenBase64)
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Eventos de la venta</strong></h3>
+                        <h3 class="panel-title"><strong>Eventos de la compra</strong></h3>
                     </div>
                     <ul class="panel-controls">
-                        @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
                     </ul>
 
                     <div class="panel-body">
@@ -75,19 +82,7 @@
                                         <div class="col-md-10 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                <select id="Id_tipoEvento" name="Id_tipoEvento" class="form-control select" data-live-search="true" , data-style="form-control">
-                                                    @foreach (var tipoEvento in Model.ListaTiposEventos)
-                                                    {
-                                                        <option value="@tipoEvento.IDTipoEventoEnvio"
-                                                                data-deduccion="@tipoEvento.MarcarMerma"
-                                                                @if (Model.Id_tipoEvento == tipoEvento.IDTipoEventoEnvio) { <text>
-                                                                selected="selected"
-                                                                </text>    }>
-                                                            @tipoEvento.Descripcion
-                                                        </option>
-                                                    }
-                                                </select>
-
+                                                @Html.DropDownListFor(model => model.Id_tipoEvento, new SelectList(Model.ListaTiposEventos, "IDTipoEventoEnvio", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
                                             </div>
                                             <span class="help-block">Tipo de evento.</span>
                                         </div>
@@ -167,66 +162,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="controlError col-md-6">
-                                <label class="col-md-2 control-label">Aplica deducción</label>
-                                <div class="col-md-10 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                       @Html.DropDownListFor(model => model.AplicaDeduccion, new List<SelectListItem>()
-                                        {
-                                            new SelectListItem { Text = "Si", Value = "true", Selected = Model.AplicaDeduccion },
-                                            new SelectListItem { Text = "No", Value = "false", Selected = Model.AplicaDeduccion }
-                                        }, new { @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.AplicaDeduccion)
-                                </div>
-                            </div>
-                            <div class="controlError col-md-6">
-                                <label class="col-md-2 control-label">Aplica ganado</label>
-                                <div class="col-md-10 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                       @Html.DropDownListFor(model => model.AplicaGanado, new List<SelectListItem>()
-                                        {
-                                            new SelectListItem { Text = "Si", Value = "true", Selected = Model.AplicaGanado },
-                                            new SelectListItem { Text = "No", Value = "false", Selected = Model.AplicaGanado }
-                                        }, new { @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.AplicaGanado)
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div id="divDeducciones">
-                                <div class="form-group">
-                                    <div class="controlError col-md-6">
-                                        <label class="col-md-2 control-label">Monto de la Deducción</label>
-                                        <div class="col-md-10 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-money"></span></span>
-                                                @Html.TextBoxFor(model => model.MontoDeduccion, "{0:F2}" ,new { @type = "text", @class = "form-control" })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.MontoDeduccion)
-                                            <span class="help-block">Ingrese una cantidad.</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="controlError col-md-6">
-                                        <label class="col-md-2 control-label">Tipo de deduccion</label>
-                                        <div class="col-md-10 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.DropDownListFor(model => model.Id_TipoDeDeduccion, new SelectList(Model.ListaDeTiposDeduccion, "IDTipoClasificacionGasto", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Id_TipoDeDeduccion)
-                                            <span class="help-block">Seleccione un tipo de deducción.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div id="divGanado">
                             <div class="row">
                                 <div class="col-md-12 text-center">
@@ -249,7 +185,7 @@
                                                     <th>Núm. arete</th>
                                                     <th>Genero</th>
                                                     <th>Peso</th>
-                                                    <th>Precio Por kilo</th>
+                                                    <th>Costo por kilo</th>
                                                     <th>Costo de compra</th>
                                                 </tr>
                                             </thead>
@@ -260,14 +196,14 @@
                                 <div class="col-md-6">
                                     <h3>Ganado con evento</h3>
                                     <div class="table-responsive">
-                                        <table id="tblGanadoConEvento" name="tblGanadoConEvento" class="table">
+                                        <table id="tblGanadoConEvento" class="table">
                                             <thead>
                                                 <tr>
-                                                    <th>ID</th>
                                                     <th>Núm. arete</th>
                                                     <th>Genero</th>
                                                     <th>Peso</th>
-                                                    <th>Precio Por kilo</th>
+                                                    <th>Antiguo costo por kilo</th>
+                                                    <th>Nuevo costo por kilo</th>
                                                     <th>Costo de compra</th>
                                                 </tr>
                                             </thead>
@@ -279,7 +215,7 @@
                         </div>
                     </div>
                     <div class="panel-footer">
-                        <a href="@Url.Action("VentaEventoRecepcion", "Venta",  new { IDVenta = Model.Id_venta })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                        <a href="@Url.Action("RecepcionCompra", "Compra",  new { IDCompra = Model.Id_compra })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                         <button type="submit" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
                     </div>
                 </div>
@@ -293,29 +229,29 @@
 }
 @section script{
 
-<script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
-<script src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/ventaEvento.js")"></script>
-<!--FILEINPUT-->
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
-<script type="text/javascript" src="/Content/js/plugins/bootstrap/bootstrap-file-input.js"></script>
-<script src="@Url.Content("~/Content/js/plugins/popper.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-timepicker.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+    <script src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/compraEvento.js")"></script>
+    <!--FILEINPUT-->
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/popper.min.js")" ></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-timepicker.min.js")"></script>
 
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
-            VentaEvento.init();
-           
+            CompraEvento.init();
         });
     </script>
 }
+

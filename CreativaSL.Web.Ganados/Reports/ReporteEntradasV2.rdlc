@@ -101,6 +101,7 @@
                               <Value>=Sum(Fields!Totalv2.Value)</Value>
                               <Style>
                                 <Format>'$'#,0.00</Format>
+                                <Language>es-MX</Language>
                                 <rd:FormatSymbolCulture>es-MX</rd:FormatSymbolCulture>
                               </Style>
                             </TextRun>
@@ -176,6 +177,7 @@
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                                 <Format>'$'#,0.00</Format>
+                                <Language>es-MX</Language>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -386,6 +388,7 @@
         </TablixRowHierarchy>
         <DataSetName>ListaEntradasV2</DataSetName>
         <Top>0.18203cm</Top>
+        <Left>3.175cm</Left>
         <Height>1.8cm</Height>
         <Width>7.5cm</Width>
         <Style>
@@ -670,8 +673,8 @@
           </Style>
         </ChartNoDataMessage>
         <DataSetName>ListaEntradasV2</DataSetName>
-        <Top>2.53682cm</Top>
-        <Left>0.47625cm</Left>
+        <Top>2.85432cm</Top>
+        <Left>2.69875cm</Left>
         <Height>6.53458cm</Height>
         <Width>18.57917cm</Width>
         <ZIndex>1</ZIndex>
@@ -688,7 +691,7 @@
     <Height>4.8735in</Height>
     <Style />
   </Body>
-  <Width>7.50213in</Width>
+  <Width>23.5cm</Width>
   <Page>
     <PageHeader>
       <Height>2.75167cm</Height>
@@ -872,7 +875,7 @@
             </Textbox>
           </ReportItems>
           <KeepTogether>true</KeepTogether>
-          <Left>0.9525cm</Left>
+          <Left>2.8575cm</Left>
           <Height>2.1825cm</Height>
           <Width>18.10292cm</Width>
           <Style>
@@ -890,8 +893,8 @@
         </Border>
       </Style>
     </PageHeader>
-    <PageHeight>21cm</PageHeight>
-    <PageWidth>29.7cm</PageWidth>
+    <PageHeight>21.59cm</PageHeight>
+    <PageWidth>27.94cm</PageWidth>
     <LeftMargin>2cm</LeftMargin>
     <RightMargin>2cm</RightMargin>
     <TopMargin>2cm</TopMargin>

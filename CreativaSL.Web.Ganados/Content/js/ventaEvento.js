@@ -82,6 +82,7 @@
             ]
 
         });
+
         tblGanadoConEvento = $('#tblGanadoConEvento').DataTable({
             "language": {
                 "url": "../../Content/json/Spanish.json"
@@ -264,7 +265,7 @@
                     flag_errorDeduccion = 1;
                 } else {
                     var validarExpreMonto = expRegularMonto.test(value_MontoDeduccion);
-                    //validando con la expreión regular positivo, con solo 2 digitos 
+                    //validando con la expresión regular positivo, con solo 2 digitos 
                     if (validarExpreMonto === false) {
                         MontoDeduccion.closest('.controlError').removeClass('has-success').addClass("has-error");
                         $("#ddMonto").show(0);
