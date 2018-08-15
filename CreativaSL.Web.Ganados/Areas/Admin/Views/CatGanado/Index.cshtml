@@ -1,4 +1,4 @@
-﻿@model CreativaSL.Web.Ganados.Models.ConfiguracionModels
+﻿@model CreativaSL.Web.Ganados.Models.CatGanadoModels
 
 @{
     ViewBag.Title = "Index";
@@ -17,7 +17,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Ticket </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Ganados </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -29,6 +29,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
+                            @*<li><a href="@Url.Action("Create","CatCliente")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Cliente</a></li>*@
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-refresh exsa"><span class="fa fa-refresh"></span></a></li>
                         </ul>
@@ -38,31 +39,26 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        @*<th>Texto Uno</th>
-                                        <th>Texto Dos</th>
-                                        <th>Texto Tres</th>*@
-                                        <th>Pago Días Festivos</th>
-                                        <th>Pagos Días Domingo</th>
-                                        <th>Pagos Días Vacaciones</th>
-                                        @*<th>Retardo Faltas</th>*@
+                                        <th>Número de Arete</th>
+                                        <th>Género</th>
+                                        <th>Corral</th>
+                                        <th>Observación</th>
+                                        <th>Estatus</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var ticket in Model.listaTicket)
+                                    @foreach (var Ganado in Model.ListaGanados)
                                     {
-                                        <tr id="@ticket.idTicket">
-                                            @*<td>@ticket.textoTicket1</td>
-                                            <td>@ticket.textoTicket2</td>
-                                            <td>@ticket.textoTicket3</td>*@
-                                            <td>@ticket.pagosDiasFestivos</td>
-                                            <td>@ticket.pagosDiasDomingos</td>
-                                            <td>@ticket.pagosDiasVacaciones</td>
-                                            @*<td>@ticket.retardosFaltas</td>*@
+                                        <tr id="@Ganado.IDGanado">
+                                            <td>@Ganado.NumArete</td>
+                                            <td>@Ganado.Genero</td>
+                                            <td>@Ganado.Corral</td>
+                                            <td>@Ganado.Observacion</td>
+                                            <td>@Ganado.Staus</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" href="@Url.Action("Edit", "Ticket", new { id = ticket.idTicket })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    @*<a title="Eliminar" id="delete-@almacen.IDAlmacen" data-hrefa="@Url.Action("Delete", "CatAlmacen", new { id = almacen.IDAlmacen  })" onClick="delete_row('@almacen.IDAlmacen');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>*@
+                                                    <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatGanado", new { id = Ganado.IDGanado })"><i class="fa fa-edit"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -71,15 +67,10 @@
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "Ticket", new { id = ticket.idTicket })">
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatGanado", new { id = Ganado.IDGanado })">
                                                                     <i class="fa fa-edit"></i> Editar
                                                                 </a>
                                                             </li>
-                                                            @*<li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@almacen.IDAlmacen" data-hrefa="@Url.Action("Delete", "CatAlmacen", new { id =almacen.IDAlmacen  })" onClick="delete_row('@almacen.IDAlmacen');">
-                                                                    <i class="fa fa-trash-o"></i> Eliminar
-                                                                </a>
-                                                            </li>*@
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -95,24 +86,6 @@
             </div>
         </div>
     </div>
-    <!-- PAGE CONTENT WRAPPER -->
-    @*<div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
-        <div class="mb-container">
-            <div class="mb-middle">
-                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
-                <div class="mb-content">
-                    <p>¿Seguro que quieres eliminar esta fila?</p>
-                    <p>Presione "sí" si está seguro.</p>
-                </div>
-                <div class="mb-footer">
-                    <div class="pull-right">
-                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
-                        <button class="btn btn-default btn-lg mb-control-close">No</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>*@
     <script>
     var message = '@message';
     var typemessage = '@typemessage';
@@ -128,8 +101,5 @@
         Mensaje(message, typemessage);
         });
     </script>
-}
-
-
-
+    }
 

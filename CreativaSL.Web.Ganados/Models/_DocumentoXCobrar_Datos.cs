@@ -480,7 +480,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.EsSistema = !dr.IsDBNull(dr.GetOrdinal("EsSistema")) ? dr.GetBoolean(dr.GetOrdinal("EsSistema")) : false;
                     Item.Id_documentoCobrar = !dr.IsDBNull(dr.GetOrdinal("IDDocumentoCobrar")) ? dr.GetString(dr.GetOrdinal("IDDocumentoCobrar")) : string.Empty;
                     Item.Id_sucursal = !dr.IsDBNull(dr.GetOrdinal("IDSucursal")) ? dr.GetString(dr.GetOrdinal("IDSucursal")) : string.Empty;
-                    Item.Estatus = !dr.IsDBNull(dr.GetOrdinal("Estatus")) ? dr.GetInt16(dr.GetOrdinal("Estatus")) : 0;
+                    Item.IDEstatus = !dr.IsDBNull(dr.GetOrdinal("IDEstatus")) ? dr.GetInt16(dr.GetOrdinal("IDEstatus")) : 0;
+                    Item.EstatusNombre = !dr.IsDBNull(dr.GetOrdinal("EstatusNombre")) ? dr.GetString(dr.GetOrdinal("EstatusNombre")) : string.Empty;
                     Item.Id_metodoPago = !dr.IsDBNull(dr.GetOrdinal("MetodoPago")) ? dr.GetString(dr.GetOrdinal("MetodoPago")) : string.Empty;
                     Item.NumeroFactura = !dr.IsDBNull(dr.GetOrdinal("Folio")) ? dr.GetString(dr.GetOrdinal("Folio")) : string.Empty;
                     Item.Fecha = !dr.IsDBNull(dr.GetOrdinal("Fecha")) ? dr.GetDateTime(dr.GetOrdinal("Fecha")) : DateTime.Today;
@@ -560,7 +561,7 @@ namespace CreativaSL.Web.Ganados.Models
                             datos.Opcion,
                             datos.Id_documentoCobrar ?? string.Empty,
                             datos.Id_sucursal ?? string.Empty,
-                            datos.Estatus,
+                            datos.EstatusNombre,
                             datos.Fecha,
                             datos.Usuario,
                             datos.Id_tipoDocumento,
@@ -627,7 +628,7 @@ namespace CreativaSL.Web.Ganados.Models
                 List<DocumentosPorCobrarDetallePagosModels> Lista = new List<DocumentosPorCobrarDetallePagosModels>();
                 DocumentosPorCobrarDetallePagosModels Item;
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_DocumentoPorPagar_get_DocumentosDetallesPagos", datos.Id_documentoPorCobrar);
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_DocumentoPorCobrar_get_DocumentosDetallesPagos", datos.Id_documentoPorCobrar);
                 while (dr.Read())
                 {
                     Item = new DocumentosPorCobrarDetallePagosModels();
@@ -645,6 +646,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
 
         public DocumentosPorCobrarDetallePagosModels GetDetalleDocumentoPago(DocumentosPorCobrarDetallePagosModels DocumentoPago)
         {
@@ -815,6 +817,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     DocumentosPorCobrarModels.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     DocumentosPorCobrarModels.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    DocumentosPorCobrarModels.Completado = true;
                 }
                 dr.Close();
                 return DocumentosPorCobrarModels;

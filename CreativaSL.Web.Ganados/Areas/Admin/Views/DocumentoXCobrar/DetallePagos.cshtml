@@ -27,7 +27,10 @@
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
                             @{ string IDP = Model.Id_documentoPorCobrar;}
-                            <li><a href="@Url.Action("PagosCreate","DocumentoXCobrar", new { id = IDP})" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Pago</a></li>
+                            @{ int status = Model.id_status;}
+                            @if (Model.id_status == 1)
+                            {<li><a href="@Url.Action("PagosCreate","DocumentoXCobrar", new { id = IDP,id2=status})" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Pago</a></li> }
+
                             <li><a href="@Url.Action("Index","DocumentoXCobrar")" class="btn btn-danger btnCrear"><span class="fa fa-arrow-circle-o-left"></span> Regresar</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
@@ -50,10 +53,13 @@
                                         <tr id="@Documento.Id_documentoPorCobrarDetallePagos">
                                             <td>@Documento.Descripcion</td>
                                             <td>@Documento.Monto.ToString("C")</td>
-                                            <td>@Documento.fecha.ToShortDateString()</td>                                           
+                                            <td>@Documento.fecha.ToShortDateString()</td>
+
+                                            @if (Model.id_status == 1)
+                                            {
                                             <td style="text-align:center;">
-                                                <div class="visible-md visible-lg hidden-sm hidden-xs">                                                    
-                                                    <a title="Editar" href="@Url.Action("PagosEdit", "DocumentoXCobrar", new { id = Documento.Id_documentoPorCobrarDetallePagos,id2=IDP })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    <a title="Editar" href="@Url.Action("PagosEdit", "DocumentoXCobrar", new { id = Documento.Id_documentoPorCobrarDetallePagos,id2=IDP,id3=status })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                                                     <a title="Eliminar" id="delete-@Documento.Id_documentoPorCobrarDetallePagos" data-hrefa="@Url.Action("PagosDelete", "DocumentoXCobrar", new { id = Documento.Id_documentoPorCobrarDetallePagos,id2=IDP })" onClick="delete_row('@Documento.Id_documentoPorCobrarDetallePagos');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
@@ -61,7 +67,7 @@
                                                         <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
                                                             <i class="fa fa-cog"></i> <span class="caret"></span>
                                                         </a>
-                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">                                                           
+                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
                                                                 <a role="menuitem" tabindex="-1" href="@Url.Action("PagosEdit", "DocumentoXCobrar", new { id = Documento.Id_documentoPorCobrarDetallePagos,id2=IDP })">
                                                                     <i class="fa fa-edit"></i> Editar
@@ -75,7 +81,16 @@
                                                         </ul>
                                                     </div>
                                                 </div>
-                                            </td>
+                                            </td> }
+                                            else
+                                            {
+                                                <td style="text-align:center;">
+                                                    <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                        <label title="No se puede Editar" href="#" class="btn" style="background-color:gray; " data-placement="top" data-original-title="Edit"><i class="fa fa-edit" style="color:white"></i></label>
+                                                        <label title="No se puede Eliminar" href="#" class="btn" style="background-color:gray; " data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o" style="color:white"></i></label>
+                                                </td>
+                                            }
+
                                         </tr>
                                     }
                                 </tbody>

@@ -47,56 +47,11 @@
                         @Html.HiddenFor(model => model.ImagenBase64)
                         @Html.HiddenFor(model => model.TipoServicio)
                         @Html.HiddenFor(model => model.Bancarizado)
+                        @Html.HiddenFor(model => model.id_status)
                         @Html.HiddenFor(model => model.Id_compra)
-
+                        @Html.HiddenFor(model => model.Id_documentoPorCobrar)
                         <div class="form-group">
-                            @*<div class="col-md-6">
-            <label class="col-md-2 control-label">Empresa</label>
-            <div class="controls">
-                <div class="col-md-10 col-xs-12">
-                    <div class="input-group">
-                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                        @Html.TextBoxFor(model => model.NombreEmpresa, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <label class="col-md-2 control-label">Proveedor / Cliente</label>
-            <div class="controls">
-                <div class="col-md-10 col-xs-12">
-                    <div class="input-group">
-                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                        @Html.TextBoxFor(model => model.NombreProveedor_Cliente, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>*@
-
-                        @*<div class="form-group">
-                            <div class="col-md-6 controlError">
-                                <label class="col-md-2 control-label">Asignar:</label>
-                                <div class="controls">
-                                    <div class="col-md-10 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            <select id="Id_documentoPorCobrar" name="Id_documentoPorCobrar" class="form-control select" data-live-search="true" , data-style="form-control">
-                                                @foreach (var documentos in Model.ListaAsignar)
-                                                {
-                                                    <option value="@documentos.Id" data-nombre="@documentos.Nombre"
-                                                            @if (Model.Id_documentoPorCobrar == documentos.Id) { <text>
-                                                            selected="selected"
-                                                            </text> }>
-                                                        @documentos.Descripcion
-                                                    </option>
-                                                }
-                                            </select>
-                                        </div>
-                                        <span class="help-block">Asignar pago.</span>
-                                    </div>
-                                </div>
-                            </div>*@
+                            
 
                             <div class="col-md-6 controlError">
                                 <label class="col-md-2 control-label">Forma de pago:</label>

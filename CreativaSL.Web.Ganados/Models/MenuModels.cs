@@ -8,6 +8,20 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class MenuModels
     {
+
+        public MenuModels() {
+            _NombreMenu = string.Empty;
+            _UrlMenu = string.Empty;
+            _IconMenu = string.Empty;
+            _TablaDatos = new DataTable();
+            _ListaMenu = new List<MenuModels>();
+            _ListaMenuDetalle = new List<MenuModels>();
+            _ListaPermisoDetalle = new List<MenuModels>();
+            _ListaPermisos = new List<MenuModels>();
+            _IDPermiso = string.Empty;
+            Conexion = string.Empty;
+        }
+
         private int _MenuID;
 
         public int MenuID

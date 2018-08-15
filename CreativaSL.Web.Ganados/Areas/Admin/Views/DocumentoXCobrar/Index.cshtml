@@ -83,13 +83,13 @@
 
                                                         <td>@Doc.NumeroFactura</td>
                                                         <td>@Doc.NombreSucursal.ToString()</td>
-                                                        @if (Doc.Estatus == 1)
+                                                        @if (Doc.IDEstatus == 1)
                                                         {
-                                                            <td><span class="label label-success">@Doc.Estatus</span></td>
+                                                            <td><span class="label label-success">@Doc.EstatusNombre</span></td>
                                                         }
                                                         else
                                                         {
-                                                            <td><span class="label label-primary">@Doc.Estatus</span></td>
+                                                            <td><span class="label label-primary">@Doc.EstatusNombre</span></td>
                                                         }
                                                         <td>@Doc.Fecha.ToShortDateString()</td>
                                                         <td>@Doc.Impuestos.ToString("C2")</td>
@@ -195,13 +195,13 @@
                                                             }
                                                             <td>@Doc.NumeroFactura</td>
                                                             <td>@Doc.NombreSucursal.ToString()</td>
-                                                            @if (Doc.Estatus == 1)
+                                                            @if (Doc.IDEstatus == 1)
                                                             {
-                                                                <td><span class="label label-success">@Doc.Estatus</span></td>
+                                                                <td><span class="label label-success">@Doc.EstatusNombre</span></td>
                                                             }
                                                             else
                                                             {
-                                                                <td><span class="label label-primary">@Doc.Estatus</span></td>
+                                                                <td><span class="label label-primary">@Doc.EstatusNombre</span></td>
                                                             }
                                                             <td>@Doc.Fecha.ToShortDateString()</td>
                                                             <td>@Doc.Impuestos.ToString("C2")</td>

@@ -9,6 +9,14 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CatTipoProveedorModels
     {
+
+        public CatTipoProveedorModels()
+        {
+            _Descripcion = string.Empty;
+            _listaTipoProveedores = new List<CatTipoProveedorModels>();
+            Conexion = string.Empty;
+        }
+
         private int _IDTipoProveedor;
 
         public int IDTipoProveedor
