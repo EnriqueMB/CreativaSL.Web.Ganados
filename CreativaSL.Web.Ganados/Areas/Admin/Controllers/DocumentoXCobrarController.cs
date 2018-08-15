@@ -224,7 +224,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-                DocumentoPorPagarModels docu = new DocumentoPorPagarModels();
+                DocumentosPorCobrarModels docu = new DocumentosPorCobrarModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return RedirectToAction("Index");
@@ -250,7 +250,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 //    documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
 
                 documentoPago.ListaFormaPagos = DocPagarDatos.GetListadoCFDIFormaPago(documentoPago);
-                documentoPago = DocPagarDatos.GetNombreEmpresaProveedorCliente(documentoPago);
+                //documentoPago = DocPagarDatos.GetNombreEmpresaProveedorCliente(documentoPago);
                 documentoPago.TipoCuentaBancaria = 1;
                 documentoPago.ListaCuentasBancariasEmpresa = DocPagarDatos.GetListadoCuentasBancarias(documentoPago);
                 documentoPago.TipoCuentaBancaria = 2;
@@ -276,7 +276,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 //    documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
 
                 documentoPago.ListaFormaPagos = DocPagarDatos.GetListadoCFDIFormaPago(documentoPago);
-                documentoPago = DocPagarDatos.GetNombreEmpresaProveedorCliente(documentoPago);
+                //documentoPago = DocPagarDatos.GetNombreEmpresaProveedorCliente(documentoPago);
                 documentoPago.TipoCuentaBancaria = 1;
                 documentoPago.ListaCuentasBancariasEmpresa = DocPagarDatos.GetListadoCuentasBancarias(documentoPago);
                 documentoPago.TipoCuentaBancaria = 2;
@@ -332,11 +332,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             documentoPago.Id_documentoPorCobrar = DocumentoPorCobrarPago.Id_documentoPorCobrar;
                             documentoPago.Usuario = User.Identity.Name;
                             documentoPago.Conexion = Conexion;
-                            documentoPago.TipoServicio = 1;
-                            documentoPago.ListaAsignar = DocPagarDatos.GetListadoAsignarPagos(documentoPago);
+                            //documentoPago.TipoServicio = 1;
+                            //documentoPago.ListaAsignar = DocPagarDatos.GetListadoAsignarPagos(documentoPago);
                             //es para el boton de regresar 1 es compra, 2 es flete de la compra
-                            if (documentoPago.TipoServicio == 1 || documentoPago.TipoServicio == 2)
-                                documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
+                            //if (documentoPago.TipoServicio == 1 || documentoPago.TipoServicio == 2)
+                            //    documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
 
                             documentoPago.ListaFormaPagos = DocPagarDatos.GetListadoCFDIFormaPago(documentoPago);
                             documentoPago = DocPagarDatos.GetNombreEmpresaProveedorCliente(documentoPago);
@@ -361,11 +361,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         documentoPago.Id_documentoPorCobrar = DocumentoPorCobrarPago.Id_documentoPorCobrar;
                         documentoPago.Usuario = User.Identity.Name;
                         documentoPago.Conexion = Conexion;
-                        documentoPago.TipoServicio = 1;
-                        documentoPago.ListaAsignar = DocPagarDatos.GetListadoAsignarPagos(documentoPago);
-                        //es para el boton de regresar 1 es compra, 2 es flete de la compra
-                        if (documentoPago.TipoServicio == 1 || documentoPago.TipoServicio == 2)
-                            documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
+                        //documentoPago.TipoServicio = 1;
+                        //documentoPago.ListaAsignar = DocPagarDatos.GetListadoAsignarPagos(documentoPago);
+                        ////es para el boton de regresar 1 es compra, 2 es flete de la compra
+                        //if (documentoPago.TipoServicio == 1 || documentoPago.TipoServicio == 2)
+                        //    documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
 
                         documentoPago.ListaFormaPagos = DocPagarDatos.GetListadoCFDIFormaPago(documentoPago);
                         documentoPago = DocPagarDatos.GetNombreEmpresaProveedorCliente(documentoPago);
@@ -393,11 +393,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 documentoPago.Id_documentoPorCobrar = DocumentoPorCobrarPago.Id_documentoPorCobrar;
                 documentoPago.Usuario = User.Identity.Name;
                 documentoPago.Conexion = Conexion;
-                documentoPago.TipoServicio = 1;
-                documentoPago.ListaAsignar = DocPagarDatos.GetListadoAsignarPagos(documentoPago);
-                //es para el boton de regresar 1 es compra, 2 es flete de la compra
-                if (documentoPago.TipoServicio == 1 || documentoPago.TipoServicio == 2)
-                    documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
+                //documentoPago.TipoServicio = 1;
+                //documentoPago.ListaAsignar = DocPagarDatos.GetListadoAsignarPagos(documentoPago);
+                ////es para el boton de regresar 1 es compra, 2 es flete de la compra
+                //if (documentoPago.TipoServicio == 1 || documentoPago.TipoServicio == 2)
+                //    documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
 
                 documentoPago.ListaFormaPagos = DocPagarDatos.GetListadoCFDIFormaPago(documentoPago);
                 documentoPago = DocPagarDatos.GetNombreEmpresaProveedorCliente(documentoPago);
