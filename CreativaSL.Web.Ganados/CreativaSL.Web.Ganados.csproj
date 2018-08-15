@@ -477,6 +477,7 @@
     <Content Include="Content\js\fleteImpuestoProductoServicio.js" />
     <Content Include="Content\js\fleteImpuesto_ProductoServicio.js" />
     <Content Include="Content\js\fleteTransacciones.js" />
+    <Content Include="Content\js\Ganado.js" />
     <Content Include="Content\js\ImpuestoProductoServicioACCompra.js" />
     <Content Include="Content\js\plugins\jquery.maskMoney.js" />
     <Content Include="Content\js\Socios.js" />
@@ -1402,6 +1403,8 @@
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\Details.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\DetalleDocumento.cshtml" />
     <Content Include="Areas\Admin\Views\CatFierro\UploadImagen.cshtml" />
+    <Content Include="Areas\Admin\Views\CatGanado\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatGanado\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1427,6 +1430,7 @@
     <Compile Include="App_Start\TokenModule.cs" />
     <Compile Include="App_Start\TokenProcessor.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatGanadoController.cs" />
     <Compile Include="Content\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AlmacenController.cs" />
@@ -1515,6 +1519,7 @@
     <Compile Include="Models\CatEstatusDocumentoModels.cs" />
     <Compile Include="Models\CatEstatusGanadoModels.cs" />
     <Compile Include="Models\CatFierroModels.cs" />
+    <Compile Include="Models\CatGanadoModels.cs" />
     <Compile Include="Models\CatGeneroModels.cs" />
     <Compile Include="Models\CatGrupoSanguineoModels.cs" />
     <Compile Include="Models\CatJaulaModels.cs" />
@@ -1699,6 +1704,7 @@
     <Compile Include="Models\_CatEmpresa_Datos.cs" />
     <Compile Include="Models\_CatEvento_Datos.cs" />
     <Compile Include="Models\_CatFierro_Datos.cs" />
+    <Compile Include="Models\_CatGanado_Datos.cs" />
     <Compile Include="Models\_CatJaula_Datos.cs" />
     <Compile Include="Models\_CatLugar_Datos.cs" />
     <Compile Include="Models\_CatMarcaVehiculo_Datos.cs" />
