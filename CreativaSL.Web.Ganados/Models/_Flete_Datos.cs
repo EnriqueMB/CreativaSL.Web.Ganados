@@ -2264,6 +2264,7 @@ namespace CreativaSL.Web.Ganados.Models
         #endregion
 
         #region Vista detalles
+
         public FleteDetallesModels Get_detallesFlete(FleteDetallesModels FleteDetalles)
         {
             try
@@ -2303,6 +2304,93 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public string DatatableGeneralesGanado(FleteModels Flete)
+        {
+            try
+            {
+                object[] parametros = { Flete.id_flete };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_DatatableGeneralesGanado", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string DatatableGanadoMacho(FleteModels Flete)
+        {
+            try
+            {
+                object[] parametros = { Flete.id_flete };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_DatatableGeneralesGanadoMacho", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string DatatableGanadoHembra(FleteModels Flete)
+        {
+            try
+            {
+                object[] parametros = { Flete.id_flete };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_DatatableGeneralesGanadoHembra", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string DatatableDetallesDocXcobrar(FleteModels Flete)
+        {
+            try
+            {
+                object[] parametros =
+                    {
+                        Flete.id_flete
+                    };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_DetallesDocXcobrar", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string DatatableDetalleDocXCobrarPagos(FleteModels Flete)
+        {
+            try
+            {
+                object[] parametros =
+                    {
+                        Flete.id_flete
+                    };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_DetallesDocXcobrarPAGOS", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         #endregion
     }
 }

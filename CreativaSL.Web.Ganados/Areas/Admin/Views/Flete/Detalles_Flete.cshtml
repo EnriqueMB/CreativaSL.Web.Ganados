@@ -152,9 +152,7 @@
                                             <tr>
                                                 <th>Género</th>
                                                 <th>Cantidad</th>
-                                                <th>Total de kilos</th>
-                                                <th>Merma (%)</th>
-                                                <th>Subtotal ($)</th>
+                                                <th>Total de kilos (kg.)</th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -175,15 +173,9 @@
                                     <table id="tbl_ganadoDetalleMachos" class="table">
                                         <thead>
                                             <tr>
-                                                <th>Número de arete</th>
                                                 <th>Género</th>
-                                                <th>Peso inicial (kg.)</th>
-                                                <th>Peso final - Repeso (kg.)</th>
-                                                <th>Diferencia de peso(kg.)</th>
-                                                <th>Merma obtenida (%)</th>
-                                                <th>Peso pagado (kg.)</th>
-                                                <th>Precio por kilo ($)</th>
-                                                <th>Subtotal ($)</th>
+                                                <th>Cantidad</th>
+                                                <th>Total de kilos (kg.)</th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -204,15 +196,9 @@
                                     <table id="tbl_ganadoDetalleHembras" class="table">
                                         <thead>
                                             <tr>
-                                                <th>Número de arete</th>
                                                 <th>Género</th>
-                                                <th>Peso inicial (kg.)</th>
-                                                <th>Peso final - Repeso (kg.)</th>
-                                                <th>Diferencia de peso(kg.)</th>
-                                                <th>Merma obtenida (%)</th>
-                                                <th>Peso pagado (kg.)</th>
-                                                <th>Precio por kilo ($)</th>
-                                                <th>Subtotal ($)</th>
+                                                <th>Cantidad</th>
+                                                <th>Total de kilos (kg.)</th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -404,25 +390,8 @@
                 },
                 "columns": [
                     { "data": "genero" },
-                    { "data": "totalGanado" },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var totalPeso = row["totalKg"];
-                            return totalPeso + ' kg.'
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var merma = row["merma"];
-                            return merma.toFixed(2) + ' %';
-                        }
-                    },
-                    {
-                        "data": "subtotal",
-                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
-                    },
+                    { "data": "totalPorGenero" },
+                    { "data": "pesoPorGenero" }
                 ]
             });
 
@@ -433,59 +402,17 @@
                 responsive: true,
                 "ajax": {
                     "data": {
-                        "Id_venta": Id_venta
+                        "Id_flete": Id_flete
                     },
-                    "url": "/Admin/Venta/DatatableGanadoMacho/",
+                    "url": "/Admin/Flete/DatatableGanadoMacho/",
                     "type": "POST",
                     "datatype": "json",
                     "dataSrc": ''
                 },
                 "columns": [
-                    { "data": "numArete" },
                     { "data": "genero" },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var totalPeso = row["peso"];
-                            return totalPeso + ' kg.'
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var totalRepeso = row["repeso"];
-                            return totalRepeso + ' kg.'
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var totalRepeso = row["diferenciaPeso"];
-                            return totalRepeso + ' kg.'
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var merma = row["merma"];
-                            return merma.toFixed(2) + ' %';
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var totalRepeso = row["pesoPagado"];
-                            return totalRepeso + ' kg.'
-                        }
-                    },
-                    {
-                        "data": "precioXkilo",
-                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
-                    },
-                    {
-                        "data": "subtotal",
-                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
-                    },
+                    { "data": "numArete" },
+                    { "data": "pesoAproximado" }
                 ]
             });
 
@@ -496,59 +423,17 @@
                 responsive: true,
                 "ajax": {
                     "data": {
-                        "Id_venta": Id_venta
+                        "Id_flete": Id_flete
                     },
-                    "url": "/Admin/Venta/DatatableGanadoHembra/",
+                    "url": "/Admin/Flete/DatatableGanadoHembra/",
                     "type": "POST",
                     "datatype": "json",
                     "dataSrc": ''
                 },
                 "columns": [
-                    { "data": "numArete" },
-                    { "data": "genero" },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var totalPeso = row["peso"];
-                            return totalPeso + ' kg.'
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var totalRepeso = row["repeso"];
-                            return totalRepeso + ' kg.'
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var totalRepeso = row["diferenciaPeso"];
-                            return totalRepeso + ' kg.'
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var merma = row["merma"];
-                            return merma.toFixed(2) + ' %';
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var totalRepeso = row["pesoPagado"];
-                            return totalRepeso + ' kg.'
-                        }
-                    },
-                    {
-                        "data": "precioXkilo",
-                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
-                    },
-                    {
-                        "data": "subtotal",
-                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
-                    },
+                   { "data": "genero" },
+                   { "data": "numArete" },
+                    { "data": "pesoAproximado" }
                 ]
             });
 
@@ -559,9 +444,9 @@
                 responsive: true,
                 "ajax": {
                     "data": {
-                        "Id_venta": Id_venta
+                        "Id_flete": Id_flete
                     },
-                    "url": "/Admin/Venta/DatatableDetallesDocXcobrar/",
+                    "url": "/Admin/Flete/DatatableDetallesDocXcobrar/",
                     "type": "POST",
                     "datatype": "json",
                     "dataSrc": ''
@@ -604,9 +489,9 @@
                 responsive: true,
                 "ajax": {
                     "data": {
-                        "Id_venta": Id_venta
+                        "Id_flete": Id_flete
                     },
-                    "url": "/Admin/Venta/DatatableDetalleDocXCobraPagos/",
+                    "url": "/Admin/Flete/DatatableDetalleDocXCobraPagos/",
                     "type": "POST",
                     "datatype": "json",
                     "dataSrc": ''
@@ -698,9 +583,9 @@
                 responsive: true,
                 "ajax": {
                     "data": {
-                        "Id_venta": Id_venta
+                        "Id_flete": Id_flete
                     },
-                    "url": "/Admin/Venta/DatatableDocumentos/",
+                    "url": "/Admin/Flete/DatatableDocumentos/",
                     "type": "POST",
                     "datatype": "json",
                     "dataSrc": ''

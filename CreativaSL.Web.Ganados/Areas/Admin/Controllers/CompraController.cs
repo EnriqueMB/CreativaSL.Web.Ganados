@@ -447,46 +447,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(Evento.RespuestaAjax.ToJSON(), "application/json");
             }
         }
-        public ActionResult DEL_Evento(int IDEvento, string IDCompra)
-        {
-            try
-            {
-                if (Token.IsTokenValid())
-                {
-                    if (IDCompra.Length == 36)
-                    {
-                        CompraDatos = new _Compra_Datos();
-                        EventoEnvioModels Evento = new EventoEnvioModels();
-                        Evento.Conexion = Conexion;
-                        Evento.Usuario = User.Identity.Name;
-                        Evento.IDEvento = IDEvento;
-                        Evento.RespuestaAjax = new RespuestaAjax();
-
-                        Evento = CompraDatos.DEL_Evento(Evento);
-                        Token.ResetToken();
-                        Token.SaveToken();
-                        return Content(Evento.RespuestaAjax.ToJSON(), "application/json");
-                    }
-                    else
-                    {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Evento no válido.";
-                        return RedirectToAction("Index", "Compra");
-                    }
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Compra");
-                }
-            }
-            catch (Exception ex)
-            {
-                EventoEnvioModels Evento = new EventoEnvioModels();
-                Evento.RespuestaAjax.Mensaje = ex.ToString();
-                Evento.RespuestaAjax.Success = false;
-                return Content(Evento.RespuestaAjax.ToJSON(), "application/json");
-            }
-        }
+       
         #endregion
         #region Recepción Origen
         public ActionResult AC_RecepcionOrigen(CompraModels Compra)
@@ -2692,5 +2653,183 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
         #endregion
 
+        #region Vista Evento
+
+        [HttpPost]
+        public ActionResult DatatableGanadoDisponibleXIDCompra(string IDCompra)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                Compra = new CompraModels();
+                Compra.Conexion = Conexion;
+                Compra.IDCompra = IDCompra;
+                Compra.RespuestaAjax.Mensaje = CompraDatos.DatatableGanadoDisponibleXIDCompra(Compra);
+                Compra.RespuestaAjax.Success = true;
+
+                return Content(Compra.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Compra.RespuestaAjax.Mensaje = ex.ToString();
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DatatableGanadoEventoXIDCompra(string IDCompra)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                Compra = new CompraModels();
+                Compra.Conexion = Conexion;
+                Compra.IDCompra = IDCompra;
+                Compra.RespuestaAjax.Mensaje = CompraDatos.DatatableGanadoEventoXIDCompra(Compra);
+                Compra.RespuestaAjax.Success = true;
+
+                return Content(Compra.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                Compra.RespuestaAjax.Mensaje = ex.ToString();
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult EventoCompra(string IDCompra, int Id_eventoCompra)
+        {
+            {
+                if (!string.IsNullOrEmpty(IDCompra))
+                {
+                    CompraDatos = new _Compra_Datos();
+                    EventoCompraModels Evento = new EventoCompraModels();
+                    Evento.Id_compra = IDCompra;
+                    Evento.Id_eventoCompra = Id_eventoCompra;
+                    Evento.Conexion = Conexion;
+
+                    Evento = CompraDatos.GetEventoCompra(Evento);
+                    Evento.ListaTiposEventos = CompraDatos.GetListaEventos(Conexion);
+
+                    if(string.IsNullOrEmpty(Evento.ImagenBase64))
+                    {
+                        Evento.ImagenMostrar = Auxiliar.SetDefaultImage();
+                    }
+                    else
+                    {
+                        Evento.ImagenMostrar = Evento.ImagenBase64;
+                    }
+                    Token.SaveToken();
+                    return View(Evento);
+                }
+                else
+                {
+                    return View("Index");
+                }
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EventoCompra(EventoCompraModels Evento)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    CompraDatos = new _Compra_Datos();
+                    Evento.Conexion = Conexion;
+                    Evento.Usuario = User.Identity.Name;
+                    Evento.RespuestaAjax = new RespuestaAjax();
+                    Evento = CompraDatos.Compra_a_Evento(Evento);
+
+                    if (Evento.RespuestaAjax.Success)
+                    {
+                        TempData["typemessage"] = "1";
+                        TempData["message"] = Evento.RespuestaAjax.Mensaje;
+                        Token.ResetToken();
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = Evento.RespuestaAjax.Mensaje;
+                        Token.ResetToken();
+                    }
+                    return Content(Evento.RespuestaAjax.ToJSON(), "application/json");
+                }
+                else
+                {
+                    Evento.RespuestaAjax = new RespuestaAjax();
+                    Evento.Success = false;
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return Content(Evento.RespuestaAjax.ToJSON(), "application/json");
+                }
+            }
+            catch(Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                Evento.RespuestaAjax = new RespuestaAjax();
+                Evento.Success = false;
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos. Error: " + Mensaje;
+                return Content(Evento.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+        public ActionResult DEL_Evento(int IDEvento, string IDCompra)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    if (IDCompra.Length == 36)
+                    {
+                        CompraDatos = new _Compra_Datos();
+                        EventoEnvioModels Evento = new EventoEnvioModels();
+                        Evento.Conexion = Conexion;
+                        Evento.Usuario = User.Identity.Name;
+                        Evento.IDEvento = IDEvento;
+                        Evento.IDCompra = IDCompra;
+                        Evento.RespuestaAjax = new RespuestaAjax();
+                        Evento = CompraDatos.DEL_Evento(Evento);
+                        Token.ResetToken();
+                        Token.SaveToken();
+
+                        return Content(Evento.RespuestaAjax.ToJSON(), "application/json");
+                    }
+                    else
+                    {
+                        EventoEnvioModels Evento = new EventoEnvioModels();
+                        Evento.RespuestaAjax = new RespuestaAjax();
+                        Evento.RespuestaAjax.Success = false;
+                        Evento.RespuestaAjax.Mensaje = "Verifique sus datos";
+                        return Content(Evento.RespuestaAjax.ToJSON(), "application/json");
+                    }
+                }
+                else
+                {
+                    EventoEnvioModels Evento = new EventoEnvioModels();
+                    Evento.RespuestaAjax = new RespuestaAjax();
+                    Evento.RespuestaAjax.Success = false;
+                    Evento.RespuestaAjax.Mensaje = "Verifique sus datos";
+                    return Content(Evento.RespuestaAjax.ToJSON(), "application/json");
+                }
+            }
+            catch (Exception ex)
+            {
+                EventoEnvioModels Evento = new EventoEnvioModels();
+                Evento.RespuestaAjax = new RespuestaAjax();
+                Evento.RespuestaAjax.Success = false;
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                Evento.RespuestaAjax.Mensaje = Mensaje;
+                return Content(Evento.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
     }
 }

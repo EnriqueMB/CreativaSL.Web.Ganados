@@ -462,6 +462,7 @@
     <Content Include="Content\js\CompraAlmacenDetalle.js" />
     <Content Include="Content\js\compraDocumento.js" />
     <Content Include="Content\js\compraDocumentos.js" />
+    <Content Include="Content\js\compraEvento.js" />
     <Content Include="Content\js\CompraGanado.js" />
     <Content Include="Content\js\compraImpuestosProductoServicio.js" />
     <Content Include="Content\js\compraPago.js" />
@@ -1412,6 +1413,7 @@
     <Content Include="Areas\Admin\Views\Venta\VentaDocumento.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\AC_FleteDocumento.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\Detalles_Flete.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\EventoCompra.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1599,6 +1601,7 @@
     <Compile Include="Models\EntregaCombustibleModels.cs" />
     <Compile Include="Models\ErrorModelState.cs" />
     <Compile Include="Models\EstadoModels.cs" />
+    <Compile Include="Models\EventoCompraModels.cs" />
     <Compile Include="Models\EventoEnvioDetalleModels.cs" />
     <Compile Include="Models\EventoEnvioModels.cs" />
     <Compile Include="Models\EventoFleteModels.cs" />
