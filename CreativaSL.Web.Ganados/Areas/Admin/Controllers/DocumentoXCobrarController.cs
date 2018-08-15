@@ -276,7 +276,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 //    documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
 
                 documentoPago.ListaFormaPagos = DocPagarDatos.GetListadoCFDIFormaPago(documentoPago);
-                documentoPago = DocPagarDatos.GetNombreEmpresaProveedorCliente(documentoPago);
+                //documentoPago = DocPagarDatos.GetNombreEmpresaProveedorCliente(documentoPago);
                 documentoPago.TipoCuentaBancaria = 1;
                 documentoPago.ListaCuentasBancariasEmpresa = DocPagarDatos.GetListadoCuentasBancarias(documentoPago);
                 documentoPago.TipoCuentaBancaria = 2;

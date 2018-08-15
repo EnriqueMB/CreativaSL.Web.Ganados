@@ -817,6 +817,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     DocumentosPorCobrarModels.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     DocumentosPorCobrarModels.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    DocumentosPorCobrarModels.Completado = true;
                 }
                 dr.Close();
                 return DocumentosPorCobrarModels;
