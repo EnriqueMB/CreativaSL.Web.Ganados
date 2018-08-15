@@ -10,6 +10,13 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CatUnidadMedidaModels
     {
+
+        public CatUnidadMedidaModels() {
+            _Descripcion = string.Empty;
+            _LUnidades = new List<CatUnidadMedidaModels>();
+            Conexion = string.Empty;
+        }
+
         private int _IDUnidadMedida;
 
         public int IDUnidadMedida

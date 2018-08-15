@@ -1412,6 +1412,8 @@
     <Content Include="Areas\Admin\Views\Venta\VentaDocumento.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\AC_FleteDocumento.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\Detalles_Flete.cshtml" />
+    <Content Include="Areas\Admin\Views\Ticket\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Ticket\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

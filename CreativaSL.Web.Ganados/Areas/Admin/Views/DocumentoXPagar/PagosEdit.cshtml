@@ -52,6 +52,8 @@
                             @Html.HiddenFor(model => model.Id_documentoPorPagarDetallePagos)
                             @Html.HiddenFor(model => model.Id_documentoPorPagarDetallePagosBancarizado)
                             @Html.HiddenFor(model => model.Id_compra)
+                            @Html.HiddenFor(model => model.id_status)
+
 
                             <div class="form-group">
                                 <div class="col-md-6">
@@ -78,7 +80,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-md-6 controlError">
+                                @*<div class="col-md-6 controlError">
                                     <label class="col-md-2 control-label">Asignar:</label>
                                     <div class="controls">
                                         <div class="col-md-10 col-xs-12">
@@ -99,7 +101,7 @@
                                             <span class="help-block">Asignar pago.</span>
                                         </div>
                                     </div>
-                                </div>
+                                </div>*@
 
                                 <div class="col-md-6 controlError">
                                     <label class="col-md-2 control-label">Forma de pago:</label>
@@ -385,7 +387,7 @@
                         </div>
                         <div class="panel-footer">
                             <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                            <a href="@Url.Action("DetallePagos","DocumentoXPagar",new { id = Model.Id_documentoPorPagar })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                            <a href="@Url.Action("DetallePagos","DocumentoXPagar",new { id = Model.Id_documentoPorPagar,id2=Model.id_status })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                         </div>
                     </div>
                     }

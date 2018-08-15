@@ -22,6 +22,7 @@ namespace CreativaSL.Web.Ganados.Models
             Completado = false;
             Opcion = 0;
             Resultado = 0;
+            _listaCategoriaPuesto = new List<CatCategoriaPuestoModels>();
 
         }
         private List<CatCategoriaPuestoModels> _listaCategoriaPuesto;

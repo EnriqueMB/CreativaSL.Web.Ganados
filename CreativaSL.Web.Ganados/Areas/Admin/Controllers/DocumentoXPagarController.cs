@@ -233,7 +233,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult DetallePagos(string id)
+        public ActionResult DetallePagos(string id,int id2)
         {
             try
             {
@@ -241,6 +241,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 DocumentoXPagar_Datos documentoDatos = new DocumentoXPagar_Datos();
                 pago.Conexion = Conexion;
                 pago.Id_documentoPorPagar = id;
+                pago.id_status = id2;
                 pago.ListaPagosDocumento = documentoDatos.ObtenerListaDetallePagos(pago);
                 return View(pago);
             }
@@ -253,7 +254,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         // GET: Admin/DocumentoXPagar/PagosCreate/5
-        public ActionResult PagosCreate(string id)
+        public ActionResult PagosCreate(string id,int id2)
         {
 
             try
@@ -265,10 +266,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 documentoPago.Usuario = User.Identity.Name;
                 documentoPago.Conexion = Conexion;
                 documentoPago.TipoServicio = 1;
+                documentoPago.id_status = id2;
                 documentoPago.ListaAsignar = DocPagarDatos.GetListadoAsignarPagos(documentoPago);
                 //es para el boton de regresar 1 es compra, 2 es flete de la compra
-                if (documentoPago.TipoServicio == 1 || documentoPago.TipoServicio == 2)
-                    documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
+               // if (documentoPago.TipoServicio == 1 || documentoPago.TipoServicio == 2)
+               //     documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
 
                 documentoPago.ListaFormaPagos = DocPagarDatos.GetListadoCFDIFormaPago(documentoPago);
                 documentoPago = DocPagarDatos.GetNombreEmpresaProveedorCliente(documentoPago);
@@ -341,8 +343,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
+                            if (DocumentoPorPagarPago.pendiente == 0)
+                            {
+                                return RedirectToAction("Index");
+                            }
                             Token.ResetToken();
-                            return RedirectToAction("DetallePagos", new { id = DocumentoPorPagarPago.Id_documentoPorPagar });
+                            return RedirectToAction("DetallePagos", new { id = DocumentoPorPagarPago.Id_documentoPorPagar,id2=DocumentoPorPagarPago.id_status });
                         }
                         else
                         {
@@ -403,7 +409,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("DetallePagos", new { id = DocumentoPorPagarPago.Id_documentoPorPagar });
+                    return RedirectToAction("DetallePagos", new { id = DocumentoPorPagarPago.Id_documentoPorPagar,id2=DocumentoPorPagarPago.id_status });
                 }
             }
             catch (Exception)
@@ -438,7 +444,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         // GET: Admin/DocumentoXPagar/PagosEdit/5
-        public ActionResult PagosEdit(string id, string id2)
+        public ActionResult PagosEdit(string id, string id2,int id3)
         {
             try
             {
@@ -449,7 +455,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 DocumentoPagarDetPago.Conexion = Conexion;
                 DocumentoPagarDetPago.Id_documentoPorPagarDetallePagos = id;
                 DocumentoPagarDetPago = DocCobrarDatos.GetDetalleDocumentoPago(DocumentoPagarDetPago);
-
+                DocumentoPagarDetPago.id_status = id3;
                 DocumentoPagarDetPago.ListaAsignar = DocCobrarDatos.GetListadoAsignarPagos(DocumentoPagarDetPago);
 
                 if (DocumentoPagarDetPago.TipoServicio == 1 || DocumentoPagarDetPago.TipoServicio == 2)
@@ -513,8 +519,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
+                            if(DocumentoPorPagarPago.pendiente==0)
+                            {
+                                return RedirectToAction("Index");
+                            }
                             Token.ResetToken();
-                            return RedirectToAction("DetallePagos", new { id = DocumentoPorPagarPago.Id_documentoPorPagar });
+                            return RedirectToAction("DetallePagos", new { id = DocumentoPorPagarPago.Id_documentoPorPagar,id2= DocumentoPorPagarPago.id_status });
                         }
                         else
                         {
@@ -575,7 +585,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("DetallePagos", new { id = DocumentoPorPagarPago.Id_documentoPorPagar });
+                    return RedirectToAction("DetallePagos", new { id = DocumentoPorPagarPago.Id_documentoPorPagar, id2 = DocumentoPorPagarPago.id_status });
                 }
             }
             catch (Exception)
