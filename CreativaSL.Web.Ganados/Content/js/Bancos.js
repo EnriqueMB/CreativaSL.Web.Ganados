@@ -36,11 +36,11 @@
             ignore: "",
             rules: {
                 Descripcion: { required: true, texto: true, maxlength: 300 },
-                Imagen: { validarImagen: true }
+                ImagenB: { required: true }
             },
             messages: {
                 Descripcion: { required: "Ingrese el nombre del banco.", texto: "Ingrese un nombre del banco.", maxlength: "El nombre del banco admite máximo 300 caracteres." },
-                Imagen: { validarImagen: "Seleccione una imagén válida de banco" }
+                ImagenB: { required: "Seleccione una imagen del banco." }
 
             },
             invalidHandler: function (event, validator) { //display error alert on form submit

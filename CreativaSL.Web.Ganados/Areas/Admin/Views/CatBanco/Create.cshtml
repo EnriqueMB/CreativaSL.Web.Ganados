@@ -57,9 +57,9 @@
                             <div class="col-md-6 col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.TextBoxFor(model => model.ImagenB, new { id = "Imagen", @type = "file", @class = "form-control" })
+                                    @Html.TextBoxFor(model => model.ImagenB, new { id = "ImagenB", @type = "file", @class = "form-control" })
                                 </div>
-                                @Html.ValidationMessageFor(model => model.Imagen)
+                                @Html.ValidationMessageFor(model => model.ImagenB)
                                 @*<span class="help-block">Ingrese por lo menos 1 imagen.</span>*@
                             </div>
                         </div>
@@ -94,7 +94,7 @@
             Mensaje(message, typemessage);
             Bancos.init();
 
-            $('#Imagen').fileinput({
+            $('#ImagenB').fileinput({
                 theme: 'fa',
                 language: 'es',
                 minFileCount: 1,
