@@ -231,7 +231,7 @@
 
                 //agrego los datos a los inputs
                 genero = d.genero;
-                genero = genero.toUpperCase.trim();
+                genero = genero.trim();
                 if (genero.localeCompare("MACHO") == 0) {
                     cabezas_machos += 1;
                     kgMachos += d.pesoPagado;
@@ -272,7 +272,7 @@
 
                 //quito los datos a los inputs
                 genero = d.genero;
-                genero = genero.toUpperCase.trim();
+                genero = genero.trim();
                 if (genero.localeCompare("MACHO") == 0) {
                     cabezas_machos -= 1;
                     kgMachos -= d.pesoPagado;
