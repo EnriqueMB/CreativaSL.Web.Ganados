@@ -48,9 +48,6 @@
             ToggleDivGanado(opcion);
         });
         
-        ToggleDivDeduccion(opcionDeduccion);
-        ToggleDivGanado(opcionGanado);
-
         tblGanadoCargado = $('#tblGanadoCargado').DataTable({
             "language": {
                 "url": "../../Content/json/Spanish.json"
@@ -187,7 +184,7 @@
 
             var expRegularFecha = /^([0-2][0-9]|3[0-1])(\/)(0[1-9]|1[0-2])\2(\d{4})$/i;
             var expRegularHora = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/i;
-            var expRegularMonto = /^0[.][0-9]{1,2}$|[1-9]([0-9]+)?([.][0-9]{1,2})?$/i;
+            var expRegularMonto = /^([0-9]+)?([.][0-9]{1,2})?$/i;
 
             var opcion_Id_tipoEvento = Id_tipoEvento.val();
             var value_HoraDeteccion = HoraDeteccion.val();
