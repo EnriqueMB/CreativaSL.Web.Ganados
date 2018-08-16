@@ -1060,6 +1060,7 @@
     <Content Include="Content\js\ventaDocumento.js" />
     <Content Include="Content\js\ventaDocumentos.js" />
     <Content Include="Content\js\ventaEvento.js" />
+    <Content Include="Content\js\ventaEvento2.js" />
     <Content Include="Content\js\ventaEventoRecepcion.js" />
     <Content Include="Content\js\ventaFlete.js" />
     <Content Include="Content\js\ventaGanado.js" />
@@ -1371,7 +1372,7 @@
     <Content Include="Areas\Admin\Views\CatSocios\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatSocios\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaEventoRecepcion.cshtml" />
-    <Content Include="Areas\Admin\Views\Venta\VentaEvento.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaEvento2.cshtml" />
     <Content Include="Content\css\fonts\ocampoIcons.eot" />
     <Content Include="Content\css\fonts\ocampoIcons.ttf" />
     <Content Include="Content\css\fonts\ocampoIcons.woff" />
@@ -1422,6 +1423,7 @@
     <Content Include="Areas\Admin\Views\CatGanado\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\EventoDetallesCompra.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\EventoDetallesCompra_2.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaEvento.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

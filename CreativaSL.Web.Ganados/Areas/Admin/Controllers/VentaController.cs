@@ -753,7 +753,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         }
                         Venta.EventoVenta.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Venta.EventoVenta.ImagenMostrar);
                         //aqui pondriamos alguna lista o valores de cargar si esta todo correcto
-                        Venta.EventoVenta.ListaDeTiposDeduccion = VentaDatos.GetTiposDeduccion(Venta);
+                        Venta.EventoVenta.ListaDeTiposDeduccion = VentaDatos.GetTiposDeduccionVentaGanado(Venta);
                         Venta.EventoVenta.ListaTiposEventos = VentaDatos.GetTiposEventos(Venta);
                         return View(Venta.EventoVenta);
                     }
