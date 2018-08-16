@@ -2634,13 +2634,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 Reporte_Datos R = new Reporte_Datos();
                 List<ComprobanteCompraDetallesModels> ListaComprobanteCompraDetalles = new List<ComprobanteCompraDetallesModels>();
+                List<ComprobanteCompraPagosModels> ListaComprobanteCompraPagosDetalles = new List<ComprobanteCompraPagosModels>();
+
                 CompraDatos = new _Compra_Datos();
                 Compra = new CompraModels();
                 ComprobanteCompraCabeceraModels Cabecera = new ComprobanteCompraCabeceraModels();
                 Compra.IDCompra = Id_1;
                 Compra.Conexion = Conexion;
                 Cabecera = CompraDatos.GetComprobanteCompraCabecera(Compra);
-                ListaComprobanteCompraDetalles = CompraDatos.GetComprobanteCompraDetalles(Compra);                
+                ListaComprobanteCompraDetalles = CompraDatos.GetComprobanteCompraDetalles(Compra);
+                ListaComprobanteCompraPagosDetalles = CompraDatos.GetComprobanteCompraDetallesPagos(Compra);
 
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
@@ -2670,6 +2673,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("ComprobanteCompraDetalles", ListaComprobanteCompraDetalles));
+                Rtp.DataSources.Add(new ReportDataSource("ComprobanteCompraDetallesPagos", ListaComprobanteCompraPagosDetalles));
+                
                 string reportType = "PDF";
                 string mimeType;
                 string encoding;
