@@ -54,7 +54,7 @@
                                             <td>@categoria.puesto</td>
 
                                             <td>@categoria.descripcion</td>
-                                            <td>@categoria.sueldoBase.ToString("#.##")</td>
+                                            <td><span class="pull-right">@string.Format("{0:c}", categoria.sueldoBase)</span></td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatCategoriaPuesto", new { id = categoria.id_categoria})"><i class="fa fa-edit"></i></a>
