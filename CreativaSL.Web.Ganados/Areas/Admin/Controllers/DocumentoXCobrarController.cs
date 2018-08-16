@@ -324,8 +324,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
+                            if (DocumentoPorCobrarPago.pendiente == 0)
+                            {
+                                return RedirectToAction("Index");
+                            }
                             Token.ResetToken();
-                            return RedirectToAction("DetallePagos", new { id = DocumentoPorCobrarPago.Id_documentoPorCobrar });
+                            return RedirectToAction("DetallePagos", new { id = DocumentoPorCobrarPago.Id_documentoPorCobrar ,id2= DocumentoPorCobrarPago.id_status });
                         }
                         else
                         {
@@ -386,7 +390,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("DetallePagos", new { id = DocumentoPorCobrarPago.Id_documentoPorCobrar });
+                    return RedirectToAction("DetallePagos", new { id = DocumentoPorCobrarPago.Id_documentoPorCobrar,id2= DocumentoPorCobrarPago.id_status });
                 }
             }
             catch (Exception)
@@ -415,7 +419,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenMostrar);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error contacte a soporte tecnico";
-                return RedirectToAction("DetallePagos", new { id = DocumentoPorCobrarPago.Id_documentoPorCobrar });
+                return RedirectToAction("DetallePagos", new { id = DocumentoPorCobrarPago.Id_documentoPorCobrar ,id2= DocumentoPorCobrarPago.id_status });
 
             }
         }
@@ -464,7 +468,161 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
+        [HttpPost]
+        public ActionResult PagosEdit(DocumentosPorCobrarDetallePagosModels DocumentoPorCobrarPago)
+        {
+            _DocumentoXCobrar_Datos DocumentoDatos = new _DocumentoXCobrar_Datos();
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        DocumentoPorCobrarPago.Conexion = Conexion;
+                        DocumentoPorCobrarPago.Usuario = User.Identity.Name;
+                        DocumentoPorCobrarPago.RespuestaAjax = new RespuestaAjax();
+                        if (DocumentoPorCobrarPago.Bancarizado)
+                        {
+                            if (DocumentoPorCobrarPago.HttpImagen == null)
+                            {
+                                DocumentoPorCobrarPago.ImagenBase64 = DocumentoPorCobrarPago.ImagenMostrar;
+                            }
+                            else
+                            {
+                                DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorCobrarPago.HttpImagen);
+                            }
+                        }
+                        DocumentoPorCobrarPago = DocumentoDatos.AC_ComprobanteCompra(DocumentoPorCobrarPago);
+                        if (DocumentoPorCobrarPago.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            if (DocumentoPorCobrarPago.pendiente == 0)
+                            {
+                                return RedirectToAction("Index");
+                            }
+                            Token.ResetToken();
+                            return RedirectToAction("DetallePagos", new { id = DocumentoPorCobrarPago.Id_documentoPorCobrar, id2 = DocumentoPorCobrarPago.id_status });
+                        }
+                        else
+                        {
 
+                            DocumentosPorCobrarDetallePagosModels documentoPago = new DocumentosPorCobrarDetallePagosModels();
+                            _DocumentoXCobrar_Datos DocPagarDatos = new _DocumentoXCobrar_Datos();
+                            documentoPago.Id_documentoPorCobrar = DocumentoPorCobrarPago.Id_documentoPorCobrar;
+                            documentoPago.Usuario = User.Identity.Name;
+                            documentoPago.Conexion = Conexion;
+                            documentoPago.TipoServicio = 1;
+                            documentoPago.ListaAsignar = DocPagarDatos.GetListadoAsignarPagos(documentoPago);
+                            ////es para el boton de regresar 1 es compra, 2 es flete de la compra
+                            //if (documentoPago.TipoServicio == 1 || documentoPago.TipoServicio == 2)
+                            //    documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
+
+                            documentoPago.ListaFormaPagos = DocPagarDatos.GetListadoCFDIFormaPago(documentoPago);
+                            documentoPago = DocPagarDatos.GetNombreEmpresaProveedorCliente(documentoPago);
+                            documentoPago.TipoCuentaBancaria = 1;
+                            documentoPago.ListaCuentasBancariasEmpresa = DocPagarDatos.GetListadoCuentasBancarias(documentoPago);
+                            documentoPago.TipoCuentaBancaria = 2;
+                            documentoPago.ListaCuentasBancariasProveedor = DocPagarDatos.GetListadoCuentasBancarias(documentoPago);
+                            documentoPago.fecha = DateTime.Now;
+                            documentoPago.Bancarizado = false;
+
+                            documentoPago.ImagenMostrar = Auxiliar.SetDefaultImage();
+                            documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenMostrar);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar";
+                            return View(documentoPago);
+                        }
+                    }
+                    else
+                    {
+                        DocumentosPorCobrarDetallePagosModels documentoPago = new DocumentosPorCobrarDetallePagosModels();
+                        _DocumentoXCobrar_Datos DocPagarDatos = new _DocumentoXCobrar_Datos();
+                        documentoPago.Id_documentoPorCobrar = DocumentoPorCobrarPago.Id_documentoPorCobrar;
+                        documentoPago.Usuario = User.Identity.Name;
+                        documentoPago.Conexion = Conexion;
+                        documentoPago.TipoServicio = 1;
+                        documentoPago.ListaAsignar = DocPagarDatos.GetListadoAsignarPagos(documentoPago);
+                        ////es para el boton de regresar 1 es compra, 2 es flete de la compra
+                        //if (documentoPago.TipoServicio == 1 || documentoPago.TipoServicio == 2)
+                        //    documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
+
+                        documentoPago.ListaFormaPagos = DocPagarDatos.GetListadoCFDIFormaPago(documentoPago);
+                        documentoPago = DocPagarDatos.GetNombreEmpresaProveedorCliente(documentoPago);
+                        documentoPago.TipoCuentaBancaria = 1;
+                        documentoPago.ListaCuentasBancariasEmpresa = DocPagarDatos.GetListadoCuentasBancarias(documentoPago);
+                        documentoPago.TipoCuentaBancaria = 2;
+                        documentoPago.ListaCuentasBancariasProveedor = DocPagarDatos.GetListadoCuentasBancarias(documentoPago);
+                        documentoPago.fecha = DateTime.Now;
+                        documentoPago.Bancarizado = false;
+
+                        documentoPago.ImagenMostrar = Auxiliar.SetDefaultImage();
+                        documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenMostrar);
+                        return View(documentoPago);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("DetallePagos", new { id = DocumentoPorCobrarPago.Id_documentoPorCobrar, id2 = DocumentoPorCobrarPago.id_status });
+                }
+            }
+            catch (Exception)
+            {
+                DocumentosPorCobrarDetallePagosModels documentoPago = new DocumentosPorCobrarDetallePagosModels();
+                _DocumentoXCobrar_Datos DocPagarDatos = new _DocumentoXCobrar_Datos();
+                documentoPago.Id_documentoPorCobrar = DocumentoPorCobrarPago.Id_documentoPorCobrar;
+                documentoPago.Usuario = User.Identity.Name;
+                documentoPago.Conexion = Conexion;
+                documentoPago.TipoServicio = 1;
+                documentoPago.ListaAsignar = DocPagarDatos.GetListadoAsignarPagos(documentoPago);
+                ////es para el boton de regresar 1 es compra, 2 es flete de la compra
+                //if (documentoPago.TipoServicio == 1 || documentoPago.TipoServicio == 2)
+                //    documentoPago.Id_compra = documentoPago.ListaAsignar[0].Id_2;
+
+                documentoPago.ListaFormaPagos = DocPagarDatos.GetListadoCFDIFormaPago(documentoPago);
+                documentoPago = DocPagarDatos.GetNombreEmpresaProveedorCliente(documentoPago);
+                documentoPago.TipoCuentaBancaria = 1;
+                documentoPago.ListaCuentasBancariasEmpresa = DocPagarDatos.GetListadoCuentasBancarias(documentoPago);
+                documentoPago.TipoCuentaBancaria = 2;
+                documentoPago.ListaCuentasBancariasProveedor = DocPagarDatos.GetListadoCuentasBancarias(documentoPago);
+                documentoPago.fecha = DateTime.Now;
+                documentoPago.Bancarizado = false;
+
+                documentoPago.ImagenMostrar = Auxiliar.SetDefaultImage();
+                documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenMostrar);
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error contacte a soporte tecnico";
+                return RedirectToAction("DetallePagos", new { id = DocumentoPorCobrarPago.Id_documentoPorCobrar, id2 = DocumentoPorCobrarPago.id_status });
+
+            }
+        }
+        public ActionResult PagosDelete(string id, string id2)
+        {
+            try
+            {
+                DocumentosPorCobrarDetallePagosModels Datos = new DocumentosPorCobrarDetallePagosModels
+                {
+                    Id_documentoPorCobrarDetallePagos = id,
+                    Id_documentoPorCobrar = id2,
+                    Conexion = Conexion,
+                    Usuario = User.Identity.Name
+                };
+                                                                                                                                                                                              _DocumentoXCobrar_Datos DocDatos = new _DocumentoXCobrar_Datos();
+                DocDatos.EliminarPagoDocumentoPorCobrar(Datos);
+                if (Datos.Completado)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "El registro se ha eliminado correctamente";
+                    return Json("");
+                }
+                else
+                { return Json(""); }
+            }
+            catch
+            {
+                return View();
+            }
+        }
         #region JSON tablas
         #region Json Documentos Detalles
         [HttpPost]

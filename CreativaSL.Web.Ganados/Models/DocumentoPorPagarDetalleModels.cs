@@ -14,7 +14,6 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _IDDetalleDoctoPagar; }
             set { _IDDetalleDoctoPagar = value; }
         }
-
         private string _IDDocumentoPagar;
 
         public string IDDocumentoPagar

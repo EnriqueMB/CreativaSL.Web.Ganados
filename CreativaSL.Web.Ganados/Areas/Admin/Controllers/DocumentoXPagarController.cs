@@ -253,6 +253,26 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
         }
+        public ActionResult DetailsPagos(string id, int id2)
+        {
+            try
+            {
+                DocumentoPorPagarDetallePagosModels pago = new DocumentoPorPagarDetallePagosModels();
+                DocumentoXPagar_Datos documentoDatos = new DocumentoXPagar_Datos();
+                pago.Conexion = Conexion;
+                pago.Id_documentoPorPagar = id;
+                pago.id_status = id2;
+                pago.ListaPagosDocumento = documentoDatos.ObtenerListaDetallePagos(pago);
+                return View(pago);
+            }
+            catch (Exception)
+            {
+                DocumentoPorPagarModels docu = new DocumentoPorPagarModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
+        }
         // GET: Admin/DocumentoXPagar/PagosCreate/5
         public ActionResult PagosCreate(string id,int id2)
         {

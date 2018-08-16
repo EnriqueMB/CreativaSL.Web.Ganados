@@ -130,10 +130,10 @@
             }
         });
     }
-    function NombreEmpresa() {
-        var empresa = $('#Id_documentoPorPagar').find(":selected");
-        $("#NombreEmpresa").val(empresa[0].dataset.nombre);
-    }
+    //function NombreEmpresa() {
+    //    var empresa = $('#Id_documentoPorPagar').find(":selected");
+    //    $("#NombreEmpresa").val(empresa[0].dataset.nombre);
+    //}
 
     var LoadValidation_AC_Documento = function () {
         var form1 = $('#form_Comprobante');
@@ -275,7 +275,7 @@
         init: function () {
             LoadValidation_AC_Documento();
             RunEventsComprobantePago();
-            NombreEmpresa();
+            //NombreEmpresa();
 
         }
     };
