@@ -415,7 +415,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             else
             {
                 TempData["typemessage"] = "2";
-                TempData["message"] = "No se pudo cambiar el estatus de la venta.";
+                if (string.IsNullOrEmpty(Venta.RespuestaAjax.Mensaje))
+                {
+                    TempData["message"] = "No se pudo cambiar el estatus de la venta.";
+                }
+                else
+                {
+                    TempData["message"] = Venta.RespuestaAjax.Mensaje;
+                }
             }
 
             return RedirectToAction("Index");
