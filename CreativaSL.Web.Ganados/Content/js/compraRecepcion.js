@@ -77,7 +77,8 @@
             "drawCallback": function (settings) {
                 $(".edit").on("click", function () {
                     var id_evento = $(this).data("id");
-                    ModalEvento(id_evento);
+                    window.location.href = '/Admin/Compra/EventoDetallesCompra?IDCompra=' + IDCompra + '&Id_eventoCompra=' + id_evento;
+                    
                 });
                 $(".delete").on("click", function () {
                     var url = $(this).attr('data-hrefa');
@@ -94,7 +95,7 @@
                             success: function (result) {
                                 if (result.Success) {
                                     box.find(".mb-control-yes").prop('onclick', null).off('click');
-                                    $("#ModalImpuesto").modal('hide');
+                                   // $("#ModalImpuesto").modal('hide');
                                     Mensaje(result.Mensaje, "1");
                                     tblEventos.ajax.reload();
                                 }
@@ -176,7 +177,8 @@
     /*EVENTOS*/
     var RunEventsEvento = function () {
         $("#btnAddEvento").on("click", function () {
-            ModalEvento(0);
+            window.location.href = '/Admin/Compra/EventoCompra?IDCompra=' + IDCompra + '&Id_eventoCompra=0';
+            //ModalEvento(0);
         });
         $('.Hora24hrs').timepicker({
             minuteStep: 1,

@@ -1,10 +1,9 @@
-﻿@model CreativaSL.Web.Ganados.Models.CatAlmacenModels
+﻿@model CreativaSL.Web.Ganados.Models.DocumentoPorPagarDetallePagosModels
 
 @{
-    ViewBag.Title = "Ver";
+    ViewBag.Title = "DatailsPagos";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
 @section featured{
     @{
         var message = TempData["message"] ?? string.Empty;
@@ -17,73 +16,69 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Bodega </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Detalle de pagos </h2>
     </div>
     <!-- END PAGE TITLE -->
-    <!-- PAGE CONTENT WRAPPER -->
     <div class="page-content-wrap">
         <div class="row">
             <div class="col-md-12">
-                <!-- START DEFAULT DATATABLE -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-
+                            
+                            <li><a href="@Url.Action("Index","DocumentoXPagar")" class="btn btn-danger btnCrear"><span class="fa fa-arrow-circle-o-left"></span> Regresar</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
-                            <li><a href="@Url.Action("Index","Almacen")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span>Regresar</a></li>
                         </ul>
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table class="table datatable">
+                            <table id="tbl_documentosPorCobrarDetallesPagos" class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th>Clave</th>
-                                        <th>Producto</th>
-                                        <th>Existencia</th>
-                                        <th>Unidad de Medida</th>
+                                        <th>Forma de pago</th>
+                                        <th>Monto</th>
+                                        <th>Fecha</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var almacen in Model.ListaInventario)
-                        {
-                            <tr id="@almacen.ID_almacen">
-                                <td>@almacen.Clave</td>
-                                <td>@almacen.Nombre_producto</td>
-                                <td><span class="pull-right"> @almacen.ExistenciaFormat</span></td>
-                                <td>@almacen.Unidad_medida</td>
-                            </tr>
-            }
+                                    @foreach (var Documento in Model.ListaPagosDocumento)
+                                    {
+                                        <tr id="@Documento.Id_documentoPorPagarDetallePagos">
+                                            <td>@Documento.Descripcion</td>
+                                            <td>@Documento.Monto.ToString("C")</td>
+                                            <td>@Documento.fecha.ToShortDateString()</td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-               
-                <!-- END DEFAULT DATATABLE -->
             </div>
         </div>
     </div>
-    <!-- PAGE CONTENT WRAPPER -->
-    @*<div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
-            <div class="mb-container">
-                <div class="mb-middle">
-                    <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
-                    <div class="mb-content">
-                        <p>¿Seguro que quieres eliminar esta fila?</p>
-                        <p>Presione "sí" si está seguro.</p>
-                    </div>
-                    <div class="mb-footer">
-                        <div class="pull-right">
-                            <button class="btn btn-success btn-lg mb-control-yes">Si</button>
-                            <button class="btn btn-default btn-lg mb-control-close">No</button>
-                        </div>
+
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres eliminar esta fila?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
                     </div>
                 </div>
             </div>
-        </div>*@
+
+
+        </div>
+    </div>
     <script>
     var message = '@message';
     var typemessage = '@typemessage';
@@ -100,5 +95,7 @@
         });
     </script>
 }
+
+
 
 

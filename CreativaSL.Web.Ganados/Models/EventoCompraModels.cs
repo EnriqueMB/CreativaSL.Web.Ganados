@@ -5,21 +5,21 @@ using System.Web;
 
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class EventoVentaModels
+    public class EventoCompraModels
     {
-        public string Id_eventoVenta { get; set; }
-        public string Id_venta { get; set; }
-        public string Id_documentoPorCobrarDetalle { get; set; }
+        public bool Success { get; set; }
+        public int Id_eventoCompra { get; set; }
+        public string Id_compra { get; set; }
         public int Id_tipoEvento { get; set; }
         public int Cantidad { get; set; }
         public string Lugar { get; set; }
-        public DateTime  FechaDeteccion { get; set; }
+        public DateTime FechaDeteccion { get; set; }
         public TimeSpan HoraDeteccion { get; set; }
         public string Observacion { get; set; }
         /// <summary>
         /// Imagen del server
         /// </summary>
-        public string ImagenBase64 { get; set; } 
+        public string ImagenBase64 { get; set; }
         /// <summary>
         /// Imagen a mostrar, puede ser que sea del server pero en caso que no tenga se pone el default
         /// </summary>
@@ -35,19 +35,12 @@ namespace CreativaSL.Web.Ganados.Models
 
         public List<CatTipoEventoEnvioModels> ListaTiposEventos;
 
-        public decimal MontoDeduccion { get; set; }
-
-        public bool AplicaGanado { get; set; }
-        public bool AplicaDeduccion { get; set; }
-
         public EventoVentaEnvioDetalleModels DetalleEventoVenta;
-        public List<CatTipoClasificacionCobroModels> ListaDeTiposDeduccion;
-        public int Id_TipoDeDeduccion { get; set; }
+        
         public string ListaIDGanadosDelEvento { get; set; }
 
         public string Conexion { get; set; }
         public string Usuario { get; set; }
         public RespuestaAjax RespuestaAjax { get; set; }
-
     }
 }

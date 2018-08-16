@@ -2353,6 +2353,157 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View("Index");
             }
         }
+        
+        [HttpPost]
+        public ActionResult DatatableGeneralesGanado(string Id_flete)
+        {
+            try
+            {
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                Flete.Conexion = Conexion;
+                Flete.id_flete = Id_flete;
+                Flete.RespuestaAjax.Mensaje = FleteDatos.DatatableGeneralesGanado(Flete);
+                Flete.RespuestaAjax.Success = true;
+
+                return Content(Flete.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                Flete.RespuestaAjax.Mensaje = Mensaje;
+                Flete.RespuestaAjax.Success = false;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DatatableGanadoMacho(string Id_flete)
+        {
+            try
+            {
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                Flete.Conexion = Conexion;
+                Flete.id_flete = Id_flete;
+                Flete.RespuestaAjax.Mensaje = FleteDatos.DatatableGanadoMacho(Flete);
+                Flete.RespuestaAjax.Success = true;
+
+                return Content(Flete.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                Flete.RespuestaAjax.Mensaje = Mensaje;
+                Flete.RespuestaAjax.Success = false;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DatatableGanadoHembra(string Id_flete)
+        {
+            try
+            {
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                Flete.Conexion = Conexion;
+                Flete.id_flete = Id_flete;
+                Flete.RespuestaAjax.Mensaje = FleteDatos.DatatableGanadoHembra(Flete);
+                Flete.RespuestaAjax.Success = true;
+
+                return Content(Flete.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                Flete.RespuestaAjax.Mensaje = Mensaje;
+                Flete.RespuestaAjax.Success = false;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DatatableDetallesDocXcobrar(string Id_flete)
+        {
+            try
+            {
+                _Flete_Datos FleteDatos = new _Flete_Datos();
+                FleteModels Flete = new FleteModels();
+                Flete.Conexion = Conexion;
+                Flete.id_flete = Id_flete;
+                Flete.RespuestaAjax = new RespuestaAjax();
+                Flete.RespuestaAjax.Mensaje = FleteDatos.DatatableDetallesDocXcobrar(Flete);
+                Flete.RespuestaAjax.Success = true;
+
+                return Content(Flete.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                FleteModels Flete = new FleteModels();
+                Flete.RespuestaAjax = new RespuestaAjax();
+                Flete.RespuestaAjax.Mensaje = ex.Message;
+                Flete.RespuestaAjax.Success = false;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DatatableDetalleDocXCobraPagos(string Id_flete)
+        {
+            try
+            {
+                _Flete_Datos FleteDatos = new _Flete_Datos();
+                FleteModels Flete = new FleteModels();
+                Flete.Conexion = Conexion;
+                Flete.id_flete = Id_flete;
+                Flete.RespuestaAjax = new RespuestaAjax();
+                Flete.RespuestaAjax.Mensaje = FleteDatos.DatatableDetalleDocXCobrarPagos(Flete);
+                Flete.RespuestaAjax.Success = true;
+
+                return Content(Flete.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                FleteModels Flete = new FleteModels();
+                Flete.RespuestaAjax = new RespuestaAjax();
+                Flete.RespuestaAjax.Mensaje = ex.Message;
+                Flete.RespuestaAjax.Success = false;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DatatableDocumentos(string Id_flete)
+        {
+            try
+            {
+                _Flete_Datos FleteDatos = new _Flete_Datos();
+                FleteModels Flete = new FleteModels();
+                Flete.Conexion = Conexion;
+                Flete.id_flete = Id_flete;
+                Flete.RespuestaAjax = new RespuestaAjax();
+                Flete.RespuestaAjax.Mensaje = FleteDatos.GetDocumentosDataTable(Flete);
+                Flete.RespuestaAjax.Success = true;
+
+                return Content(Flete.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                FleteModels Flete = new FleteModels();
+                Flete.RespuestaAjax = new RespuestaAjax();
+                Flete.RespuestaAjax.Mensaje = ex.Message;
+                Flete.RespuestaAjax.Success = false;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
         #endregion
     }
 }

@@ -462,6 +462,8 @@
     <Content Include="Content\js\CompraAlmacenDetalle.js" />
     <Content Include="Content\js\compraDocumento.js" />
     <Content Include="Content\js\compraDocumentos.js" />
+    <Content Include="Content\js\compraEvento.js" />
+    <Content Include="Content\js\compraEventoDetalles.js" />
     <Content Include="Content\js\CompraGanado.js" />
     <Content Include="Content\js\compraImpuestosProductoServicio.js" />
     <Content Include="Content\js\compraPago.js" />
@@ -1058,6 +1060,7 @@
     <Content Include="Content\js\ventaDocumento.js" />
     <Content Include="Content\js\ventaDocumentos.js" />
     <Content Include="Content\js\ventaEvento.js" />
+    <Content Include="Content\js\ventaEvento2.js" />
     <Content Include="Content\js\ventaEventoRecepcion.js" />
     <Content Include="Content\js\ventaFlete.js" />
     <Content Include="Content\js\ventaGanado.js" />
@@ -1369,7 +1372,7 @@
     <Content Include="Areas\Admin\Views\CatSocios\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatSocios\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaEventoRecepcion.cshtml" />
-    <Content Include="Areas\Admin\Views\Venta\VentaEvento.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaEvento2.cshtml" />
     <Content Include="Content\css\fonts\ocampoIcons.eot" />
     <Content Include="Content\css\fonts\ocampoIcons.ttf" />
     <Content Include="Content\css\fonts\ocampoIcons.woff" />
@@ -1415,6 +1418,13 @@
     <Content Include="Areas\Admin\Views\Flete\Detalles_Flete.cshtml" />
     <Content Include="Areas\Admin\Views\Ticket\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Ticket\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\EventoCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\CatGanado\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatGanado\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\EventoDetallesCompra.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\EventoDetallesCompra_2.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaEvento.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentoXPagar\DetailsPagos.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1580,6 +1590,7 @@
     <Compile Include="Models\CompraModels.cs" />
     <Compile Include="Models\ComprobanteCompraCabeceraModels.cs" />
     <Compile Include="Models\ComprobanteCompraDetallesModels.cs" />
+    <Compile Include="Models\ComprobanteCompraPagosModels.cs" />
     <Compile Include="Models\Comun.cs" />
     <Compile Include="Models\ConciliacionAlmacenDetalleModel.cs" />
     <Compile Include="Models\ConciliacionAlmacenModels.cs" />
@@ -1604,6 +1615,7 @@
     <Compile Include="Models\EntregaCombustibleModels.cs" />
     <Compile Include="Models\ErrorModelState.cs" />
     <Compile Include="Models\EstadoModels.cs" />
+    <Compile Include="Models\EventoCompraModels.cs" />
     <Compile Include="Models\EventoEnvioDetalleModels.cs" />
     <Compile Include="Models\EventoEnvioModels.cs" />
     <Compile Include="Models\EventoFleteModels.cs" />

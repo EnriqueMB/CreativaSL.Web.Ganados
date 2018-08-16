@@ -8,7 +8,9 @@ namespace CreativaSL.Web.Ganados.Models
     public class ComprobanteCompraDetallesModels
     {
         public decimal Cantidad { get; set; }
-        public string Concepto { get; set; }
+        public string  Genero { get; set; }
+        public decimal TotalKilos { get; set; }
+        public decimal PrecioPorKilo { get; set; }
         public decimal Subtotal { get; set; }
     }
 }

@@ -1,9 +1,10 @@
-﻿@model CreativaSL.Web.Ganados.Models.EventoVentaModels
+﻿@model CreativaSL.Web.Ganados.Models.EventoCompraModels
 
 @{
-    ViewBag.Title = "VentaEvento";
+    ViewBag.Title = "EventoCompra";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+
 
 @section css
 {
@@ -21,8 +22,7 @@
         .successTableCSL {
             border: 1px solid #95b75d !important;
         }
-
-        .errorCSLGanado {
+         .errorCSLGanado {
             border-color: #E04B4A !important;
         }
 
@@ -61,16 +61,17 @@
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-                <div id="validation_summary" class="field_error "></div> //JS
-                @Html.HiddenFor(model => model.Id_eventoVenta)
-                @Html.HiddenFor(model => model.Id_venta)
+                                                                                                                            <div id="validation_summary" class="field_error "></div> //JS
+                @Html.HiddenFor(model => model.Id_eventoCompra)
+                @Html.HiddenFor(model => model.Id_compra)
                 @Html.HiddenFor(model => model.ImagenBase64)
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Eventos de la venta</strong></h3>
+                        <h3 class="panel-title"><strong>Eventos de la compra</strong></h3>
                     </div>
-                    <ul class="panel-controls"></ul>
+                    <ul class="panel-controls">
+                    </ul>
 
                     <div class="panel-body">
                         <div class="form-group">
@@ -162,33 +163,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="controlError col-md-6">
-                                <label class="col-md-2 control-label">Monto de la Deducción</label>
-                                <div class="col-md-10 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-money"></span></span>
-                                        @Html.TextBoxFor(model => model.MontoDeduccion, "{0:F2}", new { @type = "text", @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.MontoDeduccion)
-                                    <span class="help-block">Ingrese una cantidad.</span>
-                                </div>
-                            </div>
-
-                            <div class="controlError col-md-6">
-                                <label class="col-md-2 control-label">Tipo de deduccion</label>
-                                <div class="col-md-10 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.DropDownListFor(model => model.Id_TipoDeDeduccion, new SelectList(Model.ListaDeTiposDeduccion, "Id_tipoClasificacionCobro", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Id_TipoDeDeduccion)
-                                    <span class="help-block">Seleccione un tipo de deducción.</span>
-                                </div>
-                            </div>
-                        </div>
-                   
-
                         <div id="divGanado">
                             <div class="row">
                                 <div class="col-md-12 text-center">
@@ -211,7 +185,7 @@
                                                     <th>Núm. arete</th>
                                                     <th>Genero</th>
                                                     <th>Peso</th>
-                                                    <th>Precio Por kilo</th>
+                                                    <th>Costo por kilo</th>
                                                     <th>Costo de compra</th>
                                                 </tr>
                                             </thead>
@@ -225,11 +199,11 @@
                                         <table id="tblGanadoConEvento" class="table">
                                             <thead>
                                                 <tr>
-                                                    <th>ID</th>
                                                     <th>Núm. arete</th>
                                                     <th>Genero</th>
                                                     <th>Peso</th>
-                                                    <th>Precio Por kilo</th>
+                                                    <th>Antiguo costo por kilo</th>
+                                                    <th>Nuevo costo por kilo</th>
                                                     <th>Costo de compra</th>
                                                 </tr>
                                             </thead>
@@ -241,7 +215,7 @@
                         </div>
                     </div>
                     <div class="panel-footer">
-                        <a href="@Url.Action("VentaEventoRecepcion", "Venta",  new { IDVenta = Model.Id_venta })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                        <a href="@Url.Action("RecepcionCompra", "Compra",  new { IDCompra = Model.Id_compra })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                         <button type="submit" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
                     </div>
                 </div>
@@ -263,25 +237,21 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/ventaEvento.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/compraEvento.js")"></script>
     <!--FILEINPUT-->
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/popper.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/popper.min.js")" ></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-timepicker.min.js")"></script>
 
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
-            VentaEvento.init();
+            CompraEvento.init();
         });
     </script>
 }
-
-
-
-
 

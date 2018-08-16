@@ -1947,6 +1947,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
+                    Evento.IDCompra,
                     Evento.IDEvento,
                     Evento.Usuario
                 };
@@ -3004,9 +3005,11 @@ namespace CreativaSL.Web.Ganados.Models
                 while (dr.Read())
                 {
                     Item = new ComprobanteCompraDetallesModels();
-                    Item.Concepto = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
-                    Item.Cantidad = !dr.IsDBNull(dr.GetOrdinal("cantidad")) ? dr.GetDecimal(dr.GetOrdinal("cantidad")) : 0;
-                    Item.Subtotal = !dr.IsDBNull(dr.GetOrdinal("subtotal")) ? dr.GetDecimal(dr.GetOrdinal("subtotal")) : 0;
+                    Item.Cantidad = !dr.IsDBNull(dr.GetOrdinal("Cantidad")) ? dr.GetDecimal(dr.GetOrdinal("Cantidad")) : 0;
+                    Item.Genero = !dr.IsDBNull(dr.GetOrdinal("Genero")) ? dr.GetString(dr.GetOrdinal("Genero")) : string.Empty;
+                    Item.TotalKilos = !dr.IsDBNull(dr.GetOrdinal("totalKilos")) ? dr.GetDecimal(dr.GetOrdinal("totalKilos")) : 0;
+                    Item.PrecioPorKilo = !dr.IsDBNull(dr.GetOrdinal("precioKilo")) ? dr.GetDecimal(dr.GetOrdinal("precioKilo")) : 0;
+                    Item.Subtotal = !dr.IsDBNull(dr.GetOrdinal("precioTotal")) ? dr.GetDecimal(dr.GetOrdinal("precioTotal")) : 0;
 
                     Lista.Add(Item);
                 }
@@ -3018,6 +3021,164 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public List<ComprobanteCompraPagosModels> GetComprobanteCompraDetallesPagos(CompraModels Compra)
+        {
+            try
+            {
+                List<ComprobanteCompraPagosModels> Lista = new List<ComprobanteCompraPagosModels>();
+                ComprobanteCompraPagosModels Item;
+                object[] parametros = { Compra.IDCompra };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_ComprobanteCompraDetallesPagos", parametros);
+
+                while (dr.Read())
+                {
+                    Item = new ComprobanteCompraPagosModels();
+                    Item.FormaPago = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    Item.FechaPago = !dr.IsDBNull(dr.GetOrdinal("fecha")) ? dr.GetString(dr.GetOrdinal("fecha")) : string.Empty;
+                    Item.MontoPagado = !dr.IsDBNull(dr.GetOrdinal("monto")) ? dr.GetDecimal(dr.GetOrdinal("monto")) : 0;
+
+                    Lista.Add(Item);
+                }
+                dr.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region Vista Evento
+
+        public string DatatableGanadoDisponibleXIDCompra(CompraModels Compra)
+        {
+            try
+            {
+                object[] parametros = { Compra.IDCompra };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compras_get_GanadoDisponibleXIDCompra", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string DatatableGanadoEventoXIDCompra(EventoCompraModels Evento)
+        {
+            try
+            {
+                object[] parametros = { Evento.Id_compra, Evento.Id_eventoCompra };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Evento.Conexion, "spCSLDB_Compras_get_GanadoEventoXIDCompra", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<CatTipoEventoEnvioModels> GetListaEventos(string Conexion)
+        {
+            try
+            {
+                CatTipoEventoEnvioModels TipoEvento;
+                List<CatTipoEventoEnvioModels> ListaTiposEventos = new List<CatTipoEventoEnvioModels>();
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Combo_get_CatTipoEventoEnvio");
+                while (dr.Read())
+                {
+                    TipoEvento = new CatTipoEventoEnvioModels
+                    {
+                        IDTipoEventoEnvio = !dr.IsDBNull(dr.GetOrdinal("idTipoEvento")) ? dr.GetInt32(dr.GetOrdinal("idTipoEvento")) : 0,
+                        Descripcion = !dr.IsDBNull(dr.GetOrdinal("nombreEvento")) ? dr.GetString(dr.GetOrdinal("nombreEvento")) : string.Empty,
+                    };
+
+                    ListaTiposEventos.Add(TipoEvento);
+                }
+                dr.Close();
+                return ListaTiposEventos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public EventoCompraModels GetEventoCompra(EventoCompraModels Evento)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Evento.Id_compra, Evento.Id_eventoCompra 
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Evento.Conexion, "spCSLDB_Compras_get_EventoXIDEvento", parametros);
+                if (!dr.HasRows)
+                {
+                    Evento.FechaDeteccion = DateTime.Today;
+                    Evento.HoraDeteccion = DateTime.Now.TimeOfDay;
+                }
+                else
+                {
+                    while (dr.Read())
+                    {
+                        Evento.Id_tipoEvento = !dr.IsDBNull(dr.GetOrdinal("id_tipoEvento")) ? dr.GetInt32(dr.GetOrdinal("id_tipoEvento")) : 0;
+                        Evento.Lugar = !dr.IsDBNull(dr.GetOrdinal("lugar")) ? dr.GetString(dr.GetOrdinal("lugar")) : string.Empty;
+                        Evento.FechaDeteccion = !dr.IsDBNull(dr.GetOrdinal("fechaDeteccion")) ? dr.GetDateTime(dr.GetOrdinal("fechaDeteccion")) : DateTime.Today;
+                        Evento.HoraDeteccion = !dr.IsDBNull(dr.GetOrdinal("horaDeteccion")) ? dr.GetTimeSpan(dr.GetOrdinal("horaDeteccion")) : DateTime.Today.TimeOfDay;
+                        Evento.Observacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
+                        Evento.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagenBase64")) ? dr.GetString(dr.GetOrdinal("imagenBase64")) : string.Empty;
+                    }
+                }
+
+                dr.Close();
+                return Evento;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
+        public EventoCompraModels Compra_a_Evento(EventoCompraModels Evento)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Evento.Id_compra,   Evento.Id_tipoEvento,   Evento.Cantidad,
+                    Evento.Lugar,       Evento.FechaDeteccion,  Evento.HoraDeteccion,
+                    Evento.Observacion, Evento.ImagenBase64,    Evento.ListaIDGanadosDelEvento,
+                    Evento.Usuario
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Evento.Conexion, "spCSLDB_Compras_a_Evento", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                while (dr.Read())
+                {
+                    Evento.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Evento.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                dr.Close();
+
+                return Evento;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
+
         #endregion
     }
 }
