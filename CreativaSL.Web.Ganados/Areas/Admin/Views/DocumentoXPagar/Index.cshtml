@@ -100,6 +100,7 @@
                                                         <td style="text-align:center;">
                                                             <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                                 <a title="Detalle Documento" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento })" class="btn btn-green tooltips" data-placement="top" data-original-title="Detalle Documento"><i class="fa fa-eye"></i></a>
+                                                                <a title="Pagos" class="btn btn-green" href="@Url.Action("DetailsPagos", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar,id2=Doc.IDEstatus })"><i class="fa fa-money"></i></a>
                                                             </div>
                                                             <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                                 <div class="btn-group">
@@ -110,6 +111,11 @@
                                                                         <li>
                                                                             <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento })">
                                                                                 <i class="fa fa-eye"></i> Detalle Documento
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("DetailsPagos", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar,id2=Doc.IDEstatus })">
+                                                                                <i class="fa fa-money"></i> Detalle de pagos
                                                                             </a>
                                                                         </li>
                                                                     </ul>
@@ -212,7 +218,8 @@
                                                                 <td style="text-align:center;">
                                                                     <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                                         <a title="Detalle Documento" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento })" class="btn btn-green tooltips" data-placement="top" data-original-title="Detalle Documento"><i class="fa fa-eye"></i></a>
-                                                                    </div>
+                                                                        <a title="Pagos" class="btn btn-green" href="@Url.Action("DetailsPagos", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar,id2=Doc.IDEstatus })"><i class="fa fa-money"></i></a>
+                                                                     </div>
                                                                     <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                                         <div class="btn-group">
                                                                             <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
@@ -222,6 +229,11 @@
                                                                                 <li>
                                                                                     <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento })">
                                                                                         <i class="fa fa-eye"></i> Detalle Documento
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("DetailsPagos", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar ,id2=Doc.IDEstatus})">
+                                                                                        <i class="fa fa-money"></i> Detalle de pagos
                                                                                     </a>
                                                                                 </li>
                                                                             </ul>
