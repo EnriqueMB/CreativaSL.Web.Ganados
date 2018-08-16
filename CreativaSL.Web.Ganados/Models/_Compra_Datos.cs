@@ -3005,10 +3005,39 @@ namespace CreativaSL.Web.Ganados.Models
                 while (dr.Read())
                 {
                     Item = new ComprobanteCompraDetallesModels();
-                    Item.Cantidad = !dr.IsDBNull(dr.GetOrdinal("ganadoTotal")) ? dr.GetDecimal(dr.GetOrdinal("ganadoTotal")) : 0;
+                    Item.Cantidad = !dr.IsDBNull(dr.GetOrdinal("Cantidad")) ? dr.GetDecimal(dr.GetOrdinal("Cantidad")) : 0;
+                    Item.Genero = !dr.IsDBNull(dr.GetOrdinal("Genero")) ? dr.GetString(dr.GetOrdinal("Genero")) : string.Empty;
                     Item.TotalKilos = !dr.IsDBNull(dr.GetOrdinal("totalKilos")) ? dr.GetDecimal(dr.GetOrdinal("totalKilos")) : 0;
                     Item.PrecioPorKilo = !dr.IsDBNull(dr.GetOrdinal("precioKilo")) ? dr.GetDecimal(dr.GetOrdinal("precioKilo")) : 0;
                     Item.Subtotal = !dr.IsDBNull(dr.GetOrdinal("precioTotal")) ? dr.GetDecimal(dr.GetOrdinal("precioTotal")) : 0;
+
+                    Lista.Add(Item);
+                }
+                dr.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<ComprobanteCompraPagosModels> GetComprobanteCompraDetallesPagos(CompraModels Compra)
+        {
+            try
+            {
+                List<ComprobanteCompraPagosModels> Lista = new List<ComprobanteCompraPagosModels>();
+                ComprobanteCompraPagosModels Item;
+                object[] parametros = { Compra.IDCompra };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_ComprobanteCompraDetallesPagos", parametros);
+
+                while (dr.Read())
+                {
+                    Item = new ComprobanteCompraPagosModels();
+                    Item.FormaPago = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    Item.FechaPago = !dr.IsDBNull(dr.GetOrdinal("fecha")) ? dr.GetString(dr.GetOrdinal("fecha")) : string.Empty;
+                    Item.MontoPagado = !dr.IsDBNull(dr.GetOrdinal("monto")) ? dr.GetDecimal(dr.GetOrdinal("monto")) : 0;
 
                     Lista.Add(Item);
                 }

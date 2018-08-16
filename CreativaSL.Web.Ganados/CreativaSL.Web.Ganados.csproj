@@ -1590,6 +1590,7 @@
     <Compile Include="Models\CompraModels.cs" />
     <Compile Include="Models\ComprobanteCompraCabeceraModels.cs" />
     <Compile Include="Models\ComprobanteCompraDetallesModels.cs" />
+    <Compile Include="Models\ComprobanteCompraPagosModels.cs" />
     <Compile Include="Models\Comun.cs" />
     <Compile Include="Models\ConciliacionAlmacenDetalleModel.cs" />
     <Compile Include="Models\ConciliacionAlmacenModels.cs" />
