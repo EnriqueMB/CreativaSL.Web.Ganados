@@ -632,7 +632,7 @@ namespace CreativaSL.Web.Ganados.Models
                 while (dr.Read())
                 {
                     Item = new DocumentosPorCobrarDetallePagosModels();
-                    Item.Id_documentoPorCobrarDetallePagos = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorPagarDetallePagos")) ? dr.GetString(dr.GetOrdinal("id_documentoPorPagarDetallePagos")) : string.Empty;
+                    Item.Id_documentoPorCobrarDetallePagos = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorCobrarDetallePagos")) ? dr.GetString(dr.GetOrdinal("id_documentoPorCobrarDetallePagos")) : string.Empty;
                     Item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
                     Item.Monto = !dr.IsDBNull(dr.GetOrdinal("monto")) ? dr.GetDecimal(dr.GetOrdinal("monto")) : 0;
                     Item.fecha = !dr.IsDBNull(dr.GetOrdinal("fecha")) ? dr.GetDateTime(dr.GetOrdinal("fecha")) : DateTime.Now;
@@ -817,6 +817,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     DocumentosPorCobrarModels.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     DocumentosPorCobrarModels.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    DocumentosPorCobrarModels.pendiente = !dr.IsDBNull(dr.GetOrdinal("pendiente")) ? dr.GetDecimal(dr.GetOrdinal("pendiente")) : 0;
                     DocumentosPorCobrarModels.Completado = true;
                 }
                 dr.Close();
@@ -861,6 +862,32 @@ namespace CreativaSL.Web.Ganados.Models
         #endregion
 
         #region Del Documento por cobrar pago
+        public DocumentosPorCobrarDetallePagosModels EliminarPagoDocumentoPorCobrar(DocumentosPorCobrarDetallePagosModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.Id_documentoPorCobrarDetallePagos,datos.Id_documentoPorCobrar, datos.Usuario
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_DocumentoPorCobrar_DEL_DetallesPago", parametros);
+                if (aux != null)
+                {
+                    int Resultado = 0;
+                    int.TryParse(aux.ToString(), out Resultado);
+                    if (Resultado == 1)
+                    {
+                        datos.Completado = true;
+                    }
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
         #region Compra
         public DocumentosPorCobrarDetallePagosModels DEL_ComprobanteCompra(DocumentosPorCobrarDetallePagosModels DocumentosPorCobrarModels)
         {
@@ -887,7 +914,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
-        #endregion
+       
         #region Del Producto/Servicio compra
         public DocumentosPorCobrarDetalleModels DEL_ProductoServicioCompra(DocumentosPorCobrarDetalleModels DocumentosPorCobrarModels)
         {

@@ -14,7 +14,6 @@ namespace CreativaSL.Web.Ganados.Models
         public string Id_documentoPorCobrarDetallePagos { get; set; }
         public string Id_documentoPorCobrar { get; set; }
         public int Id_formaPago { get; set; }
-
         public decimal Monto { get; set; }
         public string Observacion { get; set; }
         public DateTime fecha { get; set; }
