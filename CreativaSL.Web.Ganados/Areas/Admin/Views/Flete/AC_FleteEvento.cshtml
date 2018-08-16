@@ -176,11 +176,11 @@
                                     </div>
 
                                     <div class="controlError col-md-6">
-                                        <label class="col-md-2 control-label">Tipo de deduccion</label>
+                                        <label class="col-md-2 control-label">Tipo de deducción</label>
                                         <div class="col-md-10 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.DropDownListFor(model => model.Id_TipoDeDeduccion, new SelectList(Model.ListaDeTiposDeduccion, "IDTipoClasificacionGasto", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                @Html.DropDownListFor(model => model.Id_TipoDeDeduccion, new SelectList(Model.ListaDeTiposDeduccion, "Id_tipoClasificacionCobro", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
                                             </div>
                                             @Html.ValidationMessageFor(model => model.Id_TipoDeDeduccion)
                                             <span class="help-block">Seleccione un tipo de deducción.</span>

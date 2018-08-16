@@ -38,9 +38,7 @@
                             var fecha = dia + '-' + mes + '-' + año;
                         }
 
-                        return type === "display" || type === "filter" ?
-                            fecha :
-                            data;
+                        return fecha;
                     }
                 },
                 { "data": "horaDeteccion" },

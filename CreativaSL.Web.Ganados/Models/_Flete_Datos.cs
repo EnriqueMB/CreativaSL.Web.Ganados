@@ -99,7 +99,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        public SqlDataReader GetEventoXIDFlete(FleteModels Flete)
+        public string GetEventoXIDFlete(FleteModels Flete)
         {
             try
             {
@@ -109,8 +109,10 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_Eventos", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
-                return dr;
+
+                return datatable;
             }
             catch (Exception ex)
             {
@@ -333,20 +335,20 @@ namespace CreativaSL.Web.Ganados.Models
 
         #endregion
         #region Tipos deduccion
-        public List<CatTipoClasificacionModels> GetTiposDeduccion(EventoFleteModels EventoFlete)
+        public List<CatTipoClasificacionCobroModels> GetTiposDeduccion(EventoFleteModels EventoFlete)
         {
             try
             {
-                CatTipoClasificacionModels item;
-                List<CatTipoClasificacionModels> lista = new List<CatTipoClasificacionModels>();
+                CatTipoClasificacionCobroModels item;
+                List<CatTipoClasificacionCobroModels> lista = new List<CatTipoClasificacionCobroModels>();
 
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(EventoFlete.Conexion, "spCSLDB_Combo_get_CatTipoClasificacionAll");
+                dr = SqlHelper.ExecuteReader(EventoFlete.Conexion, "spCSLDB_Combo_get_CatTipoClasificacionCobro");
                 while (dr.Read())
                 {
-                    item = new CatTipoClasificacionModels();
+                    item = new CatTipoClasificacionCobroModels();
 
-                    item.IDTipoClasificacionGasto = !dr.IsDBNull(dr.GetOrdinal("IDTipoClasificacion")) ? dr.GetInt32(dr.GetOrdinal("IDTipoClasificacion")) : 0;
+                    item.Id_tipoClasificacionCobro = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetInt16(dr.GetOrdinal("ID")) : 0;
                     item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
 
                     lista.Add(item);
@@ -1592,8 +1594,8 @@ namespace CreativaSL.Web.Ganados.Models
                 object[] parametros =
                 {
                     Evento.Id_eventoFlete,      Evento.Id_flete,
-                    Evento.Id_tipoEvento,       Evento.AplicaDeduccion,
-                    Evento.AplicaGanado,        Evento.Cantidad,
+                    Evento.Id_tipoEvento,       
+                    Evento.Cantidad,
                     Evento.Lugar,               Evento.FechaDeteccion,
                     Evento.HoraDeteccion,       Evento.Observacion,
                     Evento.ImagenBase64,        Evento.ListaIDGanadosDelEvento,
