@@ -541,7 +541,45 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
-        #region Tipos deduccion
+        #region Tipos deduccion venta
+        /// <summary>
+        /// la deducción de la venta de ganado
+        /// </summary>
+        /// <param name="Venta"></param>
+        /// <returns></returns>
+        public List<CatTipoClasificacionCobroModels> GetTiposDeduccionVentaGanado(VentaModels2 Venta)
+        {
+            try
+            {
+                CatTipoClasificacionCobroModels item;
+                List<CatTipoClasificacionCobroModels> lista = new List<CatTipoClasificacionCobroModels>();
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Combo_get_CatTipoClasificacionCobro");
+                while (dr.Read())
+                {
+                    item = new CatTipoClasificacionCobroModels();
+
+                    item.Id_tipoClasificacionCobro = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetInt16(dr.GetOrdinal("ID")) : 0;
+                    item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+
+                    lista.Add(item);
+                }
+                dr.Close();
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region Tipos deduccion venta
+        /// <summary>
+        /// la deducción de la venta que absorvera la empresa, por lo tanto es un documento por pagar
+        /// </summary>
+        /// <param name="Venta"></param>
+        /// <returns></returns>
         public List<CatTipoClasificacionModels> GetTiposDeduccion(VentaModels2 Venta)
         {
             try
@@ -550,7 +588,7 @@ namespace CreativaSL.Web.Ganados.Models
                 List<CatTipoClasificacionModels> lista = new List<CatTipoClasificacionModels>();
 
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Combo_get_CatTipoClasificacionAll");
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Combo_get_CatTipoClasificacionCobro");
                 while (dr.Read())
                 {
                     item = new CatTipoClasificacionModels();
@@ -1037,8 +1075,6 @@ namespace CreativaSL.Web.Ganados.Models
                     Venta.EventoVenta.HoraDeteccion = !dr.IsDBNull(dr.GetOrdinal("horaDeteccion")) ? dr.GetTimeSpan(dr.GetOrdinal("horaDeteccion")) : DateTime.Now.TimeOfDay;
                     Venta.EventoVenta.Observacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
                     Venta.EventoVenta.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagenBase64")) ? dr.GetString(dr.GetOrdinal("imagenBase64")) : string.Empty;
-                    Venta.EventoVenta.AplicaDeduccion = !dr.IsDBNull(dr.GetOrdinal("aplicarDeduccion")) ? dr.GetBoolean(dr.GetOrdinal("aplicarDeduccion")) : false;
-                    Venta.EventoVenta.AplicaGanado = !dr.IsDBNull(dr.GetOrdinal("aplicaGanado")) ? dr.GetBoolean(dr.GetOrdinal("aplicaGanado")) : false;
                     Venta.EventoVenta.MontoDeduccion = !dr.IsDBNull(dr.GetOrdinal("deduccion")) ? dr.GetDecimal(dr.GetOrdinal("deduccion")) : 0;
                     Venta.EventoVenta.Id_TipoDeDeduccion = !dr.IsDBNull(dr.GetOrdinal("id_tipoDeduccion")) ? dr.GetInt16(dr.GetOrdinal("id_tipoDeduccion")) : 0;
                 }
@@ -1611,8 +1647,8 @@ namespace CreativaSL.Web.Ganados.Models
                 object[] parametros =
                 {
                     Evento.Id_eventoVenta,      Evento.Id_venta,
-                    Evento.Id_tipoEvento,       Evento.AplicaDeduccion,
-                    Evento.AplicaGanado,        Evento.Cantidad,
+                    Evento.Id_tipoEvento,       
+                    Evento.Cantidad,
                     Evento.Lugar,               Evento.FechaDeteccion,
                     Evento.HoraDeteccion,       Evento.Observacion,
                     Evento.ImagenBase64,        Evento.ListaIDGanadosDelEvento,

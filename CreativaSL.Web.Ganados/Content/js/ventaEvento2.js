@@ -23,7 +23,7 @@
             maxFileCount: 1,
             overwriteInitial: true,
             showUploadedThumbs: false,
-            allowedFileExtensions: ['png', 'jpg', 'jpeg', 'bmp'],
+            allowedFileExtensions: ['png','jpg','jpeg','bmp'],
             initialPreview: [
                 '<img class="file-preview-image"  style=" width: auto !important; height: auto; max-width: 100%; max-height: 100%;" src="data:' + ExtensionImagen + ' ;base64,' + Imagen + '" />'
             ],
@@ -39,6 +39,17 @@
         $('#HttpImagen').on('fileclear', function (event) {
             document.getElementById("ImagenMostrar").value = "";
         });
+        $('#AplicaDeduccion').on('change', function (event) {
+            var opcion = $(this).val();
+            ToggleDivDeduccion(opcion);
+        });
+        $('#AplicaGanado').on('change', function (event) {
+            var opcion = $(this).val();
+            ToggleDivGanado(opcion);
+        });
+        
+        ToggleDivDeduccion(opcionDeduccion);
+        ToggleDivGanado(opcionGanado);
 
         tblGanadoCargado = $('#tblGanadoCargado').DataTable({
             "language": {
@@ -69,6 +80,7 @@
                     "searchable": false
                 }
             ]
+
         });
 
         tblGanadoConEvento = $('#tblGanadoConEvento').DataTable({
@@ -118,10 +130,10 @@
                 var d = rows[i];
 
                 tblGanadoConEvento.row.add({
-                    "id_ganado": d.id_ganado,
-                    "numArete": d.numArete,
-                    "genero": d.genero,
-                    "pesoPagado": d.pesoPagado,
+                    "id_ganado": d.id_ganado,               
+                    "numArete": d.numArete,                 
+                    "genero": d.genero,                     
+                    "pesoPagado": d.pesoPagado,     
                     "precioKilo": d.precioKilo,
                     "subtotal": d.subtotal
                 }).draw();
@@ -144,11 +156,11 @@
                         break;
                     }
                 }
-                if (flag_mismoGanado === false) {
+                if(flag_mismoGanado === false){
                     tblGanadoCargado.row.add({
-                        "id_ganado": d.id_ganado,
-                        "numArete": d.numArete,
-                        "genero": d.genero,
+                        "id_ganado": d.id_ganado,               
+                        "numArete": d.numArete,                 
+                        "genero": d.genero,                     
                         "pesoPagado": d.pesoPagado,
                         "precioKilo": d.precioKilo,
                         "subtotal": d.subtotal
@@ -173,17 +185,18 @@
             var AplicaGanado = $("#AplicaGanado");
             var tblGanado = $("#tblGanadoConEvento");
             var Id_TipoDeDeduccion = $("#Id_TipoDeDeduccion");
-            var ganado = tblGanadoConEvento.rows().data();
 
             var expRegularFecha = /^([0-2][0-9]|3[0-1])(\/)(0[1-9]|1[0-2])\2(\d{4})$/i;
             var expRegularHora = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/i;
-            var expRegularMonto = /^([0-9]+)?([.][0-9]{1,2})?$/i;
+            var expRegularMonto = /^0[.][0-9]{1,2}$|[1-9]([0-9]+)?([.][0-9]{1,2})?$/i;
 
             var opcion_Id_tipoEvento = Id_tipoEvento.val();
             var value_HoraDeteccion = HoraDeteccion.val();
             var value_Lugar = Lugar.val();
             var value_FechaDeteccion = FechaDeteccion.val();
+            var opcion_AplicaDeduccion = AplicaDeduccion.val();
             var value_MontoDeduccion = MontoDeduccion.val();
+            var opcion_AplicaGanado = AplicaGanado.val();
             var opcion_Id_TipoDeDeduccion = Id_TipoDeDeduccion.val();
             var flag_errorTipoEvento = 0;
             var flag_errorLugar = 0;
@@ -197,6 +210,8 @@
             value_HoraDeteccion = String(value_HoraDeteccion);
             value_Lugar = String(value_Lugar);
             value_FechaDeteccion = String(value_FechaDeteccion);
+            opcion_AplicaDeduccion = String(opcion_AplicaDeduccion);
+            opcion_AplicaGanado = String(opcion_AplicaGanado);
             opcion_Id_TipoDeDeduccion = String(opcion_Id_TipoDeDeduccion);
 
             if (opcion_Id_tipoEvento.localeCompare("0") == 0) {
@@ -242,48 +257,61 @@
             }
 
             //validando monto, siempre y cuando este seleccionado
-            if (isNaN(value_MontoDeduccion)) 
-            {
-                MontoDeduccion.closest('.controlError').removeClass('has-success').addClass("has-error");
-                $("#ddMonto").show(0);
-                flag_errorDeduccion = 1;
-            } 
-            else 
-            {
-                var validarExpreMonto = expRegularMonto.test(value_MontoDeduccion);
-                
-                //validando con la expresión regular positivo, con solo 2 digitos 
-                if (validarExpreMonto === false) {
+            if (opcion_AplicaDeduccion.localeCompare("true") == 0) {
+                //No es un número
+                if(isNaN(value_MontoDeduccion)){
                     MontoDeduccion.closest('.controlError').removeClass('has-success').addClass("has-error");
                     $("#ddMonto").show(0);
                     flag_errorDeduccion = 1;
-                }
-                else {
-                    MontoDeduccion.closest('.controlError').removeClass('has-error').addClass("has-success");
-                    $("#ddMonto").hide(0);
-                    flag_errorDeduccion = 0;
-                }
-
-                if (opcion_Id_TipoDeDeduccion.localeCompare("0") == 0) {
-                    Id_TipoDeDeduccion.closest('.controlError').removeClass('has-success').addClass("has-error");
-                    $("#ddTipoDeduccion").show(0);
-                    flag_errorTipoDeduccion = 1
                 } else {
-                    Id_TipoDeDeduccion.closest('.controlError').removeClass('has-error').addClass("has-success");
-                    $("#ddTipoDeduccion").hide(0);
-                    flag_errorTipoDeduccion = 0;
+                    var validarExpreMonto = expRegularMonto.test(value_MontoDeduccion);
+                    //validando con la expresión regular positivo, con solo 2 digitos 
+                    if (validarExpreMonto === false) {
+                        MontoDeduccion.closest('.controlError').removeClass('has-success').addClass("has-error");
+                        $("#ddMonto").show(0);
+                        flag_errorDeduccion = 1;
+                    }
+                    else {
+                        MontoDeduccion.closest('.controlError').removeClass('has-error').addClass("has-success");
+                        $("#ddMonto").hide(0);
+                        flag_errorDeduccion = 0;
+                    }
+
+                    if (opcion_Id_TipoDeDeduccion.localeCompare("0") == 0) {
+                        Id_TipoDeDeduccion.closest('.controlError').removeClass('has-success').addClass("has-error");
+                        $("#ddTipoDeduccion").show(0);
+                        flag_errorTipoDeduccion = 1
+                    } else {
+                        Id_TipoDeDeduccion.closest('.controlError').removeClass('has-error').addClass("has-success");
+                        $("#ddTipoDeduccion").hide(0);
+                        flag_errorTipoDeduccion = 0;
+                    }
+
+
                 }
+            } else {
+                MontoDeduccion.closest('.controlError').removeClass('has-success has-error');
+                $("#ddMonto").hide(0);
+                flag_errorDeduccion = 0;
+                $("#ddTipoDeduccion").hide(0);
+                flag_errorTipoDeduccion = 0;
             }
 
-           if (ganado.length == 0) 
-           {
-                tblGanado.removeClass('successTableCSL').addClass("errorTableCSL");
-                $("#ddGanado").show(0);
-                flag_errorGanado = 1;
-            } 
-            else 
-            {
-                tblGanado.removeClass('errorTableCSL').addClass("successTableCSL");
+            //esta activo la opcion de aplica ganado?
+            if (opcion_AplicaGanado.localeCompare("true") == 0) {
+                var ganado = tblGanadoConEvento.rows().data();
+                //checamos si tiene alguna fila o ganado seleccionado
+                if (ganado.length == 0) {
+                    tblGanado.removeClass('successTableCSL').addClass("errorTableCSL");
+                    $("#ddGanado").show(0);
+                    flag_errorGanado = 1;
+                } else {
+                    tblGanado.removeClass('errorTableCSL').addClass("successTableCSL");
+                    $("#ddGanado").hide(0);
+                    flag_errorGanado = 0;
+                }
+            } else {
+                tblGanado.removeClass('successTableCSL errorTableCSL');
                 $("#ddGanado").hide(0);
                 flag_errorGanado = 0;
             }
@@ -321,6 +349,25 @@
             }
         });
     }
+
+    function ToggleDivDeduccion(opcion) {
+        if (opcion.localeCompare("true") == 0) {
+            $('#divDeducciones').show(1000);
+        }
+        else if(opcion.localeCompare("false") == 0) {
+            $('#divDeducciones').hide(1000);
+        }
+    }
+    function ToggleDivGanado(opcion) {
+        if (opcion.localeCompare("true") == 0) {
+            $('#divGanado').show(1000);
+        }
+        else if (opcion.localeCompare("false") == 0) {
+            $('#divGanado').hide(1000);
+        }
+    }
+    
+ 
 
     /*TERMINA EVENTO*/
 

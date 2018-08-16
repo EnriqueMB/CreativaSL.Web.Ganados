@@ -3005,9 +3005,10 @@ namespace CreativaSL.Web.Ganados.Models
                 while (dr.Read())
                 {
                     Item = new ComprobanteCompraDetallesModels();
-                    Item.Concepto = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
-                    Item.Cantidad = !dr.IsDBNull(dr.GetOrdinal("cantidad")) ? dr.GetDecimal(dr.GetOrdinal("cantidad")) : 0;
-                    Item.Subtotal = !dr.IsDBNull(dr.GetOrdinal("subtotal")) ? dr.GetDecimal(dr.GetOrdinal("subtotal")) : 0;
+                    Item.Cantidad = !dr.IsDBNull(dr.GetOrdinal("ganadoTotal")) ? dr.GetDecimal(dr.GetOrdinal("ganadoTotal")) : 0;
+                    Item.TotalKilos = !dr.IsDBNull(dr.GetOrdinal("totalKilos")) ? dr.GetDecimal(dr.GetOrdinal("totalKilos")) : 0;
+                    Item.PrecioPorKilo = !dr.IsDBNull(dr.GetOrdinal("precioKilo")) ? dr.GetDecimal(dr.GetOrdinal("precioKilo")) : 0;
+                    Item.Subtotal = !dr.IsDBNull(dr.GetOrdinal("precioTotal")) ? dr.GetDecimal(dr.GetOrdinal("precioTotal")) : 0;
 
                     Lista.Add(Item);
                 }

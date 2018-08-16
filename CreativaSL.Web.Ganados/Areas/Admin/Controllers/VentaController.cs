@@ -415,7 +415,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             else
             {
                 TempData["typemessage"] = "2";
-                TempData["message"] = "No se pudo cambiar el estatus de la venta.";
+                if (string.IsNullOrEmpty(Venta.RespuestaAjax.Mensaje))
+                {
+                    TempData["message"] = "No se pudo cambiar el estatus de la venta.";
+                }
+                else
+                {
+                    TempData["message"] = Venta.RespuestaAjax.Mensaje;
+                }
             }
 
             return RedirectToAction("Index");
@@ -753,7 +760,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         }
                         Venta.EventoVenta.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Venta.EventoVenta.ImagenMostrar);
                         //aqui pondriamos alguna lista o valores de cargar si esta todo correcto
-                        Venta.EventoVenta.ListaDeTiposDeduccion = VentaDatos.GetTiposDeduccion(Venta);
+                        Venta.EventoVenta.ListaDeTiposDeduccion = VentaDatos.GetTiposDeduccionVentaGanado(Venta);
                         Venta.EventoVenta.ListaTiposEventos = VentaDatos.GetTiposEventos(Venta);
                         return View(Venta.EventoVenta);
                     }

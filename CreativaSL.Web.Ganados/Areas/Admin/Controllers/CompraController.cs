@@ -845,8 +845,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             else
             {
+                if(string.IsNullOrEmpty(Compra.RespuestaAjax.Mensaje))
+                {
+                    TempData["message"] = "No se pudo cambiar el estatus de la compra";
+                }
+                else
+                {
+                    TempData["message"] = Compra.RespuestaAjax.Mensaje;
+                }
                 TempData["typemessage"] = "2";
-                TempData["message"] = "No se pudo cambiar el estatus de la compra";
+                
             }
 
             return RedirectToAction("Index", "Compra");
