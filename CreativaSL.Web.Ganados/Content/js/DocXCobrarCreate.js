@@ -28,6 +28,8 @@
                 Id_sucursal: { required: true },
                 Fecha: { required: true },
                 Id_tipoDocumento: { CMBINT: true },
+                 IDTProveedor: { CMBINT: true },
+                IDProveedor:{required:true},
                 Id_metodoPago: { required: true },
                 Total: {
                     required: true,
@@ -44,6 +46,8 @@
                 },
                 Fecha: { required: "*Seleccione una fecha" },
                 Id_tipoDocumento: { CMBINT: "*Seleccione un tipo de documento" },
+                IDTProveedor: { CMBINT: "*Seleccione un tipo de proveedor" },
+                IDProveedor: { required: "*Seleccione un proveedor" },
                 Id_metodoPago: { required: "*Seleccione un tipo de proveedor" },
                 Total: { required: "*Ingrese una cantidad", min: "*Ingrese numeros mayores a 1" }
 
@@ -84,11 +88,41 @@
             format: 'yyyy/mm/dd'
         });
     };    
+    var runCombos = function () {
 
+        $('#IDTProveedor').on('change', function (event) {
+            $("#IDProveedor option").remove();
+            getDatosRegimen($("#IDTProveedor").val());
+        });
+        // $("#IDPuesto").trigger('change');
+        //$("#IDPuesto").change(function () {
+        //    $("#IDCategoriaPuesto option").remove();
+        //    getDatosRegimen($("#IDPuesto").val());
+        //});
+        function getDatosRegimen(IDPuesto) {
+            $.ajax({
+                url: "/Admin/DocumentoXPagar/ObtenerProveedoresXID",
+                data: { IDP: IDPuesto },
+                async: false,
+                dataType: "json",
+                type: "POST",
+                error: function () {
+                    Mensaje("Ocurrió un error al cargar el combo", "1");
+                },
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $("#IDProveedor").append('<option value="' + result[i].IDProveedor + '">' + result[i].NombreRazonSocial + '</option>');
+                    }
+                    $('#IDProveedor.select').selectpicker('refresh');
+                }
+            });
+        }
+    };
     return {
         //main function to initiate template pages
         init: function () {
-            runValidator1();            
+            runValidator1();
+            runCombos();
         }
     };
 }();

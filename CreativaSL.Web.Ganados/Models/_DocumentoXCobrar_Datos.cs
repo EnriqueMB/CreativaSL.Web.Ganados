@@ -569,12 +569,13 @@ namespace CreativaSL.Web.Ganados.Models
                             datos.Opcion,
                             datos.Id_documentoCobrar ?? string.Empty,
                             datos.Id_sucursal ?? string.Empty,
-                            datos.EstatusNombre,
                             datos.Fecha,
                             datos.Usuario,
                             datos.Id_tipoDocumento,
                             datos.Id_metodoPago,
-                            datos.Total
+                            datos.Total,
+                            datos.IDTProveedor,
+                            datos.IDProveedor
                 };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_DocumentoPorCobrar_AC", parametros);
 
@@ -595,7 +596,58 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public List<CatTipoProveedorModels> ObteneComboCatTipoProveedor(string Conexion)
+        {
+            try
+            {
+                List<CatTipoProveedorModels> lista = new List<CatTipoProveedorModels>();
+                CatTipoProveedorModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Combo_get_CatTipoProveedor");
+                // lista.Add(new CatGeneroModels { IDGenero = string.Empty, NombreSucursal = " - Seleccione -" });
+                while (dr.Read())
+                {
+                    item = new CatTipoProveedorModels();
+                    item.IDTipoProveedor = !dr.IsDBNull(dr.GetOrdinal("id_tipoProveedor")) ? dr.GetInt32(dr.GetOrdinal("id_tipoProveedor")) : 0;
+                    item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<CatProveedorModels> ObteneComboProveedoresXID(DocumentosPorCobrarModels Datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Datos.IDTProveedor,
 
+                };
+                CatProveedorModels item;
+                List<CatProveedorModels> lista = new List<CatProveedorModels>();
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Combo_get_CatTipoProveedorXID", parametros);
+                while (dr.Read())
+                {
+                    item = new CatProveedorModels();
+                    item.IDProveedor = !dr.IsDBNull(dr.GetOrdinal("id_proveedor")) ? dr.GetString(dr.GetOrdinal("id_proveedor")) : string.Empty;
+                    item.NombreRazonSocial = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+
+                    lista.Add(item);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
         public List<ListaGenerica> GetGeneralesDocumentoPorCobrarPago(DocumentosPorCobrarDetalleModels DocumentosPorCobrarModels)
         {
             try
