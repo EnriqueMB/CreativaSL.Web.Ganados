@@ -293,6 +293,30 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
+        #region DatatableDetallesDocumentoPorCobrarFlete
+        [HttpPost]
+        public ContentResult DatatableDetallesDocumentoPorCobrarFleteDeduccions(string Id_flete, string Id_documentoCobrar)
+        {
+            try
+            {
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                Flete.Conexion = Conexion;
+                Flete.id_flete = Id_flete;
+                Flete.Id_documentoPorCobrar = Id_documentoCobrar;
+                Flete.RespuestaAjax.Mensaje = FleteDatos.DatatableDetallesDocumentoPorCobrarFleteDeduccions(Flete);
+
+                return Content(Flete.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                Flete.RespuestaAjax.Mensaje = Mensaje;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
         #region DatatableDetallesDocumentoPorCobrarFleteCobros
         [HttpPost]
         public ContentResult DatatableDetallesDocumentoPorCobrarFleteCobros(string Id_flete, string Id_documentoCobrar)
@@ -318,7 +342,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         #endregion
         [HttpPost]
-        public ActionResult DatatableGanadoEnFlete(string Id_flete, string Id_eventoFlete)
+        public ActionResult DatatableGanadoEnFlete(string Id_flete, int Id_eventoFlete)
         {
             try
             {
@@ -345,7 +369,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpPost]
-        public ActionResult DatatableGanadoConEvento(string Id_flete, string Id_eventoFlete)
+        public ActionResult DatatableGanadoConEvento(string Id_flete, int Id_eventoFlete)
         {
             try
             {
@@ -353,6 +377,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 EventoFleteModels EventoFlete = new EventoFleteModels();
                 EventoFlete.RespuestaAjax = new RespuestaAjax();
                 EventoFlete.Id_flete = Id_flete;
+                EventoFlete.Conexion = Conexion;
                 EventoFlete.Id_eventoFlete = Id_eventoFlete;
                 EventoFlete.RespuestaAjax.Mensaje = FleteDatos.DatatableGanadoConEvento(EventoFlete);
                 EventoFlete.RespuestaAjax.Success = true;
@@ -637,7 +662,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         
         #region Vista Evento
         [HttpGet]
-        public ActionResult AC_FleteEvento(string IDFlete, string Id_eventoFlete)
+        public ActionResult AC_FleteEvento(string IDFlete, int Id_eventoFlete)
         {
             try
             {
@@ -767,6 +792,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     TransaccionesFlete.Id_flete = Id_flete;
                     TransaccionesFlete.RespuestaAjax = new RespuestaAjax();
                     TransaccionesFlete = FleteDatos.GetTransacciones(TransaccionesFlete);
+
                     if (TransaccionesFlete.RespuestaAjax.Success)
                     {
                         return View(TransaccionesFlete);
@@ -2343,6 +2369,22 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 FleteDetalle.Conexion = Conexion;
                 FleteDetalle = FleteDatos.Get_detallesFlete(FleteDetalle);
 
+                TransaccionesFleteModels Transacciones = new TransaccionesFleteModels();
+                Transacciones.RespuestaAjax = new RespuestaAjax();
+                Transacciones.Conexion = Conexion;
+                Transacciones.Id_flete = Id_1;
+                Transacciones = FleteDatos.GetTransacciones(Transacciones);
+
+                FleteDetalle.Total = Transacciones.DocumentosPorCobrar.Total;
+                FleteDetalle.TotalPercepciones = Transacciones.DocumentosPorCobrar.TotalPercepciones;
+                FleteDetalle.TotalDeducciones = Transacciones.DocumentosPorCobrar.TotalDeducciones;
+                FleteDetalle.Impuestos = Transacciones.DocumentosPorCobrar.Impuestos;
+                FleteDetalle.Subtotal = Transacciones.Subtotal;
+
+                FleteDetalle.Pendiente = Transacciones.DocumentosPorCobrar.Pendiente;
+                FleteDetalle.Pagos = Transacciones.DocumentosPorCobrar.Pagos;
+                FleteDetalle.Cambio = Transacciones.DocumentosPorCobrar.Cambio;
+
                 return View(FleteDetalle);
             }
             catch (Exception ex)
@@ -2501,6 +2543,63 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Flete.RespuestaAjax.Mensaje = ex.Message;
                 Flete.RespuestaAjax.Success = false;
                 return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Detalles_Flete_Eventos(string IDFlete, int Id_eventoFlete)
+        {
+            try
+            {
+                Token.SaveToken();
+                _Flete_Datos FleteDatos = new _Flete_Datos();
+                EventoFleteModels EventoFlete = new EventoFleteModels();
+                EventoFlete.RespuestaAjax = new RespuestaAjax();
+
+                string Id_flete = string.IsNullOrEmpty(IDFlete) ? string.Empty : IDFlete;
+                //0 = nuevo, 36 = edit, si es diferente es un id no valido
+                if (Id_flete.Length == 0 || Id_flete.Length == 36)
+                {
+                    EventoFlete.Conexion = Conexion;
+                    EventoFlete.Id_flete = Id_flete;
+                    EventoFlete.Id_eventoFlete = Id_eventoFlete;
+                    EventoFlete = FleteDatos.GetFleteEvento(EventoFlete);
+                    if (EventoFlete.RespuestaAjax.Success)
+                    {
+                        if (string.IsNullOrEmpty(EventoFlete.ImagenBase64))
+                        {
+                            EventoFlete.ImagenMostrar = Auxiliar.SetDefaultImage();
+                        }
+                        else
+                        {
+                            EventoFlete.ImagenMostrar = EventoFlete.ImagenBase64;
+                        }
+                        EventoFlete.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(EventoFlete.ImagenMostrar);
+                        //aqui pondriamos alguna lista o valores de cargar si esta todo correcto
+                        EventoFlete.ListaDeTiposDeduccion = FleteDatos.GetTiposDeduccion(EventoFlete);
+                        EventoFlete.ListaTiposEventos = FleteDatos.GetTiposEventos(EventoFlete);
+                        return View(EventoFlete);
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "No se puede cargar la vista, error: " + EventoFlete.RespuestaAjax.Mensaje;
+                        return View("Index");
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return View("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
+                return View("Index");
             }
         }
 

@@ -7,7 +7,7 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class EventoFleteModels
     {
-        public string Id_eventoFlete { get; set; }
+        public int Id_eventoFlete { get; set; }
         public string Id_flete { get; set; }
         public string Id_documentoPorCobrarDetalle { get; set; }
         public int Id_tipoEvento { get; set; }

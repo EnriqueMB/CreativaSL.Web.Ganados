@@ -205,6 +205,22 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public string DatatableDetallesDocumentoPorCobrarFleteDeduccions(FleteModels Flete)
+        {
+            try
+            {
+                object[] parametros = { Flete.id_flete, Flete.Id_documentoPorCobrar };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_DetallesDocumentoPorCobrarDeduccion", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public string DatatableDetallesDocumentoPorCobrarFleteCobro(FleteModels Flete)
         {
             try
@@ -246,6 +262,8 @@ namespace CreativaSL.Web.Ganados.Models
                         Transacciones.DocumentosPorCobrar.Impuestos = !dr.IsDBNull(dr.GetOrdinal("impuestos")) ? dr.GetDecimal(dr.GetOrdinal("impuestos")) : 0;
                         Transacciones.Subtotal = !dr.IsDBNull(dr.GetOrdinal("subtotal")) ? dr.GetDecimal(dr.GetOrdinal("subtotal")) : 0;
                         Transacciones.DocumentosPorCobrar.Total = !dr.IsDBNull(dr.GetOrdinal("total")) ? dr.GetDecimal(dr.GetOrdinal("total")) : 0;
+                        Transacciones.DocumentosPorCobrar.TotalPercepciones = !dr.IsDBNull(dr.GetOrdinal("totalPercepcion")) ? dr.GetDecimal(dr.GetOrdinal("totalPercepcion")) : 0;
+                        Transacciones.DocumentosPorCobrar.TotalDeducciones = !dr.IsDBNull(dr.GetOrdinal("totalDeduccion")) ? dr.GetDecimal(dr.GetOrdinal("totalDeduccion")) : 0;
                     }
                     else
                     {
@@ -408,7 +426,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                 if (EventoFlete.RespuestaAjax.Success)
                 {
-                    EventoFlete.Id_eventoFlete = !dr.IsDBNull(dr.GetOrdinal("id_eventoFlete")) ? dr.GetString(dr.GetOrdinal("id_eventoFlete")) : string.Empty;
+                    EventoFlete.Id_eventoFlete = !dr.IsDBNull(dr.GetOrdinal("id_eventoFlete")) ? dr.GetInt32(dr.GetOrdinal("id_eventoFlete")) : 0;
                     EventoFlete.Id_documentoPorCobrarDetalle = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorCobrarDetalle")) ? dr.GetString(dr.GetOrdinal("id_documentoPorCobrarDetalle")) : string.Empty;
                     EventoFlete.Id_tipoEvento = !dr.IsDBNull(dr.GetOrdinal("id_tipoEvento")) ? dr.GetInt32(dr.GetOrdinal("id_tipoEvento")) : 0;
                     EventoFlete.Cantidad = !dr.IsDBNull(dr.GetOrdinal("cantidad")) ? dr.GetInt32(dr.GetOrdinal("cantidad")) : 0;
@@ -417,8 +435,6 @@ namespace CreativaSL.Web.Ganados.Models
                     EventoFlete.HoraDeteccion = !dr.IsDBNull(dr.GetOrdinal("horaDeteccion")) ? dr.GetTimeSpan(dr.GetOrdinal("horaDeteccion")) : DateTime.Now.TimeOfDay;
                     EventoFlete.Observacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
                     EventoFlete.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagenBase64")) ? dr.GetString(dr.GetOrdinal("imagenBase64")) : string.Empty;
-                    EventoFlete.AplicaDeduccion = !dr.IsDBNull(dr.GetOrdinal("aplicarDeduccion")) ? dr.GetBoolean(dr.GetOrdinal("aplicarDeduccion")) : false;
-                    EventoFlete.AplicaGanado = !dr.IsDBNull(dr.GetOrdinal("aplicarGanado")) ? dr.GetBoolean(dr.GetOrdinal("aplicarGanado")) : false;
                     EventoFlete.MontoDeduccion = !dr.IsDBNull(dr.GetOrdinal("deduccion")) ? dr.GetDecimal(dr.GetOrdinal("deduccion")) : 0;
                     EventoFlete.Id_TipoDeDeduccion = !dr.IsDBNull(dr.GetOrdinal("id_tipoDeduccion")) ? dr.GetInt16(dr.GetOrdinal("id_tipoDeduccion")) : 0;
                 }
@@ -2295,6 +2311,7 @@ namespace CreativaSL.Web.Ganados.Models
                     FleteDetalles.FleteDireccionDestino = !dr.IsDBNull(dr.GetOrdinal("direccionLugarDestino")) ? dr.GetString(dr.GetOrdinal("direccionLugarDestino")) : string.Empty;
                     FleteDetalles.DocumentosPrecioDocumentacion = !dr.IsDBNull(dr.GetOrdinal("precioDocumentacion")) ? dr.GetDecimal(dr.GetOrdinal("precioDocumentacion")) : 0;
                     FleteDetalles.DocumentosTipoSalidaDocumentacion = !dr.IsDBNull(dr.GetOrdinal("tipoSalidaDocumentacion")) ? dr.GetString(dr.GetOrdinal("tipoSalidaDocumentacion")) : string.Empty;
+                    FleteDetalles.Id_documentoPorCobrar = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorCobrar")) ? dr.GetString(dr.GetOrdinal("id_documentoPorCobrar")) : string.Empty;
                 }
 
                 dr.Close();

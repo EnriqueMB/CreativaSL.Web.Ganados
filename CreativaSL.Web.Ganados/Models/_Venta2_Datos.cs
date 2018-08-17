@@ -588,12 +588,41 @@ namespace CreativaSL.Web.Ganados.Models
                 List<CatTipoClasificacionModels> lista = new List<CatTipoClasificacionModels>();
 
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Combo_get_CatTipoClasificacionCobro");
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Combo_get_CatTipoClasificacionAll");
                 while (dr.Read())
                 {
                     item = new CatTipoClasificacionModels();
 
                     item.IDTipoClasificacionGasto = !dr.IsDBNull(dr.GetOrdinal("IDTipoClasificacion")) ? dr.GetInt32(dr.GetOrdinal("IDTipoClasificacion")) : 0;
+                    item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+
+                    lista.Add(item);
+                }
+                dr.Close();
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region Tipos deduccion venta
+        public List<CatTipoClasificacionCobroModels> GetTiposDeduccionCobro(VentaModels2 Venta)
+        {
+            try
+            {
+                CatTipoClasificacionCobroModels item;
+                List<CatTipoClasificacionCobroModels> lista = new List<CatTipoClasificacionCobroModels>();
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Combo_get_CatTipoClasificacionCobro");
+                while (dr.Read())
+                {
+                    item = new CatTipoClasificacionCobroModels();
+
+                    item.Id_tipoClasificacionCobro = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetInt16(dr.GetOrdinal("ID")) : 0;
                     item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
 
                     lista.Add(item);

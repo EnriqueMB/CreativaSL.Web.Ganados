@@ -75,7 +75,7 @@
             "drawCallback": function (settings) {
                 $(".edit").on("click", function () {
                     var id_evento = $(this).data("id");
-                    ModalEvento(id_evento);
+                    window.location.href = '/Admin/Flete/AC_FleteEvento?IDFlete=' + IDFlete + '&Id_eventoFlete=' + id_evento;
                 });
                 $(".delete").on("click", function () {
                     var url = $(this).attr('data-hrefa');

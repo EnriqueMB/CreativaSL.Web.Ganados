@@ -8,6 +8,7 @@ namespace CreativaSL.Web.Ganados.Models
     public class FleteDetallesModels
     {
         public string Id_flete { get; set; }
+        public string Id_documentoPorCobrar { get; set; }
         public string FleteFolio { get; set; }
         public string FleteSucursal { get; set; }
         public string FleteFecha { get; set; }
@@ -31,5 +32,15 @@ namespace CreativaSL.Web.Ganados.Models
         public string  DocumentosTipoSalidaDocumentacion { get; set; }
 
         public string Conexion { get; set; }
+
+        public decimal TotalPercepciones { get; set; }
+        public decimal TotalDeducciones { get; set; }
+        public decimal Total { get; set; }
+        public decimal Impuestos { get; set; }
+        public decimal Subtotal { get; set; }
+
+        public decimal Pendiente { get; set; }
+        public decimal Cambio { get; set; }
+        public decimal Pagos { get; set; }
     }
 }

@@ -17,6 +17,7 @@ namespace CreativaSL.Web.Ganados.Models
         public decimal PrecioUnitarioDocumentacion { get; set; }
         public int Id_conceptoSalidaDeduccion { get; set; }
         public List<CatTipoClasificacionModels> ListaConceptosSalidaDeduccion { get; set; }
+        public List<CatTipoClasificacionCobroModels> ListaConceptosSalidaDeduccionCobro { get; set; }
 
         public RespuestaAjax RespuestaAjax { get; set; }
         public string Conexion { get; set; }

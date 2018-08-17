@@ -16,6 +16,9 @@ namespace CreativaSL.Web.Ganados.Models
             ListaDocumentos = new List<DocumentosPorCobrarModels>();
         }
 
+        public decimal TotalDeducciones { get; set; }
+        public decimal TotalPercepciones { get; set; }
+
         public string Id_documentoCobrar { get; set; }
         public int Id_tipoDocumento { get; set; }
         public int id_tipoConciliacion { get; set; }
@@ -54,8 +57,6 @@ namespace CreativaSL.Web.Ganados.Models
         public string NumeroFactura { get; set; }
         
         public DocumentosPorCobrarModels DocumentoPorCobraFlete;
-
-       
 
         private List<DocumentosPorCobrarModels> _ListaDocumentos;
         public List<DocumentosPorCobrarModels> ListaDocumentos
