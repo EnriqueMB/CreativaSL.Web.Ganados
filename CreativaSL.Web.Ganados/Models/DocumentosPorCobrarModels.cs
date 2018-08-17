@@ -52,7 +52,34 @@ namespace CreativaSL.Web.Ganados.Models
         public bool Completado { get; set; }
 
         public string NumeroFactura { get; set; }
-        
+        private string _IDProveedor;
+
+        public string IDProveedor
+        {
+            get { return _IDProveedor; }
+            set { _IDProveedor = value; }
+        }
+        private List<CatTipoProveedorModels> _LisTipoProveedor;
+
+        public List<CatTipoProveedorModels> LisTipoProveedor
+        {
+            get { return _LisTipoProveedor; }
+            set { _LisTipoProveedor = value; }
+        }
+
+        private List<CatProveedorModels> _LisProveedor;
+
+        public List<CatProveedorModels> LisProveedor
+        {
+            get { return _LisProveedor; }
+            set { _LisProveedor = value; }
+        }
+        private int _IDTProveedor;
+        public int IDTProveedor
+        {
+            get { return _IDTProveedor; }
+            set { _IDTProveedor = value; }
+        }
         public DocumentosPorCobrarModels DocumentoPorCobraFlete;
 
        
