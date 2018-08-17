@@ -241,7 +241,7 @@
                 flag_errorHora = 0;
             }
 
-            //validando monto, siempre y cuando este seleccionado
+            //validando monto
             if (isNaN(value_MontoDeduccion)) 
             {
                 MontoDeduccion.closest('.controlError').removeClass('has-success').addClass("has-error");

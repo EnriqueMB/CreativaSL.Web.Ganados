@@ -41,7 +41,7 @@ namespace CreativaSL.Web.Ganados.Models
         public bool AplicaDeduccion { get; set; }
 
         public EventoVentaEnvioDetalleModels DetalleEventoVenta;
-        public List<CatTipoClasificacionModels> ListaDeTiposDeduccion;
+        public List<CatTipoClasificacionCobroModels> ListaDeTiposDeduccion;
         public int Id_TipoDeDeduccion { get; set; }
         public string ListaIDGanadosDelEvento { get; set; }
 

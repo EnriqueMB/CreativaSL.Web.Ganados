@@ -814,14 +814,16 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!TotalKilos.Value &amp; " kg."</Value>
+                              <Value>=Int(Fields!TotalKilos.Value) &amp; " kg."</Value>
                               <Style>
                                 <Format>#,0.00</Format>
                                 <Language>es-MX</Language>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>TotalKilos</rd:DefaultName>
@@ -1007,7 +1009,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>Total</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1052,7 +1054,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Total</Value>
+                              <Value>=Int(Sum(Fields!TotalKilos.Value, "ComprobanteCompraDetalles")) &amp; " kg."</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1069,17 +1071,14 @@
                         </Border>
                         <TopBorder>
                           <Color>Black</Color>
-                          <Style>Solid</Style>
                           <Width>1pt</Width>
                         </TopBorder>
                         <LeftBorder>
                           <Color>Black</Color>
-                          <Style>Solid</Style>
                           <Width>1pt</Width>
                         </LeftBorder>
                         <RightBorder>
                           <Color>Black</Color>
-                          <Style>Solid</Style>
                           <Width>1pt</Width>
                         </RightBorder>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1088,6 +1087,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -1099,7 +1099,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!PrecioPorKilo.Value)</Value>
+                              <Value />
                               <Style>
                                 <Format>'$'#,0.00</Format>
                                 <Language>es-MX</Language>

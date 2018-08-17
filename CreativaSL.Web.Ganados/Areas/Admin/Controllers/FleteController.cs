@@ -173,7 +173,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 FleteDatos = new _Flete_Datos();
                 Flete.Conexion = Conexion;
                 Flete.id_flete = IDFlete;
-                Flete.RespuestaAjax.Mensaje = Auxiliar.SqlReaderToJson(FleteDatos.GetEventoXIDFlete(Flete));
+                Flete.RespuestaAjax.Mensaje = FleteDatos.GetEventoXIDFlete(Flete);
                 Flete.RespuestaAjax.Success = true;
 
                 return Content(Flete.RespuestaAjax.Mensaje, "application/json");
@@ -712,7 +712,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     if (EventoFlete.RespuestaAjax.Success)
                     {
                         TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardarón correctamente.";
+                        TempData["message"] = EventoFlete.RespuestaAjax.Mensaje;
                         Token.ResetToken();
 
                         return Content(EventoFlete.RespuestaAjax.ToJSON(), "application/json");
@@ -720,7 +720,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     else
                     {
                         TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        TempData["message"] = EventoFlete.RespuestaAjax.Mensaje;
 
                         return Content(EventoFlete.RespuestaAjax.ToJSON(), "application/json");
                     }
