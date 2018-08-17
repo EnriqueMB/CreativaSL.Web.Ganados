@@ -92,10 +92,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 documentos.ListaSucursal = CMB.ObtenerComboSucursales(Conexion);
                 documentos.ListaCDocumento = datos.ObtenerConceptosDocumento(Conexion);
                 documentos.ListaMetodoPago = datos.ObtenerMetodoPago(Conexion);
-                //documentos.LisTipoProveedor = datos.ObteneComboCatTipoProveedor(Conexion);
-                //documentos.IDTProveedor = 0;
+                documentos.LisTipoProveedor = datos.ObteneComboCatTipoProveedor(Conexion);
+                documentos.IDTProveedor = 0;
                 documentos.Conexion = Conexion;
-                //documentos.LisProveedor = datos.ObteneComboProveedoresXID(documentos);
+                documentos.LisProveedor = datos.ObteneComboProveedoresXID(documentos);
                 return View(documentos);
             }
             catch (Exception)
@@ -106,7 +106,24 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(documentos);
             }
         }
-
+        [HttpPost]
+        public ActionResult ObtenerProveedoresXID(int IDP)
+        {
+            try
+            {
+                DocumentosPorCobrarModels Documento = new DocumentosPorCobrarModels();
+                _DocumentoXCobrar_Datos DocumentoDatos = new _DocumentoXCobrar_Datos();
+                Documento.IDTProveedor = IDP;
+                Documento.Conexion = Conexion;
+                List<CatProveedorModels> Lista = DocumentoDatos.ObteneComboProveedoresXID(Documento);
+                return Json(Lista, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                ex.Message.ToString();
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
         //POST: Admin/DocumentosXCobrar/Create
         [HttpPost]
         public ActionResult Create(DocumentosPorCobrarModels documentosss)
@@ -245,7 +262,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 documentoPago.Usuario = User.Identity.Name;
                 documentoPago.Conexion = Conexion;
                 documentoPago.id_status = id2;
-                documentoPago.TipoServicio = 1;
+                documentoPago.TipoServicio = 0;
                 documentoPago.ListaAsignar = DocPagarDatos.GetListadoAsignarPagos(documentoPago);
                 ////es para el boton de regresar 1 es compra, 2 es flete de la compra
                 //if (documentoPago.TipoServicio == 1 || documentoPago.TipoServicio == 2)

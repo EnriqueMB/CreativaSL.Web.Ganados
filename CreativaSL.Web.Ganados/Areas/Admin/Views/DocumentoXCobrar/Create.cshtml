@@ -59,7 +59,20 @@
                                @Html.ValidationMessageFor(model => model.Id_tipoDocumento)
                            </div>
                        </div>
-                       
+                       <div class="form-group">
+                           <label class="col-md-3 col-xs-12 control-label"><span>* </span> Tipo Proveedor </label>
+                           <div class="col-md-6 col-xs-12">
+                               @Html.DropDownListFor(model => model.IDTProveedor, new SelectList(Model.LisTipoProveedor, "IDTipoProveedor", "Descripcion"), new { id = "IDTProveedor", @class = "form-control select", data_live_search = "true" })
+                               @Html.ValidationMessageFor(model => model.IDTProveedor)
+                           </div>
+                       </div>
+                       <div class="form-group">
+                           <label class="col-md-3 col-xs-12 control-label"><span>* </span> Proveedor </label>
+                           <div class="col-md-6 col-xs-12">
+                               @Html.DropDownListFor(model => model.IDProveedor, new SelectList(Model.LisProveedor, "IDProveedor", "NombreRazonSocial"), new { id = "IDProveedor", @class = "form-control select", data_live_search = "true" })
+                               @Html.ValidationMessageFor(model => model.IDProveedor)
+                           </div>
+                       </div>
                        <div class="form-group">
                            <label class="col-md-3 col-xs-12 control-label"><span>* </span> Metodo De Pago </label>
                            <div class="col-md-6 col-xs-12">
