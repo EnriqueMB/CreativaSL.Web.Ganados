@@ -7,7 +7,7 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class EventoVentaModels
     {
-        public string Id_eventoVenta { get; set; }
+        public int Id_eventoVenta { get; set; }
         public string Id_venta { get; set; }
         public string Id_documentoPorCobrarDetalle { get; set; }
         public int Id_tipoEvento { get; set; }

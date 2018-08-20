@@ -1,12 +1,17 @@
-﻿@model CreativaSL.Web.Ganados.Models.CatTipoEventoEnvioModels
+﻿@model CreativaSL.Web.Ganados.Models.CatTipoDocumentoModels
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 @section css
 {
     <link href="@Url.Content("~/Content/css/validator.css")" rel="stylesheet" />
+    <style>
+        div#validation_summary dd {
+            color: #e80c4d !important;
+        }
+    </style>
 }
 @section featured{
     @{
@@ -23,14 +28,13 @@
 
     <div class="col-md-12">
         @{ Html.EnableClientValidation(false); }
-        @using (Html.BeginForm("Edit", "CatEvento", FormMethod.Post, new { id = "frm_evento", @class = "form-horizontal", autocomplete = "off", @enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("Create", "CatDocumentos", FormMethod.Post, new { id = "frm_documento", @class = "form-horizontal", autocomplete = "off", @enctype = "multipart/form-data" }))
     {
             @Html.AntiForgeryToken()
-            @Html.HiddenFor(model=>model.IDTipoEventoEnvio)
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><strong>Evento</strong></h3>
+                    <h3 class="panel-title"><strong>Documento</strong></h3>
                     <ul class="panel-controls"></ul>
                 </div>
                 <div class="panel-body">
@@ -44,7 +48,7 @@
 
                     <div class="form-group">
                         <div class="controlError col-md-6">
-                            <label class="col-md-3 control-label">Nombre del evento</label>
+                            <label class="col-md-3 control-label">Nombre del documento</label>
                             <div class="col-md-9 col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
@@ -53,21 +57,12 @@
                                 <span class="help-block">Ingrese el nombre del evento</span>
                             </div>
                         </div>
-                        <div class="controlError col-md-6">
-                            <label class="col-md-3 control-label">Marcar merma / deducción</label>
-                            <div class="col-md-9 col-xs-12">
-                                <div class="input-group">
-                                    @Html.CheckBoxFor(model => model.MarcarMerma)
-                                </div>
-                                <span class="help-block">Se realizará la deducción del animal.</span>
-                            </div>
-                        </div>
                     </div>
 
                 </div>
                 <div class="panel-footer">
                     <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                    <a href="@Url.Action("Index","CatEvento")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                    <a href="@Url.Action("Index","CatDocumentos")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                 </div>
             </div>
         }
@@ -86,14 +81,13 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
 
-    <script type="text/javascript" src="@Url.Content("~/Content/js/catEvento.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/catDocumentos.js")"></script>
 
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
 
-            Evento.init();
+            Documento.init();
         });
     </script>
 }
-

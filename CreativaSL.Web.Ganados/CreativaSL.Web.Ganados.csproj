@@ -455,7 +455,7 @@
     <Content Include="Content\js\Canvas.js" />
     <Content Include="Content\js\CatContactos.js" />
     <Content Include="Content\js\CatContactosClientes.js" />
-    <Content Include="Content\js\catEvento.js" />
+    <Content Include="Content\js\catDocumentos.js" />
     <Content Include="Content\js\catFierro.js" />
     <Content Include="Content\js\CatFierroSubir.js" />
     <Content Include="Content\js\compraAgendar.js" />
@@ -1363,9 +1363,9 @@
     <Content Include="Areas\Admin\Views\Compra\ModalDocumentos.cshtml" />
     <Content Include="Areas\Admin\Views\CatFierro\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Reportes\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\CatEvento\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\CatEvento\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\CatEvento\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatDocumentos\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatDocumentos\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatDocumentos\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaFlete.cshtml" />
     <Content Include="Areas\Admin\WebServices\DatatableServ.asmx" />
     <Content Include="Content\json\Spanish.json" />
@@ -1428,6 +1428,7 @@
     <Content Include="Areas\Admin\Views\DocumentoXPagar\DetailsPagos.cshtml" />
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\DetailsPagos.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\Detalles_Flete_Eventos.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaDetallesEvento.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1466,7 +1467,7 @@
     <Compile Include="Areas\Admin\Controllers\CatConceptosNominaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatEmpleadoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatEmpresaController.cs" />
-    <Compile Include="Areas\Admin\Controllers\CatEventoController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatDocumentosController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatFierroController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatJaulaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatLugarController.cs" />
@@ -1726,6 +1727,7 @@
     <Compile Include="Models\_CatCliente_Datos.cs" />
     <Compile Include="Models\_CatConceptoDetalleDocumento_Datos.cs" />
     <Compile Include="Models\_CatConceptoNomina_Datos.cs" />
+    <Compile Include="Models\_CatDocumentos_Datos.cs" />
     <Compile Include="Models\_CatEmpleado_Datos.cs" />
     <Compile Include="Models\_CatEmpresa_Datos.cs" />
     <Compile Include="Models\_CatEvento_Datos.cs" />

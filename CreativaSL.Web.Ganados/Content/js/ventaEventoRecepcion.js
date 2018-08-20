@@ -125,7 +125,7 @@
                             success: function (result) {
                                 if (result.Success) {
                                     box.find(".mb-control-yes").prop('onclick', null).off('click');
-                                    Mensaje(json.Mensaje, "1");
+                                    Mensaje(result.Mensaje, "1");
 
                                     tblEventos.ajax.reload();
                                 }

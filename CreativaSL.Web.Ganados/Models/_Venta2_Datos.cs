@@ -120,6 +120,22 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public string DatatableDetallesDocumentoPorCobrarVentaDeducciones(VentaModels2 Venta)
+        {
+            try
+            {
+                object[] parametros = { Venta.Id_venta, Venta.Id_documentoXCobrar };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_DetallesDocumentoPorCobrarDeducciones", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public string DatatableDetallesDocumentoPorCobrarVentaCobro(VentaModels2 Venta)
         {
             try
@@ -1095,7 +1111,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                 if (Venta.RespuestaAjax.Success)
                 {
-                    Venta.EventoVenta.Id_eventoVenta = !dr.IsDBNull(dr.GetOrdinal("id_eventoVenta")) ? dr.GetString(dr.GetOrdinal("id_eventoVenta")) : string.Empty;
+                    Venta.EventoVenta.Id_eventoVenta = !dr.IsDBNull(dr.GetOrdinal("id_eventoVenta")) ? dr.GetInt32(dr.GetOrdinal("id_eventoVenta")) : 0;
                     Venta.EventoVenta.Id_documentoPorCobrarDetalle = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorCobrarDetalle")) ? dr.GetString(dr.GetOrdinal("id_documentoPorCobrarDetalle")) : string.Empty;
                     Venta.EventoVenta.Id_tipoEvento = !dr.IsDBNull(dr.GetOrdinal("id_tipoEvento")) ? dr.GetInt32(dr.GetOrdinal("id_tipoEvento")) : 0;
                     Venta.EventoVenta.Cantidad = !dr.IsDBNull(dr.GetOrdinal("cantidad")) ? dr.GetInt32(dr.GetOrdinal("cantidad")) : 0;
@@ -1313,8 +1329,10 @@ namespace CreativaSL.Web.Ganados.Models
                         Transacciones.DocumentosPorCobrar.Pendiente = !dr.IsDBNull(dr.GetOrdinal("pendiente")) ? dr.GetDecimal(dr.GetOrdinal("pendiente")) : 0;
                         Transacciones.DocumentosPorCobrar.Cambio = !dr.IsDBNull(dr.GetOrdinal("cambio")) ? dr.GetDecimal(dr.GetOrdinal("cambio")) : 0;
                         Transacciones.DocumentosPorCobrar.Impuestos = !dr.IsDBNull(dr.GetOrdinal("impuestos")) ? dr.GetDecimal(dr.GetOrdinal("impuestos")) : 0;
-                        Transacciones.Subtotal = !dr.IsDBNull(dr.GetOrdinal("subtotal")) ? dr.GetDecimal(dr.GetOrdinal("subtotal")) : 0;
+                        Transacciones.Subtotal = !dr.IsDBNull(dr.GetOrdinal("subtotalPercepcion")) ? dr.GetDecimal(dr.GetOrdinal("subtotalPercepcion")) : 0;
                         Transacciones.DocumentosPorCobrar.Total = !dr.IsDBNull(dr.GetOrdinal("total")) ? dr.GetDecimal(dr.GetOrdinal("total")) : 0;
+                        Transacciones.DocumentosPorCobrar.TotalPercepciones = !dr.IsDBNull(dr.GetOrdinal("totalPercepcion")) ? dr.GetDecimal(dr.GetOrdinal("totalPercepcion")) : 0;
+                        Transacciones.DocumentosPorCobrar.TotalDeducciones = !dr.IsDBNull(dr.GetOrdinal("totalDeduccion")) ? dr.GetDecimal(dr.GetOrdinal("totalDeduccion")) : 0;
                     }
                     else
                     {
@@ -1581,6 +1599,8 @@ namespace CreativaSL.Web.Ganados.Models
 
                     VentaDetalles.DocumentosPrecioDocumentacion = !dr.IsDBNull(dr.GetOrdinal("DocumentosPrecioDocumentacion")) ? dr.GetDecimal(dr.GetOrdinal("DocumentosPrecioDocumentacion")) : 0;
                     VentaDetalles.DocumentosTipoSalidaDocumentacion = !dr.IsDBNull(dr.GetOrdinal("DocumentosTipoSalidaDocumentacion")) ? dr.GetString(dr.GetOrdinal("DocumentosTipoSalidaDocumentacion")) : string.Empty;
+
+                    VentaDetalles.Id_documentoPorCobrar = !dr.IsDBNull(dr.GetOrdinal("id_documentoXCobrar")) ? dr.GetString(dr.GetOrdinal("id_documentoXCobrar")) : string.Empty;
                 }
                 
                 dr.Close();
@@ -2153,6 +2173,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.TotalGanadoHembras = !dr.IsDBNull(dr.GetOrdinal("totalGanadoHembras")) ? dr.GetInt32(dr.GetOrdinal("totalGanadoHembras")) : 0;
                     Item.TotalGanado = !dr.IsDBNull(dr.GetOrdinal("totalGanado")) ? dr.GetInt32(dr.GetOrdinal("totalGanado")) : 0;
                     Item.TotalKilosGanado = !dr.IsDBNull(dr.GetOrdinal("totalKilosGanado")) ? dr.GetDecimal(dr.GetOrdinal("totalKilosGanado")) : 0;
+                    Item.PlacaJaula = !dr.IsDBNull(dr.GetOrdinal("placaJaula")) ? dr.GetString(dr.GetOrdinal("placaJaula")) : string.Empty;
+                    Item.PlacaTracto = !dr.IsDBNull(dr.GetOrdinal("placas")) ? dr.GetString(dr.GetOrdinal("placas")) : string.Empty;
                 }
                 dr.Close();
                 return Item;

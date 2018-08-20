@@ -2032,6 +2032,102 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
 
         #region ReporteGanadoPropio
+        public ActionResult ReporteGanadoPropioV2(string id)
+        {
+            try
+            {
+
+                Reporte_Datos R = new Reporte_Datos();
+                List<ReporteGanadoModels> Listareporte = new List<ReporteGanadoModels>();
+                _Flete_Datos reporteDatos = new _Flete_Datos();
+                FleteModels Flete = new FleteModels();
+                CatEmpresaModels Empresa = new CatEmpresaModels();
+                ReporteCabeceraGanado Cabezera = new ReporteCabeceraGanado();
+                _CatEmpresa_Datos EmpresaDatos = new _CatEmpresa_Datos();
+                List<CatFierroModels> ListaFierros = new List<CatFierroModels>();
+
+                Flete.id_flete = id;
+                Flete.Conexion = Conexion;
+                Empresa.Conexion = Conexion;
+                Listareporte = reporteDatos.GetReporteGanadoDetalles(Flete);
+                Cabezera = reporteDatos.GetReporteCabeceraGanadoDetalles(Flete);
+                ListaFierros = reporteDatos.GetReporteFierrosVenta(Flete);
+
+                Empresa = EmpresaDatos.GetDatosEmpresaPrincipal(Empresa);
+                DatosGeneralesGanados datos = new DatosGeneralesGanados();
+                datos = Auxiliar.ObtenerDatosGeneralesGanado(datos, Listareporte);
+                LocalReport Rtp = new LocalReport();
+                Rtp.EnableExternalImages = true;
+                Rtp.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Formatos"), "ListadoGanadoV2.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Flete");
+                }
+                ReporteGanadoModels ReporteGanado = new ReporteGanadoModels();
+
+                ReportParameter[] Parametros = new ReportParameter[19];
+                Parametros[0] = new ReportParameter("NombreChofer", Cabezera.NombreChofer);
+                Parametros[1] = new ReportParameter("UnidadVehiculo", Cabezera.UnidadVehiculo);
+                Parametros[2] = new ReportParameter("ModeloVehiculo", Cabezera.ModeloVehiculo);
+                Parametros[3] = new ReportParameter("MarcaVehiculo", Cabezera.MarcaVehiculo);
+                Parametros[4] = new ReportParameter("ColorVehiculo", Cabezera.ColorVehiculo);
+                Parametros[5] = new ReportParameter("CapacidadVehiculo", Cabezera.CapacidadVehiculo);
+                Parametros[6] = new ReportParameter("GPS", Cabezera.GPS);
+                Parametros[7] = new ReportParameter("FechaHoraSalida", Cabezera.FechaHoraSalida.ToString());
+                Parametros[8] = new ReportParameter("FechaHoraEmbarque", Cabezera.FechaHoraEmbarque.ToString());
+                Parametros[9] = new ReportParameter("LugarOrigen", Cabezera.LugarOrigen);
+                Parametros[10] = new ReportParameter("LugarDestino", Cabezera.LugarDestino);
+                Parametros[11] = new ReportParameter("PSGOrigen", Cabezera.PSGOrigen);
+                Parametros[12] = new ReportParameter("PSGDestino", Cabezera.PSGDestino);
+                Parametros[13] = new ReportParameter("TotalGanadoMachos", Cabezera.TotalGanadoMachos.ToString());
+                Parametros[14] = new ReportParameter("TotalGanadoHembras", Cabezera.TotalGanadoHembras.ToString());
+                Parametros[15] = new ReportParameter("TotalGanado", Cabezera.TotalGanado.ToString());
+                Parametros[16] = new ReportParameter("TotalKilosGanado", Convert.ToInt32(Cabezera.TotalKilosGanado).ToString());
+                Parametros[17] = new ReportParameter("PlacaTracto", Cabezera.PlacaTracto);
+                Parametros[18] = new ReportParameter("PlacaJaula", Cabezera.PlacaJaula);
+
+                Rtp.SetParameters(Parametros);
+                Rtp.DataSources.Add(new ReportDataSource("ListaGanado", Listareporte));
+                Rtp.DataSources.Add(new ReportDataSource("ListaFierros", ListaFierros));
+                Rtp.Refresh();
+                string reportType = "EXCEL";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + id + "</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
+                return View("Index");
+            }
+        }
         public ActionResult ReporteGanadoPropio(string id)
         {
             try
@@ -2128,7 +2224,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
 
         #region Vista Documentos
-      
+
         /// <summary>
         /// 
         /// </summary>

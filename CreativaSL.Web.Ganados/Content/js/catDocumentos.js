@@ -1,24 +1,13 @@
-﻿var Evento = function () {
+﻿var Documento = function () {
     "use strict";
     // Funcion para validar registrar
     var runValidator = function () {
-        var form1 = $('#frm_evento');
+        var form1 = $('#frm_documento');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
-        $.validator.addMethod("validarImagen", function () {
-            console.log(document.getElementById("Imagen").value);
-            if (document.getElementById("Imagen").value === '') {
-                if ((document.getElementById("Imagen").value === ''))
-                    return false;
-                else
-                    return true;
-            }
-            else
-                return true;
-        }, 'Debe seleccionar una imagen.');
        
         form1.validate({
-            errorElement: "span", // contain the error msg in a span tag
+            errorElement: "dd", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
             errorPlacement: function (error, element) { // render error placement for each input type
@@ -37,7 +26,7 @@
                 Descripcion: { required: true, maxlength: 80 },
             },
             messages: {
-                Descripcion: { required: "Ingrese el nombre del evento.", maxlength: "El nombre del evento admite máximo de 80 caracteres." }
+                Descripcion: { required: "Por favor, ingrese el nombre del documento.", maxlength: "El nombre del documento admite máximo de 80 caracteres." }
             },
             invalidHandler: function (event, validator) { 
                 successHandler1.hide();

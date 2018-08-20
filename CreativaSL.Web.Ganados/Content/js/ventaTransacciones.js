@@ -1,7 +1,7 @@
 ﻿var VentaTransaccion = function () {
     "use strict"
     //datatables
-    var tbl_detallesDocumentoPorCobrar, tbl_detallesDocumentoPorCobrarCobros;
+    var tbl_detallesDocumentoPorCobrar, tbl_detallesDocumentoPorCobrarCobros, tbl_detallesDeducciones;
         
     //otros
     var Id_venta = $("#Id_venta").val();
@@ -264,6 +264,31 @@
                 });
             }
         });
+
+        tbl_detallesDeducciones = $('#tbl_detallesDeducciones').DataTable({
+            "language": {
+                "url": "/Content/assets/json/Spanish.json"
+            },
+            responsive: true,
+            "ajax": {
+                "data": {
+                    "Id_documentoCobrar": Id_documentoPorCobrar, "Id_venta": Id_venta
+                },
+                "url": "/Admin/Venta/DatatableDetallesDocumentoPorCobrarVentaDeducciones/",
+                "type": "POST",
+                "datatype": "json",
+                "dataSrc": ''
+            },
+            "columns": [
+                { "data": "descripcion" },
+                { "data": "cantidad" },
+                {
+                    "data": "total",
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                }
+            ]
+        });
+        
     };
 
     var EventosCobro = function () {

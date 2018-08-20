@@ -61,7 +61,7 @@
                 <li id="liDocumentacion" role="presentation" class="active"><a id="tabDocumentacion" class="pestaña" href="#documentacion" aria-controls="documentacion" role="tab" data-toggle="tab">Documentación</a></li>
                 <li id="liGenerar_documentos" role="presentation"><a id="tabGenerar_documentos" class="pestaña" href="#generar_documentos" aria-controls="generar_documentos" role="tab" data-toggle="tab">Generar Documentos</a></li>
             </ul>
-            <input type="hidden" id="id_flete" value="@ViewBag.Id_flete"/>
+            <input type="hidden" id="id_flete" value="@Model.Id_servicio"/>
             <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="documentacion">
@@ -163,8 +163,14 @@
                                             </a>
                                         </div>*@
                                         <div class="col-md-4">
-                                            <a id="reporte_ganado" class="tile tile-warning tile-valign2" href="@Url.Action("ReporteGanadoPropio", "Flete", new { id = ViewBag.Id_flete })" target="_blank">
+                                            <a id="reporte_ganado" class="tile tile-warning tile-valign2" href="@Url.Action("ReporteGanadoPropio", "Flete", new { id = Model.Id_servicio })" target="_blank">
                                                 Fierros ganado propio
+                                                <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Grupo Ocampo</div>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a id="reporte_ganado" class="tile tile-warning tile-valign2" href="@Url.Action("ReporteGanadoPropioV2", "Flete", new { id = Model.Id_servicio })" target="_blank">
+                                                Fierros ganado propio V2
                                                 <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Grupo Ocampo</div>
                                             </a>
                                         </div>

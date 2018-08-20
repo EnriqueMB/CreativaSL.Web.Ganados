@@ -7,6 +7,7 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CatTipoDocumentoModels
     {
+        public RespuestaAjax RespuestaAjax { get; set; }
         private int _IDTipoDocumento;
 
         public int IDTipoDocumento
