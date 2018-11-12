@@ -2305,8 +2305,36 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
 
+        #region DEL Compra
+        public CompraModels Compra_del_Compra(CompraModels Compra)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Compra.IDCompra
+                    ,Compra.Usuario
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_del_Compra", parametros);
+                while (dr.Read())
+                {
+                    Compra.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Compra.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                dr.Close();
+                return Compra;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
         
+
+        #endregion
+
         #region Imagenes
         public CompraModels DeleteImageFierro(CompraModels Compra)
         {
@@ -3014,6 +3042,12 @@ namespace CreativaSL.Web.Ganados.Models
                     Lista.Add(Item);
                 }
                 dr.Close();
+
+                if(Lista.Count == 0)
+                {
+                    Lista.Add(new ComprobanteCompraDetallesModels());
+                }
+
                 return Lista;
             }
             catch (Exception ex)

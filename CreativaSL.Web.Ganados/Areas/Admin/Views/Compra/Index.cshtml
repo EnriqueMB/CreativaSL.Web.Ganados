@@ -197,6 +197,23 @@
             </div>
         </div>
     </div>
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-eliminar">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-mail-forward"></span><strong>¿Seguro que desea eliminar esta compra?</strong></div>
+                <div class="mb-content">
+                    <p>¿Desea eliminar esta compra?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
     var message = '@message';
     var typemessage = '@typemessage';
@@ -313,11 +330,11 @@
                         var igual = status_actual.localeCompare(agendado);
                         if (igual == 0) {
                             botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm enviar' title='Enviar'  data-placement='top' data-original-title='Enviar'><i class='fa fa-truck'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-blue tooltips btn-sm enviar' title='Enviar'  data-placement='top' data-original-title='Enviar'><i class='fa fa-truck'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Agendado'  data-placement='top' data-original-title='Agendado'><i class='fa fa-clock-o'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar'  data-hrefa='/Admin/Compra/DEL_Compra/' ><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
@@ -332,7 +349,17 @@
                                 "</li>" +
                                 "<li>" +
                                 "<a class='enviar' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                                "<i class='fa fa-mail-forward'></i> Continuar" +
+                                "<i class='fa fa-truck'></i> Enviar" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a class='transacciones' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-money'></i> Transacciones ($)" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a class='documentos' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-archive'></i> Documentos" +
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
@@ -341,12 +368,7 @@
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
-                                "<a class='details' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                                "<i class='fa fa-archive'></i> Documentos" +
-                                "</a>" +
-                                "</li>" +
-                                "<li>" +
-                                "<a role='menuitem' tabindex='-1' id='" + full["id_compra"] + "'>" +
+                                "<a class='eliminar' role='menuitem' tabindex='-1' id='" + full["id_compra"] + "' data-hrefa='/Admin/Compra/DEL_Compra/'>" +
                                 "<i class='fa fa-trash-o'></i> Eliminar" +
                                 "</a>" +
                                 "</li>" +
@@ -361,7 +383,7 @@
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm ganado' title='Ganado'  data-placement='top' data-original-title='Ganado'><i class='icon-ocampo-head'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' data-hrefa='/Admin/Compra/DEL_Compra/'><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
@@ -376,7 +398,7 @@
                                 "</li>" +
                                 "<li>" +
                                 "<a class='ganado' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                                "<i class='icon-ocampo-head'></i>Continuar: Ganado" +
+                                "<i class='icon-ocampo-head'></i>Ganado" +
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
@@ -385,12 +407,12 @@
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
-                                "<a class='details' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<a class='documentos' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
                                 "<i class='fa fa-archive'></i> Documentos" +
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
-                                "<a role='menuitem' tabindex='-1' id='" + full["id_compra"] + "'>" +
+                                "<a class='eliminar' role='menuitem' tabindex='-1' id='" + full["id_compra"] + "' data-hrefa='/Admin/Compra/DEL_Compra/'>" +
                                 "<i class='fa fa-trash-o'></i> Eliminar" +
                                 "</a>" +
                                 "</li>" +
@@ -406,7 +428,7 @@
                                 "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Ganado'  data-placement='top' data-original-title='Ganado'><i class='icon-ocampo-head'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' data-hrefa='/Admin/Compra/DEL_Compra/'><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
@@ -420,8 +442,8 @@
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
-                                "<a class='details' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                                "<i class='fa fa-book'></i> Continuar: Eventos y recepción" +
+                                "<a class='eventos_recepcion' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-book'></i> Eventos y recepción" +
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
@@ -430,17 +452,17 @@
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
-                                "<a class='ganado' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                                "<i class='icon-ocampo-head'></i> Ganado" +
-                                "</a>" +
-                                "</li>" +
-                                "<li>" +
-                                "<a class='details' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<a class='documentos' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
                                 "<i class='fa fa-archive'></i> Documentos" +
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
-                                "<a role='menuitem' tabindex='-1' id='" + full["id_compra"] + "'>" +
+                                "<a class='edit' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='icon-ocampo-head'></i> Ganado" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a class='eliminar' role='menuitem' tabindex='-1' id='" + full["id_compra"] + "' data-hrefa='/Admin/Compra/DEL_Compra/'>" +
                                 "<i class='fa fa-trash-o'></i> Eliminar" +
                                 "</a>" +
                                 "</li>" +
@@ -456,7 +478,7 @@
                                 "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Eventos y recepción'  data-placement='top' data-original-title='Eventos y recepción'><i class='fa fa-book'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' data-hrefa='/Admin/Compra/DEL_Compra/'><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
@@ -470,8 +492,8 @@
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
-                                "<a class='ganado' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                                "<i class='fa fa-edit'></i> Ganado" +
+                                "<a class='concluir' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-check'></i> Concluir" +
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
@@ -480,12 +502,17 @@
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
-                                "<a class='details' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<a class='transacciones' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
                                 "<i class='fa fa-archive'></i> Documentos" +
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
-                                "<a role='menuitem' tabindex='-1' id='" + full["id_compra"] + "'>" +
+                                "<a class='edit' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-book'></i> Eventos y recepción" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a class='eliminar' role='menuitem' tabindex='-1' id='" + full["id_compra"] + "' data-hrefa='/Admin/Compra/DEL_Compra/'>" +
                                 "<i class='fa fa-trash-o'></i> Eliminar" +
                                 "</a>" +
                                 "</li>" +
@@ -574,6 +601,30 @@
                     //edito el estado actual de la compra
                     var IDCompra = $(this).data("id")
                     window.location.href = '/Admin/Compra/DocumentosCompra?Id_1=' + IDCompra;
+                });
+                $(".eliminar").on("click", function () {
+                   //Elimino la compra seleccionada
+
+                    var url = $(this).attr('data-hrefa');
+                    var IDCompra = $(this).attr('data-id');
+                    var box = $("#mb-eliminar");
+                    box.addClass("open");
+                    box.find(".mb-control-yes").on("click", function () {
+                        box.removeClass("open");
+                        $.ajax({
+                            url: url,
+                            data: { IDCompra: IDCompra },
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (result) {
+                                window.location.href = '/Admin/Compra/Index';
+                            },
+                            error: function (result) {
+                                window.location.href = '/Admin/Compra/Index';
+                            }
+                        });
+                    });
+
                 });
 
             },

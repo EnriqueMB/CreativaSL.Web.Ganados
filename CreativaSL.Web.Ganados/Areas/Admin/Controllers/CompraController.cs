@@ -162,6 +162,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 Compra = new CompraModels();
+                Token.SaveToken();
                 return View(Compra);
             }
             catch (Exception ex)
@@ -596,6 +597,60 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Contacte con soporte técnico, error: " + Mensaje;
                 return Content(CompraImpuesto.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+        #region Del compra
+        [HttpPost]
+        public ActionResult DEL_Compra(CompraModels Compra)
+        {
+            try
+            {
+                if (Compra.IDCompra.Length == 36)
+                {
+                    if (Token.IsTokenValid())
+                    {
+                        CompraDatos = new _Compra_Datos();
+                        Compra.Conexion = Conexion;
+                        Compra.Usuario = User.Identity.Name;
+                        Compra = CompraDatos.Compra_del_Compra(Compra);
+
+                        if (Compra.RespuestaAjax.Success)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = Compra.RespuestaAjax.Mensaje;
+                            return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = Compra.RespuestaAjax.Mensaje;
+                            return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+                        }
+                    }
+                    else
+                    {
+                        Compra.RespuestaAjax.Success = false;
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Verifique sus datos.";
+                        return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+                    }
+                }
+                else
+                {
+                    Compra.RespuestaAjax.Success = false;
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Compra no válida.";
+                    return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                Compra.RespuestaAjax.Success = false;
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Contacte con soporte técnico, error: " + Mensaje;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
             }
         }
         #endregion
