@@ -87,7 +87,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         else
                         {
                             TempData["typemessage"] = "2";
-                            TempData["message"] = "Ocurrió un error al intentar guardar.";
+                            TempData["message"] = "Ocurrió un error al intentar guardar, esta fecha ya esta en uso.";
                             return View(nomina);
                         }
                     }

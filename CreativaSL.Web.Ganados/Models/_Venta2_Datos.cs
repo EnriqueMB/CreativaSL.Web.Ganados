@@ -1997,6 +1997,32 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
+        #region Del Venta
+        public VentaModels2 Venta_del_Venta(VentaModels2 Venta)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Venta.Id_venta
+                    ,Venta.Usuario
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_del_Venta", parametros);
+                while (dr.Read())
+                {
+                    Venta.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Venta.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                dr.Close();
+                return Venta;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
         #endregion
 
         #region Otros
