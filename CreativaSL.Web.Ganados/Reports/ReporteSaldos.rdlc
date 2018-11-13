@@ -385,7 +385,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!NombreEmpleado.Value</Value>
+                              <Value>=UCase(Fields!NombreEmpleado.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -416,7 +416,11 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Percepciones.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>'$'#,0.00;-'$'#,0.00;'0'</Format>
+                                <Language>es-MX</Language>
+                                <rd:FormatSymbolCulture>es-MX</rd:FormatSymbolCulture>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -446,7 +450,11 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Deducciones.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>'$'#,0.00</Format>
+                                <Language>es-MX</Language>
+                                <rd:FormatSymbolCulture>es-MX</rd:FormatSymbolCulture>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />

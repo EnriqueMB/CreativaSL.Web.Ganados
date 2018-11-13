@@ -135,6 +135,23 @@
             </div>
         </div>
     </div>
+<div class="message-box animated fadeIn" data-sound="alert" id="mb-eliminar">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-mail-forward"></span><strong>¿Seguro que desea eliminar este flete?</strong></div>
+            <div class="mb-content">
+                <p>¿Desea eliminar este flete?</p>
+                <p>Presione "sí" si está seguro.</p>
+            </div>
+            <div class="mb-footer">
+                <div class="pull-right">
+                    <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                    <button class="btn btn-default btn-lg mb-control-close">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <script>
     var message = '@message';
     var typemessage = '@typemessage';
@@ -234,7 +251,7 @@
                                 "<a data-id='" + full["id_flete"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
                                 "<a data-id='" + full["id_flete"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
                                 "<a data-id='" + full["id_flete"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Agendado'  data-placement='top' data-original-title='Agendado'><i class='fa fa-clock-o'></i></a>" +
-                                "<a data-id='" + full["id_flete"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                                "<a data-id='" + full["id_flete"] + "' data-hrefa='/Admin/Flete/DEL_Flete/'  class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
@@ -248,22 +265,29 @@
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
-                                "<a class='details' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<a class='enviar' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-truck'></i> Enviar flete" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a class='transacciones' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-mail-forward'></i> Transacciones ($)" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a class='documentos' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
                                 "<i class='fa fa-archive'></i> Documentos" +
                                 "</a>" +
                                 "</li>" +
-                                "<li>" +
-                                "<a class='enviar' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
-                                "<i class='fa fa-mail-forward'></i> Continuar" +
-                                "</a>" +
-                                "</li>" +
+
                                 "<li>" +
                                 "<a class='edit' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
-                                "<i class='fa fa-clock-o'></i> En curso" +
+                                "<i class='fa fa-clock-o'></i> Agendado" +
                                 "</a>" +
                                 "</li>" +
+
                                 "<li>" +
-                                "<a role='menuitem' tabindex='-1' id='" + full["id_compra"] + "'>" +
+                                "<a class='eliminar' role='menuitem' tabindex='-1' data-id='" + full["id_flete"] + "' data-hrefa='/Admin/Flete/DEL_Flete/'>" +
                                 "<i class='fa fa-trash-o'></i> Eliminar" +
                                 "</a>" +
                                 "</li>" +
@@ -277,7 +301,7 @@
                                 "<a data-id='" + full["id_flete"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
                                 "<a data-id='" + full["id_flete"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
                                 "<a data-id='" + full["id_flete"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Recepción'  data-placement='top' data-original-title='Recepción'><i class='fa fa-book'></i></a>" +
-                                "<a data-id='" + full["id_flete"] + "' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                                "<a data-id='" + full["id_flete"] + "' data-hrefa='/Admin/Flete/DEL_Flete/' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
@@ -291,6 +315,11 @@
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
+                                "<a class='finalizar' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-check'></i> Finalizar" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
                                 "<a class='transacciones' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
                                 "<i class='fa fa-money'></i> Transacciones ($)" +
                                 "</a>" +
@@ -301,17 +330,12 @@
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
-                                "<a class='recepcion' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
-                                "<i class='fa fa-mail-forward'></i> Recepción" +
-                                "</a>" +
-                                "</li>" +
-                                "<li>" +
                                 "<a class='edit' data-id='" + full["id_flete"] + "'  role='menuitem' tabindex='-1'>" +
-                                "<i class='fa fa-edit'></i> Editar" +
+                                "<i class='fa fa-book'></i> Recepción" +
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
-                                "<a role='menuitem' tabindex='-1' id='" + full["id_compra"] + "'>" +
+                                "<a class='eliminar' role='menuitem' tabindex='-1' data-id='" + full["id_flete"] + "' data-hrefa='/Admin/Flete/DEL_Flete/'>" +
                                 "<i class='fa fa-trash-o'></i> Eliminar" +
                                 "</a>" +
                                 "</li>" +
@@ -367,6 +391,30 @@
                 $(".details").on("click", function () {
                     var id = $(this).data("id")
                     window.location.href = '/Admin/Flete/Detalles_Flete?Id_1=' + id;
+                });
+                $(".eliminar").on("click", function () {
+                    //Elimino el flete seleccionado
+
+                    var url = $(this).attr('data-hrefa');
+                    var id_flete = $(this).attr('data-id');
+                    var box = $("#mb-eliminar");
+                    box.addClass("open");
+                    box.find(".mb-control-yes").on("click", function () {
+                        box.removeClass("open");
+                        $.ajax({
+                            url: url,
+                            data: { id_flete: id_flete },
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (result) {
+                                window.location.href = '/Admin/Flete/Index';
+                            },
+                            error: function (result) {
+                                window.location.href = '/Admin/Flete/Index';
+                            }
+                        });
+                    });
+
                 });
 
             },
