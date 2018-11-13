@@ -19,7 +19,14 @@ namespace CreativaSL.Web.Ganados.Models
                 datos.IdDiasFestivos = aux.ToString();
                 if (!string.IsNullOrEmpty(datos.IdDiasFestivos))
                 {
-                    datos.Completado = true;
+                    if(Convert.ToInt32(datos.IdDiasFestivos) == 2)
+                    {
+                        datos.Completado = false;
+                    }
+                    else
+                    {
+                        datos.Completado = true;
+                    }
                 }
                 else
                 {

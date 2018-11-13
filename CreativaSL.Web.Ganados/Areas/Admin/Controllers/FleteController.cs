@@ -27,6 +27,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 Flete = new FleteModels();
+                Token.SaveToken();
                 return View(Flete);
             }
             catch (Exception ex)
@@ -2699,6 +2700,61 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
+        #endregion
+
+        #region Delete Flete
+        [HttpPost]
+        public ActionResult DEL_Flete(FleteModels Flete)
+        {
+            try
+            {
+                if (Flete.id_flete.Length == 36)
+                {
+                    if (Token.IsTokenValid())
+                    {
+                        _Flete_Datos FleteDatos = new _Flete_Datos();
+                        Flete.Conexion = Conexion;
+                        Flete.Usuario = User.Identity.Name;
+                        Flete = FleteDatos.Flete_del_Flete(Flete);
+
+                        if (Flete.RespuestaAjax.Success)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = Flete.RespuestaAjax.Mensaje;
+                            return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = Flete.RespuestaAjax.Mensaje;
+                            return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+                        }
+                    }
+                    else
+                    {
+                        Flete.RespuestaAjax.Success = false;
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Verifique sus datos.";
+                        return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+                    }
+                }
+                else
+                {
+                    Flete.RespuestaAjax.Success = false;
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Flete no válido.";
+                    return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                Flete.RespuestaAjax.Success = false;
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Contacte con soporte técnico, error: " + Mensaje;
+                return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
         #endregion
     }
 }

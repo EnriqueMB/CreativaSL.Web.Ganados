@@ -2476,5 +2476,32 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         #endregion
+
+        #region Del Venta
+        public FleteModels Flete_del_Flete(FleteModels Flete)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    Flete.id_flete
+                    ,Flete.Usuario
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_del_Flete", parametros);
+                while (dr.Read())
+                {
+                    Flete.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Flete.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
+                }
+                dr.Close();
+                return Flete;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
     }
 }

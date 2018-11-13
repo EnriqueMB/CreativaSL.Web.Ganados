@@ -458,6 +458,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         // GET: Admin/Venta
         public ActionResult Index()
         {
+            Token.SaveToken();
             return View();
         }
 
@@ -2274,6 +2275,61 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
                 return View("Index");
+            }
+        }
+        #endregion
+
+        #region Delete Venta
+        [HttpPost]
+        public ActionResult DEL_Venta(VentaModels2 Venta)
+        {
+            try
+            {
+                if (Venta.Id_venta.Length == 36)
+                {
+                    if (Token.IsTokenValid())
+                    {
+                        _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                        Venta.Conexion = Conexion;
+                        Venta.Usuario = User.Identity.Name;
+                        Venta = VentaDatos.Venta_del_Venta(Venta);
+
+                        if (Venta.RespuestaAjax.Success)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = Venta.RespuestaAjax.Mensaje;
+                            return Content(Venta.RespuestaAjax.ToJSON(), "application/json");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = Venta.RespuestaAjax.Mensaje;
+                            return Content(Venta.RespuestaAjax.ToJSON(), "application/json");
+                        }
+                    }
+                    else
+                    {
+                        Venta.RespuestaAjax.Success = false;
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Verifique sus datos.";
+                        return Content(Venta.RespuestaAjax.ToJSON(), "application/json");
+                    }
+                }
+                else
+                {
+                    Venta.RespuestaAjax.Success = false;
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Venta no válida.";
+                    return Content(Venta.RespuestaAjax.ToJSON(), "application/json");
+                }
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                Venta.RespuestaAjax.Success = false;
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Contacte con soporte técnico, error: " + Mensaje;
+                return Content(Venta.RespuestaAjax.ToJSON(), "application/json");
             }
         }
         #endregion
