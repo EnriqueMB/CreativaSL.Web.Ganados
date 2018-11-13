@@ -262,7 +262,7 @@
                                     "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
                                     "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Agendado'  data-placement='top' data-original-title='Agendado'><i class='fa fa-clock-o'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-danger tooltips btn-sm delete' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                     "</div>" +
                                     "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                                     "<div class='btn-group'>" +
@@ -277,12 +277,12 @@
                                     "</li>" +
                                     "<li>" +
                                     "<a class='ganado' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
-                                    "<i class='icon-ocampo-head'></i> Continuar: Ganado" +
+                                    "<i class='icon-ocampo-head'></i> Ganado" +
                                     "</a>" +
                                     "</li>" +
                                     "<li>" +
-                                    "<a class='edit' data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "'  role='menuitem' tabindex='-1'>" +
-                                    "<i class='fa fa-clock-o'></i> Agendado" +
+                                    "<a class='transacciones' data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "'  role='menuitem' tabindex='-1'>" +
+                                    "<i class='fa fa-money'></i> transacciones ($)" +
                                     "</a>" +
                                     "</li>" +
                                      "<li>" +
@@ -290,9 +290,14 @@
                                     "<i class='fa fa-archive'></i> Documentos" +
                                     "</a>" +
                                     "</li>" +
+                                     "<li>" +
+                                    "<a class='edit' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
+                                    "<i class='fa fa-trash-o'></i> Agendado" +
+                                    "</a>" +
+                                    "</li>" +
                                     "<li>" +
                                     "<li>" +
-                                    "<a class='delete' role='menuitem' tabindex='-1' id='" + full["id_venta"] + "'>" +
+                                    "<a class='eliminar' role='menuitem' tabindex='-1' id='" + full["id_venta"] + "'>" +
                                     "<i class='fa fa-trash-o'></i> Eliminar" +
                                     "</a>" +
                                     "</li>" +
@@ -324,17 +329,12 @@
                                     "</a>" +
                                     "</li>" +
                                     "<li>" +
-                                    "<a class='ganado' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
-                                    "<i class='fa fa-truck'></i> Continuar: flete" +
+                                    "<a class='enviar' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
+                                    "<i class='fa fa-truck'></i> Flete" +
                                     "</a>" +
                                     "</li>" +
                                     "<li>" +
-                                    "<a class='ganado' data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' role='menuitem' tabindex='-1'>" +
-                                    "<i class='icon-ocampo-head'></i> Ganado" +
-                                    "</a>" +
-                                    "</li>" +
-                                    "<li>" +
-                                    "<a class='transacciones' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
+                                    "<a class='transacciones' data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' role='menuitem' tabindex='-1'>" +
                                     "<i class='fa fa-money'></i> Transacciones ($)" +
                                     "</a>" +
                                     "</li>" +
@@ -344,7 +344,12 @@
                                     "</a>" +
                                     "</li>" +
                                     "<li>" +
-                                    "<a role='menuitem' tabindex='-1' id='" + full["id_venta"] + "'>" +
+                                    "<a class='edit' data-id='" + full["id_venta"] + "'   data-id_estatus = '" + full["id_estatus"] + "' role='menuitem' tabindex='-1'>" +
+                                    "<i class='fa fa-archive'></i> Ganado" +
+                                    "</a>" +
+                                    "</li>" +
+                                    "<li>" +
+                                    "<a class='Eliminar' role='menuitem' tabindex='-1' id='" + full["id_venta"] + "'>" +
                                     "<i class='fa fa-trash-o'></i> Eliminar" +
                                     "</a>" +
                                     "</li>" +
@@ -375,8 +380,8 @@
                                     "</a>" +
                                     "</li>" +
                                     "<li>" +
-                                    "<a class='ganado' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
-                                    "<i class='fa fa-edit'></i> Ganado" +
+                                    "<a class='eventos_recepcion' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
+                                    "<i class='fa fa-file'></i> Eventos y recepción" +
                                     "</a>" +
                                     "</li>" +
                                     "<li>" +
