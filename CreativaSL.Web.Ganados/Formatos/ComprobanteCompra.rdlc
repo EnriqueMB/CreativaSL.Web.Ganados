@@ -814,7 +814,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Int(Fields!TotalKilos.Value) &amp; " kg."</Value>
+                              <Value>=IIF(IsNothing(Fields!TotalKilos.Value), "0 kg.", Int(Fields!TotalKilos.Value) &amp; " kg.")</Value>
                               <Style>
                                 <Format>#,0.00</Format>
                                 <Language>es-MX</Language>
@@ -1054,7 +1054,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Int(Sum(Fields!TotalKilos.Value, "ComprobanteCompraDetalles")) &amp; " kg."</Value>
+                              <Value>=IIF(IsNothing(Fields!TotalKilos.Value), "0 kg.", Int(Sum(Fields!TotalKilos.Value)) &amp; " kg.")</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1087,7 +1087,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
