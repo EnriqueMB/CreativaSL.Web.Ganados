@@ -49,7 +49,7 @@
                     "render": function (data, type, full) {
 
                         return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-id='" + full["id_eventoCompra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Editar'><i class='fa fa-edit'></i></a>" +
+                            "<a data-id='" + full["id_eventoCompra"] + "' class='btn btn-primary tooltips btn-sm edit' title='Detalle'  data-placement='top' data-original-title='Editar'><i class='fa fa-eye'></i></a>" +
                             "<a data-hrefa='/Admin/Compra/DEL_Evento/' title='Eliminar' data-id='" + full["id_eventoCompra"] + "' class='btn btn-danger tooltips btn-sm delete' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
@@ -60,7 +60,7 @@
                             "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
                             "<li>" +
                             "<a data-id='" + full["id_eventoCompra"] + "' class='edit' data-id='" + full["id_eventoCompra"] + "'  role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-edit'></i> Editar" +
+                            "<i class='fa fa-edit'></i> Detalle" +
                             "</a>" +
                             "</li>" +
                             "<li>" +
