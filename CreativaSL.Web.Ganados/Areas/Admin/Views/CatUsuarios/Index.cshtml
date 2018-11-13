@@ -61,7 +61,7 @@
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     <a title="Editar" href="@Url.Action("Edit", "CatUsuarios", new { id =admin["id_persona"].ToString() })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                                                     <a title="Eliminar" id="delete-@admin["id_persona"].ToString()" data-hrefa="@Url.Action("Delete", "CatUsuarios", new { id =admin["id_persona"].ToString()  })" onClick="delete_row('@admin["id_persona"].ToString()');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
-                                                    <a title="Editar" class="btn btn-green tooltips" href="@Url.Action("Permisos", "CatUsuarios", new { id =admin["id_persona"].ToString() })" data-placement="top" data-original-title="Permiso"><i class="fa fa-unlock-alt"></i></a>
+                                                    <a title="Permisos" class="btn btn-green tooltips" href="@Url.Action("Permisos", "CatUsuarios", new { id =admin["id_persona"].ToString() })" data-placement="top" data-original-title="Permiso"><i class="fa fa-unlock-alt"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">

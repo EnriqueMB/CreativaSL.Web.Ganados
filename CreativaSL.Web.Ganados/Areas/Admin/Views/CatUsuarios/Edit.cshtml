@@ -20,11 +20,12 @@
     <div class="col-md-12">
         @{ Html.EnableClientValidation(false); }
         @*<form class="form-horizontal">*@
-        @using (Html.BeginForm("Create", "CatUsuarios", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off" }))
+        @using (Html.BeginForm("Edit", "CatUsuarios", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
                                                                                                                             <div id="validation_summary" class="field_error "></div>
+																															@Html.HiddenFor(model=> model.id_usuario)
                                                                                                                             <div class="panel panel-default">
                                                                                                                                 <div class="panel-heading">
                                                                                                                                     <h3 class="panel-title"><strong>Información </strong> nuevo usuario</h3>
@@ -44,7 +45,7 @@
                                                                                                                                                         @Html.ValidationMessageFor(model => model.nombre)
                                                                                                                                                     </div>
 
-                                                                                                                                                    <span class="help-block">Ingrese el nombre del chofer</span>
+                                                                                                                                                    <span class="help-block">Ingrese el nombre del Usuario</span>
                                                                                                                                                 </div>
                                                                                                                                             </div>
                                                                                                                                         </div>

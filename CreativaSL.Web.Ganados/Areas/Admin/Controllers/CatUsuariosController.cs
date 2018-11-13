@@ -156,6 +156,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 if (Token.IsTokenValid())
                 {
+                    ModelState.Remove("foto");
+                    ModelState.Remove("tablaEstadoCmb");
+                    ModelState.Remove("tablaMunicipioCmb");
+                    ModelState.Remove("contraseña");
+                    ModelState.Remove("user");
+                    ModelState.Remove("tablaTipoUsuariosCmb");
+                    ModelState.Remove("email2");
+                    ModelState.Remove("password");
                     if (ModelState.IsValid)
                     {
                         usuario.conexion = Conexion;
