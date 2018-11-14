@@ -152,6 +152,23 @@
         </div>
     </div>
 </div>
+<div class="message-box animated fadeIn" data-sound="alert" id="mb-finalizar">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-mail-forward"></span><strong>¿Seguro que desea finalizar este flete?</strong></div>
+            <div class="mb-content">
+                <p>¿Desea dar por finalizado este flete?</p>
+                <p>Presione "sí" si está seguro.</p>
+            </div>
+            <div class="mb-footer">
+                <div class="pull-right">
+                    <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                    <button class="btn btn-default btn-lg mb-control-close">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <script>
     var message = '@message';
     var typemessage = '@typemessage';
@@ -417,6 +434,15 @@
 
                 });
 
+                $(".finalizar").on("click", function () {
+                    var id_flete = $(this).attr('data-id');
+                    var box = $("#mb-finalizar");
+                    box.addClass("open");
+                    box.find(".mb-control-yes").on("click", function () {
+                        box.removeClass("open");
+                        window.location.href = '/Admin/Flete/FinalizarFlete?id_flete=' + id_flete;
+                    });
+                });
             },
             "order": [[0, 'desc']]
         });
