@@ -809,6 +809,7 @@
                     document.getElementById("tabTrayecto").dataset.toggle = "tab";
                     $('#tabTrayecto').data('toggle', "tab")
                     $("#liTrayecto").removeClass('disabled').addClass('pestaña');
+                   
                 }
                 else
                     Mensaje(response.Mensaje, "2");
@@ -839,10 +840,6 @@
                     document.getElementById("tabCobro").dataset.toggle = "tab";
                     $('#tabCobro').data('toggle', "tab")
                     $("#liCobro").removeClass('disabled').addClass('pestaña');
-                    //Documentos
-                    document.getElementById("tabDocumentacion").dataset.toggle = "tab";
-                    $('#tabDocumentacion').data('toggle', "tab")
-                    $("#liDocumentacion").removeClass('disabled').addClass('pestaña');
                     //Productos
                     document.getElementById("tabProducto").dataset.toggle = "tab";
                     $('#tabProducto').data('toggle', "tab")
