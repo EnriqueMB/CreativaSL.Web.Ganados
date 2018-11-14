@@ -955,7 +955,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }

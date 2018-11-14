@@ -808,7 +808,7 @@
                   <FontSize>6pt</FontSize>
                 </Style>
                 <ChartAxisTitle>
-                  <Caption>Título del eje</Caption>
+                  <Caption />
                   <Style>
                     <FontSize>8pt</FontSize>
                   </Style>
@@ -884,7 +884,7 @@
                   <FontSize>8pt</FontSize>
                 </Style>
                 <ChartAxisTitle>
-                  <Caption>Título del eje</Caption>
+                  <Caption />
                   <Style>
                     <FontSize>8pt</FontSize>
                   </Style>
@@ -976,7 +976,7 @@
         </ChartLegends>
         <ChartTitles>
           <ChartTitle Name="Default">
-            <Caption>Título del gráfico</Caption>
+            <Caption>GRAFICA DE PROVEEDORES CON MÁS VENTAS</Caption>
             <Style>
               <BackgroundGradientType>None</BackgroundGradientType>
               <FontWeight>Bold</FontWeight>
