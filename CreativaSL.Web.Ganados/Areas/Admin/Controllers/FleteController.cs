@@ -483,6 +483,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 //Paso al siguiente paso
                 Flete = FleteDatos.Flete_a_CambiarEstatusFleteXIDFlete(Flete);
 
+                if (Flete.RespuestaAjax.Success)
+                {
+                    TempData["typemessage"] = "1";
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                }
+
+                TempData["message"] = Flete.RespuestaAjax.Mensaje;
+
                 return RedirectToAction("Index", "Flete");
             }
             else
@@ -2753,6 +2764,43 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Contacte con soporte técnico, error: " + Mensaje;
                 return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+        #endregion
+
+        #region Finalizar Flete
+        [HttpGet]
+        public ActionResult FinalizarFlete(string id_flete)
+        {
+            if (id_flete.Length == 36)
+            {
+                Flete = new FleteModels();
+                FleteDatos = new _Flete_Datos();
+                //Asigno valores para los querys
+                Flete.Conexion = Conexion;
+                Flete.id_flete = id_flete;
+                Flete.Usuario = User.Identity.Name;
+                //Paso al siguiente paso
+                Flete = FleteDatos.Flete_a_CambiarEstatusFleteXIDFlete(Flete);
+
+                if (Flete.RespuestaAjax.Success)
+                {
+                    TempData["typemessage"] = "1";
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                }
+
+                TempData["message"] = Flete.RespuestaAjax.Mensaje;
+
+                return RedirectToAction("Index", "Flete");
+            }
+            else
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Flete no válido.";
+                return RedirectToAction("Index", "Flete");
             }
         }
         #endregion
