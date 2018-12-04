@@ -131,9 +131,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     return View(model);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ModelState.AddModelError("", "Error relacionado con la red o especifico de la instancia mientras se establecía una conexión con el servidor SQL Server. Contacte a soporte técnico.");
+                ModelState.AddModelError("", "Contacte a soporte técnico. " + ex.Message);
                 Session.Abandon();
                 Session.Clear();
                 Session.RemoveAll();
