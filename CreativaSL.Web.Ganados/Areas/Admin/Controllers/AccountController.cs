@@ -57,72 +57,83 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         public ActionResult Index(UsuarioModels model, string returnUrl)
         {
-            LoginDatos UD = new LoginDatos();
-            model.conexion = Conexion;
-            model = UD.ValidarUsuario(model);
-            if (model.opcion == 1)
+            try
             {
-                FormsAuthentication.SignOut();
-                _Usuario_Datos usuario_datos = new _Usuario_Datos();
-                UsuarioModels usuario = new UsuarioModels();
-                usuario.conexion = Conexion;
-                usuario.cuenta = model.id_usuario;
-                int TipoUsario = usuario_datos.ObtenerTipoUsuarioByUserName(usuario);
-                System.Web.HttpContext.Current.Session["SessionTipoUsuario"] = TipoUsario;
-                FormsAuthentication.SetAuthCookie(model.id_usuario, model.RememberMe);
-                HttpCookie authCookie = FormsAuthentication.GetAuthCookie(model.id_usuario, model.RememberMe);
-                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
-                List<string> listaPermiso = new List<string>();
-                foreach (var item in model.ListaPermisos)
+                LoginDatos UD = new LoginDatos();
+                model.conexion = Conexion;
+                model = UD.ValidarUsuario(model);
+                if (model.opcion == 1)
                 {
-                    listaPermiso.Add(item.NombreUrl);
+                    FormsAuthentication.SignOut();
+                    _Usuario_Datos usuario_datos = new _Usuario_Datos();
+                    UsuarioModels usuario = new UsuarioModels();
+                    usuario.conexion = Conexion;
+                    usuario.cuenta = model.id_usuario;
+                    int TipoUsario = usuario_datos.ObtenerTipoUsuarioByUserName(usuario);
+                    System.Web.HttpContext.Current.Session["SessionTipoUsuario"] = TipoUsario;
+                    FormsAuthentication.SetAuthCookie(model.id_usuario, model.RememberMe);
+                    HttpCookie authCookie = FormsAuthentication.GetAuthCookie(model.id_usuario, model.RememberMe);
+                    FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                    List<string> listaPermiso = new List<string>();
+                    foreach (var item in model.ListaPermisos)
+                    {
+                        listaPermiso.Add(item.NombreUrl);
+                    }
+                    System.Web.HttpContext.Current.Session["SessionListaPermiso"] = listaPermiso;
+                    System.Web.HttpContext.Current.Session["NombreUsuario"] = model.nombreCompleto;
+                    if (TipoUsario == 1)
+                    {
+                        return RedirectToAction("Index", "HomeAdmin", new { Area = "Admin" });
+                    }
+                    //else if (id_tipoUsuario == "1")
+                    //{
+                    //    return RedirectToAction("Index", "HomeProfesor", new { Area = "Profesor" });
+                    //}
+                    else
+                    {
+                        ModelState.AddModelError("", "No tienes permisos");
+                        Session.Abandon();
+                        Session.Clear();
+                        Session.RemoveAll();
+                        return View(model);
+                    }
                 }
-                System.Web.HttpContext.Current.Session["SessionListaPermiso"] = listaPermiso;
-                System.Web.HttpContext.Current.Session["NombreUsuario"] = model.nombreCompleto;
-                if (TipoUsario == 1)
+                else if (model.opcion == 2)
                 {
-                    return RedirectToAction("Index", "HomeAdmin", new { Area = "Admin" });
+                    ModelState.AddModelError("", "Usuario no existe");
+                    Session.Abandon();
+                    Session.Clear();
+                    Session.RemoveAll();
+                    return View(model);
                 }
-                //else if (id_tipoUsuario == "1")
-                //{
-                //    return RedirectToAction("Index", "HomeProfesor", new { Area = "Profesor" });
-                //}
+                else if (model.opcion == 3)
+                {
+                    ModelState.AddModelError("", "Error de Contraseña");
+                    Session.Abandon();
+                    Session.Clear();
+                    Session.RemoveAll();
+                    return View(model);
+                }
+                else if (model.opcion == 4)
+                {
+                    ModelState.AddModelError("", "El usuario tiene que ser de tipo. Administrador");
+                    Session.Abandon();
+                    Session.Clear();
+                    Session.RemoveAll();
+                    return View(model);
+                }
                 else
                 {
-                    ModelState.AddModelError("", "No tienes permisos");
+                    ModelState.AddModelError("", "El usuario o contraseña son incorrectos!!.");
                     Session.Abandon();
                     Session.Clear();
                     Session.RemoveAll();
                     return View(model);
                 }
             }
-            else if (model.opcion == 2)
+            catch (Exception)
             {
-                ModelState.AddModelError("", "Usuario no existe");
-                Session.Abandon();
-                Session.Clear();
-                Session.RemoveAll();
-                return View(model);
-            }
-            else if (model.opcion == 3)
-            {
-                ModelState.AddModelError("", "Error de Contraseña");
-                Session.Abandon();
-                Session.Clear();
-                Session.RemoveAll();
-                return View(model);
-            }
-            else if (model.opcion == 4)
-            {
-                ModelState.AddModelError("", "El usuario tiene que ser de tipo. Administrador");
-                Session.Abandon();
-                Session.Clear();
-                Session.RemoveAll();
-                return View(model);
-            }
-            else
-            {
-                ModelState.AddModelError("", "El usuario o contraseña son incorrectos!!.");
+                ModelState.AddModelError("", "Error relacionado con la red o especifico de la instancia mientras se establecía una conexión con el servidor SQL Server. Contacte a soporte técnico.");
                 Session.Abandon();
                 Session.Clear();
                 Session.RemoveAll();
