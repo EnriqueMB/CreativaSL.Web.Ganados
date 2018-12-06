@@ -307,6 +307,7 @@
     <Content Include="Content\assets\uploads\MIME-Types\YUICompressor.java" />
     <Content Include="Content\audio\alert.mp3" />
     <Content Include="Content\audio\fail.mp3" />
+    <Content Include="Content\css\ajax\libs\jquery-confirm3.3.2\jquery-confirm.min.css" />
     <Content Include="Content\css\animate\animate.css" />
     <Content Include="Content\css\animate\animate.min.css" />
     <Content Include="Content\css\blueimp\blueimp-gallery.min.css" />
@@ -488,6 +489,7 @@
     <Content Include="Content\js\fleteTransacciones.js" />
     <Content Include="Content\js\Ganado.js" />
     <Content Include="Content\js\ImpuestoProductoServicioACCompra.js" />
+    <Content Include="Content\js\plugins\jquery-validation\jquery.validate.min.js" />
     <Content Include="Content\js\plugins\jquery.maskMoney.js" />
     <Content Include="Content\js\Socios.js" />
     <Content Include="Content\js\conciliacionAlmacen.js" />
