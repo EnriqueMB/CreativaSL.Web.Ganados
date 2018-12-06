@@ -1,14 +1,17 @@
 ﻿@model CreativaSL.Web.Ganados.ViewModels.EntregaCombustibleViewModels
 @{
-    ViewBag.Title = "Edit";
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+                /**/
+
+                ViewBag.Title = "Edit";
+                Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 @section css
 {
     <!--FILEINPUT-->
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    @*<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />*@
+   <link href="@Url.Content("~/Content/css/fontawesome/font-awesome.min.css")" rel="stylesheet" />
 
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
 }
@@ -16,8 +19,10 @@
 
 @section featured{
     @{
-        var message = TempData["message"] ?? string.Empty;
-        var typemessage = TempData["typemessage"] ?? string.Empty;
+                        /**/
+
+                        var message = TempData["message"] ?? string.Empty;
+                        var typemessage = TempData["typemessage"] ?? string.Empty;
     }
     <div class="row">
         <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
@@ -34,139 +39,139 @@
                 @Html.AntiForgeryToken()
                 <div class="field_error" id="validation_summary"></div>
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-                    @Html.HiddenFor(model => model.IDEntregaCombustible)
-                    @*@Html.HiddenFor(model => model.ImgTicketBand)*@
-                    @Html.HiddenFor(model => model.UrlImagen64)
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title"><strong>Carga </strong> de combustible </h3>
-                            <ul class="panel-controls"></ul>
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
+                @Html.HiddenFor(model => model.IDEntregaCombustible)
+                @*@Html.HiddenFor(model => model.ImgTicketBand)*@
+                @Html.HiddenFor(model => model.UrlImagen64)
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Carga </strong> de combustible </h3>
+                        <ul class="panel-controls"></ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
 
-                                <div class="col-md-6">
+                            <div class="col-md-6">
 
-                                    <div class="form-group">
-                                        <label class="col-md-4 col-xs-12 control-label"><span>* </span> Sucursal </label>
-                                        <div class="col-md-8 col-xs-12">
-                                            @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
-                                            @Html.ValidationMessageFor(model => model.IDSucursal)
-                                        </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label"><span>* </span> Sucursal </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
+                                        @Html.ValidationMessageFor(model => model.IDSucursal)
                                     </div>
-
-                                    <div class="form-group">
-                                        <label class="col-md-4 col-xs-12 control-label"><span>* </span> Proveedor </label>
-                                        <div class="col-md-8 col-xs-12">
-                                            @Html.DropDownListFor(model => model.IDProveedor, new SelectList(Model.ListaProveedores, "IDProveedor", "NombreRazonSocial"), new { id = "IDProveedor", @class = "form-control select", data_live_search = "true" })
-                                            @Html.ValidationMessageFor(model => model.IDProveedor)
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-md-4 col-xs-12 control-label"><span>* </span> Vehículo </label>
-                                        <div class="col-md-8 col-xs-12">
-                                            @Html.DropDownListFor(model => model.IDVehiculo, new SelectList(Model.ListaVehiculos, "IDVehiculo", "Modelo"), new { id = "IDVehiculo", @class = "form-control select", data_live_search = "true" })
-                                            @Html.ValidationMessageFor(model => model.IDVehiculo)
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-md-4 col-xs-12 control-label"><span>* </span> Tipo de combustible </label>
-                                        <div class="col-md-8 col-xs-12">
-                                            @Html.DropDownListFor(model => model.IDTipoCombustible, new SelectList(Model.ListaTipoCombustible, "IDTipoCombustible", "Descripcion"), new { id = "IDTipoCombustible", @class = "form-control select", data_live_search = "true" })
-                                            @Html.ValidationMessageFor(model => model.IDTipoCombustible)
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-md-4 col-xs-12 control-label"> * Fecha de carga</label>
-                                        <div class="col-md-8 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                                @Html.TextBoxFor(model => model.Fecha, "{0:dd/MM/yyyy}", new { id = "Fecha", @class = "form-control datepicker", @readonly = "readonly" })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Fecha)
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-md-4 col-xs-12 control-label"><span></span> Km. Inicial</label>
-                                        <div class="col-md-8 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.KMInicial, new { id = "KMInicial", @class = "form-control", placeholder = "Ingrese el kilometraje inicial" })
-                                                @*<span class="glyphicon form-control-feedback"></span>*@
-                                                <span class="input-group-addon">KM</span>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.KMInicial)
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-md-4 col-xs-12 control-label"><span></span> No. de Ticket</label>
-                                        <div class="col-md-8 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.NoTicket, new { id = "NoTicket", @class = "form-control", placeholder = "Ingrese el número de ticket" })
-                                                @*<span class="glyphicon form-control-feedback"></span>*@
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.NoTicket)
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-md-4 col-xs-12 control-label"><span></span> Litros </label>
-                                        <div class="col-md-8 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.Litros, new { id = "Litros", @class = "form-control", placeholder = "Ingrese la cantidad de litros" })
-                                                <span class="input-group-addon">L</span>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Litros)
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-md-4 col-xs-12 control-label"><span></span> Importe Total </label>
-                                        <div class="col-md-8 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">$</span>
-                                                @Html.TextBoxFor(model => model.Total, new { id = "Total", @class = "form-control", placeholder = "Ingrese el importe total del ticket" })
-                                                <span class="input-group-addon">.00</span>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Total)
-                                        </div>
-                                    </div>
-
-
-
                                 </div>
-                                <div class="col-md-6">
 
-                                    <div class="form-group">
-                                        <label class="col-md-4 col-xs-12 control-label"><span></span>Ticket</label>
-                                        <div class="col-md-8 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.TextBoxFor(model => model.ImgTicket2, new { id = "ImgTicket", @type = "file", @class = "form-control" })
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.ImgTicket)
-                                            <span class="help-block">Ingrese por lo menos 1 imagen.</span>
-                                        </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label"><span>* </span> Proveedor </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        @Html.DropDownListFor(model => model.IDProveedor, new SelectList(Model.ListaProveedores, "IDProveedor", "NombreRazonSocial"), new { id = "IDProveedor", @class = "form-control select", data_live_search = "true" })
+                                        @Html.ValidationMessageFor(model => model.IDProveedor)
                                     </div>
+                                </div>
 
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label"><span>* </span> Vehículo </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        @Html.DropDownListFor(model => model.IDVehiculo, new SelectList(Model.ListaVehiculos, "IDVehiculo", "Modelo"), new { id = "IDVehiculo", @class = "form-control select", data_live_search = "true" })
+                                        @Html.ValidationMessageFor(model => model.IDVehiculo)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label"><span>* </span> Tipo de combustible </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        @Html.DropDownListFor(model => model.IDTipoCombustible, new SelectList(Model.ListaTipoCombustible, "IDTipoCombustible", "Descripcion"), new { id = "IDTipoCombustible", @class = "form-control select", data_live_search = "true" })
+                                        @Html.ValidationMessageFor(model => model.IDTipoCombustible)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label"> * Fecha de carga</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                            @Html.TextBoxFor(model => model.Fecha, "{0:dd/MM/yyyy}", new { id = "Fecha", @class = "form-control datepicker", @readonly = "readonly" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Fecha)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label"><span></span> Km. Inicial</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.KMInicial, new { id = "KMInicial", @class = "form-control", placeholder = "Ingrese el kilometraje inicial" })
+                                            @*<span class="glyphicon form-control-feedback"></span>*@
+                                            <span class="input-group-addon">KM</span>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.KMInicial)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label"><span></span> No. de Ticket</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.NoTicket, new { id = "NoTicket", @class = "form-control", placeholder = "Ingrese el número de ticket" })
+                                            @*<span class="glyphicon form-control-feedback"></span>*@
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.NoTicket)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label"><span></span> Litros </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Litros, new { id = "Litros", @class = "form-control", placeholder = "Ingrese la cantidad de litros" })
+                                            <span class="input-group-addon">L</span>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Litros)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label"><span></span> Importe Total </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">$</span>
+                                            @Html.TextBoxFor(model => model.Total, new { id = "Total", @class = "form-control", placeholder = "Ingrese el importe total del ticket" })
+                                            <span class="input-group-addon">.00</span>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Total)
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label"><span></span>Ticket</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.ImgTicket2, new { id = "ImgTicket", @type = "file", @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.ImgTicket)
+                                        <span class="help-block">Ingrese por lo menos 1 imagen.</span>
+                                    </div>
                                 </div>
 
                             </div>
 
+                        </div>
 
-                        </div>
-                        <div class="panel-footer">
-                            <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                            <a href="@Url.Action("Index","EntregaCombustible")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                        </div>
+
                     </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("Index","EntregaCombustible")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    </div>
+                </div>
             }
         </div>
     </div>

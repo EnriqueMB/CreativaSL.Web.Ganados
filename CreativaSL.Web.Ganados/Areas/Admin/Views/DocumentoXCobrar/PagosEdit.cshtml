@@ -8,8 +8,10 @@
 {
     <!--FILEINPUT-->
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.5/css/select.bootstrap.min.css">
+    @*<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.5/css/select.bootstrap.min.css">*@
+    <link href="@Url.Content("~/Content/css/fontawesome/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/select.bootstrap.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
     <!--CSS GENERAL-->
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
@@ -20,15 +22,15 @@
         var message = TempData["message"] ?? string.Empty;
         var typemessage = TempData["typemessage"] ?? string.Empty;
     }
-   <div class="row">
-            <div class="col-md-12">
-                @{ Html.EnableClientValidation(false); }
-                @using (Html.BeginForm("PagosEdit", "DocumentoXCobrar", FormMethod.Post, new { id = "form_Comprobante", @class = "form-horizontal", autocomplete = "off" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <div class="field_error" id="validation_summary"></div>
-                        @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-                    <div class="panel panel-default">
+    <div class="row">
+        <div class="col-md-12">
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("PagosEdit", "DocumentoXCobrar", FormMethod.Post, new { id = "form_Comprobante", @class = "form-horizontal", autocomplete = "off" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="field_error" id="validation_summary"></div>
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"><strong>Comprobante de pago</strong></h3>
                         <ul class="panel-controls"></ul>
@@ -44,55 +46,55 @@
                         @Html.HiddenFor(model => model.Id_documentoPorCobrar)
                         @Html.HiddenFor(model => model.Id_documentoPorCobrarDetallePagos)
 
-                       
+
 
                         <div class="form-group">
-            @*<div class="col-md-6 controlError">
-                <label class="col-md-2 control-label">Asignar:</label>
-                <div class="controls">
-                    <div class="col-md-10 col-xs-12">
-                        <div class="input-group">
-                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                            <select id="Id_documentoPorPagar" name="Id_documentoPorPagar" class="form-control select" data-live-search="true" , data-style="form-control">
-                                @foreach (var documentos in Model.ListaAsignar)
-                                {
-                                    <option value="@documentos.Id" data-nombre="@documentos.Nombre"
-                                            @if (Model.Id_documentoPorPagar == documentos.Id) { <text>
-                                            selected="selected"
-                                            </text> }>
-                                        @documentos.Descripcion
-                                    </option>
-                                }
-                            </select>
-                        </div>
-                        <span class="help-block">Asignar pago.</span>
-                    </div>
-                </div>
-            </div>*@
+                            @*<div class="col-md-6 controlError">
+                                    <label class="col-md-2 control-label">Asignar:</label>
+                                    <div class="controls">
+                                        <div class="col-md-10 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                <select id="Id_documentoPorPagar" name="Id_documentoPorPagar" class="form-control select" data-live-search="true" , data-style="form-control">
+                                                    @foreach (var documentos in Model.ListaAsignar)
+                                                    {
+                                                        <option value="@documentos.Id" data-nombre="@documentos.Nombre"
+                                                                @if (Model.Id_documentoPorPagar == documentos.Id) { <text>
+                                                                selected="selected"
+                                                                </text> }>
+                                                            @documentos.Descripcion
+                                                        </option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <span class="help-block">Asignar pago.</span>
+                                        </div>
+                                    </div>
+                                </div>*@
 
-            <div class="col-md-6 controlError">
-                <label class="col-md-2 control-label">Forma de pago:</label>
-                <div class="controls">
-                    <div class="col-md-10 col-xs-12">
-                        <div class="input-group">
-                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                            <select id="Id_formaPago" name="Id_formaPago" class="form-control select" data-live-search="true" , data-style="form-control">
-                                @foreach (var formaPago in Model.ListaFormaPagos)
-                                {
-                                    <option value="@formaPago.Clave" data-bancarizado="@formaPago.Bancarizado"
-                                            @if (Model.Id_formaPago == formaPago.Clave) { <text>
-                                            selected="selected"
-                                            </text> }>
-                                        @formaPago.Descripcion
-                                    </option>
-                                }
-                            </select>
+                            <div class="col-md-6 controlError">
+                                <label class="col-md-2 control-label">Forma de pago:</label>
+                                <div class="controls">
+                                    <div class="col-md-10 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <select id="Id_formaPago" name="Id_formaPago" class="form-control select" data-live-search="true" , data-style="form-control">
+                                                @foreach (var formaPago in Model.ListaFormaPagos)
+                                                {
+                                                    <option value="@formaPago.Clave" data-bancarizado="@formaPago.Bancarizado"
+                                                            @if (Model.Id_formaPago == formaPago.Clave) { <text>
+                                                            selected="selected"
+                                                            </text> }>
+                                                        @formaPago.Descripcion
+                                                    </option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <span class="help-block">Forma de pago.</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <span class="help-block">Forma de pago.</span>
-                    </div>
-                </div>
-            </div>
-        </div>
                         <div class="form-group">
                             <div class="col-md-6 controlError">
                                 <label class="col-md-2 control-label">Monto:</label>
@@ -354,14 +356,14 @@
 
 
                     </div>
-                <div class="panel-footer">
-                    <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
-                    <a href="@Url.Action("DetallePagos","DocumentoXCobrar",new { id = Model.Id_documentoPorCobrar,id2=Model.id_status })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("DetallePagos","DocumentoXCobrar",new { id = Model.Id_documentoPorCobrar,id2=Model.id_status })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    </div>
                 </div>
-            </div>
-}
-            </div>
+            }
         </div>
+    </div>
 
     <script>
         var message     = '@message';
@@ -382,12 +384,13 @@
 
     @*Validaciones*@
     <script type="text/javascript" src="@Url.Content("~/Content/js/documentoXPagarPagos.js")"></script>
-    
+
     <!--FILEINPUT-->
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>*@
+    <script src="@Url.Content("~/Content/js/plugins/popper.min.js")"></script>
     <script src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")" type="text/javascript"></script>
 
     <script>
