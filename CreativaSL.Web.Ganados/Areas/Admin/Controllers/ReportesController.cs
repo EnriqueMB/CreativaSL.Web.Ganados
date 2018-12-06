@@ -96,7 +96,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                return View();
+                return RedirectToAction("Index", "Reportes");
             }
         }
 
@@ -165,8 +165,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                return RedirectToAction("Index", "Reportes");
             }
         }
 
@@ -240,7 +239,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-                throw;
+                return RedirectToAction("Index", "Reportes");
             }
         }
 
@@ -311,7 +310,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                return View();
+                return RedirectToAction("Index", "Reportes");
             }
         }
 
@@ -382,7 +381,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                return View();
+                return RedirectToAction("Index", "Reportes");
             }
         }
 
@@ -453,7 +452,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                return View();
+                return RedirectToAction("Index", "Reportes");
             }
         }
 
@@ -523,7 +522,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                return View();
+                return RedirectToAction("Index", "Reportes");
             }
         }
 
@@ -596,7 +595,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-                throw;
+                return RedirectToAction("Index", "Reportes");
             }
         }
 
@@ -668,8 +667,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return File(renderedBytes, mimeType);
             }
             catch (Exception)
-            { 
-                throw;
+            {
+                return RedirectToAction("Index", "Reportes");
             }
         }
 
@@ -742,8 +741,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-
-                throw;
+                return RedirectToAction("Index", "Reportes");
             }
         }
 
@@ -812,8 +810,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                return RedirectToAction("Index", "Reportes");
             }
         }
 
@@ -882,8 +879,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                return RedirectToAction("Index", "Reportes");
             }
         }
 
@@ -955,7 +951,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+                return RedirectToAction("Index", "Reportes");
             }
         }
 
@@ -1024,7 +1020,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-                throw;
+                return RedirectToAction("Index", "Reportes");
             }
         }
     }
