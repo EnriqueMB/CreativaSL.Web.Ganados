@@ -73,21 +73,16 @@
     <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/maskedinput/jquery.maskedinput.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
+    @*<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>*@
+    <script src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.min.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/TipoProveedor.js")"></script>
 
     <script>
     jQuery(document).ready(function () {
-        $('#Licencia').change(function () {
-            $('#licencia-cont').toggle(1000);
-        });
         Mensaje(message, typemessage);
-
-
         TipoProveedor.init();
-
     });
 
     jQuery.validator.methods["date"] = function (value, element) { return true; }

@@ -9,7 +9,8 @@
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/font-awesome.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
-    <link href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/css/ajax/libs/jquery-confirm3.3.2/jquery-confirm.min.css")" rel="stylesheet" type="text/css" />
+    @*<link href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" rel="stylesheet" type="text/css" />*@
     <!--CSS GENERAL-->
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
 }
@@ -169,7 +170,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            @*<div class="form-group">
                                 <div class="col-md-4">
                                     <label class="col-md-3 control-label">Núm. de Certificado Zoosanitario</label>
                                     <div class="col-md-9 col-xs-12">
@@ -203,10 +204,10 @@
                                         <span class="help-block">Introduzca un número de certificado de brucelosis .</span>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
 
                             <div class="form-group">
-                                <div class="col-md-6">
+                                @*<div class="col-md-6">
                                     <label class="col-md-2 control-label">Núm. de guía de tránsito</label>
                                     <div class="col-md-10 col-xs-12">
                                         <div class="input-group">
@@ -216,7 +217,7 @@
                                         @Html.ValidationMessageFor(model => model.GuiaTransito)
                                         <span class="help-block">Introduzca un número de guía de tránsito.</span>
                                     </div>
-                                </div>
+                                </div>*@
                                 <div class="col-md-6">
                                     <label class="col-md-2 control-label">Kilómetraje Inicial</label>
                                     <div class="col-md-10 col-xs-12">
@@ -398,7 +399,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        @*<div class="form-group">
                             <div class="col-md-4">
                                 <label class="col-md-3 control-label">Núm. de Certificado Zoosanitario</label>
                                 <div class="col-md-9 col-xs-12">
@@ -432,10 +433,10 @@
                                     <span class="help-block">Introduzca un número de certificado de brucelosis .</span>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
 
                         <div class="form-group">
-                            <div class="col-md-6">
+                            @*<div class="col-md-6">
                                 <label class="col-md-2 control-label">Núm. de guía de tránsito</label>
                                 <div class="col-md-10 col-xs-12">
                                     <div class="input-group">
@@ -445,7 +446,7 @@
                                     @Html.ValidationMessageFor(model => model.GuiaTransito)
                                     <span class="help-block">Introduzca un número de guía de tránsito.</span>
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="col-md-6">
                                 <label class="col-md-2 control-label">Kilómetraje Inicial</label>
                                 <div class="col-md-10 col-xs-12">
@@ -545,7 +546,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <label class="col-md-3 control-label">Merma promedio</label>
+                                        @*<label class="col-md-3 control-label">Merma promedio</label>
                                         <div class="col-md-9 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
@@ -553,10 +554,10 @@
                                             </div>
                                             @Html.ValidationMessageFor(model => model.MermaPromedio)
                                             <span class="help-block">Merma promedio de la compra.</span>
-                                        </div>
+                                        </div>*@
                                     </div>
                                     <div class="col-md-4">
-                                        <label class="col-md-3 control-label">Total de la compra</label>
+                                        @*<label class="col-md-3 control-label">Total de la compra</label>
                                         <div class="col-md-9 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
@@ -564,7 +565,7 @@
                                             </div>
                                             @Html.ValidationMessageFor(model => model.MontoTotal)
                                             <span class="help-block">Total de la compra ($).</span>
-                                        </div>
+                                        </div>*@
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -657,7 +658,7 @@
 
                                 <div class="form-group">
                                     <div class="col-md-3">
-                                        <label class="col-md-3 control-label">Cantidad total</label>
+                                        @*<label class="col-md-3 control-label">Cantidad total</label>
                                         <div class="col-md-9 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
@@ -665,10 +666,10 @@
                                             </div>
                                             @Html.ValidationMessageFor(model => model.MontoTotal)
                                             <span class="help-block">Cantidad Total.</span>
-                                        </div>
+                                        </div>*@
                                     </div>
                                     <div class="col-md-3">
-                                        <label class="col-md-3 control-label">Cantidad pagada</label>
+                                        @*<label class="col-md-3 control-label">Cantidad pagada</label>
                                         <div class="col-md-9 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
@@ -676,10 +677,10 @@
                                             </div>
                                             @Html.ValidationMessageFor(model => model.MermaPromedio)
                                             <span class="help-block">Subtotal.</span>
-                                        </div>
+                                        </div>*@
                                     </div>
                                     <div class="col-md-3">
-                                        <label class="col-md-3 control-label">Cantidad por pagar</label>
+                                        @*<label class="col-md-3 control-label">Cantidad por pagar</label>
                                         <div class="col-md-9 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
@@ -687,7 +688,7 @@
                                             </div>
                                             @Html.ValidationMessageFor(model => model.MermaPromedio)
                                             <span class="help-block">Subtotal.</span>
-                                        </div>
+                                        </div>*@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="col-md-6 col-xs-12">
@@ -807,7 +808,7 @@
 
                     <div class="panel-body">
 
-                        <div class="form-group">
+                        @*<div class="form-group">
                             <div class="col-md-6">
                                 <label class="col-md-2 control-label">Fecha de llegada</label>
                                 <div class="col-md-10 col-xs-12">
@@ -830,8 +831,8 @@
                                     <span class="help-block">Hora de llegada de la unidad.</span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
+                        </div>*@
+                        @*<div class="form-group">
                             <div class="col-md-6">
                                 <label class="col-md-2 control-label">Recibido por:</label>
                                 <div class="col-md-10 col-xs-12">
@@ -854,8 +855,8 @@
                                     <span class="help-block">Hora de descarga de la unidad.</span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
+                        </div>*@
+                        @*<div class="form-group">
                             <div class="col-md-6">
                                 <label class="col-md-2 control-label">Kilos recibidos</label>
                                 <div class="col-md-10 col-xs-12">
@@ -878,8 +879,8 @@
                                     <span class="help-block">Ganados recibidos de la compra.</span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
+                        </div>*@
+                        @*<div class="form-group">
                             <div class="col-md-12">
                                 <label class="col-md-1 control-label">Observación</label>
                                 <div class="col-md-11 col-xs-12">
@@ -891,7 +892,7 @@
                                     <span class="help-block">Kilos recibidos de la compra.</span>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
                     </div>
 
                     <div class="panel-footer">
@@ -944,7 +945,8 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    @*<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>*@
+<link href="@Url.Content("~/Content/css/ajax/libs/jquery-confirm3.3.2/jquery-confirm.min.css")" rel="stylesheet" />
 
     <!--FUNCIONES DE COMPRA JS-->
     <script type="text/javascript" src="@Url.Content("~/Content/js/compra.js")"></script>
@@ -957,7 +959,7 @@
         jQuery(document).ready(function () {
 
             var idCompra = "@Model.IDCompra";
-            var sRangoPeso = "@Model.sRangoPeso";
+            var sRangoPeso = "0"; @*@Model.sRangoPeso*@
             Mensaje(message, typemessage);
 
             Compra.init(1);
