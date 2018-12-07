@@ -73,7 +73,7 @@
                     "render": function (data, type, full) {
 
                         return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-id='" + full["id_eventoVenta"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                            //"<a data-id='" + full["id_eventoVenta"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
                             "<a data-id='" + full["id_eventoVenta"] + "' data-hrefa='/Admin/Venta/Del_Evento/' title='Eliminar'  class='btn btn-danger tooltips btn-sm delete' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
@@ -82,11 +82,11 @@
                             "<i class='fa fa-cog'></i> <span class='caret'></span>" +
                             "</a>" +
                             "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
-                            "<li>" +
-                            "<a data-id='" + full["id_eventoVenta"] + "' class='edit' role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-edit'></i> Editar" +
-                            "</a>" +
-                            "</li>" +
+                            //"<li>" +
+                            //"<a data-id='" + full["id_eventoVenta"] + "' class='edit' role='menuitem' tabindex='-1'>" +
+                            //"<i class='fa fa-edit'></i> Editar" +
+                            //"</a>" +
+                            //"</li>" +
                             "<li>" +
                             "<a data-id='" + full["id_eventoVenta"] + "' data-hrefa='/Admin/Venta/Del_Evento/' class='delete' role='menuitem' tabindex='-1' >" +
                             "<i class='fa fa-trash-o'></i> Eliminar" +
@@ -106,10 +106,10 @@
                 }
             ],
             "drawCallback": function (settings) {
-                $(".edit").on("click", function () {
-                    var Id_eventoVenta = $(this).data("id");
-                    window.location.href = '/Admin/Venta/VentaEvento?IDVenta=' + Id_venta + '&Id_eventoVenta=' + Id_eventoVenta;
-                });
+                //$(".edit").on("click", function () {
+                //    var Id_eventoVenta = $(this).data("id");
+                //    window.location.href = '/Admin/Venta/VentaEvento?IDVenta=' + Id_venta + '&Id_eventoVenta=' + Id_eventoVenta;
+                //});
                 $(".delete").on("click", function () {
                     var url = $(this).attr('data-hrefa');
                     var Id_eventoVenta = $(this).attr('data-id');
