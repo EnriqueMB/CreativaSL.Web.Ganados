@@ -664,8 +664,8 @@
             },
             responsive: true,
             "ajax": {
-                "data": {
-                    "IDFlete": IDFlete
+                "data": function(d) {
+                    d.IDFlete =  $("#id_flete").val();
                 },
                 "url": "/Admin/Flete/TableJsonProductoGanadoXIDFlete/",
                 "type": "POST",

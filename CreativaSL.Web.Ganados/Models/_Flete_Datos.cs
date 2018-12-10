@@ -2477,7 +2477,7 @@ namespace CreativaSL.Web.Ganados.Models
 
         #endregion
 
-        #region Del Venta
+        #region Del flete
         public FleteModels Flete_del_Flete(FleteModels Flete)
         {
             try
