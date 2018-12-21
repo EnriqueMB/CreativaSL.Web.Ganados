@@ -34,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,6 +43,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
@@ -489,6 +491,14 @@
     <Content Include="Content\js\fleteTransacciones.js" />
     <Content Include="Content\js\Ganado.js" />
     <Content Include="Content\js\ImpuestoProductoServicioACCompra.js" />
+    <Content Include="Content\js\plugins\datatablesbtn\buttons.flash.min.js" />
+    <Content Include="Content\js\plugins\datatablesbtn\buttons.html5.min.js" />
+    <Content Include="Content\js\plugins\datatablesbtn\buttons.print.min.js" />
+    <Content Include="Content\js\plugins\datatablesbtn\dataTables.buttons.min.js" />
+    <Content Include="Content\js\plugins\datatablesbtn\jquery.dataTables.min.js" />
+    <Content Include="Content\js\plugins\datatablesbtn\jszip.min.js" />
+    <Content Include="Content\js\plugins\datatablesbtn\pdfmake.min.js" />
+    <Content Include="Content\js\plugins\datatablesbtn\vfs_fonts.js" />
     <Content Include="Content\js\plugins\jquery-validation\jquery.validate.min.js" />
     <Content Include="Content\js\plugins\jquery.maskMoney.js" />
     <Content Include="Content\js\Socios.js" />
@@ -1323,7 +1333,6 @@
     <Content Include="Areas\Admin\Views\CatProveedorCombustible\NuevoDatosContacto.cshtml" />
     <Content Include="Areas\Admin\Views\CompraAlmacen\EditProducto.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\Transacciones.cshtml" />
-    <Content Include="Areas\Admin\Views\DocumentoXCobrar\ModalServicioProducto.cshtml" />
     <Content Include="Areas\Admin\Views\RptUltCompraProveedor\Index.cshtml" />
     <Content Include="Areas\Admin\Views\RptProveedorMermaAlta\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorServicio\Index.cshtml" />
@@ -1434,6 +1443,7 @@
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\DetailsPagos.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\Detalles_Flete_Eventos.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaDetallesEvento.cshtml" />
+    <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1867,33 +1877,33 @@
     <Folder Include="Areas\Admin\Views\CatBodega\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Formatos\CartaPorte.rdlc" />
-    <EmbeddedResource Include="Formatos\ComprobanteCompra.rdlc" />
-    <EmbeddedResource Include="Formatos\ImagenesProveedor.rdlc" />
-    <EmbeddedResource Include="Formatos\ListadoGanado.rdlc" />
-    <EmbeddedResource Include="Formatos\ListadoGanadoParaCompra.rdlc" />
-    <EmbeddedResource Include="Formatos\ListadoGanadoV2.rdlc" />
-    <EmbeddedResource Include="Reports\prueba.rdlc">
+    <Content Include="Formatos\CartaPorte.rdlc" />
+    <Content Include="Formatos\ComprobanteCompra.rdlc" />
+    <Content Include="Formatos\ImagenesProveedor.rdlc" />
+    <Content Include="Formatos\ListadoGanado.rdlc" />
+    <Content Include="Formatos\ListadoGanadoParaCompra.rdlc" />
+    <Content Include="Formatos\ListadoGanadoV2.rdlc" />
+    <Content Include="Reports\prueba.rdlc">
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\ReporteDiasLaborados.rdlc" />
-    <EmbeddedResource Include="Reports\ReporteEntradas.rdlc" />
-    <EmbeddedResource Include="Reports\ReporteEntradasV2.rdlc" />
-    <EmbeddedResource Include="Reports\ReporteEstadoCuentaProveedor.rdlc" />
-    <EmbeddedResource Include="Reports\ReporteEstadoCuentaProveedorActualizado.rdlc" />
-    <EmbeddedResource Include="Reports\ReporteFletes.rdlc" />
-    <EmbeddedResource Include="Reports\ReporteGanadosMuertoCompra.rdlc" />
-    <EmbeddedResource Include="Reports\ReporteGanadosVendidos.rdlc" />
-    <EmbeddedResource Include="Reports\ReporteJaulasVenta.rdlc" />
-    <EmbeddedResource Include="Reports\ReporteMermaAlta.rdlc">
+    </Content>
+    <Content Include="Reports\ReporteDiasLaborados.rdlc" />
+    <Content Include="Reports\ReporteEntradas.rdlc" />
+    <Content Include="Reports\ReporteEntradasV2.rdlc" />
+    <Content Include="Reports\ReporteEstadoCuentaProveedor.rdlc" />
+    <Content Include="Reports\ReporteEstadoCuentaProveedorActualizado.rdlc" />
+    <Content Include="Reports\ReporteFletes.rdlc" />
+    <Content Include="Reports\ReporteGanadosMuertoCompra.rdlc" />
+    <Content Include="Reports\ReporteGanadosVendidos.rdlc" />
+    <Content Include="Reports\ReporteJaulasVenta.rdlc" />
+    <Content Include="Reports\ReporteMermaAlta.rdlc">
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\ReporteProveedorVendioMasG.rdlc" />
-    <EmbeddedResource Include="Reports\ReporteGanadosMuertoVenta.rdlc" />
-    <EmbeddedResource Include="Reports\ReporteSaldos.rdlc" />
-    <EmbeddedResource Include="Reports\RptCorral.rdlc" />
-    <EmbeddedResource Include="Reports\RptSalidas.rdlc" />
-    <EmbeddedResource Include="Reports\RptSocios.rdlc" />
+    </Content>
+    <Content Include="Reports\ReporteProveedorVendioMasG.rdlc" />
+    <Content Include="Reports\ReporteGanadosMuertoVenta.rdlc" />
+    <Content Include="Reports\ReporteSaldos.rdlc" />
+    <Content Include="Reports\RptCorral.rdlc" />
+    <Content Include="Reports\RptSalidas.rdlc" />
+    <Content Include="Reports\RptSocios.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

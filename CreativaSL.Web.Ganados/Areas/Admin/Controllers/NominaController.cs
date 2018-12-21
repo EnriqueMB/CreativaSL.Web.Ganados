@@ -408,7 +408,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "Nomina");
+                //return RedirectToAction("Index", "Nomina");
+                throw ex;
             }
         }
 
@@ -423,10 +424,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 NominaD.ObtenerReporteNominaDetalle(Nomina);
                 return View(Nomina);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw (ex);
             }
         }
 
@@ -453,9 +454,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return report;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                throw ex;
             }
         }
 
@@ -558,9 +560,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return report;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return RedirectToAction("Index");
+                throw ex;
+                //return RedirectToAction("Index");
             }
         }
 
@@ -614,10 +617,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
                
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
     }
