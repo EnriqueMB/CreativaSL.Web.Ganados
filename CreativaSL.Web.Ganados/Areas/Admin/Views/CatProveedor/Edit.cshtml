@@ -295,7 +295,7 @@
             uploadUrl: "#",
             overwriteInitial: true,
             showUploadedThumbs: false,
-            allowedFileExtensions: ['png', 'jpg'],
+            allowedFileExtensions: ['png', 'jpg', 'jpge'],
             initialPreview: [
                 '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.ImgINE" />'
             ],
@@ -329,7 +329,7 @@
             showClose: false,
             showUpload: false,
             layoutTemplates: { actionDelete: '' }, // disable thumbnail deletion
-            allowedFileExtensions: ["png"]
+            allowedFileExtensions: ["png", 'jpg', 'jpge']
         })
 
     </script>

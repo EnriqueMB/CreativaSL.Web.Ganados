@@ -855,6 +855,20 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return PartialView("ModalListadoPrecios", Compra);
         }
         #endregion
+
+        #region ListaFierros
+        public ActionResult ModalListaFierros()
+        {
+            Compra = new CompraModels();
+            CompraDatos = new _Compra_Datos();
+            Compra.Conexion = Conexion;
+            CatFierroModels Fierro = new CatFierroModels();
+
+            Fierro.ListaFierro = CompraDatos.GetListaFierros(Compra);
+
+            return PartialView("ModalFierros", Fierro);
+        }
+        #endregion
         #region Evento
         public ActionResult ModalEvento(string IDEvento)
         {

@@ -1345,6 +1345,8 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+
         #region Get EventoXIDEvento
         public EventoEnvioModels GetEventoXIDEvento(EventoEnvioModels Evento)
         {

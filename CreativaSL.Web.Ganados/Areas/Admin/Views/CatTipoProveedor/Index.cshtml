@@ -1,7 +1,10 @@
 ﻿@model CreativaSL.Web.Ganados.Models.CatTipoProveedorModels
+
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+
 @section featured{
     @{
         var message = TempData["message"] ?? string.Empty;
@@ -14,7 +17,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Tipo de proveedor </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Lista de tipos de proveedores </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -26,7 +29,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("Create","CatTipoProveedor")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Tipo de proveedor</a></li>
+                            <li><a href="@Url.Action("Create","CatTipoProveedor")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo proveedor</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                         </ul>
@@ -36,7 +39,7 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                       
+
                                         <th>Descripción</th>
                                         <th>Acción</th>
                                     </tr>
@@ -46,11 +49,11 @@
                                     {
                                         <tr id="@TipoProveedor.IDTipoProveedor">
                                             <td>@TipoProveedor.Descripcion</td>
-                                           
+
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     <a title="Editar" href="@Url.Action("Edit", "CatTipoProveedor", new { id = TipoProveedor.IDTipoProveedor })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    @*<a title="Eliminar" id="delete-@TipoProveedor.IDTipoProveedor" data-hrefa="@Url.Action("Delete", "CatTipoProveedor", new { id = TipoProveedor.IDTipoProveedor  })" onClick="delete_row('@TipoProveedor.IDTipoProveedor');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>*@
+													<a title="Eliminar" id="delete-@TipoProveedor.IDTipoProveedor" data-hrefa="@Url.Action("Delete", "CatTipoProveedor", new { id = TipoProveedor.IDTipoProveedor  })" onClick="delete_row('@TipoProveedor.IDTipoProveedor');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -63,21 +66,17 @@
                                                                     <i class="fa fa-edit"></i> Editar
                                                                 </a>
                                                             </li>
-                                                            @*<li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@TipoProveedor.IDTipoProveedor" data-hrefa="@Url.Action("Delete", "CatTipoProveedor", new { id = TipoProveedor.IDTipoProveedor  })" onClick="delete_row('@TipoProveedor.IDTipoProveedor');">
-                                                                    <i class="fa fa-trash-o"></i> Eliminar
-                                                                </a>
-                                                            </li>*@
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
-                                                }
+                                    }
                                 </tbody>
                             </table>
                         </div>
                     </div>
+
                 </div>
                 <!-- END DEFAULT DATATABLE -->
             </div>
@@ -117,9 +116,5 @@
         });
     </script>
 }
-
-
-
-
 
 
