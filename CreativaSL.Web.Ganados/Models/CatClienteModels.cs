@@ -181,7 +181,7 @@ namespace CreativaSL.Web.Ganados.Models
         /// <summary>
         /// Correo electrónico de contacto del cliente
         /// </summary>
-        [Required(ErrorMessage = "Ingrese el correo electrónico")]
+        //[Required(ErrorMessage = "Ingrese el correo electrónico")]
         [Display(Name = "Email")]
         [Correo(ErrorMessage = "Ingrese un correo electrónico válido")]
         public string CorreoElectronico
