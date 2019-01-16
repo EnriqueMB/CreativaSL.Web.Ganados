@@ -1537,6 +1537,7 @@
     <Compile Include="Models\AlmacenEntradaModels.cs" />
     <Compile Include="Models\AsistenciaEmpleadoModels.cs" />
     <Compile Include="Models\Auxiliar.cs" />
+    <Compile Include="Models\CalendarioFleteModels.cs" />
     <Compile Include="Models\CalendarioModels.cs" />
     <Compile Include="Models\CartaPorteDetallesModels.cs" />
     <Compile Include="Models\CartaPorteModels.cs" />

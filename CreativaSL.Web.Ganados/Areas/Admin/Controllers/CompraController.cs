@@ -2690,6 +2690,32 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
             }
         }
+
+        [HttpPost]
+        public ActionResult GetFierroXId(string Id_fierro)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+
+                CatFierroModels Fierro = new CatFierroModels();
+                Fierro.IDFierro = Id_fierro;
+                Fierro.Conexion = Conexion;
+
+                Fierro = CompraDatos.GetFierroXID(Fierro);
+
+                return Content(Fierro.ImagenContruida.ToJSON(), "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                Compra.RespuestaAjax.Mensaje = Mensaje;
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
         #region Comprobante compra
         /// <summary>
         /// 
