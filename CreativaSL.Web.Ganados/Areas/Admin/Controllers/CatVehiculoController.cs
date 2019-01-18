@@ -87,6 +87,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Vehiculo.Conexion = Conexion;
                         Vehiculo.Opcion = 1;
                         Vehiculo.IDVehiculo = "0";
+                        Vehiculo.Usuario = User.Identity.Name;
                         HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
                         if (bannerImage != null && bannerImage.ContentLength > 0)
                         {
@@ -199,9 +200,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             Vehiculo.BandImg = true;
                         }
                         Vehiculo.Conexion = Conexion;
+                        Vehiculo.Usuario = User.Identity.Name;
                         Vehiculo.Opcion = 2;
                         Vehiculo.IDVehiculo = id;
-                        //Vehiculo.IDVehiculo = "0";
 
                         Vehiculo.Estatus = true;
                         Vehiculo = VehiculoDatos.AcCatVehiculo(Vehiculo);

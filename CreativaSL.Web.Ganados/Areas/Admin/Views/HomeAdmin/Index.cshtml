@@ -161,8 +161,8 @@
                 eventOverlap: false,
                 displayEventTime: true,
                 events: function (start, end, timezone, callback) {
+                    var events2 = [];
                     
-                   
                     $.ajax({
                         url: '/Admin/HomeAdmin/Eventos',
                         dataType: 'json',
@@ -174,7 +174,7 @@
                         },
                         success: function (doc) {
                             var color = "";
-                            var events = [];
+                            
                             $(doc).each(function (item, value) {
                                 switch (value.Estatus) {
                                     case 0: color = "#ffd633";
@@ -186,7 +186,7 @@
                                     case 3: color = "#00cc00";
                                         break;
                                 }
-                                events.push({
+                                events2.push({
                                     //id: value.id,
                                     title: value.title,
                                     start: value.start,
@@ -206,7 +206,8 @@
                                     color:color,
                                 });
                             });
-                            callback(events);
+
+                            //callback(events2);
                         },
 
                         error: function (xhr, status, error) {
@@ -225,10 +226,10 @@
                         },
                         success: function (doc) {
                             var color = "";
-                            var events = [];
+
                             $(doc).each(function (item, value) {
 
-                                events.push({
+                                events2.push({
                                     title: value.title,
                                     start: value.start,
                                     description:
@@ -243,7 +244,7 @@
                                     color: value.ColorEstatus,
                                 });
                             });
-                            callback(events);
+                            callback(events2);
                         },
 
                         error: function (xhr, status, error) {
@@ -251,37 +252,13 @@
                         }
                     });
                 },
-    //            eventSources: [
 
-    //// your event source
-    //{
-    //    url: "/Admin/HomeAdmin/Eventos",
-    //    type: 'POST',
-    //    data: {
-    //        id: 'something',
-          
-    //    },
-    //    success: function (municipio) {
-    //        console.log(municipio);
-           
-
-    //    },
-    //    error: function() {
-    //        alert('there was an error while fetching events!');
-    //    }
-    //}
-
-    //// any other sources...
-
-    //            ],
-                //events: a,
                 eventClick: function (event, jsEvent, view) {
                     $('#modalTitle').html(event.title);
                     $('#modalBody').html(event.description);
                     //$('#eventUrl').attr('href', event.url);
                     $('#fullCalModal').modal();
                 },
-
 
             });
         });

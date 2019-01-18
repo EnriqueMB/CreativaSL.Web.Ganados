@@ -43,10 +43,23 @@
             var Id_cliente = $(this).val();
             GetListadoLugaresCliente(Id_cliente);
         });
+
+
+        $("#Id_sucursal").on("change", function () {
+            var Id_sucursal = $(this).val();
+            var Id_empresa = $("#Flete_Id_empresa").val();
+
+            GetChoferesXIDEmpresa(Id_empresa, Id_sucursal);
+            GetVehiculosXIDEmpresa(Id_empresa, Id_sucursal);
+            GetLugaresXIDEmpresa(Id_empresa); //checar si se carga mejor por sucursal
+        });
+
         $("#Flete_Id_empresa").on("change", function () {
             var Id_empresa = $(this).val();
-            GetChoferesXIDEmpresa(Id_empresa);
-            GetVehiculosXIDEmpresa(Id_empresa);
+            var Id_sucursal = $("#Id_sucursal").val();
+
+            GetChoferesXIDEmpresa(Id_empresa, Id_sucursal);
+            GetVehiculosXIDEmpresa(Id_empresa, Id_sucursal);
             GetLugaresXIDEmpresa(Id_empresa);
         });
 
@@ -223,12 +236,12 @@
             }
         });
     }
-    function GetChoferesXIDEmpresa(Id_empresa) {
+    function GetChoferesXIDEmpresa(Id_empresa, Id_sucursal) {
         $.ajax({
             url: '/Admin/Venta/GetChoferesXIDEmpresa/',
             type: "POST",
             dataType: 'json',
-            data: { IDEmpresa: Id_empresa },
+            data: { IDEmpresa: Id_empresa, Id_sucursal: Id_sucursal },
             error: function () {
                 Mensaje("Ocurrió un error al cargar el combo", "1");
             },
@@ -245,12 +258,12 @@
             }
         });
     }
-    function GetVehiculosXIDEmpresa(Id_empresa) {
+    function GetVehiculosXIDEmpresa(Id_empresa, Id_sucursal) {
         $.ajax({
             url: '/Admin/Venta/GetVehiculosXIDEmpresa/',
             type: "POST",
             dataType: 'json',
-            data: { IDEmpresa: Id_empresa },
+            data: { IDEmpresa: Id_empresa, Id_sucursal: Id_sucursal },
             error: function () {
                 Mensaje("Ocurrió un error al cargar el combo", "1");
             },

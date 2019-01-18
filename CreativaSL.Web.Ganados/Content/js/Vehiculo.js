@@ -47,8 +47,8 @@
                 tarjetaCirculacion: { required: "Ingrese la tarjeta de circulación.", tarjetaCirculacion: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
                 fechaIngreso: { required: " " },
                 Capacidad: { required: "Ingrese la capacidad del vehículo.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
-                Color: { required: "Ingrese el color del vehiculo.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
-                NoSerie: { required: "Ingrese el numero de serie del vehículo.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
+                Color: { required: "Ingrese el color de unidad.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
+                NoSerie: { required: "Ingrese el número de motor.", texto: "Ingrese un nombre valido.", maxlength: "El campo nombre admite máximo 30 caracteres." },
                 Gps: { maxlength: "El campo GPS admite máximo 10 caracteres." },
             },
             invalidHandler: function (event, validator) { //display error alert on form submit

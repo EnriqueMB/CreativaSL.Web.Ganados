@@ -87,8 +87,8 @@
                                     <div class="form-group">
                                         <div class="col-md-6">
                                             <div class="controlError">
-                                                <label class="col-md-3 control-label">Sucursal</label>
-                                                <div class="col-md-9 col-xs-12">
+                                                <label class="col-md-2 control-label">Sucursal</label>
+                                                <div class="col-md-10 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-building-o"></span></span>
                                                         @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { @class = "form-control select classSelect", data_live_search = "true", data_style = "form-control" })
@@ -97,12 +97,25 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div class="controlError">
+                                                <label class="col-md-2 control-label">Hora programada</label>
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                        @Html.TextBoxFor(model => model.HoraProgramada, new { @class = "form-control Hora24hrs", @readonly = "readonly" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.HoraProgramada)
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                     <div class="form-group">
                                         <div class="controlError col-md-6">
                                             <div class="controlError">
-                                                <label class="col-md-3 control-label">Fecha programada</label>
-                                                <div class="col-md-9 col-xs-12">
+                                                <label class="col-md-2 control-label">Fecha programada</label>
+                                                <div class="col-md-10 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
                                                         @Html.TextBoxFor(model => model.FechaHoraProgramada, "{0:dd/MM/yyyy}", new { id = "FechaProgramada", autocomplete = "off", @class = "form-control datepicker", @readonly = "readonly" })
@@ -112,23 +125,21 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="controlError">
-                                                <label class="col-md-3 control-label">Hora programada</label>
-                                                <div class="col-md-9 col-xs-12">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                                        @Html.TextBoxFor(model => model.HoraProgramada, new { @class = "form-control Hora24hrs", @readonly = "readonly" } )
-                                                    </div>
-                                                    @Html.ValidationMessageFor(model => model.HoraProgramada)
+                                            <label class="col-md-2 control-label">Báscula</label>
+                                            <div class="col-md-10 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.Descripcion_bascula, new { @class = "form-control" })
                                                 </div>
+                                                @Html.ValidationMessageFor(model => model.Descripcion_bascula)
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-6">
                                             <div class="controlError">
-                                                <label class="col-md-3 control-label">Nombre del proveedor</label>
-                                                <div class="col-md-9 col-xs-12">
+                                                <label class="col-md-2 control-label">Nombre del proveedor</label>
+                                                <div class="col-md-10 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
                                                         @Html.DropDownListFor(model => model.IDProveedor, new SelectList(Model.ListaProveedores, "IDProveedor", "NombreRazonSocial"), new { @class = "form-control select classSelect", data_live_search = "true", data_style = "form-control" })
@@ -139,8 +150,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="controlError">
-                                                <label class="col-md-3 control-label">Lugares del proveedor</label>
-                                                <div class="col-md-9 col-xs-12">
+                                                <label class="col-md-2 control-label">Lugares del proveedor</label>
+                                                <div class="col-md-10 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></span>
                                                         @Html.DropDownListFor(model => model.IDPLugarProveedor, new SelectList(Model.ListaLugaresProveedor, "id_lugar", "descripcion"), new { @class = "form-control select classSelect", data_live_search = "true", data_style = "form-control" })
@@ -153,8 +164,8 @@
                                     <div class="form-group">
                                         <div class="col-md-6">
                                             <div class="controlError">
-                                                <label class="col-md-3 control-label">Ganado programado machos</label>
-                                                <div class="col-md-9 col-xs-12">
+                                                <label class="col-md-2 control-label">Ganado programado machos</label>
+                                                <div class="col-md-10 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="icon-ocampo-head"></span></span>
                                                         @Html.TextBoxFor(model=>model.GanadosPactadoMachos, new { @class = "form-control" })
@@ -165,8 +176,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="controlError">
-                                                <label class="col-md-3 control-label">Ganado programado hembras</label>
-                                                <div class="col-md-9 col-xs-12">
+                                                <label class="col-md-2 control-label">Ganado programado hembras</label>
+                                                <div class="col-md-10 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="icon-ocampo-head"></span></span>
                                                         @Html.TextBoxFor(model => model.GanadosPactadoHembras, new { @class = "form-control" })
@@ -177,21 +188,12 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-md-6">
-                                            <label class="col-md-3 control-label">Báscula</label>
-                                            <div class="col-md-9 col-xs-12">
+                                        <div class="col-md-12">
+                                            <label class="col-md-1 control-label">Nota</label>
+                                            <div class="col-md-11 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextAreaFor(model=>model.Descripcion_bascula, new { @class="form-control", @style="resize:none", @rows = "5" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="col-md-3 control-label">Nota</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextAreaFor(model => model.Observacion_programacion, new { @class = "form-control", @style = "resize:none", @rows="5"})
+                                                    @Html.TextAreaFor(model => model.Observacion_programacion, new { @class = "form-control", @style = "resize:none", @rows = "5" })
                                                 </div>
                                             </div>
                                         </div>
