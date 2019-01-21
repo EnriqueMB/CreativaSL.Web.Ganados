@@ -161,8 +161,8 @@
                 eventOverlap: false,
                 displayEventTime: true,
                 events: function (start, end, timezone, callback) {
+                    var events2 = [];
                     
-                   
                     $.ajax({
                         url: '/Admin/HomeAdmin/Eventos',
                         dataType: 'json',
@@ -174,7 +174,7 @@
                         },
                         success: function (doc) {
                             var color = "";
-                            var events = [];
+                            
                             $(doc).each(function (item, value) {
                                 switch (value.Estatus) {
                                     case 0: color = "#ffd633";
@@ -186,16 +186,65 @@
                                     case 3: color = "#00cc00";
                                         break;
                                 }
-                                events.push({
+                                events2.push({
                                     //id: value.id,
                                     title: value.title,
                                     start: value.start,
-                                    description:"<p> <strong>Estatus : </strong>"+ value.estatusDesc+"</p>" + "<p><strong>Hembras pactados : </strong>"+value.GanadosPactadoHembras+"</p>"+
-                       " <p><strong> Machos pactados: </strong>" + value.GanadosPactadoMachos + " </p>",
+                                    description:
+                                        "<p> <strong>Agente compra : </strong>" + value.AgenteCompra + "</p>" +
+                                        "<p> <strong>Lugar : </strong>" + value.Lugar + "</p>" +
+                                        "<p> <strong>Proveedor : </strong>" + value.title + "</p>" +
+                                        "<p> <strong>Sucursal : </strong>" + value.Sucursal + "</p>" +
+                                        "<p> <strong>Hora programada : </strong>" + value.HoraProgramada + "</p>" +
+                                        "<p> <strong>Báscula : </strong>" + value.Bascula + "</p>" +
+                                        "<p> <strong>Nota : </strong>" + value.Nota + "</p>" +
+                                        "<p> <strong>Unidad : </strong>" + value.Unidad + "</p>" +
+                                        "<p> <strong>Chofer : </strong>" + value.Chofer + "</p>" +
+                                        "<p> <strong>Estatus : </strong>" + value.estatusDesc + "</p>" +
+                                        "<p> <strong>Hembras pactados : </strong>" + value.GanadosPactadoHembras + "</p>" +
+                                        "<p> <strong>Machos pactados: </strong>" + value.GanadosPactadoMachos + " </p>",
                                     color:color,
                                 });
                             });
-                            callback(events);
+
+                            //callback(events2);
+                        },
+
+                        error: function (xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
+                    });
+
+                    $.ajax({
+                        url: '/Admin/HomeAdmin/EventosFlete',
+                        dataType: 'json',
+                        method: 'post',
+                        data: {
+
+                            start: start.format('YYYY-MM-DD'),
+                            end: end.format('YYYY-MM-DD')
+                        },
+                        success: function (doc) {
+                            var color = "";
+
+                            $(doc).each(function (item, value) {
+
+                                events2.push({
+                                    title: value.title,
+                                    start: value.start,
+                                    description:
+                                        "<p> <strong>Agente : </strong>" + value.Agente + "</p>" +
+                                        "<p> <strong>Cliente : </strong>" + value.Cliente + "</p>" +
+                                        "<p> <strong>Sucursal : </strong>" + value.Sucursal + "</p>" +
+                                        "<p> <strong>Lugar origen : </strong>" + value.LugarOrigen + "</p>" +
+                                        "<p> <strong>Lugar Destino : </strong>" + value.LugarDestino + "</p>" +
+                                        "<p> <strong>Remitente : </strong>" + value.Remitente + "</p>" +
+                                        "<p> <strong>Destinatario : </strong>" + value.Destinatario + "</p>" +
+                                        "<p> <strong>Estatus : </strong>" + value.Estatus + "</p>",
+                                    color: value.ColorEstatus,
+                                });
+                            });
+                            callback(events2);
                         },
 
                         error: function (xhr, status, error) {
@@ -203,37 +252,13 @@
                         }
                     });
                 },
-    //            eventSources: [
 
-    //// your event source
-    //{
-    //    url: "/Admin/HomeAdmin/Eventos",
-    //    type: 'POST',
-    //    data: {
-    //        id: 'something',
-          
-    //    },
-    //    success: function (municipio) {
-    //        console.log(municipio);
-           
-
-    //    },
-    //    error: function() {
-    //        alert('there was an error while fetching events!');
-    //    }
-    //}
-
-    //// any other sources...
-
-    //            ],
-                //events: a,
                 eventClick: function (event, jsEvent, view) {
                     $('#modalTitle').html(event.title);
                     $('#modalBody').html(event.description);
                     //$('#eventUrl').attr('href', event.url);
                     $('#fullCalModal').modal();
                 },
-
 
             });
         });

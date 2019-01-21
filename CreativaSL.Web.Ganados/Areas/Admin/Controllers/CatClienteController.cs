@@ -66,7 +66,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
         }
-
+        private bool validarContacto(string nombreContacto)
+        {
+            if (string.IsNullOrEmpty(nombreContacto) || string.IsNullOrWhiteSpace(nombreContacto))
+            {
+                return false;
+            }
+            return true;
+        }
         // POST: Admin/CatClientes/Create
         [HttpPost]
         public ActionResult Create(CatClienteModels clienteID)
@@ -78,6 +85,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     if (ModelState.IsValid)
                     {
+                        if (!validarContacto(clienteID.NombreResponsable))
+                        {
+                            ModelState.AddModelError("", "El nombre del contacto es necesario.");
+                            return View(clienteID);
+                        }
+
                         clienteID.Conexion = Conexion;
                         clienteID.Opcion = 1;
                         clienteID.Usuario = User.Identity.Name;
@@ -158,6 +171,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     if (ModelState.IsValid)
                     {
+                        if (!validarContacto(clienteID.NombreResponsable))
+                        {
+                            ModelState.AddModelError("", "El nombre del contacto es necesario.");
+                            return View(clienteID);
+                        }
                         clienteID.Conexion = Conexion;
                         clienteID.Opcion = 2;
                         clienteID.Usuario = User.Identity.Name;

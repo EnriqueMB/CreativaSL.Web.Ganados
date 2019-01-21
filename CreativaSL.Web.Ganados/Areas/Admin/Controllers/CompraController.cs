@@ -34,7 +34,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CompraDatos = new _Compra_Datos();
                 Compra.Conexion = Conexion;
                 Compra.DocumentosPorCobrarDetallePagos = new DocumentosPorCobrarDetallePagosModels();
-
+                Compra.HoraProgramada = DateTime.Now.TimeOfDay;
 
                 if (!string.IsNullOrEmpty(IDCompra))
                 {
@@ -660,7 +660,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #region Funciones combo
         #region Chofer
         [HttpPost]
-        public ActionResult GetChoferesXIDEmpresa(string IDEmpresa)
+        public ActionResult GetChoferesXIDEmpresa(string IDEmpresa, string IDSucursal)
         {
             try
             {
@@ -668,6 +668,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CompraDatos = new _Compra_Datos();
                 Compra.Conexion = Conexion;
                 Compra.IDEmpresa = IDEmpresa;
+                Compra.IDSucursal = IDSucursal;
                 Compra.Usuario = User.Identity.Name;
                 Compra.ListaChoferes = CompraDatos.GetChoferesXIDEmpresa(Compra);
 
@@ -683,7 +684,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
         #region Vehiculo
         [HttpPost]
-        public ActionResult GetVehiculosXIDEmpresa(string IDEmpresa)
+        public ActionResult GetVehiculosXIDEmpresa(string IDEmpresa, string IDSucursal)
         {
             try
             {
@@ -691,6 +692,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CompraDatos = new _Compra_Datos();
                 Compra.Conexion = Conexion;
                 Compra.IDEmpresa = IDEmpresa;
+                Compra.IDSucursal = IDSucursal;
                 Compra.Usuario = User.Identity.Name;
                 Compra.ListaVehiculos = CompraDatos.GetVehiculosXIDEmpresa(Compra);
 
@@ -840,6 +842,31 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
+
+        #region Proveedor
+        [HttpPost]
+        public ActionResult GetProveedoresXIDSucursal(string IDSucursal)
+        {
+            try
+            {
+                Compra = new CompraModels();
+                CompraDatos = new _Compra_Datos();
+                Compra.Conexion = Conexion;
+                Compra.Proveedor.IDSucursal = IDSucursal;
+                Compra.Usuario = User.Identity.Name;
+                Compra.ListaProveedores = CompraDatos.GetListaProveedores(Compra);
+
+                return Content(Compra.ListaProveedores.ToJSON(), "application/json");
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error. Por favor contacte a soporte técnico";
+                return Json("");
+            }
+        }
+        #endregion
+
         #endregion
 
         #region Modales
@@ -853,6 +880,20 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             Compra.ListaRangoPeso = CompraDatos.GetListadoPrecioRangoPeso(Compra);
 
             return PartialView("ModalListadoPrecios", Compra);
+        }
+        #endregion
+
+        #region ListaFierros
+        public ActionResult ModalListaFierros()
+        {
+            Compra = new CompraModels();
+            CompraDatos = new _Compra_Datos();
+            Compra.Conexion = Conexion;
+            CatFierroModels Fierro = new CatFierroModels();
+
+            Fierro.ListaFierro = CompraDatos.GetListaFierros(Compra);
+
+            return PartialView("ModalFierros", Fierro);
         }
         #endregion
         #region Evento
@@ -2676,6 +2717,32 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
             }
         }
+
+        [HttpPost]
+        public ActionResult GetFierroXId(string Id_fierro)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+
+                CatFierroModels Fierro = new CatFierroModels();
+                Fierro.IDFierro = Id_fierro;
+                Fierro.Conexion = Conexion;
+
+                Fierro = CompraDatos.GetFierroXID(Fierro);
+
+                return Content(Fierro.ImagenContruida.ToJSON(), "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                Compra.RespuestaAjax.Mensaje = Mensaje;
+                Compra.RespuestaAjax.Success = false;
+                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
         #region Comprobante compra
         /// <summary>
         /// 

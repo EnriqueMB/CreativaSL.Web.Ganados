@@ -85,11 +85,8 @@ namespace CreativaSL.Web.Ganados.Models
             set { _telefonoCasa = value; }
         }
         private string _correo;
-        [Required(ErrorMessage = "El Correo es obligatorio")]
         [Display(Name = "Correo")]
-        [RegularExpression(@"^[_A-Za-z0-9-.\\+]+(\\.[_A-Za-z0-9-.]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", ErrorMessage = "Correo no Valido")]
         [StringLength(300, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
-
         public string correo
         {
             get { return _correo; }

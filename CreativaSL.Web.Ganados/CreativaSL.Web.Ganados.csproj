@@ -1451,6 +1451,7 @@
     <Content Include="Areas\Admin\Views\DocumentoXCobrar\DetailsPagos.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\Detalles_Flete_Eventos.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaDetallesEvento.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\ModalFierros.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1557,6 +1558,7 @@
     <Compile Include="Models\AlmacenEntradaModels.cs" />
     <Compile Include="Models\AsistenciaEmpleadoModels.cs" />
     <Compile Include="Models\Auxiliar.cs" />
+    <Compile Include="Models\CalendarioFleteModels.cs" />
     <Compile Include="Models\CalendarioModels.cs" />
     <Compile Include="Models\CartaPorteDetallesModels.cs" />
     <Compile Include="Models\CartaPorteModels.cs" />
@@ -1663,7 +1665,6 @@
     <Compile Include="Models\EventoVentaModels.cs" />
     <Compile Include="Models\ExistenciaProductoAlmacenModels.cs" />
     <Compile Include="Models\ExistenciaProductosAlmacenPrecioModels.cs" />
-    <Compile Include="Models\FierroCompraModels.cs" />
     <Compile Include="Models\FleteDetallesModels.cs" />
     <Compile Include="Models\FleteImpuestoModels.cs" />
     <Compile Include="Models\FleteModels.cs" />

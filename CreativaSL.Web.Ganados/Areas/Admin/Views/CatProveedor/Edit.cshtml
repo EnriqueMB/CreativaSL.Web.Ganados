@@ -205,7 +205,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-2 col-xs-12 control-label"><span>* </span> E-mail</label>
+                                        <label class="col-md-2 col-xs-12 control-label">E-mail</label>
                                         <div class="col-md-6 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
@@ -295,7 +295,7 @@
             uploadUrl: "#",
             overwriteInitial: true,
             showUploadedThumbs: false,
-            allowedFileExtensions: ['png', 'jpg'],
+            allowedFileExtensions: ['png', 'jpg', 'jpge'],
             initialPreview: [
                 '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.ImgINE" />'
             ],
@@ -329,7 +329,7 @@
             showClose: false,
             showUpload: false,
             layoutTemplates: { actionDelete: '' }, // disable thumbnail deletion
-            allowedFileExtensions: ["png"]
+            allowedFileExtensions: ["png", 'jpg', 'jpge']
         })
 
     </script>

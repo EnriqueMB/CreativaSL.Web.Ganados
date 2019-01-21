@@ -44,10 +44,35 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra.fechaStart = Convert.ToDateTime(start);
                 Compra.fechaEnd = Convert.ToDateTime(end);
                 Compra.Conexion = Conexion;
-                Compra.listaCompra = CompraDatos.GetListaComprasNofinalizadas(Compra);
+                Compra.listaCalendario = CompraDatos.GetListaComprasNofinalizadas(Compra);
 
 
-                return Json(Compra.listaCompra, JsonRequestBehavior.AllowGet);
+                return Json(Compra.listaCalendario, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrió un error al cargar las actividades. Por favor contacte a soporte técnico.";
+                ex.Message.ToString();
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EventosFlete(string start, string end)
+        {
+            try
+            {
+                CalendarioFleteModels Item = new CalendarioFleteModels();
+                _Compra_Datos CompraDatos = new _Compra_Datos();
+                Item.fechaStart = Convert.ToDateTime(start);
+                Item.fechaEnd = Convert.ToDateTime(end);
+                Item.Conexion = Conexion;
+
+                List<CalendarioFleteModels> Lista = new List<CalendarioFleteModels>();
+                Lista = CompraDatos.GetListaFletesNofinalizadas(Item);
+
+                return Json(Lista, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

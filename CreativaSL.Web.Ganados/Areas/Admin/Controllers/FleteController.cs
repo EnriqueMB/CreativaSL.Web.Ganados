@@ -348,7 +348,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 _Flete_Datos FleteDatos = new _Flete_Datos();
- 
+
                 EventoFleteModels EventoFlete = new EventoFleteModels();
                 EventoFlete.RespuestaAjax = new RespuestaAjax();
                 EventoFlete.Conexion = Conexion;
@@ -575,7 +575,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     if (Token.IsTokenValid())
                     {
-                         _FleteImpuesto_Datos FleteImpuestoDatos;
+                        _FleteImpuesto_Datos FleteImpuestoDatos;
                         FleteImpuestoDatos = new _FleteImpuesto_Datos();
                         FleteImpuesto.Conexion = Conexion;
                         FleteImpuesto.Usuario = User.Identity.Name;
@@ -600,7 +600,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         TempData["message"] = "Flete no válido.";
                         return RedirectToAction("Index", "Flete");
                     }
-                   
+
                 }
                 else
                 {
@@ -631,7 +631,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         FleteImpuesto.Usuario = User.Identity.Name;
                         FleteImpuesto = FleteImpuestoDatos.FleteImpuesto_del_FleteImpuesto(FleteImpuesto);
 
-                        if(FleteImpuesto.RespuestaAjax.Success)
+                        if (FleteImpuesto.RespuestaAjax.Success)
                         {
                             TempData["typemessage"] = "1";
                             TempData["message"] = FleteImpuesto.RespuestaAjax.Mensaje;
@@ -671,7 +671,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         #endregion
-        
+
         #region Vista Evento
         [HttpGet]
         public ActionResult AC_FleteEvento(string IDFlete, int Id_eventoFlete)
@@ -796,7 +796,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 _Flete_Datos FleteDatos = new _Flete_Datos();
 
                 string Id_flete = string.IsNullOrEmpty(IDFlete) ? string.Empty : IDFlete;
-                
+
                 if (Id_flete.Length == 36)
                 {
                     TransaccionesFleteModels TransaccionesFlete = new TransaccionesFleteModels();
@@ -831,7 +831,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View("Index");
             }
         }
-        
+
 
 
         #endregion
@@ -928,7 +928,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                if(Token.IsTokenValid())
+                if (Token.IsTokenValid())
                 {
                     _Flete_Datos FleteDatos = new _Flete_Datos();
                     documento.Conexion = Conexion;
@@ -960,7 +960,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                     return Content(documento.RespuestaAjax.ToJSON(), "application/json");
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -1076,7 +1076,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 FleteImpuestoModels DocumentoPorCobrarDetalleImpuesto = new FleteImpuestoModels();
                 _Flete_Datos FleteDatos = new _Flete_Datos();
 
-                if (( Id_1.Length == 36 ) && ( Id_2.Length == 36 ))
+                if ((Id_1.Length == 36) && (Id_2.Length == 36))
                 {
                     Token.SaveToken();
                     DocumentoPorCobrarDetalleImpuesto.IDFlete = Id_1;
@@ -1110,7 +1110,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         /// <param name="Id3">Id documento detalle impuesto</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult AC_FleteImpuesto_ProductoServicio(string Id1, string Id2 , string Id3)
+        public ActionResult AC_FleteImpuesto_ProductoServicio(string Id1, string Id2, string Id3)
         {
             try
             {
@@ -1237,7 +1237,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 string Id_flete = string.IsNullOrEmpty(id_1) ? string.Empty : id_1;
                 string Id_documentoPorCobrarDetallePago = string.IsNullOrEmpty(id_2) ? string.Empty : id_2;
 
-                if (Id_flete.Length == 36 && (Id_documentoPorCobrarDetallePago.Length == 0 || Id_documentoPorCobrarDetallePago.Length == 36)) 
+                if (Id_flete.Length == 36 && (Id_documentoPorCobrarDetallePago.Length == 0 || Id_documentoPorCobrarDetallePago.Length == 36))
                 {
                     DocumentoPorCobrarPago.Conexion = Conexion;
                     DocumentoPorCobrarPago.Id_padre = Id_flete;
@@ -1324,7 +1324,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         TempData["typemessage"] = "2";
                         TempData["message"] = DocumentoPorCobrarPago.RespuestaAjax.Mensaje;
-                        
+
                     }
                     return RedirectToAction("AC_FleteTransacciones", "Flete", new { IDFlete = DocumentoPorCobrarPago.Id_padre });
                 }
@@ -1461,7 +1461,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
-     
+
         #region Producto Ganado Externo
         public ActionResult AC_ProductoGanadoExterno(string IDFlete, string IDProducto, string numArete, string genero, string peso, string posicionNode)
         {
@@ -1472,17 +1472,29 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     FleteDatos = new _Flete_Datos();
                     Flete_ProductoModels ganado = new Flete_ProductoModels();
                     ganado.RespuestaAjax = new RespuestaAjax();
+
                     ganado.Conexion = Conexion;
                     ganado.Usuario = User.Identity.Name;
                     ganado.ID_Flete = IDFlete;
                     ganado.ID_Producto = IDProducto;
                     ganado.NumArete = numArete;
                     ganado.Genero = genero;
-                    ganado.PesoAproximado = double.Parse(peso);
+
+                    double pesoAprox;
+
+                    if(double.TryParse(peso, out pesoAprox))
+                    {
+                        ganado.PesoAproximado = pesoAprox;
+                    }
+                    else
+                    {
+                        ganado.PesoAproximado = 0;
+                    }
 
                     ganado = FleteDatos.AC_ProductoGanadoExterno(ganado);
-                    if(ganado.RespuestaAjax.Success)
-                        ganado.RespuestaAjax.Mensaje = "{\"IDProducto\": \""+ganado.RespuestaAjax.Mensaje+ "\", \"posicionNode\": \"" + posicionNode + "\"}";
+
+                    if (ganado.RespuestaAjax.Success)
+                        ganado.RespuestaAjax.Mensaje = "{\"IDProducto\": \"" + ganado.RespuestaAjax.Mensaje + "\", \"posicionNode\": \"" + posicionNode + "\"}";
                     else
                         ganado.RespuestaAjax.Mensaje = "{\"Mensaje\": \"" + ganado.RespuestaAjax.Mensaje + "\", \"posicionNode\": \"" + posicionNode + "\"}";
 
@@ -1595,7 +1607,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
                 Flete.RespuestaAjax = new RespuestaAjax();
-                Flete.RespuestaAjax.Mensaje = Mensaje; 
+                Flete.RespuestaAjax.Mensaje = Mensaje;
                 Flete.RespuestaAjax.Success = false;
                 return Content(Flete.RespuestaAjax.ToJSON(), "application/json");
             }
@@ -1614,9 +1626,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Evento.Conexion = Conexion;
                         Evento.Usuario = User.Identity.Name;
                         Evento.RespuestaAjax = new RespuestaAjax();
-                        
+
                         //verificamos si tiene alguna imagen
-                        if(Evento.HttpImagen != null)
+                        if (Evento.HttpImagen != null)
                         {
                             Evento.ImagenBase64 = Auxiliar.ImageToBase64(Evento.HttpImagen);
                         }
@@ -1774,7 +1786,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
 
         #endregion
-        
+
         #region Modales
         [HttpPost]
         public ActionResult ModalDocumento(string IDFlete, string IDDocumento)
@@ -1829,9 +1841,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
 
         #region funciones combo
-        
+
         [HttpPost]
-        public ActionResult GetChoferesXIDEmpresa(string IDEmpresa)
+        public ActionResult GetChoferesXIDEmpresa(string IDEmpresa, string IDSucursal)
         {
             try
             {
@@ -1840,6 +1852,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Flete.Conexion = Conexion;
                 Flete.Empresa.IDEmpresa = IDEmpresa;
                 Flete.Usuario = User.Identity.Name;
+                Flete.Id_sucursal = IDSucursal;
                 Flete.Chofer.ListaChoferes = FleteDatos.GetChoferesXIDEmpresa(Flete);
 
                 return Content(Flete.Chofer.ListaChoferes.ToJSON(), "application/json");
@@ -1852,7 +1865,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpPost]
-        public ActionResult GetVehiculosXIDEmpresa(string IDEmpresa)
+        public ActionResult GetVehiculosXIDEmpresa(string IDEmpresa, string IDSucursal)
         {
             try
             {
@@ -1860,6 +1873,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 FleteDatos = new _Flete_Datos();
                 Flete.Conexion = Conexion;
                 Flete.Empresa.IDEmpresa = IDEmpresa;
+                Flete.Id_sucursal = IDSucursal;
                 Flete.Usuario = User.Identity.Name;
                 Flete.Vehiculo.listaVehiculos = FleteDatos.GetVehiculosXIDEmpresa(Flete);
 

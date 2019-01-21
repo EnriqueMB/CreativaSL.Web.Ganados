@@ -252,5 +252,5 @@ $.validator.addMethod("numeroConComas", function (value, element, params) {
 }, 'Por favor, escriba un número mayor a 0.');
 
 $.validator.addMethod("horas24", function (value, element) {
-    return this.optional(element) || /^([0-5][0-9])(:[0-5][0-9])$/i.test(value);
+    return this.optional(element) || /^([0-5]?[0-9])(:[0-5][0-9])$/i.test(value);
 }, "Por favor, seleccione una hora válida (hh:mm).");

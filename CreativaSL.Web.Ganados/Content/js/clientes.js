@@ -30,11 +30,11 @@
                 RFC: { required: true, rfc: true },
                 Direccion: { direccion: true, maxlength: 300 },
                 FechaIngreso: { required: true },
-                NombreResponsable: { nombre: true, maxlength: 300}, //{ nombre: true, maxlenght: 300 },
+                NombreResponsable: { required: true, nombre: true, maxlength: 300, minlength: 4}, //{ nombre: true, maxlenght: 300 },
                 Celular: { telefono: true },
                 Telefono: { telefono: true },
-                CorreoElectronico: { required: true, email: true },
-                PSGCliente: {required: true}
+                //CorreoElectronico: { required: true, email: true },              
+                //PSGCliente: {required: true}
             },
             messages: {
                 IDSucursal: { required: "Seleccione una sucursal." },
@@ -43,11 +43,11 @@
                 RFC: { required: "Ingrese el RFC del cliente.", rfc: "Ingrese un RFC válido." },
                 Direccion: { direccion: "Ingrese un dirección válida.", maxlength: "El campo domicilio fiscal admite máximo 300 caracteres." },
                 FechaIngreso: { required: "Ingrese la fecha de inicio de relación." },
-                NombreResponsable: { nombre: "Ingrese un nombre de contacto válido.", maxlength: "El campo nombre de contacto admite máximo 300 caracteres." }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
+                NombreResponsable: { required: "Ingrese el Nombre del Contacto", nombre: "Ingrese un nombre de contacto válido.", maxlength: "El campo nombre de contacto admite máximo 300 caracteres.", minlength: "El campo nombre de contacto admite minimo 4 caracteres."  }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
                 Celular: { telefono: "Ingrese un número de celular válido." },
                 Telefono: { telefono: "Ingrese un número de teléfono válido." },
-                CorreoElectronico: { required: "Ingrese el correo electrónico del cliente.", email: "Ingrese un correo electrónico válido." },
-                PSGCliente: { required: "Ingrese el P.S.G. del cliente." }
+                //CorreoElectronico: { required: "Ingrese el correo electrónico del cliente.", email: "Ingrese un correo electrónico válido." },
+                //PSGCliente: { required: "Ingrese el P.S.G. del cliente." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

@@ -45,7 +45,7 @@
             <ul class="nav nav-tabs" role="tablist">
                 <li id="liEvento" role="presentation" class="active">  <a id="tabEvento" class="pestaña" href="#evento" aria-controls="evento" role="tab" data-toggle="tab">Evento</a></li>
                 <li id="liRecepcionDestino" role="presentation" class="pestaña"><a id="tabRecepcionDestino" class="pestaña" href="#recepcionDestino" aria-controls="recepcionDestino" role="tab" data-toggle="tab">Recepción Destino</a></li>
-                <li id="liRecepcionOrigen" role="presentation" class="pestaña"><a id="tabRecepcionOrigen" class="pestaña" href="#recepcionOrigen" aria-controls="recepcionOrigen" role="tab" data-toggle="tab">Recepción Origen</a></li>
+                @*<li id="liRecepcionOrigen" role="presentation" class="pestaña"><a id="tabRecepcionOrigen" class="pestaña" href="#recepcionOrigen" aria-controls="recepcionOrigen" role="tab" data-toggle="tab">Recepción Origen</a></li>*@
             </ul>
             @Html.HiddenFor(model => model.id_flete)
             <!-- Tab panes -->
@@ -219,7 +219,7 @@
                         }
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane" id="recepcionOrigen">
+                @*<div role="tabpanel" class="tab-pane" id="recepcionOrigen">
                     <div class="col-md-12">
                         @{ Html.EnableClientValidation(false); }
                         @using (Html.BeginForm("AC_RecepcionOrigen", "Flete", FormMethod.Post, new { id = "Frm_AC_RecepcionOrigen", @class = "form-horizontal", autocomplete = "off" }))
@@ -295,7 +295,7 @@
                             </div>
                         }
                     </div>
-                </div>
+                </div>*@
 
             </div>
         </div>

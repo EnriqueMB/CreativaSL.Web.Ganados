@@ -268,6 +268,8 @@ namespace CreativaSL.Web.Ganados.Models
                     item.nombreProveedor = dr["tipoProveedor"].ToString();
                     item.nombreSucursal = dr["sucursal"].ToString();
                     item.IDSucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty;
+                    item.Tolerancia = !dr.IsDBNull(dr.GetOrdinal("tolerancia")) ? dr.GetInt32(dr.GetOrdinal("tolerancia")) : 0;
+
                     lista.Add(item);
                 }
                 dr.Close();

@@ -248,13 +248,13 @@ namespace CreativaSL.Web.Ganados.Models
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Transacciones.Conexion, "spCSLDB_Flete_get_Transacciones", parametros);
+                Transacciones.DocumentosPorCobrar = new DocumentosPorCobrarModels();
 
                 while (dr.Read())
                 {
                     Transacciones.RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : true;
                     if(Transacciones.RespuestaAjax.Success)
                     {
-                        Transacciones.DocumentosPorCobrar = new DocumentosPorCobrarModels();
                         Transacciones.DocumentosPorCobrar.Id_documentoCobrar = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorCobrar")) ? dr.GetString(dr.GetOrdinal("id_documentoPorCobrar")) : string.Empty;
                         Transacciones.DocumentosPorCobrar.Pagos = !dr.IsDBNull(dr.GetOrdinal("pagos")) ? dr.GetDecimal(dr.GetOrdinal("pagos")) : 0;
                         Transacciones.DocumentosPorCobrar.Pendiente = !dr.IsDBNull(dr.GetOrdinal("pendiente")) ? dr.GetDecimal(dr.GetOrdinal("pendiente")) : 0;
@@ -827,7 +827,8 @@ namespace CreativaSL.Web.Ganados.Models
                 SqlDataReader dr = null;
                 object[] parametros =
                 {
-                    Flete.Empresa.IDEmpresa
+                    Flete.Empresa.IDEmpresa ,
+                    Flete.Id_sucursal
                 };
                 dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Combo_get_CatChoferesXIDEmpresa", parametros);
                 while (dr.Read())
@@ -859,7 +860,8 @@ namespace CreativaSL.Web.Ganados.Models
                 SqlDataReader dr = null;
                 object[] parametros =
                 {
-                    Flete.Empresa.IDEmpresa
+                    Flete.Empresa.IDEmpresa ,
+                    Flete.Id_sucursal
                 };
                 dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Combo_get_CatVehiculosXIDEmpresa", parametros);
                 while (dr.Read())
@@ -1041,7 +1043,8 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    Flete.Empresa.IDEmpresa
+                    Flete.Empresa.IDEmpresa , 
+                    Flete.Id_sucursal
                 };
                 CatChoferModels Chofer;
 
@@ -1071,7 +1074,8 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    Flete.Empresa.IDEmpresa
+                    Flete.Empresa.IDEmpresa ,
+                    Flete.Id_sucursal
                 };
                 CatVehiculoModels Vehiculo;
 

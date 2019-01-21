@@ -230,7 +230,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _Color;
-        [Required(ErrorMessage = "El color es obligatorio")]
+        [Required(ErrorMessage = "Color de unidad es obligatorio")]
         [Display(Name = "Color")]
         [StringLength(30, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         [Texto(ErrorMessage = "Solo Letras, números y guiones ")]
@@ -254,7 +254,7 @@ namespace CreativaSL.Web.Ganados.Models
       
         private string _NoSerie;
         //[Required(ErrorMessage = "Número de serie es obligatorio")]
-        [Display(Name = "Número de serie")]
+        [Display(Name = "Número de motor")]
         [StringLength(30, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s]*$", ErrorMessage = "Solo Letras y números")]
         public string NoSerie
