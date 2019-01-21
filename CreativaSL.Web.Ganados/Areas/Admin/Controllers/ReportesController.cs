@@ -20,10 +20,24 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         // GET: Admin/Reportes
         public ActionResult Index()
         {
-            return View();
+            try
+            {
+                RptProveedorMermaAltaModels Reporte = new RptProveedorMermaAltaModels();
+                _Combos_Datos Combos = new _Combos_Datos();
+                Reporte.ListaCmbSucursal = Combos.ObtenerComboSucursales(Conexion);
+                return View(Reporte);
+            }
+            catch (Exception)
+            {
+                RptProveedorMermaAltaModels Reporte = new RptProveedorMermaAltaModels();
+                Reporte.ListaCmbSucursal = new List<CatSucursalesModels>();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return View(Reporte);
+            }          
         }
 
-        public ActionResult RptMermaAlta(string id, string id2, string id3)
+        public ActionResult RptMermaAlta(string id, string id2, string id3, string id4)
         {
             try
             {
@@ -37,8 +51,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 DateTime.TryParse(id3.ToString(), out Fecha2);
                 reporte.FechaInicio = Fecha1;
                 reporte.FechaFin = Fecha2;
+                reporte.IDSucursalActual = id4;
                 reporte.Conexion = Conexion;
-                reporte.DatosEmpresa = R.ObtenerDatosEmpresaTipo1(Conexion);
+                reporte.DatosEmpresa = R.ObtenerDatosEmpresaTipoIDSucursal(Conexion, id4);
                 reporte.listaRptProveedorMerma = reporteDatos.obtenerListaProveedoresMermaAlta(reporte);
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
