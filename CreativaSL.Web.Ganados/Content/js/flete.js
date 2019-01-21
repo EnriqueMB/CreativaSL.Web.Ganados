@@ -43,11 +43,24 @@
         });
         $("#Empresa_IDEmpresa").on("change", function () {
             var IDEmpresa = $(this).val();
-            GetChoferesXIDEmpresa(IDEmpresa);
-            GetVehiculosXIDEmpresa(IDEmpresa);
+            var IDSucursal = $("#Id_sucursal").val();
+
+            GetChoferesXIDEmpresa(IDEmpresa, IDSucursal);
+            GetVehiculosXIDEmpresa(IDEmpresa, IDSucursal);
             //GetJaulasXIDEmpresa(IDEmpresa);
             //GetRemolquesXIDEmpresa(IDEmpresa);
         });
+
+        $("#Id_sucursal").on("change", function () {
+            var IDSucursal  = $(this).val();
+            var IDEmpresa = $("#Empresa_IDEmpresa").val();
+
+            GetChoferesXIDEmpresa(IDEmpresa, IDSucursal);
+            GetVehiculosXIDEmpresa(IDEmpresa, IDSucursal);
+            //GetJaulasXIDEmpresa(IDEmpresa);
+            //GetRemolquesXIDEmpresa(IDEmpresa);
+        });
+
         $("#Cliente_IDCliente").on("change", function () {
             var rfc = $(this).find(":selected").data("rfc");
             $("#Cliente_RFC").val(rfc);
@@ -194,15 +207,15 @@
                     nNodes[i + 2].classList.add('okCSLGanado');
 
                 }
-                if (nPeso.length == 0 || nPeso == '' || nPeso == null || nPeso == '0') {
-                    nNodes[i + 4].classList.add('errorCSLGanado');
-                    nNodes[i + 4].classList.remove('okCSLGanado');
-                    flag = false;
-                }
-                else {
-                    nNodes[i + 4].classList.add('okCSLGanado');
-                    nNodes[i + 4].classList.remove('errorCSLGanado');
-                }
+                //if (nPeso.length == 0 || nPeso == '' || nPeso == null || nPeso == '0') {
+                //    nNodes[i + 4].classList.add('errorCSLGanado');
+                //    nNodes[i + 4].classList.remove('okCSLGanado');
+                //    flag = false;
+                //}
+                //else {
+                //    nNodes[i + 4].classList.add('okCSLGanado');
+                //    nNodes[i + 4].classList.remove('errorCSLGanado');
+                //}
                 /*TERMINA VALIDACION*/
 
                 /*SI TODO ESTA BIEN ENVIAMOS*/
@@ -1061,12 +1074,12 @@
         }
         return 0;
     }
-    function GetChoferesXIDEmpresa(IDEmpresa) {
+    function GetChoferesXIDEmpresa(IDEmpresa, IDSucursal) {
         $.ajax({
             url: '/Admin/Flete/GetChoferesXIDEmpresa/',
             type: "POST",
             dataType: 'json',
-            data: { IDEmpresa: IDEmpresa },
+            data: { IDEmpresa: IDEmpresa, IDSucursal: IDSucursal },
             error: function () {
                 Mensaje("Ocurrió un error al cargar el combo", "1");
             },
@@ -1080,12 +1093,12 @@
             }
         });
     }
-    function GetVehiculosXIDEmpresa(IDEmpresa) {
+    function GetVehiculosXIDEmpresa(IDEmpresa, IDSucursal) {
         $.ajax({
             url: '/Admin/Flete/GetVehiculosXIDEmpresa/',
             type: "POST",
             dataType: 'json',
-            data: { IDEmpresa: IDEmpresa },
+            data: { IDEmpresa: IDEmpresa, IDSucursal: IDSucursal },
             error: function () {
                 Mensaje("Ocurrió un error al cargar el combo", "1");
             },

@@ -376,7 +376,9 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    Venta.Flete.Id_empresa
+                    Venta.Flete.Id_empresa ,
+                    Venta.Id_sucursal
+
                 };
                 CatChoferModels Chofer;
                 List<CatChoferModels> ListaChoferes = new List<CatChoferModels>();
@@ -408,7 +410,8 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    Venta.Flete.Id_empresa
+                    Venta.Flete.Id_empresa ,
+                    Venta.Id_sucursal
                 };
                 CatVehiculoModels Vehiculo;
                 List<CatVehiculoModels> ListaVehiculos = new List<CatVehiculoModels>();

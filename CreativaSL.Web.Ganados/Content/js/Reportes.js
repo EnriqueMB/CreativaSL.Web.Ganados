@@ -19,6 +19,7 @@
         $("#BTN1").click(function () {
             var fecha = document.getElementById("fec1").value;
             var fecha2 = document.getElementById("fec2").value;
+            var IDSucural1 = document.getElementById("IDSucursalActual").value;
             var ban = 0;
             var ban1 = 0;
             if (fecha === "") {
@@ -42,7 +43,7 @@
             var Inicio = fecha;
             var Fin = fecha2;
             if (ban == 1 && ban1 == 1) {
-                window.location.href = "/Admin/reportes/RptMermaAlta?id=PDF&id2=" + Inicio + "&id3=" +Fin;
+                window.location.href = "/Admin/reportes/RptMermaAlta?id=PDF&id2=" + Inicio + "&id3=" + Fin + "&id4=" + IDSucural1;
             }
         });
         $("#BTN2").click(function () {

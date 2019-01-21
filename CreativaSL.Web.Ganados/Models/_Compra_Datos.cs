@@ -455,9 +455,13 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
+                object[] parametros = 
+                {
+                    Compra.Proveedor.IDSucursal
+                };
                 CatProveedorModels Proveedor;
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_CatProveedorConLugar");
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_CatProveedorConLugar", parametros);
                 while (dr.Read())
                 {
                     Proveedor = new CatProveedorModels
@@ -607,7 +611,8 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    Compra.IDEmpresa
+                    Compra.IDEmpresa ,
+                    Compra.IDSucursal
                 };
                 CatChoferModels Chofer;
 
@@ -639,7 +644,8 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    Compra.IDEmpresa
+                    Compra.IDEmpresa ,
+                    Compra.IDSucursal
                 };
                 CatVehiculoModels Vehiculo;
 
@@ -1112,7 +1118,7 @@ namespace CreativaSL.Web.Ganados.Models
                 List<CalendarioFleteModels> Lista = new List<CalendarioFleteModels>();
                 CalendarioFleteModels Item;
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Inicio_get_ComprasNoFinalizadas", Compra.fechaStart, Compra.fechaEnd);
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Inicio_get_FleteNoFinalizadas", Compra.fechaStart, Compra.fechaEnd);
                 while (dr.Read())
                 {
                     Item = new CalendarioFleteModels();
@@ -1210,6 +1216,7 @@ namespace CreativaSL.Web.Ganados.Models
                 while (dr.Read())
                 {
                     Compra.IDSucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty;
+                    Compra.Proveedor.IDSucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty;
                     Compra.FechaHoraProgramada = !dr.IsDBNull(dr.GetOrdinal("fechaHoraProgramada")) ? dr.GetDateTime(dr.GetOrdinal("fechaHoraProgramada")) : DateTime.Now;
                     Compra.IDProveedor = !dr.IsDBNull(dr.GetOrdinal("id_proveedor")) ? dr.GetString(dr.GetOrdinal("id_proveedor")) : string.Empty;
                     Compra.IDPLugarProveedor = !dr.IsDBNull(dr.GetOrdinal("id_lugar_proveedor")) ? dr.GetString(dr.GetOrdinal("id_lugar_proveedor")) : string.Empty;

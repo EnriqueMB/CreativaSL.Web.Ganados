@@ -313,7 +313,7 @@
                 {
                     "data": null,
                     "render": function (data, type, full) {
-                        return "<label class = '" + full["ClassEstatus"] + "'>" + full["Estatus"] + "</label>";
+                        return "<label class = 'label label-default' style='background: " + full["ClassEstatus"] + "'>" + full["Estatus"] + "</label>";
                     }
                 },
                 {
@@ -321,7 +321,7 @@
                     "render": function (data, type, full) {
                         var botones = "<div class='visible-md visible-lg hidden-sm hidden-xs'>";
                         var status_actual = full["Estatus"];
-                        var agendado = "Agendado";
+                        var agendado = "Programado";
                         var en_camino = "En camino";
                         var ganado = "Ganado";
                         var eventos_recepcion = "Eventos y recepción"
@@ -333,7 +333,7 @@
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-blue tooltips btn-sm enviar' title='Enviar'  data-placement='top' data-original-title='Enviar'><i class='fa fa-truck'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Agendado'  data-placement='top' data-original-title='Agendado'><i class='fa fa-clock-o'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Editar'><i class='fa fa-clock-o'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar'  data-hrefa='/Admin/Compra/DEL_Compra/' ><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
@@ -364,7 +364,7 @@
                                 "</li>" +
                                 "<li>" +
                                 "<a class='edit' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                                "<i class='fa fa-clock-o'></i> Agendado" +
+                                "<i class='fa fa-clock-o'></i> Editar" +
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
@@ -427,7 +427,7 @@
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm eventos_recepcion' title='Eventos y recepción'  data-placement='top' data-original-title='Eventos y recepción'><i class='fa fa-book'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Ganado'  data-placement='top' data-original-title='Ganado'><i class='icon-ocampo-head'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Editar'><i class='icon-ocampo-head'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' data-hrefa='/Admin/Compra/DEL_Compra/'><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
@@ -458,7 +458,7 @@
                                 "</li>" +
                                 "<li>" +
                                 "<a class='edit' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                                "<i class='icon-ocampo-head'></i> Ganado" +
+                                "<i class='icon-ocampo-head'></i> Editar" +
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
@@ -477,7 +477,7 @@
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm concluir' title='Concluir'  data-placement='top' data-original-title='Concluir'><i class='fa fa-check'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Eventos y recepción'  data-placement='top' data-original-title='Eventos y recepción'><i class='fa fa-book'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Editar'><i class='fa fa-book'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' data-hrefa='/Admin/Compra/DEL_Compra/'><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
@@ -508,7 +508,7 @@
                                 "</li>" +
                                 "<li>" +
                                 "<a class='edit' data-id='" + full["id_compra"] + "'  role='menuitem' tabindex='-1'>" +
-                                "<i class='fa fa-book'></i> Eventos y recepción" +
+                                "<i class='fa fa-book'></i> Editar" +
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +

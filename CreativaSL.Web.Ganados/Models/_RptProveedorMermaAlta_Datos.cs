@@ -13,7 +13,7 @@ namespace CreativaSL.Web.Ganados.Models
         public List<RptProveedorMermaAltaModels> obtenerListaProveedoresMermaAlta(RptProveedorMermaAltaModels Datos) {
             try
             {
-                object[] parametros = { Datos.FechaInicio, Datos.FechaFin };
+                object[] parametros = { Datos.FechaInicio, Datos.FechaFin, Datos.IDSucursalActual };
                 List<RptProveedorMermaAltaModels> lista = new List<RptProveedorMermaAltaModels>();
                 RptProveedorMermaAltaModels item;
                 SqlDataReader dr = null;
@@ -22,6 +22,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     item = new RptProveedorMermaAltaModels();
                     item.IDProveedor= !dr.IsDBNull(dr.GetOrdinal("id_proveedor")) ? dr.GetString(dr.GetOrdinal("id_proveedor")) : string.Empty;
+                    item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
                     item.nombreProveedor = !dr.IsDBNull(dr.GetOrdinal("nombreRazonSocial")) ? dr.GetString(dr.GetOrdinal("nombreRazonSocial")) : string.Empty;
                     item.NombreCompra = !dr.IsDBNull(dr.GetOrdinal("Compra")) ? dr.GetString(dr.GetOrdinal("Compra")) : string.Empty;
                     item.merma = !dr.IsDBNull(dr.GetOrdinal("toleranciaProveedor")) ? dr.GetInt32(dr.GetOrdinal("toleranciaProveedor")) : 0;

@@ -35,6 +35,16 @@
 
     /*INICIA PROVEEDOR*/
     var RunEventsProveedor = function () {
+        //////INICIO -> SE AGREGA POR ACTUALIZACION 17/01/2019
+        $("#IDSucursal").on("change", function () {
+            var IDSucursal = $(this).val();
+            var IDProveedor = $("#IDProveedor").val();
+            GetProveedoresXIDSucursal(IDSucursal);
+            GetLugaresProveedorXIDProveedor(IDProveedor);
+            GetListadoCuentasBancariasProveedorXIDProveedor(IDProveedor);
+        });
+        //////FIN -> SE AGREGA POR ACTUALIZACION 17/01/2019
+
         $("#IDProveedor").on("change", function () {
             var IDProveedor = $(this).val();
             GetLugaresProveedorXIDProveedor(IDProveedor);
@@ -184,12 +194,15 @@
     var RunEventsFlete = function () {
         $("#IDEmpresa").on("change", function () {
             var IDEmpresa = $(this).val();
-            //console.log("empresa: " + IDEmpresa);
-            GetChoferesXIDEmpresa(IDEmpresa);
-            GetVehiculosXIDEmpresa(IDEmpresa);
+            var IDSucursal = $("#IDSucursal").val();
+
+            GetChoferesXIDEmpresa(IDEmpresa, IDSucursal);
+            GetVehiculosXIDEmpresa(IDEmpresa, IDSucursal);
+            GetLugaresXIDEmpresa(IDEmpresa);
+
             //GetJaulasXIDEmpresa(IDEmpresa);
             //GetRemolquesXIDEmpresa(IDEmpresa);
-            GetLugaresXIDEmpresa(IDEmpresa);
+            
         });
         $("#TipoFlete").on("change", function () {
             var opcion = $(this).val();
@@ -380,6 +393,25 @@
             }
         });
     }
+    function GetProveedoresXIDSucursal(IDSucursal) {
+        $.ajax({
+            url: '/Admin/Compra/GetProveedoresXIDSucursal/',
+            type: "POST",
+            dataType: 'json',
+            data: { IDSucursal: IDSucursal },
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "1");
+            },
+            success: function (result) {
+
+                $("#IDProveedor option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#IDProveedor").append('<option value="' + result[i].IDProveedor + '">' + result[i].NombreRazonSocial + '</option>');
+                }
+                $('#IDProveedor.select').selectpicker('refresh');
+            }
+        });
+    }
     function GetLugaresProveedorXIDProveedor(IDProveedor) {
         $.ajax({
             url: '/Admin/Compra/GetLugaresProveedorXIDProveedor/',
@@ -429,12 +461,12 @@
             }
         });
     }
-    function GetVehiculosXIDEmpresa(IDEmpresa) {
+    function GetVehiculosXIDEmpresa(IDEmpresa, IDSucursal) {
         $.ajax({
             url: '/Admin/Compra/GetVehiculosXIDEmpresa/',
             type: "POST",
             dataType: 'json',
-            data: { IDEmpresa: IDEmpresa },
+            data: { IDEmpresa: IDEmpresa, IDSucursal: IDSucursal },
             error: function () {
                 Mensaje("Ocurrió un error al cargar el combo", "1");
             },
@@ -464,12 +496,13 @@
             }
         });
     }
-    function GetChoferesXIDEmpresa(IDEmpresa) {
+
+    function GetChoferesXIDEmpresa(IDEmpresa, IDSucursal) {
         $.ajax({
             url: '/Admin/Compra/GetChoferesXIDEmpresa/',
             type: "POST",
             dataType: 'json',
-            data: { IDEmpresa: IDEmpresa },
+            data: { IDEmpresa: IDEmpresa, IDSucursal: IDSucursal },
             error: function () {
                 Mensaje("Ocurrió un error al cargar el combo", "1");
             },

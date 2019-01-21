@@ -397,7 +397,7 @@
                     required: true
                 },
                 "RecepcionDestino.kiloTotalRecibido": {
-                    min: 1
+                    min: 0
                 },
                 "RecepcionDestino.GanadosTotal": {
                     min: 1

@@ -129,7 +129,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private DateTime _fechaIngreso;
-
+        [Display(Name = "Fecha de inicio laboral")]
         public DateTime fechaIngreso
         {
             get { return _fechaIngreso; }

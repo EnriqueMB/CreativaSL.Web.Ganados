@@ -34,7 +34,7 @@
                 Celular: { telefono: true },
                 Telefono: { telefono: true },
                 //CorreoElectronico: { required: true, email: true },              
-                PSGCliente: {required: true}
+                //PSGCliente: {required: true}
             },
             messages: {
                 IDSucursal: { required: "Seleccione una sucursal." },
@@ -47,7 +47,7 @@
                 Celular: { telefono: "Ingrese un número de celular válido." },
                 Telefono: { telefono: "Ingrese un número de teléfono válido." },
                 //CorreoElectronico: { required: "Ingrese el correo electrónico del cliente.", email: "Ingrese un correo electrónico válido." },
-                PSGCliente: { required: "Ingrese el P.S.G. del cliente." }
+                //PSGCliente: { required: "Ingrese el P.S.G. del cliente." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

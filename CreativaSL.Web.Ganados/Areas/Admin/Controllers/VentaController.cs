@@ -938,7 +938,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #region Combos
         #region Choferes
         [HttpPost]
-        public ActionResult GetChoferesXIDEmpresa(string IDEmpresa)
+        public ActionResult GetChoferesXIDEmpresa(string IDEmpresa, string Id_sucursal)
         {
             try
             {
@@ -947,6 +947,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Venta.Conexion = Conexion;
                 Venta.Flete = new FleteModels();
                 Venta.Flete.Id_empresa = IDEmpresa;
+                Venta.Id_sucursal = Id_sucursal;
                 Venta.Usuario = User.Identity.Name;
                 Venta.Flete.ListaChofer = VentaDatos.GetChoferesXIDEmpresa(Venta);
 
@@ -962,7 +963,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
         #region Vehiculo
         [HttpPost]
-        public ActionResult GetVehiculosXIDEmpresa(string IDEmpresa)
+        public ActionResult GetVehiculosXIDEmpresa(string IDEmpresa, string Id_sucursal)
         {
             try
             {
@@ -972,6 +973,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Venta.Flete = new FleteModels();
                 Venta.Flete.Id_empresa = IDEmpresa;
                 Venta.Usuario = User.Identity.Name;
+                Venta.Id_sucursal = Id_sucursal;
                 Venta.Flete.ListaVehiculo = VentaDatos.GetVehiculosXIDEmpresa(Venta);
 
                 return Content(Venta.Flete.ListaVehiculo.ToJSON(), "application/json");

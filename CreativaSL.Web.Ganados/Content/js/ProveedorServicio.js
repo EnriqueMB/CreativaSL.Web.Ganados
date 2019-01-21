@@ -31,7 +31,7 @@
                 fechaIngreso: { required: true },
                 telefonoCelular: { telefono: true },
                 telefonoCasa: { telefono: true },
-                correo: { required: true, email: true }
+                //correo: { required: true, email: true }
             },
             messages: {
                 IDSucursal: { required: "Seleccione una sucursal." },
@@ -41,7 +41,7 @@
                 fechaIngreso: { required: "Ingrese la fecha de inicio de relación." },
                 telefonoCelular: { telefono: "Ingrese un número de teléfono celular válido." },
                 telefonoCasa: { telefono: "Ingrese un número de teléfono válido." },
-                correo: { required: "Ingrese el correo electrónico del proveedor servicio.", email: "Ingrese un correo electrónico válido." }
+                //correo: { required: "Ingrese el correo electrónico del proveedor servicio.", email: "Ingrese un correo electrónico válido." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
