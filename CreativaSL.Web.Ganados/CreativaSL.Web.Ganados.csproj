@@ -1452,6 +1452,9 @@
     <Content Include="Areas\Admin\Views\Flete\Detalles_Flete_Eventos.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaDetallesEvento.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalFierros.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCorral\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCorral\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCorral\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1491,6 +1494,7 @@
     <Compile Include="App_Start\TokenModule.cs" />
     <Compile Include="App_Start\TokenProcessor.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatCorralController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatGanadoController.cs" />
     <Compile Include="Content\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
@@ -1572,6 +1576,7 @@
     <Compile Include="Models\CatConceptosNominaModels.cs" />
     <Compile Include="Models\CatContactosModels.cs" />
     <Compile Include="Models\CatCorralesModels.cs" />
+    <Compile Include="Models\CatCorralModels.cs" />
     <Compile Include="Models\CatCostoFlete.cs" />
     <Compile Include="Models\CatEmpleadoAltaNominaModels.cs" />
     <Compile Include="Models\CatEmpleadoBajaNominaModels.cs" />
@@ -1764,6 +1769,7 @@
     <Compile Include="Models\_CatCliente_Datos.cs" />
     <Compile Include="Models\_CatConceptoDetalleDocumento_Datos.cs" />
     <Compile Include="Models\_CatConceptoNomina_Datos.cs" />
+    <Compile Include="Models\_CatCorral_Datos.cs" />
     <Compile Include="Models\_CatDocumentos_Datos.cs" />
     <Compile Include="Models\_CatEmpleado_Datos.cs" />
     <Compile Include="Models\_CatEmpresa_Datos.cs" />
