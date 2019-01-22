@@ -1,163 +1,172 @@
-﻿
+﻿@model CreativaSL.Web.Ganados.Models.RptProveedorMermaAltaModels
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 @section featured{
-<div class="page-title">
-    <h2><span class="fa fa-arrow-circle-o-left"></span> REPORTES GENERALES </h2>
-</div>
-<div class="page-content-wrap">
-    <div class="row">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="col-md-12">
-                    <form action="#" id="form-search">
-                        <div class="col-md-12">
-                            <div class="col-md-6">
-                                <div class="form-group" id="1">
-                                    <div class="col-md-12">
-                                        <label class="col-md-12 col-xs-12 control-label"><span>* </span> Fecha Inicio </label>
-                                        <div class="input-group date"  id = "FechaInicio">
-                                            <input type="text" class="form-control datepicker" disabled="disabled" id="fec1"/>
-                                            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> REPORTES GENERALES </h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <form action="#" id="form-search">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group" id="1">
+                                        <div class="col-md-12">
+                                            <label class="col-md-12 col-xs-12 control-label"><span>* </span> Fecha Inicio </label>
+                                            <div class="input-group date" id="FechaInicio">
+                                                <input type="text" class="form-control datepicker" disabled="disabled" id="fec1" />
+                                                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            </div>
+                                            <div id="result"></div>
                                         </div>
-                                        <div id="result"></div>
                                     </div>
                                 </div>
-
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group" id="2">
-                                    <div class="col-md-12">
-                                        <label class="col-md-12 col-xs-12 control-label"><span>* </span> Fecha Fin </label>
-                                        <div class="input-group date" id="FechaFin" >
-                                            <input type="text" class="form-control daterange" disabled="disabled" id="fec2"/>
-                                            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                <div class="col-md-4">
+                                    <div class="form-group" id="2">
+                                        <div class="col-md-12">
+                                            <label class="col-md-12 col-xs-12 control-label"><span>* </span> Fecha Fin </label>
+                                            <div class="input-group date" id="FechaFin">
+                                                <input type="text" class="form-control daterange" disabled="disabled" id="fec2" />
+                                                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            </div>
+                                            <div id="result2"></div>
                                         </div>
-                                        <div id="result2"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="col-md-12 col-xs-12 control-label text-center"><span></span> Sucursal </label>
+                                        <div class="col-md-12 col-xs-12">
+                                            @Html.DropDownListFor(model => model.IDSucursalActual, new SelectList(Model.ListaCmbSucursal, "IDSucursal", "NombreSucursal"), new { id = "IDSucursalActual", @class = "form-control select", data_live_search = "true" })
+                                            @Html.ValidationMessageFor(model => model.IDSucursalActual)
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </form> 
-                    <div class="IDReporte">
-                        <div class="col-md-4">
-                            <a id="BTN1" class="tile tile-warning tile-valign2">
-                                Reporte de mermas altas
-                                <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a id="BTN2" class="tile tile-warning tile-valign2">
-                                Reporte proveedor con más ventas
-                                <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a id="BTN3" class="tile tile-warning tile-valign2">
-                                Salida de gastos
-                                <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a id="BTN4" class="tile tile-warning tile-valign2">
-                                Ganado Vendidos
-                                <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a id="BTN5" class="tile tile-warning tile-valign2">
-                                Reporte ganados muertos por venta
-                                <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a id="BTN6" class="tile tile-warning tile-valign2">
-                                Reporte de Socios
-                                <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a id="BTN7" class="tile tile-warning tile-valign2">
-                                Reporte ganados muertos por compra
-                                <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a id="BTN8" class="tile tile-warning tile-valign2">
-                                Reporte de jaulas por venta
-                                <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a id="BTN9" class="tile tile-warning tile-valign2">
-                                Reporte Entradas
-                                <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a id="BTN10" class="tile tile-warning tile-valign2">
-                                Reporte Corrales
-                                <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a id="BTN11" class="tile tile-warning tile-valign2">
-                                Reporte de fletes
-                                <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a id="BTN12" class="tile tile-warning tile-valign2">
-                                Reporte Estado Cuenta Proveedor
-                                <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a id="BTN13" class="tile tile-warning tile-valign2">
-                                Reporte Estado Cuenta Proveedor Actualizada
-                                <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a id="BTN14" class="tile tile-warning tile-valign2">
-                                Reporte Entrada V2
-                                <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
-                            </a>
+                        </form>
+                        <div class="IDReporte">
+                            <div class="col-md-4">
+                                <a id="BTN1" class="tile tile-warning tile-valign2">
+                                    Reporte de mermas altas
+                                    <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a id="BTN2" class="tile tile-warning tile-valign2">
+                                    Reporte proveedor con más ventas
+                                    <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a id="BTN3" class="tile tile-warning tile-valign2">
+                                    Salida de gastos
+                                    <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a id="BTN4" class="tile tile-warning tile-valign2">
+                                    Ganado Vendidos
+                                    <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a id="BTN5" class="tile tile-warning tile-valign2">
+                                    Reporte ganados muertos por venta
+                                    <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a id="BTN6" class="tile tile-warning tile-valign2">
+                                    Reporte de Socios
+                                    <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a id="BTN7" class="tile tile-warning tile-valign2">
+                                    Reporte ganados muertos por compra
+                                    <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a id="BTN8" class="tile tile-warning tile-valign2">
+                                    Reporte de jaulas por venta
+                                    <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a id="BTN9" class="tile tile-warning tile-valign2">
+                                    Reporte Entradas
+                                    <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a id="BTN10" class="tile tile-warning tile-valign2">
+                                    Reporte Corrales
+                                    <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a id="BTN11" class="tile tile-warning tile-valign2">
+                                    Reporte de fletes
+                                    <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a id="BTN12" class="tile tile-warning tile-valign2">
+                                    Reporte Estado Cuenta Proveedor
+                                    <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a id="BTN13" class="tile tile-warning tile-valign2">
+                                    Reporte Estado Cuenta Proveedor Actualizada
+                                    <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a id="BTN14" class="tile tile-warning tile-valign2">
+                                    Reporte Entrada V2
+                                    <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Reporte</div>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 }
 @section script
 {
-<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Content/js/Reportes.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/Reportes.js")"></script>
     <script>
         jQuery(document).ready(function () {
             Reporte.init();
-           
-      //      var minDateValue = moment().add(30, 'minute'),
-      //maxDateValue = moment().add(1, 'year'),
-      //defaultDateValue = minDateValue;
-      //      $('#dp-3').datepicker({
-      //          inline: true,
-      //      format: 'dd/mm/yyyy',
-      //     // startDate: '-0d',
-      //      autoclose: true,
 
-      //      });
-      //      $('#dp-2').datepicker({
-      //          inline: true,
-      //      format: 'dd/mm/yyyy',
-      //      //startDate: '0d',
-      //      autoclose: true
-      //      });
+            //      var minDateValue = moment().add(30, 'minute'),
+            //maxDateValue = moment().add(1, 'year'),
+            //defaultDateValue = minDateValue;
+            //      $('#dp-3').datepicker({
+            //          inline: true,
+            //      format: 'dd/mm/yyyy',
+            //     // startDate: '-0d',
+            //      autoclose: true,
+
+            //      });
+            //      $('#dp-2').datepicker({
+            //          inline: true,
+            //      format: 'dd/mm/yyyy',
+            //      //startDate: '0d',
+            //      autoclose: true
+            //      });
         });
     </script>
 }
