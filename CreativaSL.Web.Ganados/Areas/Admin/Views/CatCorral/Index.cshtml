@@ -1,6 +1,8 @@
-﻿@model CreativaSL.Web.Ganados.Models.CatTipoProveedorModels
-
+﻿
+@model CreativaSL.Web.Ganados.Models.CatCorralModels
 @{
+    /**/
+
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
@@ -17,7 +19,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Lista de tipos de proveedores </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Corrales </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -29,7 +31,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("Create","CatTipoProveedor")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo proveedor</a></li>
+                            <li><a href="@Url.Action("Create","CatCorral")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Corral</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                         </ul>
@@ -44,15 +46,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var TipoProveedor in Model.listaTipoProveedores)
-                                     {
-                                        <tr id="@TipoProveedor.IDTipoProveedor">
-                                            <td>@TipoProveedor.Descripcion</td>
+                                    @foreach (var Corral in Model.ListaCorral)
+                                    {
+                                        <tr id="@Corral.Id_corral">
+                                            <td>@Corral.Descripcion</td>
 
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" href="@Url.Action("Edit", "CatTipoProveedor", new { id = TipoProveedor.IDTipoProveedor })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-													<a title="Eliminar" id="delete-@TipoProveedor.IDTipoProveedor" data-hrefa="@Url.Action("Delete", "CatTipoProveedor", new { id = TipoProveedor.IDTipoProveedor  })" onClick="delete_row('@TipoProveedor.IDTipoProveedor');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Editar" href="@Url.Action("Edit", "CatCorral", new { id = Corral.Id_corral})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" id="delete-@Corral.Id_corral" data-hrefa="@Url.Action("Delete", "CatCorral", new { id = Corral.Id_corral })" onClick="delete_row('@Corral.Id_corral');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -61,8 +63,13 @@
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatTipoProveedor", new { id = TipoProveedor.IDTipoProveedor })">
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatCorral", new { id = Corral.Id_corral })">
                                                                     <i class="fa fa-edit"></i> Editar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" id="delete-@Corral.Id_corral" data-hrefa="@Url.Action("Delete", "CatCorral", new { id = Corral.Id_corral })" onClick="delete_row('@Corral.Id_corral');">
+                                                                    <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -70,12 +77,11 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                     }
+                                    }
                                 </tbody>
                             </table>
                         </div>
                     </div>
-
                 </div>
                 <!-- END DEFAULT DATATABLE -->
             </div>
@@ -104,16 +110,13 @@
     var typemessage = '@typemessage';
     </script>
 }
-@section script
-{
+@section script{
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script>
         jQuery(document).ready(function () {
-        Mensaje(message, typemessage);
+            Mensaje(message, typemessage);
         });
     </script>
 }
-
-
