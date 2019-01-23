@@ -52,7 +52,7 @@
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     <a title="Editar" href="@Url.Action("Edit", "CatTipoProveedor", new { id = TipoProveedor.IDTipoProveedor })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" data-id="@TipoProveedor.IDTipoProveedor" id="delete-@TipoProveedor.IDTipoProveedor" data-hrefa="@Url.Action("Delete", "CatTipoProveedor")" onClick="delete_row('@TipoProveedor.IDTipoProveedor');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Eliminar" data-id="@TipoProveedor.IDTipoProveedor" id="delete-@TipoProveedor.IDTipoProveedor" onClick="delete_row('@TipoProveedor.IDTipoProveedor', '@Url.Action("Delete", "CatTipoProveedor")');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                     @*<a title="Eliminar" href="@Url.Action("Delete", "CatTipoProveedor", new { id = TipoProveedor.IDTipoProveedor  })"  class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>*@
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">

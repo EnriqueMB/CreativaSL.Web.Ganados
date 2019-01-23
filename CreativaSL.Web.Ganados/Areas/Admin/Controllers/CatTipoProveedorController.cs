@@ -198,23 +198,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 if (Proveedor.Completado == true)
                 {
-                    //TempData["typemessage"] = "1";
-                    //TempData["message"] = "El registro se elimino correctamente.";
-                    //Token.ResetToken();
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "El registro se elimino correctamente.";
+                    Token.ResetToken();
                     return Json("1");
-                    //return RedirectToAction("Index");
                 }
                 else
                 {
-                    //return Json("2");
-                    //TempData["typemessage"] = "2";
-                    //TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
-                   // return RedirectToAction("Index");
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se pudo eliminar el corral, verifique que no tenga algún ganado incluido.";
                     return Json("2");
-                    //return View(Proveedor);
                 }
-                // TODO: Add delete logic here                
-                //return Json("");
             }
             catch
             {

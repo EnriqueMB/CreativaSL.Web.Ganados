@@ -1,9 +1,9 @@
-﻿function delete_row(Id) {
-    var url = $(this).attr('data-hrefa');
+﻿function delete_row(Id, url) {
     var box = $("#mb-remove-row");
     box.addClass("open");
     box.find(".mb-control-yes").on("click", function () {
         box.removeClass("open");
+
         $.ajax({
             url: url,
             data: { id: Id },
