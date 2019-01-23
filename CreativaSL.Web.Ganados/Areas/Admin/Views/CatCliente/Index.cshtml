@@ -65,6 +65,7 @@
                                             <td>@Cliente.NombreRegimenFiscal</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    <a title="UPPProveedor" class="btn btn-green" href="@Url.Action("UPPCliente", "CatCliente", new { id = Cliente.IDCliente })"><i class="fa fa-plus"></i></a>
                                                     <a title="Lugares" class="btn btn-primary" href="@Url.Action("Lugares", "CatCliente", new { id = Cliente.IDCliente,id2=Cliente.IDSucursal })"><i class="fa fa-map-marker"></i></a>
                                                     <a title="Datos bancarios" class="btn btn-green" href="@Url.Action("Cuentas", "CatCliente", new { id = Cliente.IDCliente })"><i class="fa fa-money"></i></a>
                                                     <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatCliente", new { id = Cliente.IDCliente })"><i class="fa fa-edit"></i></a>

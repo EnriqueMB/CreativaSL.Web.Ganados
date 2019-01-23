@@ -148,7 +148,7 @@
       <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.150.900.148\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.1016.290\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebHelpers.3.2.4\lib\net45\Microsoft.Web.Helpers.dll</HintPath>
@@ -1074,6 +1074,7 @@
     <Content Include="Content\js\TipoVehiculo.js" />
     <Content Include="Content\js\UnidadMedida.js" />
     <Content Include="Content\js\UnidadProductoAlmacen.js" />
+    <Content Include="Content\js\UPPCliente.js" />
     <Content Include="Content\js\UPPProveedor.js" />
     <Content Include="Content\js\Usuario.js" />
     <Content Include="Content\js\validaciones\additionals.js" />
@@ -1452,6 +1453,7 @@
     <Content Include="Areas\Admin\Views\Flete\Detalles_Flete_Eventos.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaDetallesEvento.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\ModalFierros.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\UPPCliente.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1726,6 +1728,7 @@
     <Compile Include="Models\TransaccionesFleteModels.cs" />
     <Compile Include="Models\TrayectoModels.cs" />
     <Compile Include="Models\UnidadesProductosAlmacenModels.cs" />
+    <Compile Include="Models\UPPClienteModels.cs" />
     <Compile Include="Models\UPPProvedorModels.cs" />
     <Compile Include="Models\UsuarioModels.cs" />
     <Compile Include="Models\Validaciones\ClabeInterbancariaAttribute.cs" />
