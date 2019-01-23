@@ -1,0 +1,280 @@
+﻿@model CreativaSL.Web.Ganados.Models.UPPClienteModels
+
+@{
+    ViewBag.Title = "UPPCliente";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+@section css
+{
+    <!--FILEINPUT-->
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/fontawesome/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
+}
+
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("UPPCliente", "CatCliente", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off", @enctype = "multipart/form-data" }))
+            {
+                @Html.HiddenFor(model => model.Imagen)
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                <div id="validation_summary" class="field_error "></div> //JS
+                @Html.HiddenFor(model=>model.id_cliente)
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>UPP</strong>Cliente</h3>
+                    </div>
+                    <ul class="panel-controls">
+                    </ul>
+                    <div class="panel-body">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center"><span>* </span>UPP</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.UPP, new { id = "UPP", @class = "form-control", placeholder = "Ingrese el UPP" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.UPP)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center"><span>* </span>Nombre del predio</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.nombrePredio, new { id = "nombrePredio", @class = "form-control", placeholder = "Ingrese el nombre del predio" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.nombrePredio)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center"><span>* </span>Propietario</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.propietario, new { id = "propietario", @class = "form-control", placeholder = "Ingrese el propietario" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.propietario)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Fecha Alta</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group date">
+                                            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            @Html.TextBoxFor(model => model.fechaAlta, "{0:dd/MM/yyyy}", new { id = "fechaAlta", @class = "form-control datepicker" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.fechaAlta)
+                                        <span class="help-block">Ingrese la fecha de alta</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Paises</label>
+                                    <div class="col-md-9">
+                                        @Html.DropDownListFor(model => model.id_pais, new SelectList(Model.listaPaises, "id_pais", "descripcion"), new { id = "id_pais", @class = "form-control  select", data_live_search = "true" })
+
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.id_pais)
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Estado</label>
+                                    <div class="col-md-9">
+                                        @Html.DropDownListFor(model => model.id_estadoCodigo, new SelectList(Model.listaEstado, "codigoEstado", "descripcion"), new { id = "id_estadoCodigo", @class = "form-control select", data_live_search = "true" })
+
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.id_estadoCodigo)
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Municipio</label>
+                                    <div class="col-md-9">
+                                        @Html.DropDownListFor(model => model.id_municipio, new SelectList(Model.listaMunicipio, "id_municipio", "descripcion"), new { id = "id_municipio", @class = "form-control  select", data_live_search = "true" })
+
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.id_municipio)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Ingrese la imagen</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.ImagenHttp, new { id = "ImagenHttp", @type = "file", @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ImagenHttp)
+                                <span class="help-block">Ingrese por lo menos 1 imagen.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel-footer">
+                    <a href="@Url.Action("Index","CatCliente")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    <button form="form-dg" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/UPPCliente.js")"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            UPPCliente.init();
+
+            $('#ImagenHttp').fileinput({
+            theme: 'fa',
+            language: 'es',
+            maxFileCount: 1,
+            overwriteInitial: true,
+            showUploadedThumbs: false,
+            initialPreview: [
+            '<img class="file-preview-image"  style=" width: auto !important; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64,@Model.ImagenMostrar" />'
+            ],
+            initialPreviewConfig: [
+               { caption: 'Imagen' }
+            ],
+            initialPreviewShowDelete: false,
+            showRemove: false,
+            showClose: false,
+            showUpload: false,
+            layoutTemplates: { actionDelete: '' }
+            })
+        });
+        jQuery(document).ready(function () {
+            //LISTA DE ESTADOS CUANDO COMBO PAISES CAMBIA
+            @if (string.IsNullOrEmpty(Model.Imagen))
+            {
+                <text>$("#id_pais").val('MEX');
+
+                getEstado($("#id_pais").val());</text>
+            }
+
+            $("#id_pais").change(function () {
+                var id = $("#id_pais").val();
+                getEstado(id);
+            });
+
+            $("#id_estadoCodigo").change(function () {
+                var id2 = $("#id_pais").val();
+                var id = $("#id_estadoCodigo").val();
+                getMunicipio(id2, id);
+            });
+
+            function getEstado(id) {
+
+                $.ajax({
+                    url: "/Admin/CatCliente/Estado",
+                    data: { id: id },
+                    dataType: "json",
+                    type: "POST",
+                    error: function () {
+                        $("#id_estadoCodigo").html('');
+                    },
+                    success: function (estado) {
+
+                        var items = "";
+                        for (var i = 0; i < estado.length; i++) {
+
+                            items += "<option value=\"" + estado[i].codigoEstado + "\">" + estado[i].descripcion + "</option>";
+                        }
+                        $("#id_estadoCodigo").html(items);
+
+                        $('#id_estadoCodigo.select').selectpicker('refresh');
+                    }
+                });
+            }
+            function getMunicipio(IdP, id) {
+                $.ajax({
+                    url: "/Admin/CatLugar/Municipio",
+                    data: {
+                        idPais: IdP,
+                        id: id
+                    },
+                    dataType: "json",
+                    type: "POST",
+                    error: function () {
+                        $("#id_municipio").html('');
+                    },
+                    success: function (municipio) {
+                        var items = "";
+                        for (var i = 0; i < municipio.length; i++) {
+                            items += "<option value=\"" + municipio[i].id_municipio + "\">" + municipio[i].descripcion + "</option>";
+                        }
+                        $("#id_municipio").html(items);
+
+                        $('#id_municipio.select').selectpicker('refresh');
+
+                    }
+                });
+            }
+        });
+    </script>
+}
+
+
+
+
+
+
+
+
+
