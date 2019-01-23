@@ -16,6 +16,13 @@
       </ConnectionProperties>
       <rd:DataSourceID>b268427b-20e0-4e00-9137-c39bdcfd464e</rd:DataSourceID>
     </DataSource>
+    <DataSource Name="CreativaSLWebGanadosModels2">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>698818ba-d8b6-47ba-986e-14fffee36488</rd:DataSourceID>
+    </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="ListaMerma">
@@ -24,6 +31,10 @@
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
+        <Field Name="NombreSucursal">
+          <DataField>NombreSucursal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="IDProveedor">
           <DataField>IDProveedor</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -117,6 +128,109 @@
         <rd:ObjectDataSourceType>CreativaSL.Web.Ganados.Models._RptProveedorMermaAlta_Datos, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
+    <DataSet Name="ListaGrafica">
+      <Query>
+        <DataSourceName>CreativaSLWebGanadosModels2</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="NombreSucursal">
+          <DataField>NombreSucursal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="IDProveedor">
+          <DataField>IDProveedor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="toleranciaCompra">
+          <DataField>toleranciaCompra</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="nombreProveedor">
+          <DataField>nombreProveedor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="merma">
+          <DataField>merma</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="mermaTotal">
+          <DataField>mermaTotal</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="listaProveedores">
+          <DataField>listaProveedores</DataField>
+          <rd:TypeName>System.Collections.Generic.List`1[[CreativaSL.Web.Ganados.Models.RptProveedorMermaAltaModels, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="listaRptProveedorMerma">
+          <DataField>listaRptProveedorMerma</DataField>
+          <rd:TypeName>System.Collections.Generic.List`1[[CreativaSL.Web.Ganados.Models.RptProveedorMermaAltaModels, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="DatosEmpresa">
+          <DataField>DatosEmpresa</DataField>
+          <rd:TypeName>CreativaSL.Web.Ganados.ViewModels.DatosEmpresaViewModels</rd:TypeName>
+        </Field>
+        <Field Name="NombreCompra">
+          <DataField>NombreCompra</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="GanadoMacho">
+          <DataField>GanadoMacho</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="GanadoHembra">
+          <DataField>GanadoHembra</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="TalGanadoComprado">
+          <DataField>TalGanadoComprado</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="FechaInicio">
+          <DataField>FechaInicio</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="FechaFin">
+          <DataField>FechaFin</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="IDSucursalActual">
+          <DataField>IDSucursalActual</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ListaCmbSucursal">
+          <DataField>ListaCmbSucursal</DataField>
+          <rd:TypeName>System.Collections.Generic.List`1[[CreativaSL.Web.Ganados.Models.CatSucursalesModels, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="Conexion">
+          <DataField>Conexion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Resultado">
+          <DataField>Resultado</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Completado">
+          <DataField>Completado</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="Usuario">
+          <DataField>Usuario</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Opcion">
+          <DataField>Opcion</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>CreativaSL.Web.Ganados.Models</rd:DataSetName>
+        <rd:TableName>_RptProveedorMermaAlta_Datos</rd:TableName>
+        <rd:ObjectDataSourceSelectMethod>ListaProveedoresMermaAltaGrafica</rd:ObjectDataSourceSelectMethod>
+        <rd:ObjectDataSourceSelectMethodSignature>System.Collections.Generic.List`1[CreativaSL.Web.Ganados.Models.RptProveedorMermaAltaModels] ListaProveedoresMermaAltaGrafica(CreativaSL.Web.Ganados.Models.RptProveedorMermaAltaModels)</rd:ObjectDataSourceSelectMethodSignature>
+        <rd:ObjectDataSourceType>CreativaSL.Web.Ganados.Models._RptProveedorMermaAlta_Datos, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+      </rd:DataSetInfo>
+    </DataSet>
   </DataSets>
   <ReportSections>
     <ReportSection>
@@ -129,13 +243,13 @@
                   <Width>2.41003cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.33661cm</Width>
+                  <Width>2.25012cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.7693cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.63987cm</Width>
+                  <Width>1.56049cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.66854cm</Width>
@@ -160,7 +274,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>NÚMERO FOLIO</Value>
+                                  <Value>N°  DE FOLIO DE COMPRA</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -421,7 +535,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>NombreCompra</rd:DefaultName>
@@ -453,7 +569,9 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>merma</rd:DefaultName>
@@ -485,7 +603,9 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>toleranciaCompra</rd:DefaultName>
@@ -517,7 +637,9 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>mermaTotal</rd:DefaultName>
@@ -547,7 +669,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>GanadoMacho</rd:DefaultName>
@@ -577,7 +701,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>GanadoHembra</rd:DefaultName>
@@ -607,7 +733,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>TalGanadoComprado</rd:DefaultName>
@@ -642,7 +770,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox18</rd:DefaultName>
@@ -672,7 +802,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox19</rd:DefaultName>
@@ -702,7 +834,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox21</rd:DefaultName>
@@ -732,7 +866,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox23</rd:DefaultName>
@@ -762,7 +898,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox24</rd:DefaultName>
@@ -792,7 +930,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox25</rd:DefaultName>
@@ -822,7 +962,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox26</rd:DefaultName>
@@ -858,16 +1000,16 @@
               <TablixMembers>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>4.2624cm</Size>
+                    <Size>1.99313cm</Size>
                     <CellContents>
-                      <Textbox Name="Textbox9">
+                      <Textbox Name="Textbox1">
                         <CanGrow>true</CanGrow>
                         <KeepTogether>true</KeepTogether>
                         <Paragraphs>
                           <Paragraph>
                             <TextRuns>
                               <TextRun>
-                                <Value>NOMBRE PROVEEDOR </Value>
+                                <Value>SUCURSAL</Value>
                                 <Style>
                                   <FontSize>8pt</FontSize>
                                   <FontWeight>Bold</FontWeight>
@@ -879,7 +1021,7 @@
                             </Style>
                           </Paragraph>
                         </Paragraphs>
-                        <rd:DefaultName>Textbox9</rd:DefaultName>
+                        <rd:DefaultName>Textbox1</rd:DefaultName>
                         <Style>
                           <Border>
                             <Color>LightGrey</Color>
@@ -895,40 +1037,83 @@
                     </CellContents>
                   </TablixHeader>
                   <TablixMembers>
-                    <TablixMember />
+                    <TablixMember>
+                      <TablixHeader>
+                        <Size>3.81078cm</Size>
+                        <CellContents>
+                          <Textbox Name="Textbox9">
+                            <CanGrow>true</CanGrow>
+                            <KeepTogether>true</KeepTogether>
+                            <Paragraphs>
+                              <Paragraph>
+                                <TextRuns>
+                                  <TextRun>
+                                    <Value>NOMBRE PROVEEDOR </Value>
+                                    <Style>
+                                      <FontSize>8pt</FontSize>
+                                      <FontWeight>Bold</FontWeight>
+                                    </Style>
+                                  </TextRun>
+                                </TextRuns>
+                                <Style>
+                                  <TextAlign>Center</TextAlign>
+                                </Style>
+                              </Paragraph>
+                            </Paragraphs>
+                            <rd:DefaultName>Textbox9</rd:DefaultName>
+                            <Style>
+                              <Border>
+                                <Color>LightGrey</Color>
+                                <Style>Solid</Style>
+                              </Border>
+                              <BackgroundColor>Gray</BackgroundColor>
+                              <PaddingLeft>2pt</PaddingLeft>
+                              <PaddingRight>2pt</PaddingRight>
+                              <PaddingTop>2pt</PaddingTop>
+                              <PaddingBottom>2pt</PaddingBottom>
+                            </Style>
+                          </Textbox>
+                        </CellContents>
+                      </TablixHeader>
+                      <TablixMembers>
+                        <TablixMember />
+                      </TablixMembers>
+                    </TablixMember>
                   </TablixMembers>
                 </TablixMember>
                 <TablixMember>
-                  <Group Name="nombreProveedor">
+                  <Group Name="NombreSucursal">
                     <GroupExpressions>
-                      <GroupExpression>=Fields!nombreProveedor.Value</GroupExpression>
+                      <GroupExpression>=Fields!NombreSucursal.Value</GroupExpression>
                     </GroupExpressions>
                   </Group>
                   <SortExpressions>
                     <SortExpression>
-                      <Value>=Fields!nombreProveedor.Value</Value>
+                      <Value>=Fields!NombreSucursal.Value</Value>
                     </SortExpression>
                   </SortExpressions>
                   <TablixHeader>
-                    <Size>4.2624cm</Size>
+                    <Size>1.99313cm</Size>
                     <CellContents>
-                      <Textbox Name="nombreProveedor1">
+                      <Textbox Name="NombreSucursal">
                         <CanGrow>true</CanGrow>
                         <KeepTogether>true</KeepTogether>
                         <Paragraphs>
                           <Paragraph>
                             <TextRuns>
                               <TextRun>
-                                <Value>=Fields!nombreProveedor.Value</Value>
+                                <Value>=Fields!NombreSucursal.Value</Value>
                                 <Style>
                                   <FontSize>8pt</FontSize>
                                 </Style>
                               </TextRun>
                             </TextRuns>
-                            <Style />
+                            <Style>
+                              <TextAlign>Center</TextAlign>
+                            </Style>
                           </Paragraph>
                         </Paragraphs>
-                        <rd:DefaultName>nombreProveedor1</rd:DefaultName>
+                        <rd:DefaultName>NombreSucursal</rd:DefaultName>
                         <Style>
                           <Border>
                             <Color>LightGrey</Color>
@@ -944,10 +1129,59 @@
                   </TablixHeader>
                   <TablixMembers>
                     <TablixMember>
-                      <Group Name="Detalles" />
-                    </TablixMember>
-                    <TablixMember>
-                      <KeepWithGroup>Before</KeepWithGroup>
+                      <Group Name="nombreProveedor">
+                        <GroupExpressions>
+                          <GroupExpression>=Fields!nombreProveedor.Value</GroupExpression>
+                        </GroupExpressions>
+                      </Group>
+                      <SortExpressions>
+                        <SortExpression>
+                          <Value>=Fields!nombreProveedor.Value</Value>
+                        </SortExpression>
+                      </SortExpressions>
+                      <TablixHeader>
+                        <Size>3.81078cm</Size>
+                        <CellContents>
+                          <Textbox Name="nombreProveedor1">
+                            <CanGrow>true</CanGrow>
+                            <KeepTogether>true</KeepTogether>
+                            <Paragraphs>
+                              <Paragraph>
+                                <TextRuns>
+                                  <TextRun>
+                                    <Value>=Fields!nombreProveedor.Value</Value>
+                                    <Style>
+                                      <FontSize>8pt</FontSize>
+                                    </Style>
+                                  </TextRun>
+                                </TextRuns>
+                                <Style>
+                                  <TextAlign>Center</TextAlign>
+                                </Style>
+                              </Paragraph>
+                            </Paragraphs>
+                            <rd:DefaultName>nombreProveedor1</rd:DefaultName>
+                            <Style>
+                              <Border>
+                                <Color>LightGrey</Color>
+                                <Style>Solid</Style>
+                              </Border>
+                              <PaddingLeft>2pt</PaddingLeft>
+                              <PaddingRight>2pt</PaddingRight>
+                              <PaddingTop>2pt</PaddingTop>
+                              <PaddingBottom>2pt</PaddingBottom>
+                            </Style>
+                          </Textbox>
+                        </CellContents>
+                      </TablixHeader>
+                      <TablixMembers>
+                        <TablixMember>
+                          <Group Name="Detalles" />
+                        </TablixMember>
+                        <TablixMember>
+                          <KeepWithGroup>Before</KeepWithGroup>
+                        </TablixMember>
+                      </TablixMembers>
                     </TablixMember>
                   </TablixMembers>
                 </TablixMember>
@@ -957,18 +1191,18 @@
             <Top>0.3175cm</Top>
             <Left>0.28787cm</Left>
             <Height>2.19688cm</Height>
-            <Width>17.6884cm</Width>
+            <Width>19.06404cm</Width>
             <Style>
               <Border>
                 <Style>None</Style>
               </Border>
             </Style>
           </Tablix>
-          <Chart Name="Chart3">
+          <Chart Name="Chart1">
             <ChartCategoryHierarchy>
               <ChartMembers>
                 <ChartMember>
-                  <Group Name="Chart3_CategoryGroup">
+                  <Group Name="Chart1_CategoryGroup">
                     <GroupExpressions>
                       <GroupExpression>=Fields!NombreCompra.Value</GroupExpression>
                     </GroupExpressions>
@@ -985,7 +1219,7 @@
             <ChartSeriesHierarchy>
               <ChartMembers>
                 <ChartMember>
-                  <Group Name="Chart3_SeriesGroup">
+                  <Group Name="Chart1_SeriesGroup">
                     <GroupExpressions>
                       <GroupExpression>=Fields!nombreProveedor.Value</GroupExpression>
                     </GroupExpressions>
@@ -1001,14 +1235,16 @@
             </ChartSeriesHierarchy>
             <ChartData>
               <ChartSeriesCollection>
-                <ChartSeries Name="TalGanadoComprado">
+                <ChartSeries Name="mermaTotal">
                   <ChartDataPoints>
                     <ChartDataPoint>
                       <ChartDataPointValues>
-                        <Y>=Sum(Fields!TalGanadoComprado.Value)</Y>
+                        <Y>=Sum(Fields!mermaTotal.Value)</Y>
                       </ChartDataPointValues>
                       <ChartDataLabel>
-                        <Style />
+                        <Style>
+                          <Format>0.00"%"</Format>
+                        </Style>
                         <UseValueAsLabel>true</UseValueAsLabel>
                         <Visible>true</Visible>
                       </ChartDataLabel>
@@ -1044,12 +1280,18 @@
                 <ChartCategoryAxes>
                   <ChartAxis Name="Primary">
                     <Style>
+                      <Border>
+                        <Color>Gainsboro</Color>
+                        <Style>None</Style>
+                      </Border>
                       <FontSize>8pt</FontSize>
+                      <Color>#5c5c5c</Color>
                     </Style>
                     <ChartAxisTitle>
-                      <Caption>Título del eje</Caption>
+                      <Caption />
                       <Style>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>9pt</FontSize>
+                        <Color>#5c5c5c</Color>
                       </Style>
                     </ChartAxisTitle>
                     <ChartMajorGridLines>
@@ -1068,7 +1310,20 @@
                         </Border>
                       </Style>
                     </ChartMinorGridLines>
+                    <ChartMajorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </ChartMajorTickMarks>
                     <ChartMinorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
                       <Length>0.5</Length>
                     </ChartMinorTickMarks>
                     <CrossAt>NaN</CrossAt>
@@ -1080,12 +1335,18 @@
                   </ChartAxis>
                   <ChartAxis Name="Secondary">
                     <Style>
+                      <Border>
+                        <Color>Gainsboro</Color>
+                        <Style>None</Style>
+                      </Border>
                       <FontSize>8pt</FontSize>
+                      <Color>#5c5c5c</Color>
                     </Style>
                     <ChartAxisTitle>
-                      <Caption>Título del eje</Caption>
+                      <Caption />
                       <Style>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>9pt</FontSize>
+                        <Color>#5c5c5c</Color>
                       </Style>
                     </ChartAxisTitle>
                     <ChartMajorGridLines>
@@ -1104,7 +1365,20 @@
                         </Border>
                       </Style>
                     </ChartMinorGridLines>
+                    <ChartMajorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </ChartMajorTickMarks>
                     <ChartMinorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
                       <Length>0.5</Length>
                     </ChartMinorTickMarks>
                     <CrossAt>NaN</CrossAt>
@@ -1119,12 +1393,18 @@
                 <ChartValueAxes>
                   <ChartAxis Name="Primary">
                     <Style>
+                      <Border>
+                        <Color>Gainsboro</Color>
+                        <Style>None</Style>
+                      </Border>
                       <FontSize>8pt</FontSize>
+                      <Color>#5c5c5c</Color>
                     </Style>
                     <ChartAxisTitle>
-                      <Caption>Título del eje</Caption>
+                      <Caption />
                       <Style>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>9pt</FontSize>
+                        <Color>#5c5c5c</Color>
                       </Style>
                     </ChartAxisTitle>
                     <ChartMajorGridLines>
@@ -1142,7 +1422,20 @@
                         </Border>
                       </Style>
                     </ChartMinorGridLines>
+                    <ChartMajorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </ChartMajorTickMarks>
                     <ChartMinorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
                       <Length>0.5</Length>
                     </ChartMinorTickMarks>
                     <CrossAt>NaN</CrossAt>
@@ -1154,12 +1447,18 @@
                   </ChartAxis>
                   <ChartAxis Name="Secondary">
                     <Style>
+                      <Border>
+                        <Color>Gainsboro</Color>
+                        <Style>None</Style>
+                      </Border>
                       <FontSize>8pt</FontSize>
+                      <Color>#5c5c5c</Color>
                     </Style>
                     <ChartAxisTitle>
-                      <Caption>Título del eje</Caption>
+                      <Caption />
                       <Style>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>9pt</FontSize>
+                        <Color>#5c5c5c</Color>
                       </Style>
                     </ChartAxisTitle>
                     <ChartMajorGridLines>
@@ -1177,7 +1476,20 @@
                         </Border>
                       </Style>
                     </ChartMinorGridLines>
+                    <ChartMajorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </ChartMajorTickMarks>
                     <ChartMinorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
                       <Length>0.5</Length>
                     </ChartMinorTickMarks>
                     <CrossAt>NaN</CrossAt>
@@ -1190,6 +1502,7 @@
                   </ChartAxis>
                 </ChartValueAxes>
                 <Style>
+                  <BackgroundColor>#00ffffff</BackgroundColor>
                   <BackgroundGradientType>None</BackgroundGradientType>
                 </Style>
               </ChartArea>
@@ -1214,16 +1527,18 @@
             </ChartLegends>
             <ChartTitles>
               <ChartTitle Name="Default">
-                <Caption>Título del gráfico</Caption>
+                <Caption>PROVEEDORES CON MERMA MAS ALTAS</Caption>
                 <Style>
                   <BackgroundGradientType>None</BackgroundGradientType>
+                  <FontSize>9pt</FontSize>
                   <FontWeight>Bold</FontWeight>
-                  <TextAlign>General</TextAlign>
+                  <TextAlign>Left</TextAlign>
                   <VerticalAlign>Top</VerticalAlign>
+                  <Color>#a6a6a6</Color>
                 </Style>
               </ChartTitle>
             </ChartTitles>
-            <Palette>BrightPastel</Palette>
+            <Palette>Pacific</Palette>
             <ChartBorderSkin>
               <Style>
                 <BackgroundColor>Gray</BackgroundColor>
@@ -1235,30 +1550,31 @@
               <Caption>Sin datos disponibles</Caption>
               <Style>
                 <BackgroundGradientType>None</BackgroundGradientType>
+                <FontWeight>Bold</FontWeight>
                 <TextAlign>General</TextAlign>
                 <VerticalAlign>Top</VerticalAlign>
               </Style>
             </ChartNoDataMessage>
-            <DataSetName>ListaMerma</DataSetName>
-            <Top>2.99792cm</Top>
+            <DataSetName>ListaGrafica</DataSetName>
+            <Top>2.89209cm</Top>
             <Left>0.28787cm</Left>
-            <Height>5.07938cm</Height>
-            <Width>17.68838cm</Width>
+            <Height>5.60854cm</Height>
+            <Width>19.06404cm</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
-                <Style>Solid</Style>
+                <Style>None</Style>
               </Border>
               <BackgroundColor>White</BackgroundColor>
               <BackgroundGradientType>None</BackgroundGradientType>
             </Style>
           </Chart>
         </ReportItems>
-        <Height>3.35712in</Height>
+        <Height>3.55504in</Height>
         <Style />
       </Body>
-      <Width>18.49458cm</Width>
+      <Width>19.55023cm</Width>
       <Page>
         <PageHeader>
           <Height>2.76682cm</Height>
@@ -1267,37 +1583,6 @@
           <ReportItems>
             <Rectangle Name="Rectangle3">
               <ReportItems>
-                <Textbox Name="Textbox6">
-                  <CanGrow>true</CanGrow>
-                  <KeepTogether>true</KeepTogether>
-                  <Paragraphs>
-                    <Paragraph>
-                      <TextRuns>
-                        <TextRun>
-                          <Value>REPORTE DE MERMA ALTA PROVEEDOR</Value>
-                          <Style>
-                            <FontWeight>Bold</FontWeight>
-                          </Style>
-                        </TextRun>
-                      </TextRuns>
-                      <Style />
-                    </Paragraph>
-                  </Paragraphs>
-                  <rd:DefaultName>Textbox1</rd:DefaultName>
-                  <Top>1.45846cm</Top>
-                  <Left>0.30207cm</Left>
-                  <Height>0.6cm</Height>
-                  <Width>8.77063cm</Width>
-                  <Style>
-                    <Border>
-                      <Style>None</Style>
-                    </Border>
-                    <PaddingLeft>2pt</PaddingLeft>
-                    <PaddingRight>2pt</PaddingRight>
-                    <PaddingTop>2pt</PaddingTop>
-                    <PaddingBottom>2pt</PaddingBottom>
-                  </Style>
-                </Textbox>
                 <Textbox Name="Textbox8">
                   <CanGrow>true</CanGrow>
                   <KeepTogether>true</KeepTogether>
@@ -1321,11 +1606,10 @@
                     </Paragraph>
                   </Paragraphs>
                   <rd:DefaultName>Textbox3</rd:DefaultName>
-                  <Top>0.11748cm</Top>
-                  <Left>6.264cm</Left>
-                  <Height>0.6cm</Height>
-                  <Width>8.82354cm</Width>
-                  <ZIndex>1</ZIndex>
+                  <Top>0.56727cm</Top>
+                  <Left>4.359cm</Left>
+                  <Height>0.46771cm</Height>
+                  <Width>10.27875cm</Width>
                   <Style>
                     <Border>
                       <Style>None</Style>
@@ -1359,11 +1643,11 @@
                     </Paragraph>
                   </Paragraphs>
                   <rd:DefaultName>Textbox11</rd:DefaultName>
-                  <Top>1.45846cm</Top>
-                  <Left>9.0727cm</Left>
-                  <Height>0.6cm</Height>
-                  <Width>6.01486cm</Width>
-                  <ZIndex>2</ZIndex>
+                  <Top>1.56429cm</Top>
+                  <Left>4.359cm</Left>
+                  <Height>0.49417cm</Height>
+                  <Width>7.47007cm</Width>
+                  <ZIndex>1</ZIndex>
                   <Style>
                     <Border>
                       <Style>None</Style>
@@ -1381,9 +1665,9 @@
                   <Sizing>FitProportional</Sizing>
                   <Top>0.11748cm</Top>
                   <Left>0.30207cm</Left>
-                  <Height>1.3057cm</Height>
-                  <Width>5.92667cm</Width>
-                  <ZIndex>3</ZIndex>
+                  <Height>1.94098cm</Height>
+                  <Width>3.65125cm</Width>
+                  <ZIndex>2</ZIndex>
                   <Style>
                     <Border>
                       <Style>None</Style>
@@ -1397,7 +1681,7 @@
                     <Paragraph>
                       <TextRuns>
                         <TextRun>
-                          <Value>FECHA: </Value>
+                          <Value>PERIODO: </Value>
                           <Style>
                             <FontWeight>Bold</FontWeight>
                           </Style>
@@ -1425,10 +1709,44 @@
                     </Paragraph>
                   </Paragraphs>
                   <rd:DefaultName>Textbox2</rd:DefaultName>
-                  <Top>0.78804cm</Top>
-                  <Left>6.264cm</Left>
-                  <Height>0.63514cm</Height>
-                  <Width>8.82354cm</Width>
+                  <Top>1.07379cm</Top>
+                  <Left>4.359cm</Left>
+                  <Height>0.47639cm</Height>
+                  <Width>10.27875cm</Width>
+                  <ZIndex>3</ZIndex>
+                  <Style>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                  </Style>
+                </Textbox>
+                <Textbox Name="Textbox6">
+                  <CanGrow>true</CanGrow>
+                  <KeepTogether>true</KeepTogether>
+                  <Paragraphs>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Value>REPORTE DE ANALISIS DE MERMA ALTAS</Value>
+                          <Style>
+                            <FontWeight>Bold</FontWeight>
+                          </Style>
+                        </TextRun>
+                      </TextRuns>
+                      <Style>
+                        <TextAlign>Left</TextAlign>
+                      </Style>
+                    </Paragraph>
+                  </Paragraphs>
+                  <rd:DefaultName>Textbox1</rd:DefaultName>
+                  <Top>0.08573cm</Top>
+                  <Left>4.359cm</Left>
+                  <Height>0.43392cm</Height>
+                  <Width>8.77063cm</Width>
                   <ZIndex>4</ZIndex>
                   <Style>
                     <Border>
@@ -1443,7 +1761,7 @@
               </ReportItems>
               <KeepTogether>true</KeepTogether>
               <Top>0.20002cm</Top>
-              <Left>1.41646cm</Left>
+              <Left>2.05146cm</Left>
               <Height>2.1825cm</Height>
               <Width>15.37167cm</Width>
               <Style>
