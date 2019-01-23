@@ -39,14 +39,13 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-
                                         <th>Descripción</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var TipoProveedor in Model.listaTipoProveedores)
-                                    {
+                                     {
                                         <tr id="@TipoProveedor.IDTipoProveedor">
                                             <td>@TipoProveedor.Descripcion</td>
 
@@ -71,7 +70,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                    }
+                                     }
                                 </tbody>
                             </table>
                         </div>

@@ -4,7 +4,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 @section featured{
-    @{        
+    @{
         var message = TempData["message"] ?? string.Empty;
         var typemessage = TempData["typemessage"] ?? string.Empty;
     }
@@ -29,59 +29,59 @@
                         @{ Html.EnableClientValidation(false); }
                         @using (Html.BeginForm("Index", "EntregaCombustible", FormMethod.Post, new { @class = "form-inline", id = "form-search", autocomplete = "off" }))
                         {
-                            
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        @Html.CheckBoxFor(model => model.BandIDSucursal)<label class="control-label"> Filtrar por Sucursal: </label>
-                                        @*<div class="col-md-8 col-xs-12">*@
-                                        @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
-                                        @Html.ValidationMessageFor(model => model.IDSucursal)
-                                        @*</div>*@
-                                    </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @Html.CheckBoxFor(model => model.BandIDSucursal)<label class="control-label"> Filtrar por Sucursal: </label>
+                                    @*<div class="col-md-8 col-xs-12">*@
+                                    @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
+                                    @Html.ValidationMessageFor(model => model.IDSucursal)
+                                    @*</div>*@
                                 </div>
-                              <div class="col-md-3">
-                                  <div class="form-group">
-                                      @Html.CheckBoxFor(model => model.BandIDVehiuculo)<label class="control-label">Filtrar por Vehiculo: </label>
-                                      @*<div class="col-md-8 col-xs-12">*@
-                                      @Html.DropDownListFor(model => model.IDVehiculo, new SelectList(Model.ListaVehiculos, "IDVehiculo", "Modelo"), new { id = "IDVehiculo", @class = "form-control select", data_live_search = "true" })
-                                      @Html.ValidationMessageFor(model => model.IDVehiculo)
-                                      @*</div>*@
-                                  </div>
-                              </div>
-                               <div class="col-md-3">
-                                   <div class="form-group">
-                                      @Html.CheckBoxFor(model => model.BandFechaEntrega) <label class="control-label"> Fecha de entrega: </label>
-                                       @*<div class="col-md-12 col-xs-12">*@
-                                       <div class="input-group">
-                                           <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                           @Html.TextBoxFor(model => model.Fecha, "{0:dd/MM/yyyy}", new { id = "Fecha", @class = "form-control datepicker", @readonly = "readonly" })
-                                       </div>
-                                       @*</div>*@
-                                   </div>
-                               </div>
-                               <div class="col-md-3">
-
-                                   <div class="form-group">
-                                      
-                                   </div>
-                               </div>
-
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @Html.CheckBoxFor(model => model.BandIDVehiuculo)<label class="control-label">Filtrar por Vehiculo: </label>
+                                    @*<div class="col-md-8 col-xs-12">*@
+                                    @Html.DropDownListFor(model => model.IDVehiculo, new SelectList(Model.ListaVehiculos, "IDVehiculo", "Modelo"), new { id = "IDVehiculo", @class = "form-control select", data_live_search = "true" })
+                                    @Html.ValidationMessageFor(model => model.IDVehiculo)
+                                    @*</div>*@
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @Html.CheckBoxFor(model => model.BandFechaEntrega) <label class="control-label"> Fecha de entrega: </label>
+                                    @*<div class="col-md-12 col-xs-12">*@
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                        @Html.TextBoxFor(model => model.Fecha, "{0:dd/MM/yyyy}", new { id = "Fecha", @class = "form-control datepicker", @readonly = "readonly" })
+                                    </div>
+                                    @*</div>*@
+                                </div>
+                            </div>
+                            <div class="col-md-3">
 
                                 <div class="form-group">
-                                    <button class="btn btn-default btnCrear"><span class="fa fa-search"> </span> Filtrar</button>
-                                    <ul class="panel-controls">
 
-                                        <li><a href="@Url.Action("Create", "EntregaCombustible")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva carga</a></li>
-                                        <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                                        <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
-                                    </ul>
-                                    </div>
-                                    }
                                 </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <button class="btn btn-default btnCrear"><span class="fa fa-search"> </span> Filtrar</button>
+                                <ul class="panel-controls">
+
+                                    <li><a href="@Url.Action("Create", "EntregaCombustible")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva carga</a></li>
+                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                        }
+                    </div>
 
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table class="table datatable">
+                            <table id="tbl_combustible" class="table">
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>
@@ -93,7 +93,7 @@
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
-                                <tbody>                                    
+                                <tbody>
                                     @foreach (var Item in Model.listaEntregaCombustible)
                                     {
                                         <tr id="@Item.IDEntregaCombustible">
@@ -203,10 +203,20 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/combustible.js")"></script>
+
     <script>
-    jQuery(document).ready(function () {
-        Mensaje(message, typemessage);
-        Combustible.init();
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            
+            Combustible.init();
+
+            $('#tbl_combustible').DataTable({
+                "language": {
+                    "url": "/Content/assets/json/Spanish.json"
+                },
+                "order": [[ 0, "desc" ]]
+            });
+
         });
     </script>
 }
