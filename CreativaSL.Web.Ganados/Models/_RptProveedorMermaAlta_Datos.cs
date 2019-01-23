@@ -2,6 +2,7 @@
 using Microsoft.ApplicationBlocks.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -33,15 +34,41 @@ namespace CreativaSL.Web.Ganados.Models
                     item.TalGanadoComprado = !dr.IsDBNull(dr.GetOrdinal("TotalGanado")) ? dr.GetInt32(dr.GetOrdinal("TotalGanado")) : 0;
                     lista.Add(item);
                 }
-                Datos.listaRptProveedorMerma = lista;
-                Datos.listaProveedores = lista;
-                return Datos.listaRptProveedorMerma;
+                return lista;
             }
             catch(Exception ex)
             {
                 throw ex;
             }
         }
+
+        public List<RptProveedorMermaAltaModels> ListaProveedoresMermaAltaGrafica(RptProveedorMermaAltaModels Datos)
+        {
+            try
+            {
+                object[] parametros = { Datos.FechaInicio, Datos.FechaFin, Datos.IDSucursalActual };
+                List<RptProveedorMermaAltaModels> lista2 = new List<RptProveedorMermaAltaModels>();
+                RptProveedorMermaAltaModels item2;
+                SqlDataReader drs = null;
+                drs = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reporte_get_ProveedoresConMermaGraficaTop", parametros);
+                while (drs.Read())
+                {
+                    item2 = new RptProveedorMermaAltaModels();
+                    item2.NombreSucursal = !drs.IsDBNull(drs.GetOrdinal("NombreSucursal")) ? drs.GetString(drs.GetOrdinal("NombreSucursal")) : string.Empty;
+                    item2.nombreProveedor = !drs.IsDBNull(drs.GetOrdinal("nombreRazonSocial")) ? drs.GetString(drs.GetOrdinal("nombreRazonSocial")) : string.Empty;
+                    item2.NombreCompra = !drs.IsDBNull(drs.GetOrdinal("Compra")) ? drs.GetString(drs.GetOrdinal("Compra")) : string.Empty;
+                    item2.merma = !drs.IsDBNull(drs.GetOrdinal("toleranciaProveedor")) ? drs.GetInt32(drs.GetOrdinal("toleranciaProveedor")) : 0;
+                    item2.mermaTotal = !drs.IsDBNull(drs.GetOrdinal("mermaTotal")) ? drs.GetDecimal(drs.GetOrdinal("mermaTotal")) : 0;
+                    lista2.Add(item2);
+                }
+                return lista2;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public DatosEmpresaViewModels ObtenerDatosEmpresaTipo1(string Cadena)
         {
             try
