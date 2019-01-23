@@ -182,15 +182,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/CatTipoProveedor/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
 
         // POST: Admin/CatTipoProveedor/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id)
         {
             try
             {
@@ -206,14 +201,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     //TempData["typemessage"] = "1";
                     //TempData["message"] = "El registro se elimino correctamente.";
                     //Token.ResetToken();
-                    return Json("");
+                    return Json("1");
                     //return RedirectToAction("Index");
                 }
                 else
                 {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
-                    return RedirectToAction("Index");
+                    //return Json("2");
+                    //TempData["typemessage"] = "2";
+                    //TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
+                   // return RedirectToAction("Index");
+                    return Json("2");
                     //return View(Proveedor);
                 }
                 // TODO: Add delete logic here                
