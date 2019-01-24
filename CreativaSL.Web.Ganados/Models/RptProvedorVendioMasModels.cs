@@ -18,8 +18,47 @@ namespace CreativaSL.Web.Ganados.Models
             _FechaFin = DateTime.Today;
             _Conexion = string.Empty;
             _DatosEmpresa = new DatosEmpresaViewModels();
-
+            _IdSucursal = string.Empty;
         }
+        private string _IdSucursal;
+
+        public string IdSucursal
+        {
+            get { return _IdSucursal; }
+            set { _IdSucursal = value; }
+        }
+        private string _NombreSucursal;
+
+        public string NombreSucursal
+        {
+            get { return _NombreSucursal; }
+            set { _NombreSucursal = value; }
+        }
+
+        private int _KilosMachos;
+
+        public int KilosMachos
+        {
+            get { return _KilosMachos; }
+            set { _KilosMachos = value; }
+        }
+
+        private int _KilosHembra;
+
+        public int KilosHembra
+        {
+            get { return _KilosHembra; }
+            set { _KilosHembra = value; }
+        }
+
+        private int _TotalKilos;
+
+        public int TotalKilos
+        {
+            get { return _TotalKilos; }
+            set { _TotalKilos = value; }
+        }
+
 
         private string _IDProveedor;
 

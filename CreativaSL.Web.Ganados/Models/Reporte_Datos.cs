@@ -107,7 +107,7 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                object[] parametros = { Datos.FechaInicio, Datos.FechaFin };
+                object[] parametros = { Datos.FechaInicio, Datos.FechaFin, Datos.IdSucursal };
                 List<RptProvedorVendioMasModels> lista = new List<RptProvedorVendioMasModels>();
                 RptProvedorVendioMasModels item;
                 SqlDataReader dr = null;
@@ -116,11 +116,15 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     item = new RptProvedorVendioMasModels();
                     item.IDProveedor = !dr.IsDBNull(dr.GetOrdinal("id_proveedor")) ? dr.GetString(dr.GetOrdinal("id_proveedor")) : string.Empty;
+                    item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
                     item.NombreProveedor = !dr.IsDBNull(dr.GetOrdinal("nombreRazonSocial")) ? dr.GetString(dr.GetOrdinal("nombreRazonSocial")) : string.Empty;
                     item.NombreCompra = !dr.IsDBNull(dr.GetOrdinal("Compra")) ? dr.GetString(dr.GetOrdinal("Compra")) : string.Empty;
                     item.GanadoCompradoMachos = !dr.IsDBNull(dr.GetOrdinal("GanadoCompradoMacho")) ? dr.GetInt32(dr.GetOrdinal("GanadoCompradoMacho")) : 0;
+                    item.KilosMachos = !dr.IsDBNull(dr.GetOrdinal("KilosMachos")) ? dr.GetInt32(dr.GetOrdinal("KilosMachos")) : 0;
                     item.GanadoCompradoHembra = !dr.IsDBNull(dr.GetOrdinal("GanadoCompradoHembras")) ? dr.GetInt32(dr.GetOrdinal("GanadoCompradoHembras")) : 0;
+                    item.KilosHembra = !dr.IsDBNull(dr.GetOrdinal("KilosHembra")) ? dr.GetInt32(dr.GetOrdinal("KilosHembra")) : 0;
                     item.TotalGanado = !dr.IsDBNull(dr.GetOrdinal("TotalGanado")) ? dr.GetInt32(dr.GetOrdinal("TotalGanado")) : 0;
+                    item.TotalKilos = !dr.IsDBNull(dr.GetOrdinal("TotalKilos")) ? dr.GetInt32(dr.GetOrdinal("TotalKilos")) : 0;
                     item.PrecioGanado = !dr.IsDBNull(dr.GetOrdinal("PrecioGanado")) ? dr.GetDecimal(dr.GetOrdinal("PrecioGanado")) : 0;
                     lista.Add(item);
                 }
@@ -190,44 +194,66 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                object[] parametros = { datos.FechaInicio, datos.FechaFin };
+                object[] parametros = { datos.FechaInicio, datos.FechaFin, datos.IDSucursal };
                 List<RptGandosModels> lista = new List<RptGandosModels>();
-                List<RptGandosModels> lista2 = new List<RptGandosModels>();
                 RptGandosModels item;
-                RptGandosModels item2;
-                DataSet ds = null;
-                ds = SqlHelper.ExecuteDataset(datos.Conexion, "spCSLDB_Reporte_get_GanadosXVenta", parametros);
-                if (ds != null)
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Reporte_get_GanadosXVenta", parametros);
+                while (dr.Read())
                 {
-                    DataTableReader dr = ds.Tables[0].CreateDataReader();
-                    DataTableReader dr1 = ds.Tables[1].CreateDataReader();
-                    while (dr.Read())
-                    {
-                        item = new RptGandosModels();
-                        item.NoArete = !dr.IsDBNull(dr.GetOrdinal("numArete")) ? dr.GetString(dr.GetOrdinal("numArete")) : string.Empty;
-                        item.Cliente = !dr.IsDBNull(dr.GetOrdinal("nombreContacto")) ? dr.GetString(dr.GetOrdinal("nombreContacto")) : string.Empty;
-                        item.Genero = !dr.IsDBNull(dr.GetOrdinal("genero")) ? dr.GetString(dr.GetOrdinal("genero")) : string.Empty;
-                        item.Folio = !dr.IsDBNull(dr.GetOrdinal("folio")) ? dr.GetInt64(dr.GetOrdinal("folio")) : 0;
-                        item.FechahoraVenta = !dr.IsDBNull(dr.GetOrdinal("fechaHoraVenta")) ? dr.GetDateTime(dr.GetOrdinal("fechaHoraVenta")) : DateTime.Today;
-                        item.MontoTotal = !dr.IsDBNull(dr.GetOrdinal("montoTotal")) ? dr.GetDecimal(dr.GetOrdinal("montoTotal")) : 0;
-                        lista.Add(item);
-                    }
-
-                    while (dr1.Read())
-                    {
-                        item2 = new RptGandosModels();
-                        item2.GanadosMachos = !dr1.IsDBNull(dr1.GetOrdinal("MACHOS")) ? dr1.GetInt32(dr1.GetOrdinal("MACHOS")) : 0;
-                        item2.GanadosHembras = !dr1.IsDBNull(dr1.GetOrdinal("HEMBRAS")) ? dr1.GetInt32(dr1.GetOrdinal("HEMBRAS")) : 0;
-                        item2.GanadosTotal = !dr1.IsDBNull(dr1.GetOrdinal("TOTAL")) ? dr1.GetInt32(dr1.GetOrdinal("TOTAL")) : 0;
-                        lista2.Add(item2);
-                        break;
-                    }
-                    dr.Close();
-                    dr1.Close();
-                    
+                    item = new RptGandosModels();
+                    item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NomSucursal")) ? dr.GetString(dr.GetOrdinal("NomSucursal")) : string.Empty;
+                    item.FechahoraVenta = !dr.IsDBNull(dr.GetOrdinal("FechaVenta")) ? dr.GetDateTime(dr.GetOrdinal("FechaVenta")) : DateTime.Today;
+                    item.Cliente = !dr.IsDBNull(dr.GetOrdinal("NomCliente")) ? dr.GetString(dr.GetOrdinal("NomCliente")) : string.Empty;
+                    item.Folio = !dr.IsDBNull(dr.GetOrdinal("NumFolio")) ? dr.GetInt64(dr.GetOrdinal("NumFolio")) : 0;
+                    item.GanadosMachos = !dr.IsDBNull(dr.GetOrdinal("CABEZAMACHOS")) ? dr.GetInt32(dr.GetOrdinal("CABEZAMACHOS")) : 0;
+                    item.GanadosHembras = !dr.IsDBNull(dr.GetOrdinal("CABEZAHEMBRAS")) ? dr.GetInt32(dr.GetOrdinal("CABEZAHEMBRAS")) : 0;
+                    item.GanadosTotal = !dr.IsDBNull(dr.GetOrdinal("CABEZASTOTAL")) ? dr.GetInt32(dr.GetOrdinal("CABEZASTOTAL")) : 0;
+                    item.KilosMachos = !dr.IsDBNull(dr.GetOrdinal("PESOMACHOS")) ? dr.GetInt32(dr.GetOrdinal("PESOMACHOS")) : 0;
+                    item.KiloHembra = !dr.IsDBNull(dr.GetOrdinal("PESOHEMBRAS")) ? dr.GetInt32(dr.GetOrdinal("PESOHEMBRAS")) : 0;
+                    item.TotalKilos = !dr.IsDBNull(dr.GetOrdinal("TOTALPESO")) ? dr.GetInt32(dr.GetOrdinal("TOTALPESO")) : 0;
+                    item.MontoTotal = !dr.IsDBNull(dr.GetOrdinal("montoTotal")) ? dr.GetDecimal(dr.GetOrdinal("montoTotal")) : 0;
+                    lista.Add(item);
                 }
-                datos.listaGanadosTotal = lista2;
-                return datos.listaGanadosVendidos = lista;
+                return lista;
+                //object[] parametros = { datos.FechaInicio, datos.FechaFin };
+                //List<RptGandosModels> lista = new List<RptGandosModels>();
+                ////List<RptGandosModels> lista2 = new List<RptGandosModels>();
+                //RptGandosModels item;
+                ////RptGandosModels item2;
+                //DataSet ds = null;
+                //ds = SqlHelper.ExecuteDataset(datos.Conexion, "spCSLDB_Reporte_get_GanadosXVenta", parametros);
+                //if (ds != null)
+                //{
+                //    DataTableReader dr = ds.Tables[0].CreateDataReader();
+                //    DataTableReader dr1 = ds.Tables[1].CreateDataReader();
+                //    while (dr.Read())
+                //    {
+                //        item = new RptGandosModels();
+                //        item.NoArete = !dr.IsDBNull(dr.GetOrdinal("numArete")) ? dr.GetString(dr.GetOrdinal("numArete")) : string.Empty;
+                //        item.Cliente = !dr.IsDBNull(dr.GetOrdinal("nombreContacto")) ? dr.GetString(dr.GetOrdinal("nombreContacto")) : string.Empty;
+                //        item.Genero = !dr.IsDBNull(dr.GetOrdinal("genero")) ? dr.GetString(dr.GetOrdinal("genero")) : string.Empty;
+                //        item.Folio = !dr.IsDBNull(dr.GetOrdinal("folio")) ? dr.GetInt64(dr.GetOrdinal("folio")) : 0;
+                //        item.FechahoraVenta = !dr.IsDBNull(dr.GetOrdinal("fechaHoraVenta")) ? dr.GetDateTime(dr.GetOrdinal("fechaHoraVenta")) : DateTime.Today;
+                //        item.MontoTotal = !dr.IsDBNull(dr.GetOrdinal("montoTotal")) ? dr.GetDecimal(dr.GetOrdinal("montoTotal")) : 0;
+                //        lista.Add(item);
+                //    }
+
+                //    //while (dr1.Read())
+                //    //{
+                //    //    item2 = new RptGandosModels();
+                //    //    item2.GanadosMachos = !dr1.IsDBNull(dr1.GetOrdinal("MACHOS")) ? dr1.GetInt32(dr1.GetOrdinal("MACHOS")) : 0;
+                //    //    item2.GanadosHembras = !dr1.IsDBNull(dr1.GetOrdinal("HEMBRAS")) ? dr1.GetInt32(dr1.GetOrdinal("HEMBRAS")) : 0;
+                //    //    item2.GanadosTotal = !dr1.IsDBNull(dr1.GetOrdinal("TOTAL")) ? dr1.GetInt32(dr1.GetOrdinal("TOTAL")) : 0;
+                //    //    lista2.Add(item2);
+                //    //    break;
+                //    //}
+                //    dr.Close();
+                //    dr1.Close();
+
+                //}
+                ////datos.listaGanadosTotal = lista2;
+                //return lista;
             }
             catch (Exception ex)
             {

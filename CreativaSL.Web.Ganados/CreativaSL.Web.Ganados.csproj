@@ -482,6 +482,7 @@
     <Content Include="Content\js\compraTransacciones.js" />
     <Content Include="Content\js\compraCobro.js" />
     <Content Include="Content\js\Configuracion.js" />
+    <Content Include="Content\js\Demo_CatCorral.js" />
     <Content Include="Content\js\demo_tablesTipoProveedor.js" />
     <Content Include="Content\js\documentoXPagarPagos.js" />
     <Content Include="Content\js\DocXCobrarCreate.js" />
