@@ -31,7 +31,6 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"><strong>Editar</strong> Corral</h3>
                         <ul class="panel-controls">
-                            @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
                         </ul>
                     </div>
                     <div class="panel-body">
@@ -49,6 +48,21 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label text-center">Sucursal</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.DropDownListFor(model => model.Id_sucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Id_sucursal)
+                                        <span class="help-block">Seleccione una sucursal</span>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <div class="panel-footer">

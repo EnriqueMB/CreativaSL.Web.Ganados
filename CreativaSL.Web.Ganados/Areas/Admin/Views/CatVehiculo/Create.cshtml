@@ -7,8 +7,7 @@
 {
     <!--FILEINPUT-->
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-
+    <link href="@Url.Content("~/Content/js/plugins/font-awesome.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
 }
 @section featured{
@@ -62,7 +61,7 @@
                                     <div class="col-md-12 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.listaSucursal, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true", data_style="form-control"})
+                                            @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.listaSucursal, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true", data_style = "form-control" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.listaSucursal)
                                         <span class="help-block">Seleccione la sucursal</span>
@@ -97,6 +96,21 @@
                             </div>
                         </div>
                         <div class="form-group">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Placas del vehiculo</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Placas, new { id = "Placas", @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Placas)
+                                        <span class="help-block ">Ingrese Placas del vehículo</span>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-12 control-label text-center">Modelo</label>
@@ -111,20 +125,18 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="col-md-12 control-label text-center">Placas del vehiculo</label>
-                                    <div class="col-md-12 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.Placas, new { id = "Placas", @class = "form-control" })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.Placas)
-                                        <span class="help-block ">Ingrese Placas del vehículo</span>
-                                    </div>
+                                <label class="col-md-12 control-label text-center">¿Es remolque?</label>
+                                <div class="col-md-12 col-xs-12 text-center">
+                                    @Html.CheckBoxFor(model => model.EsJaula)
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="form-group" id="jaula-cont" style="">
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-12 control-label text-center">Placas del remolque</label>
@@ -138,6 +150,21 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Color del remolque</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.ColorJaula, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.ColorJaula)
+                                        <span class="help-block ">Ingrese el color del remolque</span>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="form-group">
                             <div class="col-md-6">
@@ -197,7 +224,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                          
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-12 control-label text-center">Número de motor</label>
@@ -224,7 +251,7 @@
                                     </div>
                                 </div>
                             </div>
-                           
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-12 control-label text-center">Propio</label>
@@ -235,10 +262,10 @@
                                         </div>
 
                                     </div>
-  
+
                                 </div>
-                            </div>  
-                            
+                            </div>
+
 
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -250,14 +277,14 @@
                                         </div>
                                         @Html.ValidationMessageFor(model => model.Gps)
                                         <span class="help-block">Ingrese GPS del vehículo</span>
-                                    </div>    
+                                    </div>
 
                                 </div>
                             </div>
-                                                 
-                           
+
+
                         </div>
-                        
+
                         <div class="form-group">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -273,17 +300,17 @@
                                 </div>
                             </div>
                             @*<div class="col-md-6">
-                                <label class="col-md-4 control-label"> ¿Disponible? (Estatus)</label>
-                                <div class="col-md-8 col-xs-12">
-                                    <div class="input-group">
-                                        
-                                        @Html.CheckBoxFor(model => model.Estatus)
-                                    </div>
+                <label class="col-md-4 control-label"> ¿Disponible? (Estatus)</label>
+                <div class="col-md-8 col-xs-12">
+                    <div class="input-group">
+
+                        @Html.CheckBoxFor(model => model.Estatus)
+                    </div>
 
 
-                                </div>
-                            </div>*@
-                          
+                </div>
+            </div>*@
+
                         </div>
                     </div>
                     <div class="panel-footer">
@@ -304,14 +331,12 @@
 <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
-@*<script src="@Url.Content("~/Content/js/plugins/uploadFiles/fa/theme.js")" type="text/javascript"></script>*@
-
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/Vehiculo.js")"></script>
@@ -319,7 +344,11 @@
 
     <script>
     jQuery(document).ready(function () {
-        
+
+        $('#EsJaula').change(function () {
+            $('#jaula-cont').toggle(1000);
+        });
+
         Mensaje(message, typemessage);
         Vehiculo.init();
         $('#Img').fileinput({

@@ -13,7 +13,11 @@ namespace CreativaSL.Web.Ganados.Models
             Id_corral = 0;
             Descripcion = string.Empty;
             _ListaCorral= new List<CatCorralModels>();
+            ListaSucursales = new List<CatSucursalesModels>();
         }
+        [Required]
+        public string Id_sucursal { get; set; }
+        public List<CatSucursalesModels> ListaSucursales { get; set; }
 
         private int _Id_corral;
 

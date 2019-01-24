@@ -455,7 +455,7 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                object[] parametros = 
+                object[] parametros =
                 {
                     Compra.Proveedor.IDSucursal
                 };
@@ -738,11 +738,15 @@ namespace CreativaSL.Web.Ganados.Models
         #region Corrales
         public List<CatCorralesModels> GetListaCorrales(CompraModels Compra)
         {
+            object[] parametros =
+            {
+                Compra.IDSucursal
+            };
             CatCorralesModels item;
             List<CatCorralesModels> lista = new List<CatCorralesModels>();
             SqlDataReader dr = null;
 
-            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_CatCorrales");
+            dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Combo_get_CatCorrales", parametros);
 
             while (dr.Read())
             {
@@ -1356,6 +1360,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.Tolerancia = !dr.IsDBNull(dr.GetOrdinal("tolerancia")) ? dr.GetDecimal(dr.GetOrdinal("tolerancia")) : 0;
                     Compra.MontoTotalGanado = !dr.IsDBNull(dr.GetOrdinal("montoTotalGanado")) ? dr.GetDecimal(dr.GetOrdinal("montoTotalGanado")) : 0;
                     Compra.Proveedor.IDTipoProveedor = !dr.IsDBNull(dr.GetOrdinal("id_tipoProveedor")) ? dr.GetInt16(dr.GetOrdinal("id_tipoProveedor")) : 0;
+                    Compra.IDSucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty;
                 }
                 dr.Close();
                 return Compra;

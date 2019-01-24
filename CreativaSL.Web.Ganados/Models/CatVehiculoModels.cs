@@ -26,11 +26,11 @@ namespace CreativaSL.Web.Ganados.Models
             _Modelo = string.Empty;
             _Color = string.Empty;
             _Placas = string.Empty;
-           
+
             _NoSerie = string.Empty;
             _Estatus = true;
             _fechaIngreso = DateTime.Now;
-            
+
             _tarjetaCirculacion = string.Empty;
 
             _DateLastService = DateTime.MinValue;
@@ -43,8 +43,12 @@ namespace CreativaSL.Web.Ganados.Models
             Usuario = string.Empty;
             ListaEmpresas = new List<CatEmpresaModels>();
             IDEmpresa = string.Empty;
+            EsJaula = true;
+            ColorJaula = string.Empty;
         }
+        public bool EsJaula { get; set; }
         public string PlacaJaula { get; set; }
+        public string ColorJaula { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Seleccione una empresa.")]
         public string IDEmpresa { get; set; }

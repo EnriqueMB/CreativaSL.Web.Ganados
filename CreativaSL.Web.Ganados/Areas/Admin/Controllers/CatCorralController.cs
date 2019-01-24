@@ -50,6 +50,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 CatCorralModels Corral = new CatCorralModels();
+                _Combos_Datos datos = new _Combos_Datos();
+                Corral.ListaSucursales = datos.ObtenerComboSucursales(Conexion);
+
                 Token.SaveToken();
                 return View(Corral);
             }
@@ -75,8 +78,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Corral.conexion = Conexion;
                         Corral.Usuario = User.Identity.Name;
                         Corral.Opcion = 1;
-                        //Puesto.Descripcion = collection["Descripcion"];
-                        //Puesto.EsGerente = collection["EsGerente"].StartsWith("true");
                         Corral = CorralDatos.insertCorral(Corral);
                         if (Corral.Completado == true)
                         {
@@ -121,6 +122,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Corral.Id_corral = id;
                 Corral.conexion = Conexion;
                 Corral = corralDatos.ObtenerDetalleCatCorral(Corral);
+
+                _Combos_Datos datos = new _Combos_Datos();
+                Corral.ListaSucursales = datos.ObtenerComboSucursales(Conexion);
+
                 return View(Corral);
             }
             catch (Exception)

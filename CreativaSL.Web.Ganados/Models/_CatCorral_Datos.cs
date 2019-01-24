@@ -40,7 +40,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    datos.Opcion,datos.Id_corral,datos.Descripcion, datos.Usuario
+                    datos.Opcion,datos.Id_corral,datos.Descripcion, datos.Usuario, datos.Id_sucursal
                 };
                 object Resultado = SqlHelper.ExecuteScalar(datos.conexion, "spCSLDB_Catalogo_ac_CatCorral", parametros);
                 if (Resultado != null)
@@ -74,7 +74,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     datos.Id_corral = !dr.IsDBNull(dr.GetOrdinal("IDCorral")) ? dr.GetInt16(dr.GetOrdinal("IDCorral")) : 0;
                     datos.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
-                    
+                    datos.Id_sucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty;
                 }
                 dr.Close();
                 return datos;

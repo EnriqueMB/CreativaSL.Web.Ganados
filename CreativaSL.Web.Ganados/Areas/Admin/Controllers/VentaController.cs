@@ -45,14 +45,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpPost]
-        public ActionResult DatatableGanadoActual()
+        public ActionResult DatatableGanadoActual(string Id_sucursal)
         {
             try
             {
                 VentaModels2 venta = new VentaModels2();
                 _Venta2_Datos ventaDatos = new _Venta2_Datos();
                 venta.Conexion = Conexion;
-
+                venta.Id_sucursal = Id_sucursal;
 
                 venta.RespuestaAjax = new RespuestaAjax();
                 venta.RespuestaAjax.Mensaje = ventaDatos.DatatableGanadoActual(venta);
@@ -453,6 +453,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
         #endregion
+
         #endregion
 
         // GET: Admin/Venta
@@ -2335,6 +2336,29 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
+
+        [HttpPost]
+        public ActionResult GetClientesXIdSucursal(string Id_sucursal)
+        {
+            try
+            {
+                VentaModels2 Venta = new VentaModels2();
+                _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                Venta.Conexion = Conexion;
+                Venta.Id_sucursal = Id_sucursal;
+                
+                Venta.ListaClientes = VentaDatos.GetCatClientes(Venta);
+
+                return Content(Venta.ListaClientes.ToJSON(), "application/json");
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error. Por favor contacte a soporte técnico";
+                return Json("");
+            }
+        }
+
 
     }
 }

@@ -66,7 +66,9 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.fechaIngreso != null ? datos.fechaIngreso : DateTime.Today,
                     datos.Usuario ?? string.Empty,
                     datos.IDEmpresa ?? string.Empty,
-                    datos.PlacaJaula ?? string.Empty
+                    datos.PlacaJaula ?? string.Empty,
+                    datos.EsJaula,
+                    datos.ColorJaula
                 };
                 object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatVehiculo", parametros);
                 datos.IDVehiculo = Resultado.ToString();
@@ -141,6 +143,9 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.fechaIngreso = !dr.IsDBNull(dr.GetOrdinal("fechaIngreso")) ? dr.GetDateTime(dr.GetOrdinal("fechaIngreso")) : DateTime.Now;
                     datos.IDEmpresa = !dr.IsDBNull(dr.GetOrdinal("id_empresa")) ? dr.GetString(dr.GetOrdinal("id_empresa")) : string.Empty;
                     datos.PlacaJaula = !dr.IsDBNull(dr.GetOrdinal("placaJaula")) ? dr.GetString(dr.GetOrdinal("placaJaula")) : string.Empty;
+                    datos.ColorJaula = !dr.IsDBNull(dr.GetOrdinal("colorJaula")) ? dr.GetString(dr.GetOrdinal("colorJaula")) : string.Empty;
+                    datos.EsJaula = !dr.IsDBNull(dr.GetOrdinal("esJaula")) ? dr.GetBoolean(dr.GetOrdinal("esJaula")) : false;
+                    
                 }
                 dr.Close();
                 return datos;
