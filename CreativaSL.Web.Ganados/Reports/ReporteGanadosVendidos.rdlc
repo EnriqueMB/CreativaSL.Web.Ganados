@@ -2209,7 +2209,17 @@
             <ChartCategoryHierarchy>
               <ChartMembers>
                 <ChartMember>
-                  <Label />
+                  <Group Name="Chart1_CategoryGroup">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!Folio.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!Folio.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
+                  <Label>=Fields!Folio.Value</Label>
                 </ChartMember>
               </ChartMembers>
             </ChartCategoryHierarchy>
@@ -2218,36 +2228,31 @@
                 <ChartMember>
                   <Group Name="Chart1_SeriesGroup">
                     <GroupExpressions>
-                      <GroupExpression>=Fields!Genero.Value</GroupExpression>
+                      <GroupExpression>=Fields!Cliente.Value</GroupExpression>
                     </GroupExpressions>
                   </Group>
                   <SortExpressions>
                     <SortExpression>
-                      <Value>=Fields!Genero.Value</Value>
+                      <Value>=Fields!Cliente.Value</Value>
                     </SortExpression>
                   </SortExpressions>
-                  <ChartMembers>
-                    <ChartMember>
-                      <Label>Ganados Machos</Label>
-                    </ChartMember>
-                    <ChartMember>
-                      <Label>Ganados Hembras</Label>
-                    </ChartMember>
-                  </ChartMembers>
-                  <Label>=Fields!Genero.Value</Label>
+                  <Label>=Fields!Cliente.Value</Label>
                 </ChartMember>
               </ChartMembers>
             </ChartSeriesHierarchy>
             <ChartData>
               <ChartSeriesCollection>
-                <ChartSeries Name="GanadosMachos">
+                <ChartSeries Name="MontoTotal">
                   <ChartDataPoints>
                     <ChartDataPoint>
                       <ChartDataPointValues>
-                        <Y>=Sum(Fields!GanadosMachos.Value)</Y>
+                        <Y>=Sum(Fields!MontoTotal.Value)</Y>
                       </ChartDataPointValues>
                       <ChartDataLabel>
-                        <Style />
+                        <Style>
+                          <Format>'$'#,0.00</Format>
+                          <rd:FormatSymbolCulture>es-MX</rd:FormatSymbolCulture>
+                        </Style>
                         <UseValueAsLabel>true</UseValueAsLabel>
                         <Visible>true</Visible>
                       </ChartDataLabel>
@@ -2256,48 +2261,6 @@
                         <Style />
                       </ChartMarker>
                       <DataElementOutput>Output</DataElementOutput>
-                      <ChartItemInLegend>
-                        <LegendText>Machos</LegendText>
-                      </ChartItemInLegend>
-                    </ChartDataPoint>
-                  </ChartDataPoints>
-                  <Type>Shape</Type>
-                  <Style />
-                  <ChartEmptyPoints>
-                    <Style />
-                    <ChartMarker>
-                      <Style />
-                    </ChartMarker>
-                    <ChartDataLabel>
-                      <Style />
-                    </ChartDataLabel>
-                  </ChartEmptyPoints>
-                  <ValueAxisName>Primary</ValueAxisName>
-                  <CategoryAxisName>Primary</CategoryAxisName>
-                  <ChartSmartLabel>
-                    <CalloutLineColor>Black</CalloutLineColor>
-                    <MinMovingDistance>0pt</MinMovingDistance>
-                  </ChartSmartLabel>
-                </ChartSeries>
-                <ChartSeries Name="GanadosHembras">
-                  <ChartDataPoints>
-                    <ChartDataPoint>
-                      <ChartDataPointValues>
-                        <Y>=Sum(Fields!GanadosHembras.Value)</Y>
-                      </ChartDataPointValues>
-                      <ChartDataLabel>
-                        <Style />
-                        <UseValueAsLabel>true</UseValueAsLabel>
-                        <Visible>true</Visible>
-                      </ChartDataLabel>
-                      <Style />
-                      <ChartMarker>
-                        <Style />
-                      </ChartMarker>
-                      <DataElementOutput>Output</DataElementOutput>
-                      <ChartItemInLegend>
-                        <LegendText>Hembras</LegendText>
-                      </ChartItemInLegend>
                     </ChartDataPoint>
                   </ChartDataPoints>
                   <Type>Shape</Type>
@@ -2325,12 +2288,18 @@
                 <ChartCategoryAxes>
                   <ChartAxis Name="Primary">
                     <Style>
+                      <Border>
+                        <Color>Gainsboro</Color>
+                        <Style>None</Style>
+                      </Border>
                       <FontSize>8pt</FontSize>
+                      <Color>#5c5c5c</Color>
                     </Style>
                     <ChartAxisTitle>
-                      <Caption>Título del eje</Caption>
+                      <Caption />
                       <Style>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>9pt</FontSize>
+                        <Color>#5c5c5c</Color>
                       </Style>
                     </ChartAxisTitle>
                     <ChartMajorGridLines>
@@ -2349,7 +2318,20 @@
                         </Border>
                       </Style>
                     </ChartMinorGridLines>
+                    <ChartMajorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </ChartMajorTickMarks>
                     <ChartMinorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
                       <Length>0.5</Length>
                     </ChartMinorTickMarks>
                     <CrossAt>NaN</CrossAt>
@@ -2361,12 +2343,18 @@
                   </ChartAxis>
                   <ChartAxis Name="Secondary">
                     <Style>
+                      <Border>
+                        <Color>Gainsboro</Color>
+                        <Style>None</Style>
+                      </Border>
                       <FontSize>8pt</FontSize>
+                      <Color>#5c5c5c</Color>
                     </Style>
                     <ChartAxisTitle>
-                      <Caption>Título del eje</Caption>
+                      <Caption />
                       <Style>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>9pt</FontSize>
+                        <Color>#5c5c5c</Color>
                       </Style>
                     </ChartAxisTitle>
                     <ChartMajorGridLines>
@@ -2385,7 +2373,20 @@
                         </Border>
                       </Style>
                     </ChartMinorGridLines>
+                    <ChartMajorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </ChartMajorTickMarks>
                     <ChartMinorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
                       <Length>0.5</Length>
                     </ChartMinorTickMarks>
                     <CrossAt>NaN</CrossAt>
@@ -2400,12 +2401,18 @@
                 <ChartValueAxes>
                   <ChartAxis Name="Primary">
                     <Style>
+                      <Border>
+                        <Color>Gainsboro</Color>
+                        <Style>None</Style>
+                      </Border>
                       <FontSize>8pt</FontSize>
+                      <Color>#5c5c5c</Color>
                     </Style>
                     <ChartAxisTitle>
-                      <Caption>Título del eje</Caption>
+                      <Caption />
                       <Style>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>9pt</FontSize>
+                        <Color>#5c5c5c</Color>
                       </Style>
                     </ChartAxisTitle>
                     <ChartMajorGridLines>
@@ -2423,7 +2430,20 @@
                         </Border>
                       </Style>
                     </ChartMinorGridLines>
+                    <ChartMajorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </ChartMajorTickMarks>
                     <ChartMinorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
                       <Length>0.5</Length>
                     </ChartMinorTickMarks>
                     <CrossAt>NaN</CrossAt>
@@ -2435,12 +2455,18 @@
                   </ChartAxis>
                   <ChartAxis Name="Secondary">
                     <Style>
+                      <Border>
+                        <Color>Gainsboro</Color>
+                        <Style>None</Style>
+                      </Border>
                       <FontSize>8pt</FontSize>
+                      <Color>#5c5c5c</Color>
                     </Style>
                     <ChartAxisTitle>
-                      <Caption>Título del eje</Caption>
+                      <Caption />
                       <Style>
-                        <FontSize>8pt</FontSize>
+                        <FontSize>9pt</FontSize>
+                        <Color>#5c5c5c</Color>
                       </Style>
                     </ChartAxisTitle>
                     <ChartMajorGridLines>
@@ -2458,7 +2484,20 @@
                         </Border>
                       </Style>
                     </ChartMinorGridLines>
+                    <ChartMajorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </ChartMajorTickMarks>
                     <ChartMinorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
                       <Length>0.5</Length>
                     </ChartMinorTickMarks>
                     <CrossAt>NaN</CrossAt>
@@ -2470,10 +2509,8 @@
                     </ChartAxisScaleBreak>
                   </ChartAxis>
                 </ChartValueAxes>
-                <ChartThreeDProperties>
-                  <Enabled>true</Enabled>
-                </ChartThreeDProperties>
                 <Style>
+                  <BackgroundColor>#00ffffff</BackgroundColor>
                   <BackgroundGradientType>None</BackgroundGradientType>
                 </Style>
               </ChartArea>
@@ -2498,16 +2535,18 @@
             </ChartLegends>
             <ChartTitles>
               <ChartTitle Name="Default">
-                <Caption>Gráfica de ganados vendidos por género</Caption>
+                <Caption>ANALISIS DE VENTA</Caption>
                 <Style>
                   <BackgroundGradientType>None</BackgroundGradientType>
+                  <FontSize>9pt</FontSize>
                   <FontWeight>Bold</FontWeight>
-                  <TextAlign>General</TextAlign>
+                  <TextAlign>Left</TextAlign>
                   <VerticalAlign>Top</VerticalAlign>
+                  <Color>#a6a6a6</Color>
                 </Style>
               </ChartTitle>
             </ChartTitles>
-            <Palette>BrightPastel</Palette>
+            <Palette>Pacific</Palette>
             <ChartBorderSkin>
               <Style>
                 <BackgroundColor>Gray</BackgroundColor>
@@ -2519,19 +2558,21 @@
               <Caption>Sin datos disponibles</Caption>
               <Style>
                 <BackgroundGradientType>None</BackgroundGradientType>
+                <FontWeight>Bold</FontWeight>
                 <TextAlign>General</TextAlign>
                 <VerticalAlign>Top</VerticalAlign>
               </Style>
             </ChartNoDataMessage>
-            <Top>4.91807cm</Top>
-            <Left>0.94163cm</Left>
-            <Height>6.34938cm</Height>
-            <Width>14.96415cm</Width>
+            <DataSetName>ListaGanadosVendidos</DataSetName>
+            <Top>3.74027cm</Top>
+            <Left>0.2008cm</Left>
+            <Height>7.5234cm</Height>
+            <Width>12.27095cm</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
-                <Style>Solid</Style>
+                <Style>None</Style>
               </Border>
               <BackgroundColor>White</BackgroundColor>
               <BackgroundGradientType>None</BackgroundGradientType>
