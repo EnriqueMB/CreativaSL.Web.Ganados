@@ -193,12 +193,27 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                CatCorralModels Corral = new CatCorralModels();
+                _CatCorral_Datos CorralDatos = new _CatCorral_Datos();
+                Corral.conexion = Conexion;
+                Corral.Id_corral = id;
+                Corral.Usuario = User.Identity.Name;
+                Corral = CorralDatos.EliminarCorral(Corral);
+                if (Corral.Resultado==1)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "El registro se ha eliminado correctamente";
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se pudo eliminar el corral, ya que tiene ganados activos en este.";
+                }
+                return Json("");
             }
             catch
             {
+                CatCorralModels corral = new CatCorralModels();
                 return View();
             }
         }

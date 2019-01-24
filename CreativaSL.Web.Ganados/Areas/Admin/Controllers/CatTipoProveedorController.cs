@@ -182,15 +182,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/CatTipoProveedor/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
 
         // POST: Admin/CatTipoProveedor/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id)
         {
             try
             {
@@ -203,21 +198,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 if (Proveedor.Completado == true)
                 {
-                    //TempData["typemessage"] = "1";
-                    //TempData["message"] = "El registro se elimino correctamente.";
-                    //Token.ResetToken();
-                    return Json("");
-                    //return RedirectToAction("Index");
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "El registro se elimino correctamente.";
+                    Token.ResetToken();
+                    return Json("1");
                 }
                 else
                 {
                     TempData["typemessage"] = "2";
-                    TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
-                    return RedirectToAction("Index");
-                    //return View(Proveedor);
+                    TempData["message"] = "No se pudo eliminar el corral, verifique que no tenga algún ganado incluido.";
+                    return Json("2");
                 }
-                // TODO: Add delete logic here                
-                //return Json("");
             }
             catch
             {

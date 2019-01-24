@@ -54,7 +54,7 @@
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     <a title="Editar" href="@Url.Action("Edit", "CatCorral", new { id = Corral.Id_corral})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" id="delete-@Corral.Id_corral" data-hrefa="@Url.Action("Delete", "CatCorral", new { id = Corral.Id_corral })" onClick="delete_row('@Corral.Id_corral');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Eliminar" id="delete-@Corral.Id_corral" data-hrefa="@Url.Action("Delete", "CatCorral", new { id = Corral.Id_corral })" onClick="delete_row('@Corral.Id_corral', '@Url.Action("Delete", "CatCorral")');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -114,6 +114,8 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/Demo_CatCorral.js")"></script>
+
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);

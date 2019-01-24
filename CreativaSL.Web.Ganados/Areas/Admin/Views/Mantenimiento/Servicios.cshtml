@@ -3,6 +3,17 @@
     ViewBag.Title = "Servicios";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+
+@section css{
+    <style>
+        .label-success {
+            background-color : black !important;
+        }
+
+
+    </style>
+    }
+
 @section featured{
     @{
         var message = TempData["message"] ?? string.Empty;
@@ -57,11 +68,11 @@
                                             <td class="pull-right">@Item.ImporteTotalFormat</td>
                                             <td>@Item.ServiciosRealizados</td>
                                             <td>
-                                                <span class="@Item.CssClassEstatus">@Item.Estatus</span>
+                                                <span class="@Item.CssClassEstatus" >@Item.Estatus</span>
                                             </td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Procesar" class="btn btn-success processRow" href="@Url.Action("Process", "Mantenimiento", new { id = Item.IDServicio })"><i class="fa fa-caret-square-o-right"></i></a>
+                                                    <a title="Procesar" class="btn btn-primary processRow" href="@Url.Action("Process", "Mantenimiento", new { id = Item.IDServicio })"><i class="fa fa-caret-square-o-right"></i></a>
                                                     <a title="Detalles" class="btn btn-blue" href="@Url.Action("Details", "Mantenimiento", new { id = Item.IDServicio })"><i class="fa fa-gears"></i></a>
                                                     <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "Mantenimiento", new { id = Item.IDServicio})"><i class="fa fa-edit"></i></a>
                                                     <a title="Eliminar" class="btn delete btn-danger deleteRow" data-sku="@Item.IDServicio" id="delete-@Item.IDServicio" href="@Url.Action("Delete", "Mantenimiento", new { id = Item.IDServicio })"><i class="fa fa-trash-o"></i></a>

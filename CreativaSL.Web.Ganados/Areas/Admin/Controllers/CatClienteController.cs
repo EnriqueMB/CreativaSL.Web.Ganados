@@ -777,5 +777,154 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
+
+        [HttpGet]
+        public ActionResult UPPCliente(string id)
+        {
+            try
+            {
+                Token.SaveToken();
+                UPPClienteModels upp = new UPPClienteModels();
+                CatCliente_Datos ClienteDatos = new CatCliente_Datos();
+                upp.Conexion = Conexion;
+                upp.id_cliente = id;
+                upp = ClienteDatos.ObtenerUPPCliente(upp);
+                upp.listaPaises = ClienteDatos.obtenerListaPaises(upp);
+                upp.listaEstado = ClienteDatos.obtenerListaEstados(upp);
+                upp.listaMunicipio = ClienteDatos.obtenerListaMunicipios(upp);
+
+                if (string.IsNullOrEmpty(upp.Imagen))
+                {
+                    upp.ImagenMostrar = Auxiliar.SetDefaultImage();
+                }
+                else
+                {
+                    upp.ImagenMostrar = upp.Imagen;
+                }
+
+                return View(upp);
+            }
+            catch (Exception)
+            {
+                UPPClienteModels upp = new UPPClienteModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
+        }
+        [HttpPost]
+        public ActionResult UPPCliente(UPPClienteModels uppModel)
+        {
+            CatCliente_Datos ClienteDatos = new CatCliente_Datos();
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    //HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                    if (uppModel.ImagenHttp != null)
+                    {
+                        uppModel.Imagen = Auxiliar.ImageToBase64(uppModel.ImagenHttp);
+                    }
+
+
+                    if (ModelState.IsValid)
+                    {
+                        uppModel.Conexion = Conexion;
+                        //upp.id_cliente = id;
+                        uppModel.Usuario = User.Identity.Name;
+                        uppModel = ClienteDatos.CUPPCliente(uppModel);
+                        if (uppModel.Completado)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            uppModel.Conexion = Conexion;
+                            //upp.id_cliente = id;
+                            uppModel.listaPaises = ClienteDatos.obtenerListaPaises(uppModel);
+                            uppModel.listaEstado = ClienteDatos.obtenerListaEstados(uppModel);
+                            uppModel.listaMunicipio = ClienteDatos.obtenerListaMunicipios(uppModel);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(uppModel);
+                        }
+                    }
+                    else
+                    {
+                        uppModel.Conexion = Conexion;
+                        //upp.id_cliente = id;
+                        uppModel.listaPaises = ClienteDatos.obtenerListaPaises(uppModel);
+                        uppModel.listaEstado = ClienteDatos.obtenerListaEstados(uppModel);
+                        uppModel.listaMunicipio = ClienteDatos.obtenerListaMunicipios(uppModel);
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        return View(uppModel);
+                    }
+
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                uppModel.Conexion = Conexion;
+                //upp.id_cliente = id;
+                uppModel.listaPaises = ClienteDatos.obtenerListaPaises(uppModel);
+                uppModel.listaEstado = ClienteDatos.obtenerListaEstados(uppModel);
+                uppModel.listaMunicipio = ClienteDatos.obtenerListaMunicipios(uppModel);
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                return View(uppModel);
+            }
+        }
+
+        //AJAX OBTIENE TODOS LOS COMBOS MEDIANTE JAVASCRIPT
+        [HttpPost]
+        public ActionResult Estado(string id)
+        {
+            try
+            {
+                UPPClienteModels upp = new UPPClienteModels();
+                CatCliente_Datos ClienteDatos = new CatCliente_Datos();
+                upp.Conexion = Conexion;
+                upp.id_pais = id;
+                upp.listaEstado = ClienteDatos.obtenerListaEstados(upp);
+
+                return Json(upp.listaEstado, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                ex.Message.ToString();
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+
+        public ActionResult Municipio(string idPais, string id)
+        {
+            try
+            {
+                UPPClienteModels upp = new UPPClienteModels();
+                CatCliente_Datos ClienteDatos = new CatCliente_Datos();
+
+
+                upp.id_estadoCodigo = id;
+                upp.id_pais = idPais;
+                upp.Conexion = Conexion;
+                upp.listaMunicipio = ClienteDatos.obtenerListaMunicipios(upp);
+                return Json(upp.listaMunicipio, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                ex.Message.ToString();
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

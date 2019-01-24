@@ -33,13 +33,16 @@
                 <!-- END WIDGET CLOCK -->
             </div>
             <div class="panel-body">
-                
+                Ganado:
                 <span class="label label-default" style="background:#ffd633">Programada</span>
                 <span class="label label-primary" style="background:#ff8533">En camino</span>
-                <span class="label label-success" style="background:#3377ff">Ganado</span>
-                <span class="label label-info" style="background:#00cc00">Recepción</span>
-               
-                
+                <span class="label label-success" style="background:#3377ff">Recepción</span>
+                <span class="label label-info" style="background:#00cc00">Pago</span>
+                <br />
+                <br />
+                Flete:
+                <span class="label label-default" style="background:#949494">Agendado</span>
+                <span class="label label-primary" style="background:#983da9">En camino</span>
             </div>
 
                 <div class="row">
@@ -208,49 +211,51 @@
                             });
 
                             //callback(events2);
-                        },
 
-                        error: function (xhr, status, error) {
-                            alert(xhr.responseText);
-                        }
-                    });
+                            $.ajax({
+                                url: '/Admin/HomeAdmin/EventosFlete',
+                                dataType: 'json',
+                                method: 'post',
+                                data: {
 
-                    $.ajax({
-                        url: '/Admin/HomeAdmin/EventosFlete',
-                        dataType: 'json',
-                        method: 'post',
-                        data: {
+                                    start: start.format('YYYY-MM-DD'),
+                                    end: end.format('YYYY-MM-DD')
+                                },
+                                success: function (doc) {
+                                    var color = "";
 
-                            start: start.format('YYYY-MM-DD'),
-                            end: end.format('YYYY-MM-DD')
-                        },
-                        success: function (doc) {
-                            var color = "";
+                                    $(doc).each(function (item, value) {
 
-                            $(doc).each(function (item, value) {
+                                        events2.push({
+                                            title: value.title,
+                                            start: value.start,
+                                            description:
+                                                "<p> <strong>Agente : </strong>" + value.Agente + "</p>" +
+                                                "<p> <strong>Cliente : </strong>" + value.Cliente + "</p>" +
+                                                "<p> <strong>Sucursal : </strong>" + value.Sucursal + "</p>" +
+                                                "<p> <strong>Lugar origen : </strong>" + value.LugarOrigen + "</p>" +
+                                                "<p> <strong>Lugar Destino : </strong>" + value.LugarDestino + "</p>" +
+                                                "<p> <strong>Remitente : </strong>" + value.Remitente + "</p>" +
+                                                "<p> <strong>Destinatario : </strong>" + value.Destinatario + "</p>" +
+                                                "<p> <strong>Estatus : </strong>" + value.Estatus + "</p>",
+                                            color: value.ColorEstatus,
+                                        });
+                                    });
+                                    callback(events2);
+                                },
 
-                                events2.push({
-                                    title: value.title,
-                                    start: value.start,
-                                    description:
-                                        "<p> <strong>Agente : </strong>" + value.Agente + "</p>" +
-                                        "<p> <strong>Cliente : </strong>" + value.Cliente + "</p>" +
-                                        "<p> <strong>Sucursal : </strong>" + value.Sucursal + "</p>" +
-                                        "<p> <strong>Lugar origen : </strong>" + value.LugarOrigen + "</p>" +
-                                        "<p> <strong>Lugar Destino : </strong>" + value.LugarDestino + "</p>" +
-                                        "<p> <strong>Remitente : </strong>" + value.Remitente + "</p>" +
-                                        "<p> <strong>Destinatario : </strong>" + value.Destinatario + "</p>" +
-                                        "<p> <strong>Estatus : </strong>" + value.Estatus + "</p>",
-                                    color: value.ColorEstatus,
-                                });
+                                error: function (xhr, status, error) {
+                                    alert(xhr.responseText);
+                                }
                             });
-                            callback(events2);
                         },
 
                         error: function (xhr, status, error) {
                             alert(xhr.responseText);
                         }
                     });
+
+             
                 },
 
                 eventClick: function (event, jsEvent, view) {

@@ -87,5 +87,27 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
 
+        public CatCorralModels EliminarCorral(CatCorralModels datos)
+        {
+            try
+            {
+
+                object[] parametros = { datos.Id_corral, datos.Usuario };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.conexion, "spCSLDB_Catalogo_del_CatCorral", parametros);
+                while (dr.Read())
+                {
+                    datos.Resultado = !dr.IsDBNull(dr.GetOrdinal("resultado")) ? dr.GetInt32(dr.GetOrdinal("resultado")) : 0;
+                }
+                dr.Close();
+                return datos;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }
