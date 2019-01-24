@@ -117,7 +117,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult RptProveedorVendioMas(string id, string id2, string id3)
+        public ActionResult RptProveedorVendioMas(string id, string id2, string id3, string id4)
         {
             try
             {
@@ -130,7 +130,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 ReporteVMas.FechaInicio = Fecha1;
                 ReporteVMas.FechaFin = Fecha2;
                 ReporteVMas.Conexion = Conexion;
-                ReporteVMas.DatosEmpresa = RDatos.ObtenerDatosEmpresaTipo1(Conexion);
+                ReporteVMas.IdSucursal = id4;
+                ReporteVMas.DatosEmpresa = RDatos.ObtenerDatosEmpresaTipoIDSucursal(ReporteVMas.Conexion, ReporteVMas.IdSucursal);
                 ReporteVMas.ListaProveedorVendioMas = RDatos.obtenerListaProveedoresMermaAlta(ReporteVMas);
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
@@ -260,7 +261,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult RptGanadosVendidos(string id, string id2, string id3)
+        public ActionResult RptGanadosVendidos(string id, string id2, string id3, string id4)
         {
             try
             {
@@ -274,7 +275,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 reporte.FechaInicio = Fecha1;
                 reporte.FechaFin = Fecha2;
                 reporte.Conexion = Conexion;
-                reporte.datosEmpresa = R.ObtenerDatosEmpresaTipo1(Conexion);
+                reporte.IDSucursal = id4;
+                reporte.datosEmpresa = R.ObtenerDatosEmpresaTipoIDSucursal(Conexion, reporte.IDSucursal);
                 reporte.listaGanadosVendidos = R.obtenerListaGanadosVendidos(reporte);
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
@@ -300,7 +302,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Parametros[8] = new ReportParameter("FechaFin", id3);
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("ListaGanadosVendidos", reporte.listaGanadosVendidos));
-                Rtp.DataSources.Add(new ReportDataSource("ListaGanadosTotal", reporte.listaGanadosTotal));
+                //Rtp.DataSources.Add(new ReportDataSource("ListaGanadosTotal", reporte.listaGanadosTotal));
                 string reportType = id;
                 string mimeType;
                 string encoding;

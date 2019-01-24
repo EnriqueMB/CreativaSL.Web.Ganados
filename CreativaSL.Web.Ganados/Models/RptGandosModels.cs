@@ -10,7 +10,6 @@ namespace CreativaSL.Web.Ganados.Models
     {
         public RptGandosModels()
         {
-            _noArete = string.Empty;
             _cliente = string.Empty;
             _montoTotal = 0;
             _genero = string.Empty;
@@ -28,30 +27,17 @@ namespace CreativaSL.Web.Ganados.Models
             Completado = false;
             Resultado = 0;
             Usuario = string.Empty;
-        }
-        private List<RptGandosModels> _listaGanadosTotal;
-
-        public List<RptGandosModels> listaGanadosTotal
-        {
-            get { return _listaGanadosTotal; }
-            set { _listaGanadosTotal = value; }
+            _TotalKilos = 0;
+            _KiloHembra = 0;
+            _KilosMachos = 0;
         }
 
+        private string _NombreSucursal;
 
-        private string _cliente;
-
-        public string Cliente
+        public string NombreSucursal
         {
-            get { return _cliente; }
-            set { _cliente = value; }
-        }
-
-        private Decimal _montoTotal;
-
-        public Decimal MontoTotal
-        {
-            get { return _montoTotal; }
-            set { _montoTotal = value; }
+            get { return _NombreSucursal; }
+            set { _NombreSucursal = value; }
         }
 
         private DateTime _fechahoraVenta;
@@ -62,6 +48,14 @@ namespace CreativaSL.Web.Ganados.Models
             set { _fechahoraVenta = value; }
         }
 
+        private string _cliente;
+
+        public string Cliente
+        {
+            get { return _cliente; }
+            set { _cliente = value; }
+        }
+
         private Int64 _folio;
 
         public Int64 Folio
@@ -70,22 +64,6 @@ namespace CreativaSL.Web.Ganados.Models
             set { _folio = value; }
         }
 
-        private string _genero;
-
-        public string Genero
-        {
-            get { return _genero; }
-            set { _genero = value; }
-        }
-
-        private string _noArete;
-
-        public string NoArete
-        {
-            get { return _noArete; }
-            set { _noArete = value; }
-        }
-      
         private int _GanadosMachos;
 
         public int GanadosMachos
@@ -93,6 +71,7 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _GanadosMachos; }
             set { _GanadosMachos = value; }
         }
+
         private int _GandosHembras;
 
         public int GanadosHembras
@@ -100,6 +79,7 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _GandosHembras; }
             set { _GandosHembras = value; }
         }
+
         private int _GanadosTotal;
 
         public int GanadosTotal
@@ -107,6 +87,63 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _GanadosTotal; }
             set { _GanadosTotal = value; }
         }
+
+        private int _KiloHembra;
+
+        public int KiloHembra
+        {
+            get { return _KiloHembra; }
+            set { _KiloHembra = value; }
+        }
+
+        private int _KilosMachos;
+
+        public int KilosMachos
+        {
+            get { return _KilosMachos; }
+            set { _KilosMachos = value; }
+        }
+
+        private int _TotalKilos;
+
+        public int TotalKilos
+        {
+            get { return _TotalKilos; }
+            set { _TotalKilos = value; }
+        }
+
+        private Decimal _montoTotal;
+
+        public Decimal MontoTotal
+        {
+            get { return _montoTotal; }
+            set { _montoTotal = value; }
+        }
+
+        private string _IDSucursal;
+
+        public string IDSucursal
+        {
+            get { return _IDSucursal; }
+            set { _IDSucursal = value; }
+        }
+
+        private List<RptGandosModels> _listaGanadosTotal;
+
+        public List<RptGandosModels> listaGanadosTotal
+        {
+            get { return _listaGanadosTotal; }
+            set { _listaGanadosTotal = value; }
+        }
+        
+        private string _genero;
+
+        public string Genero
+        {
+            get { return _genero; }
+            set { _genero = value; }
+        }
+        
         private DateTime _fechaInicio;
 
         public DateTime FechaInicio
