@@ -57,7 +57,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Producto.Conexion = Conexion;
                 Producto.listaTipoCodigoProducto = ProductoDatos.obtenerComboCatTipoCodigo(Producto);
                 Producto.listaUnidadMedida = ProductoDatos.obtenerComboCatUnidadMedida(Producto);
-                Producto.ListaTipoClasificacion = Datos.ObtenerComboClasificacionGastos(Conexion);
+                Producto.ListaTipoClasificacion = Datos.ObtenerComboClasificacionGastosXTipoFormulario(Conexion, 1);
                 return View(Producto);
             }
             catch (Exception ex) {

@@ -30,9 +30,8 @@
                 { "width": 105, "targets": 7 },
                 { "width": 180, "targets": 8 },
                 { "width": 115, "targets": 12 },
-                { "width": 65, "targets": 13 }
+                { "width": 65, "targets": 13  }
             ]
-
         });
        
         //para que realice la busqueda por el valor de cada elemento
@@ -53,6 +52,7 @@
                 }
             }
         });
+
     }
     function AgergarFilas(
         id_fila,    guardado,   mensaje,    numArete,   genero,
@@ -84,7 +84,7 @@
             '</select> ';
 
         //columna, peso
-        var html_peso = '<input id="peso_' + id_fila + '" data-id="' + id_fila + '" class="form-control inputCSL cslElegido" type="number" value="' + peso + '" data-toggle="tooltip" data-placement="top" title="Por favor, escriba el peso inicial del ganado.">';
+        var html_peso = '<input id="peso_' + id_fila + '" data-id="' + id_fila + '" class="form-control inputCSL cslElegido moneda" type="text" value="$ ' + peso + '" data-toggle="tooltip" data-placement="top" title="Por favor, escriba el peso inicial del ganado.">';
         //columna, repeso
         var html_repeso = '<input id="repeso_' + id_fila + '" data-id="' + id_fila + '" class="form-control inputCSL cslElegido" type="number" value="' + repeso + '" data-toggle="tooltip" data-placement="top" title="Por favor, escriba el repeso del ganado.">';
         //columna, merma
@@ -102,11 +102,11 @@
             var id_corral_server = parseInt(listaCorrales[item].Id_corral);
             
             if (id_corral_server == id_corral) {
-                
-                opciones_corrales += '<option value="' + listaCorrales[item].Descripcion + '" data-id="' + listaCorrales[item].Id_corral +'" selected>' + listaCorrales[item].Descripcion + '</option>';
+
+                opciones_corrales += '<option value="' + listaCorrales[item].Id_corral + '" data-id="' + listaCorrales[item].Id_corral + '" selected>' + listaCorrales[item].Descripcion + '</option>';
             }
             else {
-                opciones_corrales += '<option value="' + listaCorrales[item].Descripcion + '" data-id="' + listaCorrales[item].Id_corral +'">' + listaCorrales[item].Descripcion + '</option>';
+                opciones_corrales += '<option value="' + listaCorrales[item].Id_corral + '" data-id="' + listaCorrales[item].Id_corral +'">' + listaCorrales[item].Descripcion + '</option>';
             }
         }
         html_corral += opciones_corrales;
@@ -203,6 +203,7 @@
         ]).draw(false);
         nNodes = tblGanado.rows().nodes().to$().find('.cslElegido');
     }
+
 
     var RunEventoGanado = function () {
         $("#tblGanado tbody").on("click", ".deleteGanado", function (e) {
@@ -389,6 +390,20 @@
                         else {
                             nNodes[i + FIERRO1].classList.add('okCSLGanado');
                             nNodes[i + FIERRO1].classList.remove('errorCSLGanado');
+                        }
+
+                        //corral
+                        console.log(nNodes[i + CORRAL].value);
+                        console.log(nNodes[i + FIERRO1].value);
+
+                        if (nNodes[i + CORRAL].value.length == 0 || nNodes[i + CORRAL].value == '' || nNodes[i + CORRAL].value == null || nNodes[i + CORRAL].value <= 0) {
+                            nNodes[i + CORRAL].classList.add('errorCSLGanado');
+                            nNodes[i + CORRAL].classList.remove('okCSLGanado');
+                            flag = false;
+                        }
+                        else {
+                            nNodes[i + CORRAL].classList.add('okCSLGanado');
+                            nNodes[i + CORRAL].classList.remove('errorCSLGanado');
                         }
 
                         if (flag) {

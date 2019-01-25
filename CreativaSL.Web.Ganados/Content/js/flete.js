@@ -1231,7 +1231,19 @@
     return {
         init: function (opcionImpuesto) {
             mostrarCobro = opcionImpuesto;
-            InitMap();
+
+            $.ajax({
+                url: "http:www.google.com",
+                context: document.body,
+                error: function (jqXHR, exception) {
+                    console.log("offline");
+                },
+                success: function () {
+                    console.log("online");
+                    InitMap();
+                }
+            });
+
             DesbloquearTabs();
             RunEventsGeneral();
             RunEventsCobro();

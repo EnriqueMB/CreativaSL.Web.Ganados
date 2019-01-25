@@ -55,6 +55,7 @@
         </div> //JS
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.Id_venta)
+        @Html.HiddenFor(model => model.Id_sucursal)
 
         <div class="col-md-12">
             <div class="panel panel-default">
@@ -181,7 +182,7 @@
                             <div class="col-md-9">
                                 <div class="input-group">
                                     <span class="input-group-addon">KG.</span>
-                                    @Html.TextBoxFor(model => model.ME, "{0:#,#}", new { @class = "form-control", @type="text" })
+                                    @Html.TextBoxFor(model => model.ME, new { @class = "form-control", @type="text" })
                                 </div>
                                 <span class="help-block">M.E.</span>
                             </div>

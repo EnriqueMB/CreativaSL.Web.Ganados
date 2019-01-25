@@ -53,8 +53,8 @@
 
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" href="@Url.Action("Edit", "CatCorral", new { id = Corral.Id_corral})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" id="delete-@Corral.Id_corral" data-hrefa="@Url.Action("Delete", "CatCorral", new { id = Corral.Id_corral })" onClick="delete_row('@Corral.Id_corral', '@Url.Action("Delete", "CatCorral")');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Editar" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" onClick="delete_row('@Corral.Id_corral', '@Url.Action("Delete", "CatCorral")');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -68,7 +68,7 @@
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@Corral.Id_corral" data-hrefa="@Url.Action("Delete", "CatCorral", new { id = Corral.Id_corral })" onClick="delete_row('@Corral.Id_corral');">
+                                                                <a role="menuitem" tabindex="-1" onClick="delete_row('@Corral.Id_corral', '@Url.Action("Delete", "CatCorral")');">
                                                                     <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>
@@ -111,14 +111,41 @@
     </script>
 }
 @section script{
-    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/Demo_CatCorral.js")"></script>
 
     <script>
+
+        function delete_row(Id, url) {
+            var box = $("#mb-remove-row");
+            box.addClass("open");
+            box.find(".mb-control-yes").on("click", function () {
+                box.removeClass("open");
+
+                $.ajax({
+                    url: url,
+                    data: { id: Id },
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (result) {
+                        window.location.href = '/Admin/CatCorral/Index';
+                    },
+                    error: function (result) {
+                        window.location.href = '/Admin/CatCorral/Index';
+                    }
+                });
+            });
+        }
+
         jQuery(document).ready(function () {
+
+        
+
             Mensaje(message, typemessage);
+            
+            
+
         });
     </script>
 }

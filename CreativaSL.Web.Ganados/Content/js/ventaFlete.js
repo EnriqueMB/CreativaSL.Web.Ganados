@@ -7,7 +7,7 @@
     var HoraSalida = $("#Flete_HoraSalida");
     var Id_empresa = $("#Flete_Id_empresa");
     var Id_chofer = $("#Flete_id_chofer");
-    var Id_vehiculo = $("#Flete_id_vehiculo")
+    var Id_vehiculo = $("#Flete_id_vehiculo");
     var KmInicialVehiculo = $("#Flete_kmInicialVehiculo");
     var PrecioFlete = $("#Flete_precioFlete");                
     var ListaLugarOrigen = $("#Flete_Trayecto_id_lugarOrigen");
@@ -49,6 +49,7 @@
             var Id_sucursal = $(this).val();
             var Id_empresa = $("#Flete_Id_empresa").val();
 
+            GetClientesXIDSucursal(Id_sucursal);
             GetChoferesXIDEmpresa(Id_empresa, Id_sucursal);
             GetVehiculosXIDEmpresa(Id_empresa, Id_sucursal);
             GetLugaresXIDEmpresa(Id_empresa); //checar si se carga mejor por sucursal
@@ -228,10 +229,35 @@
                 }
                 $('#Flete_Id_empresa.select').selectpicker('refresh');
 
+                var Id_sucursal = $("#Id_sucursal").val();
                 var Id_empresa = $("#Flete_Id_empresa").val();
-                GetChoferesXIDEmpresa(Id_empresa);
-                GetVehiculosXIDEmpresa(Id_empresa);
+
+                GetClientesXIDSucursal(Id_sucursal);
+                GetChoferesXIDEmpresa(Id_empresa, Id_sucursal);
+                GetVehiculosXIDEmpresa(Id_empresa, Id_sucursal);
                 GetLugaresXIDEmpresa(Id_empresa);
+
+            }
+        });
+    }
+    function GetClientesXIDSucursal(Id_sucursal) {
+        $.ajax({
+            url: '/Admin/Venta/GetClientesXIdSucursal/',
+            type: "POST",
+            dataType: 'json',
+            data: { Id_sucursal: Id_sucursal },
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "1");
+            },
+            success: function (result) {
+
+                $("#Id_cliente option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#Id_cliente").append('<option value="' + result[i].IDCliente + '">' + result[i].NombreRazonSocial + '</option>');
+                }
+                $('#Id_cliente.select').selectpicker('refresh');
+
+
 
             }
         });
@@ -393,12 +419,23 @@
    
     /*TERMINA FLETE*/
         return {
-        init: function (opcion) {
-            InitMap();
+            init: function (opcion) {
+            $.ajax({
+                url: "http:www.google.com",
+                context: document.body,
+                error: function (jqXHR, exception) {
+                    console.log("offline");
+                },
+                success: function () {
+                    console.log("online");
+                    InitMap();
+                }
+            });
+            
             Validaciones();
             Eventos();
 
-            console.log(opcion);
+            
             ToggleDivFlete(opcion,0);
         }
     };

@@ -1,6 +1,8 @@
 ﻿var VentaGanado = function () {
-    "use strict"
+    "use strict";
     var Id_venta = $("#Id_venta").val();
+    var Id_sucursal = $("#Id_sucursal").val();
+
     var tblGanadoCorral, tblGanadoJaula;
     var ref_cabezas_machos = $("#CbzMachos");
     var ref_cabezas_hembras = $("#CbzHembras");
@@ -34,6 +36,7 @@
             responsive: true,
             "ajax": {
                 "data": {
+                    "Id_sucursal": Id_sucursal
                 },
                 "url": "/Admin/Venta/DatatableGanadoActual/",
                 "type": "POST",

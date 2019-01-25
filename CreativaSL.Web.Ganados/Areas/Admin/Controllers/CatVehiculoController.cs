@@ -61,6 +61,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Vehiculo.ListaEmpresas = VehiculoDatos.obtenerListaEmpresas(Vehiculo);
                 Vehiculo.Estatus = Convert.ToBoolean("true");
                 Vehiculo.EsPropio = Convert.ToBoolean("true");
+
                 return View(Vehiculo);
             }
             catch (Exception ex)

@@ -46,8 +46,9 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
+                object[] parametro = { venta.Id_sucursal };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(venta.Conexion, "spCSLDB_Venta_get_DatatableGanadoActual");
+                dr = SqlHelper.ExecuteReader(venta.Conexion, "spCSLDB_Venta_get_DatatableGanadoActual", parametro);
                 string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
                 return datatable;
@@ -507,11 +508,12 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
+                object[] parametro = { Venta.Id_sucursal };
                 CatClienteModels Cliente;
                 List<CatClienteModels> ListaClientes = new List<CatClienteModels>();
 
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Combo_get_CatClienteConLugares");
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Combo_get_CatClienteConLugares", parametro);
                 while (dr.Read())
                 {
                     Cliente = new CatClienteModels
@@ -1054,6 +1056,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Venta.CostoHembras = !dr.IsDBNull(dr.GetOrdinal("costoHembras")) ? dr.GetDecimal(dr.GetOrdinal("costoHembras")) : 0;
                     Venta.CostoTotal = !dr.IsDBNull(dr.GetOrdinal("costoTotal")) ? dr.GetDecimal(dr.GetOrdinal("costoTotal")) : 0;
                     Venta.ME = !dr.IsDBNull(dr.GetOrdinal("me")) ? dr.GetDecimal(dr.GetOrdinal("me")) : 0;
+                    Venta.Id_sucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty;
                 }
                 else
                 {
@@ -2240,7 +2243,6 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
         #endregion
-
 
     }
 }

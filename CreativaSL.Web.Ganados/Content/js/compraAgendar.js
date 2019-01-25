@@ -209,7 +209,18 @@
             GetEmpresaXTipoFlete(opcion);
             opcionServer = opcion;
             ToggleDivTipoFlete(opcion);
-            InitMap();
+
+            $.ajax({
+                url: "http:www.google.com",
+                context: document.body,
+                error: function (jqXHR, exception) {
+                    console.log("offline");
+                },
+                success: function () {
+                    console.log("online");
+                    InitMap();
+                }
+            });
         });
 
         //$("#DocumentosPorCobrarDetallePagos_Id_formaPago").on("change", function () {
@@ -1481,7 +1492,17 @@
             DesbloquearTabs();
             LoadValidationProveedor();
             RunEventsProveedor();
-            InitMap();
+            $.ajax({
+                url: "http:www.google.com",
+                context: document.body,
+                error: function (jqXHR, exception) {
+                    console.log("offline");
+                },
+                success: function () {
+                    console.log("online");
+                    InitMap();
+                }
+            });
             LoadValidationFlete();
             RunEventsFlete();
             //LoadTableGanadoProgramado();
