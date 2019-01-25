@@ -278,6 +278,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 reporte.IDSucursal = id4;
                 reporte.datosEmpresa = R.ObtenerDatosEmpresaTipoIDSucursal(Conexion, reporte.IDSucursal);
                 reporte.listaGanadosVendidos = R.obtenerListaGanadosVendidos(reporte);
+                reporte.listaGanadosTotal = R.ListaGanadosVendidosGraficaGeneroKG(reporte);
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
                 Rtp.DataSources.Clear();
@@ -302,7 +303,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Parametros[8] = new ReportParameter("FechaFin", id3);
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("ListaGanadosVendidos", reporte.listaGanadosVendidos));
-                //Rtp.DataSources.Add(new ReportDataSource("ListaGanadosTotal", reporte.listaGanadosTotal));
+                Rtp.DataSources.Add(new ReportDataSource("ListaGraficaKG", reporte.listaGanadosTotal));
                 string reportType = id;
                 string mimeType;
                 string encoding;
@@ -764,7 +765,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult RptFletes (string id, string id2, string id3)
+        public ActionResult RptFletes (string id, string id2, string id3, string id4)
         {
             try
             {
