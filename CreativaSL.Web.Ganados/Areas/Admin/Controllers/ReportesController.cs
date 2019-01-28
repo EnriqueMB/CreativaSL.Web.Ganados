@@ -423,7 +423,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Socios.FechaInicio = Fecha1;
                 Socios.FechaFin = Fecha2;
                 Socios.Conexion = Conexion;
-                Socios.DatosEmpresa = RSocios.ObtenerDatosEmpresaTipo1(Conexion);
+                Socios.DatosEmpresa = RSocios.ObtenerDatosEmpresaTipoIDSucursal(Conexion, Socios.IdSucursal);
                 Socios.ListaSocios = RSocios.ObtenerSocios(Socios);
                 Rtp.LocalReport.EnableExternalImages = true;
                 Rtp.LocalReport.DataSources.Clear();
