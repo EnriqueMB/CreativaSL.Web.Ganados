@@ -1,5 +1,7 @@
 ﻿var CompraGanado = function () {
     "use strict"
+    var CANTDECIMALES = 2;
+    var CANTDECIMALESENTEROS = 0;
     var tblGanado;
     var numeroFila = 1;
     var IDCompra = $("#IDCompra").val();
@@ -30,30 +32,68 @@
                 { "width": 105, "targets": 7 },
                 { "width": 180, "targets": 8 },
                 { "width": 115, "targets": 12 },
-                { "width": 65, "targets": 13  }
-            ]
+                { "width": 65, "targets": 13 }
+            ],
+            "drawCallback": function (settings) {
+                $(".kg").maskMoney(
+                    {
+                        allowZero: true,
+                        precision: CANTDECIMALESENTEROS,
+                        suffix: ' kg'
+                    }
+                );
+                $(".merma").maskMoney(
+                    {
+                        allowZero: true,
+                        precision: CANTDECIMALES,
+                        suffix: ' %'
+                    }
+                );
+                $(".money").maskMoney(
+                    {
+                        allowZero: true,
+                        precision: CANTDECIMALES,
+                        prefix: '$ '
+                    }
+                );
+            }
         });
-       
+
         //para que realice la busqueda por el valor de cada elemento
         $.fn.dataTableExt.ofnSearch['html-input'] = function (value) {
             return $(value).val();
         };
-        
+
         $.ajax({
             url: '/Admin/Compra/TableJsonGanadoCompra/',
             type: "POST",
             data: { IDCompra: IDCompra },
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
+
                     AgergarFilas(
-                        data[i].id_ganado, data[i].guardado, data[i].Estatus, data[i].numArete, data[i].genero,
-                        data[i].pesoInicial, data[i].pesoFinal, data[i].merma, data[i].pesoPagado, data[i].precioKilo,
-                        data[i].id_corral, data[i].subtotal, data[i].id_detalleDocumentoPorPagar, data[i].id_fierro1, data[i].id_fierro2, data[i].id_fierro3);
+                        data[i].id_ganado, 
+                        data[i].guardado, 
+                        data[i].Estatus, 
+                        data[i].numArete, 
+                        data[i].genero,
+                        Number.parseFloat(data[i].pesoInicial), 
+                        Number.parseFloat(data[i].pesoFinal), 
+                        Number.parseFloat(data[i].merma).toFixed(CANTDECIMALES), 
+                        Number.parseFloat(data[i].pesoPagado), 
+                        Number.parseFloat(data[i].precioKilo).toFixed(CANTDECIMALES),
+                        data[i].id_corral,
+                        Number.parseFloat(data[i].subtotal).toFixed(CANTDECIMALES),
+                        data[i].id_detalleDocumentoPorPagar,
+                        data[i].id_fierro1, data[i].id_fierro2, data[i].id_fierro3);
                 }
+                $(".kg").maskMoney('mask');
+                $(".merma").maskMoney('mask');
+                $(".money").maskMoney('mask');
             }
         });
-
     }
+
     function AgergarFilas(
         id_fila,    guardado,   mensaje,    numArete,   genero,
         peso, repeso, merma, pesopagar, costoxkilo,
@@ -84,15 +124,15 @@
             '</select> ';
 
         //columna, peso
-        var html_peso = '<input id="peso_' + id_fila + '" data-id="' + id_fila + '" class="form-control inputCSL cslElegido moneda" type="text" value="$ ' + peso + '" data-toggle="tooltip" data-placement="top" title="Por favor, escriba el peso inicial del ganado.">';
+        var html_peso = '<input id="peso_' + id_fila + '" data-id="' + id_fila + '" class="form-control inputCSL cslElegido kg" type="text" value="' + peso + '" data-toggle="tooltip" data-placement="top" title="Por favor, escriba el peso inicial del ganado (KG.).">';
         //columna, repeso
-        var html_repeso = '<input id="repeso_' + id_fila + '" data-id="' + id_fila + '" class="form-control inputCSL cslElegido" type="number" value="' + repeso + '" data-toggle="tooltip" data-placement="top" title="Por favor, escriba el repeso del ganado.">';
+        var html_repeso = '<input id="repeso_' + id_fila + '" data-id="' + id_fila + '" class="form-control inputCSL cslElegido kg" type="text" value="' + repeso + '" data-toggle="tooltip" data-placement="top" title="Por favor, escriba el repeso del ganado (KG.).">';
         //columna, merma
-        var html_merma = '<input id="merma_' + id_fila + '" data-id="' + id_fila + '" class="form-control inputCSL cslElegido" type="number" value="' + merma + '" data-toggle="tooltip" data-placement="top" title="Merma generada del ganado." readonly="readonly">';
+        var html_merma = '<input id="merma_' + id_fila + '" data-id="' + id_fila + '" class="form-control inputCSL cslElegido merma" type="text" value="' + merma + '" data-toggle="tooltip" data-placement="top" title="Merma generada del ganado. (%)" readonly="readonly">';
         //columna, pesoPagar
-        var html_pesoPagar = '<input id="pesopagar_' + id_fila + '" data-id="' + id_fila + '" class="form-control cslTotal cslElegido" type="number" value="' + pesopagar + '" data-toggle="tooltip" data-placement="top" title="Peso a pagar." readonly="readonly">';
+        var html_pesoPagar = '<input id="pesopagar_' + id_fila + '" data-id="' + id_fila + '" class="form-control cslTotal cslElegido kg" type="text" value="' + pesopagar + '" data-toggle="tooltip" data-placement="top" title="Peso a pagar (KG.)." readonly="readonly">';
         //columna, costoXkilo
-        var html_costoxkilo = '<input id="costoxkilo_' + id_fila + '" data-id="' + id_fila + '" class="form-control cslTotal cslElegido" type="number" value="' + costoxkilo + '" data-toggle="tooltip" data-placement="top" title="Costo por kilo." readonly="readonly">';
+        var html_costoxkilo = '<input id="costoxkilo_' + id_fila + '" data-id="' + id_fila + '" class="form-control cslTotal cslElegido money" type="text" value="' + costoxkilo + '" data-toggle="tooltip" data-placement="top" title="Costo por kilo ($)." readonly="readonly">';
         //columna, corral
         var html_corral = '<select id="corral_' + id_fila + '"class="form-control selectCSL cslElegido" data-toggle="tooltip" data-placement="top" title="Corral asignado." >';
         var opciones_corrales = '';
@@ -167,7 +207,7 @@
         html_fierro3 += '</select> ';
 
         //columna, total
-        var html_total = '<input id="total_' + id_fila + '"class="form-control cslElegido inputCSL" type="number" min="1" value="' + total + '"  data-toggle="tooltip" data-placement="top" title="Total de la compra" readonly="readonly">';
+        var html_total = '<input id="total_' + id_fila + '"class="form-control cslElegido inputCSL money" type="text" min="1" value="' + total + '"  data-toggle="tooltip" data-placement="top" title="Total de la compra ($)." readonly="readonly">';
 
         tblGanado.row.add([
             html_imagen,
@@ -216,7 +256,7 @@
             box.addClass("open");
             box.find(".mb-control-yes").on("click", function () {
                 box.removeClass("open");
-                //console.log(id_ganado.length);
+
                 if (id_ganado.length == 36) {
 
                     $.ajax({
@@ -312,6 +352,9 @@
                     AgergarFilas(numeroFila, false, "Sin registrar", 0, "macho", 0, 0, 0, 0, 0, 0, 0, numeroFila, '', '', '');
                     numeroFila++;
                 }
+                $(".kg").maskMoney('mask');
+                $(".merma").maskMoney('mask');
+                $(".money").maskMoney('mask');
             }
             //después de inserter muestra las nuevas filas
             tblGanado.order([0, 'desc']).draw(false);
@@ -332,6 +375,11 @@
                     if (id_guardado == id_fila) {
                         /*INICIA VALIDACION*/
                         //arete
+                        var valuePeso = Number.parseFloat(GetKilosSinSimbolo(nNodes[i + PESO].value));
+                        var valueRePeso = Number.parseFloat(GetKilosSinSimbolo(nNodes[i + REPESO].value));
+                        var valuePesoPagar = Number.parseFloat(GetKilosSinSimbolo(nNodes[i + PESOPAGAR].value));
+                        var valueCostoPorKilo = Number.parseFloat(GetMoneySinSimbolo(nNodes[i + COSTOPORKILO].value));
+
                         if (nNodes[i + ARETE].value.length < longitud_permitida_arete || nNodes[i + ARETE].value === '' || nNodes[i + ARETE].value == null) {
                             nNodes[i + ARETE].classList.remove('okCSLGanado');
                             nNodes[i + ARETE].classList.add('errorCSLGanado');
@@ -342,7 +390,8 @@
                             nNodes[i + ARETE].classList.add('okCSLGanado');
                         }
                         //peso
-                        if (nNodes[i + PESO].value.length == 0 || nNodes[i + PESO].value == '' || nNodes[i + PESO].value == null || nNodes[i + PESO].value <= 0 || isNaN(nNodes[i + PESO].value)) {
+                        //if (nNodes[i + PESO].value.length == 0 || nNodes[i + PESO].value == '' || nNodes[i + PESO].value == null || nNodes[i + PESO].value <= 0 || isNaN(nNodes[i + PESO].value)) {
+                        if (valuePeso.length === 0 || valuePeso === '' || valuePeso === null || valuePeso <= 0 || isNaN(valuePeso)) {
                             nNodes[i + PESO].classList.add('errorCSLGanado');
                             nNodes[i + PESO].classList.remove('okCSLGanado');
                             flag = false;
@@ -352,7 +401,8 @@
                             nNodes[i + PESO].classList.remove('errorCSLGanado');
                         }
                         //repeso
-                        if (nNodes[i + REPESO].value.length == 0 || nNodes[i + REPESO].value == '' || nNodes[i + REPESO].value == null || nNodes[i + REPESO].value < 0 || isNaN(nNodes[i + REPESO].value)) {
+                        //if (nNodes[i + REPESO].value.length == 0 || nNodes[i + REPESO].value == '' || nNodes[i + REPESO].value == null || nNodes[i + REPESO].value < 0 || isNaN(nNodes[i + REPESO].value)) {
+                        if (valueRePeso.length === 0 || valueRePeso === '' || valueRePeso === null || valueRePeso < 0 || isNaN(valueRePeso)) {
                             nNodes[i + REPESO].classList.add('errorCSLGanado');
                             nNodes[i + REPESO].classList.remove('okCSLGanado');
                             flag = false;
@@ -362,7 +412,8 @@
                             nNodes[i + REPESO].classList.remove('errorCSLGanado');
                         }
                         //pesoAPagar
-                        if (nNodes[i + PESOPAGAR].value.length == 0 || nNodes[i + PESOPAGAR].value == '' || nNodes[i + PESOPAGAR].value == null || nNodes[i + PESOPAGAR].value <= 0 || isNaN(nNodes[i + PESOPAGAR].value)) {
+                        //if (nNodes[i + PESOPAGAR].value.length == 0 || nNodes[i + PESOPAGAR].value == '' || nNodes[i + PESOPAGAR].value == null || nNodes[i + PESOPAGAR].value <= 0 || isNaN(nNodes[i + PESOPAGAR].value)) {
+                        if (valuePesoPagar.length === 0 || valuePesoPagar === '' || valuePesoPagar === null || valuePesoPagar <= 0 || isNaN(valuePesoPagar)) {
                             nNodes[i + PESOPAGAR].classList.add('errorCSLGanado');
                             nNodes[i + PESOPAGAR].classList.remove('okCSLGanado');
                             flag = false;
@@ -372,7 +423,8 @@
                             nNodes[i + PESOPAGAR].classList.remove('errorCSLGanado');
                         }
                         //costoXkilo
-                        if (nNodes[i + COSTOPORKILO].value.length == 0 || nNodes[i + COSTOPORKILO].value == '' || nNodes[i + COSTOPORKILO].value == null || nNodes[i + COSTOPORKILO].value <= 0 || isNaN(nNodes[i + COSTOPORKILO].value)) {
+                        //if (nNodes[i + COSTOPORKILO].value.length == 0 || nNodes[i + COSTOPORKILO].value == '' || nNodes[i + COSTOPORKILO].value == null || nNodes[i + COSTOPORKILO].value <= 0 || isNaN(nNodes[i + COSTOPORKILO].value)) {
+                        if (valueCostoPorKilo.length === 0 || valueCostoPorKilo === '' || valueCostoPorKilo === null || valueCostoPorKilo <= 0 || isNaN(valueCostoPorKilo)) {
                             nNodes[i + COSTOPORKILO].classList.add('errorCSLGanado');
                             nNodes[i + COSTOPORKILO].classList.remove('okCSLGanado');
                             flag = false;
@@ -393,9 +445,6 @@
                         }
 
                         //corral
-                        console.log(nNodes[i + CORRAL].value);
-                        console.log(nNodes[i + FIERRO1].value);
-
                         if (nNodes[i + CORRAL].value.length == 0 || nNodes[i + CORRAL].value == '' || nNodes[i + CORRAL].value == null || nNodes[i + CORRAL].value <= 0) {
                             nNodes[i + CORRAL].classList.add('errorCSLGanado');
                             nNodes[i + CORRAL].classList.remove('okCSLGanado');
@@ -413,15 +462,21 @@
                             var id_detalleDocumento = nNodes[i + ARETE].dataset.iddetalledocumento;
                             var numArete = nNodes[i + ARETE].value;
                             var id_genero = nNodes[i + GENERO].value;
-                            var peso = nNodes[i + PESO].value;
-                            var repeso = nNodes[i + REPESO].value;
-                            var merma = nNodes[i + MERMA].value;
-                            var peso_pagar = nNodes[i + PESOPAGAR].value;
-                            var costo_kilo = nNodes[i + COSTOPORKILO].value;
+                            //var peso = nNodes[i + PESO].value;
+                            //var repeso = nNodes[i + REPESO].value;
+                            //var merma = nNodes[i + MERMA].value;
+                            //var peso_pagar = nNodes[i + PESOPAGAR].value;
+                            //var costo_kilo = nNodes[i + COSTOPORKILO].value;
                             var id_corral = nNodes[i + CORRAL].selectedOptions[0].dataset.id;
                             var id_fierro1 = nNodes[i + FIERRO1].selectedOptions[0].dataset.id;
                             var id_fierro2 = nNodes[i + FIERRO2].selectedOptions[0].dataset.id;
                             var id_fierro3 = nNodes[i + FIERRO3].selectedOptions[0].dataset.id;
+
+                            var peso = Number.parseFloat(GetKilosSinSimbolo(nNodes[i + PESO].value));
+                            var repeso = Number.parseFloat(GetKilosSinSimbolo(nNodes[i + REPESO].value));
+                            var peso_pagar = Number.parseFloat(GetKilosSinSimbolo(nNodes[i + PESOPAGAR].value));
+                            var costo_kilo = Number.parseFloat(GetMoneySinSimbolo(nNodes[i + COSTOPORKILO].value));
+                            var merma = Number.parseFloat(GetKilosSinSimbolo(nNodes[i + MERMA].value));
 
                             $.ajax({
                                 url: '/Admin/Compra/AC_Ganado/',
@@ -473,7 +528,24 @@
                                         nNodes[indice + BTN_ELIMINAR_MIN].dataset.id = obj.id_ganado;
                                         nNodes[indice + BTN_ELIMINAR_MIN].dataset.iddetalledocumento = obj.id_detalleDoctoCobrar
 
-                                        ActualizarGenerales(obj.CantidadMachos, obj.CantidadHembras, obj.CantidadTotal, obj.MermaMachos, obj.MermaHembras, obj.MermaTotal, obj.KilosMachos, obj.KilosHembras, obj.KilosTotal, obj.MontoTotalGanado)
+                                        ActualizarGenerales
+                                        (
+                                            obj.CantidadMachos,
+                                            obj.CantidadHembras,
+                                            obj.CantidadTotal,
+                                            obj.MermaMachos,
+                                            obj.MermaHembras,
+                                            obj.MermaTotal,
+                                            obj.KilosMachos,
+                                            obj.KilosHembras,
+                                            obj.KilosTotal,
+                                            obj.MontoTotalGanado
+                                        );
+
+                                        $(".kg").maskMoney('mask');
+                                        $(".merma").maskMoney('mask');
+                                        $(".money").maskMoney('mask');
+
                                     }
                                     else {
                                         nNodes[indice].src = "/Content/img/tabla/cancel.png";
@@ -502,7 +574,6 @@
             tblGanado.cell($td).invalidate('dom').draw(false);
             guardarIDs.push(idx);
 
-            //
             //solo se le asigna el calculo al select de genero
             var id = this.id;
             var arete_ganado = "arete_";
@@ -521,7 +592,14 @@
             var $tr = $(this).closest("tr");
             var fila = $tr.find('.cslElegido');
 
-            fila[TOTAL].value = TotalPagar(fila[PESOPAGAR].value, fila[COSTOPORKILO].value);
+            //fila[TOTAL].value = TotalPagar(fila[PESOPAGAR].value, fila[COSTOPORKILO].value);
+
+            var pesoPagar = GetMoneySinSimbolo(fila[PESOPAGAR].value);
+            var costoPorKilo = GetMoneySinSimbolo(fila[COSTOPORKILO].value);
+
+            fila[TOTAL].value = TotalPagar(pesoPagar, costoPorKilo);
+
+            $(".money").maskMoney('mask');
 
             var idx = fila[ARETE].dataset.id;
             tblGanado.cell($td).invalidate('dom').draw(false);
@@ -585,37 +663,54 @@
 
         return nuevo_value;
     }
-    function ActualizarGenerales(CantidadMachos, CantidadHembras, CantidadTotal, MermaMachos, MermaHembras, MermaTotal, KilosMachos, KilosHembras, KilosTotal, MontoTotalGanado) {
-        var cantidadMachos = CantidadMachos;
-        var cantidadHembras = CantidadHembras;
-        var cantidadTotal = CantidadTotal
-        var mermaMachos = parseFloat(MermaMachos);
-        var mermaHembras = parseFloat(MermaHembras);
-        var mermaTotal = parseFloat(MermaTotal);
-        var kilosMachos = parseFloat(KilosMachos);
-        var kilosHembras = parseFloat(KilosHembras);
-        var kilosTotal = parseFloat(KilosTotal);
-        var montoTotalGanado = parseFloat(MontoTotalGanado);
+    function ActualizarGenerales(CantidadMachos, CantidadHembras, CantidadTotal, MermaMachos, MermaHembras,
+        MermaTotal, KilosMachos, KilosHembras, KilosTotal, MontoTotalGanado) {
+        console.log("--------------------");
+        console.log(CantidadMachos);
+        console.log(CantidadHembras);
+        console.log(CantidadTotal);
+        console.log(MermaMachos);
+        console.log(MermaHembras);
+        console.log(MermaTotal);
+        console.log(KilosMachos);
+        console.log(KilosHembras);
+        console.log(KilosTotal);
+        console.log(MontoTotalGanado);      
+        console.log("--------------------");
+
+        var cantidadMachos = Number.parseFloat(CantidadMachos).toFixed(CANTDECIMALESENTEROS);
+        var cantidadHembras = Number.parseFloat(CantidadHembras).toFixed(CANTDECIMALESENTEROS);
+        var cantidadTotal = Number.parseFloat(CantidadTotal).toFixed(CANTDECIMALESENTEROS);
+        var mermaMachos = Number.parseFloat(MermaMachos).toFixed(CANTDECIMALES);
+        var mermaHembras = Number.parseFloat(MermaHembras).toFixed(CANTDECIMALES);
+        var mermaTotal = Number.parseFloat(MermaTotal).toFixed(CANTDECIMALES);
+        var kilosMachos = Number.parseFloat(KilosMachos).toFixed(CANTDECIMALESENTEROS);
+        var kilosHembras = Number.parseFloat(KilosHembras).toFixed(CANTDECIMALESENTEROS);
+        var kilosTotal = Number.parseFloat(KilosTotal).toFixed(CANTDECIMALESENTEROS);
+        var montoTotalGanado = Number.parseFloat(MontoTotalGanado).toFixed(CANTDECIMALES);
 
         //actualizamos los generales
         $("#GanadosCompradoMachos").val(cantidadMachos);
         $("#GanadosCompradoHembras").val(cantidadHembras);
         $("#GanadosCompradoTotal").val(cantidadTotal);
-        $("#MermaMachos").val(mermaMachos.toFixed(2));
-        $("#MermaHembras").val(mermaHembras.toFixed(2));
-        $("#MermaTotal").val(mermaTotal.toFixed(2));
-        $("#KilosMachos").val(kilosMachos.toFixed(2));
-        $("#KilosHembras").val(kilosHembras.toFixed(2));
-        $("#KilosTotal").val(kilosTotal.toFixed(2));
-        $("#MontoTotalGanado").val(montoTotalGanado.toFixed(2));
+        $("#MermaMachos").val(mermaMachos);
+        $("#MermaHembras").val(mermaHembras);
+        $("#MermaTotal").val(mermaTotal);
+        $("#KilosMachos").val(kilosMachos);
+        $("#KilosHembras").val(kilosHembras);
+        $("#KilosTotal").val(kilosTotal);
+        $("#MontoTotalGanado").val(montoTotalGanado);
     }
 
     //Nuevas funciones para el calculo del peso
     function calculosGanado(fila) {
         var mermaObtenida, pesoPagar, precioXkilo, total, pesoFinal;
         var genero = fila[GENERO].value;
-        var peso = fila[PESO].value;
-        var repeso = fila[REPESO].value;
+        //var peso = fila[PESO].value;
+        //var repeso = fila[REPESO].value;
+
+        var peso = GetKilosSinSimbolo(fila[PESO].value);
+        var repeso = GetKilosSinSimbolo(fila[REPESO].value);
 
         //NO hay repeso
         if (repeso <= 0) {
@@ -641,15 +736,20 @@
         fila[PESOPAGAR].value = pesoPagar;
         fila[COSTOPORKILO].value = precioXkilo;
         fila[TOTAL].value = total;
+
+        $(".merma").maskMoney('mask');
+        $(".kg").maskMoney('mask');
+        $(".money").maskMoney('mask');
+
     }
     function MermaGenerada(pesoInicial, pesoFinal) {
         var mermaGenerada = (((pesoFinal * 100) / pesoInicial) - 100) * (-1);
-        mermaGenerada = Math.abs(mermaGenerada.toFixed(2));
+        mermaGenerada = Math.abs(mermaGenerada.toFixed(CANTDECIMALES));
 
         if (isNaN(mermaGenerada))
             mermaGenerada = 0;
 
-        return mermaGenerada;
+        return mermaGenerada.toFixed(CANTDECIMALES);
     }
     function PesoSugerido(peso, MermaObtenida) {
         if (MermaObtenida > tolerancia) {
@@ -667,7 +767,7 @@
         for (var item in listaPrecioPesoProveedor) {
             if (listaPrecioPesoProveedor[item].EsMacho == genero) {
                 if ((listaPrecioPesoProveedor[item].PesoMinimo <= peso) && (peso <= listaPrecioPesoProveedor[item].PesoMaximo)) {
-                    return listaPrecioPesoProveedor[item].Precio;
+                    return listaPrecioPesoProveedor[item].Precio.toFixed(CANTDECIMALES);
                 }
             }
         }
@@ -675,8 +775,32 @@
     }
     function TotalPagar(peso, precioxkilo){
         var total = peso * precioxkilo;
-        return total.toFixed(2);
+        return total.toFixed(CANTDECIMALES);
     }
+
+    function GetKilosSinSimbolo(value) {
+        var newValue = value.split(" ", 1);
+
+        if (Number.isNaN(newValue)) {
+            return 0;
+        }
+        else {
+            return newValue;
+        }
+    }
+
+    function GetMoneySinSimbolo(value) {
+        var newValue = value.split(" ", 2);
+        newValue = newValue[1];
+
+        if (Number.isNaN(newValue)) {
+            return 0;
+        }
+        else {
+            return newValue;
+        }
+    }
+
     //despues de 3 o 4 veces deja de funcionar el select D:
     //function CorralSugerido(peso, genero) {
     //    for (var item in listaCorrales) {
@@ -688,9 +812,6 @@
     //    }
     //    return "Sin corral";
     //}
-
-   
-    
     
     return {
         init: function (lista, toleranciaP, listacorral, listafierro) {

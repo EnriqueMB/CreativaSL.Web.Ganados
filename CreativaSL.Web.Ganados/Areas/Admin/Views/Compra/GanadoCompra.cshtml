@@ -9,7 +9,7 @@
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/font-awesome.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
-   <link href="@Url.Content("~/Content/js/plugins/jquery-confirm.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/jquery-confirm.min.css")" rel="stylesheet" />
     <!--CSS GENERAL-->
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
     <style>
@@ -39,7 +39,8 @@
             width: 2000px;
             margin: 0 auto;
         }
-        .page-content{
+
+        .page-content {
             height: 100% !important;
         }
     </style>
@@ -76,7 +77,7 @@
                                     <label class="col-md-3 control-label">Cantidad machos</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <span class="input-group-addon"><span class="icon-ocampo-head"></span></span>
                                             @Html.TextBoxFor(model => model.GanadosCompradoMachos, new { @class = "form-control", disabled = "disabled" })
                                         </div>
                                     </div>
@@ -85,7 +86,7 @@
                                     <label class="col-md-3 control-label">Cantidad hembras</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <span class="input-group-addon"><span class="icon-ocampo-head"></span></span>
                                             @Html.TextBoxFor(model => model.GanadosCompradoHembras, new { @class = "form-control", disabled = "disabled" })
                                         </div>
                                     </div>
@@ -94,7 +95,7 @@
                                     <label class="col-md-3 control-label">Cantidad total</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            <span class="input-group-addon"><span class="icon-ocampo-head"></span></span>
                                             @Html.TextBoxFor(model => model.GanadosCompradoTotal, new { @class = "form-control", disabled = "disabled" })
                                         </div>
                                     </div>
@@ -105,8 +106,8 @@
                                     <label class="col-md-3 control-label">Merma Machos</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.MermaMachos, "{0:f2}", new { @class = "form-control", disabled = "disabled" })
+                                            <span class="input-group-addon">%</span>
+                                            @Html.TextBoxFor(model => model.MermaMachos, "{0:f2}", new { @class = "form-control merma", disabled = "disabled" })
                                         </div>
                                     </div>
                                 </div>
@@ -114,8 +115,8 @@
                                     <label class="col-md-3 control-label">Merma Hembras</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.MermaHembras, "{0:f2}", new { @class = "form-control", disabled = "disabled" })
+                                            <span class="input-group-addon">%</span>
+                                            @Html.TextBoxFor(model => model.MermaHembras, "{0:f2}", new { @class = "form-control merma", disabled = "disabled" })
                                         </div>
                                     </div>
                                 </div>
@@ -123,8 +124,8 @@
                                     <label class="col-md-3 control-label">Merma total</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.MermaTotal, "{0:f2}", new { @class = "form-control", disabled = "disabled" })
+                                            <span class="input-group-addon">%</span>
+                                            @Html.TextBoxFor(model => model.MermaTotal, "{0:f2}", new { @class = "form-control merma", disabled = "disabled" })
                                         </div>
                                     </div>
                                 </div>
@@ -134,8 +135,8 @@
                                     <label class="col-md-3 control-label">Kilos Machos</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.KilosMachos, "{0:f2}", new { @class = "form-control", disabled = "disabled" })
+                                            <span class="input-group-addon">KG.</span>
+                                            @Html.TextBoxFor(model => model.KilosMachos, "{0:f0}", new { @class = "form-control kg", disabled = "disabled" })
                                         </div>
                                     </div>
                                 </div>
@@ -143,8 +144,8 @@
                                     <label class="col-md-3 control-label">Kilos Hembras</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.KilosHembras, "{0:f2}", new { @class = "form-control", disabled = "disabled" })
+                                            <span class="input-group-addon">KG.</span>
+                                            @Html.TextBoxFor(model => model.KilosHembras, "{0:f0}", new { @class = "form-control kg", disabled = "disabled" })
                                         </div>
                                     </div>
                                 </div>
@@ -152,8 +153,8 @@
                                     <label class="col-md-3 control-label">Total kilos</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.KilosTotal, "{0:f2}", new { @class = "form-control", disabled = "disabled" })
+                                            <span class="input-group-addon">KG.</span>
+                                            @Html.TextBoxFor(model => model.KilosTotal, "{0:f0}", new { @class = "form-control kg", disabled = "disabled" })
                                         </div>
                                     </div>
                                 </div>
@@ -163,8 +164,8 @@
                                     <label class="col-md-3 control-label">Merma permitida</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.Tolerancia, "{0:f2}", new { @class = "form-control", disabled = "disabled" })
+                                            <span class="input-group-addon">%</span>
+                                            @Html.TextBoxFor(model => model.Tolerancia, "{0:f2}", new { @class = "form-control merma", disabled = "disabled" })
                                         </div>
                                     </div>
                                 </div>
@@ -172,8 +173,8 @@
                                     <label class="col-md-3 control-label">Total de la compra</label>
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.MontoTotalGanado, "{0:f2}", new { @class = "form-control", disabled = "disabled" })
+                                            <span class="input-group-addon">$</span>
+                                            @Html.TextBoxFor(model => model.MontoTotalGanado, "{0:C2}", new { @class = "form-control money", disabled = "disabled" })
                                         </div>
                                     </div>
                                 </div>
@@ -291,6 +292,8 @@
     <!--SELECT PICKER-->
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <!--FUNCIONES DE COMPRA JS-->
+
+    <script src="~/Content/js/plugins/jquery.maskMoney.min.js"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/compraGanado.js")"></script>
     <script>
 
@@ -312,7 +315,7 @@
             Mensaje(message, typemessage);
             CompraGanado.init(listaPrecioPesoProveedor, tolerancia, listaCorrales, listaFierros);
 
-           
+
         });
     </script>
 }
