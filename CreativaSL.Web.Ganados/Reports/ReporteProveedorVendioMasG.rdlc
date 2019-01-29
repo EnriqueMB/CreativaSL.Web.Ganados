@@ -1543,6 +1543,7 @@
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
+            <RepeatRowHeaders>true</RepeatRowHeaders>
             <DataSetName>ListaMasVendido</DataSetName>
             <Top>0.34078cm</Top>
             <Left>0.34589cm</Left>

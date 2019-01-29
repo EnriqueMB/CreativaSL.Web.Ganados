@@ -29,6 +29,7 @@ namespace CreativaSL.Web.Ganados.Models
             _impuestoRetenido = 0;
             _impuestoTrasladado = 0;
             _total = 0;
+            _id_sucursal = ' ';
         }
         private List<RptFletesModels> _listaFletes;
 
@@ -51,6 +52,14 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _chofer; }
             set { _chofer = value; }
         }
+        private char _id_sucursal;
+
+        public char id_sucursal
+        {
+            get { return _id_sucursal; }
+            set { _id_sucursal = value; }
+        }
+
         private string _vehiculo;
 
         public string vehiculo

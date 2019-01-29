@@ -16,7 +16,16 @@ namespace CreativaSL.Web.Ganados.Models
             _Total = 0;
             _DatosEmpresa = new DatosEmpresaViewModels();
             _Conexion = string.Empty;
+            _IdSucursal = string.Empty;
         }
+        private string _IdSucursal;
+
+        public string IdSucursal
+        {
+            get { return _IdSucursal; }
+            set { _IdSucursal = value; }
+        }
+
 
         private string _NombreCompleto;
 
