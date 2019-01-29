@@ -68,6 +68,21 @@
                     "targets": [0],
                     "visible": false,
                     "searchable": false
+                },
+                {
+                    "targets": [3],
+                    render: function (data, type, row) {
+                        var value = data + " kg.";
+                        return value;
+                    }
+                },
+                {
+                    "targets": [4],
+                    render: $.fn.dataTable.render.number(',', '.', 2, '$')
+                },
+                {
+                    "targets": [5],
+                    render: $.fn.dataTable.render.number(',', '.', 2, '$')
                 }
             ]
         });
@@ -81,7 +96,23 @@
             "autoWidth": false,
             columnDefs: [
                 { "type": "html-input", "targets": [1, 2, 3, 4, 5] }
-            ]
+            ],
+            "drawCallback": function (settings) {
+                $(".kg").maskMoney(
+                    {
+                        allowZero: true,
+                        precision: 0,
+                        suffix: ' kg'
+                    }
+                );
+                $(".money").maskMoney(
+                    {
+                        allowZero: true,
+                        precision: 2,
+                        prefix: '$ '
+                    }
+                );
+            }
 
         });
 
@@ -133,7 +164,7 @@
             value_FechaDeteccion = String(value_FechaDeteccion);
             opcion_Id_TipoDeDeduccion = String(opcion_Id_TipoDeDeduccion);
 
-            if (opcion_Id_tipoEvento.localeCompare("0") == 0) {
+            if (opcion_Id_tipoEvento.localeCompare("0") === 0) {
                 Id_tipoEvento.closest('.controlError').removeClass('has-success').addClass("has-error");
                 $("#ddTipoEvento").show(0);
                 flag_errorTipoEvento = 1;
@@ -143,7 +174,7 @@
                 flag_errorTipoEvento = 0;
             }
 
-            if (value_Lugar === '' || value_Lugar.length == 0) {
+            if (value_Lugar === '' || value_Lugar.length === 0) {
                 Lugar.closest('.controlError').removeClass('has-success').addClass("has-error");
                 $("#ddLugar").show(0);
                 flag_errorLugar = 1;
@@ -154,7 +185,7 @@
             }
 
             var validarExpreFecha = expRegularFecha.test(value_FechaDeteccion);
-            if (value_FechaDeteccion === '' || value_FechaDeteccion.length == 0 || validarExpreFecha === false) {
+            if (value_FechaDeteccion === '' || value_FechaDeteccion.length === 0 || validarExpreFecha === false) {
                 FechaDeteccion.closest('.controlError').removeClass('has-success').addClass("has-error");
                 $("#ddFecha").show(0);
                 flag_errorFecha = 1;
@@ -165,7 +196,7 @@
             }
 
             var validarExpreHora = expRegularHora.test(value_HoraDeteccion);
-            if (value_HoraDeteccion === '' || value_HoraDeteccion.length == 0 || validarExpreHora === false) {
+            if (value_HoraDeteccion === '' || value_HoraDeteccion.length === 0 || validarExpreHora === false) {
                 HoraDeteccion.closest('.controlError').removeClass('has-success').addClass("has-error");
                 $("#ddHora").show(0);
                 flag_errorHora = 1;
@@ -175,7 +206,7 @@
                 flag_errorHora = 0;
             }
 
-            if (typeof nNodes === "undefined" || nNodes.length == 0)
+            if (typeof nNodes === "undefined" || nNodes.length === 0)
             {
                 $("#tblGanadoConEvento").removeClass('successTableCSL').addClass("errorTableCSL");
                 $("#ddTablaGanado").show(0);
@@ -188,14 +219,12 @@
                 flag_errorGanado = 0;
             }
 
-            if(flag_errorGanado == 0)
+            if(flag_errorGanado === 0)
             {
                 for (var i = 0; i < nNodes.length; i += NUM_ELEMENTOS_FILA)
                 {
-                    var nuevo_costo = nNodes[i + NUEVO_COSTO_POR_KILO].value;
-                    var parse_nuevoCosto = Number.parseFloat(nuevo_costo);
-                    //console.log(parse_nuevoCosto);
-
+                    var parse_nuevoCosto = Number.parseFloat(GetMoneySinSimbolo(nNodes[i + NUEVO_COSTO_POR_KILO].value).toString().replace(/,/g, "")).toFixed(2);
+                    
                     if (isNaN(parse_nuevoCosto))
                     {
                         nNodes[i + NUEVO_COSTO_POR_KILO].classList.remove('okCSLGanado');
@@ -218,7 +247,7 @@
                     }
                 }
 
-                if (flag_ganado == 1)
+                if (flag_ganado === 1)
                 {
                     $("#ddGanado").hide(0);
                 }
@@ -228,15 +257,15 @@
                 }
             }            
 
-            if (flag_errorTipoEvento == 0 && flag_errorLugar == 0 && flag_errorFecha == 0 && flag_errorHora == 0 && flag_ganado == 1 && flag_errorGanado == 0) {
+            if (flag_errorTipoEvento === 0 && flag_errorLugar === 0 && flag_errorFecha === 0 && flag_errorHora === 0 && flag_ganado === 1 && flag_errorGanado === 0) {
                 //todo bien, obtenemos los id de los ganados y el nuevo precio 
                 var ListaIDGanadosDelEvento = new Array();
                 var ListaNuevoPrecioGanado = new Array();
                 var cantidad = 0;
 
-                for (var i = 0; i < nNodes.length; i += NUM_ELEMENTOS_FILA) {
-                    var nuevo_costo = nNodes[i + NUEVO_COSTO_POR_KILO].value;
-                    var parse_nuevoCosto = Number.parseFloat(nuevo_costo);
+                for (i = 0; i < nNodes.length; i += NUM_ELEMENTOS_FILA) {
+                    //var nuevo_costo = nNodes[i + NUEVO_COSTO_POR_KILO].value;
+                    parse_nuevoCosto = Number.parseFloat(GetMoneySinSimbolo(nNodes[i + NUEVO_COSTO_POR_KILO].value).toString().replace(/,/g, "")).toFixed(2);
 
                     var id_ganado = nNodes[i + NUM_ARETE].dataset.id;
                     var item = id_ganado + "|" + parse_nuevoCosto;
@@ -292,11 +321,15 @@
 
             for (var i = 0; i < rows.length; i++) {
                 var d = rows[i];
+                var subtotal = Number.parseFloat(d.subtotal.toString().replace(/,/g, "")).toFixed(2);
 
                 AgergarFilas
                 (
+
                     d.id_ganado, d.numArete, d.genero,
-                    d.pesoPagado, d.precioKilo, d.subtotal
+                    Number.parseFloat(d.pesoPagado).toFixed(0),
+                    Number.parseFloat(d.precioKilo).toFixed(2),
+                    subtotal
                 );
 
             }
@@ -307,16 +340,17 @@
             var row = tblGanadoConEvento.rows('.selected').nodes().to$().find('.cslElegido');
 
             //obtenemos el valor de toda la fila
-            for (var x = 0; x < row.length ; x += 6)
+            for (var x = 0; x < row.length; x += 6)
             {
-                console.log(x);
+                var subtotal = Number.parseFloat(GetMoneySinSimbolo(row[x + 5].value).toString().replace(/,/g, "")).toFixed(2);
+               
                 tblGanadoCargado.row.add({
                     "id_ganado": row[x].dataset.id,
                     "numArete": row[x].value,
                     "genero": row[x + 1].value,
-                    "pesoPagado": row[x + 2].value,
-                    "precioKilo": row[x + 3].value,
-                    "subtotal": row[x + 5].value,
+                    "pesoPagado": GetKilosSinSimbolo(row[x + 2].value),
+                    "precioKilo": GetMoneySinSimbolo(row[x + 3].value),
+                    "subtotal": subtotal
                 }).draw();
             }
 
@@ -330,13 +364,13 @@
         //columna, genero
         var html_genero = '<input id="genero_' + id_fila + '" data-id="' + id_fila + '" class="form-control cslElegido" type="text" value="' + genero + '" data-toggle="tooltip" data-placement="top" title="Género del ganado." readonly="readonly">';
         //columna, peso
-        var html_peso = '<input id="peso_' + id_fila + '" data-id="' + id_fila + '" class="form-control cslElegido" type="text" value="' + peso + '" data-toggle="tooltip" data-placement="top" title="Peso pagado por kilo." readonly="readonly">';
+        var html_peso = '<input id="peso_' + id_fila + '" data-id="' + id_fila + '" class="form-control cslElegido kg" type="text" value="' + peso + '" data-toggle="tooltip" data-placement="top" title="Peso pagado por kilo." readonly="readonly">';
         //columna, precio por kilo anterior
-        var html_precioXkiloAnterior = '<input id="precioXkiloAnterior_' + id_fila + '" data-id="' + id_fila + '" class="form-control cslElegido" type="text"  value="' + costoxkilo + '" data-toggle="tooltip" data-placement="top" title="Antiguo costo por kilo." readonly="readonly">';
+        var html_precioXkiloAnterior = '<input id="precioXkiloAnterior_' + id_fila + '" data-id="' + id_fila + '" class="form-control cslElegido money" type="text"  value="' + costoxkilo + '" data-toggle="tooltip" data-placement="top" title="Antiguo costo por kilo." readonly="readonly">';
         //columna, precio por kilo nuevo
-        var html_precioXkiloNuevo = '<input id="precioXkiloNuevo_' + id_fila + '" data-id="' + id_fila + '" class="form-control inputCSL cslElegido" type="number"  value="' + costoxkilo + '" data-toggle="tooltip" data-placement="top" title="Nuevo costo por kilo.">';
+        var html_precioXkiloNuevo = '<input id="precioXkiloNuevo_' + id_fila + '" data-id="' + id_fila + '" class="form-control inputCSL cslElegido money" type="text"  value="' + costoxkilo + '" data-toggle="tooltip" data-placement="top" title="Nuevo costo por kilo.">';
         //columna, total
-        var html_total = '<input id="total_' + id_fila + '" data-id="' + id_fila + '" class="form-control cslElegido" type="text" value="' + total + '" data-toggle="tooltip" data-placement="top" title="Total del ganado." readonly="readonly">';
+        var html_total = '<input id="total_' + id_fila + '" data-id="' + id_fila + '" class="form-control cslElegido money" type="text" value="' + total + '" data-toggle="tooltip" data-placement="top" title="Total del ganado." readonly="readonly">';
 
         tblGanadoConEvento.row.add([
             html_arete,
@@ -348,12 +382,15 @@
         ]).draw(false);
 
         nNodes = tblGanadoConEvento.rows().nodes().to$().find('.cslElegido');
+
+        $(".kg").maskMoney('mask');
+        $(".money").maskMoney('mask');
     }
 
     function calculosGanado(fila) {
-        var nuevo_costo = fila[NUEVO_COSTO_POR_KILO].value;
-        var peso_ganado = fila[PESO].value;
-        var nuevo_costo = Number.parseFloat(nuevo_costo);
+        var nuevo_costo = Number.parseFloat(GetMoneySinSimbolo(fila[NUEVO_COSTO_POR_KILO].value)).toFixed(2);
+        var peso_ganado = Number.parseFloat(GetKilosSinSimbolo(fila[PESO].value)).toFixed(0);
+        nuevo_costo = Number.parseFloat(nuevo_costo);
         var nuevo_total;
 
         if (isNaN(nuevo_costo))
@@ -362,11 +399,38 @@
         }
         else
         {
-            nuevo_total = nuevo_costo * peso_ganado;
+            nuevo_total = (nuevo_costo * peso_ganado).toFixed(2);
         }
 
         fila[TOTAL].value = nuevo_total;
+        $(".kg").maskMoney('mask');
+        $(".money").maskMoney('mask');
+
     }
+
+    function GetKilosSinSimbolo(value) {
+        var newValue = value.split(" ", 1);
+
+        if (Number.isNaN(newValue)) {
+            return 0;
+        }
+        else {
+            return newValue;
+        }
+    }
+
+    function GetMoneySinSimbolo(value) {
+        var newValue = value.split(" ", 2);
+        newValue = newValue[1];
+
+        if (Number.isNaN(newValue)) {
+            return 0;
+        }
+        else {
+            return newValue;
+        }
+    }
+
 
     /*TERMINA EVENTO*/
 

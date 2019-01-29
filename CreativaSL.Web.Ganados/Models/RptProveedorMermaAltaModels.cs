@@ -59,9 +59,9 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _nombreProveedor; }
             set { _nombreProveedor = value; }
         }
-        private int _merma;
+        private decimal _merma;
 
-        public int merma
+        public decimal merma
         {
             get { return _merma; }
             set { _merma = value; }

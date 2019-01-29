@@ -235,7 +235,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.sexo = Convert.ToInt32(dr["sexo"].ToString());
                     datos.FechaIngreso = !dr.IsDBNull(dr.GetOrdinal("FechaIngreso")) ? dr.GetDateTime(dr.GetOrdinal("FechaIngreso")) : DateTime.Now;
                     datos.EsEmpresa = !dr.IsDBNull(dr.GetOrdinal("esEmpresa")) ? dr.GetBoolean(dr.GetOrdinal("esEmpresa")) : false;
-                    datos.Tolerancia = !dr.IsDBNull(dr.GetOrdinal("tolerancia")) ? dr.GetInt32(dr.GetOrdinal("tolerancia")) : 0;
+                    datos.Tolerancia = !dr.IsDBNull(dr.GetOrdinal("tolerancia")) ? dr.GetDecimal(dr.GetOrdinal("tolerancia")) : 0;
                     datos.Observaciones = !dr.IsDBNull(dr.GetOrdinal("observaciones")) ? dr.GetString(dr.GetOrdinal("observaciones")) : string.Empty;
                     datos.CantidadPeriodo = !dr.IsDBNull(dr.GetOrdinal("cantidadPeriodo")) ? dr.GetInt32(dr.GetOrdinal("cantidadPeriodo")) : 0;
                     datos.IDPeriodo = !dr.IsDBNull(dr.GetOrdinal("id_periodo")) ? dr.GetInt32(dr.GetOrdinal("id_periodo")) : 0;
@@ -268,7 +268,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.nombreProveedor = dr["tipoProveedor"].ToString();
                     item.nombreSucursal = dr["sucursal"].ToString();
                     item.IDSucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty;
-                    item.Tolerancia = !dr.IsDBNull(dr.GetOrdinal("tolerancia")) ? dr.GetInt32(dr.GetOrdinal("tolerancia")) : 0;
+                    item.Tolerancia = !dr.IsDBNull(dr.GetOrdinal("tolerancia")) ? dr.GetDecimal(dr.GetOrdinal("tolerancia")) : 0;
 
                     lista.Add(item);
                 }

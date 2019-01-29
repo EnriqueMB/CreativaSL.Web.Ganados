@@ -172,7 +172,9 @@
                         <Style />
                       </TextRun>
                     </TextRuns>
-                    <Style />
+                    <Style>
+                      <TextAlign>Center</TextAlign>
+                    </Style>
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox6</rd:DefaultName>
@@ -211,7 +213,9 @@
                         <Style />
                       </TextRun>
                     </TextRuns>
-                    <Style />
+                    <Style>
+                      <TextAlign>Center</TextAlign>
+                    </Style>
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox6</rd:DefaultName>
@@ -251,7 +255,9 @@
                         <Style />
                       </TextRun>
                     </TextRuns>
-                    <Style />
+                    <Style>
+                      <TextAlign>Center</TextAlign>
+                    </Style>
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox6</rd:DefaultName>
@@ -407,7 +413,9 @@
                         <Style />
                       </TextRun>
                     </TextRuns>
-                    <Style />
+                    <Style>
+                      <TextAlign>Center</TextAlign>
+                    </Style>
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox10</rd:DefaultName>
@@ -442,7 +450,9 @@
                         </Style>
                       </TextRun>
                     </TextRuns>
-                    <Style />
+                    <Style>
+                      <TextAlign>Center</TextAlign>
+                    </Style>
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox11</rd:DefaultName>
@@ -1244,7 +1254,6 @@ IIF(IsNothing(Fields!TotalKilos.Value), 0, SUM(Fields!Subtotal.Value)/Int(Sum(Fi
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
