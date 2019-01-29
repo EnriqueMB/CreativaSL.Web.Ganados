@@ -777,6 +777,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 DateTime.TryParse(id3.ToString(), out Fecha2);
                 reporte.fechaInicio = Fecha1;
                 reporte.fechaFin = Fecha2;
+                reporte.id_sucursal = Convert.ToChar(id4);
                 reporte.Conexion = Conexion;
                 reporte.datosEmpresa = R.ObtenerDatosEmpresaTipo2(Conexion);
                 reporte.listaFletes = R.ObtenerListaFletes(reporte);
