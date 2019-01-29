@@ -18,14 +18,57 @@ namespace CreativaSL.Web.Ganados.Models
             _fechaHoraVenta = DateTime.Today;
             _fechaInicio = DateTime.Today;
             _fechaFin = DateTime.Today;
-            _totalGanados = 0;
-            _totalHembras = 0;
-            _totalMachos = 0;
             _montoTotal = 0;
             _genero = string.Empty;
             Conexion = string.Empty;
             _datosEmpresa = new DatosEmpresaViewModels();
+            _IdSucursal = string.Empty;
+            _NombreSucursal = string.Empty;
+            _FolioVC = string.Empty;
+            _KGCabeza = 0;
+            _TipoEvento = string.Empty;
         }
+
+        private string _IdSucursal;
+
+        public string IdSucursal
+        {
+            get { return _IdSucursal; }
+            set { _IdSucursal = value; }
+        }
+
+        private string _NombreSucursal;
+
+        public string NombreSucursal
+        {
+            get { return _NombreSucursal; }
+            set { _NombreSucursal = value; }
+        }
+
+        private string _FolioVC;
+
+        public string FolioVC
+        {
+            get { return _FolioVC; }
+            set { _FolioVC = value; }
+        }
+
+        private int _KGCabeza;
+
+        public int KGCabeza
+        {
+            get { return _KGCabeza; }
+            set { _KGCabeza = value; }
+        }
+
+        private string _TipoEvento;
+
+        public string TipoEvento
+        {
+            get { return _TipoEvento; }
+            set { _TipoEvento = value; }
+        }
+        
         private List<RptGanadosMtoVentaModels> _listaGanadosMtoVenta;
 
         public List<RptGanadosMtoVentaModels> listaGanadosMtoVenta
@@ -41,8 +84,7 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _ListaTotalGanado; }
             set { _ListaTotalGanado = value; }
         }
-
-
+        
         private string _cliente;
 
         public string cliente
@@ -71,6 +113,7 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _folio; }
             set { _folio = value; }
         }
+
         private DateTime _fechaInicio;
 
         public DateTime fechaInicio
@@ -106,29 +149,7 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _datosEmpresa; }
             set { _datosEmpresa = value; }
         }
-        private int _totalMachos;
-
-        public int totalMachos
-        {
-            get { return _totalMachos; }
-            set { _totalMachos = value; }
-        }
-        private int _totalHembras;
-
-        public int totalHembras
-        {
-            get { return _totalHembras; }
-            set { _totalHembras = value; }
-        }
-        private int _totalGanados;
-
-        public int totalGanados
-        {
-            get { return _totalGanados; }
-            set { _totalGanados = value; }
-        }
-
-
+      
         #region Datos control
         public string Conexion { get; set; }
         public int Resultado { get; set; }
