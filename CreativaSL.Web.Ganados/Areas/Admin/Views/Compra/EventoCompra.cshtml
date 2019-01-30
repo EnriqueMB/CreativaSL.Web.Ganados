@@ -22,7 +22,8 @@
         .successTableCSL {
             border: 1px solid #95b75d !important;
         }
-         .errorCSLGanado {
+
+        .errorCSLGanado {
             border-color: #E04B4A !important;
         }
 
@@ -61,7 +62,7 @@
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-                                                                                                                            <div id="validation_summary" class="field_error "></div> //JS
+                <div id="validation_summary" class="field_error "></div> //JS
                 @Html.HiddenFor(model => model.Id_eventoCompra)
                 @Html.HiddenFor(model => model.Id_compra)
                 @Html.HiddenFor(model => model.ImagenBase64)
@@ -70,8 +71,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"><strong>Eventos de la compra</strong></h3>
                     </div>
-                    <ul class="panel-controls">
-                    </ul>
+                    <ul class="panel-controls"></ul>
 
                     <div class="panel-body">
                         <div class="form-group">
@@ -243,9 +243,10 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/popper.min.js")" ></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/popper.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-timepicker.min.js")"></script>
+    <script src="~/Content/js/plugins/jquery.maskMoney.min.js"></script>
 
     <script>
         jQuery(document).ready(function () {

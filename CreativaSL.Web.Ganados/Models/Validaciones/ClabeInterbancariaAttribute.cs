@@ -16,7 +16,7 @@ namespace CreativaSL.Web.Ganados.Models.Validaciones
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            string pattern = @"^[0-9]{13}$";
+            string pattern = @"^[0-9]{18}$";
             if (value != null)
             {
                 if (!Regex.IsMatch(value.ToString(), pattern))

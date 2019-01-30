@@ -20,6 +20,14 @@ namespace CreativaSL.Web.Ganados.Models
             _Observaciones = string.Empty;
             _ListaEntradas = new List<RptEntradaModels>();
             _DatosEmpresa = new DatosEmpresaViewModels();
+            _IdSucursal = string.Empty;
+        }
+        private string _IdSucursal;
+
+        public string IdSucursal
+        {
+            get { return _IdSucursal; }
+            set { _IdSucursal = value; }
         }
 
         public int TipoPercepcion { get; set; }

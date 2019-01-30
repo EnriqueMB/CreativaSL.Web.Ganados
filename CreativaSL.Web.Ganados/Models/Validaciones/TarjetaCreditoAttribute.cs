@@ -16,10 +16,12 @@ namespace CreativaSL.Web.Ganados.Models.Validaciones
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            string pattern = @"^((67\d{2})|(4\d{3})|(5[1-5]\d{2})|(6011))(-?\s?\d{4}){3}|(3[4,7])\ d{2}-?\s?\d{6}-?\s?\d{5}$";
+
+            //string pattern = @"^((67\d{2})|(4\d{3})|(5[1-5]\d{2})|(6011))(-?\s?\d{4}){3}|(3[4,7])\ d{2}-?\s?\d{6}-?\s?\d{5}$";
+            string pattern = @"^[0-9]{16}$";
             if (value != null)
             {
-                if (!Regex.IsMatch(value.ToString(), pattern))
+                if (!Regex.IsMatch(value.ToString().Replace("-", ""), pattern))
                 {
                     var errorMessage = FormatErrorMessage(validationContext.DisplayName);
                     return new ValidationResult(errorMessage);

@@ -76,6 +76,7 @@
             $("#Existencia").val('0.000');
             var IdProducto = $(this).val();
             getUnidadesXIDProducto(IdProducto);
+            getUnidadMedidaPrincipalXIDProducto(IdProducto);
         });
 
         $('#IDUnidadProducto').on('change', function (event) {
@@ -117,6 +118,22 @@
                 success: function (result) {
                     console.log(result);
                     $("#Existencia").val(result);
+                }
+            });
+        }
+
+        function getUnidadMedidaPrincipalXIDProducto(IdProducto) {
+            $.ajax({
+                url: "/Admin/SalidaAlmacen/ObtenerUnidadMedidaXIDProducto",
+                data: { IDProducto: IdProducto },
+                async: false,
+                dataType: "json",
+                type: "POST",
+                error: function () {
+                    Mensaje("Ocurrió un error al cargar el combo", "2");
+                },
+                success: function (result) {
+                    $("#unidadMedida").text(result);
                 }
             });
         }

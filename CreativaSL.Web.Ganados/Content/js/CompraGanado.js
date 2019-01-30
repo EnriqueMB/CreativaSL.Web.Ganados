@@ -665,18 +665,18 @@
     }
     function ActualizarGenerales(CantidadMachos, CantidadHembras, CantidadTotal, MermaMachos, MermaHembras,
         MermaTotal, KilosMachos, KilosHembras, KilosTotal, MontoTotalGanado) {
-        console.log("--------------------");
-        console.log(CantidadMachos);
-        console.log(CantidadHembras);
-        console.log(CantidadTotal);
-        console.log(MermaMachos);
-        console.log(MermaHembras);
-        console.log(MermaTotal);
-        console.log(KilosMachos);
-        console.log(KilosHembras);
-        console.log(KilosTotal);
-        console.log(MontoTotalGanado);      
-        console.log("--------------------");
+        //console.log("--------------------");
+        //console.log(CantidadMachos);
+        //console.log(CantidadHembras);
+        //console.log(CantidadTotal);
+        //console.log(MermaMachos);
+        //console.log(MermaHembras);
+        //console.log(MermaTotal);
+        //console.log(KilosMachos);
+        //console.log(KilosHembras);
+        //console.log(KilosTotal);
+        //console.log(MontoTotalGanado);      
+        //console.log("--------------------");
 
         var cantidadMachos = Number.parseFloat(CantidadMachos).toFixed(CANTDECIMALESENTEROS);
         var cantidadHembras = Number.parseFloat(CantidadHembras).toFixed(CANTDECIMALESENTEROS);

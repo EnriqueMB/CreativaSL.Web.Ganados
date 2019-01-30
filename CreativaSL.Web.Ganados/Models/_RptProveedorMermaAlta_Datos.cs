@@ -26,7 +26,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
                     item.nombreProveedor = !dr.IsDBNull(dr.GetOrdinal("nombreRazonSocial")) ? dr.GetString(dr.GetOrdinal("nombreRazonSocial")) : string.Empty;
                     item.NombreCompra = !dr.IsDBNull(dr.GetOrdinal("Compra")) ? dr.GetString(dr.GetOrdinal("Compra")) : string.Empty;
-                    item.merma = !dr.IsDBNull(dr.GetOrdinal("toleranciaProveedor")) ? dr.GetInt32(dr.GetOrdinal("toleranciaProveedor")) : 0;
+                    item.merma = !dr.IsDBNull(dr.GetOrdinal("toleranciaProveedor")) ? dr.GetDecimal(dr.GetOrdinal("toleranciaProveedor")) : 0;
                     item.toleranciaCompra = !dr.IsDBNull(dr.GetOrdinal("toleranciaCompra")) ? dr.GetDecimal(dr.GetOrdinal("toleranciaCompra")) : 0;
                     item.mermaTotal = !dr.IsDBNull(dr.GetOrdinal("mermaTotal")) ? dr.GetDecimal(dr.GetOrdinal("mermaTotal")) : 0;
                     item.GanadoMacho = !dr.IsDBNull(dr.GetOrdinal("GanadoCompradoMacho")) ? dr.GetInt32(dr.GetOrdinal("GanadoCompradoMacho")) : 0;
@@ -57,7 +57,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item2.NombreSucursal = !drs.IsDBNull(drs.GetOrdinal("NombreSucursal")) ? drs.GetString(drs.GetOrdinal("NombreSucursal")) : string.Empty;
                     item2.nombreProveedor = !drs.IsDBNull(drs.GetOrdinal("nombreRazonSocial")) ? drs.GetString(drs.GetOrdinal("nombreRazonSocial")) : string.Empty;
                     item2.NombreCompra = !drs.IsDBNull(drs.GetOrdinal("Compra")) ? drs.GetString(drs.GetOrdinal("Compra")) : string.Empty;
-                    item2.merma = !drs.IsDBNull(drs.GetOrdinal("toleranciaProveedor")) ? drs.GetInt32(drs.GetOrdinal("toleranciaProveedor")) : 0;
+                    item2.merma = !drs.IsDBNull(drs.GetOrdinal("toleranciaProveedor")) ? drs.GetDecimal(drs.GetOrdinal("toleranciaProveedor")) : 0;
                     item2.mermaTotal = !drs.IsDBNull(drs.GetOrdinal("mermaTotal")) ? drs.GetDecimal(drs.GetOrdinal("mermaTotal")) : 0;
                     lista2.Add(item2);
                 }

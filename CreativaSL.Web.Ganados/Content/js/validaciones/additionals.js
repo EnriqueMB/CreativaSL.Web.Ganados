@@ -19,7 +19,8 @@ $.validator.addMethod("rfc", function (value, element) {
 }, "invalid rfc");
 
 $.validator.addMethod("tarjetaCredito", function (value, element) {
-    return this.optional(element) || /^((67\d{2})|(4\d{3})|(5[1-5]\d{2})|(6011))(-?\s?\d{4}){3}|(3[4,7])\ d{2}-?\s?\d{6}-?\s?\d{5}$/i.test(value) || value == '____-____-____-____';
+    var numTarjeta = value.replace(/-/g, "");
+    return this.optional(element) || /^([0-9]){16,16}$/i.test(numTarjeta);
 }, "invalid credit card");
 
 $.validator.addMethod("decimal", function (value, element) {
@@ -40,13 +41,13 @@ $.validator.addMethod("tarjetaCirculacion", function (value, element) {
     return this.optional(element) || /^[A-Za-záéíóúñÁÉÍÓÚÑ]*$/i.test(value);
 }, "invalid text");
 $.validator.addMethod("cuenta", function (value, element) {
-    return this.optional(element) || /^[0-9]{13}$/i.test(value);
+    return this.optional(element) || /^[0-9]{5,10}$/i.test(value);
 }, "invalid bank account");
 $.validator.addMethod("numeros", function (value, element) {
     return this.optional(element) || /^\d*\.?\d*$/i.test(value);
 }, "invalid entry");
 $.validator.addMethod("clabe", function (value, element) {
-    return this.optional(element) || /^[0-9]{13}$/i.test(value);
+    return this.optional(element) || /^[0-9]{18}$/i.test(value);
 }, "invalid bank clabe ");
 
 $.validator.addMethod("CMBINT", function (value, element) {

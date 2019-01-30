@@ -168,7 +168,7 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                object[] parametros = { Datos.FechaInicio, Datos.FechaFin };
+                object[] parametros = { Datos.FechaInicio, Datos.FechaFin, Datos.IdSucursal };
                 List<RptSociosModels> Lista = new List<RptSociosModels>();
                 RptSociosModels item;
                 SqlDataReader dr = null;

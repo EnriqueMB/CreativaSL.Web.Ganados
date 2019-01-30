@@ -35,9 +35,9 @@ namespace CreativaSL.Web.Ganados.Models
             _ListaGeneroCMB = new List<CatGeneroModels>();
             _ListaPeriodo = new List<CatPeriodoModels>();
         }
-        private int _merma;
+        private decimal _merma;
 
-        public int merma
+        public decimal merma
         {
             get { return _merma; }
             set { _merma = value; }
@@ -293,9 +293,9 @@ namespace CreativaSL.Web.Ganados.Models
             set { _EsEmpresa = value; }
         }
 
-        private int _Tolerancia;
+        private decimal _Tolerancia;
 
-        public int Tolerancia
+        public decimal Tolerancia
         {
             get { return _Tolerancia; }
             set { _Tolerancia = value; }
