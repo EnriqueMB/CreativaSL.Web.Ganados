@@ -1502,7 +1502,7 @@
             <Top>0.17639cm</Top>
             <Left>0.3175cm</Left>
             <Height>2.62875cm</Height>
-            <Width>25.02424cm</Width>
+            <Width>25.02425cm</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1826,16 +1826,15 @@
             </ChartLegends>
             <ChartTitles>
               <ChartTitle Name="Default">
-                <Caption>Título del gráfico</Caption>
+                <Caption>GRAFICA DE PERDIDAS</Caption>
                 <Style>
                   <BackgroundGradientType>None</BackgroundGradientType>
                   <FontSize>9pt</FontSize>
-                  <FontWeight>Normal</FontWeight>
+                  <FontWeight>Bold</FontWeight>
                   <TextAlign>Left</TextAlign>
                   <VerticalAlign>Top</VerticalAlign>
                   <Color>#a6a6a6</Color>
                 </Style>
-                <Position>TopLeft</Position>
               </ChartTitle>
             </ChartTitles>
             <Palette>Pacific</Palette>

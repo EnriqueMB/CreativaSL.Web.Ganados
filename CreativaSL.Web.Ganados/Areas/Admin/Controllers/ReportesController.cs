@@ -55,7 +55,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 reporte.Conexion = Conexion;
                 reporte.DatosEmpresa = R.ObtenerDatosEmpresaTipoIDSucursal(Conexion, id4);
                 reporte.listaRptProveedorMerma = reporteDatos.obtenerListaProveedoresMermaAlta(reporte);
-                reporte.listaProveedores = reporteDatos.ListaProveedoresMermaAltaGrafica(reporte);
+                //reporte.listaProveedores = reporteDatos.ListaProveedoresMermaAltaGrafica(reporte);
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
                 Rtp.DataSources.Clear();
@@ -80,7 +80,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Parametros[8] = new ReportParameter("FechaFin", id3);
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("ListaMerma", reporte.listaRptProveedorMerma));
-                Rtp.DataSources.Add(new ReportDataSource("ListaGrafica", reporte.listaProveedores));
+               // Rtp.DataSources.Add(new ReportDataSource("ListaGrafica", reporte.listaProveedores));
                 string reportType = id;
                 string mimeType;
                 string encoding;
