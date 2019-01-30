@@ -1703,6 +1703,7 @@
     <Compile Include="Models\RptGanadosMtoVentaModels.cs" />
     <Compile Include="Models\RptGandosModels.cs" />
     <Compile Include="Models\RptJaulasXVentaModels.cs" />
+    <Compile Include="Models\RptMantenimientoVehiculoModels.cs" />
     <Compile Include="Models\RptProvedorVendioMasModels.cs" />
     <Compile Include="Models\RptProveedorMermaAltaModels.cs" />
     <Compile Include="Models\RptProveedorMunicipioModels.cs" />

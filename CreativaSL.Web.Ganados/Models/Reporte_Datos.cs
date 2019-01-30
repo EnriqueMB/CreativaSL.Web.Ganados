@@ -190,6 +190,36 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public List<RptMantenimientoVehiculoModels> ListaMantenimiento(RptMantenimientoVehiculoModels Datos)
+        {
+            try
+            {
+                object[] Parametros = { Datos.FechaInicio, Datos.FechaFin, Datos.IDSucursal };
+                List<RptMantenimientoVehiculoModels> Lista = new List<RptMantenimientoVehiculoModels>();
+                RptMantenimientoVehiculoModels Item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reporte_get_ManteniminetoVehiculo", Parametros);
+                while (dr.Read())
+                {
+                    Item = new RptMantenimientoVehiculoModels();
+                    Item.NomSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSuc")) ? dr.GetString(dr.GetOrdinal("NombreSuc")) : string.Empty;
+                    Item.Fecha = !dr.IsDBNull(dr.GetOrdinal("Fecha")) ? dr.GetDateTime(dr.GetOrdinal("Fecha")) : DateTime.Today;
+                    Item.Vehiculo = !dr.IsDBNull(dr.GetOrdinal("NomVehiculo")) ? dr.GetString(dr.GetOrdinal("NomVehiculo")) : string.Empty;
+                    Item.NomProveedor = !dr.IsDBNull(dr.GetOrdinal("nombreRazonSocial")) ? dr.GetString(dr.GetOrdinal("nombreRazonSocial")) : string.Empty;
+                    Item.Total = !dr.IsDBNull(dr.GetOrdinal("ImporteTotal")) ? dr.GetDecimal(dr.GetOrdinal("ImporteTotal")) : 0;
+                    Item.Servicio = !dr.IsDBNull(dr.GetOrdinal("Servicios")) ? dr.GetString(dr.GetOrdinal("Servicios")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+
         #region REPORTE DE ANALISIS DE VENTA
 
         public List<RptGandosModels> obtenerListaGanadosVendidos(RptGandosModels datos)
