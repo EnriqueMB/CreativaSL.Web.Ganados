@@ -1,0 +1,134 @@
+﻿@model CreativaSL.Web.Ganados.Models.ImagenEmpresaModels
+@{
+    ViewBag.Title = "AgregarArchivo";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section css
+{
+    <!--FILEINPUT-->
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/select.bootstrap.min.css")" rel="stylesheet" />
+}
+@section featured{
+
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("AgregarArchivo", "CatEmpresa", FormMethod.Post, new { id = "frm_agregarArchivo", @class = "form-horizontal", autocomplete = "off", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                <div id="validation_summary" class="field_error "></div> //JS
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.Id_empresa)
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Agregar archivo</strong></h3>
+                    </div>
+                    <ul class="panel-controls"></ul>
+
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label class="col-md-2 control-label">Descripción del archivo</label>
+                                <div class="controls">
+                                    <div class="col-md-10 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(m=>m.Descripcion, new { @class = "form-control" })
+                                        </div>
+                                        <span class="help-block">Escriba la descripción del archivo.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label class="col-md-2 control-label">Imagen</label>
+                                <div class="controls">
+                                    <div class="col-md-10 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+                                            @Html.TextBoxFor(model => model.Archivo, new { @type = "file", @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Archivo)
+                                        <span class="help-block">Ingrese un archivo.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="panel-footer">
+                        <a href="@Url.Action("Edit", "CatEmpresa",  new { id = Model.Id_empresa })" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                        <button type="submit" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+
+    <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+    <script src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <!--FILEINPUT-->
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/popper.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/AgregarArchivo.js")"></script>
+
+
+    <script>
+        jQuery(document).ready(function () {
+
+            Mensaje(message, typemessage);
+
+            $('#Archivo').fileinput({
+                theme: 'fa',
+                language: 'es',
+                maxFileCount: 1,
+                overwriteInitial: true,
+                showUploadedThumbs: false,
+                initialPreview: [
+                    '<img class="file-preview-image"  style=" width: auto !important; height: auto; max-width: 100%; max-height: 100%;" src="/Content/img/GrupoOcampo.png" />'
+                ],
+                initialPreviewConfig: [
+                    { caption: 'Archivo' }
+                ],
+                initialPreviewShowDelete: false,
+                showRemove: false,
+                showClose: false,
+                showUpload: false,
+                layoutTemplates: { actionDelete: '' }
+            });
+
+        });
+    </script>
+}
