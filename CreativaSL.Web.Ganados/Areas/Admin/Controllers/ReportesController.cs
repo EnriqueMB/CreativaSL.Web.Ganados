@@ -617,7 +617,20 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Reportes");
             }
         }
-        
+
+        public ActionResult RptMttVehiculo(string id, string id2, string id3, string id4)
+        {
+            try
+            {
+                return View();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
         #region REPORTES OCULTADO DEL EN EL INDEX CONSULTAS.
 
         public ActionResult RptEntrada(string id, string id2, string id3)

@@ -1932,6 +1932,11 @@
     <Content Include="Reports\RptSalidas.rdlc" />
     <Content Include="Reports\RptSocios.rdlc" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reports\ReporteMantenimientoVehiculo.rdlc">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
