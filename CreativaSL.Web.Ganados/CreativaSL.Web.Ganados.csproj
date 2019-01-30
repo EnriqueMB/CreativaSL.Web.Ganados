@@ -461,6 +461,7 @@
     <Content Include="Content\img\themes\light.jpg" />
     <Content Include="Content\js\actions.js" />
     <Content Include="Content\js\addProductoServicio.js" />
+    <Content Include="Content\js\AgregarArchivo.js" />
     <Content Include="Content\js\Bancos.js" />
     <Content Include="Content\js\CalAlmacen.js" />
     <Content Include="Content\js\Canvas.js" />
@@ -1456,6 +1457,7 @@
     <Content Include="Areas\Admin\Views\CatCorral\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatCorral\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatCorral\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\AgregarArchivo.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1666,6 +1668,7 @@
     <Compile Include="Models\Flete_TipoDocumentoModels.cs" />
     <Compile Include="Models\GanadoModels.cs" />
     <Compile Include="Models\GeneroGanadoModels.cs" />
+    <Compile Include="Models\ImagenEmpresaModels.cs" />
     <Compile Include="Models\ImpuestoModels.cs" />
     <Compile Include="Models\IncidenteFleteModels.cs" />
     <Compile Include="Models\LicenciaChoferModels.cs" />
@@ -1894,6 +1897,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\CatBodega\" />
+    <Folder Include="ImagenEmpresa\" />
     <Folder Include="SqlServerTypes\x64\" />
     <Folder Include="SqlServerTypes\x86\" />
   </ItemGroup>

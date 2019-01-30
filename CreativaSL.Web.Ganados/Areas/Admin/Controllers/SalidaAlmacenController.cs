@@ -498,6 +498,22 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult ObtenerUnidadMedidaXIDProducto(string IDProducto)
+        {
+            try
+            {
+                _SalidaAlmacen_Datos Datos = new _SalidaAlmacen_Datos();
+                string result = Datos.ObtenerUnidadMedidaXIDProducto(Conexion, IDProducto);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                ex.Message.ToString();
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
+
         // GET: Admin/SalidaAlmacen/Delete/id
         [HttpPost]
         public ActionResult Delete(string id)

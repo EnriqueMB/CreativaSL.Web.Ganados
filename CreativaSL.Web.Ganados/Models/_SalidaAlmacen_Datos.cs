@@ -17,7 +17,7 @@ namespace CreativaSL.Web.Ganados.Models
                 List<SalidaAlmacenModels> Lista = new List<SalidaAlmacenModels>();
                 SalidaAlmacenModels Item;
                 SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Inventario_get_SalidasAlmacen");
-                while(Dr.Read())
+                while (Dr.Read())
                 {
                     Item = new SalidaAlmacenModels();
                     Item.IDSalidaAlmacen = !Dr.IsDBNull(Dr.GetOrdinal("IDSalidaAlmacen")) ? Dr.GetString(Dr.GetOrdinal("IDSalidaAlmacen")) : string.Empty;
@@ -34,7 +34,7 @@ namespace CreativaSL.Web.Ganados.Models
                 Dr.Close();
                 return Lista;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -51,7 +51,7 @@ namespace CreativaSL.Web.Ganados.Models
                             Datos.Almacen.IDAlmacen ?? string.Empty,
                             Datos.Empleado.IDEmpleado ?? string.Empty,
                             Datos.FechaSalida,
-                            Datos.Comentario ?? string.Empty, 
+                            Datos.Comentario ?? string.Empty,
                             Datos.Usuario
                         };
                 SqlDataReader Dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Inventario_AC_SalidaAlmacen", Parametros);
@@ -64,12 +64,12 @@ namespace CreativaSL.Web.Ganados.Models
                 }
                 Dr.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
-        
+
         public SalidaAlmacenModels EliminarSalida(string Conexion, string IDSalidaAlmacen, string Usuario)
         {
             try
@@ -98,7 +98,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 SalidaAlmacenViewModels Resultado = new SalidaAlmacenViewModels();
                 SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Inventario_get_DatosGeneralesSalidaAlmacenXID", IDSalida);
-                while(Dr.Read())
+                while (Dr.Read())
                 {
                     Resultado.IDSalidaAlmacen = !Dr.IsDBNull(Dr.GetOrdinal("IDSalidaAlmacen")) ? Dr.GetString(Dr.GetOrdinal("IDSalidaAlmacen")) : string.Empty;
                     Resultado.IDSucursal = !Dr.IsDBNull(Dr.GetOrdinal("IDSucursal")) ? Dr.GetString(Dr.GetOrdinal("IDSucursal")) : string.Empty;
@@ -111,7 +111,7 @@ namespace CreativaSL.Web.Ganados.Models
                 Dr.Close();
                 return Resultado;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -124,18 +124,39 @@ namespace CreativaSL.Web.Ganados.Models
                 decimal Existencia = 0;
                 object[] Parametros = { IDProducto, IDUnidad, IDSalida };
                 object Result = SqlHelper.ExecuteScalar(Conexion, "spCSLDB_Inventario_get_ExistenciaXIDProductoIDSalida", Parametros);
-                if(Result != null)
+                if (Result != null)
                 {
                     decimal.TryParse(Result.ToString(), out Existencia);
                 }
                 return Existencia;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
-        
+
+        public string ObtenerUnidadMedidaXIDProducto(string Conexion, string IDProducto)
+        {
+            try
+            {
+                string unidadMedida = string.Empty;
+                object[] Parametros = { IDProducto };
+                SalidaAlmacenViewModels Resultado = new SalidaAlmacenViewModels();
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Get_UnidadPrincipalXIdProducto", Parametros);
+                while (Dr.Read())
+                {
+                    unidadMedida = !Dr.IsDBNull(Dr.GetOrdinal("UnidadMedida")) ? Dr.GetString(Dr.GetOrdinal("UnidadMedida")) : string.Empty;
+                    break;
+                }
+                return unidadMedida;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public void ACSalidaAlmacenDetalle(SalidaAlmacenDetalleModels Datos)
         {
             try
