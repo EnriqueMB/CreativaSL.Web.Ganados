@@ -510,6 +510,7 @@
     <Content Include="Content\js\plugins\datatablesbtn\vfs_fonts.js" />
     <Content Include="Content\js\plugins\jquery-validation\jquery.validate.min.js" />
     <Content Include="Content\js\plugins\jquery.maskMoney.js" />
+    <Content Include="Content\js\RangoVenta.js" />
     <Content Include="Content\js\Socios.js" />
     <Content Include="Content\js\conciliacionAlmacen.js" />
     <Content Include="Content\js\conciliacionAlmacenLista.js" />
@@ -1461,6 +1462,8 @@
     <Content Include="Areas\Admin\Views\CatEmpresa\AgregarArchivo.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Archivos.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\AgregarArchivo.cshtml" />
+    <Content Include="Areas\Admin\Views\CatRangoPesoVenta\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatRangoPesoVenta\Create.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1494,6 +1497,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\Controllers\CatCorralController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatGanadoController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatRangoPesoVentaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatTipoClienteController.cs" />
     <Compile Include="Content\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
@@ -1604,6 +1608,7 @@
     <Compile Include="Models\CatProveedorServicioModels.cs" />
     <Compile Include="Models\CatPuestoModels.cs" />
     <Compile Include="Models\CatRangoPesoCompraModels.cs" />
+    <Compile Include="Models\CatRangoPesoVentaModels.cs" />
     <Compile Include="Models\CatRemolqueModels.cs" />
     <Compile Include="Models\CatSociosModels.cs" />
     <Compile Include="Models\CatSucursalesModels.cs" />
@@ -1791,6 +1796,7 @@
     <Compile Include="Models\_CatProveedor_Datos.cs" />
     <Compile Include="Models\_CatPuestos_Datos.cs" />
     <Compile Include="Models\_CatRangoPesoCompra_Datos.cs" />
+    <Compile Include="Models\_CatRangoPesoVenta_Datos.cs" />
     <Compile Include="Models\_CatRemolque_Datos.cs" />
     <Compile Include="Models\_CatSocio_Datos.cs" />
     <Compile Include="Models\_CatSucursal_Datos.cs" />
