@@ -1494,6 +1494,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\Controllers\CatCorralController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatGanadoController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatTipoClienteController.cs" />
     <Compile Include="Content\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AlmacenController.cs" />
@@ -1908,6 +1909,7 @@
     <Folder Include="ArchivosEmpresa\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\CatBodega\" />
+    <Folder Include="Areas\Admin\Views\CatTipoCliente\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Formatos\CartaPorte.rdlc" />
