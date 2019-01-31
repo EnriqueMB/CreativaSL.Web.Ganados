@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreativaSL.Web.Ganados", "CreativaSL.Web.Ganados\CreativaSL.Web.Ganados.csproj", "{5A849461-5787-4A92-B8C8-BCED867CE592}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "UnitTestProject\UnitTestProject.csproj", "{A509BE26-9C20-47BD-AB1F-B12E7658E63F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +15,11 @@ Global
 		{5A849461-5787-4A92-B8C8-BCED867CE592}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A849461-5787-4A92-B8C8-BCED867CE592}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A849461-5787-4A92-B8C8-BCED867CE592}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A509BE26-9C20-47BD-AB1F-B12E7658E63F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A509BE26-9C20-47BD-AB1F-B12E7658E63F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A509BE26-9C20-47BD-AB1F-B12E7658E63F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A509BE26-9C20-47BD-AB1F-B12E7658E63F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {92547003-9E22-4CA7-AB42-7074E283B4C1}
 	EndGlobalSection
 EndGlobal

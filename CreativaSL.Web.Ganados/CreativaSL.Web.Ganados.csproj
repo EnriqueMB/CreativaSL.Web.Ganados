@@ -462,6 +462,7 @@
     <Content Include="Content\js\actions.js" />
     <Content Include="Content\js\addProductoServicio.js" />
     <Content Include="Content\js\AgregarArchivo.js" />
+    <Content Include="Content\js\AgregarArchivoEmpleado.js" />
     <Content Include="Content\js\Bancos.js" />
     <Content Include="Content\js\CalAlmacen.js" />
     <Content Include="Content\js\Canvas.js" />
@@ -1458,6 +1459,8 @@
     <Content Include="Areas\Admin\Views\CatCorral\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatCorral\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\AgregarArchivo.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpleado\Archivos.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpleado\AgregarArchivo.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1473,6 +1476,10 @@
     <Content Include="Scripts\respond.min.js" />
     <None Include="Scripts\_references.js" />
     <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll" />
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll" />
+    <Content Include="SqlServerTypes\x86\msvcr120.dll" />
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1487,6 +1494,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\Controllers\CatCorralController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatGanadoController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatTipoClienteController.cs" />
     <Compile Include="Content\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AlmacenController.cs" />
@@ -1551,6 +1559,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AlmacenEntradaModels.cs" />
+    <Compile Include="Models\ArchivoEmpleadoModels.cs" />
     <Compile Include="Models\AsistenciaEmpleadoModels.cs" />
     <Compile Include="Models\Auxiliar.cs" />
     <Compile Include="Models\CalendarioFleteModels.cs" />
@@ -1668,7 +1677,7 @@
     <Compile Include="Models\Flete_TipoDocumentoModels.cs" />
     <Compile Include="Models\GanadoModels.cs" />
     <Compile Include="Models\GeneroGanadoModels.cs" />
-    <Compile Include="Models\ImagenEmpresaModels.cs" />
+    <Compile Include="Models\ArchivoEmpresaModels.cs" />
     <Compile Include="Models\ImpuestoModels.cs" />
     <Compile Include="Models\IncidenteFleteModels.cs" />
     <Compile Include="Models\LicenciaChoferModels.cs" />
@@ -1897,11 +1906,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="ArchivosEmpleado\" />
+    <Folder Include="ArchivosEmpresa\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\CatBodega\" />
-    <Folder Include="ImagenEmpresa\" />
-    <Folder Include="SqlServerTypes\x64\" />
-    <Folder Include="SqlServerTypes\x86\" />
+    <Folder Include="Areas\Admin\Views\CatTipoCliente\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Formatos\CartaPorte.rdlc" />

@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Models;
 using CreativaSL.Web.Ganados.App_Start;
+using System.IO;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -627,6 +628,168 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
                 return View(datos);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult LoadTableArchivos(string id_empleado)
+        {
+            try
+            {
+                CatEmpleado_Datos Datos = new CatEmpleado_Datos();
+                string datatable = Datos.EMPLEADO_index_Archivo(Conexion, id_empleado);
+
+                return Content(datatable, "application/json");
+            }
+            catch (Exception ex)
+            {
+                return Content("", "application/json");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Archivos(string id, string nombreEmpleado)
+        {
+            try
+            {
+                if(string.IsNullOrEmpty(id.Trim()) || string.IsNullOrEmpty(nombreEmpleado))
+                {
+                    return RedirectToAction("Index");
+                }
+
+                ViewBag.NombreEmpleado = nombreEmpleado;
+                ViewBag.Id_empleado = id;
+                
+                return View();
+            }
+            catch (Exception)
+            {
+                CatEmpleadoModels Empleado = new CatEmpleadoModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult AgregarArchivo(string id_empleado)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id_empleado.Trim()))
+                {
+                    return RedirectToAction("Index");
+                }
+
+                ArchivoEmpleadoModels Archivo = new ArchivoEmpleadoModels();
+
+                Archivo.Id_empleado = id_empleado;
+
+                return View(Archivo);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult AgregarArchivo(ArchivoEmpleadoModels ArchivoModel)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(ArchivoModel);
+
+                }
+
+                CatEmpleado_Datos Datos = new CatEmpleado_Datos();
+                ArchivoModel.UrlArchivo = Guid.NewGuid().ToString() + Path.GetExtension(ArchivoModel.Archivo.FileName);
+                ArchivoModel.NombreArchivo = ArchivoModel.Archivo.FileName;
+                RespuestaAjax respuesta = Datos.EMPLEADO_ac_Archivo(ArchivoModel, Conexion, User.Identity.Name, 1);
+
+                if (respuesta.Success)
+                {
+                    ArchivoModel.Archivo.SaveAs(Server.MapPath("~/ArchivosEmpleado/" + ArchivoModel.UrlArchivo));
+                    TempData["typemessage"] = "1";
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                }
+
+                TempData["message"] = respuesta.Mensaje;
+
+                return RedirectToAction("Archivos", "CatEmpleado", new { id = ArchivoModel.Id_empleado, nombreEmpleado = respuesta.Href });
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult DescargarArchivo(string nombreArchivoServer, string nombreArchivo)
+        {
+            try
+            {
+                string path = AppDomain.CurrentDomain.BaseDirectory + "ArchivosEmpleado/";
+                byte[] fileBytes = System.IO.File.ReadAllBytes(path + nombreArchivoServer);
+                string fileName = nombreArchivo;
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EliminarArchivo(string nombreArchivoServer, int? id)
+        {
+            try
+            {
+                RespuestaAjax respuesta = new RespuestaAjax();
+
+                if ((string.IsNullOrEmpty(nombreArchivoServer.Trim())) || (id == null || id == 0))
+                {
+                    respuesta.Success = false;
+                    respuesta.Mensaje = "Verifique sus datos";
+                    return Content(respuesta.ToJSON(), "application/json");
+                }
+
+                //Borramos el archivo del servidor para no acumular basura
+                string pathRoot = Server.MapPath("~/ArchivosEmpleado");
+                string filePath = pathRoot + "\\" + nombreArchivoServer;
+
+                if ((System.IO.File.Exists(filePath)))
+                {
+                    System.IO.File.Delete(filePath);
+                    //Ponemos en activo 0 el archivo
+
+                    CatEmpleado_Datos Datos = new CatEmpleado_Datos();
+                    respuesta = Datos.EMPLEADO_del_Archivo(Conexion, id.Value);
+
+                    respuesta.Success = respuesta.Success;
+                    respuesta.Mensaje = respuesta.Mensaje;
+                    return Content(respuesta.ToJSON(), "application/json");
+                }
+                else
+                {
+                    respuesta.Success = false;
+                    respuesta.Mensaje = "Verifique sus datos";
+                    return Content(respuesta.ToJSON(), "application/json");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }

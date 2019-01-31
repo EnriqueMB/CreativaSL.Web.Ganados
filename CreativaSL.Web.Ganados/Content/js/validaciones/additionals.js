@@ -80,7 +80,7 @@ $.validator.addMethod("imagenExtesion", function (value, element, params) {
 
 $.validator.addMethod("ImagenRequerida", function (value, element, params) {
     //Checamos que tenga un archivo el input file
-    if (element.value.length == 0) {
+    if (element.value.length === 0) {
         var imagenServidor = document.getElementById(params[0]).value;
 
         if (imagenServidor.length <= 0) {
@@ -96,7 +96,7 @@ $.validator.addMethod("ImagenRequerida", function (value, element, params) {
         var longitud = arrayString.length;
         var extension = arrayString[longitud - 1];
 
-        if (extension.localeCompare("png") == 0 || extension.localeCompare("jpg") == 0 || extension.localeCompare("jpeg") == 0 || extension.localeCompare("bmp") == 0) {
+        if (extension.localeCompare("png") === 0 || extension.localeCompare("jpg") === 0 || extension.localeCompare("jpeg") === 0 || extension.localeCompare("bmp") === 0) {
             return true;
         }
         else {
@@ -255,3 +255,28 @@ $.validator.addMethod("numeroConComas", function (value, element, params) {
 $.validator.addMethod("horas24", function (value, element) {
     return this.optional(element) || /^([0-5]?[0-9])(:[0-5][0-9])$/i.test(value);
 }, "Por favor, seleccione una hora válida (hh:mm).");
+
+
+$.validator.addMethod("LimitSize", function (value, element, param) {
+
+    var archivoInput = document.getElementById(param[0]);
+    var archivos = archivoInput.files;
+    var size = Number.parseFloat(param[1]) * 1024 * 1024;
+    var error = "";
+
+    if (archivos.length > 0) {
+        if (archivos[0].size > size) {
+            error = "El tamaño del archivo no puede superar los: " + param[1] + " MB.";
+            $.validator.messages['LimitSize'] = error;
+            return false;
+        }
+    }
+    else {
+        error = "Por favor, ingrese un archivo.";
+        $.validator.messages['LimitSize'] = error;
+        return false;
+    }
+    return true;
+});
+
+

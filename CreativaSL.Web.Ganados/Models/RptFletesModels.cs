@@ -31,6 +31,7 @@ namespace CreativaSL.Web.Ganados.Models
             _total = 0;
             _id_sucursal = string.Empty;
             _importeFlete = 0;
+            _sucursal = string.Empty;
         }
         private List<RptFletesModels> _listaFletes;
 
@@ -66,6 +67,13 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _importeFlete; }
             set { _importeFlete = value; }
+        }
+        private string _sucursal;
+
+        public string sucursal
+        {
+            get { return _sucursal; }
+            set { _sucursal = value; }
         }
 
         private string _vehiculo;

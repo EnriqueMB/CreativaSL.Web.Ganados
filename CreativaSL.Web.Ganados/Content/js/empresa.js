@@ -1,12 +1,13 @@
 ﻿var Empresa = function () {
     var TblCuentasBancarias;
-    "use strict"
+    var TblArchivos;
+    "use strict";
     var RunFileInput = function (LogoRFC, LogoEmpresa){
         $('#LogoEmpresaHttp').fileinput({
             theme: 'fa',
             language: 'es',
-            showRemove: false,
-            showClose: false,
+            //showRemove: false,
+            //showClose: false,
             showUpload: false,
             uploadUrl: "#",
             autoReplace: true,
@@ -25,7 +26,7 @@
             layoutTemplates: { actionDelete: '' },
             allowedFileExtensions: ["png", "jpg", "jpeg", "bmp"],
             required: true
-        })
+        });
         $('#LogoRFCHttp').fileinput({
             theme: 'fa',
             language: 'es',
@@ -38,18 +39,18 @@
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64,'+ LogoRFC + '" />'
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64,' + LogoRFC + '" />'
             ],
             initialPreviewConfig: [
                 { caption: 'Imagen del R.F.C.' }
             ],
             initialPreviewShowDelete: false,
-            showRemove: false,
-            showClose: false,
+            //showRemove: false,
+            //showClose: false,
             layoutTemplates: { actionDelete: '' },
             allowedFileExtensions: [["png", "jpg", "jpeg", "bmp"]],
             required: true
-        })
+        });
     };
     var LoadTableCuentasBancarias = function (IDEmpresa) {
         TblCuentasBancarias = $('#TblCuentasBancarias').DataTable({
@@ -70,7 +71,7 @@
                 {
                     "data": null,
                     "render": function (data, type, full) {
-                        return "<img style='width: 100px; height: 100px; max-width: 100 %; max-height: 100 %;' src='data: image/png; base64,"+ full["ImgBanco"] +"' />";
+                        return "<img style='width: 100px; height: 100px; max-width: 100 %; max-height: 100 %;' src='data: image/png; base64," + full["ImgBanco"] + "' />";
                     }
                 },
                 { "data": "NomBanco" },
@@ -142,14 +143,96 @@
                 });
             }
         });
-        
-    }
-    var LoadModal = function (IDEmpresa){
+
+    };
+    var LoadTableArchivos = function (IDEmpresa) {
+        TblArchivos = $('#TblArchivos').DataTable({
+            "language": {
+                "url": "/Content/assets/json/Spanish.json"
+            },
+            responsive: true,
+            "ajax": {
+                "data": {
+                    "IDEmpresa": IDEmpresa
+                },
+                "url": "/Admin/CatEmpresa/LoadTableArchivos/",
+                "type": "POST",
+                "datatype": "json",
+                "dataSrc": ''
+            },
+            "columns": [
+                { "data": "nombreArchivo" },
+                { "data": "descripcion" },
+                {
+                    "data": null,
+                    "render": function (data, type, full) {
+
+                        return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                            "<a href='/Admin/CatEmpresa/DescargarArchivo?nombreArchivoServer=" + full["urlArchivo"] +"&nombreArchivo=" + full["nombreArchivo"] + "' target='_blanck' title='Descargar' class='btn btn-success tooltips btn-sm descargarArchivo' data-placement='top' data-original-title='Descargar'><i class='fa fa-cloud-download'></i></a>" +
+                            "<a title='Eliminar' data-hrefa='/Admin/CatEmpresa/EliminarArchivo?nombreArchivoServer=" + full["urlArchivo"] + "&id=" + full["id"] + "' class='btn btn-danger tooltips btn-sm deleteArchivo' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "</div>" +
+                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                            "<div class='btn-group'>" +
+                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                            "</a>" +
+                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+
+                            "<li>" +
+                            "<a  href='/Admin/CatEmpresa/DescargarArchivo?nombreArchivoServer=" + full["urlArchivo"] + "&nombreArchivo=" + full["nombreArchivo"] + "' target='_blanck' class='descargarArchivo' role='menuitem' tabindex='-1'>" +
+                            "<i class='fa fa-cloud-download'></i> Descargar" +
+                            "</a>" +
+                            "</li>" +
+                           
+                            "<li>" +
+                            "<a class='deleteArchivo' role='menuitem' tabindex='-1'  data-hrefa='/Admin/CatEmpresa/EliminarArchivo?nombreArchivoServer=" + full["urlArchivo"] + "&id=" + full["id"] + "'>" +
+                            "<i class='fa fa-trash-o'></i> Eliminar" +
+                            "</a>" +
+                            "</li>" +
+
+                            "</ul>" +
+                            "</div>" +
+                            "</div>";
+                    }
+                }
+            ],
+            //Para agregar algún evento a la tabla se puede poner aquí
+            "drawCallback": function (settings) {
+                $(".deleteArchivo").on("click", function () {
+                    var url = $(this).attr('data-hrefa');
+                    var box = $("#mb-remove-row");
+                    box.addClass("open");
+                    box.find(".mb-control-yes").on("click", function () {
+                        box.removeClass("open");
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (result) {
+                                if (result.Success) {
+                                    box.find(".mb-control-yes").prop('onclick', null).off('click');
+                                    Mensaje(result.Mensaje, "1");
+                                    TblArchivos.ajax.reload();
+                                }
+                                else
+                                    Mensaje(result.Mensaje, "2");
+                            },
+                            error: function () {
+                                Mensaje(result.Mensaje, "2");
+                            }
+                        });
+                    });
+                });
+            }
+        });
+
+    };
+    var LoadModal = function (IDEmpresa) {
         $("#btnCrearCuentaBancaria").on("click", function () {
             ModalCuentaBancaria(0, IDEmpresa);
         });
-    }
-    var Validaciones = function () { 
+    };
+    var Validaciones = function () {
         var form1 = $('#frmEditEmpresa');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
@@ -186,7 +269,7 @@
                     required: true,
                     minlength: 10,
                     maxlength: 15,
-                    rfc:true
+                    rfc: true
                 },
                 NumTelefonico1: {
                     required: true,
@@ -240,7 +323,7 @@
                     required: "Por favor, escriba el R.F.C.",
                     minlength: jQuery.validator.format("R.F.C., mínimo de caracteres: {0}"),
                     maxlength: jQuery.validator.format("R.F.C., máximo de caracteres: {0}"),
-                    rfc:      "R.F.C. no válido"
+                    rfc: "R.F.C. no válido"
                 },
                 NumTelefonico1: {
                     required: "Por favor, escriba un número telefónico.",
@@ -298,7 +381,7 @@
                 SaveEmpresa();
             }
         });
-    }
+    };
      //Funciones
     function ModalCuentaBancaria(IDCuentaBancaria, IDEmpresa) {
         $.ajax({
@@ -466,6 +549,7 @@
             RunFileInput(LogoRFC, LogoEmpresa);
             LoadTableCuentasBancarias(IDEmpresa);
             LoadModal(IDEmpresa);
+            LoadTableArchivos(IDEmpresa);
         }
     };
 }();
