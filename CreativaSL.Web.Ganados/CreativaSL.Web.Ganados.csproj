@@ -1711,6 +1711,7 @@
     <Compile Include="Models\RptGanadosMtoVentaModels.cs" />
     <Compile Include="Models\RptGandosModels.cs" />
     <Compile Include="Models\RptJaulasXVentaModels.cs" />
+    <Compile Include="Models\RptMantenimientoVehiculoModels.cs" />
     <Compile Include="Models\RptProvedorVendioMasModels.cs" />
     <Compile Include="Models\RptProveedorMermaAltaModels.cs" />
     <Compile Include="Models\RptProveedorMunicipioModels.cs" />
@@ -1938,6 +1939,11 @@
     <Content Include="Reports\RptCorral.rdlc" />
     <Content Include="Reports\RptSalidas.rdlc" />
     <Content Include="Reports\RptSocios.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reports\ReporteMantenimientoVehiculo.rdlc">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

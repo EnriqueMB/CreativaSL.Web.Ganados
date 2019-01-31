@@ -55,7 +55,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 reporte.Conexion = Conexion;
                 reporte.DatosEmpresa = R.ObtenerDatosEmpresaTipoIDSucursal(Conexion, id4);
                 reporte.listaRptProveedorMerma = reporteDatos.obtenerListaProveedoresMermaAlta(reporte);
-                reporte.listaProveedores = reporteDatos.ListaProveedoresMermaAltaGrafica(reporte);
+                //reporte.listaProveedores = reporteDatos.ListaProveedoresMermaAltaGrafica(reporte);
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
                 Rtp.DataSources.Clear();
@@ -80,7 +80,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Parametros[8] = new ReportParameter("FechaFin", id3);
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("ListaMerma", reporte.listaRptProveedorMerma));
-                Rtp.DataSources.Add(new ReportDataSource("ListaGrafica", reporte.listaProveedores));
+               // Rtp.DataSources.Add(new ReportDataSource("ListaGrafica", reporte.listaProveedores));
                 string reportType = id;
                 string mimeType;
                 string encoding;
@@ -561,6 +561,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 DateTime.TryParse(id3.ToString(), out Fecha2);
                 reporte.fechaInicio = Fecha1;
                 reporte.fechaFin = Fecha2;
+                reporte.id_sucursal = id4;
                 reporte.Conexion = Conexion;
                 reporte.datosEmpresa = R.ObtenerDatosEmpresaTipo2(Conexion);
                 reporte.listaFletes = R.ObtenerListaFletes(reporte);
@@ -617,7 +618,90 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Reportes");
             }
         }
-        
+
+        public ActionResult RptMttVehiculo(string id, string id2, string id3, string id4)
+        {
+            try
+            {
+                Reporte_Datos R = new Reporte_Datos();
+                RptMantenimientoVehiculoModels rtpMtt = new RptMantenimientoVehiculoModels();
+                DateTime Fecha1 = DateTime.Today;
+                DateTime Fecha2 = DateTime.Today;
+                DateTime.TryParse(id2.ToString(), out Fecha1);
+                DateTime.TryParse(id3.ToString(), out Fecha2);
+                rtpMtt.FechaInicio = Fecha1;
+                rtpMtt.FechaFin = Fecha2;
+                rtpMtt.IDSucursal = id4;
+                rtpMtt.Conexion = Conexion;
+                rtpMtt.datosEmpresa = R.ObtenerDatosEmpresaTipoIDSucursal(Conexion, id4);
+                rtpMtt.ListaMantemiento = R.ListaMantenimiento(rtpMtt);
+                LocalReport Rtp = new LocalReport();
+                Rtp.EnableExternalImages = true;
+                Rtp.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Reports"), "ReporteMantenimientoVehiculo.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Reportes");
+                }
+                ReportParameter[] Parametros = new ReportParameter[9];
+                Parametros[0] = new ReportParameter("Empresa", rtpMtt.datosEmpresa.RazonFiscal);
+                Parametros[1] = new ReportParameter("Direccion", rtpMtt.datosEmpresa.DireccionFiscal);
+                Parametros[2] = new ReportParameter("RFC", rtpMtt.datosEmpresa.RFC);
+                Parametros[3] = new ReportParameter("TelefonoCasa", rtpMtt.datosEmpresa.NumTelefonico1);
+                Parametros[4] = new ReportParameter("TelefonoMovil", rtpMtt.datosEmpresa.NumTelefonico2);
+                Parametros[5] = new ReportParameter("NombreSucursal", rtpMtt.datosEmpresa.NombreSucursal);
+                Parametros[6] = new ReportParameter("UrlLogo", rtpMtt.datosEmpresa.LogoEmpresa);
+                Parametros[7] = new ReportParameter("FechaInicio", id2);
+                Parametros[8] = new ReportParameter("FechaFin", id3);
+                Rtp.SetParameters(Parametros);
+                Rtp.DataSources.Add(new ReportDataSource("ListaMantenimiento", rtpMtt.ListaMantemiento));
+                string reportType = id;
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + id + "</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public ActionResult RptRendimientoVehiculo(string id, string id2, string id3, string id4)
+        {
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+
+                throw ;
+            }
+        }
+
         #region REPORTES OCULTADO DEL EN EL INDEX CONSULTAS.
 
         public ActionResult RptEntrada(string id, string id2, string id3)

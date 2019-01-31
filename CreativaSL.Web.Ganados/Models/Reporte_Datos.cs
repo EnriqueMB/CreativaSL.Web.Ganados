@@ -190,6 +190,36 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public List<RptMantenimientoVehiculoModels> ListaMantenimiento(RptMantenimientoVehiculoModels Datos)
+        {
+            try
+            {
+                object[] Parametros = { Datos.FechaInicio, Datos.FechaFin, Datos.IDSucursal };
+                List<RptMantenimientoVehiculoModels> Lista = new List<RptMantenimientoVehiculoModels>();
+                RptMantenimientoVehiculoModels Item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reporte_get_ManteniminetoVehiculo", Parametros);
+                while (dr.Read())
+                {
+                    Item = new RptMantenimientoVehiculoModels();
+                    Item.NomSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSuc")) ? dr.GetString(dr.GetOrdinal("NombreSuc")) : string.Empty;
+                    Item.Fecha = !dr.IsDBNull(dr.GetOrdinal("Fecha")) ? dr.GetDateTime(dr.GetOrdinal("Fecha")) : DateTime.Today;
+                    Item.Vehiculo = !dr.IsDBNull(dr.GetOrdinal("NomVehiculo")) ? dr.GetString(dr.GetOrdinal("NomVehiculo")) : string.Empty;
+                    Item.NomProveedor = !dr.IsDBNull(dr.GetOrdinal("nombreRazonSocial")) ? dr.GetString(dr.GetOrdinal("nombreRazonSocial")) : string.Empty;
+                    Item.Total = !dr.IsDBNull(dr.GetOrdinal("ImporteTotal")) ? dr.GetDecimal(dr.GetOrdinal("ImporteTotal")) : 0;
+                    Item.Servicio = !dr.IsDBNull(dr.GetOrdinal("Servicios")) ? dr.GetString(dr.GetOrdinal("Servicios")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+
         #region REPORTE DE ANALISIS DE VENTA
 
         public List<RptGandosModels> obtenerListaGanadosVendidos(RptGandosModels datos)
@@ -502,7 +532,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.chofer = !ds.IsDBNull(ds.GetOrdinal("Chofer")) ? ds.GetString(ds.GetOrdinal("Chofer")) : string.Empty;
                     //item.folio = !ds.IsDBNull(ds.GetOrdinal("Folio")) ? ds.GetInt64(ds.GetOrdinal("Folio")) : 0;
                     item.cliente = !ds.IsDBNull(ds.GetOrdinal("Cliente")) ? ds.GetString(ds.GetOrdinal("Cliente")) : string.Empty;
-                    //item.vehiculo = !ds.IsDBNull(ds.GetOrdinal("Vehiculo")) ? ds.GetString(ds.GetOrdinal("Vehiculo")) : string.Empty;
+                    item.vehiculo = !ds.IsDBNull(ds.GetOrdinal("Vehiculo")) ? ds.GetString(ds.GetOrdinal("Vehiculo")) : string.Empty;
                     //item.modelo = !ds.IsDBNull(ds.GetOrdinal("Modelo")) ? ds.GetString(ds.GetOrdinal("Modelo")) : string.Empty;
                     //item.placas = !ds.IsDBNull(ds.GetOrdinal("Placas")) ? ds.GetString(ds.GetOrdinal("Placas")) : string.Empty;
                     //item.noSerie = !ds.IsDBNull(ds.GetOrdinal("noSerie")) ? ds.GetString(ds.GetOrdinal("noSerie")) : string.Empty;
@@ -510,8 +540,9 @@ namespace CreativaSL.Web.Ganados.Models
                     //item.empresaDestino = !ds.IsDBNull(ds.GetOrdinal("EmpresaDestino")) ? ds.GetString(ds.GetOrdinal("EmpresaDestino")) : string.Empty;
                     item.lugarOrigen = !ds.IsDBNull(ds.GetOrdinal("LugarOrigen")) ? ds.GetString(ds.GetOrdinal("LugarOrigen")) : string.Empty;
                     item.lugarDestino = !ds.IsDBNull(ds.GetOrdinal("LugarDestino")) ? ds.GetString(ds.GetOrdinal("LugarDestino")) : string.Empty;
-                    item.impuestoTrasladado = !ds.IsDBNull(ds.GetOrdinal("ImpuestoTrasladado")) ? ds.GetDecimal(ds.GetOrdinal("ImpuestoTrasladado")) : 0;
-                    item.impuestoRetenido = !ds.IsDBNull(ds.GetOrdinal("ImpuestoRetenido")) ? ds.GetDecimal(ds.GetOrdinal("ImpuestoRetenido")) : 0;
+                    //item.impuestoTrasladado = !ds.IsDBNull(ds.GetOrdinal("ImpuestoTrasladado")) ? ds.GetDecimal(ds.GetOrdinal("ImpuestoTrasladado")) : 0;
+                    //item.impuestoRetenido = !ds.IsDBNull(ds.GetOrdinal("ImpuestoRetenido")) ? ds.GetDecimal(ds.GetOrdinal("ImpuestoRetenido")) : 0;
+                    item.importeFlete = !ds.IsDBNull(ds.GetOrdinal("ImporteFlete")) ? ds.GetDecimal(ds.GetOrdinal("ImporteFlete")) : 0;
                     item.total = !ds.IsDBNull(ds.GetOrdinal("Total")) ? ds.GetDecimal(ds.GetOrdinal("Total")) : 0;
                     lista.Add(item);
                 }

@@ -376,7 +376,6 @@
                  window.location.href = "/Admin/reportes/RptCuentaEstadoProveedor?id=PDF&id2=" + Inicio + "&id3=" + Fin + "&id4=" + IDSucural1;
              }
           });
-
         $("#BTN13").click(function () {
               var fecha = document.getElementById("fec1").value;
             var fecha2 = document.getElementById("fec2").value;
@@ -407,7 +406,6 @@
                   window.location.href = "/Admin/reportes/RptCuentaEstadoProveedorActualizado?id=PDF&id2=" + Inicio + "&id3=" + Fin + "&id4=" + IDSucural1;
               }
           });
-
         $("#BTN14").click(function () {
               var fecha = document.getElementById("fec1").value;
             var fecha2 = document.getElementById("fec2").value;
@@ -437,7 +435,67 @@
               if (ban == 1 && ban1 == 1) {
                   window.location.href = "/Admin/reportes/RptEntradasV2?id=PDF&id2=" + Inicio + "&id3=" + Fin + "&id4=" + IDSucural1;
               }
-          });
+        });
+        $("#BTN15").click(function () {
+            var fecha = document.getElementById("fec1").value;
+            var fecha2 = document.getElementById("fec2").value;
+            var IDSucural1 = document.getElementById("IDSucursalActual").value;
+            var ban = 0;
+            var ban1 = 0;
+            if (fecha === "") {
+                document.getElementById("result").innerHTML = "La fecha inicio " + fecha + " es incorrecta";
+                $('#1').addClass('has-error');
+            }
+            else {
+                document.getElementById("result").innerHTML = "La fecha inicio " + fecha + " es correcta";
+                ban = 1;
+                $('#1').removeClass('has-error');
+            }
+            if (fecha2 === "") {
+                document.getElementById("result2").innerHTML = "La fecha fin " + fecha2 + " es incorrecta";
+                $('#2').addClass('has-error');
+            }
+            else {
+                document.getElementById("result2").innerHTML = "La fecha fin " + fecha2 + " es correcta";
+                ban1 = 1;
+                $('#2').removeClass('has-error');
+            }
+            var Inicio = fecha;
+            var Fin = fecha2;
+            if (ban == 1 && ban1 == 1) {
+                window.location.href = "/Admin/reportes/RptMttVehiculo?id=PDF&id2=" + Inicio + "&id3=" + Fin + "&id4=" + IDSucural1;
+            }
+        });
+        $("#BTN16").click(function () {
+            var fecha = document.getElementById("fec1").value;
+            var fecha2 = document.getElementById("fec2").value;
+            var IDSucural1 = document.getElementById("IDSucursalActual").value;
+            var ban = 0;
+            var ban1 = 0;
+            if (fecha === "") {
+                document.getElementById("result").innerHTML = "La fecha inicio " + fecha + " es incorrecta";
+                $('#1').addClass('has-error');
+            }
+            else {
+                document.getElementById("result").innerHTML = "La fecha inicio " + fecha + " es correcta";
+                ban = 1;
+                $('#1').removeClass('has-error');
+            }
+            if (fecha2 === "") {
+                document.getElementById("result2").innerHTML = "La fecha fin " + fecha2 + " es incorrecta";
+                $('#2').addClass('has-error');
+            }
+            else {
+                document.getElementById("result2").innerHTML = "La fecha fin " + fecha2 + " es correcta";
+                ban1 = 1;
+                $('#2').removeClass('has-error');
+            }
+            var Inicio = fecha;
+            var Fin = fecha2;
+            if (ban == 1 && ban1 == 1) {
+                window.location.href = "/Admin/reportes/RptRendimientoVehiculo?id=PDF&id2=" + Inicio + "&id3=" + Fin + "&id4=" + IDSucural1;
+            }
+        });
     };
 
     return {
