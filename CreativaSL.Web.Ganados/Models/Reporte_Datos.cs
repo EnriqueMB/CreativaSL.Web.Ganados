@@ -224,7 +224,7 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                object[] Parametros = { Datos.FechaFin, Datos.FechaFin, Datos.IDSucursal };
+                object[] Parametros = { Datos.FechaInicio, Datos.FechaFin, Datos.IDSucursal };
                 List<RptRendimientoVehiculoModels> Lista = new List<RptRendimientoVehiculoModels>();
                 RptRendimientoVehiculoModels Item;
                 SqlDataReader dr = null;
@@ -244,6 +244,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.PrecioLitro = !dr.IsDBNull(dr.GetOrdinal("PrecioLitro")) ? dr.GetDecimal(dr.GetOrdinal("PrecioLitro")) : 0;
                     Item.TotalCompra = !dr.IsDBNull(dr.GetOrdinal("Total")) ? dr.GetDecimal(dr.GetOrdinal("Total")) : 0;
                     Item.TipoCombustible = !dr.IsDBNull(dr.GetOrdinal("TipoCombustible")) ? dr.GetString(dr.GetOrdinal("TipoCombustible")) : string.Empty;
+                    Lista.Add(Item);
                 }
                 dr.Close();
                 return Lista;
