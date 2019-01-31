@@ -411,7 +411,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     return RedirectToAction("Index");
                 }
 
-                ImagenEmpresaModels Imagen = new ImagenEmpresaModels();
+                ArchivoEmpresaModels Imagen = new ArchivoEmpresaModels();
                 
                 Imagen.Id_empresa = idEmpresa;
 
@@ -425,22 +425,24 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpPost]
-        public ActionResult AgregarArchivo(ImagenEmpresaModels Imagen)
+        public ActionResult AgregarArchivo(ArchivoEmpresaModels ArchivoModel)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    return RedirectToAction("Index");
+                    return View(ArchivoModel);
+                    
                 }
 
                 _CatEmpresa_Datos Datos = new _CatEmpresa_Datos();
-                Imagen.UrlArchivo = Guid.NewGuid().ToString() + Path.GetExtension(Imagen.Archivo.FileName);
-                RespuestaAjax respuesta = Datos.EMPRESA_ac_Archivo(Imagen, Conexion, User.Identity.Name, 1);
+                ArchivoModel.UrlArchivo = Guid.NewGuid().ToString() + Path.GetExtension(ArchivoModel.Archivo.FileName);
+                ArchivoModel.NombreArchivo = ArchivoModel.Archivo.FileName;
+                RespuestaAjax respuesta = Datos.EMPRESA_ac_Archivo(ArchivoModel, Conexion, User.Identity.Name, 1);
 
                 if (respuesta.Success)
                 {
-                    Imagen.Archivo.SaveAs(Server.MapPath("~/ImagenEmpresa/" + Imagen.UrlArchivo));
+                    ArchivoModel.Archivo.SaveAs(Server.MapPath("~/ArchivosEmpresa/" + ArchivoModel.UrlArchivo));
                     TempData["typemessage"] = "1";
                 }
                 else
@@ -450,13 +452,91 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 TempData["message"] = respuesta.Mensaje;
 
-                return View(Imagen);
+                return RedirectToAction("Edit", "CatEmpresa", new { id =  ArchivoModel.Id_empresa });
             }
             catch (Exception ex)
             {
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Verifique sus datos.";
                 return RedirectToAction("Index");
+            }
+        }
+        [HttpPost]
+        public ActionResult LoadTableArchivos(string IDEmpresa)
+        {
+            try
+            {
+                EmpresaDatos = new _CatEmpresa_Datos();
+                string datatable = EmpresaDatos.EMPRESA_index_Archivo(Conexion, IDEmpresa);
+
+                return Content(datatable, "application/json");
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                Empresa.RespuestaAjax.Mensaje = ex.ToString();
+                Empresa.RespuestaAjax.Success = false;
+                return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult DescargarArchivo(string nombreArchivoServer, string nombreArchivo)
+        {
+            try
+            {
+                string path = AppDomain.CurrentDomain.BaseDirectory + "ArchivosEmpresa/";
+                byte[] fileBytes = System.IO.File.ReadAllBytes(path + nombreArchivoServer);
+                string fileName = nombreArchivo;
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EliminarArchivo(string nombreArchivoServer, int? id)
+        {
+            try
+            {
+                RespuestaAjax respuesta = new RespuestaAjax();
+
+                if((string.IsNullOrEmpty(nombreArchivoServer.Trim())) || (id == null || id == 0))
+                {
+                    respuesta.Success = false;
+                    respuesta.Mensaje = "Verifique sus datos";
+                    return Content(respuesta.ToJSON(), "application/json");
+                }
+
+                //Borramos el archivo del servidor para no acumular basura
+                string pathRoot = Server.MapPath("~/ArchivosEmpresa");
+                string filePath = pathRoot + "\\" + nombreArchivoServer;
+
+                if ((System.IO.File.Exists(filePath)))
+                {
+                    System.IO.File.Delete(filePath);
+                    //Ponemos en activo 0 el archivo
+
+                    EmpresaDatos = new _CatEmpresa_Datos();
+                    respuesta = EmpresaDatos.EMPRESA_del_Archivo(Conexion, id.Value);
+
+                    respuesta.Success = respuesta.Success;
+                    respuesta.Mensaje = respuesta.Mensaje;
+                    return Content(respuesta.ToJSON(), "application/json");
+                }
+                else
+                {
+                    respuesta.Success = false;
+                    respuesta.Mensaje = "Verifique sus datos";
+                    return Content(respuesta.ToJSON(), "application/json");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }

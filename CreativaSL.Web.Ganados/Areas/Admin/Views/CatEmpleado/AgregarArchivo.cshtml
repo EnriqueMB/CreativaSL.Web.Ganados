@@ -1,4 +1,5 @@
-﻿@model CreativaSL.Web.Ganados.Models.ArchivoEmpresaModels
+﻿@model CreativaSL.Web.Ganados.Models.ArchivoEmpleadoModels
+
 @{
     ViewBag.Title = "AgregarArchivo";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -8,9 +9,7 @@
 {
     <!--FILEINPUT-->
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
-    <link href="@Url.Content("~/Content/js/plugins/font-awesome.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
-    <link href="@Url.Content("~/Content/js/plugins/select.bootstrap.min.css")" rel="stylesheet" />
 }
 @section featured{
 
@@ -27,13 +26,12 @@
         </div>
         <div class="col-md-12">
             @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("AgregarArchivo", "CatEmpresa", FormMethod.Post, new { id = "frm_agregarArchivo", @class = "form-horizontal", autocomplete = "off", enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("AgregarArchivo", "CatEmpleado", FormMethod.Post, new { id = "frm_agregarArchivo", @class = "form-horizontal", autocomplete = "off", enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
                 <div id="validation_summary" class="field_error "></div> //JS
-                @Html.HiddenFor(model => model.Id)
-                @Html.HiddenFor(model => model.Id_empresa)
+                @Html.HiddenFor(model => model.Id_empleado)
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -57,7 +55,7 @@
                                 </div>
                             </div>
                         </div>
-                      
+
                         <div class="form-group">
                             <div class="col-md-12">
                                 <label class="col-md-2 control-label">Archivo</label>
@@ -73,10 +71,10 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="panel-footer">
-                        <a href="@Url.Action("Edit", "CatEmpresa",  new { id = Model.Id_empresa })" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                        <a href="@Url.Action("Archivos", "CatEmpleado",  new { id = Model.Id_empleado })" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                         <button type="submit" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
                     </div>
                 </div>
@@ -103,7 +101,7 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/popper.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/AgregarArchivo.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/AgregarArchivoEmpleado.js")"></script>
 
 
     <script>
@@ -114,3 +112,5 @@
         });
     </script>
 }
+
+

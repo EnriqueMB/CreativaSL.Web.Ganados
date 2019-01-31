@@ -261,18 +261,19 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title"><strong>Archivos</strong></h3>
                                 <ul class="panel-controls">
-                                    <li><a href="@Url.Action("AgregarArchivo","CatEmpresa", new { idEmpresa = Model.IDEmpresa })" class="btn btn-danger btnAgregarImagen"><span class="fa fa-plus"></span>Agregar imagen</a></li>
+                                    <li><a href="@Url.Action("AgregarArchivo","CatEmpresa", new { idEmpresa = Model.IDEmpresa })" class="btn btn-default btnCrear"><span class="fa fa-plus"></span>Agregar archivo</a></li>
+                                    <li><a href="@Url.Action("Index","CatEmpresa")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span>Regresar</a></li>
                                     <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                                     <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                                 </ul>
                             </div>
                             <div class="panel-body">
                                 <div class="table-responsive">
-                                    <table id="TblImagen" class="table">
+                                    <table id="TblArchivos" class="table">
                                         <thead>
                                             <tr>
-                                                <th>Descripción de la imagen</th>
-                                                <th>Imagen</th>
+                                                <th>Nombre del archivo</th>
+                                                <th>Descripción del archivo</th>
                                                 <th>Acción</th>
                                             </tr>
                                         </thead>
@@ -299,7 +300,7 @@
             <div class="mb-middle">
                 <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
                 <div class="mb-content">
-                    <p>¿Seguro que quieres eliminar esta cuenta bancaria?</p>
+                    <p>¿Seguro que quieres eliminar este registro?</p>
                     <p>Presione "sí" si está seguro.</p>
                 </div>
                 <div class="mb-footer">

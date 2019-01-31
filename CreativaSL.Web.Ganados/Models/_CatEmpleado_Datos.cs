@@ -247,6 +247,79 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public string EMPLEADO_index_Archivo(string conexion, string id_empleado)
+        {
+            try
+            {
+                object[] parametros = { id_empleado };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "spCSLDB_EMPLEADO_index_Archivo", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public RespuestaAjax EMPLEADO_ac_Archivo(ArchivoEmpleadoModels item, string conexion, string usuario, int opcion)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    item.Id,
+                    item.Id_empleado,
+                    item.Descripcion,
+                    item.UrlArchivo,
+                    item.NombreArchivo,
+                    usuario,
+                    opcion
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "spCSLDB_EMPLEADO_ac_Archivo", parametros);
+                RespuestaAjax respuesta = new RespuestaAjax();
+                respuesta.Success = false;
+                respuesta.Mensaje = "";
+                while (dr.Read())
+                {
+                    respuesta.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    respuesta.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    respuesta.Href = !dr.IsDBNull(dr.GetOrdinal("nombreEmpleado")) ? dr.GetString(dr.GetOrdinal("nombreEmpleado")) : string.Empty;
+                }
+                dr.Close();
+                return respuesta;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public RespuestaAjax EMPLEADO_del_Archivo(string conexion, int id)
+        {
+            try
+            {
+                object[] parametros = { id };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "spCSLDB_EMPLEADO_del_Archivo", parametros);
+                RespuestaAjax respuesta = new RespuestaAjax();
+                while (dr.Read())
+                {
+                    respuesta.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    respuesta.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                }
+                dr.Close();
+                return respuesta;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
 
         #region Empleado Nomina

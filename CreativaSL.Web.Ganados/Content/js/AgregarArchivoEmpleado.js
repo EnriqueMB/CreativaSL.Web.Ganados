@@ -20,7 +20,7 @@
             layoutTemplates: { actionDelete: '' }
         });
     };
- 
+
     var Validaciones = function () {
         var form1 = $('#frm_agregarArchivo');
         var errorHandler1 = $('.errorHandler', form1);

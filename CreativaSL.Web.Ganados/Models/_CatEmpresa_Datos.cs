@@ -299,16 +299,65 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public RespuestaAjax EMPRESA_ac_Archivo(ImagenEmpresaModels item, string conexion, string usuario, int opcion)
+        public RespuestaAjax EMPRESA_ac_Archivo(ArchivoEmpresaModels item, string conexion, string usuario, int opcion)
         {
             try
             {
-                object[] parametros = { item.Id, item.Id_empresa, item.Descripcion, item.UrlArchivo,  usuario, opcion};
+                object[] parametros = 
+                {
+                    item.Id,
+                    item.Id_empresa,
+                    item.Descripcion,
+                    item.UrlArchivo,
+                    item.NombreArchivo,
+                    usuario,
+                    opcion
+                };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(conexion, "spCSLDB_EMPRESA_ac_Archivo", parametros);
                 RespuestaAjax respuesta = new RespuestaAjax();
                 respuesta.Success = false;
                 respuesta.Mensaje = "";
+                while (dr.Read())
+                {
+                    respuesta.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    respuesta.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                }
+                dr.Close();
+                return respuesta;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string EMPRESA_index_Archivo(string conexion, string id_empresa)
+        {
+            try
+            {
+                object[] parametros = { id_empresa };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "spCSLDB_EMPRESA_index_Archivo", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public RespuestaAjax EMPRESA_del_Archivo(string conexion, int id)
+        {
+            try
+            {
+                object[] parametros = { id };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "spCSLDB_EMPRESA_del_Archivo", parametros);
+                RespuestaAjax respuesta = new RespuestaAjax();
                 while (dr.Read())
                 {
                     respuesta.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
