@@ -1721,6 +1721,7 @@
     <Compile Include="Models\RptProvedorVendioMasModels.cs" />
     <Compile Include="Models\RptProveedorMermaAltaModels.cs" />
     <Compile Include="Models\RptProveedorMunicipioModels.cs" />
+    <Compile Include="Models\RptRendimientoVehiculoModels.cs" />
     <Compile Include="Models\RptSalidaModels.cs" />
     <Compile Include="Models\RptSalidasModels.cs" />
     <Compile Include="Models\RptSociosModels.cs" />
@@ -1952,6 +1953,7 @@
     <EmbeddedResource Include="Reports\ReporteMantenimientoVehiculo.rdlc">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ReporteRendimientoVehiculo.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
