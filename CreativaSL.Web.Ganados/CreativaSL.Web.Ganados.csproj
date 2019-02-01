@@ -1464,6 +1464,7 @@
     <Content Include="Areas\Admin\Views\CatEmpleado\AgregarArchivo.cshtml" />
     <Content Include="Areas\Admin\Views\CatRangoPesoVenta\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatRangoPesoVenta\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatRangoPesoVenta\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1614,6 +1615,7 @@
     <Compile Include="Models\CatSucursalesModels.cs" />
     <Compile Include="Models\CatTipoClasificacionCobroModels.cs" />
     <Compile Include="Models\CatTipoClasificacionModels.cs" />
+    <Compile Include="Models\CatTipoClienteModels.cs" />
     <Compile Include="Models\CatTipoCodigoProductoModels.cs" />
     <Compile Include="Models\CatTipoCombustibleModels.cs" />
     <Compile Include="Models\CatTipoConciliacionModels.cs" />

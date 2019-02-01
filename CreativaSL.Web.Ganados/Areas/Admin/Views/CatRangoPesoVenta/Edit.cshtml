@@ -1,6 +1,6 @@
 ﻿@model CreativaSL.Web.Ganados.Models.CatRangoPesoVentaModels
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -19,7 +19,7 @@
         </div>
         <div class="col-md-12">
             @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("Create", "CatRangoPesoVenta", FormMethod.Post, new { id = "frm_RangoPesoVenta", @class = "form-horizontal", autocomplete = "off" }))
+            @using (Html.BeginForm("Edit", "CatRangoPesoVenta", FormMethod.Post, new { id = "frm_RangoPesoVenta", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
@@ -35,11 +35,11 @@
                         <div class="form-group">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">Peso Mínimo</label>
+                                    <label class="col-md-3 control-label">Peso Minimo</label>
                                     <div class="col-md-8 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.PesoMinimo, new { id = "PesoMinimo", @class = "form-control" })
+                                            @Html.TextBoxFor(model => model.PesoMinimo, "{0:f2}", new { id = "PesoMinimo", @class = "form-control" })
                                             <span class="input-group-addon">Kg.</span>
                                         </div>
                                         @Html.ValidationMessageFor(model => model.PesoMinimo)
@@ -49,11 +49,11 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">Peso Máximo</label>
+                                    <label class="col-md-3 control-label">Peso Maximo</label>
                                     <div class="col-md-8 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.PesoMaximo, new { id = "PesoMaximo", @class = "form-control" })
+                                            @Html.TextBoxFor(model => model.PesoMaximo, "{0:f2}", new { id = "PesoMaximo", @class = "form-control" })
                                             <span class="input-group-addon">Kg.</span>
                                         </div>
                                         @Html.ValidationMessageFor(model => model.PesoMaximo)
@@ -67,7 +67,7 @@
                                     <div class="col-md-8 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.Precio, new { id = "Precio", @class = "form-control" })
+                                            @Html.TextBoxFor(model => model.Precio, "{0:f2}", new { id = "Precio", @class = "form-control" })
                                             <span class="input-group-addon">$</span>
                                         </div>
                                         @Html.ValidationMessageFor(model => model.Precio)
@@ -88,7 +88,7 @@
                                     <label class="col-md-3 control-label">Seleccione un tipo proveedor</label>
                                     <div class="col-md-8 col-xs-12">
                                         <div class="col-md-12">
-                                            @Html.DropDownListFor(model => model.Id_tipoCliente, new SelectList(ViewBag.ListaTipoClientes, "Id_tipoCliente", "Descripcion"), new { @class = "form-control select", data_live_search = "true" })
+                                            @Html.DropDownListFor(model => model.Id_tipoCliente, new SelectList(ViewBag.ListaTipoClientes, "Id_tipoCliente", "Descripcion"), new { id = "Id_tipoCliente", @class = "form-control select", data_live_search = "true" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.Id_tipoCliente)
                                     </div>
@@ -98,10 +98,10 @@
                     </div>
                     <div class="panel-footer">
                         <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                        <a href="@Url.Action("Index","CatRangoPesoVenta")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                        <a href="@Url.Action("Index","CatRangoPesoVenta")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                     </div>
                 </div>
-            }
+             }
         </div>
     </div>
     <script>
@@ -127,4 +127,3 @@
         });
     </script>
 }
-

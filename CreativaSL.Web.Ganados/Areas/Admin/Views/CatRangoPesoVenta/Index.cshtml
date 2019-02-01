@@ -3,6 +3,11 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
+@section css{
+    
+}
+
+
 @section featured{
     @{
         var message = TempData["message"] ?? string.Empty;
@@ -45,9 +50,7 @@
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                  
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
                     </div>
@@ -85,6 +88,7 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
@@ -96,7 +100,7 @@
                 responsive: true,
                 "ajax": {
                     "data": {
-                        
+
                     },
                     "url": "/Admin/CatRangoPesoVenta/LoadTblRangoPesoVenta/",
                     "type": "POST",
@@ -108,23 +112,23 @@
                     { "data": "Genero" },
                     {
                         "data": "pesoMinimo",
-                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                        render: $.fn.dataTable.render.number(',', '.', 0, '', ' Kg.')
                     },
                     {
                         "data": "pesoMaximo",
-                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                        render: $.fn.dataTable.render.number(',', '.', 0, '', ' Kg.')
                     },
                     {
                         "data": "precio",
-                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                        "render": $.fn.dataTable.render.number(',', '.', 2, '$')
                     },
                     {
                         "data": null,
                         "render": function (data, type, full) {
 
                             return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                                "<a data-id='" + full["id_rango"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Editar'><i class='fa fa-clock-o'></i></a>"
-                            "<a data-id='" + full["id_rango"] + "' class='btn btn-danger tooltips btn-sm delete' title='Eliminar' data-placement='top' data-original-title='Eliminar'  data-hrefa='/Admin/CatRangoPesoVenta/RangoPesoVenta_del_RangoPesoVenta/'><i class='fa fa-edit'></i></a>" +
+                                "<a data-id='" + full["id_rango"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Editar'><i class='fa fa-edit'></i></a>" +
+                                "<a data-id='" + full["id_rango"] + "' class='btn btn-danger tooltips btn-sm delete' title='Eliminar' data-placement='top' data-original-title='Eliminar'  data-hrefa='/Admin/CatRangoPesoVenta/delete/'><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
@@ -134,13 +138,13 @@
                                 "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
 
                                 "<li>" +
-                                "<a class='edit' role='menuitem' tabindex='-1' data-id='"+ full["id_rango"]+ "'>" +
+                                "<a class='edit' role='menuitem' tabindex='-1' data-id='" + full["id_rango"] + "'>" +
                                 "<i class='fa fa-edit'></i> Editar" +
                                 "</a>" +
                                 "</li>" +
 
                                 "<li>" +
-                                "<a class='delete' role='menuitem' tabindex='-1' data-id='" + full["id_rango"] + "' data-hrefa='/Admin/CatRangoPesoVenta/RangoPesoVenta_del_RangoPesoVenta/'>" +
+                                "<a class='delete' role='menuitem' tabindex='-1' data-id='" + full["id_rango"] + "' data-hrefa='/Admin/CatRangoPesoVenta/delete/'>" +
                                 "<i class='fa fa-trash-o'></i> Eliminar" +
                                 "</a>" +
                                 "</li>" +
@@ -157,7 +161,7 @@
                     $(".edit").on("click", function () {
                         //edito el estado actual de la compra
                         var id = $(this).data("id");
-                        window.location.href = '/Admin/CatRangoPesoVenta/Edit?Id=' + id;
+                        window.location.href = '/Admin/CatRangoPesoVenta/Edit?id=' + id;
                     });
 
                     $(".delete").on("click", function () {

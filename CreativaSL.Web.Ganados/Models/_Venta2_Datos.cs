@@ -1645,7 +1645,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Flete.Trayecto.id_lugarOrigen,                    datos.Flete.Trayecto.id_lugarDestino,
                     //datos.Flete.CondicionPago,
                     //datos.Flete.MetodoPago.Clave,                           datos.Flete.FormaPago.Clave,
-                    datos.Flete.FechaTentativaEntrega
+                    datos.Flete.FechaTentativaEntrega,                      datos.TipoVenta 
                 };
 
                 RespuestaAjax RespuestaAjax = new RespuestaAjax();
