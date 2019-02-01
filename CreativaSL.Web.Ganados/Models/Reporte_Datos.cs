@@ -210,9 +210,46 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Servicio = !dr.IsDBNull(dr.GetOrdinal("Servicios")) ? dr.GetString(dr.GetOrdinal("Servicios")) : string.Empty;
                     Lista.Add(Item);
                 }
+                dr.Close();
                 return Lista;
             }
             catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        public List<RptRendimientoVehiculoModels> ListaRendimiento(RptRendimientoVehiculoModels Datos)
+        {
+            try
+            {
+                object[] Parametros = { Datos.FechaInicio, Datos.FechaFin, Datos.IDSucursal };
+                List<RptRendimientoVehiculoModels> Lista = new List<RptRendimientoVehiculoModels>();
+                RptRendimientoVehiculoModels Item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reporte_get_RendimientoVehiculo", Parametros);
+                while (dr.Read())
+                {
+                    Item = new RptRendimientoVehiculoModels();
+                    Item.NomSucursal = !dr.IsDBNull(dr.GetOrdinal("Sucursal")) ? dr.GetString(dr.GetOrdinal("Sucursal")) : string.Empty;
+                    Item.NomVehiculo = !dr.IsDBNull(dr.GetOrdinal("Vehiculo")) ? dr.GetString(dr.GetOrdinal("Vehiculo")) : string.Empty;
+                    Item.Fecha = !dr.IsDBNull(dr.GetOrdinal("Fecha")) ? dr.GetDateTime(dr.GetOrdinal("Fecha")) : DateTime.Today;
+                    Item.NomProveedor = !dr.IsDBNull(dr.GetOrdinal("Proveedor")) ? dr.GetString(dr.GetOrdinal("Proveedor")) : string.Empty;
+                    Item.NoTicket = !dr.IsDBNull(dr.GetOrdinal("NoTicket")) ? dr.GetString(dr.GetOrdinal("NoTicket")) : string.Empty;
+                    Item.Litros = !dr.IsDBNull(dr.GetOrdinal("Litros")) ? dr.GetDecimal(dr.GetOrdinal("Litros")) : 0;
+                    Item.KmInicial = !dr.IsDBNull(dr.GetOrdinal("KmInicial")) ? dr.GetInt32(dr.GetOrdinal("KmInicial")) : 0;
+                    Item.KmFinal = !dr.IsDBNull(dr.GetOrdinal("KmFinal")) ? dr.GetInt32(dr.GetOrdinal("KmFinal")) : 0;
+                    Item.Rendimiento = !dr.IsDBNull(dr.GetOrdinal("Rendimiento")) ? dr.GetDecimal(dr.GetOrdinal("Rendimiento")) : 0;
+                    Item.PrecioLitro = !dr.IsDBNull(dr.GetOrdinal("PrecioLitro")) ? dr.GetDecimal(dr.GetOrdinal("PrecioLitro")) : 0;
+                    Item.TotalCompra = !dr.IsDBNull(dr.GetOrdinal("Total")) ? dr.GetDecimal(dr.GetOrdinal("Total")) : 0;
+                    Item.TipoCombustible = !dr.IsDBNull(dr.GetOrdinal("TipoCombustible")) ? dr.GetString(dr.GetOrdinal("TipoCombustible")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                dr.Close();
+                return Lista;
+            }
+            catch (Exception)
             {
 
                 throw;
