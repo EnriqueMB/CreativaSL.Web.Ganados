@@ -1462,6 +1462,9 @@
     <Content Include="Areas\Admin\Views\CatEmpresa\AgregarArchivo.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Archivos.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\AgregarArchivo.cshtml" />
+    <Content Include="Areas\Admin\Views\CatTipoCliente\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatTipoCliente\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatTipoCliente\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatRangoPesoVenta\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatRangoPesoVenta\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatRangoPesoVenta\Edit.cshtml" />
@@ -1772,6 +1775,7 @@
     <Compile Include="Models\VerAlmacenInventarioModels.cs" />
     <Compile Include="Models\VerificacionJaulaModels.cs" />
     <Compile Include="Models\_Almacen_Datos.cs" />
+    <Compile Include="Models\CatTipoClienteModels.cs" />
     <Compile Include="Models\_AsistenciaEmpleados_Datos.cs" />
     <Compile Include="Models\_CatAlmacen_Datos.cs" />
     <Compile Include="Models\_CatBanco_Datos.cs" />
@@ -1802,6 +1806,7 @@
     <Compile Include="Models\_CatRemolque_Datos.cs" />
     <Compile Include="Models\_CatSocio_Datos.cs" />
     <Compile Include="Models\_CatSucursal_Datos.cs" />
+    <Compile Include="Models\_CatTipoCliente_Datos.cs" />
     <Compile Include="Models\_CatTipoProveedor_Datos.cs" />
     <Compile Include="Models\_CatTipoServicio_Datos.cs" />
     <Compile Include="Models\_CatTipoVehiculos_Datos.cs" />
@@ -1918,7 +1923,6 @@
     <Folder Include="ArchivosEmpresa\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\CatBodega\" />
-    <Folder Include="Areas\Admin\Views\CatTipoCliente\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Formatos\CartaPorte.rdlc" />
