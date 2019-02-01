@@ -14,17 +14,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     public class CatTipoClienteController : Controller
     {
         private TokenProcessor Token = TokenProcessor.GetInstance();
-        string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
+        string conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/CatTipoCliente
         public ActionResult Index()
         {
             try
             {
-                CatTipoClienteModels TipoCliente = new CatTipoClienteModels();
-                _CatTipoCliente_Datos TipoCliente_Datos = new _CatTipoCliente_Datos();
-                TipoCliente.Conexion = Conexion;
-                TipoCliente.listaTipoCliente = TipoCliente_Datos.ObtenerCatTipoCliente(TipoCliente);
-                return View(TipoCliente);
+                return View();
             }
             catch (Exception ex)
             {
@@ -44,8 +40,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 Token.SaveToken();
                 CatTipoClienteModels catTipoCliente = new CatTipoClienteModels();
-                _CatTipoCliente_Datos tipoCliente_Datos = new _CatTipoCliente_Datos();
-                catTipoCliente.Conexion = Conexion;
                 return View(catTipoCliente);
             }
             catch (Exception ex)
@@ -68,22 +62,20 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        catTipoCliente.Conexion = Conexion;
-                        catTipoCliente.id_tipoCliente = 1;
-                        catTipoCliente.Opcion = 1;
-                        catTipoCliente.Usuario = User.Identity.Name;
-                        catTipoCliente = tipoCliente_Datos.AcCatTipoCliente(catTipoCliente);
-                        if (catTipoCliente.Completado == true)
+                        string usuario = User.Identity.Name;
+                        RespuestaAjax respuesta = new RespuestaAjax();
+                        respuesta = tipoCliente_Datos.AcCatTipoCliente(catTipoCliente, conexion, usuario, 1);
+                        TempData["message"] = respuesta.Mensaje;
+
+                        if (respuesta.Success)
                         {
                             TempData["typemessage"] = "1";
-                            TempData["message"] = "El registro se guardo correctamente.";
                             Token.ResetToken();
                             return RedirectToAction("Index");
                         }
                         else
                         {
                             TempData["typemessage"] = "2";
-                            TempData["message"] = "Ocurrió un error al guardar el registro.";
                             return View(catTipoCliente);
                         }
                     }
@@ -94,6 +86,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
                 else
                 {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista";
                     return RedirectToAction("Index");
                 }
             }
@@ -104,16 +98,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         // GET: Admin/CatTipoCliente/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
             try
             {
+                if(id == null || id == 0)
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista";
+                    return RedirectToAction("Index");
+                }
                 Token.SaveToken();
                 CatTipoClienteModels catTipoCliente = new CatTipoClienteModels();
+                catTipoCliente.Id_tipoCliente = id.Value;
                 _CatTipoCliente_Datos tipoCliente_Datos = new _CatTipoCliente_Datos();
-                catTipoCliente.Conexion = Conexion;
-                catTipoCliente.id_tipoCliente = id;
-                catTipoCliente = tipoCliente_Datos.ObtenerDetalleCatTipoCliente(catTipoCliente);
+                catTipoCliente = tipoCliente_Datos.ObtenerDetalleCatTipoCliente(catTipoCliente, conexion);
                 return View(catTipoCliente);
             }
             catch (Exception)
@@ -127,7 +126,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CatTipoCliente/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, CatTipoClienteModels catTipoCliente)
+        public ActionResult Edit(CatTipoClienteModels catTipoCliente)
         {
             try
             {
@@ -139,28 +138,24 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         // TODO: Add insert logic here
                         _CatTipoCliente_Datos tipoCliente_Datos = new _CatTipoCliente_Datos();
-                        catTipoCliente.Conexion = Conexion;
 
-                        catTipoCliente.id_tipoCliente = id;
-                        catTipoCliente.Opcion = 2;
-                        catTipoCliente.Usuario = User.Identity.Name;
-                        catTipoCliente = tipoCliente_Datos.AcCatTipoCliente(catTipoCliente);
-                        if (catTipoCliente.Completado == true)
+                        string usuario = User.Identity.Name;
+                        RespuestaAjax respuesta = new RespuestaAjax();
+                        respuesta = tipoCliente_Datos.AcCatTipoCliente(catTipoCliente, conexion, usuario, 2);
+
+                        TempData["message"] = respuesta.Mensaje;
+
+                        if (respuesta.Success)
                         {
                             TempData["typemessage"] = "1";
-                            TempData["message"] = "El registro se guardo correctamente.";
                             Token.ResetToken();
                             return RedirectToAction("Index");
                         }
                         else
                         {
-
                             TempData["typemessage"] = "2";
-                            TempData["message"] = "Ocurrió un error al guardar el registro.";
                             return View(catTipoCliente);
                         }
-
-
                     }
                     else
                     {
@@ -169,6 +164,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
                 else
                 {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista";
                     return RedirectToAction("Index");
                 }
             }
@@ -178,47 +175,42 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/CatTipoCliente/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
         // POST: Admin/CatTipoCliente/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id)
         {
             try
             {
                 // TODO: Add delete logic here
-                CatTipoClienteModels catTipoCliente = new CatTipoClienteModels();
                 _CatTipoCliente_Datos tipoCliente_Datos = new _CatTipoCliente_Datos();
-                catTipoCliente.Conexion = Conexion;
-                catTipoCliente.id_tipoCliente = id;
-                catTipoCliente.Usuario = User.Identity.Name;
-                catTipoCliente = tipoCliente_Datos.EliminarTipoCliente(catTipoCliente);
+                string usuario = User.Identity.Name;
+                RespuestaAjax respuesta = new RespuestaAjax();
+                respuesta = tipoCliente_Datos.EliminarTipoCliente(id, usuario, conexion);
 
-                if (catTipoCliente.Completado == true)
-                {
-                    TempData["typemessage"] = "1";
-                    TempData["message"] = "El registro se elimino correctamente.";
-                    Token.ResetToken();
-                    return Json("1");
-                }
-                else
-                {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "No se pudo eliminar el registro";
-                    return Json("2");
-                }
+                return Content(respuesta.ToJSON(), "application/json");
             }
             catch
             {
-                CatClienteModels Producto = new CatClienteModels();
-                TempData["typemessage"] = "2";
-                TempData["message"] = "No se pudo borrar los datos. Por favor contacte a soporte técnico";
-                return Json("");
+                return View();
             }
         }
+
+        #region DataTable
+        [HttpPost]
+        public ActionResult LoadTblTipoCliente()
+        {
+            try
+            {
+                _CatTipoCliente_Datos Datos = new _CatTipoCliente_Datos();
+                string datatable = Datos.CatTipoCliente_index_CatTipoCliente(conexion);
+
+                return Content(datatable, "application/json");
+            }
+            catch (Exception ex)
+            {
+                return Content("", "application/json");
+            }
+        }
+        #endregion
     }
 }

@@ -1071,6 +1071,7 @@
     <Content Include="Content\js\serviciosMttoDetalle.js" />
     <Content Include="Content\js\settings.js" />
     <Content Include="Content\js\sucursal.js" />
+    <Content Include="Content\js\TipoCliente.js" />
     <Content Include="Content\js\TipoProveedor.js" />
     <Content Include="Content\js\TipoServicio.js" />
     <Content Include="Content\js\TipoVehiculo.js" />
@@ -1775,7 +1776,6 @@
     <Compile Include="Models\VerAlmacenInventarioModels.cs" />
     <Compile Include="Models\VerificacionJaulaModels.cs" />
     <Compile Include="Models\_Almacen_Datos.cs" />
-    <Compile Include="Models\CatTipoClienteModels.cs" />
     <Compile Include="Models\_AsistenciaEmpleados_Datos.cs" />
     <Compile Include="Models\_CatAlmacen_Datos.cs" />
     <Compile Include="Models\_CatBanco_Datos.cs" />

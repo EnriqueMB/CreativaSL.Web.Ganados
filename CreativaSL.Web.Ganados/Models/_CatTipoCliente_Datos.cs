@@ -9,115 +9,97 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class _CatTipoCliente_Datos
     {
-        public CatTipoClienteModels AcCatTipoCliente(CatTipoClienteModels datos)
+        public RespuestaAjax AcCatTipoCliente(CatTipoClienteModels datos, string conexion, string usuario, int opcion)
         {
             try
             {
-                int Resultado = 0;
                 object[] parametros =
                 {
-                    datos.Opcion,datos.id_tipoCliente,datos.descripcion ,datos.Usuario
+                    opcion, datos.Id_tipoCliente, datos.Descripcion , usuario
                 };
-                SqlDataReader dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_ac_CatTipoCliente", parametros);
+                SqlDataReader dr = SqlHelper.ExecuteReader(conexion, "spCSLDB_Catalogo_ac_CatTipoCliente", parametros);
+                RespuestaAjax respuesta = new RespuestaAjax();
                 while (dr.Read())
                 {
-                    Resultado = !dr.IsDBNull(dr.GetOrdinal("resultado")) ? dr.GetInt32(dr.GetOrdinal("resultado")) : 0;
-                    if (Resultado == 1)
-                    {
-                        datos.Completado = true;
-                    }
-                    else
-                    {
-                        datos.Completado = false;
-                    }
+                    respuesta.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    respuesta.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     break;
                 }
                 dr.Close();
-                return datos;
+                return respuesta;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public CatTipoClienteModels EliminarTipoCliente(CatTipoClienteModels datos)
+
+        public CatTipoClienteModels ObtenerDetalleCatTipoCliente(CatTipoClienteModels datos, string conexion)
         {
             try
             {
-                int Resultado = 0;
-                object[] parametros =
-                {
-                    datos.id_tipoCliente, datos.Usuario
-                };
-                SqlDataReader dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_del_CatTipoCliente", parametros);
+                object[] parametros = { datos.Id_tipoCliente };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "spCSLDB_Catalogo_get_CatTipoClienteXID", parametros);
                 while (dr.Read())
                 {
-                    Resultado = !dr.IsDBNull(dr.GetOrdinal("id_TipoCliente")) ? dr.GetInt32(dr.GetOrdinal("id_TipoCliente")) : 0;
-                    if (Resultado == 1)
-                    {
-                        datos.Completado = true;
-                    }
-                    else
-                    {
-                        datos.Completado = false;
-                    }
+
+                    datos.Id_tipoCliente = !dr.IsDBNull(dr.GetOrdinal("id_tipoCliente")) ? dr.GetInt32(dr.GetOrdinal("id_tipoCliente")) : 0;
+                    datos.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+
+                }
+                dr.Close();
+                return datos;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public RespuestaAjax EliminarTipoCliente(int id, string usuario, string conexion)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    id, usuario
+                };
+                SqlDataReader dr = SqlHelper.ExecuteReader(conexion, "spCSLDB_Catalogo_del_CatTipoCliente", parametros);
+                RespuestaAjax respuesta = new RespuestaAjax();
+
+                while (dr.Read())
+                {
+                    respuesta.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    respuesta.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
                     break;
                 }
                 dr.Close();
-                return datos;
+                return respuesta;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public CatTipoClienteModels ObtenerDetalleCatTipoCliente(CatTipoClienteModels datos)
+
+
+        public string CatTipoCliente_index_CatTipoCliente(string conexion)
         {
             try
             {
-                object[] parametros = { datos.id_tipoCliente };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_get_CatTipoClienteXID", parametros);
-                while (dr.Read())
-                {
+                dr = SqlHelper.ExecuteReader(conexion, "CatTipoCliente_index_CatTipoCliente");
+                string datatable = Auxiliar.SqlReaderToJson(dr);
 
-                    datos.id_tipoCliente = Convert.ToInt32(dr["id_tipoProveedor"].ToString());
-                    datos.descripcion = dr["descripcion"].ToString();
-
-                }
                 dr.Close();
-                return datos;
-            }
-
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public List<CatTipoClienteModels> ObtenerCatTipoCliente(CatTipoClienteModels Datos)
-        {
-            try
-            {
-                List<CatTipoClienteModels> lista = new List<CatTipoClienteModels>();
-                CatTipoClienteModels item;
-                SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Catalogo_get_CatTipoCliente");
-                while (dr.Read())
-                {
-                    item = new CatTipoClienteModels();
-                    item.id_tipoCliente = !dr.IsDBNull(dr.GetOrdinal("id_tipoCliente")) ? dr.GetInt32(dr.GetOrdinal("id_tipoCliente")) : 0;
-                    item.descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
-
-                    lista.Add(item);
-                }
-                dr.Close();
-                return lista;
+                return datatable;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-
         }
     }
 }
