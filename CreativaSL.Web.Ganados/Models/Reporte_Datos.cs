@@ -251,11 +251,39 @@ namespace CreativaSL.Web.Ganados.Models
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
 
+        public List<RptAlmacenModels> ListaAlmacen(RptAlmacenModels Datos)
+        {
+            try
+            {
+                object[] Parametros = { Datos.FechaInicio, Datos.FechaFin, Datos.IDSucursal };
+                List<RptAlmacenModels> Lista = new List<RptAlmacenModels>();
+                RptAlmacenModels Item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reporte_get_AlmacenExitencia", Parametros);
+                while (dr.Read())
+                {
+                    Item = new RptAlmacenModels();
+                    Item.NomSucursal = !dr.IsDBNull(dr.GetOrdinal("NomSucursal")) ? dr.GetString(dr.GetOrdinal("NomSucursal")) : string.Empty;
+                    Item.NomAlmacen = !dr.IsDBNull(dr.GetOrdinal("Almacen")) ? dr.GetString(dr.GetOrdinal("Almacen")) : string.Empty;
+                    Item.ClaveProducto = !dr.IsDBNull(dr.GetOrdinal("clave")) ? dr.GetString(dr.GetOrdinal("clave")) : string.Empty;
+                    Item.NomProducto = !dr.IsDBNull(dr.GetOrdinal("producto")) ? dr.GetString(dr.GetOrdinal("producto")) : string.Empty;
+                    Item.Existencia = !dr.IsDBNull(dr.GetOrdinal("existencia")) ? dr.GetDecimal(dr.GetOrdinal("existencia")) : 0;
+                    Item.NomUnidadMedida = !dr.IsDBNull(dr.GetOrdinal("unidadMedida")) ? dr.GetString(dr.GetOrdinal("unidadMedida")) : string.Empty;
+                    Item.Precio = !dr.IsDBNull(dr.GetOrdinal("precioUnidad")) ? dr.GetDecimal(dr.GetOrdinal("precioUnidad")) : 0;
+                    Item.Total = !dr.IsDBNull(dr.GetOrdinal("total")) ? dr.GetDecimal(dr.GetOrdinal("total")) : 0;
+                    Lista.Add(Item);
+                }
+                return Lista;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         #region REPORTE DE ANALISIS DE VENTA
 
