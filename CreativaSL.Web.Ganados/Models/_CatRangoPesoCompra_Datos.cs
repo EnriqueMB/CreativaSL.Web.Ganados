@@ -96,6 +96,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
         public CatRangoPesoCompraModels ObtenerDetalleCatRangoPesoCompra(CatRangoPesoCompraModels datos)
         {
             try

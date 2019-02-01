@@ -111,7 +111,8 @@
                 "Flete.Trayecto.id_lugarDestino": { required: true },
                 //"Flete.MetodoPago.Clave": { required: true },
                 //"Flete.FormaPago.Clave": {min: 1},
-                "Flete.FechaTentativaEntrega": {required: true }
+                "Flete.FechaTentativaEntrega": { required: true },
+                TipoVenta: { required: true }
             },
             messages: {
                 Id_sucursal: { required: "Por favor, seleccione una sucursal." },
@@ -131,7 +132,8 @@
                 "Flete.Trayecto.id_lugarDestino": { required: "Por favor, seleccione un lugar de destino." },
                 //"Flete.MetodoPago.Clave": { required: "Por favor, seleccioe un método de pago." },
                 //"Flete.FormaPago.Clave": { min: "Por favor, seleccione una forma de pago." },
-                "Flete.FechaTentativaEntrega": { required: "Por favor, seleccione una fecha tentativa del flete." }
+                "Flete.FechaTentativaEntrega": { required: "Por favor, seleccione una fecha tentativa del flete." },
+                TipoVenta: { required: "Por favor, seleccione un tipo de venta." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

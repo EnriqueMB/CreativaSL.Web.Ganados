@@ -1071,6 +1071,7 @@
     <Content Include="Content\js\serviciosMttoDetalle.js" />
     <Content Include="Content\js\settings.js" />
     <Content Include="Content\js\sucursal.js" />
+    <Content Include="Content\js\TipoCliente.js" />
     <Content Include="Content\js\TipoProveedor.js" />
     <Content Include="Content\js\TipoServicio.js" />
     <Content Include="Content\js\TipoVehiculo.js" />
@@ -1462,8 +1463,12 @@
     <Content Include="Areas\Admin\Views\CatEmpresa\AgregarArchivo.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\Archivos.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\AgregarArchivo.cshtml" />
+    <Content Include="Areas\Admin\Views\CatTipoCliente\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatTipoCliente\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatTipoCliente\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatRangoPesoVenta\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatRangoPesoVenta\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatRangoPesoVenta\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1614,6 +1619,7 @@
     <Compile Include="Models\CatSucursalesModels.cs" />
     <Compile Include="Models\CatTipoClasificacionCobroModels.cs" />
     <Compile Include="Models\CatTipoClasificacionModels.cs" />
+    <Compile Include="Models\CatTipoClienteModels.cs" />
     <Compile Include="Models\CatTipoCodigoProductoModels.cs" />
     <Compile Include="Models\CatTipoCombustibleModels.cs" />
     <Compile Include="Models\CatTipoConciliacionModels.cs" />
@@ -1801,6 +1807,7 @@
     <Compile Include="Models\_CatRemolque_Datos.cs" />
     <Compile Include="Models\_CatSocio_Datos.cs" />
     <Compile Include="Models\_CatSucursal_Datos.cs" />
+    <Compile Include="Models\_CatTipoCliente_Datos.cs" />
     <Compile Include="Models\_CatTipoProveedor_Datos.cs" />
     <Compile Include="Models\_CatTipoServicio_Datos.cs" />
     <Compile Include="Models\_CatTipoVehiculos_Datos.cs" />
@@ -1917,7 +1924,6 @@
     <Folder Include="ArchivosEmpresa\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\CatBodega\" />
-    <Folder Include="Areas\Admin\Views\CatTipoCliente\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Formatos\CartaPorte.rdlc" />

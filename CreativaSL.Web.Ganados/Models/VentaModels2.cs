@@ -10,6 +10,7 @@ namespace CreativaSL.Web.Ganados.Models
         /// <summary>
         /// Merma extra, solicitado por el cliente
         /// </summary>
+        public int TipoVenta { get; set; }
         public decimal ME { get; set; }
         public string Id_venta { get; set; }
         public string Id_cliente { get; set; }

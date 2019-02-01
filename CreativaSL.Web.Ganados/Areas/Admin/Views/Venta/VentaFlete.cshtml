@@ -162,6 +162,23 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-md-6 controlError">
+                            <label class="col-md-2 control-label">Tipo de venta</label>
+                            <div class="col-md-10 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.DropDownListFor(model => model.TipoVenta,
+                                    new SelectList(new List<SelectListItem> {
+                                        new SelectListItem { Text = "-- Seleccione --", Value = "" },
+                                        new SelectListItem { Text = "Directa", Value = "1" },
+                                        new SelectListItem { Text = "Por tipo de cliente", Value = "2" },
+                                    }, "Value", "Text"),
+                                        new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div id="divFlete">
                         <div class="form-group">

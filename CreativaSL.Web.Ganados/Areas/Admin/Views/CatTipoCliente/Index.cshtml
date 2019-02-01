@@ -4,7 +4,7 @@
 }
 
 @section css{
-    
+
 }
 
 
@@ -20,7 +20,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Rango de peso para venta</h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Tipos de clientes</h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -32,21 +32,17 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("Create","CatRangoPesoVenta")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Rango</a></li>
+                            <li><a href="@Url.Action("Create","CatTipoCliente")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo tipo</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                         </ul>
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table id="tbl_RangoPesoVenta" class="table">
+                            <table id="tbl_TipoCliente" class="table">
                                 <thead>
                                     <tr>
-                                        <th>Tipo Cliente</th>
-                                        <th>Género</th>
-                                        <th>Peso Minimo (Kg.)</th>
-                                        <th>Peso Maximo (Kg.)</th>
-                                        <th>Precio ($)</th>
+                                        <th>Descripcion</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
@@ -93,7 +89,7 @@
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
 
-            var Tbl_RangoPesoVenta = $('#tbl_RangoPesoVenta').DataTable({
+            var Tbl_TipoCliente = $('#tbl_TipoCliente').DataTable({
                 "language": {
                     "url": "/Content/assets/json/Spanish.json"
                 },
@@ -102,33 +98,20 @@
                     "data": {
 
                     },
-                    "url": "/Admin/CatRangoPesoVenta/LoadTblRangoPesoVenta/",
+                    "url": "/Admin/CatTipoCliente/LoadTblTipoCliente/",
                     "type": "POST",
                     "datatype": "json",
                     "dataSrc": ''
                 },
                 "columns": [
-                    { "data": "TipoCliente" },
-                    { "data": "Genero" },
-                    {
-                        "data": "pesoMinimo",
-                        render: $.fn.dataTable.render.number(',', '.', 0, '', ' Kg.')
-                    },
-                    {
-                        "data": "pesoMaximo",
-                        render: $.fn.dataTable.render.number(',', '.', 0, '', ' Kg.')
-                    },
-                    {
-                        "data": "precio",
-                        "render": $.fn.dataTable.render.number(',', '.', 2, '$')
-                    },
+                    { "data": "descripcion" },
                     {
                         "data": null,
                         "render": function (data, type, full) {
 
                             return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                                "<a data-id='" + full["id_rango"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Editar'><i class='fa fa-edit'></i></a>" +
-                                "<a data-id='" + full["id_rango"] + "' class='btn btn-danger tooltips btn-sm delete' title='Eliminar' data-placement='top' data-original-title='Eliminar'  data-hrefa='/Admin/CatRangoPesoVenta/delete/'><i class='fa fa-trash-o'></i></a>" +
+                                "<a data-id='" + full["id_tipoCliente"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Editar'><i class='fa fa-edit'></i></a>" +
+                                "<a data-id='" + full["id_tipoCliente"] + "' class='btn btn-danger tooltips btn-sm delete' title='Eliminar' data-placement='top' data-original-title='Eliminar'  data-hrefa='/Admin/CatTipoCliente/delete/'><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
@@ -138,13 +121,13 @@
                                 "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
 
                                 "<li>" +
-                                "<a class='edit' role='menuitem' tabindex='-1' data-id='" + full["id_rango"] + "'>" +
+                                "<a class='edit' role='menuitem' tabindex='-1' data-id='" + full["id_tipoCliente"] + "'>" +
                                 "<i class='fa fa-edit'></i> Editar" +
                                 "</a>" +
                                 "</li>" +
 
                                 "<li>" +
-                                "<a class='delete' role='menuitem' tabindex='-1' data-id='" + full["id_rango"] + "' data-hrefa='/Admin/CatRangoPesoVenta/delete/'>" +
+                                "<a class='delete' role='menuitem' tabindex='-1' data-id='" + full["id_tipoCliente"] + "' data-hrefa='/Admin/CatTipoCliente/delete/'>" +
                                 "<i class='fa fa-trash-o'></i> Eliminar" +
                                 "</a>" +
                                 "</li>" +
@@ -161,7 +144,7 @@
                     $(".edit").on("click", function () {
                         //edito el estado actual de la compra
                         var id = $(this).data("id");
-                        window.location.href = '/Admin/CatRangoPesoVenta/Edit?id=' + id;
+                        window.location.href = '/Admin/CatTipoCliente/Edit?id=' + id;
                     });
 
                     $(".delete").on("click", function () {
@@ -180,7 +163,7 @@
                                     if (result.Success) {
                                         box.find(".mb-control-yes").prop('onclick', null).off('click');
                                         Mensaje(result.Mensaje, "1");
-                                        Tbl_RangoPesoVenta.ajax.reload();
+                                        Tbl_TipoCliente.ajax.reload();
                                     }
                                     else
                                         Mensaje(result.Mensaje, "2");
