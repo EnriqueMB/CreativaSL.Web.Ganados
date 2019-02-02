@@ -1716,6 +1716,7 @@
     <Compile Include="Models\RespuestaAjax.cs" />
     <Compile Include="Models\ResumenGastosAjustesModels.cs" />
     <Compile Include="Models\ResumenGastosModels.cs" />
+    <Compile Include="Models\RptAlmacenModels.cs" />
     <Compile Include="Models\RptCuentaEstadoProveedorActualizadoModels.cs" />
     <Compile Include="Models\RptEntradaModels.cs" />
     <Compile Include="Models\RptEstadoCuentaProveedorModels.cs" />
@@ -1957,6 +1958,9 @@
     <Content Include="Reports\RptSocios.rdlc" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reports\ReporteAlmacen.rdlc">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\ReporteMantenimientoVehiculo.rdlc">
       <SubType>Designer</SubType>
     </EmbeddedResource>
