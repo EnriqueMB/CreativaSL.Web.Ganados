@@ -1469,6 +1469,7 @@
     <Content Include="Areas\Admin\Views\CatRangoPesoVenta\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatRangoPesoVenta\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatRangoPesoVenta\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\ModalListaPrecios.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />

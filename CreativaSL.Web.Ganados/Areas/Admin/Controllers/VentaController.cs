@@ -593,6 +593,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Venta = VentaDatos.GetVentaGanado(Venta);
                     if (Venta.RespuestaAjax.Success)
                     {
+                        ViewBag.TipoVenta = Venta.TipoVenta == 1 ? "Directa" : Venta.TipoVenta == 2 ? "Por rango de peso" : "Error";
+                        ViewBag.ListaDePrecios = VentaDatos.GetListadoPrecioRangoPeso(Venta.Id_venta, Conexion);
                         return View(Venta);
                     }
                     else
@@ -2359,6 +2361,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
+        public ActionResult ModalListaPrecios(string id_venta)
+        {
+            _Venta2_Datos Datos = new _Venta2_Datos();
+            ViewBag.ListaRangoPeso = Datos.GetListadoPrecioRangoPeso(id_venta, Conexion);
+
+            return PartialView("ModalListaPrecios");
+        }
 
     }
 }

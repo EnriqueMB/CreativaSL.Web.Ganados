@@ -1,5 +1,4 @@
-﻿@model CreativaSL.Web.Ganados.Models.CompraModels
-
+﻿
 <div class="modal-content">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -17,28 +16,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var RangoPrecio in Model.ListaRangoPeso)
-                {
-                    <tr>
-                        <td>
-                            @if (RangoPrecio.EsMacho)
-                            {
-                                @Html.Label("EsMacho", "Macho")
-                            }
-                            else
-                            {
-                                @Html.Label("EsMacho", "Hembra")
-                            }
-                        </td>
-                        <td>@RangoPrecio.PesoMinimo.ToString("0") Kg.</td>
-                        <td>@RangoPrecio.PesoMaximo.ToString("0") Kg.</td>
-                        <td>$@RangoPrecio.Precio.ToString("0.00")</td>
-                    </tr>
-            }
+                    @foreach (var RangoPrecio in ViewBag.ListaRangoPeso)
+                    {
+                        <tr>
+                            <td>
+                                @if (RangoPrecio.EsMacho)
+                                {
+                                    @Html.Label("EsMacho", "Macho")
+                                }
+                                else
+                                {
+                                    @Html.Label("EsMacho", "Hembra")
+                                }
+                            </td>
+                            <td>@RangoPrecio.PesoMinimo.ToString("0") Kg.</td>
+                            <td>@RangoPrecio.PesoMaximo.ToString("0") Kg.</td>
+                            <td>$@RangoPrecio.Precio.ToString("0.00")</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
-    </div> 
+    </div>
     <div class="form-group modal-footer">
         <div class="controls">
             <button type="button" class="btn btn-secondary red" data-dismiss="modal">Salir</button>

@@ -2,6 +2,8 @@
     "use strict";
     var Id_venta = $("#Id_venta").val();
     var Id_sucursal = $("#Id_sucursal").val();
+    var ListaDePrecios;
+    var TipoDeVenta = Number.parseInt($("#TipoVenta").val());
 
     var tblGanadoCorral, tblGanadoJaula;
     var ref_cabezas_machos = $("#CbzMachos");
@@ -13,6 +15,7 @@
     var ref_costoMachos = $("#CostoMachos");
     var ref_costoHembras = $("#CostoHembras");
     var ref_costoTotal = $("#CostoTotal");
+    var ref_montoTotalGanado = $("#MontoTotalGanado");
 
     var cabezas_machos = parseInt($("#CbzMachos").val());
     var cabezas_hembras = parseInt($("#CbzHembras").val());
@@ -23,6 +26,8 @@
     var costoMachos = Number.parseFloat($("#CostoMachos").val().replace("$", '')); 
     var costoHembras = Number.parseFloat($("#CostoHembras").val().replace("$", '')); 
     var costoTotal = Number.parseFloat($("#CostoTotal").val().replace("$", ''));
+
+    var montoTotalGanado = Number.parseFloat($("#MontoTotalGanado").val().replace("$", ''));
 
     var genero;
 
@@ -49,14 +54,21 @@
                 { "data": "numArete" },
                 { "data": "corral" },
                 { "data": "genero" },
-                { "data": "merma" },
-                { "data": "pesoPagado" },
-                { "data": "precioKilo",
-                "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                {
+                    "data": "merma",
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '', ' %')
+                },
+                {
+                    "data": "pesoPagado",
+                    "render": $.fn.dataTable.render.number(',', '.', 0, '', ' KG.')
+                },
+                {
+                    "data": "precioKilo",
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$')
                 },
                 {
                     "data": "subtotal",
-                    "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$')
                 },
             ],
             "columnDefs": [
@@ -92,16 +104,36 @@
                 { "data": "numArete" },
                 { "data": "corral" },
                 { "data": "genero" },
-                { "data": "merma" },
-                { "data": "pesoPagado" },
+                {
+                    "data": "merma",
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '', ' %')
+                },
+                {
+                    "data": "pesoPagado",
+                    "render": $.fn.dataTable.render.number(',', '.', 0, '', ' KG.')
+                },
                 {
                     "data": "precioKilo",
-                    "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$')
+                },
+                {
+                    "data": null,
+                    "render": function (data, type, row) {
+                        if (TipoDeVenta === 1) //venta directa
+                            return "$ 0.00";
+                        else if (TipoDeVenta === 2) //venta por rango de precios
+                        {
+                            if (row["pesoPagado"] === null || row["genero"] === null)
+                                return "$ 0.00";
+                            else
+                                return "$ " + Number.parseFloat(PrecioSugerido(row["pesoPagado"], row["genero"])).toFixed(2);
+                        }
+                    }
                 },
                 {
                     "data": "subtotal",
-                    "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
-                },
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$')
+                }
             ],
             "columnDefs": [
                 {
@@ -113,7 +145,54 @@
         });
     };
 
+    function PrecioSugerido(peso, genero) {
+        genero = (genero === "Macho" || genero === "MACHO") ? true : false;
+        for (var item in ListaDePrecios) {
+            if (ListaDePrecios[item].EsMacho === genero) {
+                if (ListaDePrecios[item].PesoMinimo <= peso && peso <= ListaDePrecios[item].PesoMaximo) {
+                    return ListaDePrecios[item].Precio.toFixed(2);
+                }
+            }
+        }
+        return 0;
+    }
+
     var initFuncionesGanado = function () {
+
+        $(".kg").maskMoney(
+            {
+                allowZero: true,
+                precision: 0,
+                suffix: ' kg'
+            }
+        );
+        $(".kgMerma").maskMoney(
+            {
+                allowZero: true,
+                precision: 2,
+                suffix: ' kg'
+            }
+        );
+        $(".merma").maskMoney(
+            {
+                allowZero: true,
+                precision: 2,
+                suffix: ' %'
+            }
+        );
+        $(".money").maskMoney(
+            {
+                allowZero: true,
+                precision: 2,
+                prefix: '$ '
+            }
+        );
+
+        $(".kg").maskMoney('mask');
+        $(".kgMerma").maskMoney('mask');
+        $(".merma").maskMoney('mask');
+        $(".money").maskMoney('mask');
+
         //Seleccionar filas 
         $('#tblGanadoCorral tbody').on('click', 'tr', function () {
             $(this).toggleClass('selected');
@@ -219,6 +298,9 @@
             for (var i = 0; i < rows.length; i++) {
                 var d = rows[i];
 
+                var precioSugerido = PrecioSugerido(d.pesoPagado, d.genero);
+                var subtotal = TipoDeVenta === 1 ? d.subtotal : precioSugerido * d.pesoPagado;
+
                 //lo agrego a la tabla jaula para su envio
                 tblGanadoJaula.row.add({
                     "id_ganado": d.id_ganado,
@@ -229,18 +311,20 @@
                     "merma": d.merma,
                     "pesoPagado": d.pesoPagado,
                     "precioKilo": d.precioKilo,
-                    "subtotal": d.subtotal
+                    [8]: precioSugerido,
+                    "subtotal": subtotal
                 }).draw();
 
                 //agrego los datos a los inputs
                 genero = d.genero;
                 genero = genero.trim();
-                if (genero.localeCompare("MACHO") == 0) {
+
+                if (genero.localeCompare("MACHO") === 0) {
                     cabezas_machos += 1;
                     kgMachos += d.pesoPagado;
                     costoMachos += d.subtotal;
                 }
-                else if (genero.localeCompare("HEMBRA") == 0) {
+                else if (genero.localeCompare("HEMBRA") === 0) {
                     cabezas_hembras += 1;
                     kgHembras += d.pesoPagado;
                     costoHembras += d.subtotal;
@@ -250,9 +334,13 @@
                 kgTotal = kgMachos + kgHembras;
                 costoTotal = costoMachos + costoHembras;
 
+                if (TipoDeVenta === 2) {
+                    montoTotalGanado += subtotal; 
+                }
+
                 ActualizarInputs();
             }
-            tblGanadoCorral.row('.selected').remove().draw(false);
+            tblGanadoCorral.rows('.selected').remove().draw(false);
         });
 
         $('#regresar').click(function () {
@@ -261,6 +349,13 @@
             for (var i = 0; i < rows.length; i++) {
                 var d = rows[i];
 
+                var arrayRow = Object.values(d);
+                var subtotal = TipoDeVenta === 1 ? d.subtotal : d.pesoPagado * d.precioKilo;
+                var pesoPagado = TipoDeVenta === 1 ? d.pesoPagado : arrayRow[7];
+
+                //console.log(d);
+                //console.log(arrayRow);
+
                 tblGanadoCorral.row.add({
                     "id_ganado": d.id_ganado,
                     "id_detalle": d.id_detalle,
@@ -268,43 +363,54 @@
                     "corral": d.corral,
                     "genero": d.genero,
                     "merma": d.merma,
-                    "pesoPagado": d.pesoPagado,
+                    "pesoPagado": pesoPagado,
                     "precioKilo": d.precioKilo,
-                    "subtotal": d.subtotal
+                    "subtotal": subtotal
                 }).draw();
 
                 //quito los datos a los inputs
                 genero = d.genero;
                 genero = genero.trim();
-                if (genero.localeCompare("MACHO") == 0) {
+                if (genero.localeCompare("MACHO") === 0 ) {
                     cabezas_machos -= 1;
-                    kgMachos -= d.pesoPagado;
-                    costoMachos -= d.subtotal;
+                    kgMachos -= pesoPagado;
+                    costoMachos -= subtotal;
                 }
-                else if (genero.localeCompare("HEMBRA") == 0) {
+                else if (genero.localeCompare("HEMBRA") === 0) {
                     cabezas_hembras -= 1;
-                    kgHembras -= d.pesoPagado;
-                    costoHembras -= d.subtotal;
+                    kgHembras -= pesoPagado;
+                    costoHembras -= subtotal;
                 }
                 cabezas_total = cabezas_machos + cabezas_hembras;
                 kgTotal = kgMachos + kgHembras;
                 costoTotal = costoMachos + costoHembras;
+
+                if (TipoDeVenta === 2) {
+                    var nuevoMontoTotalGanado = d.pesoPagado * Number.parseFloat(arrayRow[0]).toFixed(2);
+                    montoTotalGanado -= nuevoMontoTotalGanado;
+                }
+
                 ActualizarInputs();
         
             }
-            tblGanadoJaula.row('.selected').remove().draw(false);
+            tblGanadoJaula.rows('.selected').remove().draw(false);
         });
         
-        $('#ME').on({
-            "focus": function (event) {
-                $(event.target).select();
-            },
-            "keyup": function (event) {
-                $(event.target).val(function (index, v) {
-                    var number = cpf(v);
-                    return number;
-                });
-            }
+
+        $('#btnVerListaPrecios').on('click', function () {
+            $("body").css("cursor", "progress");
+            var Id_venta = document.getElementById("Id_venta").value;
+
+            $.ajax({
+                url: '/Admin/Venta/ModalListaPrecios/',
+                type: "POST",
+                data: { Id_venta: Id_venta },
+                success: function (data) {
+                    $("body").css("cursor", "default");
+                    $('#ContenidoModal').html(data);
+                    $('#Modal').modal({ backdrop: 'static', keyboard: false });
+                }
+            });
         });
     };
     function cpf(v) {
@@ -403,18 +509,22 @@
         ref_kgHembras.val(kgHembras);
         ref_kgTotal.val(kgTotal);
 
-        ref_costoMachos.val(costoMachos);
-        ref_costoHembras.val(costoHembras);
-        ref_costoTotal.val(costoTotal);
+        ref_costoMachos.val(costoMachos.toFixed(2));
+        ref_costoHembras.val(costoHembras.toFixed(2));
+        ref_costoTotal.val(costoTotal.toFixed(2));
+
+        ref_montoTotalGanado.val(montoTotalGanado.toFixed(2));
+
+        $(".kg").maskMoney('mask');
+        $(".kgMerma").maskMoney('mask');
+        $(".merma").maskMoney('mask');
+        $(".money").maskMoney('mask');
     }
     /*TERMINA GANADO*/
 
-
-
-
-
-       return {
-           init: function () {
+    return {
+           init: function (listaDePrecios) {
+               ListaDePrecios = listaDePrecios;
                initDataTables();
                initFuncionesGanado();
         }
