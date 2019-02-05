@@ -23,11 +23,11 @@
     var kgMachos = parseFloat($("#KgMachos").val());
     var kgHembras = parseFloat($("#KgHembras").val());
     var kgTotal = parseFloat($("#KgTotal").val());
-    var costoMachos = Number.parseFloat($("#CostoMachos").val().replace("$", '')); 
-    var costoHembras = Number.parseFloat($("#CostoHembras").val().replace("$", '')); 
-    var costoTotal = Number.parseFloat($("#CostoTotal").val().replace("$", ''));
+    var costoMachos = Number.parseFloat($("#CostoMachos").val().replace("$", '').replace(/,/g, "")); 
+    var costoHembras = Number.parseFloat($("#CostoHembras").val().replace("$", '').replace(/,/g, "")); 
+    var costoTotal = Number.parseFloat($("#CostoTotal").val().replace("$", '').replace(/,/g, "")); 
 
-    var montoTotalGanado = Number.parseFloat($("#MontoTotalGanado").val().replace("$", ''));
+    var montoTotalGanado = Number.parseFloat($("#MontoTotalGanado").val().replace("$", '').replace(/,/g, "")); 
 
     var genero;
 
@@ -117,16 +117,23 @@
                     "render": $.fn.dataTable.render.number(',', '.', 2, '$')
                 },
                 {
-                    "data": null,
+                    "data": "id_detalle",
                     "render": function (data, type, row) {
-                        if (TipoDeVenta === 1) //venta directa
+                        if (TipoDeVenta === 1) { //venta directa
                             return "$ 0.00";
+                        }
                         else if (TipoDeVenta === 2) //venta por rango de precios
                         {
-                            if (row["pesoPagado"] === null || row["genero"] === null)
+                            if (row["pesoPagado"] === null || row["genero"] === null) {
                                 return "$ 0.00";
-                            else
-                                return "$ " + Number.parseFloat(PrecioSugerido(row["pesoPagado"], row["genero"])).toFixed(2);
+                            }
+                            else {
+                                var pesoPagado = Number.parseFloat(row["pesoPagado"]).toFixed(2);
+                                var genero = row["genero"].trim();
+
+                                var nuevoPrecio = PrecioSugerido(pesoPagado, genero);
+                                return "$ " + Number.parseFloat(nuevoPrecio).toFixed(2);
+                            }
                         }
                     }
                 },
@@ -148,7 +155,7 @@
     function PrecioSugerido(peso, genero) {
         genero = (genero === "Macho" || genero === "MACHO") ? true : false;
         for (var item in ListaDePrecios) {
-            if (ListaDePrecios[item].EsMacho === genero) {
+            if (ListaDePrecios[item].EsMacho == genero) {
                 if (ListaDePrecios[item].PesoMinimo <= peso && peso <= ListaDePrecios[item].PesoMaximo) {
                     return ListaDePrecios[item].Precio.toFixed(2);
                 }
@@ -297,8 +304,10 @@
 
             for (var i = 0; i < rows.length; i++) {
                 var d = rows[i];
+                var pp = Number.parseFloat(d.pesoPagado).toFixed(2);
+                var ge = d.genero.trim();
 
-                var precioSugerido = PrecioSugerido(d.pesoPagado, d.genero);
+                var precioSugerido = PrecioSugerido(pp, ge);
                 var subtotal = TipoDeVenta === 1 ? d.subtotal : precioSugerido * d.pesoPagado;
 
                 //lo agrego a la tabla jaula para su envio
@@ -345,16 +354,12 @@
 
         $('#regresar').click(function () {
             var rows = tblGanadoJaula.rows('.selected').data();
-
             for (var i = 0; i < rows.length; i++) {
                 var d = rows[i];
 
                 var arrayRow = Object.values(d);
                 var subtotal = TipoDeVenta === 1 ? d.subtotal : d.pesoPagado * d.precioKilo;
-                var pesoPagado = TipoDeVenta === 1 ? d.pesoPagado : arrayRow[7];
-
-                //console.log(d);
-                //console.log(arrayRow);
+                var pesoPagado = TipoDeVenta === 1 ? d.pesoPagado : arrayRow.length == 10 ? arrayRow[7] : arrayRow[5];
 
                 tblGanadoCorral.row.add({
                     "id_ganado": d.id_ganado,
@@ -386,10 +391,13 @@
                 costoTotal = costoMachos + costoHembras;
 
                 if (TipoDeVenta === 2) {
-                    var nuevoMontoTotalGanado = d.pesoPagado * Number.parseFloat(arrayRow[0]).toFixed(2);
+                    var pesoPagado2 = d.pesoPagado;
+                    var precioXKilo2 = Number.parseFloat(PrecioSugerido(pesoPagado2, d.genero.trim())).toFixed(2);
+
+                    var nuevoMontoTotalGanado = pesoPagado2 * precioXKilo2;
+
                     montoTotalGanado -= nuevoMontoTotalGanado;
                 }
-
                 ActualizarInputs();
         
             }

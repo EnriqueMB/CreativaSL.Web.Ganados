@@ -219,11 +219,11 @@
                                             <span class="input-group-addon">$</span>
                                             @if (Model.TipoVenta == 1)
                                             {
-                                                @Html.TextBoxFor(model => model.MontoTotalGanado, new { @class = "form-control money", @type = "text" })
+                                                @Html.TextBoxFor(model => model.MontoTotalGanado, "{0:C2}", new { @class = "form-control money", @type = "text" })
                                             }
                                             else
                                             {
-                                                @Html.TextBoxFor(model => model.MontoTotalGanado, new { @class = "form-control money", @type = "text", @readonly = "readonly" })
+                                                @Html.TextBoxFor(model => model.MontoTotalGanado, "{0:C2}",new { @class = "form-control money", @type = "text", @readonly = "readonly" })
                                             }
                                         </div>
                                         <span class="help-block">MontoTotalGanado</span>

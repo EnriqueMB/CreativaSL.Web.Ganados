@@ -72,7 +72,7 @@
                                         @Html.ValidationMessageFor(model => model.ApellidoPat)
                                     </div>
                                 </div>
-                            </div>                            
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-12 control-label text-center">Apellido Materno</label>
@@ -86,35 +86,35 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            </div>
-                            <div class="col-md-12">
-                                @*<div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="col-md-6 col-xs-12 control-label text-center">¿Alta Nomina?</label>
-                                        <div class="col-md-6 col-xs-12">
-                                            @Html.CheckBoxFor(model => model.AltaNominal, new { @class = "icheckbox" })
-                                        </div>
-                                    </div>
-                                </div>*@
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="col-md-12 col-xs-12 control-label text-center"><span>* </span> Sucursal </label>
-                                        <div class="col-md-12 col-xs-12">
-                                            @Html.DropDownListFor(model => model.IDSucursalActual, new SelectList(Model.ListaCmbSucursal, "IDSucursal", "NombreSucursal"), new { id = "IDSucursalActual", @class = "form-control select", data_live_search = "true" })
-                                            @Html.ValidationMessageFor(model => model.IDSucursalActual)
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="col-md-12 col-xs-12 control-label text-center"><span>* </span>Grupo Sanguineo</label>
-                                        <div class="col-md-12 col-xs-12">
-                                            @Html.DropDownListFor(model => model.IDGrupoSanguineo, new SelectList(Model.ListaCmbGrupoSanguineo, "IDGrupoSanguineo", "descripcion"), new { id = "IDGrupoSanguineo", @class = "form-control select", data_live_search = "true" })
-                                            @Html.ValidationMessageFor(model => model.IDGrupoSanguineo)
-                                        </div>
+                        </div>
+                        <div class="col-md-12">
+                            @*<div class="col-md-4">
+                <div class="form-group">
+                    <label class="col-md-6 col-xs-12 control-label text-center">¿Alta Nomina?</label>
+                    <div class="col-md-6 col-xs-12">
+                        @Html.CheckBoxFor(model => model.AltaNominal, new { @class = "icheckbox" })
+                    </div>
+                </div>
+            </div>*@
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 col-xs-12 control-label text-center"><span>* </span> Sucursal </label>
+                                    <div class="col-md-12 col-xs-12">
+                                        @Html.DropDownListFor(model => model.IDSucursalActual, new SelectList(Model.ListaCmbSucursal, "IDSucursal", "NombreSucursal"), new { id = "IDSucursalActual", @class = "form-control select", data_live_search = "true" })
+                                        @Html.ValidationMessageFor(model => model.IDSucursalActual)
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 col-xs-12 control-label text-center"><span>* </span>Grupo Sanguineo</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        @Html.DropDownListFor(model => model.IDGrupoSanguineo, new SelectList(Model.ListaCmbGrupoSanguineo, "IDGrupoSanguineo", "descripcion"), new { id = "IDGrupoSanguineo", @class = "form-control select", data_live_search = "true" })
+                                        @Html.ValidationMessageFor(model => model.IDGrupoSanguineo)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                         </div>
                         <div class="col-md-12">
@@ -142,6 +142,32 @@
                         <div class="col-md-12">
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label class="col-md-12 control-label text-center"><span> </span>Fecha nacimiento</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.FechaNacimiento, "{0:dd/MM/yyyy}", new { @class = "form-control", placeholder = "Seleccione la fecha de nacimiento", @readonly = "true" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.FechaNacimiento)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center"><span> </span>Licencia</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.DirColonia, new { @class = "form-control", placeholder = "Ingrese la licencia de conducir" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Licencia)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label class="col-md-12 control-label text-center"><span> </span>Calle</label>
                                     <div class="col-md-12 col-xs-12">
                                         <div class="input-group">
@@ -164,7 +190,8 @@
                                     </div>
                                 </div>
                             </div>
-                          </div>
+                        </div>
+
                         <div class="form-group">
                         </div>
                         <div class="col-md-12">
@@ -193,7 +220,7 @@
                                 </div>
                             </div>
                         </div>
-                        </div>
+                    </div>
                     <div class="panel-footer">
                         <input type="submit" value="Guardar" class="btn btn-primary pull-right">
                         <a href="@Url.Action("Index","CatEmpleado")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
