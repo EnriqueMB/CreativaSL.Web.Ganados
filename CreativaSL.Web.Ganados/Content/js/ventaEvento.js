@@ -58,9 +58,18 @@
                 { "data": "id_ganado" },
                 { "data": "numArete" },
                 { "data": "genero" },
-                { "data": "pesoPagado" },
-                { "data": "precioKilo" },
-                { "data": "subtotal" }
+                {
+                    "data": "pesoPagado",
+                    "render": $.fn.dataTable.render.number(',', '.', 0, '', ' kg')
+                },
+                {
+                    "data": "precioKilo",
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$')
+                },
+                {
+                    "data": "subtotal",
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$')
+                }
             ],
             "columnDefs": [
                 {
@@ -89,9 +98,18 @@
                 { "data": "id_ganado" },
                 { "data": "numArete" },
                 { "data": "genero" },
-                { "data": "pesoPagado" },
-                { "data": "precioKilo" },
-                { "data": "subtotal" }
+                {
+                    "data": "pesoPagado",
+                    "render": $.fn.dataTable.render.number(',', '.', 0, '', ' kg')
+                },
+                {
+                    "data": "precioKilo",
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$')
+                },
+                {
+                    "data": "subtotal",
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$')
+                }
             ],
             "columnDefs": [
                 {

@@ -1057,6 +1057,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Venta.CostoTotal = !dr.IsDBNull(dr.GetOrdinal("costoTotal")) ? dr.GetDecimal(dr.GetOrdinal("costoTotal")) : 0;
                     Venta.ME = !dr.IsDBNull(dr.GetOrdinal("me")) ? dr.GetDecimal(dr.GetOrdinal("me")) : 0;
                     Venta.Id_sucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty;
+                    Venta.TipoVenta = !dr.IsDBNull(dr.GetOrdinal("tipoVenta")) ? dr.GetInt16(dr.GetOrdinal("tipoVenta")) : 0;
+                    Venta.MontoTotalGanado = !dr.IsDBNull(dr.GetOrdinal("montoTotalGanado")) ? dr.GetDecimal(dr.GetOrdinal("montoTotalGanado")) : 0;
                 }
                 else
                 {
@@ -1673,7 +1675,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    datos.Id_venta, datos.ListaIDGanadosParaVender, datos.Usuario, datos.ME
+                    datos.Id_venta, datos.ListaIDGanadosParaVender, datos.Usuario, datos.ME, datos.MontoTotalGanado
                 };
 
                 RespuestaAjax RespuestaAjax = new RespuestaAjax();
@@ -2243,6 +2245,38 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
         #endregion
+
+        public List<CatRangoPesoVentaModels> GetListadoPrecioRangoPeso(string id_venta, string conexion)
+        {
+            try
+            {
+                object[] parametros = { id_venta };
+                CatRangoPesoVentaModels RangoPeso;
+                List<CatRangoPesoVentaModels> listaRangoPeso = new List<CatRangoPesoVentaModels>();
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "spCSLDB_Venta_get_ListadoPrecioRangoPesoXIDTipoCliente", parametros);
+                while (dr.Read())
+                {
+                    RangoPeso = new CatRangoPesoVentaModels
+                    {
+                        Id_rango = !dr.IsDBNull(dr.GetOrdinal("id_rango")) ? dr.GetInt32(dr.GetOrdinal("id_rango")) : 0,
+                        PesoMinimo = !dr.IsDBNull(dr.GetOrdinal("pesoMinimo")) ? dr.GetDecimal(dr.GetOrdinal("pesoMinimo")) : 0,
+                        PesoMaximo = !dr.IsDBNull(dr.GetOrdinal("pesoMaximo")) ? dr.GetDecimal(dr.GetOrdinal("pesoMaximo")) : 0,
+                        EsMacho = !dr.IsDBNull(dr.GetOrdinal("esMacho")) ? dr.GetBoolean(dr.GetOrdinal("esMacho")) : false,
+                        Precio = !dr.IsDBNull(dr.GetOrdinal("precio")) ? dr.GetDecimal(dr.GetOrdinal("precio")) : 0
+                    };
+
+                    listaRangoPeso.Add(RangoPeso);
+                }
+                dr.Close();
+                return listaRangoPeso;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 }

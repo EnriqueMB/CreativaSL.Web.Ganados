@@ -66,7 +66,9 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.DirNumero ?? string.Empty,
                     datos.Telefono ?? string.Empty,
                     datos.IDGrupoSanguineo,
-                    datos.Usuario ?? string.Empty
+                    datos.Usuario ?? string.Empty,
+                    datos.FechaNacimiento,
+                    datos.Licencia
                 };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatEmpleado", parametros);
                 datos.IDEmpleado = aux.ToString();
@@ -111,6 +113,8 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.DirNumero = !dr.IsDBNull(dr.GetOrdinal("DirNumero")) ? dr.GetString(dr.GetOrdinal("DirNumero")) : string.Empty;
                     datos.Telefono = !dr.IsDBNull(dr.GetOrdinal("Telefono")) ? dr.GetString(dr.GetOrdinal("Telefono")) : string.Empty;
                     datos.IDGrupoSanguineo = !dr.IsDBNull(dr.GetOrdinal("IDGrupoSanguineo")) ? dr.GetInt32(dr.GetOrdinal("IDGrupoSanguineo")) : 0;
+                    datos.FechaNacimiento = !dr.IsDBNull(dr.GetOrdinal("fechaNacimiento")) ? dr.GetDateTime(dr.GetOrdinal("fechaNacimiento")) : DateTime.Today;
+                    datos.Licencia = !dr.IsDBNull(dr.GetOrdinal("licencia")) ? dr.GetString(dr.GetOrdinal("licencia")) : string.Empty;
                 }
                 dr.Close();
                 return datos;

@@ -147,8 +147,8 @@
 			// Store raw options for reference
 			this._o = $.extend({}, this._o, opts);
 			// Processed options
-			var o = this.o = $.extend({}, this._o);
-
+            var o = this.o = $.extend({}, this._o);
+            o.language = "es";
 			// Check if "de-DE" style date is available, if not language should
 			// fallback to 2 letter code eg "de"
 			var lang = o.language;

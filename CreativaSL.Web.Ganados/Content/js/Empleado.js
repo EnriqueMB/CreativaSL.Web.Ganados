@@ -79,7 +79,7 @@
 
     var runDatePicker = function ()
     {
-        $('#FechaIngreso').datepicker({
+        $('#FechaNacimiento').datepicker({
             format: 'dd/mm/yyyy'
         });
     };
@@ -120,6 +120,7 @@
         init: function () {
             runValidator1();
             runCombos();
+            runDatePicker();
         }
     };
 }();
