@@ -1312,8 +1312,8 @@
             <DataSetName>ListaAlmacen</DataSetName>
             <Top>0.47308cm</Top>
             <Left>0.25612cm</Left>
-            <Height>2.47937cm</Height>
-            <Width>18.98169cm</Width>
+            <Height>2.47938cm</Height>
+            <Width>18.9817cm</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2157,6 +2157,7 @@
       </CellDefinitions>
     </GridLayoutDefinition>
   </ReportParametersLayout>
+  <Language>es-MX</Language>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
   <rd:ReportID>f3fd7d88-2857-404b-9afb-86c0f212afce</rd:ReportID>
 </Report>

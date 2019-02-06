@@ -277,6 +277,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Total = !dr.IsDBNull(dr.GetOrdinal("total")) ? dr.GetDecimal(dr.GetOrdinal("total")) : 0;
                     Lista.Add(Item);
                 }
+                dr.Close();
                 return Lista;
             }
             catch (Exception)
@@ -284,6 +285,71 @@ namespace CreativaSL.Web.Ganados.Models
                 throw;
             }
         }
+
+        public List<RptEntadaAlmacenModels> ListaEntradaAlmacen(RptEntadaAlmacenModels Datos)
+        {
+            try
+            {
+                object[] Parametros = { Datos.FechaInicio, Datos.FechaFin, Datos.IDSucursal };
+                List<RptEntadaAlmacenModels> Lista = new List<RptEntadaAlmacenModels>();
+                RptEntadaAlmacenModels Item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reportes_get_ReporteEntradasAlmacen", Parametros);
+                while (dr.Read())
+                {
+                    Item = new RptEntadaAlmacenModels();
+                    Item.Folio = !dr.IsDBNull(dr.GetOrdinal("FolioEntrada")) ? dr.GetString(dr.GetOrdinal("FolioEntrada")) : string.Empty;
+                    Item.FechaEntrega = !dr.IsDBNull(dr.GetOrdinal("FechaEntrada")) ? dr.GetDateTime(dr.GetOrdinal("FechaEntrada")) : DateTime.Today;
+                    Item.NombreAlmacen = !dr.IsDBNull(dr.GetOrdinal("NombreAlmacen")) ? dr.GetString(dr.GetOrdinal("NombreAlmacen")) : string.Empty;
+                    Item.Producto = !dr.IsDBNull(dr.GetOrdinal("Producto")) ? dr.GetString(dr.GetOrdinal("Producto")) : string.Empty;
+                    Item.CantidadPro = !dr.IsDBNull(dr.GetOrdinal("Cantidad")) ? dr.GetDecimal(dr.GetOrdinal("Cantidad")) : 0;
+                    Item.NumFactura = !dr.IsDBNull(dr.GetOrdinal("NumFacturaNota")) ? dr.GetString(dr.GetOrdinal("NumFacturaNota")) : string.Empty;
+                    Item.CantidadEntrega = !dr.IsDBNull(dr.GetOrdinal("CantidadEntrega")) ? dr.GetDecimal(dr.GetOrdinal("CantidadEntrega")) : 0;
+                    Item.UnidadMedida = !dr.IsDBNull(dr.GetOrdinal("UnidadMedida")) ? dr.GetString(dr.GetOrdinal("UnidadMedida")) : string.Empty;
+                    Item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("nombreSuc")) ? dr.GetString(dr.GetOrdinal("nombreSuc")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                dr.Close();
+                return Lista;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public List<RptSalidaAlmacenModels> ListaSalidaAlmacen(RptSalidaAlmacenModels Datos)
+        {
+            try
+            {
+                object[] Parametros = { Datos.FechaInicio, Datos.FechaFin, Datos.IDSucursal };
+                List<RptSalidaAlmacenModels> Lista = new List<RptSalidaAlmacenModels>();
+                RptSalidaAlmacenModels Item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reportes_get_ReporteSalidaAlmacen", Parametros);
+                while (dr.Read())
+                {
+                    Item = new RptSalidaAlmacenModels();
+                    Item.Folio = !dr.IsDBNull(dr.GetOrdinal("folioSalida")) ? dr.GetString(dr.GetOrdinal("folioSalida")) : string.Empty;
+                    Item.FechaSalida = !dr.IsDBNull(dr.GetOrdinal("fechaSalida")) ? dr.GetDateTime(dr.GetOrdinal("fechaSalida")) : DateTime.Today;
+                    Item.NomAlmacen = !dr.IsDBNull(dr.GetOrdinal("NombreAlmacen")) ? dr.GetString(dr.GetOrdinal("NombreAlmacen")) : string.Empty;
+                    Item.Producto = !dr.IsDBNull(dr.GetOrdinal("Producto")) ? dr.GetString(dr.GetOrdinal("Producto")) : string.Empty;
+                    Item.Cantidad = !dr.IsDBNull(dr.GetOrdinal("Cantidad")) ? dr.GetDecimal(dr.GetOrdinal("Cantidad")) : 0;
+                    Item.UnidadMedida = !dr.IsDBNull(dr.GetOrdinal("UnidadMedida")) ? dr.GetString(dr.GetOrdinal("UnidadMedida")) : string.Empty;
+                    Item.Empleado = !dr.IsDBNull(dr.GetOrdinal("Empleado")) ? dr.GetString(dr.GetOrdinal("Empleado")) : string.Empty;
+                    Item.NomSucursal = !dr.IsDBNull(dr.GetOrdinal("nombreSuc")) ? dr.GetString(dr.GetOrdinal("nombreSuc")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                dr.Close();
+                return Lista;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
 
         #region REPORTE DE ANALISIS DE VENTA
 
