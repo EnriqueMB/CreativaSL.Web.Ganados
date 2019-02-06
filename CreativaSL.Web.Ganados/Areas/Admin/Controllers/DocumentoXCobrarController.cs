@@ -1,9 +1,11 @@
 ﻿using CreativaSL.Web.Ganados.App_Start;
 using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
+using Microsoft.Reporting.WebForms;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -248,6 +250,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
         }
+
         public ActionResult DetailsPagos(string id, int id2)
         {
             try
@@ -633,6 +636,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
             }
         }
+
         public ActionResult PagosDelete(string id, string id2)
         {
             try
@@ -1114,5 +1118,101 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
+
+        #region Exportar a excel
+        public ActionResult ReporteExcel()
+        {
+            try
+            {
+                //Cabecera
+                Reporte_Datos R = new Reporte_Datos();
+                CatEmpresaModels Empresa = new CatEmpresaModels();
+                _CatEmpresa_Datos EmpresaDatos = new _CatEmpresa_Datos();
+                Empresa.Conexion = Conexion;
+                Empresa = EmpresaDatos.GetDatosEmpresaPrincipal(Empresa);
+
+                //Lista
+                DocumentosPorCobrarModels Documentos = new DocumentosPorCobrarModels();
+                _DocumentoXCobrar_Datos DocumentosDatos = new _DocumentoXCobrar_Datos();
+                Documentos.Conexion = Conexion;
+                Documentos.ListaDocumentos = DocumentosDatos.ObtenerListaDocumentosCobrar(Documentos);
+
+                for (int i = 0; i < Documentos.ListaDocumentos.Count ; i++)
+                {
+                    Documentos.ListaDocumentos[i].TotalString = Auxiliar.StringToMoneda_MX(Documentos.ListaDocumentos[i].Total.ToString());
+                    Documentos.ListaDocumentos[i].PagadoString = Auxiliar.StringToMoneda_MX(Documentos.ListaDocumentos[i].MontoPagado.ToString());
+                    Documentos.ListaDocumentos[i].PendienteString = Auxiliar.StringToMoneda_MX(Documentos.ListaDocumentos[i].Pendiente.ToString());
+                }
+
+                LocalReport Rtp = new LocalReport();
+                Rtp.EnableExternalImages = true;
+                Rtp.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Formatos"), "ConcentradoDocumentosPorCobrar.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+
+                string GeneralesEmpresa = "<b>Representante: </b>" + Empresa.Representante + "<br/>";
+                GeneralesEmpresa += "<b>RFC: </b>" + Empresa.RFC + "<br/>";
+                GeneralesEmpresa += "<b>Horario de atención: </b>" + Empresa.HorarioAtencion + "<br/>";
+                string Telefonos = string.IsNullOrEmpty(Empresa.NumTelefonico1) ? string.Empty : Empresa.NumTelefonico1;
+                Telefonos += string.IsNullOrEmpty(Empresa.NumTelefonico2) ? string.Empty : " " + Empresa.NumTelefonico1;
+                if (!string.IsNullOrEmpty(Telefonos))
+                    GeneralesEmpresa += "<b>Teléfono(s): </b>" + Telefonos + "<br/>";
+                if (!string.IsNullOrEmpty(Empresa.Email))
+                    GeneralesEmpresa += "<b>Email: </b>" + Empresa.Email;
+
+                ReportParameter[] Parametros = new ReportParameter[4];
+                Parametros[0] = new ReportParameter("LogoEmpresa", Empresa.LogoEmpresa);
+                Parametros[1] = new ReportParameter("NombreEmpresa", Empresa.RazonFiscal);
+                Parametros[2] = new ReportParameter("DireccionEmpresa", Empresa.DireccionFiscal);
+                Parametros[3] = new ReportParameter("GeneralesEmpresa", GeneralesEmpresa);
+
+                Rtp.SetParameters(Parametros);
+                Documentos.ListaDocumentos = Documentos.ListaDocumentos.OrderByDescending(x => x.Fecha).ToList();
+
+                Rtp.DataSources.Add(new ReportDataSource("Lista", Documentos.ListaDocumentos));
+                Rtp.Refresh();
+
+                string reportType = "EXCEL";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + "Documentos por cobrar" + "</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception ex)
+            {
+
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
+                return View("Index");
+            }
+        }
+        #endregion
+
     }
 }

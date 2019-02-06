@@ -29,7 +29,8 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                           <li><a href="@Url.Action("Create","DocumentoXPagar")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Documento</a></li>
+                            <li><a href="@Url.Action("Create","DocumentoXPagar")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Documento</a></li>
+                            <li><a href="@Url.Action("ReporteExcel","DocumentoXPagar")" class="btn btn-default btnCrear"><span class="fa fa-file-text"></span> Generar excel</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                         </ul>
@@ -43,60 +44,45 @@
                             <div class="panel-body tab-content">
                                 <div class="tab-pane active" id="tab-first">
                                     <div class="table-responsive">
-                                        <table class="table datatable">
+                                        <table id="tbl1" class="table">
                                             <thead>
                                                 <tr>
-                                                    <th>Tipo Documento</th>
-                                                    <th>No. Factura / Folio</th>
+                                                    <th>Fecha</th>
+                                                    <th>Pertenece</th>
+                                                    <th>No. Folio</th>
+                                                    <th>Total</th>
+                                                    <th>Pagado</th>
+                                                    <th>Saldo</th>
                                                     <th>Sucursal</th>
                                                     <th>Estatus</th>
-                                                    <th>Fecha</th>
-                                                    <th>Total</th>
-                                                    <th>Pendiente</th>
                                                     <th>Acción</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach (var Doc in Model.ListaDocumentos)
-                                            {
+                                                {
                                                     if (Doc.EsSistema == false)
                                                     {
                                                 <tr id="@Doc.IDDocumentoPagar">
-                                                    @if (Doc.IDTipoDocumento == 1)
+                                                    <td>@Doc.Fecha.ToShortDateString()</td>
+                                                    <td>@Doc.NombreRazonSocial</td>
+                                                    <td>@Doc.numFactura</td>
+                                                    <td>@Doc.Total.ToString("C2")</td>
+                                                    <td>@Doc.MontoPagado.ToString("C2")</td>
+                                                    <td>@Doc.Pendientes.ToString("C2")</td>
+                                                    <td>@Doc.NombreSucursal</td>
+                                                    @if (Doc.IDEstatus == 1)
                                                     {
-                                                      <td>Compra</td>
-                                                    }
-                                                    else if (Doc.IDTipoDocumento == 2)
-                                                    {
-                                                      <td>Compra Almacen</td>
-                                                    }
-                                                    else if (Doc.IDTipoDocumento == 3)
-                                                    {
-                                                      <td>Entrega Combustible</td>
-                                                    }
-                                                    else if (Doc.IDTipoDocumento == 4)
-                                                    {
-                                                       <td>Mtto Servicio</td>
-                                                    }
-                                                    else if (Doc.IDTipoDocumento == 5)
-                                                    {
-                                                      <td>No sistema</td>
-                                                    }
-                                                        <td>@Doc.numFactura</td>
-                                                        <td>@Doc.NombreSucursal</td>
-                                                        @if (Doc.IDEstatus == 1)
-                                                        {
                                                         <td><span class="label label-success">@Doc.EstatusNombre</span></td>
-                                                        }
-                                                        else
-                                                        {
+                                                    }
+                                                    else
+                                                    {
                                                         <td><span class="label label-primary">@Doc.EstatusNombre</span></td>
-                                                        }
-                                                        <td>@Doc.Fecha.ToShortDateString()</td>
-                                                        <td>@Doc.Total.ToString("C2")</td>
-                                                        <td>@Doc.Pendientes.ToString("C2")</td>
-                                                        @if (Doc.EsSistema)
-                                                        {
+                                                    }
+
+
+                                                    @if (Doc.EsSistema)
+                                                    {
                                                         <td style="text-align:center;">
                                                             <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                                 <a title="Detalle Documento" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento })" class="btn btn-green tooltips" data-placement="top" data-original-title="Detalle Documento"><i class="fa fa-eye"></i></a>
@@ -122,9 +108,9 @@
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        }
-                                                        else
-                                                        {
+                                                    }
+                                                    else
+                                                    {
                                                         <td style="text-align:center;">
                                                             <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                                 <a title="Detalle Documento" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento })" class="btn btn-green tooltips" data-placement="top" data-original-title="Detalle Documento"><i class="fa fa-eye"></i></a>
@@ -150,27 +136,28 @@
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        }
-
-                                                    </tr>
-                                                        }
                                                     }
+
+                                                </tr>
+                                                    }
+                                                }
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="tab-second">
                                     <div class="table-responsive">
-                                        <table class="table datatable">
+                                        <table id="tbl2" class="table">
                                             <thead>
                                                 <tr>
-                                                    <th>Tipo Documento</th>
-                                                    <th>No. Factura / Folio</th>
+                                                    <th>Fecha</th>
+                                                    <th>Pertenece</th>
+                                                    <th>No. Folio</th>
+                                                    <th>Total</th>
+                                                    <th>Pagado</th>
+                                                    <th>Saldo</th>
                                                     <th>Sucursal</th>
                                                     <th>Estatus</th>
-                                                    <th>Fecha</th>
-                                                    <th>Total</th>
-                                                    <th>Pendiente</th>
                                                     <th>Acción</th>
                                                 </tr>
                                             </thead>
@@ -179,98 +166,81 @@
                                                 {
                                                     if (Doc.EsSistema == true)
                                                     {
-                                                        <tr id="@Doc.IDDocumentoPagar">
-                                                            @if (Doc.IDTipoDocumento == 1)
-                                                            {
-                                                                <td>Compra</td>
-                                                            }
-                                                            else if (Doc.IDTipoDocumento == 2)
-                                                            {
-                                                                <td>Compra Almacen</td>
-                                                            }
-                                                            else if (Doc.IDTipoDocumento == 3)
-                                                            {
-                                                                <td>Entrega Combustible</td>
-                                                            }
-                                                            else if (Doc.IDTipoDocumento == 4)
-                                                            {
-                                                                <td>Mtto Servicio</td>
-                                                            }
-                                                            else if (Doc.IDTipoDocumento == 5)
-                                                            {
-                                                                <td>No sistema</td>
-                                                            }
-                                                            <td>@Doc.numFactura</td>
-                                                            <td>@Doc.NombreSucursal</td>
-                                                            @if (Doc.IDEstatus == 1)
-                                                            {
-                                                                <td><span class="label label-success">@Doc.EstatusNombre</span></td>
-                                                            }
-                                                            else
-                                                            {
-                                                                <td><span class="label label-primary">@Doc.EstatusNombre</span></td>
-                                                            }
-                                                            <td>@Doc.Fecha.ToShortDateString()</td>
-                                                            <td>@Doc.Total.ToString("C2")</td>
-                                                            <td>@Doc.Pendientes.ToString("C2")</td>
-                                                            @if (Doc.EsSistema)
-                                                            {
-                                                                <td style="text-align:center;">
-                                                                    <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                                        <a title="Detalle Documento" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento })" class="btn btn-green tooltips" data-placement="top" data-original-title="Detalle Documento"><i class="fa fa-eye"></i></a>
-                                                                        <a title="Pagos" class="btn btn-green" href="@Url.Action("DetailsPagos", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar,id2=Doc.IDEstatus })"><i class="fa fa-money"></i></a>
-                                                                     </div>
-                                                                    <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                                        <div class="btn-group">
-                                                                            <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                                                <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                                            </a>
-                                                                            <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                                                <li>
-                                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento })">
-                                                                                        <i class="fa fa-eye"></i> Detalle Documento
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("DetailsPagos", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar ,id2=Doc.IDEstatus})">
-                                                                                        <i class="fa fa-money"></i> Detalle de pagos
-                                                                                    </a>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            }
-                                                            else
-                                                            {
-                                                                <td style="text-align:center;">
-                                                                    <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                                        <a title="Detalle Documento" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento })" class="btn btn-green tooltips" data-placement="top" data-original-title="Detalle Documento"><i class="fa fa-eye"></i></a>
-                                                                        <a title="Pagos" class="btn btn-green" href="@Url.Action("DetallePagos", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar,id2=Doc.IDEstatus })"><i class="fa fa-money"></i></a>
-                                                                    </div>
-                                                                    <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                                        <div class="btn-group">
-                                                                            <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                                                <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                                            </a>
-                                                                            <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                                                <li>
-                                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento })">
-                                                                                        <i class="fa fa-eye"></i> Detalle Documento
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("DetallePagos", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar ,id2=Doc.IDEstatus})">
-                                                                                        <i class="fa fa-money"></i> Detalle de pagos
-                                                                                    </a>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            }
+                                                <tr id="@Doc.IDDocumentoPagar">
+                                                    <td>@Doc.Fecha.ToShortDateString()</td>
+                                                    <td>@Doc.NombreRazonSocial</td>
+                                                    <td>@Doc.numFactura</td>
+                                                    <td>@Doc.Total.ToString("C2")</td>
+                                                    <td>@Doc.MontoPagado.ToString("C2")</td>
+                                                    <td>@Doc.Pendientes.ToString("C2")</td>
+                                                    <td>@Doc.NombreSucursal</td>
+                                                    @if (Doc.IDEstatus == 1)
+                                                    {
+                                                        <td><span class="label label-success">@Doc.EstatusNombre</span></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td><span class="label label-primary">@Doc.EstatusNombre</span></td>
+                                                    }
 
-                                                        </tr>
+                                                    @if (Doc.EsSistema)
+                                                    {
+                                                        <td style="text-align:center;">
+                                                            <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                                <a title="Detalle Documento" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento })" class="btn btn-green tooltips" data-placement="top" data-original-title="Detalle Documento"><i class="fa fa-eye"></i></a>
+                                                                <a title="Pagos" class="btn btn-green" href="@Url.Action("DetailsPagos", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar,id2=Doc.IDEstatus })"><i class="fa fa-money"></i></a>
+                                                            </div>
+                                                            <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                                <div class="btn-group">
+                                                                    <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                        <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                                    </a>
+                                                                    <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                        <li>
+                                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento })">
+                                                                                <i class="fa fa-eye"></i> Detalle Documento
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("DetailsPagos", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar ,id2=Doc.IDEstatus})">
+                                                                                <i class="fa fa-money"></i> Detalle de pagos
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="text-align:center;">
+                                                            <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                                <a title="Detalle Documento" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento })" class="btn btn-green tooltips" data-placement="top" data-original-title="Detalle Documento"><i class="fa fa-eye"></i></a>
+                                                                <a title="Pagos" class="btn btn-green" href="@Url.Action("DetallePagos", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar,id2=Doc.IDEstatus })"><i class="fa fa-money"></i></a>
+                                                            </div>
+                                                            <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                                <div class="btn-group">
+                                                                    <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                        <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                                    </a>
+                                                                    <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                        <li>
+                                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Details", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar, id2 = Doc.IDTipoDocumento })">
+                                                                                <i class="fa fa-eye"></i> Detalle Documento
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("DetallePagos", "DocumentoXPagar", new { id = Doc.IDDocumentoPagar ,id2=Doc.IDEstatus})">
+                                                                                <i class="fa fa-money"></i> Detalle de pagos
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    }
+
+                                                </tr>
                                                     }
                                                 }
                                             </tbody>
@@ -280,7 +250,7 @@
                             </div>
                         </div>
                     </div>
-                 </div>
+                </div>
                 <!-- END DEFAULT DATATABLE -->
             </div>
         </div>
@@ -301,7 +271,7 @@
                     </div>
                 </div>
             </div>
-         
+
 
         </div>
     </div>
@@ -315,9 +285,29 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script src="~/Content/js/plugins/moment.min.js"></script>
+    <script src="~/Content/js/plugins/datetime-moment.js"></script>
+
     <script>
-    jQuery(document).ready(function () {
-        Mensaje(message, typemessage);
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+
+            $.fn.dataTable.moment('DD/MM/YYYY');
+
+            $("#tbl1").dataTable({
+                "language": {
+                    "url": "/Content/assets/json/Spanish.json"
+                },
+                "order": [[0, "desc"]]
+            });
+
+
+            $("#tbl2").dataTable({
+                "language": {
+                    "url": "/Content/assets/json/Spanish.json"
+                }
+                , "order": [[0, 'desc']]
+            });
         });
     </script>
 }

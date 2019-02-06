@@ -508,8 +508,10 @@
     <Content Include="Content\js\plugins\datatablesbtn\jszip.min.js" />
     <Content Include="Content\js\plugins\datatablesbtn\pdfmake.min.js" />
     <Content Include="Content\js\plugins\datatablesbtn\vfs_fonts.js" />
+    <Content Include="Content\js\plugins\datetime-moment.js" />
     <Content Include="Content\js\plugins\jquery-validation\jquery.validate.min.js" />
     <Content Include="Content\js\plugins\jquery.maskMoney.js" />
+    <Content Include="Content\js\plugins\jquery.maskMoney.min.js" />
     <Content Include="Content\js\RangoVenta.js" />
     <Content Include="Content\js\Socios.js" />
     <Content Include="Content\js\conciliacionAlmacen.js" />
@@ -1958,6 +1960,8 @@
     <Content Include="Reports\RptSocios.rdlc" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Formatos\ConcentradoDocumentosPorCobrar.rdlc" />
+    <EmbeddedResource Include="Formatos\ConcentradoDocumentosPorPagar.rdlc" />
     <EmbeddedResource Include="Reports\ReporteAlmacen.rdlc">
       <SubType>Designer</SubType>
     </EmbeddedResource>

@@ -87,6 +87,10 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Pendientes = !dr.IsDBNull(dr.GetOrdinal("Pendiente")) ? dr.GetDecimal(dr.GetOrdinal("Pendiente")) : 0;
                     Item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
                     Item.EstatusNombre = !dr.IsDBNull(dr.GetOrdinal("EstatusDocumento")) ? dr.GetString(dr.GetOrdinal("EstatusDocumento")) : string.Empty;
+
+                    Item.NombreRazonSocial = !dr.IsDBNull(dr.GetOrdinal("nombreRazonSocial")) ? dr.GetString(dr.GetOrdinal("nombreRazonSocial")) : string.Empty;
+                    Item.MontoPagado = !dr.IsDBNull(dr.GetOrdinal("montoPagado")) ? dr.GetDecimal(dr.GetOrdinal("montoPagado")) : 0;
+
                     Lista.Add(Item);
                 }
                 dr.Close();
