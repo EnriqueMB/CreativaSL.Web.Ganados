@@ -1978,6 +1978,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ReporteRendimientoVehiculo.rdlc" />
     <EmbeddedResource Include="Reports\ReporteSalidasAlmacen.rdlc" />
+    <EmbeddedResource Include="Reports\ReporteVentaMermaDestino.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
