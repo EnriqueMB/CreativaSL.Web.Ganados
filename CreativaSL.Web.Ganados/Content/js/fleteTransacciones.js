@@ -299,8 +299,15 @@
         $("#btnAddCobro").on("click", function () {
             window.location.href = '/Admin/Flete/AC_FleteCobro?id_1=' + Id_flete + '&id_2=';
         });
-        
-    }
+
+        $("#btnGenerarComprobanteFlete").on("click", function () {
+            window.open
+                (
+                '/Admin/Flete/ComprobanteFlete?id=' + Id_flete,
+                '_blank'
+                );
+        });
+    };
     
     /*TERMINA COBROS*/
 

@@ -33,6 +33,8 @@ namespace CreativaSL.Web.Ganados.Models
             Usuario = string.Empty;
         }
 
+        public decimal Tolerancia { get; set; }
+
         public string PSGCliente { get; set; }
         private List<ClienteLugarModels> _listaClienteLugares;
 

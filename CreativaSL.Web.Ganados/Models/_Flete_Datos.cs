@@ -2046,6 +2046,51 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public List<ReporteGanadoModels> GetReporteGanadoDetallesPropioYNoPropio(FleteModels Flete)
+        {
+            try
+            {
+                List<ReporteGanadoModels> Lista = new List<ReporteGanadoModels>();
+                ReporteGanadoModels Item;
+                object[] parametros = { Flete.id_flete };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_ReporteListaGanadoPropioYNoPropio", parametros);
+
+                while (dr.Read())
+                {
+                    Item = new ReporteGanadoModels();
+                    Item.NumArete = !dr.IsDBNull(dr.GetOrdinal("numArete")) ? dr.GetString(dr.GetOrdinal("numArete")) : string.Empty;
+                    Item.Genero = !dr.IsDBNull(dr.GetOrdinal("genero")) ? dr.GetString(dr.GetOrdinal("genero")) : string.Empty;
+                    Item.ImagenBase64_1 = !dr.IsDBNull(dr.GetOrdinal("imagen1")) ? dr.GetString(dr.GetOrdinal("imagen1")) : Auxiliar.SinImagen();
+                    Item.ImagenBase64_2 = !dr.IsDBNull(dr.GetOrdinal("imagen2")) ? dr.GetString(dr.GetOrdinal("imagen2")) : Auxiliar.SinImagen();
+                    Item.ImagenBase64_3 = !dr.IsDBNull(dr.GetOrdinal("imagen3")) ? dr.GetString(dr.GetOrdinal("imagen3")) : Auxiliar.SinImagen();
+                    Item.NombreCorral = !dr.IsDBNull(dr.GetOrdinal("corral")) ? dr.GetString(dr.GetOrdinal("corral")) : string.Empty;
+                    Item.PesoInicial = !dr.IsDBNull(dr.GetOrdinal("pesoInicial")) ? dr.GetString(dr.GetOrdinal("pesoInicial")) : string.Empty;
+                    Item.PesoFinal = !dr.IsDBNull(dr.GetOrdinal("pesoFinal")) ? dr.GetString(dr.GetOrdinal("pesoFinal")) : string.Empty;
+                    Item.PesoPagado = !dr.IsDBNull(dr.GetOrdinal("pesoPagado")) ? dr.GetString(dr.GetOrdinal("pesoPagado")) : string.Empty;
+                    Item.PrecioPorKilo = !dr.IsDBNull(dr.GetOrdinal("precioKilo")) ? dr.GetString(dr.GetOrdinal("precioKilo")) : string.Empty;
+                    Item.Subtotal = !dr.IsDBNull(dr.GetOrdinal("subtotal")) ? dr.GetString(dr.GetOrdinal("subtotal")) : string.Empty;
+                    Item.Repeso = !dr.IsDBNull(dr.GetOrdinal("repeso")) ? dr.GetBoolean(dr.GetOrdinal("repeso")) : false;
+
+                    Item.PesoInicial = Auxiliar.StringToKilos(Item.PesoInicial);
+                    Item.PesoFinal = Auxiliar.StringToKilos(Item.PesoFinal);
+                    Item.PesoPagado = Auxiliar.StringToKilos(Item.PesoPagado);
+
+                    Item.PrecioPorKilo = Auxiliar.StringToMoneda_MX(Item.PrecioPorKilo);
+                    Item.Subtotal = Auxiliar.StringToMoneda_MX(Item.Subtotal);
+
+                    Lista.Add(Item);
+                }
+                dr.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public ReporteCabeceraGanado GetReporteCabeceraGanadoDetalles(FleteModels Flete)
         {
             try
@@ -2085,6 +2130,47 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public ReporteCabeceraGanado GetReporteCabeceraGanadoDetallesPropioYNoPropio(FleteModels Flete)
+        {
+            try
+            {
+                ReporteCabeceraGanado Item = new ReporteCabeceraGanado(); ;
+                object[] parametros = { Flete.id_flete };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_ReporteCabeceraListaGanadoPropioYNoPropio", parametros);
+
+                while (dr.Read())
+                {
+                    Item.NombreChofer = !dr.IsDBNull(dr.GetOrdinal("nombreChofer")) ? dr.GetString(dr.GetOrdinal("nombreChofer")) : string.Empty;
+                    Item.UnidadVehiculo = !dr.IsDBNull(dr.GetOrdinal("numeroUnidad")) ? dr.GetString(dr.GetOrdinal("numeroUnidad")) : string.Empty;
+                    Item.ModeloVehiculo = !dr.IsDBNull(dr.GetOrdinal("modelo")) ? dr.GetString(dr.GetOrdinal("modelo")) : string.Empty;
+                    Item.MarcaVehiculo = !dr.IsDBNull(dr.GetOrdinal("marca")) ? dr.GetString(dr.GetOrdinal("marca")) : string.Empty;
+                    Item.ColorVehiculo = !dr.IsDBNull(dr.GetOrdinal("color")) ? dr.GetString(dr.GetOrdinal("color")) : string.Empty;
+                    Item.CapacidadVehiculo = !dr.IsDBNull(dr.GetOrdinal("capacidad")) ? dr.GetString(dr.GetOrdinal("capacidad")) : string.Empty;
+                    Item.GPS = !dr.IsDBNull(dr.GetOrdinal("gps")) ? dr.GetString(dr.GetOrdinal("gps")) : string.Empty;
+                    Item.FechaHoraSalida = !dr.IsDBNull(dr.GetOrdinal("fechaHoraSalida")) ? dr.GetString(dr.GetOrdinal("fechaHoraSalida")) : string.Empty;
+                    Item.FechaHoraEmbarque = !dr.IsDBNull(dr.GetOrdinal("fechaHoraEmbarque")) ? dr.GetString(dr.GetOrdinal("fechaHoraEmbarque")) : string.Empty;
+                    Item.LugarOrigen = !dr.IsDBNull(dr.GetOrdinal("lugarOrigen")) ? dr.GetString(dr.GetOrdinal("lugarOrigen")) : string.Empty;
+                    Item.LugarDestino = !dr.IsDBNull(dr.GetOrdinal("lugarDestino")) ? dr.GetString(dr.GetOrdinal("lugarDestino")) : string.Empty;
+                    Item.PSGOrigen = !dr.IsDBNull(dr.GetOrdinal("PSGOrigen")) ? dr.GetString(dr.GetOrdinal("PSGOrigen")) : string.Empty;
+                    Item.PSGDestino = !dr.IsDBNull(dr.GetOrdinal("PSGDestino")) ? dr.GetString(dr.GetOrdinal("PSGDestino")) : string.Empty;
+                    Item.TotalGanadoMachos = !dr.IsDBNull(dr.GetOrdinal("totalGanadoMachos")) ? dr.GetInt32(dr.GetOrdinal("totalGanadoMachos")) : 0;
+                    Item.TotalGanadoHembras = !dr.IsDBNull(dr.GetOrdinal("totalGanadoHembras")) ? dr.GetInt32(dr.GetOrdinal("totalGanadoHembras")) : 0;
+                    Item.TotalGanado = !dr.IsDBNull(dr.GetOrdinal("totalGanado")) ? dr.GetInt32(dr.GetOrdinal("totalGanado")) : 0;
+                    Item.TotalKilosGanado = !dr.IsDBNull(dr.GetOrdinal("totalKilosGanado")) ? dr.GetDecimal(dr.GetOrdinal("totalKilosGanado")) : 0;
+                    Item.PlacaJaula = !dr.IsDBNull(dr.GetOrdinal("placaJaula")) ? dr.GetString(dr.GetOrdinal("placaJaula")) : string.Empty;
+                    Item.PlacaTracto = !dr.IsDBNull(dr.GetOrdinal("placas")) ? dr.GetString(dr.GetOrdinal("placas")) : string.Empty;
+                }
+                dr.Close();
+                return Item;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<CatFierroModels> GetReporteFierrosVenta(FleteModels Flete)
         {
             try
@@ -2500,6 +2586,114 @@ namespace CreativaSL.Web.Ganados.Models
                 }
                 dr.Close();
                 return Flete;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region Comprobante flete
+        public ComprobanteFleteModels GetComprobanteFlete(FleteModels Flete)
+        {
+            try
+            {
+                ComprobanteFleteModels item = new ComprobanteFleteModels();
+                object[] parametros = { Flete.id_flete };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_get_Flete_ComprobanteFlete", parametros);
+
+                while (dr.Read())
+                {
+                    item.LogoEmpresa = !dr.IsDBNull(dr.GetOrdinal("logoEmpresa")) ? dr.GetString(dr.GetOrdinal("logoEmpresa")) : string.Empty;
+                    item.Folio = !dr.IsDBNull(dr.GetOrdinal("folio")) ? dr.GetString(dr.GetOrdinal("folio")) : string.Empty;
+                    item.AnnoImpresion = !dr.IsDBNull(dr.GetOrdinal("anno")) ? dr.GetString(dr.GetOrdinal("anno")) : string.Empty;
+                    item.MesImpresion = !dr.IsDBNull(dr.GetOrdinal("mes")) ? dr.GetString(dr.GetOrdinal("mes")) : string.Empty;
+                    item.DiaImpresion = !dr.IsDBNull(dr.GetOrdinal("dia")) ? dr.GetString(dr.GetOrdinal("dia")) : string.Empty;
+                    item.NombreEmpresa = !dr.IsDBNull(dr.GetOrdinal("rubroEmpresa")) ? dr.GetString(dr.GetOrdinal("rubroEmpresa")) : string.Empty;
+                    item.DireccionEmpresa = !dr.IsDBNull(dr.GetOrdinal("direccionEmpresa")) ? dr.GetString(dr.GetOrdinal("direccionEmpresa")) : string.Empty;
+
+                    item.NombreCliente = !dr.IsDBNull(dr.GetOrdinal("cliente")) ? dr.GetString(dr.GetOrdinal("cliente")) : string.Empty;
+                    item.RFCCliente = !dr.IsDBNull(dr.GetOrdinal("rfc")) ? dr.GetString(dr.GetOrdinal("rfc")) : string.Empty;
+                    item.NombreConductor = !dr.IsDBNull(dr.GetOrdinal("nombreConductor")) ? dr.GetString(dr.GetOrdinal("nombreConductor")) : string.Empty;
+                    item.Vehiculo = !dr.IsDBNull(dr.GetOrdinal("vehiculo")) ? dr.GetString(dr.GetOrdinal("vehiculo")) : string.Empty;
+                    item.PlacaVehiculo = !dr.IsDBNull(dr.GetOrdinal("placas")) ? dr.GetString(dr.GetOrdinal("placas")) : string.Empty;
+                    item.Remitente = !dr.IsDBNull(dr.GetOrdinal("nombreRemitente")) ? dr.GetString(dr.GetOrdinal("nombreRemitente")) : string.Empty;
+                    item.Destinatario = !dr.IsDBNull(dr.GetOrdinal("nombreDestinatario")) ? dr.GetString(dr.GetOrdinal("nombreDestinatario")) : string.Empty;
+                    item.DomicilioRemitente = !dr.IsDBNull(dr.GetOrdinal("DireccionRemitente")) ? dr.GetString(dr.GetOrdinal("DireccionRemitente")) : string.Empty;
+                    item.DomicilioDestinatario = !dr.IsDBNull(dr.GetOrdinal("DireccionDestinatario")) ? dr.GetString(dr.GetOrdinal("DireccionDestinatario")) : string.Empty;
+                    item.LugarOrigen = !dr.IsDBNull(dr.GetOrdinal("recogeraEn")) ? dr.GetString(dr.GetOrdinal("recogeraEn")) : string.Empty;
+                    item.LugarDestino = !dr.IsDBNull(dr.GetOrdinal("entregaraEn")) ? dr.GetString(dr.GetOrdinal("entregaraEn")) : string.Empty;
+                    item.FechaEntrega = !dr.IsDBNull(dr.GetOrdinal("fechaTentativaEntrega")) ? dr.GetDateTime(dr.GetOrdinal("fechaTentativaEntrega")) : DateTime.Now;
+                    item.Total = !dr.IsDBNull(dr.GetOrdinal("totalFlete")) ? dr.GetDecimal(dr.GetOrdinal("totalFlete")) : 0;
+                    item.CondicionPago = !dr.IsDBNull(dr.GetOrdinal("condicionPago")) ? dr.GetString(dr.GetOrdinal("condicionPago")) : string.Empty;
+                    item.FormaPago = !dr.IsDBNull(dr.GetOrdinal("formaPago")) ? dr.GetString(dr.GetOrdinal("formaPago")) : string.Empty;
+                    item.MetodoPago = !dr.IsDBNull(dr.GetOrdinal("metodoPago")) ? dr.GetString(dr.GetOrdinal("metodoPago")) : string.Empty;
+                    
+                }
+                dr.Close();
+                return item;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<ComprobanteFleteDetallesModels> GetComprobanteFleteDetalles(FleteModels Flete)
+        {
+            try
+            {
+                List<ComprobanteFleteDetallesModels> lista = new List<ComprobanteFleteDetallesModels>();
+                ComprobanteFleteDetallesModels item;
+                object[] parametros = { Flete.id_flete };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_ComprobanteFleteDetalles", parametros);
+
+                while (dr.Read())
+                {
+                    item = new ComprobanteFleteDetallesModels();
+                    item.Cantidad = !dr.IsDBNull(dr.GetOrdinal("cantidad")) ? dr.GetDecimal(dr.GetOrdinal("cantidad")) : 0;
+                    item.UnidadMedida = !dr.IsDBNull(dr.GetOrdinal("unidad")) ? dr.GetString(dr.GetOrdinal("unidad")) : string.Empty;
+                    item.DescripcionProductoServicio = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    item.PrecioUnitario = !dr.IsDBNull(dr.GetOrdinal("precioUnitario")) ? dr.GetDecimal(dr.GetOrdinal("precioUnitario")) : 0;
+                    item.ImpuestosTrasladados = !dr.IsDBNull(dr.GetOrdinal("impuestos_trasladados")) ? dr.GetDecimal(dr.GetOrdinal("impuestos_trasladados")) : 0;
+                    item.ImpuestosRetenidos = !dr.IsDBNull(dr.GetOrdinal("impuestos_retenidos")) ? dr.GetDecimal(dr.GetOrdinal("impuestos_retenidos")) : 0;
+                    item.Subtotal = !dr.IsDBNull(dr.GetOrdinal("subtotal")) ? dr.GetDecimal(dr.GetOrdinal("subtotal")) : 0;
+                    item.Total = !dr.IsDBNull(dr.GetOrdinal("total")) ? dr.GetDecimal(dr.GetOrdinal("total")) : 0;
+
+                    lista.Add(item);
+                }
+                dr.Close();
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<ComprobanteFletePagosModels> GetComprobanteFleteDetallesPagos(FleteModels Flete)
+        {
+            try
+            {
+                List<ComprobanteFletePagosModels> Lista = new List<ComprobanteFletePagosModels>();
+                ComprobanteFletePagosModels Item;
+                object[] parametros = { Flete.id_flete };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_ComprobanteFleteDetallesPagos", parametros);
+
+                while (dr.Read())
+                {
+                    Item = new ComprobanteFletePagosModels();
+                    Item.FormaPago = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    Item.FechaPago = !dr.IsDBNull(dr.GetOrdinal("fecha")) ? dr.GetString(dr.GetOrdinal("fecha")) : string.Empty;
+                    Item.MontoPagado = !dr.IsDBNull(dr.GetOrdinal("monto")) ? dr.GetDecimal(dr.GetOrdinal("monto")) : 0;
+
+                    Lista.Add(Item);
+                }
+                dr.Close();
+                return Lista;
             }
             catch (Exception ex)
             {
