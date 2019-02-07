@@ -478,12 +478,12 @@ namespace CreativaSL.Web.Ganados.Models
             try
             {
                 List<DocumentosPorCobrarModels> Lista = new List<DocumentosPorCobrarModels>();
-                DocumentosPorCobrarModels Item;
+                DocumentosPorCobrarModels Item = new DocumentosPorCobrarModels();
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Documento_get_DocumentoXCobrar");
                 while (dr.Read())
                 {
-                    Item = new DocumentosPorCobrarModels();
+                    Item = new DocumentosPorCobrarModels(); ;
                     Item.Id_tipoDocumento = !dr.IsDBNull(dr.GetOrdinal("IDTipo")) ? dr.GetInt32(dr.GetOrdinal("IDTipo")) : 0;
                     Item.EsSistema = !dr.IsDBNull(dr.GetOrdinal("EsSistema")) ? dr.GetBoolean(dr.GetOrdinal("EsSistema")) : false;
                     Item.Id_documentoCobrar = !dr.IsDBNull(dr.GetOrdinal("IDDocumentoCobrar")) ? dr.GetString(dr.GetOrdinal("IDDocumentoCobrar")) : string.Empty;
@@ -500,6 +500,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Pagos = !dr.IsDBNull(dr.GetOrdinal("Pagos")) ? dr.GetDecimal(dr.GetOrdinal("Pagos")) : 0;
                     Item.Pendiente = !dr.IsDBNull(dr.GetOrdinal("Pendiente")) ? dr.GetDecimal(dr.GetOrdinal("Pendiente")) : 0;
                     Item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
+                    Item.NombreRazonSocial = !dr.IsDBNull(dr.GetOrdinal("nombreRazonSocial")) ? dr.GetString(dr.GetOrdinal("nombreRazonSocial")) : string.Empty;
+                    Item.MontoPagado = !dr.IsDBNull(dr.GetOrdinal("montoPagado")) ? dr.GetDecimal(dr.GetOrdinal("montoPagado")) : 0;
                     Lista.Add(Item);
                 }
                 dr.Close();

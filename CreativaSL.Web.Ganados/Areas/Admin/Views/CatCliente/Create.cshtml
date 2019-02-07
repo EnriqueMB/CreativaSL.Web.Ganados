@@ -167,6 +167,17 @@
                                             @Html.ValidationMessageFor(model => model.CorreoElectronico)
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label">Tolerancia</label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.Tolerancia, new { @class = "form-control", placeholder = "Ingrese la tolerancia del cliente" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Tolerancia)
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

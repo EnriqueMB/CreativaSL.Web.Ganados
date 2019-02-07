@@ -11,11 +11,15 @@ namespace CreativaSL.Web.Ganados.Models
         public DocumentosPorCobrarModels()
         {
             //_IDSucursal = string.Empty;
-            Id_tipoDocumento = 0 ;
+            Id_tipoDocumento = 0;
             _EstatusNombre = string.Empty;
             ListaDocumentos = new List<DocumentosPorCobrarModels>();
         }
-
+        public string TotalString { get; set; }
+        public string PagadoString { get; set; }
+        public string PendienteString { get; set; }
+        public string NombreRazonSocial { get; set; }
+        public decimal MontoPagado { get; set; }
         public decimal TotalDeducciones { get; set; }
         public decimal TotalPercepciones { get; set; }
 

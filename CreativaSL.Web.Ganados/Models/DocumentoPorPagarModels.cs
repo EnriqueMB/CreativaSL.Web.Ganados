@@ -19,6 +19,15 @@ namespace CreativaSL.Web.Ganados.Models
             _EstatusNombre = string.Empty;
             _ListaDocumentos = new List<DocumentoPorPagarModels>();
         }
+
+        public string TotalString { get; set; }
+        public string PagadoString { get; set; }
+        public string PendienteString { get; set; }
+        public string NombreRazonSocial { get; set; }
+        public decimal MontoPagado { get; set; }
+        public decimal TotalDeducciones { get; set; }
+        public decimal TotalPercepciones { get; set; }
+
         public decimal Impuestos { get; set; }
         //public decimal Subtotal { get; set; }
         public decimal Cambio { get; set; }
