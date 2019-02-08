@@ -55,6 +55,17 @@
                                         </div>
                                     </div>
 
+                                      <div class="form-group">
+                                          <label class="col-md-2 col-xs-12 control-label"><span>* </span>Tipo cliente</label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.DropDownListFor(model => model.TipoCliente, new SelectList(Model.ListaTipoCliente, "Id_tipoCliente", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.TipoCliente)
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
                                         <label class="col-md-2 col-xs-12 control-label">P.S.G.</label>
                                         <div class="col-md-6 col-xs-12">

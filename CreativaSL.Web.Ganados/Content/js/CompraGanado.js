@@ -594,8 +594,8 @@
 
             //fila[TOTAL].value = TotalPagar(fila[PESOPAGAR].value, fila[COSTOPORKILO].value);
 
-            var pesoPagar = GetMoneySinSimbolo(fila[PESOPAGAR].value);
-            var costoPorKilo = GetMoneySinSimbolo(fila[COSTOPORKILO].value);
+            var pesoPagar = Number.parseFloat(GetMoneySinSimbolo(fila[PESOPAGAR].value));
+            var costoPorKilo = Number.parseFloat(GetMoneySinSimbolo(fila[COSTOPORKILO].value));
 
             fila[TOTAL].value = TotalPagar(pesoPagar, costoPorKilo);
 
@@ -780,6 +780,7 @@
 
     function GetKilosSinSimbolo(value) {
         var newValue = value.split(" ", 1);
+        newValue = newValue.toString().replace(/,/g, "");
 
         if (Number.isNaN(newValue)) {
             return 0;
@@ -792,6 +793,7 @@
     function GetMoneySinSimbolo(value) {
         var newValue = value.split(" ", 2);
         newValue = newValue[1];
+        newValue = newValue.toString().replace(/,/g, "");
 
         if (Number.isNaN(newValue)) {
             return 0;

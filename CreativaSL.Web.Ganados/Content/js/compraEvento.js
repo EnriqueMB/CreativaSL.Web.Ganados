@@ -338,12 +338,12 @@
 
         $('#regresar').click(function () {
             var row = tblGanadoConEvento.rows('.selected').nodes().to$().find('.cslElegido');
-
+            console.log(row);
             //obtenemos el valor de toda la fila
             for (var x = 0; x < row.length; x += 6)
             {
-                var subtotal = Number.parseFloat(GetMoneySinSimbolo(row[x + 5].value).toString().replace(/,/g, "")).toFixed(2);
-               
+                var subtotal = Number.parseFloat(row[x + 5].dataset.total).toFixed(2);
+
                 tblGanadoCargado.row.add({
                     "id_ganado": row[x].dataset.id,
                     "numArete": row[x].value,
@@ -370,7 +370,7 @@
         //columna, precio por kilo nuevo
         var html_precioXkiloNuevo = '<input id="precioXkiloNuevo_' + id_fila + '" data-id="' + id_fila + '" class="form-control inputCSL cslElegido money" type="text"  value="' + costoxkilo + '" data-toggle="tooltip" data-placement="top" title="Nuevo costo por kilo.">';
         //columna, total
-        var html_total = '<input id="total_' + id_fila + '" data-id="' + id_fila + '" class="form-control cslElegido money" type="text" value="' + total + '" data-toggle="tooltip" data-placement="top" title="Total del ganado." readonly="readonly">';
+        var html_total = '<input id="total_' + id_fila + '" data-id="' + id_fila + '" data-total = "' + total + '" class="form-control cslElegido money" type="text" value="' + total + '" data-toggle="tooltip" data-placement="top" title="Total del ganado." readonly="readonly">';
 
         tblGanadoConEvento.row.add([
             html_arete,
@@ -390,6 +390,7 @@
     function calculosGanado(fila) {
         var nuevo_costo = Number.parseFloat(GetMoneySinSimbolo(fila[NUEVO_COSTO_POR_KILO].value)).toFixed(2);
         var peso_ganado = Number.parseFloat(GetKilosSinSimbolo(fila[PESO].value)).toFixed(0);
+
         nuevo_costo = Number.parseFloat(nuevo_costo);
         var nuevo_total;
 
@@ -421,7 +422,7 @@
 
     function GetMoneySinSimbolo(value) {
         var newValue = value.split(" ", 2);
-        newValue = newValue[1];
+        newValue = newValue[1].toString().replace(/,/g, '');
 
         if (Number.isNaN(newValue)) {
             return 0;

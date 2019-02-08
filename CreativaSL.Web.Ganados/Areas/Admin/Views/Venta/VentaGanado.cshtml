@@ -58,10 +58,11 @@
         @{ Html.EnableClientValidation(false); }
         @using (Html.BeginForm("VentaGanado", "Venta", FormMethod.Post, new { id = "frm_venta", @class = "form-horizontal", autocomplete = "off" }))
         {
-            <div id="validation_summary" class="field_error ">
-                <dd for="Ganado" class="validacionCSL" style="color: #ff004d !important; "></dd>
-                <dd for="ME" class="validacionCSL" style="color: #ff004d !important; "></dd>
-            </div> //JS
+        <div id="validation_summary" class="field_error ">
+            <dd for="Ganado" class="validacionCSL" style="color: #ff004d !important; "></dd>
+            <dd for="ME" class="validacionCSL" style="color: #ff004d !important; "></dd>
+            <dd for="MontoTotal" class="validacionCSL" style="color: #ff004d !important; "></dd>
+        </div> //JS
             @Html.AntiForgeryToken()
             @Html.HiddenFor(model => model.Id_venta)
             @Html.HiddenFor(model => model.Id_sucursal)
@@ -193,7 +194,7 @@
                                     <div class="col-md-9">
                                         <div class="input-group">
                                             <span class="input-group-addon">KG.</span>
-                                            @Html.TextBoxFor(model => model.ME, new { @class = "form-control kgMerma", @type = "text" })
+                                            @Html.TextBoxFor(model => model.ME, "{0:N2}", new { @class = "form-control kgMerma", @type = "text" })
                                         </div>
                                         <span class="help-block">M.E.</span>
                                     </div>
@@ -205,18 +206,18 @@
                                     <div class="col-md-9">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBox("TipoVenta", (string)ViewBag.TipoVenta, new { @class = "form-control", @type = "text" })
+                                            @Html.TextBox("TipoVenta", (string)ViewBag.TipoVenta, new { @class = "form-control", @type = "text", @readonly = "readonly" })
                                         </div>
                                         <span class="help-block">Tipo de venta</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-group" id="txtME">
+                                <div class="form-group" id="txtMontoTotal">
                                     <label class="col-md-3 control-label">Total por cobrar</label>
                                     <div class="col-md-9">
                                         <div class="input-group">
-                                            <span class="input-group-addon">$</span>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
                                             @if (Model.TipoVenta == 1)
                                             {
                                                 @Html.TextBoxFor(model => model.MontoTotalGanado, "{0:C2}", new { @class = "form-control money", @type = "text" })

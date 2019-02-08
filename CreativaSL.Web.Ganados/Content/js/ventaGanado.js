@@ -110,7 +110,11 @@
                 },
                 {
                     "data": "pesoPagado",
-                    "render": $.fn.dataTable.render.number(',', '.', 0, '', ' KG.')
+                    "render": function (data, type, row) {
+                        return '<input class="kg2" type="text" style="color:black" value="' + data + ' kg">';
+
+                    }
+                    //"render": $.fn.dataTable.render.number(',', '.', 0, '', ' KG.')
                 },
                 {
                     "data": "precioKilo",
@@ -144,16 +148,20 @@
             ],
             "columnDefs": [
                 {
-                    "targets": [0, 1],
+                    "targets": [0, 1, 5],
                     "visible": false,
                     "searchable": false
                 }
-            ]
+            ],
+            "drawCallback": function (settings) {
+                $(".kg2").maskMoney({ allowZero: true, suffix: ' kg', precision: 0 });
+            }
         });
+      
     };
 
     function PrecioSugerido(peso, genero) {
-        genero = (genero === "Macho" || genero === "MACHO") ? true : false;
+        genero = (genero == "Macho" || genero == "MACHO") ? true : false;
         for (var item in ListaDePrecios) {
             if (ListaDePrecios[item].EsMacho == genero) {
                 if (ListaDePrecios[item].PesoMinimo <= peso && peso <= ListaDePrecios[item].PesoMaximo) {
@@ -224,14 +232,13 @@
             e.preventDefault();
             
             //datos de las tablas
-
-
+            
             var error = Validar();
             
             if (error == 0) {
                 var ganado = tblGanadoJaula.rows().data();
-                var me = $("#ME").val();
-                me = Number.parseFloat(me.replace(/,/g, ''));
+                var me = GetKilosSinSimbolo($("#ME").val());
+                var monto = GetMoneySinSimbolo($("#MontoTotalGanado").val());
 
                 var objGanado, cantidad = 0;
                 var listaGanado = new Array();
@@ -245,6 +252,7 @@
                 formData.append('IDVenta', Id_venta);
                 formData.append('ListaIDGanadosParaVender', listaGanado);
                 formData.append('ME', me);
+                formData.append('montoTotal', monto);
 
                 $.ajax({
                     type: 'POST',
@@ -261,41 +269,6 @@
                     }
                 });
             } 
-            
-            //if (ganado.length == 0) {
-            //    $("#tblGanadoJaula").addClass("errorTableCSL");
-            //    $("#validation_summary").append("");
-            //    $("#validation_summary").append("<dd style='color: #ff004d !important; '>-Debe de seleccionar un ganado para su venta</dd>");
-            //}
-            //else {
-                
-            //    $("#validation_summary").append("");
-
-            //    for (var i = 0 ; i < ganado.length ; i++) {
-            //        listaGanado.unshift(ganado[i].id_ganado);
-            //        cantidad = i + 1;
-            //    }
-
-            //    var formData = new FormData();
-            //    //datos de las tablas
-            //    formData.append('IDVenta', Id_venta);
-            //    formData.append('ListaIDGanadosParaVender', listaGanado);
-
-            //    $.ajax({
-            //        type: 'POST',
-            //        data: formData,
-            //        url: '/Admin/Venta/VentaGanado/',
-            //        contentType: false,
-            //        processData: false,
-            //        cache: false,
-            //        success: function (response) {
-            //            window.location.href = '/Admin/Venta/Index';
-            //        },
-            //        error: function (request, status, error) {
-            //            window.location.href = '/Admin/Venta/Index';
-            //        }
-            //    });
-            //}
         });
         
         //Pasar y regresar filas en las tablas
@@ -306,10 +279,11 @@
                 var d = rows[i];
                 var pp = Number.parseFloat(d.pesoPagado).toFixed(2);
                 var ge = d.genero.trim();
-
+                
                 var precioSugerido = PrecioSugerido(pp, ge);
                 var subtotal = TipoDeVenta === 1 ? d.subtotal : precioSugerido * d.pesoPagado;
 
+                //var input = '<input id="precioXkiloNuevo_" class="form-control inputCSL cslElegido money" type="text"  value="321" data-toggle="tooltip" data-placement="top" title="Nuevo costo por kilo.">';
                 //lo agrego a la tabla jaula para su envio
                 tblGanadoJaula.row.add({
                     "id_ganado": d.id_ganado,
@@ -319,6 +293,7 @@
                     "genero": d.genero,                     
                     "merma": d.merma,
                     "pesoPagado": d.pesoPagado,
+                    //"pesoPagado": input,
                     "precioKilo": d.precioKilo,
                     [8]: precioSugerido,
                     "subtotal": subtotal
@@ -350,6 +325,9 @@
                 ActualizarInputs();
             }
             tblGanadoCorral.rows('.selected').remove().draw(false);
+
+            $("#kg").maskMoney({ thousands: '', decimal: '.', allowZero: true, suffix: ' kg' });
+
         });
 
         $('#regresar').click(function () {
@@ -403,7 +381,6 @@
             }
             tblGanadoJaula.rows('.selected').remove().draw(false);
         });
-        
 
         $('#btnVerListaPrecios').on('click', function () {
             $("body").css("cursor", "progress");
@@ -421,6 +398,32 @@
             });
         });
     };
+
+    function GetKilosSinSimbolo(value) {
+        var newValue = value.split(" ", 1);
+        newValue = newValue.toString().replace(/,/g, "");
+
+        if (Number.isNaN(newValue)) {
+            return 0;
+        }
+        else {
+            return newValue;
+        }
+    }
+
+    function GetMoneySinSimbolo(value) {
+        var newValue = value.split(" ", 2);
+        newValue = newValue[1];
+        newValue = newValue.toString().replace(/,/g, "");
+
+        if (Number.isNaN(newValue)) {
+            return 0;
+        }
+        else {
+            return newValue;
+        }
+    }
+
     function cpf(v) {
         v = v.replace(/([^0-9]+)/g, '');
         v = v.replace(/^[\.]/, '');
@@ -458,7 +461,7 @@
             error = 1;
         }
         //Si hay le quitamos la coma, en caso que sean miles
-        var numero = Number.parseFloat(me.replace(/,/g, ''));
+        var numero = GetKilosSinSimbolo(me);
 
         if (Number.isNaN(numero)) {
             $("#txtME").addClass("has-error");
@@ -480,32 +483,37 @@
             }
         }
 
+        var montototal = $("#MontoTotalGanado").val();
 
+        if (montototal === '') {
+            $("#txtMontoTotal").addClass("has-error");
+            $("#txtMontoTotal").removeClass("has-success");
+            $("#validation_summary").find("dd[for='MontoTotal']").addClass('help-block valid').text('-Monto total debe ser un número positivo mayor o igual a 0.');
+            error = 1;
+        }
+        //Si hay le quitamos la coma, en caso que sean miles
+        var numeroMontoTotal = GetMoneySinSimbolo(montototal);
 
-        //if (Number.isNaN(me)) {
-        //    //console.log("NO ES UN NUMERO");
-        //    $("#txtME").addClass("has-error");
-        //    $("#txtME").removeClass("has-success");
-        //    $("#validation_summary").find("dd[for='ME']").addClass('help-block valid').text('-M.E. debe ser un número positivo mayor o igual a 0.');
-        //    error = 1;
-        //}
-        //else {
-
-        //    if (me >= 0) {
-        //        //console.log("MAYOR O IGUAL A 0");
-        //        $("#txtME").addClass("has-success");
-        //        $("#txtME").removeClass("has-error");
-        //        $("#validation_summary").find("dd[for='ME']").addClass('help-block valid').text('');
-        //    }
-        //    else {
-        //        //console.log("MENOR A 0");
-        //        $("#txtME").addClass("has-error");
-        //        $("#txtME").removeClass("has-success");
-        //        $("#validation_summary").find("dd[for='ME']").addClass('help-block valid').text('-M.E. debe ser un número positivo mayor o igual a 0.');
-        //        error = 1;
-        //    }
-            
-        //}
+        if (Number.isNaN(numeroMontoTotal)) {
+            $("#txtMontoTotal").addClass("has-error");
+            $("#txtMontoTotal").removeClass("has-success");
+            $("#validation_summary").find("dd[for='MontoTotal']").addClass('help-block valid').text('-Monto total debe ser un número positivo mayor o igual a 0.');
+            error = 1;
+        }
+        else {
+            if (numeroMontoTotal >= 0) {
+                $("#txtMontoTotal").addClass("has-success");
+                $("#txtMontoTotal").removeClass("has-error");
+                $("#validation_summary").find("dd[for='MontoTotal']").addClass('help-block valid').text('');
+            }
+            else {
+                $("#txtMontoTotal").addClass("has-error");
+                $("#txtMontoTotal").removeClass("has-success");
+                $("#validation_summary").find("dd[for='MontoTotal']").addClass('help-block valid').text('-Monto total debe ser un número positivo mayor o igual a 0.');
+                error = 1;
+            }
+        }
+       
         return error;
     }
     function ActualizarInputs() {

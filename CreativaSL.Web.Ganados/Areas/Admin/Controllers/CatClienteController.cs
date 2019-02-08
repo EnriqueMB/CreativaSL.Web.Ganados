@@ -57,6 +57,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Clientes.Conexion = Conexion;
                 Clientes.ListaCmbSucursal = ClientesDatos.ObteneComboCatSucursal(Clientes);
                 Clientes.ListaRegimenCMB = ClientesDatos.ObtenerComboRegimenFiscal(Clientes);
+                Clientes.ListaTipoCliente = ClientesDatos.ObtenerListaTipoClientes(Clientes);
                 return View(Clientes);
             }
             catch (Exception)
@@ -106,6 +107,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             clienteID.ListaCmbSucursal = ClienteDatos.ObteneComboCatSucursal(clienteID);
                             clienteID.ListaRegimenCMB = ClienteDatos.ObtenerComboRegimenFiscal(clienteID);
+                            clienteID.ListaTipoCliente = ClienteDatos.ObtenerListaTipoClientes(clienteID);
+
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                             return View(clienteID);
@@ -116,6 +119,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         clienteID.Conexion = Conexion;
                         clienteID.ListaCmbSucursal = ClienteDatos.ObteneComboCatSucursal(clienteID);
                         clienteID.ListaRegimenCMB = ClienteDatos.ObtenerComboRegimenFiscal(clienteID);
+                        clienteID.ListaTipoCliente = ClienteDatos.ObtenerListaTipoClientes(clienteID);
                         return View(clienteID);
                     }
                 }
@@ -129,6 +133,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 clienteID.Conexion = Conexion;
                 clienteID.ListaCmbSucursal = ClienteDatos.ObteneComboCatSucursal(clienteID);
                 clienteID.ListaRegimenCMB = ClienteDatos.ObtenerComboRegimenFiscal(clienteID);
+                clienteID.ListaTipoCliente = ClienteDatos.ObtenerListaTipoClientes(clienteID);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
                 return View(clienteID);
@@ -149,6 +154,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Client = ClienteDatos.ObtenerDetalleCatCliente(Client);
                 Client.ListaCmbSucursal = ClienteDatos.ObteneComboCatSucursal(Client);
                 Client.ListaRegimenCMB = ClienteDatos.ObtenerComboRegimenFiscal(Client);
+                Client.ListaTipoCliente = ClienteDatos.ObtenerListaTipoClientes(Client);
                 return View(Client);
             }
             catch (Exception)
@@ -191,6 +197,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             clienteID.ListaCmbSucursal = ClienteDatos.ObteneComboCatSucursal(clienteID);
                             clienteID.ListaRegimenCMB = ClienteDatos.ObtenerComboRegimenFiscal(clienteID);
+                            clienteID.ListaTipoCliente = ClienteDatos.ObtenerListaTipoClientes(clienteID);
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                             return View(clienteID);
@@ -201,6 +208,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         clienteID.Conexion = Conexion;
                         clienteID.ListaCmbSucursal = ClienteDatos.ObteneComboCatSucursal(clienteID);
                         clienteID.ListaRegimenCMB = ClienteDatos.ObtenerComboRegimenFiscal(clienteID);
+                        clienteID.ListaTipoCliente = ClienteDatos.ObtenerListaTipoClientes(clienteID);
                         return View(clienteID);
                     }
                 }
@@ -214,6 +222,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 clienteID.Conexion = Conexion;
                 clienteID.ListaCmbSucursal = ClienteDatos.ObteneComboCatSucursal(clienteID);
                 clienteID.ListaRegimenCMB = ClienteDatos.ObtenerComboRegimenFiscal(clienteID);
+                clienteID.ListaTipoCliente = ClienteDatos.ObtenerListaTipoClientes(clienteID);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
                 return View(clienteID);

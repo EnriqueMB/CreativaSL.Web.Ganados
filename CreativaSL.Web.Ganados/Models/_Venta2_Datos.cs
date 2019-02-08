@@ -1020,6 +1020,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Venta.Flete.CondicionPago = !dr.IsDBNull(dr.GetOrdinal("condicionPago")) ? dr.GetString(dr.GetOrdinal("condicionPago")) : string.Empty;
                     Venta.Flete.Id_metodoPago = !dr.IsDBNull(dr.GetOrdinal("id_metodoPago")) ? dr.GetString(dr.GetOrdinal("id_metodoPago")) : string.Empty;
                     Venta.Flete.Id_formaPago = !dr.IsDBNull(dr.GetOrdinal("id_formaPago")) ? dr.GetInt16(dr.GetOrdinal("id_formaPago")) : 0;
+                    Venta.TipoVenta = !dr.IsDBNull(dr.GetOrdinal("id_tipoVenta")) ? dr.GetInt16(dr.GetOrdinal("id_tipoVenta")) : 0;
+
                 }
                 else
                 {

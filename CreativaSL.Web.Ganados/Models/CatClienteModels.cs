@@ -32,7 +32,8 @@ namespace CreativaSL.Web.Ganados.Models
             Conexion = string.Empty;
             Usuario = string.Empty;
         }
-
+        public List<CatTipoClienteModels> ListaTipoCliente { get; set; }
+        public int TipoCliente { get; set; }
         public decimal Tolerancia { get; set; }
 
         public string PSGCliente { get; set; }

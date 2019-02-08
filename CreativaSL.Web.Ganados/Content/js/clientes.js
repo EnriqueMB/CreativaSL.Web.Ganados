@@ -33,6 +33,7 @@
                 NombreResponsable: { required: true, nombre: true, maxlength: 300, minlength: 4}, //{ nombre: true, maxlenght: 300 },
                 Celular: { telefono: true },
                 Telefono: { telefono: true },
+                TipoCliente: { min: 1 }
                 //CorreoElectronico: { required: true, email: true },              
                 //PSGCliente: {required: true}
             },
@@ -46,6 +47,7 @@
                 NombreResponsable: { required: "Ingrese el Nombre del Contacto", nombre: "Ingrese un nombre de contacto válido.", maxlength: "El campo nombre de contacto admite máximo 300 caracteres.", minlength: "El campo nombre de contacto admite minimo 4 caracteres."  }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
                 Celular: { telefono: "Ingrese un número de celular válido." },
                 Telefono: { telefono: "Ingrese un número de teléfono válido." },
+                TipoCliente: { min: "Ingrese un tipo de cliente." }
                 //CorreoElectronico: { required: "Ingrese el correo electrónico del cliente.", email: "Ingrese un correo electrónico válido." },
                 //PSGCliente: { required: "Ingrese el P.S.G. del cliente." }
             },

@@ -87,7 +87,8 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.IDRegimenFiscal ?? string.Empty,
                     datos.Usuario ?? string.Empty,
                     datos.PSGCliente ?? string.Empty ,
-                    datos.Tolerancia
+                    datos.Tolerancia ,
+                    datos.TipoCliente
                 };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatCliente", parametros);
                 datos.IDCliente = aux.ToString();
@@ -290,6 +291,30 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public List<CatTipoClienteModels> ObtenerListaTipoClientes(CatClienteModels Datos)
+        {
+            try
+            {
+                List<CatTipoClienteModels> lista = new List<CatTipoClienteModels>();
+                CatTipoClienteModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Combo_get_CatTipoCliente");
+                while (dr.Read())
+                {
+                    item = new CatTipoClienteModels();
+                    item.Id_tipoCliente = !dr.IsDBNull(dr.GetOrdinal("id_tipoCliente")) ? dr.GetInt32(dr.GetOrdinal("id_tipoCliente")) : 0;
+                    item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
+                    lista.Add(item);
+                }
+                dr.Close();
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public CatClienteModels ObtenerDetalleCatCliente(CatClienteModels datos)
         {
             try
@@ -313,6 +338,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.IDRegimenFiscal = !dr.IsDBNull(dr.GetOrdinal("IDRegimenFiscal")) ? dr.GetString(dr.GetOrdinal("IDRegimenFiscal")) : string.Empty;
                     datos.PSGCliente = !dr.IsDBNull(dr.GetOrdinal("psgCliente")) ? dr.GetString(dr.GetOrdinal("psgCliente")) : string.Empty;
                     datos.Tolerancia = !dr.IsDBNull(dr.GetOrdinal("tolerancia")) ? dr.GetDecimal(dr.GetOrdinal("tolerancia")) : 0;
+                    datos.TipoCliente = !dr.IsDBNull(dr.GetOrdinal("id_tipoCliente")) ? dr.GetInt32(dr.GetOrdinal("id_tipoCliente")) : 0;
                 }
                 dr.Close();
                 return datos;

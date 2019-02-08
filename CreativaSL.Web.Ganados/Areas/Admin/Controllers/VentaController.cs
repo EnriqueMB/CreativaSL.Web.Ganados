@@ -620,7 +620,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpPost]
-        public ActionResult VentaGanado(string ListaIDGanadosParaVender, string IDVenta, decimal ME)
+        public ActionResult VentaGanado(string ListaIDGanadosParaVender, string IDVenta, decimal ME, decimal montoTotal)
         {
             try
             {
@@ -633,6 +633,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Venta.ListaIDGanadosParaVender = ListaIDGanadosParaVender;
                     Venta.Id_venta = IDVenta;
                     Venta.ME = ME;
+                    Venta.MontoTotalGanado = montoTotal;
                     Venta.RespuestaAjax = VentaDatos.AC_Ganado(Venta);
 
                     if (Venta.RespuestaAjax.Success)
@@ -1520,7 +1521,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Parametros[13] = new ReportParameter("TotalGanadoMachos", Cabezera.TotalGanadoMachos.ToString());
                 Parametros[14] = new ReportParameter("TotalGanadoHembras", Cabezera.TotalGanadoHembras.ToString());
                 Parametros[15] = new ReportParameter("TotalGanado", Cabezera.TotalGanado.ToString());
-                Parametros[16] = new ReportParameter("TotalKilosGanado", Convert.ToInt32(Cabezera.TotalKilosGanado).ToString());
+                Parametros[16] = new ReportParameter("TotalKilosGanado", Cabezera.TotalKilosGanado.ToString("N2"));
                 Parametros[17] = new ReportParameter("PlacaTracto", Cabezera.PlacaTracto);
                 Parametros[18] = new ReportParameter("PlacaJaula", Cabezera.PlacaJaula);
 
