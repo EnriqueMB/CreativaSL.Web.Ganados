@@ -354,23 +354,25 @@ namespace CreativaSL.Web.Ganados.Models
                             Datos.PeriodoFechas = "DEL " + Datos.FechaInicio.ToShortDateString() + " AL " + Datos.FechaFin.ToShortDateString();
                         }
                        
-                            DataTableReader Dr2 = Ds.Tables[1].CreateDataReader();
-                            List<NominaDetalleModels> Lista = new List<NominaDetalleModels>();
-                            NominaDetalleModels Item;
-                            while (Dr2.Read())
-                            {
-                                Item = new NominaDetalleModels();
-                                Item.NombreEmpleado = Dr2.GetString(Dr2.GetOrdinal("Empleado"));
-                                Item.Percepciones = Dr2.GetDecimal(Dr2.GetOrdinal("Percepciones"));
-                                Item.Deducciones = Dr2.GetDecimal(Dr2.GetOrdinal("Deducciones"));
-                                Item.Total = Dr2.GetDecimal(Dr2.GetOrdinal("Total"));
-                                Lista.Add(Item);
-                            }
-                            Datos.ListaNominaDetalle = Lista;
+                        DataTableReader Dr2 = Ds.Tables[1].CreateDataReader();
+                        List<NominaDetalleModels> Lista = new List<NominaDetalleModels>();
+                        NominaDetalleModels Item;
+                        while (Dr2.Read())
+                        {
+                            Item = new NominaDetalleModels();
+                            Item.NombreEmpleado = Dr2.GetString(Dr2.GetOrdinal("Empleado"));
+                            Item.Percepciones = Dr2.GetDecimal(Dr2.GetOrdinal("Percepciones"));
+                            Item.Deducciones = Dr2.GetDecimal(Dr2.GetOrdinal("Deducciones"));
+                            Item.Total = Dr2.GetDecimal(Dr2.GetOrdinal("Total"));
+                            Item.CategoriaPuesto = Dr2.GetString(Dr2.GetOrdinal("CategoriaPuesto"));
+                            Item.Sueldo = Dr2.GetDecimal(Dr2.GetOrdinal("Sueldo"));
+                            Lista.Add(Item);
+                        }
+                        Datos.ListaNominaDetalle = Lista;
 
-                            DataTableReader Dr3 = Ds.Tables[2].CreateDataReader();
-                            List<NominaConceptosFijosModels> Lista02 = new List<NominaConceptosFijosModels>();
-                             List<CatEmpleadoModels> ListaEm = new List<CatEmpleadoModels>();
+                        DataTableReader Dr3 = Ds.Tables[2].CreateDataReader();
+                        List<NominaConceptosFijosModels> Lista02 = new List<NominaConceptosFijosModels>();
+                        List<CatEmpleadoModels> ListaEm = new List<CatEmpleadoModels>();
                         CatEmpleadoModels Item003;
                         
                         NominaConceptosFijosModels Item02;
@@ -393,11 +395,9 @@ namespace CreativaSL.Web.Ganados.Models
                             Datos.ListaConceptosFijo = Lista02;
                             Datos.listaEmpleado = ListaEm;
                         }
-                        
                         Datos.Completado = true;
                     }
                 }
-
             }
             catch (Exception ex)
             {

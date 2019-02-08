@@ -970,6 +970,76 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
+        public ActionResult RptVentaMerma(string id, string id2, string id3, string id4)
+        {
+            try
+            {
+                Reporte_Datos R = new Reporte_Datos();
+                RptVentasMermasModels VentaMerma = new RptVentasMermasModels();
+                DateTime Fecha1 = DateTime.Today;
+                DateTime Fecha2 = DateTime.Today;
+                DateTime.TryParse(id2.ToString(), out Fecha1);
+                DateTime.TryParse(id3.ToString(), out Fecha2);
+                VentaMerma.FechaInicio = Fecha1;
+                VentaMerma.FechaFin = Fecha2;
+                VentaMerma.IDSucursal = id4;
+                VentaMerma.Conexion = Conexion;
+                VentaMerma.DatosEmpresa = R.ObtenerDatosEmpresaTipoIDSucursal(Conexion, id4);
+                VentaMerma.ListaVentaMerma = R.ListaVentaMerma(VentaMerma);
+                LocalReport Rtp = new LocalReport();
+                Rtp.EnableExternalImages = true;
+                Rtp.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Reports"), "ReporteVentaMermaDestino.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Reportes");
+                }
+                ReportParameter[] Parametros = new ReportParameter[9];
+                Parametros[0] = new ReportParameter("Empresa", VentaMerma.DatosEmpresa.RazonFiscal);
+                Parametros[1] = new ReportParameter("Direccion", VentaMerma.DatosEmpresa.DireccionFiscal);
+                Parametros[2] = new ReportParameter("RFC", VentaMerma.DatosEmpresa.RFC);
+                Parametros[3] = new ReportParameter("TelefonoCasa", VentaMerma.DatosEmpresa.NumTelefonico1);
+                Parametros[4] = new ReportParameter("TelefonoMovil", VentaMerma.DatosEmpresa.NumTelefonico2);
+                Parametros[5] = new ReportParameter("NombreSucursal", VentaMerma.DatosEmpresa.NombreSucursal);
+                Parametros[6] = new ReportParameter("UrlLogo", VentaMerma.DatosEmpresa.LogoEmpresa);
+                Parametros[7] = new ReportParameter("FechaInicio", id2);
+                Parametros[8] = new ReportParameter("FechaFin", id3);
+                Rtp.SetParameters(Parametros);
+                Rtp.DataSources.Add(new ReportDataSource("ListaVentaMerma", VentaMerma.ListaVentaMerma));
+                string reportType = id;
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + id + "</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         #region REPORTES OCULTADO DEL EN EL INDEX CONSULTAS.
 
         public ActionResult RptEntrada(string id, string id2, string id3)

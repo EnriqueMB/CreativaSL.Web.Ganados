@@ -349,6 +349,43 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public List<RptVentasMermasModels> ListaVentaMerma(RptVentasMermasModels Datos)
+        {
+            try
+            {
+                object[] Parametros = { Datos.FechaInicio, Datos.FechaFin, Datos.IDSucursal };
+                List<RptVentasMermasModels> Lista = new List<RptVentasMermasModels>();
+                RptVentasMermasModels Item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reporte_get_VentaClienteMerma", Parametros);
+                while(dr.Read())
+                {
+                    Item = new RptVentasMermasModels();
+                    Item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
+                    Item.FolioVenta = !dr.IsDBNull(dr.GetOrdinal("Folio")) ? dr.GetString(dr.GetOrdinal("Folio")): string.Empty;
+                    Item.FechaVenta = !dr.IsDBNull(dr.GetOrdinal("FechaVenta")) ? dr.GetDateTime(dr.GetOrdinal("FechaVenta")) : DateTime.Today;
+                    Item.NombreCliente = !dr.IsDBNull(dr.GetOrdinal("NomCliente")) ? dr.GetString(dr.GetOrdinal("NomCliente")) : string.Empty;
+                    Item.MermaCliente = !dr.IsDBNull(dr.GetOrdinal("MermaCliente")) ? dr.GetDecimal(dr.GetOrdinal("MermaCliente")) : 0;
+                    Item.CabezasHembras = !dr.IsDBNull(dr.GetOrdinal("CabezaHembras")) ? dr.GetInt32(dr.GetOrdinal("CabezaHembras")) : 0;
+                    Item.PesosHembras = !dr.IsDBNull(dr.GetOrdinal("PesosHembras")) ? dr.GetDecimal(dr.GetOrdinal("PesosHembras")) : 0;
+                    Item.CabezasMachos = !dr.IsDBNull(dr.GetOrdinal("CabezaMachos")) ? dr.GetInt32(dr.GetOrdinal("CabezaMachos")) : 0;
+                    Item.PesosMachos = !dr.IsDBNull(dr.GetOrdinal("PesoMachos")) ? dr.GetDecimal(dr.GetOrdinal("PesoMachos")) : 0;
+                    Item.TotalCabezas = !dr.IsDBNull(dr.GetOrdinal("TotalCabezas")) ? dr.GetInt32(dr.GetOrdinal("TotalCabezas")) : 0;
+                    Item.TotalPesos = !dr.IsDBNull(dr.GetOrdinal("TotalPesos")) ? dr.GetDecimal(dr.GetOrdinal("TotalPesos")) : 0;
+                    Item.LugarFlete = !dr.IsDBNull(dr.GetOrdinal("LugarDestino")) ? dr.GetString(dr.GetOrdinal("LugarDestino")) : string.Empty;
+                    Item.TotalVenta = !dr.IsDBNull(dr.GetOrdinal("TotalVenta")) ? dr.GetDecimal(dr.GetOrdinal("TotalVenta")) : 0;
+                    Item.MermaVenta = !dr.IsDBNull(dr.GetOrdinal("MermaVenta")) ? dr.GetDecimal(dr.GetOrdinal("MermaVenta")) : 0;
+                    Lista.Add(Item);
+                }
+                dr.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
 
 
         #region REPORTE DE ANALISIS DE VENTA

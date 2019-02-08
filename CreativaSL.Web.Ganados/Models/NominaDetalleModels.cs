@@ -12,6 +12,8 @@ namespace CreativaSL.Web.Ganados.Models
             _IDNomina = string.Empty;
             _IDEmpleado = string.Empty;
             _NombreEmpleado = string.Empty;
+            Sueldo = 0;
+            CategoriaPuesto = string.Empty;
         }
 
         private string _IDNomina;
@@ -62,6 +64,9 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _Total; }
             set { _Total = value; }
         }
+
+        public decimal Sueldo { get; set; }
+        public string CategoriaPuesto { get; set; }
 
         private bool _Pagado;
 
