@@ -2370,5 +2370,93 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return PartialView("ModalListaPrecios");
         }
 
+        #region Comprobante compra
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id_1">Id compra</param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ComprobanteVenta(string id)
+        {
+            try
+            {
+                Reporte_Datos R = new Reporte_Datos();
+                List<ComprobanteCompraDetallesModels> ListaComprobanteCompraDetalles = new List<ComprobanteCompraDetallesModels>();
+                List<ComprobanteCompraPagosModels> ListaComprobanteCompraPagosDetalles = new List<ComprobanteCompraPagosModels>();
+
+                _Venta2_Datos Datos = new _Venta2_Datos();
+                VentaModels2 Venta = new VentaModels2();
+                ComprobanteVentaCabeceraModels Cabecera = new ComprobanteVentaCabeceraModels();
+                Venta.Id_venta = id;
+                Venta.Conexion = Conexion;
+                Cabecera = Datos.GetComprobanteVentaCabecera(Venta);
+                //ListaComprobanteCompraDetalles = Datos.GetComprobanteCompraDetalles(Compra);
+                //ListaComprobanteCompraPagosDetalles = Datos.GetComprobanteCompraDetallesPagos(Compra);
+
+                LocalReport Rtp = new LocalReport();
+                Rtp.EnableExternalImages = true;
+                Rtp.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Formatos"), "ComprobanteCompra.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Compra");
+                }
+                ReportParameter[] Parametros = new ReportParameter[12];
+                //Parametros[0] = new ReportParameter("urlLogo", Cabecera.UrlLogo);
+                Parametros[1] = new ReportParameter("nombreEmpresa", Cabecera.NombreEmpresa);
+                Parametros[2] = new ReportParameter("rubroEmpresa", Cabecera.RubroEmpresa);
+                Parametros[3] = new ReportParameter("telefonoEmpresa", Cabecera.TelefonoEmpresa);
+                Parametros[4] = new ReportParameter("direccionEmpresa", Cabecera.DireccionEmpresa);
+                Parametros[5] = new ReportParameter("folio", Cabecera.Folio);
+                //Parametros[6] = new ReportParameter("nombreProveedor", Cabecera.NombreProveedor);
+                //Parametros[7] = new ReportParameter("telefonoProveedor", Cabecera.TelefonoProveedor);
+                //Parametros[8] = new ReportParameter("rfcProveedor", Cabecera.RFCProveedor);
+                Parametros[9] = new ReportParameter("diaImpresion", Cabecera.DiaImpresion);
+                Parametros[10] = new ReportParameter("mesImpresion", Cabecera.MesImpresion);
+                Parametros[11] = new ReportParameter("annoImpresion", Cabecera.AnnoImpresion);
+
+                Rtp.SetParameters(Parametros);
+                Rtp.DataSources.Add(new ReportDataSource("ComprobanteCompraDetalles", ListaComprobanteCompraDetalles));
+                Rtp.DataSources.Add(new ReportDataSource("ComprobanteCompraDetallesPagos", ListaComprobanteCompraPagosDetalles));
+
+                string reportType = "PDF";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>ComprobanteCompra</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
+                return View("Index");
+
+            }
+        }
+        #endregion
     }
 }

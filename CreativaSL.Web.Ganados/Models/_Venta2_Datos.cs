@@ -2280,5 +2280,73 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public ComprobanteVentaCabeceraModels GetComprobanteVentaCabecera(VentaModels2 Venta)
+        {
+            try
+            {
+                ComprobanteVentaCabeceraModels Item = new ComprobanteVentaCabeceraModels();
+                object[] parametros = { Venta.Id_venta };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_ComprobanteVentaDetallesCabecera", parametros);
+
+                while (dr.Read())
+                {
+                    Item.LogoEmpresa = !dr.IsDBNull(dr.GetOrdinal("logoEmpresa")) ? dr.GetString(dr.GetOrdinal("logoEmpresa")) : string.Empty;
+                    Item.NombreEmpresa = !dr.IsDBNull(dr.GetOrdinal("nombreEmpresa")) ? dr.GetString(dr.GetOrdinal("nombreEmpresa")) : string.Empty;
+                    Item.RubroEmpresa = !dr.IsDBNull(dr.GetOrdinal("rubroEmpresa")) ? dr.GetString(dr.GetOrdinal("rubroEmpresa")) : string.Empty;
+                    Item.TelefonoEmpresa = !dr.IsDBNull(dr.GetOrdinal("telefonoEmpresa")) ? dr.GetString(dr.GetOrdinal("telefonoEmpresa")) : string.Empty;
+                    Item.DireccionEmpresa = !dr.IsDBNull(dr.GetOrdinal("direccionEmpresa")) ? dr.GetString(dr.GetOrdinal("direccionEmpresa")) : string.Empty;
+                    Item.Folio = !dr.IsDBNull(dr.GetOrdinal("folio")) ? dr.GetString(dr.GetOrdinal("folio")) : string.Empty;
+                    Item.NombreCliente = !dr.IsDBNull(dr.GetOrdinal("nombreCliente")) ? dr.GetString(dr.GetOrdinal("nombreCliente")) : string.Empty;
+                    Item.TelefonoCliente = !dr.IsDBNull(dr.GetOrdinal("telefonoCliente")) ? dr.GetString(dr.GetOrdinal("telefonoCliente")) : string.Empty;
+                    Item.RFCPCliente = !dr.IsDBNull(dr.GetOrdinal("rfcCliente")) ? dr.GetString(dr.GetOrdinal("rfcCliente")) : string.Empty;
+                    Item.AnnoImpresion = !dr.IsDBNull(dr.GetOrdinal("anno")) ? dr.GetString(dr.GetOrdinal("anno")) : string.Empty;
+                    Item.MesImpresion = !dr.IsDBNull(dr.GetOrdinal("mes")) ? dr.GetString(dr.GetOrdinal("mes")) : string.Empty;
+                    Item.DiaImpresion = !dr.IsDBNull(dr.GetOrdinal("dia")) ? dr.GetString(dr.GetOrdinal("dia")) : string.Empty;
+                }
+                dr.Close();
+                return Item;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<ComprobanteVentaDetallesModels> GetComprobanteVentaDetalles(VentaModels2 Venta)
+        {
+            try
+            {
+                List<ComprobanteVentaDetallesModels> Lista = new List<ComprobanteVentaDetallesModels>();
+                ComprobanteVentaDetallesModels Item;
+                object[] parametros = { Venta.Id_venta };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Compra_get_ComprobanteCompraDetalles", parametros);
+
+                while (dr.Read())
+                {
+                    Item = new ComprobanteVentaDetallesModels();
+                    Item.Cantidad = !dr.IsDBNull(dr.GetOrdinal("Cantidad")) ? dr.GetDecimal(dr.GetOrdinal("Cantidad")) : 0;
+                    Item.Genero = !dr.IsDBNull(dr.GetOrdinal("Genero")) ? dr.GetString(dr.GetOrdinal("Genero")) : string.Empty;
+                    Item.TotalKilos = !dr.IsDBNull(dr.GetOrdinal("totalKilos")) ? dr.GetDecimal(dr.GetOrdinal("totalKilos")) : 0;
+                    Item.PrecioPorKilo = !dr.IsDBNull(dr.GetOrdinal("precioKilo")) ? dr.GetDecimal(dr.GetOrdinal("precioKilo")) : 0;
+                    Item.Subtotal = !dr.IsDBNull(dr.GetOrdinal("precioTotal")) ? dr.GetDecimal(dr.GetOrdinal("precioTotal")) : 0;
+
+                    Lista.Add(Item);
+                }
+                dr.Close();
+
+                if (Lista.Count == 0)
+                {
+                    Lista.Add(new ComprobanteVentaDetallesModels());
+                }
+
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

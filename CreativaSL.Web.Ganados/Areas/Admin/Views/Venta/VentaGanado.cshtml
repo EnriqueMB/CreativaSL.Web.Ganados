@@ -56,7 +56,7 @@
         </div>
 
         @{ Html.EnableClientValidation(false); }
-        @using (Html.BeginForm("VentaGanado", "Venta", FormMethod.Post, new { id = "frm_venta", @class = "form-horizontal", autocomplete = "off" }))
+        @using (Html.BeginForm("VentaGanado", "Venta", FormMethod.Post, new { id = "frm_venta", name = "frm_venta", @class = "form-horizontal", autocomplete = "off"}))
         {
         <div id="validation_summary" class="field_error ">
             <dd for="Ganado" class="validacionCSL" style="color: #ff004d !important; "></dd>
@@ -265,9 +265,9 @@
                                             <th>Corral</th>
                                             <th>Genero</th>
                                             <th>Merma</th>
-                                            <th>Peso</th>
-                                            <th>Precio/kilo</th>
-                                            <th>Subtotal</th>
+                                            <th>Peso inicial</th>
+                                            <th>Precio/kilo (pagado)</th>
+                                            <th>Costo</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -300,6 +300,7 @@
                                             <th>Peso</th>
                                             <th>Precio/kilo</th>
                                             <th>Nuevo Precio/kilo</th>
+                                            <th>M.E.</th>
                                             <th>Subtotal</th>
                                         </tr>
                                     </thead>
@@ -315,6 +316,7 @@
                                             <th>Peso</th>
                                             <th>Precio/kilo</th>
                                             <th>Nuevo Precio/kilo</th>
+                                            <th>M.E.</th>
                                             <th>Subtotal</th>
                                         </tr>
                                     </tfoot>
@@ -324,7 +326,7 @@
 
                     </div>
                     <div class="panel-footer">
-                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                        <input id="guardar" type="button" value="Guardar" class="btn btn-primary pull-right">
                         <a href="@Url.Action("Index", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                     </div>
                 </div>
