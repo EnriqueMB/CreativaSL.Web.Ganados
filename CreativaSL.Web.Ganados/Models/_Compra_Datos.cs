@@ -1086,7 +1086,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.IDProveedor = !dr.IsDBNull(dr.GetOrdinal("nombreRazonSocial")) ? dr.GetString(dr.GetOrdinal("nombreRazonSocial")) : string.Empty;
                     DateTime FechaHoraProgramada = !dr.IsDBNull(dr.GetOrdinal("fechaHoraProgramada")) ? dr.GetDateTime(dr.GetOrdinal("fechaHoraProgramada")) : DateTime.Now;
                     Item.start = FechaHoraProgramada.ToString("yyyy-MM-dd");
-                    Item.title = Item.IDProveedor;
+                   
                     Item.Estatus = !dr.IsDBNull(dr.GetOrdinal("estatus")) ? dr.GetInt16(dr.GetOrdinal("estatus")) : 0;
                     Item.GanadosPactadoMachos = !dr.IsDBNull(dr.GetOrdinal("ganadoPactadoMachos")) ? dr.GetInt32(dr.GetOrdinal("ganadoPactadoMachos")) : 0;
                     Item.GanadosPactadoHembras = !dr.IsDBNull(dr.GetOrdinal("ganadoPactadoHembras")) ? dr.GetInt32(dr.GetOrdinal("ganadoPactadoHembras")) : 0;
@@ -1100,6 +1100,9 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Nota = !dr.IsDBNull(dr.GetOrdinal("nota")) ? dr.GetString(dr.GetOrdinal("nota")) : "Sin dato";
                     Item.Unidad = !dr.IsDBNull(dr.GetOrdinal("unidad")) ? dr.GetString(dr.GetOrdinal("unidad")) : "0";
                     Item.Chofer = !dr.IsDBNull(dr.GetOrdinal("chofer")) ? dr.GetString(dr.GetOrdinal("chofer")) : "Sin dato";
+                    Item.Letras = Item.Sucursal;
+                    string Cadena = Item.Letras.Substring(0,4);
+                    Item.title = Cadena + " | " + Item.IDProveedor;
 
                     Lista.Add(Item);
                 }
@@ -1139,7 +1142,9 @@ namespace CreativaSL.Web.Ganados.Models
 
                     DateTime FechaHoraProgramada = !dr.IsDBNull(dr.GetOrdinal("fechaHoraProgramada")) ? dr.GetDateTime(dr.GetOrdinal("fechaHoraProgramada")) : DateTime.Now;
                     Item.start = FechaHoraProgramada.ToString("yyyy-MM-dd");
-                    Item.title = Item.Cliente;
+                    Item.Letras = Item.Sucursal;
+                    string Cadena = Item.Letras.Substring(0, 4);
+                    Item.title = Cadena + " | " + Item.Cliente;
 
                     Lista.Add(Item);
                 }

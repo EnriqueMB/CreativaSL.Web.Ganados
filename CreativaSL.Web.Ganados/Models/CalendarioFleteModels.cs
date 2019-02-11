@@ -16,6 +16,7 @@ namespace CreativaSL.Web.Ganados.Models
         public string Destinatario { get; set; }
         public string Estatus { get; set; }
         public string ColorEstatus { get; set; }
+        public string Letras { get; set; }
 
         public string Conexion { get; set; }
         public DateTime fechaStart { get; set; }
