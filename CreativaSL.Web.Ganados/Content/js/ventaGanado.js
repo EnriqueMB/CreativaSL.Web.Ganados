@@ -26,11 +26,8 @@
     var costoMachos = Number.parseFloat($("#CostoMachos").val().replace("$", '').replace(/,/g, ""));
     var costoHembras = Number.parseFloat($("#CostoHembras").val().replace("$", '').replace(/,/g, ""));
     var costoTotal = Number.parseFloat($("#CostoTotal").val().replace("$", '').replace(/,/g, ""));
-
     var montoTotalGanado = Number.parseFloat($("#MontoTotalGanado").val().replace("$", '').replace(/,/g, ""));
-
     var genero;
-
 
     /*INICIA GANADO*/
     var initDataTables = function () {
@@ -161,12 +158,14 @@
             },
             "drawCallback": function (settings) {
                 $(".kg2").maskMoney({ allowZero: true, suffix: ' kg', precision: 0 });
+
                 $('.kg2').keyup(function () {
                     var me = $(this).val().split(" ", 1).toString().replace(/,/g, "");
 
                     if (Number.isNaN(me))
                         me = 0;
                     else {
+                       
                         var peso = this.dataset.peso;
                         var precio = this.dataset.precio;
                         var id = this.dataset.id;
@@ -176,16 +175,58 @@
                             precio = 0;
                         }
                         var row = tblGanadoJaula.row('#' + id).nodes().to$().find("td");
+                        var antiguoPrecio = Number.parseFloat(GetKilosSinSimboloSinEspacios(row[6].innerHTML));
+                       
+
                         me = Number.parseFloat(me);
                         var nuevoPrecioPorKilo = Number.parseFloat(GetMoneySinSimbolo(row[4].innerHTML));
+
                         var nuevoPeso = Number.parseFloat(peso);
                         nuevoPeso = nuevoPeso + me;
                         var nuevoSubtotal = nuevoPeso * nuevoPrecioPorKilo;
-                        row[6].innerHTML = "$" + Number.parseFloat(nuevoSubtotal).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');;
-                        //console.log(nuevoPrecioPorKilo);
-                        //console.log(nuevoPeso);                        
-                        //console.log(nuevoSubtotal);     
-                        //console.log(me);
+                        row[6].innerHTML = "$" + Number.parseFloat(nuevoSubtotal).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+
+                        var total = Number.parseFloat(GetMoneySinSimbolo($("#MontoTotalGanado").val()));
+                        total = total - antiguoPrecio;
+                        total = total + nuevoSubtotal;
+
+                        $("#MontoTotalGanado").val(total.toFixed(2));
+                        $(".money").maskMoney('mask');
+
+                        //merma
+                        var rows = tblGanadoJaula.rows().nodes().to$();
+
+                        for (var i = 0; i < rows.length; i++) {
+                            var row2 = $(rows[i]).find("td");
+                            
+                            for (var x = 0; x < row2.length; x += 7) {
+                                console.log(row2[x]);
+                            }
+                        }
+
+                        //var generoRow = row[2].innerHTML;
+                        //generoRow = generoRow.trim();
+
+                        //if (generoRow.localeCompare("MACHO") == 0) {
+                        //    var meMachos = Number.parseFloat(GetKilosSinSimbolo($("#MermaExtraMachos").val()));
+                        //    var meTotalMachos = meMachos - meDown;
+                        //    $("#MermaExtraMachos").val(meTotalMachos.toFixed(2));
+                        //}
+                        //else if (generoRow.localeCompare("HEMBRA") == 0) {
+                        //    var meHembras = Number.parseFloat(GetKilosSinSimbolo($("#MermaExtraHembras").val()));
+                        //    console.log("meHembras: " + meHembras);
+                        //    console.log("meDown: " + meDown);
+                        //    var meTotalHembras = meHembras - meDown + Number.parseFloat(me);
+                        //    console.log("meTotalHembras: " + meTotalHembras);
+                        //    $("#MermaExtraHembras").val(meTotalHembras.toFixed(2));
+                        //}
+
+                        //var meTotalGeneral = Number.parseFloat(GetKilosSinSimbolo($("#ME").val())) - meDown;
+                        //$("#ME").val(meTotalGeneral.toFixed(2));
+
+                        //$(".kgMerma").maskMoney('mask');
+
+
                     }
                 });
             }
@@ -275,12 +316,12 @@
 
                 var ganados = [];
 
-                console.log(tblGanado);
+                //console.log(tblGanado);
                 for (var i = 0; i < tblGanado.length; i += 7) {
                     var id_ganado = $(tblGanado[i + 5]).find("input[name='me']").attr("data-id") ;
                     var me = Number.parseFloat(GetKilosSinSimbolo($(tblGanado[i + 5]).find("input[name='me']").val()));
 
-                    console.log(id_ganado);
+                    //console.log(id_ganado);
 
                     var ganado =
                     {
@@ -382,7 +423,6 @@
                 var d = rows[i];
 
                 var arrayRow = Object.values(d);
-                console.log(arrayRow);
                 var subtotal = TipoDeVenta === 1 ? d.subtotal : d.pesoInicial * d.precioKilo;
                 var pesoInicial = TipoDeVenta === 1 ? d.pesoInicial : arrayRow.length == 11 ? arrayRow[7] : arrayRow[5];
 
@@ -417,6 +457,9 @@
 
                 if (TipoDeVenta === 2) {
                     var pesoInicial2 = d.pesoInicial;
+                    var mermaExtra = Number.parseFloat(d.me);
+                    pesoInicial2 = pesoInicial2 + mermaExtra;
+
                     var precioXKilo2 = Number.parseFloat(PrecioSugerido(pesoInicial2, d.genero.trim())).toFixed(2);
 
                     var nuevoMontoTotalGanado = pesoInicial2 * precioXKilo2;
@@ -457,6 +500,20 @@
             return newValue;
         }
     }
+
+    function GetKilosSinSimboloSinEspacios(value) {
+        var newValue = value.split("$", 2);
+        newValue = newValue[1];
+        newValue = newValue.toString().replace(/,/g, "");
+
+        if (Number.isNaN(newValue)) {
+            return 0;
+        }
+        else {
+            return newValue;
+        }
+    }
+
 
     function GetMoneySinSimbolo(value) {
         var newValue = value.split(" ", 2);

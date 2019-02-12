@@ -1062,6 +1062,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Venta.Id_sucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty;
                     Venta.TipoVenta = !dr.IsDBNull(dr.GetOrdinal("tipoVenta")) ? dr.GetInt16(dr.GetOrdinal("tipoVenta")) : 0;
                     Venta.MontoTotalGanado = !dr.IsDBNull(dr.GetOrdinal("montoTotalGanado")) ? dr.GetDecimal(dr.GetOrdinal("montoTotalGanado")) : 0;
+                    Venta.MermaExtraMachos = !dr.IsDBNull(dr.GetOrdinal("mermaExtraMachos")) ? dr.GetDecimal(dr.GetOrdinal("mermaExtraMachos")) : 0;
+                    Venta.MermaExtraHembras = !dr.IsDBNull(dr.GetOrdinal("mermaExtraHembras")) ? dr.GetDecimal(dr.GetOrdinal("mermaExtraHembras")) : 0;
                 }
                 else
                 {

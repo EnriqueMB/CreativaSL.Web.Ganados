@@ -7,6 +7,8 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class VentaModels2
     {
+        public decimal MermaExtraMachos { get; set; }
+        public decimal MermaExtraHembras { get; set; }
         public int TipoVenta { get; set; }
         public decimal MontoTotalGanado { get; set; }
         public decimal ME { get; set; }
