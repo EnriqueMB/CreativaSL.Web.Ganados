@@ -620,7 +620,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpPost]
-        public ActionResult VentaGanado(string ListaIDGanadosParaVender, string IDVenta, decimal ME, decimal montoTotal)
+        //public ActionResult VentaGanado(string ListaIDGanadosParaVender, string IDVenta, decimal ME, decimal montoTotal)
+        public ActionResult VentaGanado(List<GanadoParaVender> ListaGanadosParaVender, string IDVenta, decimal montoTotal)
         {
             try
             {
@@ -630,11 +631,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     VentaModels2 Venta = new VentaModels2();
                     Venta.Conexion = Conexion;
                     Venta.Usuario = User.Identity.Name;
-                    Venta.ListaIDGanadosParaVender = ListaIDGanadosParaVender;
+                    //Venta.ListaIDGanadosParaVender = ListaIDGanadosParaVender;
                     Venta.Id_venta = IDVenta;
-                    Venta.ME = ME;
+                    //Venta.ME = ME;
                     Venta.MontoTotalGanado = montoTotal;
-                    Venta.RespuestaAjax = VentaDatos.AC_Ganado(Venta);
+                    Venta.RespuestaAjax = new RespuestaAjax();
+                    VentaDatos.AC_Ganado(Venta, ListaGanadosParaVender);
 
                     if (Venta.RespuestaAjax.Success)
                     {
@@ -651,6 +653,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                         return Content(Venta.RespuestaAjax.ToJSON(), "application/json");
                     }
+                    return RedirectToAction("Index");
                 }
                 else
                 {

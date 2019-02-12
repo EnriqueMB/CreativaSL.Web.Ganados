@@ -1,6 +1,7 @@
 ﻿using Microsoft.ApplicationBlocks.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -1671,32 +1672,98 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
         #region AC_Ganado
-        public RespuestaAjax AC_Ganado(VentaModels2 datos)
+        //public RespuestaAjax AC_Ganado(VentaModels2 datos)
+        //{
+        //    try
+        //    {
+        //        object[] parametros =
+        //        {
+        //            datos.Id_venta, datos.ListaIDGanadosParaVender, datos.Usuario, datos.ME, datos.MontoTotalGanado
+        //        };
+
+        //        RespuestaAjax RespuestaAjax = new RespuestaAjax();
+        //        SqlDataReader dr = null;
+        //        dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Venta_ac_Ganado", parametros);
+        //        while (dr.Read())
+        //        {
+        //            RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+        //            RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("Mensaje")) ? dr.GetString(dr.GetOrdinal("Mensaje")) : string.Empty;
+        //        }
+        //        dr.Close();
+        //        return RespuestaAjax;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+
+        //}
+
+        public void AC_Ganado(VentaModels2 Modelo, List<GanadoParaVender> Lista)
         {
             try
             {
-                object[] parametros =
+                // construct sql connection and sql command objects.
+                using (SqlConnection sqlcon = new SqlConnection(Modelo.Conexion))
                 {
-                    datos.Id_venta, datos.ListaIDGanadosParaVender, datos.Usuario, datos.ME, datos.MontoTotalGanado
-                };
+                    using (SqlCommand cmd = new SqlCommand("spCSLDB_Venta_ac_Ganado2", sqlcon))
+                    {
+                        //parametros de entrada
+                        cmd.CommandType = CommandType.StoredProcedure;
 
-                RespuestaAjax RespuestaAjax = new RespuestaAjax();
-                SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Venta_ac_Ganado", parametros);
-                while (dr.Read())
-                {
-                    RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
-                    RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("Mensaje")) ? dr.GetString(dr.GetOrdinal("Mensaje")) : string.Empty;
+                        DataTable dataTable;
+                        dataTable = new DataTable("Items");
+
+                        dataTable.Columns.Add("Id_ganado", typeof(string));
+                        dataTable.Columns.Add("MermaExtra", typeof(decimal));
+                        dataTable.Columns.Add("Subtotal", typeof(decimal));
+
+                        foreach (var item in Lista)
+                        {
+                            dataTable.Rows.Add(item.Id_ganado, item.MermaExtra, item.Subtotal);
+                        }
+                        //DataTable _dt;
+                        //// create data table to insert items
+                        //_dt = new DataTable("Items");
+                        //_dt.Columns.Add("ItemID", typeof(string));
+                        //_dt.Columns.Add("Name", typeof(string));
+                        //_dt.Rows.Add(4, "SuperBowl 9 Hat");
+                        //_dt.Rows.Add(5, "SuperBowl 10 T-Shirt");
+                        //_dt.Rows.Add(6, "SuperBowl 13 Towel");
+                        //_dt.Rows.Add(7, "SuperBowl 14 Helmet");
+
+                        cmd.Parameters.Add("@id_venta", SqlDbType.Char).Value = Modelo.Id_venta;
+                        cmd.Parameters.Add("@tbl_GanadoParaVenta", SqlDbType.Structured).Value = dataTable;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Char).Value = Modelo.Usuario;
+                        cmd.Parameters.Add("@montoTotalGanado", SqlDbType.Money).Value = Modelo.MontoTotalGanado;
+
+
+                        //parametros de salida
+                        cmd.Parameters.Add(new SqlParameter("@mensaje", SqlDbType.NVarChar, -1)); //-1 para tipo MAX
+                        cmd.Parameters["@mensaje"].Direction = ParameterDirection.Output;
+                        cmd.Parameters.Add(new SqlParameter("@success", SqlDbType.Bit));
+                        cmd.Parameters["@success"].Direction = ParameterDirection.Output;
+                        // execute
+                        sqlcon.Open();
+
+                        cmd.ExecuteNonQuery();
+                        Modelo.RespuestaAjax.Mensaje = cmd.Parameters["@mensaje"].Value.ToString();
+
+                        cmd.Parameters["@success"].Value.ToString();
+
+                        //if (bool.TryParse(cmd.Parameters["@success"].Value.ToString(), out bool success))
+                        //{
+                        //Modelo.RespuestaAjax.Success = success;
+                        //}
+                    }
                 }
-                dr.Close();
-                return RespuestaAjax;
             }
-            catch (Exception ex)
+            catch (Exception ex )
             {
-                throw ex;
+                throw;
             }
-
         }
+
         #endregion
         #region AC_Evento
         public RespuestaAjax AC_Evento(EventoVentaModels Evento)

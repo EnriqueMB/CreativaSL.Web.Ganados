@@ -1695,6 +1695,7 @@
     <Compile Include="Models\Flete_ProductoModels.cs" />
     <Compile Include="Models\Flete_TipoDocumentoModels.cs" />
     <Compile Include="Models\GanadoModels.cs" />
+    <Compile Include="Models\GanadoParaVender.cs" />
     <Compile Include="Models\GeneroGanadoModels.cs" />
     <Compile Include="Models\ArchivoEmpresaModels.cs" />
     <Compile Include="Models\ImpuestoModels.cs" />

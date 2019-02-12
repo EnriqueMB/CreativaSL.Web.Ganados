@@ -140,7 +140,7 @@
                 {
                     "data": "me",
                     "render": function (data, type, row) {
-                        return '<input class="kg2" type="text" style="color:black" data-peso="'+ row["pesoInicial"] +'" data-precio="'+ row["precioKilo"] +'" data-id="'+ row["id_ganado"] +'" value="' + data + ' kg">';
+                        return '<input name= "me" class="kg2" type="text" style="color:black" data-peso="'+ row["pesoInicial"] +'" data-precio="'+ row["precioKilo"] +'" data-id="'+ row["id_ganado"] +'" value="' + data + ' kg">';
 
                     }
                 },
@@ -182,10 +182,10 @@
                         nuevoPeso = nuevoPeso + me;
                         var nuevoSubtotal = nuevoPeso * nuevoPrecioPorKilo;
                         row[6].innerHTML = "$" + Number.parseFloat(nuevoSubtotal).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');;
-                        console.log(nuevoPrecioPorKilo);
-                        console.log(nuevoPeso);                        
-                        console.log(nuevoSubtotal);     
-                        console.log(me);
+                        //console.log(nuevoPrecioPorKilo);
+                        //console.log(nuevoPeso);                        
+                        //console.log(nuevoSubtotal);     
+                        //console.log(me);
                     }
                 });
             }
@@ -269,31 +269,48 @@
             var error = Validar();
 
             if (error == 0) {
-                var ganado = tblGanadoJaula.rows().data();
-                var me = GetKilosSinSimbolo($("#ME").val());
+                //var tblGanado = tblGanadoJaula.rows().data();
+                var tblGanado = tblGanadoJaula.rows().nodes().to$().find("td");
                 var monto = GetMoneySinSimbolo($("#MontoTotalGanado").val());
 
-                var objGanado, cantidad = 0;
-                var listaGanado = new Array();
+                var ganados = [];
 
-                for (var i = 0; i < ganado.length; i++) {
-                    listaGanado.unshift(ganado[i].id_ganado);
-                    cantidad = i + 1;
+                console.log(tblGanado);
+                for (var i = 0; i < tblGanado.length; i += 7) {
+                    var id_ganado = $(tblGanado[i + 5]).find("input[name='me']").attr("data-id") ;
+                    var me = Number.parseFloat(GetKilosSinSimbolo($(tblGanado[i + 5]).find("input[name='me']").val()));
+
+                    console.log(id_ganado);
+
+                    var ganado =
+                    {
+                        Id_ganado: id_ganado,
+                        MermaExtra: me
+                    };
+                    ganados.push(ganado);
                 }
-                var formData = new FormData();
-                //datos de las tablas
-                formData.append('IDVenta', Id_venta);
-                formData.append('ListaIDGanadosParaVender', listaGanado);
-                formData.append('ME', me);
-                formData.append('montoTotal', monto);
+
+                //console.log(JSON.stringify(ganados));
+
+                //var formData = new FormData();
+                //////datos de las tablas
+                //formData.append('IDVenta', Id_venta);
+                //formData.append('ListaGanadosParaVender', JSON.stringify(ganados));
+                ////formData.append('ListaIDGanadosParaVender', listaGanado);
+                ////formData.append('ME', me);
+                //formData.append('montoTotal', monto);
+
+                var Datos = {
+                    ListaGanadosParaVender: ganados,
+                    IDVenta: Id_venta,
+                    montoTotal: monto
+                };
 
                 $.ajax({
+                    dataType: 'json', 
                     type: 'POST',
-                    data: formData,
                     url: '/Admin/Venta/VentaGanado/',
-                    contentType: false,
-                    processData: false,
-                    cache: false,
+                    data: Datos,
                     success: function (response) {
                         window.location.href = '/Admin/Venta/Index';
                     },
