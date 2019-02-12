@@ -23,6 +23,7 @@ namespace CreativaSL.Web.Ganados.Models
             Completado = false;
             Opcion = 0;
             Usuario = string.Empty;
+            Letras = string.Empty;
         }
 
         public DateTime fechaStart { get; set; }
@@ -47,6 +48,8 @@ namespace CreativaSL.Web.Ganados.Models
         public string Nota { get; set; }
         public string Unidad { get; set; }
         public string Chofer { get; set; }
+
+        public string Letras { get; set; }
 
         #region Datos De Control
         public string Conexion { get; set; }
