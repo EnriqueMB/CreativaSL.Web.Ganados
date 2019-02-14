@@ -192,41 +192,8 @@
 
                         $("#MontoTotalGanado").val(total.toFixed(2));
                         $(".money").maskMoney('mask');
-
-                        //merma
-                        var rows = tblGanadoJaula.rows().nodes().to$();
-
-                        for (var i = 0; i < rows.length; i++) {
-                            var row2 = $(rows[i]).find("td");
-                            
-                            for (var x = 0; x < row2.length; x += 7) {
-                                console.log(row2[x]);
-                            }
-                        }
-
-                        //var generoRow = row[2].innerHTML;
-                        //generoRow = generoRow.trim();
-
-                        //if (generoRow.localeCompare("MACHO") == 0) {
-                        //    var meMachos = Number.parseFloat(GetKilosSinSimbolo($("#MermaExtraMachos").val()));
-                        //    var meTotalMachos = meMachos - meDown;
-                        //    $("#MermaExtraMachos").val(meTotalMachos.toFixed(2));
-                        //}
-                        //else if (generoRow.localeCompare("HEMBRA") == 0) {
-                        //    var meHembras = Number.parseFloat(GetKilosSinSimbolo($("#MermaExtraHembras").val()));
-                        //    console.log("meHembras: " + meHembras);
-                        //    console.log("meDown: " + meDown);
-                        //    var meTotalHembras = meHembras - meDown + Number.parseFloat(me);
-                        //    console.log("meTotalHembras: " + meTotalHembras);
-                        //    $("#MermaExtraHembras").val(meTotalHembras.toFixed(2));
-                        //}
-
-                        //var meTotalGeneral = Number.parseFloat(GetKilosSinSimbolo($("#ME").val())) - meDown;
-                        //$("#ME").val(meTotalGeneral.toFixed(2));
-
-                        //$(".kgMerma").maskMoney('mask');
-
-
+                        CalculoMerma();
+                        
                     }
                 });
             }
@@ -235,6 +202,36 @@
         
 
     };
+
+    function CalculoMerma() {
+        //merma
+        var rows = tblGanadoJaula.rows().nodes().to$();
+        var mermaGeneralMachos = 0;
+        var mermaGeneralHembras = 0;
+
+        for (var i = 0; i < rows.length; i++) {
+            var cells = $(rows[i]).find("td");
+
+            for (var x = 0; x < cells.length; x += 7) {
+                var genero = cells[x + 2].innerHTML;
+                genero = genero.trim();
+                var mermaExtraUsuario = Number.parseFloat(GetKilosSinSimbolo($(cells[x + 5]).find("input").val()));
+
+                if (genero.localeCompare("MACHO") == 0) {
+                    mermaGeneralMachos += mermaExtraUsuario;
+                }
+                else if (genero.localeCompare("HEMBRA") == 0) {
+                    mermaGeneralHembras += mermaExtraUsuario;
+                }
+            }
+        }
+
+        $("#MermaExtraMachos").val(mermaGeneralMachos);
+        $("#MermaExtraHembras").val(mermaGeneralHembras);
+        $("#ME").val((mermaGeneralHembras + mermaGeneralMachos));
+
+        $(".kgMerma").maskMoney('mask');
+    }
 
     function PrecioSugerido(peso, genero) {
         genero = (genero == "Macho" || genero == "MACHO") ? true : false;
@@ -260,7 +257,7 @@
         $(".kgMerma").maskMoney(
             {
                 allowZero: true,
-                precision: 2,
+                precision: 0,
                 suffix: ' kg'
             }
         );

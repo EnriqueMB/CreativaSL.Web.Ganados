@@ -1724,15 +1724,6 @@ namespace CreativaSL.Web.Ganados.Models
                         {
                             dataTable.Rows.Add(item.Id_ganado, item.MermaExtra, item.Subtotal);
                         }
-                        //DataTable _dt;
-                        //// create data table to insert items
-                        //_dt = new DataTable("Items");
-                        //_dt.Columns.Add("ItemID", typeof(string));
-                        //_dt.Columns.Add("Name", typeof(string));
-                        //_dt.Rows.Add(4, "SuperBowl 9 Hat");
-                        //_dt.Rows.Add(5, "SuperBowl 10 T-Shirt");
-                        //_dt.Rows.Add(6, "SuperBowl 13 Towel");
-                        //_dt.Rows.Add(7, "SuperBowl 14 Helmet");
 
                         cmd.Parameters.Add("@id_venta", SqlDbType.Char).Value = Modelo.Id_venta;
                         cmd.Parameters.Add("@tbl_GanadoParaVenta", SqlDbType.Structured).Value = dataTable;
@@ -1751,12 +1742,12 @@ namespace CreativaSL.Web.Ganados.Models
                         cmd.ExecuteNonQuery();
                         Modelo.RespuestaAjax.Mensaje = cmd.Parameters["@mensaje"].Value.ToString();
 
-                        cmd.Parameters["@success"].Value.ToString();
+                        bool success;
 
-                        //if (bool.TryParse(cmd.Parameters["@success"].Value.ToString(), out bool success))
-                        //{
-                        //Modelo.RespuestaAjax.Success = success;
-                        //}
+                        if (Boolean.TryParse(cmd.Parameters["@success"].Value.ToString(), out success))
+                        {
+                            Modelo.RespuestaAjax.Success = success;
+                        }
                     }
                 }
             }
