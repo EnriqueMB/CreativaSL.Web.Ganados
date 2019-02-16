@@ -2385,8 +2385,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 Reporte_Datos R = new Reporte_Datos();
-                List<ComprobanteCompraDetallesModels> ListaComprobanteCompraDetalles = new List<ComprobanteCompraDetallesModels>();
-                List<ComprobanteCompraPagosModels> ListaComprobanteCompraPagosDetalles = new List<ComprobanteCompraPagosModels>();
+                List<ComprobanteVentaDetallesModels> ListaComprobanteVentaDetalles = new List<ComprobanteVentaDetallesModels>();
+                List<ComprobanteVentaPagosModels> ListaComprobanteVentaPagosDetalles = new List<ComprobanteVentaPagosModels>();
 
                 _Venta2_Datos Datos = new _Venta2_Datos();
                 VentaModels2 Venta = new VentaModels2();
@@ -2394,7 +2394,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Venta.Id_venta = id;
                 Venta.Conexion = Conexion;
                 Cabecera = Datos.GetComprobanteVentaCabecera(Venta);
-                //ListaComprobanteCompraDetalles = Datos.GetComprobanteCompraDetalles(Compra);
+                //ListaComprobanteVentaDetalles = Datos.GetComprobanteVentaDetalles(Compra);
                 //ListaComprobanteCompraPagosDetalles = Datos.GetComprobanteCompraDetallesPagos(Compra);
 
                 LocalReport Rtp = new LocalReport();
@@ -2424,8 +2424,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Parametros[11] = new ReportParameter("annoImpresion", Cabecera.AnnoImpresion);
 
                 Rtp.SetParameters(Parametros);
-                Rtp.DataSources.Add(new ReportDataSource("ComprobanteCompraDetalles", ListaComprobanteCompraDetalles));
-                Rtp.DataSources.Add(new ReportDataSource("ComprobanteCompraDetallesPagos", ListaComprobanteCompraPagosDetalles));
+                //Rtp.DataSources.Add(new ReportDataSource("ComprobanteCompraDetalles", ListaComprobanteCompraDetalles));
+                //Rtp.DataSources.Add(new ReportDataSource("ComprobanteCompraDetallesPagos", ListaComprobanteCompraPagosDetalles));
 
                 string reportType = "PDF";
                 string mimeType;

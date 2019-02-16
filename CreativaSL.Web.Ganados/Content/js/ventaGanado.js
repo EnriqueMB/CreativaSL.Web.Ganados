@@ -315,10 +315,8 @@
 
                 //console.log(tblGanado);
                 for (var i = 0; i < tblGanado.length; i += 7) {
-                    var id_ganado = $(tblGanado[i + 5]).find("input[name='me']").attr("data-id") ;
+                    var id_ganado = $(tblGanado[i + 5]).find("input[name='me']").attr("data-id");
                     var me = Number.parseFloat(GetKilosSinSimbolo($(tblGanado[i + 5]).find("input[name='me']").val()));
-
-                    //console.log(id_ganado);
 
                     var ganado =
                     {
@@ -327,16 +325,6 @@
                     };
                     ganados.push(ganado);
                 }
-
-                //console.log(JSON.stringify(ganados));
-
-                //var formData = new FormData();
-                //////datos de las tablas
-                //formData.append('IDVenta', Id_venta);
-                //formData.append('ListaGanadosParaVender', JSON.stringify(ganados));
-                ////formData.append('ListaIDGanadosParaVender', listaGanado);
-                ////formData.append('ME', me);
-                //formData.append('montoTotal', monto);
 
                 var Datos = {
                     ListaGanadosParaVender: ganados,
