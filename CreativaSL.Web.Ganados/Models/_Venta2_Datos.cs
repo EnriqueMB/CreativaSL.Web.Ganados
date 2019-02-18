@@ -2381,7 +2381,7 @@ namespace CreativaSL.Web.Ganados.Models
                 ComprobanteVentaDetallesModels Item;
                 object[] parametros = { Venta.Id_venta };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Compra_get_ComprobanteCompraDetalles", parametros);
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_ComprobanteVentaDetalles", parametros);
 
                 while (dr.Read())
                 {
@@ -2401,6 +2401,34 @@ namespace CreativaSL.Web.Ganados.Models
                     Lista.Add(new ComprobanteVentaDetallesModels());
                 }
 
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<ComprobanteVentaPagosModels> GetComprobanteVentaDetallesPagos(VentaModels2 Venta)
+        {
+            try
+            {
+                List<ComprobanteVentaPagosModels> Lista = new List<ComprobanteVentaPagosModels>();
+                ComprobanteVentaPagosModels Item;
+                object[] parametros = { Venta.Id_venta };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_ComprobanteVentaDetallesPagos", parametros);
+
+                while (dr.Read())
+                {
+                    Item = new ComprobanteVentaPagosModels();
+                    Item.FormaPago = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    Item.FechaPago = !dr.IsDBNull(dr.GetOrdinal("fecha")) ? dr.GetString(dr.GetOrdinal("fecha")) : string.Empty;
+                    Item.MontoPagado = !dr.IsDBNull(dr.GetOrdinal("monto")) ? dr.GetDecimal(dr.GetOrdinal("monto")) : 0;
+
+                    Lista.Add(Item);
+                }
+                dr.Close();
                 return Lista;
             }
             catch (Exception ex)

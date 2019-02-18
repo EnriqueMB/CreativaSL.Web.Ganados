@@ -299,6 +299,14 @@
         $("#btnAddCobro").on("click", function () {
             window.location.href = '/Admin/Venta/VentaCobro?id_1=' + Id_venta + '&id_2=';
         });
+
+        $("#btnGenerarComprobanteVenta").on("click", function () {
+            window.open
+                (
+                '/Admin/Venta/ComprobanteVenta?id=' + Id_venta,
+                '_blank'
+                );
+        });
         
     }
     

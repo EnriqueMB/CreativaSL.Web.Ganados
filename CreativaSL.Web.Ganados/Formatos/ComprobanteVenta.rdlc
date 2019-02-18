@@ -1,6 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="CreativaSLWebGanadosModels">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>13fec2ef-248b-4e20-8fa7-16910a6f4b96</rd:DataSourceID>
+    </DataSource>
+    <DataSource Name="CreativaSLWebGanadosModels1">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>2fb3f8b1-68f2-4e5e-add9-ec665912ee83</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="ListaDetalles">
+      <Query>
+        <DataSourceName>CreativaSLWebGanadosModels</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Cantidad">
+          <DataField>Cantidad</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Genero">
+          <DataField>Genero</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TotalKilos">
+          <DataField>TotalKilos</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="PrecioPorKilo">
+          <DataField>PrecioPorKilo</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Subtotal">
+          <DataField>Subtotal</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>CreativaSL.Web.Ganados.Models</rd:DataSetName>
+        <rd:TableName>_Venta2_Datos</rd:TableName>
+        <rd:ObjectDataSourceSelectMethod>GetComprobanteVentaDetalles</rd:ObjectDataSourceSelectMethod>
+        <rd:ObjectDataSourceSelectMethodSignature>System.Collections.Generic.List`1[CreativaSL.Web.Ganados.Models.ComprobanteVentaDetallesModels] GetComprobanteVentaDetalles(CreativaSL.Web.Ganados.Models.VentaModels2)</rd:ObjectDataSourceSelectMethodSignature>
+        <rd:ObjectDataSourceType>CreativaSL.Web.Ganados.Models._Venta2_Datos, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="ListaDetallesPagos">
+      <Query>
+        <DataSourceName>CreativaSLWebGanadosModels1</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="FormaPago">
+          <DataField>FormaPago</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FechaPago">
+          <DataField>FechaPago</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MontoPagado">
+          <DataField>MontoPagado</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>CreativaSL.Web.Ganados.Models</rd:DataSetName>
+        <rd:TableName>_Venta2_Datos</rd:TableName>
+        <rd:ObjectDataSourceSelectMethod>GetComprobanteVentaDetallesPagos</rd:ObjectDataSourceSelectMethod>
+        <rd:ObjectDataSourceSelectMethodSignature>System.Collections.Generic.List`1[CreativaSL.Web.Ganados.Models.ComprobanteVentaPagosModels] GetComprobanteVentaDetallesPagos(CreativaSL.Web.Ganados.Models.VentaModels2)</rd:ObjectDataSourceSelectMethodSignature>
+        <rd:ObjectDataSourceType>CreativaSL.Web.Ganados.Models._Venta2_Datos, CreativaSL.Web.Ganados, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+      </rd:DataSetInfo>
+    </DataSet>
+  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -1253,7 +1333,7 @@ IIF(IsNothing(Fields!TotalKilos.Value), 0, SUM(Fields!Subtotal.Value)/Int(Sum(Fi
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>ComprobanteCompraDetalles</DataSetName>
+            <DataSetName>ListaDetalles</DataSetName>
             <Top>2.96016cm</Top>
             <Height>1.8cm</Height>
             <Width>12.76265cm</Width>
@@ -1639,7 +1719,7 @@ IIF(IsNothing(Fields!TotalKilos.Value), 0, SUM(Fields!Subtotal.Value)/Int(Sum(Fi
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>ComprobanteCompraDetallesPagos</DataSetName>
+            <DataSetName>ListaDetallesPagos</DataSetName>
             <Top>5.71183cm</Top>
             <Height>1.8cm</Height>
             <Width>12.84204cm</Width>
@@ -1765,12 +1845,12 @@ IIF(IsNothing(Fields!TotalKilos.Value), 0, SUM(Fields!Subtotal.Value)/Int(Sum(Fi
             </Border>
           </Style>
         </PageFooter>
-        <PageHeight>29.7cm</PageHeight>
-        <PageWidth>21cm</PageWidth>
-        <LeftMargin>2cm</LeftMargin>
-        <RightMargin>2cm</RightMargin>
-        <TopMargin>2cm</TopMargin>
-        <BottomMargin>2cm</BottomMargin>
+        <PageHeight>21.59cm</PageHeight>
+        <PageWidth>13.97cm</PageWidth>
+        <LeftMargin>0.5cm</LeftMargin>
+        <RightMargin>0.5cm</RightMargin>
+        <TopMargin>0.5cm</TopMargin>
+        <BottomMargin>0.5cm</BottomMargin>
         <ColumnSpacing>0.13cm</ColumnSpacing>
         <Style />
       </Page>
