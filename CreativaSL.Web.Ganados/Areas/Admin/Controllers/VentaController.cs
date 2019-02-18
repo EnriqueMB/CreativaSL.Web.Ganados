@@ -2373,11 +2373,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return PartialView("ModalListaPrecios");
         }
 
-        #region Comprobante compra
+        #region Comprobante venta
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="Id_1">Id compra</param>
+        /// <param name="id">Id venta</param>
         /// <returns></returns>
         [HttpGet]
         public ActionResult ComprobanteVenta(string id)
@@ -2400,14 +2400,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
                 Rtp.DataSources.Clear();
-                string path = Path.Combine(Server.MapPath("~/Formatos"), "ComprobanteCompra.rdlc");
+                string path = Path.Combine(Server.MapPath("~/Formatos"), "ComprobanteVenta.rdlc");
                 if (System.IO.File.Exists(path))
                 {
                     Rtp.ReportPath = path;
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Compra");
+                    return RedirectToAction("Index", "Venta");
                 }
                 ReportParameter[] Parametros = new ReportParameter[12];
                 //Parametros[0] = new ReportParameter("urlLogo", Cabecera.UrlLogo);
@@ -2433,7 +2433,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 string fileNameExtension;
 
                 string deviceInfo = "<DeviceInfo>" +
-                "  <OutputFormat>ComprobanteCompra</OutputFormat>" +
+                "  <OutputFormat>ComprobanteVenta</OutputFormat>" +
                 "</DeviceInfo>";
 
                 Warning[] warnings;

@@ -172,11 +172,7 @@
                                             <tr>
                                                 <th>Número de arete</th>
                                                 <th>Género</th>
-                                                <th>Peso inicial (kg.)</th>
-                                                <th>Peso final - Repeso (kg.)</th>
-                                                <th>Diferencia de peso(kg.)</th>
-                                                <th>Merma obtenida (%)</th>
-                                                <th>Peso pagado (kg.)</th>
+                                                <th>Peso</th>
                                                 <th>Precio por kilo ($)</th>
                                                 <th>Subtotal ($)</th>
                                             </tr>
@@ -201,11 +197,7 @@
                                             <tr>
                                                 <th>Número de arete</th>
                                                 <th>Género</th>
-                                                <th>Peso inicial (kg.)</th>
-                                                <th>Peso final - Repeso (kg.)</th>
-                                                <th>Diferencia de peso(kg.)</th>
-                                                <th>Merma obtenida (%)</th>
-                                                <th>Peso pagado (kg.)</th>
+                                                <th>Peso</th>
                                                 <th>Precio por kilo ($)</th>
                                                 <th>Subtotal ($)</th>
                                             </tr>
@@ -621,6 +613,13 @@
                         "data": "subtotal",
                         "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
                     },
+                ],
+                "columnDefs": [
+                    {
+                        "targets": [3],
+                        "visible": false,
+                        "searchable": false
+                    }
                 ]
             });
 
@@ -646,34 +645,6 @@
                         "render": function (data, type, row) {
                             var totalPeso = row["peso"];
                             return totalPeso + ' kg.'
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var totalRepeso = row["repeso"];
-                            return totalRepeso + ' kg.'
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var totalRepeso = row["diferenciaPeso"];
-                            return totalRepeso + ' kg.'
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var merma = row["merma"];
-                            return merma.toFixed(2) + ' %';
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var totalRepeso = row["pesoPagado"];
-                            return totalRepeso + ' kg.'
                         }
                     },
                     {
@@ -709,34 +680,6 @@
                         "render": function (data, type, row) {
                             var totalPeso = row["peso"];
                             return totalPeso + ' kg.'
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var totalRepeso = row["repeso"];
-                            return totalRepeso + ' kg.'
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var totalRepeso = row["diferenciaPeso"];
-                            return totalRepeso + ' kg.'
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var merma = row["merma"];
-                            return merma.toFixed(2) + ' %';
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (data, type, row) {
-                            var totalRepeso = row["pesoPagado"];
-                            return totalRepeso + ' kg.'
                         }
                     },
                     {
