@@ -2391,6 +2391,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.TotalKilos = !dr.IsDBNull(dr.GetOrdinal("totalKilos")) ? dr.GetDecimal(dr.GetOrdinal("totalKilos")) : 0;
                     Item.PrecioPorKilo = !dr.IsDBNull(dr.GetOrdinal("precioKilo")) ? dr.GetDecimal(dr.GetOrdinal("precioKilo")) : 0;
                     Item.Subtotal = !dr.IsDBNull(dr.GetOrdinal("precioTotal")) ? dr.GetDecimal(dr.GetOrdinal("precioTotal")) : 0;
+                    Item.TipoVenta = !dr.IsDBNull(dr.GetOrdinal("tipoVenta")) ? dr.GetInt32(dr.GetOrdinal("tipoVenta")) : 0;
 
                     Lista.Add(Item);
                 }

@@ -14,11 +14,13 @@ namespace CreativaSL.Web.Ganados.Models
             TotalKilos = 0;
             PrecioPorKilo = 0;
             Subtotal = 0;
+            TipoVenta = 0;
         }
         public decimal Cantidad { get; set; }
         public string Genero { get; set; }
         public decimal TotalKilos { get; set; }
         public decimal PrecioPorKilo { get; set; }
         public decimal Subtotal { get; set; }
+        public int TipoVenta { get; set; }
     }
 }
