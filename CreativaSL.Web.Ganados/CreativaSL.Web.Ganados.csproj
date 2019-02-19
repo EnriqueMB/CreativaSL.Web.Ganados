@@ -1970,20 +1970,20 @@
     <Content Include="Reports\RptSocios.rdlc" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Formatos\ComprobanteFlete.rdlc" />
-    <EmbeddedResource Include="Formatos\ComprobanteVenta.rdlc" />
-    <EmbeddedResource Include="Formatos\ConcentradoDocumentosPorCobrar.rdlc" />
-    <EmbeddedResource Include="Formatos\ConcentradoDocumentosPorPagar.rdlc" />
-    <EmbeddedResource Include="Reports\ReporteAlmacen.rdlc">
+    <Content Include="Formatos\ComprobanteFlete.rdlc" />
+    <Content Include="Formatos\ComprobanteVenta.rdlc" />
+    <Content Include="Formatos\ConcentradoDocumentosPorCobrar.rdlc" />
+    <Content Include="Formatos\ConcentradoDocumentosPorPagar.rdlc" />
+    <Content Include="Reports\ReporteAlmacen.rdlc">
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\ReporteEntradaAlmacen.rdlc" />
-    <EmbeddedResource Include="Reports\ReporteMantenimientoVehiculo.rdlc">
+    </Content>
+    <Content Include="Reports\ReporteEntradaAlmacen.rdlc" />
+    <Content Include="Reports\ReporteMantenimientoVehiculo.rdlc">
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\ReporteRendimientoVehiculo.rdlc" />
-    <EmbeddedResource Include="Reports\ReporteSalidasAlmacen.rdlc" />
-    <EmbeddedResource Include="Reports\ReporteVentaMermaDestino.rdlc" />
+    </Content>
+    <Content Include="Reports\ReporteRendimientoVehiculo.rdlc" />
+    <Content Include="Reports\ReporteSalidasAlmacen.rdlc" />
+    <Content Include="Reports\ReporteVentaMermaDestino.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
