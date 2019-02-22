@@ -53,7 +53,7 @@
 
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Editar" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit" href="@Url.Action("Edit", "CatCorral", new { id = Corral.Id_corral })"><i class="fa fa-edit"></i></a>
                                                     <a title="Eliminar" onClick="delete_row('@Corral.Id_corral', '@Url.Action("Delete", "CatCorral")');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
