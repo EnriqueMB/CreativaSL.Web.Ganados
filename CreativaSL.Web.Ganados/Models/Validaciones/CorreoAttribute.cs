@@ -16,7 +16,8 @@ namespace CreativaSL.Web.Ganados.Models.Validaciones
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            string pattern = @"^[_A-Za-z0-9-.\\+]+(\\.[_A-Za-z0-9-.]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+            string pattern = @"^[_A-Za-z0-9-]+(.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(.[A-Za-z0-9-]+)*(.[A-Za-z]{2,4})$";
+            //string pattern = @"^[_A-Za-z0-9-.\\+]+(\\.[_A-Za-z0-9-.]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
             if (value != null)
             {
                 if(!Regex.IsMatch(value.ToString(), pattern))
