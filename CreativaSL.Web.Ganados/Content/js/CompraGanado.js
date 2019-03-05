@@ -751,6 +751,7 @@
 
         return mermaGenerada.toFixed(CANTDECIMALES);
     }
+
     function PesoSugerido(peso, MermaObtenida) {
         if (MermaObtenida > tolerancia) {
 
@@ -803,18 +804,6 @@
         }
     }
 
-    //despues de 3 o 4 veces deja de funcionar el select D:
-    //function CorralSugerido(peso, genero) {
-    //    for (var item in listaCorrales) {
-    //        if (listaCorrales[item].Genero.trim().localeCompare(genero) == 0) {
-    //            if ((listaCorrales[item].Rango_inferior <= peso) && (peso <= listaCorrales[item].Rango_superior)) {
-    //                return listaCorrales[item].Descripcion;
-    //            }
-    //        }
-    //    }
-    //    return "Sin corral";
-    //}
-    
     return {
         init: function (lista, toleranciaP, listacorral, listafierro) {
             listaPrecioPesoProveedor = lista;

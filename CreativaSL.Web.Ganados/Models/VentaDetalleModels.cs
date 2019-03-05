@@ -12,6 +12,8 @@ namespace CreativaSL.Web.Ganados.Models
         public string VentaSucursal { get; set; }
         public string VentaFecha { get; set; }
         public string VentaMerma { get; set; }
+        public string VentaMermaMachos { get; set; }
+        public string VentaMermaHembras { get; set; }
         public string VentaObservacion { get; set; }
 
         public string ClienteNombreRazonSocialCompleto { get; set; }

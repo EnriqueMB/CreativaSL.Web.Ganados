@@ -165,35 +165,34 @@
                     if (Number.isNaN(me))
                         me = 0;
                     else {
-                       
-                        var peso = this.dataset.peso;
-                        var precio = this.dataset.precio;
-                        var id = this.dataset.id;
+                        if (TipoDeVenta == 2) {
+                            var peso = this.dataset.peso;
+                            var precio = this.dataset.precio;
+                            var id = this.dataset.id;
 
-                        if (Number.isNaN(peso) || Number.isNaN(precio)) {
-                            peso = 0;
-                            precio = 0;
+                            if (Number.isNaN(peso) || Number.isNaN(precio)) {
+                                peso = 0;
+                                precio = 0;
+                            }
+                            var row = tblGanadoJaula.row('#' + id).nodes().to$().find("td");
+                            var antiguoPrecio = Number.parseFloat(GetKilosSinSimboloSinEspacios(row[6].innerHTML));
+
+                            me = Number.parseFloat(me);
+                            var nuevoPrecioPorKilo = Number.parseFloat(GetMoneySinSimbolo(row[4].innerHTML));
+
+                            var nuevoPeso = Number.parseFloat(peso);
+                            nuevoPeso = nuevoPeso + me;
+                            var nuevoSubtotal = nuevoPeso * nuevoPrecioPorKilo;
+                            row[6].innerHTML = "$" + Number.parseFloat(nuevoSubtotal).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+
+                            var total = Number.parseFloat(GetMoneySinSimbolo($("#MontoTotalGanado").val()));
+                            total = total - antiguoPrecio;
+                            total = total + nuevoSubtotal;
+
+                            $("#MontoTotalGanado").val(total.toFixed(2));
+                            $(".money").maskMoney('mask');
                         }
-                        var row = tblGanadoJaula.row('#' + id).nodes().to$().find("td");
-                        var antiguoPrecio = Number.parseFloat(GetKilosSinSimboloSinEspacios(row[6].innerHTML));
-                       
-
-                        me = Number.parseFloat(me);
-                        var nuevoPrecioPorKilo = Number.parseFloat(GetMoneySinSimbolo(row[4].innerHTML));
-
-                        var nuevoPeso = Number.parseFloat(peso);
-                        nuevoPeso = nuevoPeso + me;
-                        var nuevoSubtotal = nuevoPeso * nuevoPrecioPorKilo;
-                        row[6].innerHTML = "$" + Number.parseFloat(nuevoSubtotal).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-
-                        var total = Number.parseFloat(GetMoneySinSimbolo($("#MontoTotalGanado").val()));
-                        total = total - antiguoPrecio;
-                        total = total + nuevoSubtotal;
-
-                        $("#MontoTotalGanado").val(total.toFixed(2));
-                        $(".money").maskMoney('mask');
                         CalculoMerma();
-                        
                     }
                 });
             }
@@ -455,6 +454,7 @@
 
             }
             tblGanadoJaula.rows('.selected').remove().draw(false);
+            CalculoMerma();
         });
 
         $('#btnVerListaPrecios').on('click', function () {
