@@ -221,7 +221,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
         #region DatatableDocumentosPorPagarDetalles
-        public string DatatableDocumentosPorPagarDetalles(string Id_documentoPorPagar, string Id_compra, string conexion)
+        public string DatatableDocumentosPorPagarDetallesPercepcion(string Id_documentoPorPagar, string Id_compra, string conexion)
         {
             object[] parametros =
             {
@@ -232,7 +232,29 @@ namespace CreativaSL.Web.Ganados.Models
             try
             {
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(conexion, "spCSLDB_Compra_get_DocumentosPorPagarDetalles", parametros);
+                dr = SqlHelper.ExecuteReader(conexion, "spCSLDB_Compra_get_DocumentosPorPagarDetallesPercepcion", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string DatatableDocumentosPorPagarDetallesDeduccion(string Id_documentoPorPagar, string Id_compra, string conexion)
+        {
+            object[] parametros =
+            {
+                Id_documentoPorPagar,
+                Id_compra
+            };
+
+            try
+            {
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "dbo.spCSLDB_Compra_get_DocumentosPorPagarDetallesDeduccion", parametros);
                 string datatable = Auxiliar.SqlReaderToJson(dr);
                 dr.Close();
                 return datatable;
@@ -1523,6 +1545,9 @@ namespace CreativaSL.Web.Ganados.Models
                     documentosPorPagar.Pagos = !dr.IsDBNull(dr.GetOrdinal("pagos")) ? dr.GetDecimal(dr.GetOrdinal("pagos")) : 0;
                     documentosPorPagar.Pendientes = !dr.IsDBNull(dr.GetOrdinal("pendientes")) ? dr.GetDecimal(dr.GetOrdinal("pendientes")) : 0;
                     documentosPorPagar.Cambio = !dr.IsDBNull(dr.GetOrdinal("cambio")) ? dr.GetDecimal(dr.GetOrdinal("cambio")) : 0;
+
+                    documentosPorPagar.TotalPercepciones = !dr.IsDBNull(dr.GetOrdinal("montoPercepcion")) ? dr.GetDecimal(dr.GetOrdinal("montoPercepcion")) : 0;
+                    documentosPorPagar.TotalDeducciones = !dr.IsDBNull(dr.GetOrdinal("montoDeduccion")) ? dr.GetDecimal(dr.GetOrdinal("montoDeduccion")) : 0;
                 }
                 dr.Close();
                 return documentosPorPagar;

@@ -468,6 +468,7 @@
     <Content Include="Content\js\Canvas.js" />
     <Content Include="Content\js\CatContactos.js" />
     <Content Include="Content\js\CatContactosClientes.js" />
+    <Content Include="Content\js\CatDeduccion_Create.js" />
     <Content Include="Content\js\catDocumentos.js" />
     <Content Include="Content\js\catFierro.js" />
     <Content Include="Content\js\CatFierroSubir.js" />
@@ -1472,6 +1473,10 @@
     <Content Include="Areas\Admin\Views\CatRangoPesoVenta\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatRangoPesoVenta\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\ModalListaPrecios.cshtml" />
+    <Content Include="Areas\Admin\Views\CatDeduccion\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatDeduccion\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatDeduccion\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\AddDeduccion.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1504,6 +1509,7 @@
     <Compile Include="App_Start\TokenProcessor.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\Controllers\CatCorralController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatDeduccionController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatGanadoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatRangoPesoVentaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatTipoClienteController.cs" />
@@ -1590,6 +1596,7 @@
     <Compile Include="Models\CatCorralesModels.cs" />
     <Compile Include="Models\CatCorralModels.cs" />
     <Compile Include="Models\CatCostoFlete.cs" />
+    <Compile Include="Models\CatDeduccionModels.cs" />
     <Compile Include="Models\CatEmpleadoAltaNominaModels.cs" />
     <Compile Include="Models\CatEmpleadoBajaNominaModels.cs" />
     <Compile Include="Models\CatEmpleadoModels.cs" />
@@ -1667,6 +1674,7 @@
     <Compile Include="Models\DataTableParameters.cs" />
     <Compile Include="Models\DataTableResultSet.cs" />
     <Compile Include="Models\DatosGeneralesGanados.cs" />
+    <Compile Include="Models\DeduccionModels.cs" />
     <Compile Include="Models\DocumentoCompraModels.cs" />
     <Compile Include="Models\DocumentoModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
@@ -1799,6 +1807,7 @@
     <Compile Include="Models\_CatConceptoDetalleDocumento_Datos.cs" />
     <Compile Include="Models\_CatConceptoNomina_Datos.cs" />
     <Compile Include="Models\_CatCorral_Datos.cs" />
+    <Compile Include="Models\_CatDeduccion_Datos.cs" />
     <Compile Include="Models\_CatDocumentos_Datos.cs" />
     <Compile Include="Models\_CatEmpleado_Datos.cs" />
     <Compile Include="Models\_CatEmpresa_Datos.cs" />
@@ -1831,6 +1840,7 @@
     <Compile Include="Models\_Compra_Datos.cs" />
     <Compile Include="Models\_ConciliacionAlmacen_Datos.cs" />
     <Compile Include="Models\_DatosRptUltCompraProveedor_Datos.cs" />
+    <Compile Include="Models\_Deduccion_Datos.cs" />
     <Compile Include="Models\_DocumentoXCobrar_Datos.cs" />
     <Compile Include="Models\_EntradaAlmacen_Datos.cs" />
     <Compile Include="Models\_DocumentoXPagar_Datos.cs" />

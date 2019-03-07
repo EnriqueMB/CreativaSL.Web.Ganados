@@ -1086,12 +1086,30 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         /// <param name="Id_2">Id de la compra</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult DatatableDocumentosPorPagarDetalles(string Id_1, string Id_2)
+        public ActionResult DatatableDocumentosPorPagarDetallesPercepcion(string Id_1, string Id_2)
         {
             try
             {
                 CompraDatos = new _Compra_Datos();
-                string Mensaje = CompraDatos.DatatableDocumentosPorPagarDetalles(Id_1, Id_2, Conexion);
+                string Mensaje = CompraDatos.DatatableDocumentosPorPagarDetallesPercepcion(Id_1, Id_2, Conexion);
+
+                return Content(Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                return Content(Mensaje, "application/json");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DatatableDocumentosPorPagarDetallesDeduccion(string Id_1, string Id_2)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                string Mensaje = CompraDatos.DatatableDocumentosPorPagarDetallesDeduccion(Id_1, Id_2, Conexion);
 
                 return Content(Mensaje, "application/json");
 
@@ -3050,7 +3068,83 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
             }
         }
-        
+
+        #endregion
+
+        #region Vista deduccion
+        [HttpGet]
+        public ActionResult AddDeduccion(string id)
+        {
+            if(string.IsNullOrEmpty(id) || id.Length != 36)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+
+            _CatDeduccion_Datos datos = new _CatDeduccion_Datos();
+            DeduccionModels deduccion = new DeduccionModels();
+
+            deduccion.IdGenerico = id;
+            ViewBag.ListaDeducciones = datos.SpCIDDB_Combo_get_CatDeduccion(Conexion);
+            Token.SaveToken();
+
+            return View(deduccion);
+        }
+
+        [HttpPost]
+        public ActionResult AddDeduccion(DeduccionModels deduccion)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        string usuario = User.Identity.Name;
+                        _Deduccion_Datos datos = new _Deduccion_Datos();
+
+                        RespuestaAjax respuesta = datos.SpCSLDB_DocumentoPorPagar_AC_Deduccion(Conexion, usuario, 1, 1, deduccion);
+                        TempData["message"] = respuesta.Mensaje;
+
+                        if (respuesta.Success)
+                        {
+                            TempData["typemessage"] = "1";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            ObtenerViewBagListaDeduccion();
+                            TempData["typemessage"] = "2";
+                            return View(deduccion);
+                        }
+                    }
+                    else
+                    {
+                        ObtenerViewBagListaDeduccion();
+                        return View(deduccion);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return RedirectToAction("Index");
+            }
+        }
+    
+        public void ObtenerViewBagListaDeduccion()
+        {
+            _CatDeduccion_Datos datosDeduccion = new _CatDeduccion_Datos();
+            ViewBag.ListaDeducciones = datosDeduccion.SpCIDDB_Combo_get_CatDeduccion(Conexion);
+        }
+       
         #endregion
 
 
