@@ -108,10 +108,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         
                         Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)Img.Clone(), 35L));
                         ImageCodecInfo jpgEncoder = ComprimirImagen.GetEncoder(ComprimirImagen.GetImageFormat(Img));
-                        string fileName = Fierro.IDFierro + "." + jpgEncoder.FormatDescription;
-                        Fierro.ImgFierro = image.ToBase64String(image.RawFormat);
-                        //Img = Comun.ResizeImage(Img, 1250, 800);
-                        Img.Save(baseDir + fileName);
+                        string fileName = Fierro.IDFierro + ".png";
+                        Fierro.ImgFierro = image.ToBase64String(ImageFormat.Png);
+                        string newImagePath = baseDir + fileName;
+                        image.Save(newImagePath, ImageFormat.Png);
                         Fierro.NombreArchivo = fileName;
                         Fierro = FierroDatos.ActualizarImagen(Fierro);
                         if (Fierro.Completado == true)
