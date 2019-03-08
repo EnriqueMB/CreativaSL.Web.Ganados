@@ -1169,7 +1169,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIF(IsNothing(Fields!TotalKilos.Value), "0 kg.", Int(Sum(Fields!TotalKilos.Value)) &amp; " kg.")</Value>
+                                  <Value>=IIF(IsNothing(Fields!TotalKilos.Value), "0 kg.", Sum(CInt(Fields!TotalKilos.Value)) &amp; " kg.")</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -1213,8 +1213,8 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=
-IIF(IsNothing(Fields!TotalKilos.Value), 0, SUM(Fields!Subtotal.Value)/Int(Sum(Fields!TotalKilos.Value)))</Value>
+                                  <Value>=iif(CInt(SUM(Fields!TotalKilos.Value)) = 0, 0, 
+SUM(Fields!Subtotal.Value)/Sum(CInt(Fields!TotalKilos.Value)))</Value>
                                   <Style>
                                     <Format>'$'#,0.00</Format>
                                     <Language>es-MX</Language>

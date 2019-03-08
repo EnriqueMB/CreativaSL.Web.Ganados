@@ -234,7 +234,6 @@
                 var Id_sucursal = $("#Id_sucursal").val();
                 var Id_empresa = $("#Flete_Id_empresa").val();
 
-                GetClientesXIDSucursal(Id_sucursal);
                 GetChoferesXIDEmpresa(Id_empresa, Id_sucursal);
                 GetVehiculosXIDEmpresa(Id_empresa, Id_sucursal);
                 GetLugaresXIDEmpresa(Id_empresa);

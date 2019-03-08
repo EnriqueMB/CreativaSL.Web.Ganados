@@ -64,8 +64,12 @@
                                                 <dd>@Model.VentaSucursal</dd>
                                                 <dt>Fecha finalizada</dt>
                                                 <dd>@Model.VentaFecha</dd>
-                                                <dt>Merma</dt>
-                                                <dd>@Model.VentaMerma</dd>
+                                                <dt>Merma Extra</dt>
+                                                <dd>@decimal.Parse(Model.VentaMerma).ToString("F2") KG</dd>
+                                                <dt>Merma Extra Machos</dt>
+                                                <dd>@decimal.Parse(Model.VentaMermaMachos).ToString("F2") KG</dd>
+                                                <dt>Merma Extra Hembras</dt>
+                                                <dd>@decimal.Parse(Model.VentaMermaHembras).ToString("F2") KG</dd>
                                                 <dt>Observación</dt>
                                                 <dd>@Model.VentaObservacion</dd>
                                             </dl>

@@ -1592,6 +1592,8 @@ namespace CreativaSL.Web.Ganados.Models
                     VentaDetalles.VentaSucursal = !dr.IsDBNull(dr.GetOrdinal("nombreSuc")) ? dr.GetString(dr.GetOrdinal("nombreSuc")) : string.Empty;
                     VentaDetalles.VentaFecha = !dr.IsDBNull(dr.GetOrdinal("fechaHoraVenta")) ? dr.GetString(dr.GetOrdinal("fechaHoraVenta")) : string.Empty;
                     VentaDetalles.VentaMerma = !dr.IsDBNull(dr.GetOrdinal("merma")) ? dr.GetString(dr.GetOrdinal("merma")) : string.Empty;
+                    VentaDetalles.VentaMermaMachos = !dr.IsDBNull(dr.GetOrdinal("mermaExtraMachos")) ? dr.GetString(dr.GetOrdinal("mermaExtraMachos")) : string.Empty;
+                    VentaDetalles.VentaMermaHembras = !dr.IsDBNull(dr.GetOrdinal("mermaExtraHembras")) ? dr.GetString(dr.GetOrdinal("mermaExtraHembras")) : string.Empty;
                     VentaDetalles.VentaObservacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
 
                     VentaDetalles.FleteLineaFletera = !dr.IsDBNull(dr.GetOrdinal("lineaFletera")) ? dr.GetString(dr.GetOrdinal("lineaFletera")) : string.Empty;
@@ -2399,7 +2401,9 @@ namespace CreativaSL.Web.Ganados.Models
 
                 if (Lista.Count == 0)
                 {
-                    Lista.Add(new ComprobanteVentaDetallesModels());
+                    Item = new ComprobanteVentaDetallesModels();
+                    Item.Genero = "Sin gando";
+                    Lista.Add(Item);
                 }
 
                 return Lista;

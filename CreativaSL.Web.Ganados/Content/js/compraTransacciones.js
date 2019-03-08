@@ -3,7 +3,8 @@
     //datatables
     var tblDocumentoPorCobrarDetalles,        tbl_articulosServiciosCobro,
         tbl_documentosPorCobrarDetallesPagos, tbl_articulosServiciosPagos;
-    var tbl_documentoPorPagarDetalles,        tbl_documentosPorPagarDetallesPagos;
+    var tbl_documentoPorPagarDetalles, tbl_documentosPorPagarDetallesPagos;
+    var tbl_documentoPorPagarDetallesDeducciones;
     //otros
     var IDCompra = $("#IDCompra").val();
     var Id_documentoPorCobrar = $("#Id_documentoPorCobrar").val();
@@ -195,66 +196,67 @@
 
                         return fecha;
                     }
-                },
-                {
-                    "data": null,
-                    "render": function (data, type, full) {
-
-                        var menu = "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='btn btn-yellow tooltips btn-sm editCobro' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
-                            "<a data-hrefa='/Admin/Compra/DelComprobante/' title='Eliminar' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='btn btn-danger tooltips btn-sm deleteCobro' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
-                            "</div>" +
-                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
-                            "<div class='btn-group'>" +
-                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
-                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
-                            "</a>" +
-                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
-                            "<li>" +
-                            "<a data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='editCobro' role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-edit'></i> Editar" +
-                            "</a>" +
-                            "</li>" +
-                            "<li>" +
-                            "<a data-hrefa='/Admin/Compra/DelComprobante/' class='deleteCobro' role='menuitem' tabindex='-1' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "'>" +
-                            "<i class='fa fa-trash-o'></i> Eliminar" +
-                            "</a>" +
-                            "</li>" +
-                            "</ul>" +
-                            "</div>" +
-                            "</div>";
-                        return menu;
-                    }
                 }
+                //,
+                //{
+                //    "data": null,
+                //    "render": function (data, type, full) {
+
+                //        var menu = "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                //            "<a data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='btn btn-yellow tooltips btn-sm editCobro' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                //            "<a data-hrefa='/Admin/Compra/DelComprobante/' title='Eliminar' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='btn btn-danger tooltips btn-sm deleteCobro' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                //            "</div>" +
+                //            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                //            "<div class='btn-group'>" +
+                //            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                //            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                //            "</a>" +
+                //            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                //            "<li>" +
+                //            "<a data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='editCobro' role='menuitem' tabindex='-1'>" +
+                //            "<i class='fa fa-edit'></i> Editar" +
+                //            "</a>" +
+                //            "</li>" +
+                //            "<li>" +
+                //            "<a data-hrefa='/Admin/Compra/DelComprobante/' class='deleteCobro' role='menuitem' tabindex='-1' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "'>" +
+                //            "<i class='fa fa-trash-o'></i> Eliminar" +
+                //            "</a>" +
+                //            "</li>" +
+                //            "</ul>" +
+                //            "</div>" +
+                //            "</div>";
+                //        return menu;
+                //    }
+                //}
             ],
             "drawCallback": function (settings) {
-                $(".editCobro").on("click", function () {
-                    var Id_detalleDoctoCobrarPago = $(this).data("id");
-                    window.location.href = '/Admin/Compra/CobroCompra?id_1=' + IDCompra + '&id_2=' + Id_detalleDoctoCobrarPago;
-                });
+                //$(".editCobro").on("click", function () {
+                //    var Id_detalleDoctoCobrarPago = $(this).data("id");
+                //    window.location.href = '/Admin/Compra/CobroCompra?id_1=' + IDCompra + '&id_2=' + Id_detalleDoctoCobrarPago;
+                //});
 
-                $(".deleteCobro").on("click", function () {
-                    var url = $(this).attr('data-hrefa');
-                    var id_detalle = $(this).attr('data-id');
-                    var box = $("#mb-delComprobante");
-                    box.addClass("open");
-                    box.find(".mb-control-yes").on("click", function () {
-                        box.removeClass("open");
-                        $.ajax({
-                            url: url,
-                            data: { Id_documentoPorCobrarDetallePagos: id_detalle, Id_documentoPorCobrar: Id_documentoPorCobrar },
-                            type: 'POST',
-                            dataType: 'json',
-                            success: function (result) {
-                                box.find(".mb-control-yes").prop('onclick', null).off('click');
-                                location.reload();
-                            },
-                            error: function (result) {
-                                location.reload();
-                            }
-                        });
-                    });
-                });
+                //$(".deleteCobro").on("click", function () {
+                //    var url = $(this).attr('data-hrefa');
+                //    var id_detalle = $(this).attr('data-id');
+                //    var box = $("#mb-delComprobante");
+                //    box.addClass("open");
+                //    box.find(".mb-control-yes").on("click", function () {
+                //        box.removeClass("open");
+                //        $.ajax({
+                //            url: url,
+                //            data: { Id_documentoPorCobrarDetallePagos: id_detalle, Id_documentoPorCobrar: Id_documentoPorCobrar },
+                //            type: 'POST',
+                //            dataType: 'json',
+                //            success: function (result) {
+                //                box.find(".mb-control-yes").prop('onclick', null).off('click');
+                //                location.reload();
+                //            },
+                //            error: function (result) {
+                //                location.reload();
+                //            }
+                //        });
+                //    });
+                //});
             }
         });
     };
@@ -263,8 +265,11 @@
         $("#btnAddCobroArticuloServicio").on("click", function () {
             window.location.href = '/Admin/Compra/ProductoServicioCompra?Id_compra=' + IDCompra + '&Id_documentoPorCobrar=' + Id_documentoPorCobrar + '&Id_detalleDocumento=';
         });
-        $("#btnAddCobroComprobante").on("click", function () {
-            window.location.href = '/Admin/Compra/CobroCompra?id_1=' + IDCompra + '&id_2=';
+        //$("#btnAddCobroComprobante").on("click", function () {
+        //    window.location.href = '/Admin/Compra/CobroCompra?id_1=' + IDCompra + '&id_2=';
+        //});
+        $("#btnAddDeduccion").on("click", function () {
+            window.location.href = '/Admin/Compra/AddDeduccion?id=' + IDCompra;
         });
     }
     /*TERMINA COBROS*/
@@ -280,10 +285,10 @@
                 "data": {
                     "Id_1": Id_documentoPorPagar, "Id_2": IDCompra
                 },
-                "url": "/Admin/Compra/DatatableDocumentosPorPagarDetalles/",
+                "url": "/Admin/Compra/DatatableDocumentosPorPagarDetallesPercepcion/",
                 "type": "POST",
                 "datatype": "json",
-                "dataSrc": '',
+                "dataSrc": ''
                 },
                 "columns": [
                     { "data": "descripcion" },
@@ -296,36 +301,98 @@
                         "data": "subtotal",
                         "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
                     }
-                ],
-                "drawCallback": function (settings) {
-                    $(".deleteDetalle").on("click", function () {
-                        var url = $(this).attr('data-hrefa');
-                        var id_detalle = $(this).attr('data-id');
-                        var box = $("#mb-deleteDetalle");
-                        box.addClass("open");
-                        box.find(".mb-control-yes").on("click", function () {
-                            box.removeClass("open");
-                            $.ajax({
-                                url: url,
-                                data: { Id_detalleDoctoCobrar: id_detalle, Id_documentoCobrar: Id_documentoPorCobrar, Id_servicio: IDCompra },
-                                type: 'POST',
-                                dataType: 'json',
-                                success: function (result) {
-                                    if (result.Success) {
-                                        box.find(".mb-control-yes").prop('onclick', null).off('click');
-                                    }
-                                    location.reload();
-                                },
-                                error: function (result) {
-                                    location.reload();
-                                }
-                            });
-                        });
-                    });
-                }
+                ]
         });
     };
-    
+
+    var Load_tbl_documentoPorPagarDetallesDeducciones = function () {
+        tbl_documentoPorPagarDetallesDeducciones = $('#tbl_documentoPorPagarDetallesDeducciones').DataTable({
+            "language": {
+                "url": "/Content/assets/json/Spanish.json"
+            },
+            responsive: true,
+            "ajax": {
+                "data": {
+                    "Id_1": Id_documentoPorPagar, "Id_2": IDCompra
+                },
+                "url": "/Admin/Compra/DatatableDocumentosPorPagarDetallesDeduccion/",
+                "type": "POST",
+                "datatype": "json",
+                "dataSrc": ''
+            },
+            "columns": [
+                { "data": "descripcion" },
+                {
+                    "data": "subtotal",
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$')
+                },
+                {
+                    "data": null,
+                    "render": function (data, type, full) {
+
+                        var menu = "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                            "<a data-id='" + full["id_detalleDoctoPagar"] + "' class='btn btn-yellow tooltips btn-sm editDeduccion' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                            "<a data-hrefa='/Admin/Compra/DeleteDeduccion/' title='Eliminar' data-id='" + full["id_detalleDoctoPagar"] + "' class='btn btn-danger tooltips btn-sm deleteDeduccion' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "</div>" +
+                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                            "<div class='btn-group'>" +
+                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                            "</a>" +
+                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                            "<li>" +
+                            "<a data-id='" + full["id_detalleDoctoPagar"] + "' class='editDeduccion' role='menuitem' tabindex='-1'>" +
+                            "<i class='fa fa-edit'></i> Editar" +
+                            "</a>" +
+                            "</li>" +
+                            "<li>" +
+                            "<a data-hrefa='/Admin/Compra/DeleteDeduccion/' class='deleteDeduccion' role='menuitem' tabindex='-1' data-id='" + full["id_detalleDoctoPagar"] + "'>" +
+                            "<i class='fa fa-trash-o'></i> Eliminar" +
+                            "</a>" +
+                            "</li>" +
+                            "</ul>" +
+                            "</div>" +
+                            "</div>";
+                        return menu;
+                    }
+                }
+            ],
+            "drawCallback": function (settings) {
+                $(".editDeduccion").on("click", function () {
+                    var Id_detalle = $(this).data("id");
+
+                    window.location.href = '/Admin/Compra/EditDeduccion?&Id=' + IDCompra + '&Id_documento=' + Id_documentoPorPagar + '&Id_detalle=' + Id_detalle;
+                });
+
+
+                $(".deleteDeduccion").on("click", function () {
+                    var url = $(this).attr('data-hrefa');
+                    var id_detalle = $(this).attr('data-id');
+                    var box = $("#mb-deleteDetalle");
+                    box.addClass("open");
+                    box.find(".mb-control-yes").on("click", function () {
+                        box.removeClass("open");
+                        $.ajax({
+                            url: url,
+                            data: { Id_documento: Id_documentoPorPagar, Id_detalle: id_detalle },
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (result) {
+                                if (result.Success) {
+                                    box.find(".mb-control-yes").prop('onclick', null).off('click');
+                                }
+                                location.reload();
+                            },
+                            error: function (result) {
+                                location.reload();
+                            }
+                        });
+                    });
+                });
+            }
+        });
+    };
+
     var Load_tbl_documentosPorPagarDetallesPagos = function () {
         tbl_documentosPorPagarDetallesPagos = $('#tbl_documentosPorPagarDetallesPagos').DataTable({
             "language": {
@@ -368,30 +435,34 @@
                 {
                     "data": null,
                     "render": function (data, type, full) {
+                        var menu = "<div></div>";
+                    
+                        if (full["esSistema"] != "1") {
+                            menu = "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                                "<a data-id='" + full["id_documentoPorPagarDetallePagos"] + "' class='btn btn-yellow tooltips btn-sm editPago' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                                "<a data-hrefa='/Admin/Compra/DelComprobantePago/' title='Eliminar' data-id='" + full["id_documentoPorPagarDetallePagos"] + "' class='btn btn-danger tooltips btn-sm deletePago' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                                "</div>" +
+                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                "<div class='btn-group'>" +
+                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                                "</a>" +
+                                "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                                "<li>" +
+                                "<a data-id='" + full["id_documentoPorPagarDetallePagos"] + "' class='editPago' role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-edit'></i> Editar" +
+                                "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                "<a data-hrefa='/Admin/Compra/DelComprobantePago/' class='deletePago' role='menuitem' tabindex='-1' data-id='" + full["id_documentoPorPagarDetallePagos"] + "'>" +
+                                "<i class='fa fa-trash-o'></i> Eliminar" +
+                                "</a>" +
+                                "</li>" +
+                                "</ul>" +
+                                "</div>" +
+                                "</div>";
+                        }
 
-                        var menu = "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-id='" + full["id_documentoPorPagarDetallePagos"] + "' class='btn btn-yellow tooltips btn-sm editPago' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
-                            "<a data-hrefa='/Admin/Compra/DelComprobantePago/' title='Eliminar' data-id='" + full["id_documentoPorPagarDetallePagos"] + "' class='btn btn-danger tooltips btn-sm deletePago' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
-                            "</div>" +
-                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
-                            "<div class='btn-group'>" +
-                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
-                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
-                            "</a>" +
-                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
-                            "<li>" +
-                            "<a data-id='" + full["id_documentoPorPagarDetallePagos"] + "' class='editPago' role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-edit'></i> Editar" +
-                            "</a>" +
-                            "</li>" +
-                            "<li>" +
-                            "<a data-hrefa='/Admin/Compra/DelComprobantePago/' class='deletePago' role='menuitem' tabindex='-1' data-id='" + full["id_documentoPorPagarDetallePagos"] + "'>" +
-                            "<i class='fa fa-trash-o'></i> Eliminar" +
-                            "</a>" +
-                            "</li>" +
-                            "</ul>" +
-                            "</div>" +
-                            "</div>";
                         return menu;
                     }
                 }
@@ -448,6 +519,7 @@
             EventosCobro();
 
             Load_tbl_documentoPorPagarDetalles();
+            Load_tbl_documentoPorPagarDetallesDeducciones();
             Load_tbl_documentosPorPagarDetallesPagos();
             EventosPago();
         }
