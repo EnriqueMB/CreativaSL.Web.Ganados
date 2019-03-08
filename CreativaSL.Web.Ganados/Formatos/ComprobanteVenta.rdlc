@@ -567,6 +567,65 @@
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Ganado</Value>
+                                  <Style>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <LeftBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </RightBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>5</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.6cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox13">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1220,7 +1279,7 @@
                                   <Value>=
 IIF(Fields!TipoVenta.Value = 1, 0, 
 
-IIF(IsNothing(Fields!TotalKilos.Value), 0, SUM(Fields!Subtotal.Value)/Int(Sum(Fields!TotalKilos.Value))))</Value>
+IIF(IsNothing(Fields!TotalKilos.Value), 0, SUM(Fields!Subtotal.Value)/Sum(Cint(Fields!TotalKilos.Value))))</Value>
                                   <Style>
                                     <Format>'$'#,0.00</Format>
                                     <Language>es-MX</Language>
@@ -1332,6 +1391,9 @@ IIF(IsNothing(Fields!TotalKilos.Value), 0, SUM(Fields!Subtotal.Value)/Int(Sum(Fi
                   <KeepWithGroup>After</KeepWithGroup>
                 </TablixMember>
                 <TablixMember>
+                  <KeepWithGroup>After</KeepWithGroup>
+                </TablixMember>
+                <TablixMember>
                   <Group Name="Detalles" />
                 </TablixMember>
                 <TablixMember>
@@ -1341,7 +1403,7 @@ IIF(IsNothing(Fields!TotalKilos.Value), 0, SUM(Fields!Subtotal.Value)/Int(Sum(Fi
             </TablixRowHierarchy>
             <DataSetName>ListaDetalles</DataSetName>
             <Top>2.96016cm</Top>
-            <Height>1.8cm</Height>
+            <Height>2.4cm</Height>
             <Width>12.76265cm</Width>
             <ZIndex>8</ZIndex>
             <Style>
@@ -1757,7 +1819,7 @@ IIF(IsNothing(Fields!TotalKilos.Value), 0, SUM(Fields!Subtotal.Value)/Int(Sum(Fi
             </Style>
           </Tablix>
           <Line Name="Line2">
-            <Top>9.48683cm</Top>
+            <Top>8.85183cm</Top>
             <Left>1.35154cm</Left>
             <Height>0cm</Height>
             <Width>10.44314cm</Width>
@@ -1785,7 +1847,7 @@ IIF(IsNothing(Fields!TotalKilos.Value), 0, SUM(Fields!Subtotal.Value)/Int(Sum(Fi
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox15</rd:DefaultName>
-            <Top>9.66321cm</Top>
+            <Top>9.02821cm</Top>
             <Left>4.30485cm</Left>
             <Height>0.6cm</Height>
             <Width>5.27461cm</Width>
@@ -1801,7 +1863,7 @@ IIF(IsNothing(Fields!TotalKilos.Value), 0, SUM(Fields!Subtotal.Value)/Int(Sum(Fi
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>4.04063in</Height>
+        <Height>3.8323in</Height>
         <Style />
       </Body>
       <Width>5.05592in</Width>
@@ -1830,7 +1892,7 @@ IIF(IsNothing(Fields!TotalKilos.Value), 0, SUM(Fields!Subtotal.Value)/Int(Sum(Fi
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>0.28208cm</Top>
+              <Top>0.28207cm</Top>
               <Left>7.35753cm</Left>
               <Height>0.6cm</Height>
               <Width>5.25167cm</Width>

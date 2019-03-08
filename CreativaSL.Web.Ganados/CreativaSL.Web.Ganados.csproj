@@ -1477,6 +1477,7 @@
     <Content Include="Areas\Admin\Views\CatDeduccion\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatDeduccion\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\AddDeduccion.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\EditDeduccion.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />

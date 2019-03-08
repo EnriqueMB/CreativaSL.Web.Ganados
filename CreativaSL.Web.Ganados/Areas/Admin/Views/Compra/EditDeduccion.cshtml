@@ -1,6 +1,6 @@
 ﻿@model CreativaSL.Web.Ganados.Models.DeduccionModels
 @{
-    ViewBag.Title = "AddDeduccion";
+    ViewBag.Title = "EditDeduccion";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -20,18 +20,21 @@
         <div class="col-md-12">
             @*<form class="form-horizontal">*@
             @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("AddDeduccion", "Compra", FormMethod.Post, new { id = "form-dg", @class = "form-horizontal", autocomplete = "off" }))
+            @using (Html.BeginForm("EditDeduccion", "Compra", FormMethod.Post, new { id = "form-dg", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
                 @*@Html.ValidationSummary(true)*@
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-                @Html.HiddenFor(model=>model.IdGenerico)
+                
+                @Html.HiddenFor(model => model.IdGenerico)
+                @Html.HiddenFor(model => model.IdDocumento)
+                @Html.HiddenFor(model => model.IdDetalleDocto)
+
                 <div id="validation_summary" class="field_error "></div> //JS
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Agregando deducción</strong> </h3>
-                        <ul class="panel-controls">
-                        </ul>
+                        <h3 class="panel-title"><strong>Editando deducción</strong> </h3>
+                        <ul class="panel-controls"></ul>
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
@@ -56,7 +59,7 @@
                                     <div class="col-md-8 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model=>model.Monto, new { @class = "form-control " })
+                                            @Html.TextBoxFor(model => model.Monto, new { @class = "form-control " })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.Monto)
                                         <span class="help-block">Ingrese un monto</span>
