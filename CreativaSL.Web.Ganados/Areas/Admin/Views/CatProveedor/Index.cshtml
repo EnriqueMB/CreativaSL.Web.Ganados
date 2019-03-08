@@ -3,6 +3,10 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+    var lista = ViewBag.LProveedorAlmacen;
+    var ListaProvCombustible = ViewBag.LProveedorCombistible;
+    var ListaProvServicio = ViewBag.LProveddorServicio;
 }
 
 @section featured{
@@ -16,7 +20,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Proveedor </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Proveedores </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -24,93 +28,336 @@
         <div class="row">
             <div class="col-md-12">
                 <!-- START DEFAULT DATATABLE -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"></h3>
-                        <ul class="panel-controls">
-                            <li><a href="@Url.Action("Create","CatProveedor")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Proveedor</a></li>
-                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                            <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                <div class="panel-body">
+                    <div class="panel panel-default tabs">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="active"><a href="#tab-first" role="tab" data-toggle="tab">Proveedor de Ganado</a></li>
+                            <li><a href="#tab-second" role="tab" data-toggle="tab">Proveedor de Almacén</a></li>
+                            <li><a href="#tab-combustible" role="tab" data-toggle="tab">Proveedor de Combustible</a></li>
+                            <li><a href="#tab-Servicio" role="tab" data-toggle="tab">Proveedor de Servicio</a></li>
                         </ul>
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table datatable">
-                                <thead>
-                                    <tr>
-                                        <th>Razón Social</th>
-                                        <th>Tipo de Proveedor</th>
-                                        <th>Merma</th>
-                                        <th>Sucursal</th>
-                                        <th>Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var proveedor in Model.listaProveedores)
-                               {
-                                        <tr id="@proveedor.IDProveedor">
-                                            <td>@proveedor.NombreRazonSocial</td>
-                                            <td>@proveedor.nombreProveedor</td>
-                                            <td>@proveedor.Tolerancia %</td>
-                                            <td>@proveedor.nombreSucursal</td>
-                                            <td style="text-align:center;">
-                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Precios Rango" class="btn btn-primary" href="@Url.Action("PrecioProveedor", "CatProveedor", new { id = proveedor.IDProveedor})"><i class="fa fa-dollar"></i></a>
-                                                    <a title="Lugar Proveedor" class="btn btn-primary" href="@Url.Action("LugarProveedor", "CatProveedor", new { id = proveedor.IDProveedor, id2 = proveedor.IDSucursal})"><i class="fa fa-map-marker"></i></a>
-                                                    <a title="Datos de contacto" class="btn btn-blue" href="@Url.Action("DatosContacto", "CatProveedor", new { id = proveedor.IDProveedor, id2 = proveedor.IDSucursal})"><i class="fa fa-user"></i></a>
-                                                    <a title="Datos bancarios" class="btn btn-green" href="@Url.Action("Cuentas", "CatProveedor", new { id = proveedor.IDProveedor })"><i class="fa fa-money"></i></a>
-                                                    <a title="UPPProveedor" class="btn btn-green" href="@Url.Action("UPPProveedor", "CatProveedor", new { id = proveedor.IDProveedor })"><i class="fa fa-plus"></i></a>
-                                                    <a title="Editar" href="@Url.Action("Edit", "CatProveedor", new { id = proveedor.IDProveedor})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" id="delete-@proveedor.IDProveedor" data-hrefa="@Url.Action("Delete", "CatProveedor", new { id =  proveedor.IDProveedor })" onClick="delete_row('@proveedor.IDProveedor');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
-                                                </div>
-                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                    <div class="btn-group">
-                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                        </a>
-                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("PrecioProveedor", "CatProveedor", new { id = proveedor.IDProveedor})">
-                                                                    <i class="fa fa-dollar"></i> Precios Proveedor
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("LugarProveedor", "CatProveedor", new { id = proveedor.IDProveedor, id2 = proveedor.IDSucursal })">
-                                                                    <i class="fa fa-map-marker"></i> Lugar Proveedor
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Cuentas", "CatProveedor", new { id = proveedor.IDProveedor })">
-                                                                    <i class="fa fa-money"></i> Datos bancarios
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("UPPProveedor", "CatProveedor", new { id = proveedor.IDProveedor })">
-                                                                    <i class="fa fa-plus"></i> UPPProveedor
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatProveedor", new { id = proveedor.IDProveedor})">
-                                                                    <i class="fa fa-edit"></i> Editar
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@proveedor.IDProveedor" data-hrefa="@Url.Action("Delete", "CatProveedor", new { id =  proveedor.IDProveedor })" onClick="delete_row('@proveedor.IDProveedor');">
-                                                                    <i class="fa fa-trash-o"></i> Eliminar
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                               }
-                                </tbody>
-                            </table>
+                        <div class="panel-body tab-content">
+                            <div class="tab-pane active" id="tab-first">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title"></h3>
+                                        <ul class="panel-controls">
+                                            <li><a href="@Url.Action("Create","CatProveedor")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Proveedor Ganado</a></li>
+                                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                            <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table class="table datatable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sucursal</th>
+                                                        <th>Razón Social</th>
+                                                        <th>Tipo de Proveedor</th>
+                                                        <th>Merma</th>
+                                                        <th>Acción</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var proveedor in Model.listaProveedores)
+                                                    {
+                                                    <tr id="@proveedor.IDProveedor">
+                                                        <td>@proveedor.nombreSucursal</td>
+                                                        <td>@proveedor.NombreRazonSocial</td>
+                                                        <td>@proveedor.nombreProveedor</td>
+                                                        <td>@proveedor.Tolerancia %</td>
+                                                        <td style="text-align:center;">
+                                                            <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                                <a title="Precios Rango" class="btn btn-primary" href="@Url.Action("PrecioProveedor", "CatProveedor", new { id = proveedor.IDProveedor})"><i class="fa fa-dollar"></i></a>
+                                                                <a title="Lugar Proveedor" class="btn btn-primary" href="@Url.Action("LugarProveedor", "CatProveedor", new { id = proveedor.IDProveedor, id2 = proveedor.IDSucursal})"><i class="fa fa-map-marker"></i></a>
+                                                                <a title="Datos de contacto" class="btn btn-blue" href="@Url.Action("DatosContacto", "CatProveedor", new { id = proveedor.IDProveedor, id2 = proveedor.IDSucursal})"><i class="fa fa-user"></i></a>
+                                                                <a title="Datos bancarios" class="btn btn-green" href="@Url.Action("Cuentas", "CatProveedor", new { id = proveedor.IDProveedor })"><i class="fa fa-money"></i></a>
+                                                                <a title="UPPProveedor" class="btn btn-green" href="@Url.Action("UPPProveedor", "CatProveedor", new { id = proveedor.IDProveedor })"><i class="fa fa-plus"></i></a>
+                                                                <a title="Editar" href="@Url.Action("Edit", "CatProveedor", new { id = proveedor.IDProveedor})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                                <a title="Eliminar" id="delete-@proveedor.IDProveedor" data-hrefa="@Url.Action("Delete", "CatProveedor", new { id =  proveedor.IDProveedor })" onClick="delete_row('@proveedor.IDProveedor');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                            </div>
+                                                            <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                                <div class="btn-group">
+                                                                    <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                        <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                                    </a>
+                                                                    <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                        <li>
+                                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("PrecioProveedor", "CatProveedor", new { id = proveedor.IDProveedor})">
+                                                                                <i class="fa fa-dollar"></i> Precios Proveedor
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("LugarProveedor", "CatProveedor", new { id = proveedor.IDProveedor, id2 = proveedor.IDSucursal })">
+                                                                                <i class="fa fa-map-marker"></i> Lugar Proveedor
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Cuentas", "CatProveedor", new { id = proveedor.IDProveedor })">
+                                                                                <i class="fa fa-money"></i> Datos bancarios
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("UPPProveedor", "CatProveedor", new { id = proveedor.IDProveedor })">
+                                                                                <i class="fa fa-plus"></i> UPPProveedor
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatProveedor", new { id = proveedor.IDProveedor})">
+                                                                                <i class="fa fa-edit"></i> Editar
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="menuitem" tabindex="-1" id="delete-@proveedor.IDProveedor" data-hrefa="@Url.Action("Delete", "CatProveedor", new { id =  proveedor.IDProveedor })" onClick="delete_row('@proveedor.IDProveedor');">
+                                                                                <i class="fa fa-trash-o"></i> Eliminar
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END DEFAULT DATATABLE -->
+                            </div>
+                            <div class="tab-pane" id="tab-second">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title"></h3>
+                                        <ul class="panel-controls">
+                                            <li><a href="@Url.Action("Create","CatProveedorAlmacen")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Proveedor Almacen</a></li>
+                                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                            <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table class="table datatable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sucursal</th>
+                                                        <th>Razón Social</th>
+                                                        <th>RFC</th>
+                                                        <th>Dirección</th>
+                                                        <th>Correo</th>
+                                                        <th style="text-align:center">Acción</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var Proveedor in lista)
+                                                    {
+                                                        <tr id="@Proveedor.IDProveedorAlmacen">
+                                                            <td>@Proveedor.NombreSucursal</td>
+                                                            <td>@Proveedor.RazonSocial</td>
+                                                            <td>@Proveedor.RFC</td>
+                                                            <td>@Proveedor.Direccion</td>
+                                                            <td>@Proveedor.Correo</td>
+                                                            <td style="text-align:center;">
+                                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                                    <a title="Datos Contacto" href="@Url.Action("ContactoPro", "CatProveedorAlmacen", new { id =Proveedor.IDProveedorAlmacen  })" class="btn btn-blue tooltips" data-placement="top" data-original-title="Contatos"><i class="fa fa-user"></i></a>
+                                                                    <a title="Datos Bancarios" href="@Url.Action("DatosBancarios", "CatProveedorAlmacen", new { id =Proveedor.IDProveedorAlmacen  })" class="btn btn-green tooltips" data-placement="top" data-original-title="Datos Bancarios"><i class="fa fa-credit-card"></i></a>
+                                                                    <a title="Editar" href="@Url.Action("Edit", "CatProveedorAlmacen", new { id = Proveedor.IDProveedorAlmacen })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                                    <a title="Eliminar" id="delete-@Proveedor.IDProveedorAlmacen" data-hrefa="@Url.Action("Delete", "CatProveedorAlmacen", new { id = Proveedor.IDProveedorAlmacen })" onClick="delete_row('@Proveedor.IDProveedorAlmacen');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                                </div>
+                                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                                    <div class="btn-group">
+                                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                                        </a>
+                                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                            <li>
+                                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("ContactoPro", "CatProveedorAlmacen", new { id =Proveedor.IDProveedorAlmacen  })">
+                                                                                    <i class="fa fa-user"></i> Datos Contacto
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("DatosBancarios", "CatProveedorAlmacen", new { id =Proveedor.IDProveedorAlmacen  })">
+                                                                                    <i class="fa fa-credit-card"></i> Datos Bancarios
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatProveedorAlmacen", new { id = Proveedor.IDProveedorAlmacen })">
+                                                                                    <i class="fa fa-edit"></i> Editar
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a role="menuitem" tabindex="-1" id="delete-@Proveedor.IDProveedorAlmacen" data-hrefa="@Url.Action("Delete", "CatProveedorAlmacen", new { id = Proveedor.IDProveedorAlmacen })" onClick="delete_row('@Proveedor.IDProveedorAlmacen');">
+                                                                                    <i class="fa fa-trash-o"></i> Eliminar
+                                                                                </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab-combustible">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title"></h3>
+                                        <ul class="panel-controls">
+                                            <li><a href="@Url.Action("Create","CatProveedorCombustible")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Proveedor Combustible</a></li>
+                                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                            <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table class="table datatable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sucursal</th>
+                                                        <th>Razón Social</th>
+                                                        <th>RFC</th>
+                                                        <th>Teléfono</th>
+                                                        <th>Acción</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var proveedor in ListaProvCombustible)
+                                                    {
+                                                    <tr id="@proveedor.IDProveedor">
+                                                        <td>@proveedor.nombreSucursal</td>
+                                                        <td>@proveedor.NombreRazonSocial</td>
+                                                        <td>@proveedor.RFC</td>
+                                                        <td>@proveedor.telefonoCasa</td>
+                                                        <td style="text-align:center;">
+                                                            <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                                <a title="Datos de contacto" class="btn btn-blue" href="@Url.Action("DatosContacto", "CatProveedorCombustible", new { id = proveedor.IDProveedor, id2 = proveedor.IDSucursal})"><i class="fa fa-user"></i></a>
+                                                                <a title="Datos bancarios" class="btn btn-green" href="@Url.Action("Cuentas", "CatProveedorCombustible", new { id = proveedor.IDProveedor })"><i class="fa fa-money"></i></a>
+                                                                <a title="Editar" href="@Url.Action("Edit", "CatProveedorCombustible", new { id = proveedor.IDProveedor})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                                <a title="Eliminar" id="delete-@proveedor.IDProveedor" data-hrefa="@Url.Action("Delete", "CatProveedorCombustible", new { id =  proveedor.IDProveedor })" onClick="delete_row('@proveedor.IDProveedor');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                            </div>
+                                                            <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                                <div class="btn-group">
+                                                                    <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                        <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                                    </a>
+                                                                    <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                        <li>
+                                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Cuentas", "CatProveedorCombustible", new { id = proveedor.IDProveedor })">
+                                                                                <i class="fa fa-money"></i> Datos bancarios
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("DatosContacto", "CatProveedorCombustible", new { id = proveedor.IDProveedor })">
+                                                                                <i class="fa fa-plus"></i> Datos Contacto
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatProveedorCombustible", new { id = proveedor.IDProveedor})">
+                                                                                <i class="fa fa-edit"></i> Editar
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="menuitem" tabindex="-1" id="delete-@proveedor.IDProveedor" data-hrefa="@Url.Action("Delete", "CatProveedorCombustible", new { id =  proveedor.IDProveedor })" onClick="delete_row('@proveedor.IDProveedor');">
+                                                                                <i class="fa fa-trash-o"></i> Eliminar
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab-Servicio">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title"></h3>
+                                        <ul class="panel-controls">
+                                            <li><a href="@Url.Action("Create","CatProveedorServicio")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Proveedor Servicio</a></li>
+                                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                            <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table class="table datatable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sucursal</th>
+                                                        <th>Razón Social</th>
+                                                        <th>RFC</th>
+                                                        <th>Dirección</th>
+                                                        <th>Correo</th>
+                                                        <th style="text-align:center">Acción</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var Proveedor in ListaProvServicio)
+                                                    {
+                                                        <tr id="@Proveedor.id_proveedorServicio">
+                                                            <td>@Proveedor.nombreSucursal</td>
+                                                            <td>@Proveedor.nombreRazonsocial</td>
+                                                            <td>@Proveedor.RFC</td>
+                                                            <td>@Proveedor.Direccion</td>
+                                                            <td>@Proveedor.correo</td>
+                                                            <td style="text-align:center;">
+                                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                                    <a title="Datos Contacto" href="@Url.Action("ContactoPro", "CatProveedorServicio", new { id =Proveedor.id_proveedorServicio  })" class="btn btn-blue tooltips" data-placement="top" data-original-title="Contatos"><i class="fa fa-user"></i></a>
+                                                                    <a title="Datos Bancarios" href="@Url.Action("DatosBancarios", "CatProveedorServicio", new { id =Proveedor.id_proveedorServicio  })" class="btn btn-green tooltips" data-placement="top" data-original-title="Datos Bancarios"><i class="fa fa-credit-card"></i></a>
+                                                                    <a title="Editar" href="@Url.Action("Edit", "CatProveedorServicio", new { id = Proveedor.id_proveedorServicio })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                                    <a title="Eliminar" id="delete-@Proveedor.id_proveedorServicio" data-hrefa="@Url.Action("Delete", "CatProveedorServicio", new { id = Proveedor.id_proveedorServicio })" onClick="delete_row('@Proveedor.id_proveedorServicio');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                                </div>
+                                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                                    <div class="btn-group">
+                                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                                        </a>
+                                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                            <li>
+                                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("ContactoPro", "CatProveedorServicio", new { id =Proveedor.id_proveedorServicio  })">
+                                                                                    <i class="fa fa-user"></i> Datos Contacto
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("DatosBancarios", "CatProveedorServicio", new { id =Proveedor.id_proveedorServicio  })">
+                                                                                    <i class="fa fa-credit-card"></i> Datos Bancarios
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatProveedorServicio", new { id = Proveedor.id_proveedorServicio })">
+                                                                                    <i class="fa fa-edit"></i> Editar
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a role="menuitem" tabindex="-1" id="delete-@Proveedor.id_proveedorServicio" data-hrefa="@Url.Action("Delete", "CatProveedorServicio", new { id = Proveedor.id_proveedorServicio })" onClick="delete_row('@Proveedor.id_proveedorServicio');">
+                                                                                    <i class="fa fa-trash-o"></i> Eliminar
+                                                                                </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- END DEFAULT DATATABLE -->
             </div>
         </div>
     </div>

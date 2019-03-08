@@ -16,9 +16,19 @@ namespace CreativaSL.Web.Ganados.Models
             _Observaciones = string.Empty;
             _ListaFierro = new List<CatFierroModels>();
             _ImagenContruida = string.Empty;
+            _NombreImagen = string.Empty;
+            _NombreArchivo = string.Empty;
         }
         public string Extension { get; set; }
         public RespuestaAjax RespuestaAjax { get; set; }
+
+        private string _NombreImagen;
+
+        public string NombreImagen
+        {
+            get { return _NombreImagen; }
+            set { _NombreImagen = value; }
+        }
 
         private string _IDFierro;
 
@@ -38,6 +48,15 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _NombreFierro; }
             set { _NombreFierro = value; }
         }
+
+        private string _NombreArchivo;
+
+        public string NombreArchivo
+        {
+            get { return _NombreArchivo; }
+            set { _NombreArchivo = value; }
+        }
+
 
         private string _ImgFierro;
 

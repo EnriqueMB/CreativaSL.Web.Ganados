@@ -10,14 +10,14 @@ namespace CreativaSL.Web.Ganados.Models
     public class _CatProveedorCombustible_Datos
     {
 
-        public List<CatProveedorCombustibleModels> ObtenerCatProveedores(CatProveedorCombustibleModels Datos)
+        public List<CatProveedorCombustibleModels> ObtenerCatProveedores(string Conexion)
         {
             try
             {
                 List<CatProveedorCombustibleModels> lista = new List<CatProveedorCombustibleModels>();
                 CatProveedorCombustibleModels item;
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Catalogo_get_CatProveedorCombustible");
+                dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Catalogo_get_CatProveedorCombustible");
                 while (dr.Read())
                 {
                     item = new CatProveedorCombustibleModels();
@@ -41,8 +41,8 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 throw ex;
             }
-
         }
+
         public CatProveedorCombustibleModels acCatProveedorCombustible(CatProveedorCombustibleModels datos)
         {
             try
@@ -51,9 +51,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                    datos.Opcion,
                    datos.IDProveedor ?? string.Empty,
-
                    datos.IDSucursal ?? string.Empty,
-
                    datos.NombreRazonSocial?? string.Empty,
                    datos.Direccion?? string.Empty,
                    datos.RFC ?? string.Empty,
@@ -61,10 +59,9 @@ namespace CreativaSL.Web.Ganados.Models
                    datos.telefonoCasa ?? string.Empty,
                    datos.telefonoCelular ?? string.Empty,
                    datos.observaciones ?? string.Empty,
-                   
-                    datos.fechaIngreso !=null? datos.fechaIngreso:DateTime.Now,
+                   datos.fechaIngreso !=null? datos.fechaIngreso:DateTime.Now,
+                   datos.TodaSucursale,
                    datos.Usuario ?? string.Empty
-
                     };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatProveedorCombustible", parametros);
                 datos.IDProveedor = aux.ToString();

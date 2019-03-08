@@ -26,7 +26,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CatProveedorServicioModels provserv = new CatProveedorServicioModels();
                 _CatProveedorServicio_Datos Datos = new _CatProveedorServicio_Datos();
                 provserv.Conexion = Conexion;
-                provserv.listaProveedorServicio = Datos.ObtenerCatProveedores(provserv);
+                provserv.listaProveedorServicio = Datos.ObtenerCatProveedores(Conexion);
                 return View(provserv);
             }
             catch (Exception)
@@ -89,7 +89,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
                             Token.ResetToken();
-                            return RedirectToAction("Index");
+                            return RedirectToAction("Index", "CatProveedor");
+                            //return RedirectToAction("Index");
                         }
                         else
                         {
@@ -108,7 +109,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "CatProveedor");
+                    //return RedirectToAction("Index");
                 }
             }
             catch
@@ -166,7 +168,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
                             Token.ResetToken();
-                            return RedirectToAction("Index");
+                            return RedirectToAction("Index", "CatProveedor");
+                            //return RedirectToAction("Index");
                         }
                         else
                         {
@@ -183,7 +186,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "CatProveedor");
+                    //return RedirectToAction("Index");
                 }
             }
             catch
@@ -252,7 +256,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CuentaBancariasProveedorAlmacenModels CuentasBancarias = new CuentaBancariasProveedorAlmacenModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "CatProveedor");
+                //return RedirectToAction("Index");
             }
         }
 
@@ -460,7 +465,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CatContactosModels Contacto = new CatContactosModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "CatProveedor");
+                //return RedirectToAction("Index");
             }
         }
 

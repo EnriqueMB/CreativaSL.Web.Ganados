@@ -23,6 +23,7 @@ namespace CreativaSL.Web.Ganados.Models
             _observaciones = string.Empty;
             _listaProveedoresCombustible = new List<CatProveedorCombustibleModels>();
             _listaSucursal = new List<CatSucursalesModels>();
+            _TodaSucursale = false;
         }
         private List<CatContactosModels> _listaDatosContactos;
 
@@ -142,6 +143,14 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _observaciones; }
             set { _observaciones = value; }
+        }
+
+        private bool _TodaSucursale;
+
+        public bool TodaSucursale
+        {
+            get { return _TodaSucursale; }
+            set { _TodaSucursale = value; }
         }
 
         #region Datos De Control

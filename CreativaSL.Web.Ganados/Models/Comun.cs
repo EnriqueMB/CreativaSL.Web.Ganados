@@ -91,7 +91,7 @@ namespace CreativaSL.Web.Ganados.Models
         public static Bitmap Base64StringToBitmap(this string base64String)
         {
             Bitmap bmpReturn = null;
-
+            
             byte[] byteBuffer = Convert.FromBase64String(base64String);
             MemoryStream memoryStream = new MemoryStream(byteBuffer);
 
@@ -102,8 +102,41 @@ namespace CreativaSL.Web.Ganados.Models
             memoryStream.Close();
             memoryStream = null;
             byteBuffer = null;
+            Graphics G = Graphics.FromImage(bmpReturn);
+            //G.Clear(Color.FromArgb(105, 105, 105));
+            //G.DrawImage(bmpReturn, bmpReturn.Width, 0, bmpReturn.Width, bmpReturn.Height);
+
+            ColorMap[] colorMap = new ColorMap[1];
+            colorMap[0] = new ColorMap();
+            colorMap[0].OldColor = Color.Black;
+            colorMap[0].NewColor = Color.Blue;
+            ImageAttributes attr = new ImageAttributes();
+            attr.SetRemapTable(colorMap);
+            // Draw using the color map
+            Rectangle rect = new Rectangle(0, 0, bmpReturn.Width, bmpReturn.Height);
+            G.DrawImage(bmpReturn, bmpReturn.Width, 0, bmpReturn.Width, bmpReturn.Height);
+            //G.DrawImage(bmpReturn, rect, 0, 0, rect.Width, rect.Height, GraphicsUnit.Pixel, attr);
+
 
             return bmpReturn;
+        }
+
+        public static string RemoverAcentos(string texto)
+        {
+            const string ConSignos = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜçÇ";
+            const string SinSignos = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUcC";
+            string textoSinAcentos = string.Empty;
+
+            foreach (var caracter in texto)
+            {
+                var indexConAcento = ConSignos.IndexOf(caracter);
+                if (indexConAcento > -1)
+                    textoSinAcentos = textoSinAcentos + (SinSignos.Substring(indexConAcento, 1));
+                else
+                    textoSinAcentos = textoSinAcentos + (caracter);
+            }
+            textoSinAcentos = textoSinAcentos.ToLower();
+            return textoSinAcentos;
         }
 
         public static bool EnviarCorreo(string De, string Contraseña, string Para, string Asunto, string Mensaje, bool banArchivo, string Archivo, bool Html, string Host, int Port, bool Ssl)

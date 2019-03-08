@@ -25,6 +25,7 @@ namespace CreativaSL.Web.Ganados.Models
             _listaSucursal = new List<CatSucursalesModels>();
             _IDProveedor = string.Empty;
             _nombreSucursal = string.Empty;
+            _TodaSucursale = false;
         }
         private string _id_proveeedorServicio;
 
@@ -142,6 +143,15 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _nombreSucursal; }
             set { _nombreSucursal = value; }
         }
+        private bool _TodaSucursale;
+
+        public bool TodaSucursale
+        {
+            get { return _TodaSucursale; }
+            set { _TodaSucursale = value; }
+        }
+
+
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }
@@ -149,10 +159,5 @@ namespace CreativaSL.Web.Ganados.Models
         public string Usuario { get; set; }
         public int Opcion { get; set; }
         #endregion
-
-
-
-
-
     }
 }

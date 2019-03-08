@@ -34,6 +34,7 @@ namespace CreativaSL.Web.Ganados.Models
             _Direccion = string.Empty;
             _ListaGeneroCMB = new List<CatGeneroModels>();
             _ListaPeriodo = new List<CatPeriodoModels>();
+            _TodaSucursale = false;
         }
         private decimal _merma;
 
@@ -339,6 +340,14 @@ namespace CreativaSL.Web.Ganados.Models
 
         public string TipoProveedor { get; set; }
 
+        private bool _TodaSucursale;
+
+        public bool TodaSucursale
+        {
+            get { return _TodaSucursale; }
+            set { _TodaSucursale = value; }
+        }
+        
 
         #region Datos De Control
         public string Conexion { get; set; }

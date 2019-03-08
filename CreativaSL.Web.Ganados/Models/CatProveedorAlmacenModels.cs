@@ -25,6 +25,7 @@ namespace CreativaSL.Web.Ganados.Models
             _FechaIngreso = DateTime.Now;
             _ListaSucursal = new List<CatSucursalesModels>();
             _LProveedorA = new List<CatProveedorAlmacenModels>();
+            _TodaSucursale = false;
         }
         private string _IDProveedorAlmacen;
 
@@ -152,6 +153,14 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _ListaSucursal; }
             set { _ListaSucursal = value; }
+        }
+
+        private bool _TodaSucursale;
+
+        public bool TodaSucursale
+        {
+            get { return _TodaSucursale; }
+            set { _TodaSucursale = value; }
         }
 
 

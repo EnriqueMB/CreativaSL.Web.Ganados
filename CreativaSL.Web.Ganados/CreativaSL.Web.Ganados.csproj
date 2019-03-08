@@ -1498,6 +1498,7 @@
   <ItemGroup>
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\ComprimirImagen.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\TokenModule.cs" />
@@ -1937,6 +1938,9 @@
     <Folder Include="ArchivosEmpresa\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\CatBodega\" />
+    <Folder Include="Imagenes\Fierro\" />
+    <Folder Include="Imagenes\Proveedor\INE\" />
+    <Folder Include="Imagenes\Proveedor\ManifestacionFierro\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Formatos\CartaPorte.rdlc" />

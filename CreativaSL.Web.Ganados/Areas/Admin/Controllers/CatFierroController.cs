@@ -99,27 +99,51 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Fierro.Usuario = User.Identity.Name;
                     string[] tmp = Fierro.ImgFierro.Split(',');
                     Fierro.ImgFierro = tmp[1];
-
                     Fierro = FierroDatos.AbcCatFierro(Fierro);
-                    if (Fierro.Completado == true)
+                    if (!string.IsNullOrEmpty(Fierro.IDFierro))
                     {
-                        TempData["typemessage"] = "1";
-                        TempData["message"] = "Los datos se guardarón correctamente.";
-                        Token.ResetToken();
-                        Fierro.RespuestaAjax = new RespuestaAjax();
-                        Fierro.RespuestaAjax.Success = true;
+                        
+                        string baseDir = Server.MapPath("~/Imagenes/Fierro/");
+                        Image Img = Comun.Base64StringToBitmap(Fierro.ImgFierro);
+                        
+                        Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)Img.Clone(), 35L));
+                        ImageCodecInfo jpgEncoder = ComprimirImagen.GetEncoder(ComprimirImagen.GetImageFormat(Img));
+                        string fileName = Fierro.IDFierro + "." + jpgEncoder.FormatDescription;
+                        Fierro.ImgFierro = image.ToBase64String(image.RawFormat);
+                        //Img = Comun.ResizeImage(Img, 1250, 800);
+                        Img.Save(baseDir + fileName);
+                        Fierro.NombreArchivo = fileName;
+                        Fierro = FierroDatos.ActualizarImagen(Fierro);
+                        if (Fierro.Completado == true)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardarón correctamente.";
+                            Token.ResetToken();
+                            Fierro.RespuestaAjax = new RespuestaAjax();
+                            Fierro.RespuestaAjax.Success = true;
 
-                        return Content(Fierro.RespuestaAjax.ToJSON(), "application/json");
+                            return Content(Fierro.RespuestaAjax.ToJSON(), "application/json");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            Fierro.RespuestaAjax = new RespuestaAjax();
+                            Fierro.RespuestaAjax.Success = false;
+
+                            return Content(Fierro.RespuestaAjax.ToJSON(), "application/json");
+                        }
                     }
                     else
                     {
                         TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                        TempData["message"] = "Ocurrio un error al intantar guardar la imagen. Intente más tarde.";
                         Fierro.RespuestaAjax = new RespuestaAjax();
                         Fierro.RespuestaAjax.Success = false;
 
                         return Content(Fierro.RespuestaAjax.ToJSON(), "application/json");
                     }
+                    return View(Fierro);
                 }
                 else
                 {
@@ -131,7 +155,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                     return Content(Fierro.RespuestaAjax.Mensaje, "application/json");
                 }
-                return View(Fierro);
+               
             }
             catch (Exception ex)
             {
@@ -173,7 +197,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         if (bannerImage != null && bannerImage.ContentLength > 0)
                         {
-
                             Stream s = bannerImage.InputStream;
                             Bitmap img = new Bitmap(s);
                             Fierro.ImgFierro = img.ToBase64String(ImageFormat.Png);
@@ -190,18 +213,40 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Fierro.Usuario = User.Identity.Name;
 
                         Fierro = FierroDatos.AbcCatFierro(Fierro);
-                        if (Fierro.Completado == true)
+                    if (!string.IsNullOrEmpty(Fierro.IDFierro))
+                    {
+                        if (!string.IsNullOrEmpty(bannerImage.FileName))
                         {
-                            TempData["typemessage"] = "1";
-                            TempData["message"] = "Los datos se guardaron correctamente.";
-                            Token.ResetToken();
-                            return RedirectToAction("Index");
+                            string baseDir = Server.MapPath("~/Imagenes/Fierro/");
+                            string fileExtension = Path.GetExtension(bannerImage.FileName);
+                            string fileName = Fierro.IDFierro + fileExtension;
+                            Stream s = bannerImage.InputStream;
+                            Image Img2 = new Bitmap(s);
+                            Img2 = Comun.ResizeImage(Img2, 1250, 800);
+                            Img2.Save(baseDir + fileName);
+                            Fierro.NombreArchivo = fileName;
+                            Fierro = FierroDatos.ActualizarImagen(Fierro);
+                            if (Fierro.Completado == true)
+                            {
+                                TempData["typemessage"] = "1";
+                                TempData["message"] = "Los datos se guardaron correctamente.";
+                                Token.ResetToken();
+                                return RedirectToAction("Index");
+                            }
+                            else
+                            {
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                                return View(Fierro);
+                            }
                         }
-                        else
-                        {
-                            TempData["typemessage"] = "2";
-                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                            return View(Fierro);
+
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar la imagen. Intente más tarde.";
+                        return View(Fierro);
                     }
                 }
                 else
