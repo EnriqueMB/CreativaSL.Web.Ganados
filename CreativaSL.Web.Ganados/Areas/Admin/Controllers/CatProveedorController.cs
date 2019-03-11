@@ -25,8 +25,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 CatProveedorModels Proveedor = new CatProveedorModels();
                 _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
+                _CatProveedorAlmacen_Datos ProveedorDAlmacen = new _CatProveedorAlmacen_Datos();
+                _CatProveedorCombustible_Datos ProveedorDCombustible = new _CatProveedorCombustible_Datos();
+                _CatProveedorServicio_Datos ProveedorDServicio = new _CatProveedorServicio_Datos();
                 Proveedor.Conexion = Conexion;
                 Proveedor.listaProveedores = ProveedorDatos.ObtenerCatProveedores(Proveedor);
+                ViewBag.LProveedorAlmacen = ProveedorDAlmacen.ObtenerListaProveedorAlmacen(Conexion);
+                ViewBag.LProveedorCombistible = ProveedorDCombustible.ObtenerCatProveedores(Conexion);
+                ViewBag.LProveddorServicio = ProveedorDServicio.ObtenerCatProveedores(Conexion);
                 return View(Proveedor);
             }
             catch (Exception ex)
@@ -82,16 +88,33 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
                         if (bannerImage != null && bannerImage.ContentLength > 0)
                         {
+                            //string baseDir = Server.MapPath("~/Imagenes/Proveedor/INE/");
+                            //string fileExtension = Path.GetExtension(bannerImage.FileName);
+                            //string fileName = "Ine" + fileExtension;
                             Stream s = bannerImage.InputStream;
-                            Bitmap img = new Bitmap(s);
-                            Proveedor.ImgINE = img.ToBase64String(ImageFormat.Png);
+                            //Bitmap img = new Bitmap(s);
+                            Image img = new Bitmap(s);
+                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                            Proveedor.ImgINE = image.ToBase64String(img.RawFormat);
+                            //image.Save(baseDir + fileName);
+                            //Stream s = bannerImage.InputStream;
+                            //Bitmap img = new Bitmap(s);
+                            //Proveedor.ImgINE = img.ToBase64String(ImageFormat.Png);
                         }
                         HttpPostedFileBase bannerImage2 = Request.Files[1] as HttpPostedFileBase;
                         if (bannerImage2 != null && bannerImage2.ContentLength > 0)
                         {
+                            //string baseDir = Server.MapPath("~/Imagenes/Proveedor/ManifestacionFierro/");
+                            //string fileExtension = Path.GetExtension(bannerImage.FileName);
+                            //string fileName = "Ine" + fileExtension;
                             Stream s = bannerImage2.InputStream;
-                            Bitmap img = new Bitmap(s);
-                            Proveedor.ImgManifestacionFierro = img.ToBase64String(ImageFormat.Png);
+                            Image img = new Bitmap(s);
+                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                            Proveedor.ImgManifestacionFierro = image.ToBase64String(img.RawFormat);
+                            //image.Save(baseDir + fileName);
+                            //Stream s = bannerImage2.InputStream;
+                            //Bitmap img = new Bitmap(s);
+                            //Proveedor.ImgManifestacionFierro = img.ToBase64String(ImageFormat.Png);
                         }
                         Proveedor.Conexion = Conexion;
                         Proveedor.Usuario = User.Identity.Name;
@@ -188,8 +211,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             if (bannerImage != null && bannerImage.ContentLength > 0)
                             {
                                 Stream s = bannerImage.InputStream;
-                                Bitmap img = new Bitmap(s);
-                                Proveedor.ImgINE = img.ToBase64String(ImageFormat.Png);
+                                //Bitmap img = new Bitmap(s);
+                                //Proveedor.ImgINE = img.ToBase64String(ImageFormat.Png);
+                                Image img = new Bitmap(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                Proveedor.ImgINE = image.ToBase64String(img.RawFormat);
                             }
                         }
                         else
@@ -202,8 +228,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             if (bannerImage2 != null && bannerImage2.ContentLength > 0)
                             {
                                 Stream s = bannerImage2.InputStream;
-                                Bitmap img = new Bitmap(s);
-                                Proveedor.ImgManifestacionFierro = img.ToBase64String(ImageFormat.Png);
+                                //Bitmap img = new Bitmap(s);
+                                //Proveedor.ImgManifestacionFierro = img.ToBase64String(ImageFormat.Png);
+                                Image img = new Bitmap(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                Proveedor.ImgManifestacionFierro = image.ToBase64String(img.RawFormat);
                             }
                         }
                         else

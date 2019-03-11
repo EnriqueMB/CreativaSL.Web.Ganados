@@ -84,8 +84,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         if (bannerImage != null && bannerImage.ContentLength > 0)
                         {
                             Stream s = bannerImage.InputStream;
-                            Bitmap img = new Bitmap(s);
-                            Producto.Imagen = img.ToBase64String(ImageFormat.Png);
+                            //Bitmap img = new Bitmap(s);
+                            //Producto.Imagen = img.ToBase64String(ImageFormat.Png);
+                            Image img = new Bitmap(s);
+                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                            Producto.Imagen = image.ToBase64String(img.RawFormat);
                         }
 
                         Producto.Conexion = Conexion;
@@ -174,8 +177,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             if (bannerImage != null && bannerImage.ContentLength > 0)
                             {
                                 Stream s = bannerImage.InputStream;
-                                Bitmap img = new Bitmap(s);
-                                Producto.Imagen = img.ToBase64String(ImageFormat.Png);
+                                //Bitmap img = new Bitmap(s);
+                                //Producto.Imagen = img.ToBase64String(ImageFormat.Png);
+                                Image img = new Bitmap(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                Producto.Imagen = image.ToBase64String(img.RawFormat);
                             }
                         }
                         else

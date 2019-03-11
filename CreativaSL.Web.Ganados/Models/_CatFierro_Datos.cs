@@ -76,7 +76,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    datos.Opcion, datos.IDFierro, datos.NombreFierro, datos.ImgFierro, datos.Observaciones, datos.Usuario
+                    datos.Opcion, datos.IDFierro, datos.NombreFierro, datos.ImgFierro, datos.Observaciones, datos.NombreArchivo, datos.Usuario
                 };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatFierro", parametros);
                 datos.IDFierro = aux.ToString();
@@ -95,6 +95,34 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+
+        public CatFierroModels ActualizarImagen(CatFierroModels datos)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    datos.IDFierro, datos.ImgFierro, datos.NombreArchivo, datos.Usuario
+                };
+                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "[dbo].[spCSLDB_Catalogo_set_CatFierroImagen]", parametros);
+                datos.IDFierro = aux.ToString();
+                if (!string.IsNullOrEmpty(datos.IDFierro))
+                {
+                    datos.Completado = true;
+                }
+                else
+                {
+                    datos.Completado = false;
+                }
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         /// <summary>
         /// Eliminar un registro de Fierro
         /// </summary>

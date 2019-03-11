@@ -9,14 +9,14 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class _CatProveedorServicio_Datos
     {
-        public List<CatProveedorServicioModels> ObtenerCatProveedores(CatProveedorServicioModels Datos)
+        public List<CatProveedorServicioModels> ObtenerCatProveedores(string Conexion)
         {
             try
             {
                 List<CatProveedorServicioModels> lista = new List<CatProveedorServicioModels>();
                 CatProveedorServicioModels item;
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Catalogo_get_CatProveedorServicio");
+                dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Catalogo_get_CatProveedorServicio");
                 while (dr.Read())
                 {
                     item = new CatProveedorServicioModels();
@@ -53,6 +53,7 @@ namespace CreativaSL.Web.Ganados.Models
                             datos.telefonoCelular ?? string.Empty,
                             datos.observaciones ?? string.Empty,
                             datos.fechaIngreso != null ? datos.fechaIngreso : DateTime.Today,
+                            datos.TodaSucursale,
                             datos.Usuario ?? string.Empty };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatProveedorServicio", parametros);
                 datos.id_proveedorServicio = aux.ToString();

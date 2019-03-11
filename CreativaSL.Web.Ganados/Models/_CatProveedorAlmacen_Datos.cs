@@ -25,6 +25,7 @@ namespace CreativaSL.Web.Ganados.Models
                             datos.FechaIngreso != null ? datos.FechaIngreso : DateTime.Today,
                             datos.Direccion ?? string.Empty,
                             datos.Observaciones ?? string.Empty,
+                            datos.TodaSucursale,
                             datos.Usuario ?? string.Empty };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatProveedorAlmacen", parametros);
                 datos.IDProveedorAlmacen =aux.ToString();
@@ -98,14 +99,14 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        public CatProveedorAlmacenModels ObtenerListaProveedorAlmacen(CatProveedorAlmacenModels datos)
+        public List<CatProveedorAlmacenModels> ObtenerListaProveedorAlmacen(string Conexion)
         {
             try
             {
                 List<CatProveedorAlmacenModels> Lista = new List<CatProveedorAlmacenModels>();
                 CatProveedorAlmacenModels Item;
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_get_CatProveedorAlmacen");
+                dr = SqlHelper.ExecuteReader(Conexion, "spCSLDB_Catalogo_get_CatProveedorAlmacen");
                 while (dr.Read())
                 {
                     Item = new CatProveedorAlmacenModels();
@@ -118,8 +119,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Lista.Add(Item);
                 }
                 dr.Close();
-                datos.LProveedorA= Lista;
-                return datos;
+                return Lista;
             }
 
             catch (Exception ex)

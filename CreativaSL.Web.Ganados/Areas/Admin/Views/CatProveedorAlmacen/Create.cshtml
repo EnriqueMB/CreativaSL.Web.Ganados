@@ -47,6 +47,12 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label">¿Todas las Sucurales?</label>
+                            <div class="col-md-6 col-xs-12">
+                                @Html.CheckBoxFor(model => model.TodaSucursale, new { @class = "icheckbox" })
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label class="col-md-3 control-label"><span>* </span> Razón Social</label>
@@ -158,11 +164,12 @@
                                 </div>
                             </div>
                         </div>
-                     </div>
+                    </div>
                 </div>
                 <div class="panel-footer">
                     <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                    <a href="@Url.Action("Index","CatProveedorAlmacen")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    <a href="@Url.Action("Index","CatProveedor")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    @*<a href="@Url.Action("Index","CatProveedorAlmacen")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>*@
                 </div>
             </div>
             @*</form>*@

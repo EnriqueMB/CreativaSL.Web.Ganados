@@ -62,11 +62,21 @@
                         <div class="col-md-9 col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="fa fa-file-text"></span></span>
-                                @Html.TextAreaFor(model => model.Observaciones, new {  @class = "form-control" })
+                                @Html.TextAreaFor(model => model.Observaciones, new { @class = "form-control" })
                             </div>
                             <span class="help-block">Ingrese alguna observación.</span>
                         </div>
                     </div>
+                    @*<div class="controlError col-md-4">
+                        <label class="col-md-3 control-label">Nombre Imagen</label>
+                        <div class="col-md-9 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                @Html.TextBoxFor(model => model.NombreImagen, new { @class = "form-control" })
+                            </div>
+                            <span class="help-block">Ingrese el nombre de la imagen</span>
+                        </div>
+                    </div>*@
                 </div>
 
                 <div class="form-group">

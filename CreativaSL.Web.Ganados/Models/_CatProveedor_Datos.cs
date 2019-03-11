@@ -167,6 +167,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Observaciones ?? string.Empty,
                     datos.CantidadPeriodo,
                     datos.IDPeriodo,
+                    datos.TodaSucursale,
                     datos.Usuario ?? string.Empty
                     };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatProveedor", parametros);

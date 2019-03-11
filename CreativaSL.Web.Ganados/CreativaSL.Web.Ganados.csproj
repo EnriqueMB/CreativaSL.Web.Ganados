@@ -1484,6 +1484,7 @@
     <Content Include="Areas\Admin\Views\MiCajaChica\Index.cshtml" />
     <Content Include="Areas\Admin\Views\MiCajaChica\Salida.cshtml" />
     <Content Include="Areas\Admin\Views\MiCajaChica\Entrega.cshtml" />
+    <Content Include="Areas\Admin\Views\Compra\EditDeduccion.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1510,6 +1511,7 @@
   <ItemGroup>
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\ComprimirImagen.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\TokenModule.cs" />
@@ -1667,6 +1669,7 @@
     <Compile Include="Models\CompraImpuestoModels.cs" />
     <Compile Include="Models\CompraModels.cs" />
     <Compile Include="Models\ComprobanteCompraCabeceraModels.cs" />
+    <Compile Include="Models\ComprobanteCompraDetallesDeduccionesModels.cs" />
     <Compile Include="Models\ComprobanteCompraDetallesModels.cs" />
     <Compile Include="Models\ComprobanteCompraPagosModels.cs" />
     <Compile Include="Models\ComprobanteFleteDetallesModels.cs" />
@@ -1720,6 +1723,7 @@
     <Compile Include="Models\ImpuestoModels.cs" />
     <Compile Include="Models\IncidenteFleteModels.cs" />
     <Compile Include="Models\LicenciaChoferModels.cs" />
+    <Compile Include="Models\ComprobanteCompraDetallesOtrasPercepciones.cs" />
     <Compile Include="Models\MenuModels.cs" />
     <Compile Include="Models\MovimientosProductosModels.cs" />
     <Compile Include="Models\MunicipioModels.cs" />
@@ -1957,6 +1961,9 @@
     <Folder Include="ArchivosEmpresa\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\CatBodega\" />
+    <Folder Include="Imagenes\Fierro\" />
+    <Folder Include="Imagenes\Proveedor\INE\" />
+    <Folder Include="Imagenes\Proveedor\ManifestacionFierro\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Formatos\CartaPorte.rdlc" />

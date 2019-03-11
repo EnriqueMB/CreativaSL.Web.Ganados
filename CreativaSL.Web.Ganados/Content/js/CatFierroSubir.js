@@ -43,13 +43,17 @@
                 NombreFierro: {
                     required: true
                 },
-                ImgFierro: {required: true}
+                ImgFierro: { required: true }
+                //,
+                //NombreImagen: { required: true }
             },
             messages: {
                 NombreFierro: {
                     required: "Ingrese un nombre del fierro."
                 },
-                ImgFierro:{required: "Ingrese una imagen del fierro."}
+                ImgFierro: { required: "Ingrese una imagen del fierro." }
+                //,
+                //NombreImagen: "Ingrese el nombre Imagen"
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

@@ -39,11 +39,15 @@
                 NombreFierro: {
                     required: true
                 }
+                //,
+                //NombreImagen: { required: true }
             },
             messages: {
                 NombreFierro: {
                     required: "Ingrese un nombre del fierro."
                 }
+                //,
+                //NombreImagen: "Ingrese el nombre Imagen"
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

@@ -91,7 +91,7 @@ namespace CreativaSL.Web.Ganados.Models
         public static Bitmap Base64StringToBitmap(this string base64String)
         {
             Bitmap bmpReturn = null;
-
+            
             byte[] byteBuffer = Convert.FromBase64String(base64String);
             MemoryStream memoryStream = new MemoryStream(byteBuffer);
 
@@ -104,6 +104,24 @@ namespace CreativaSL.Web.Ganados.Models
             byteBuffer = null;
 
             return bmpReturn;
+        }
+
+        public static string RemoverAcentos(string texto)
+        {
+            const string ConSignos = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜçÇ";
+            const string SinSignos = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUcC";
+            string textoSinAcentos = string.Empty;
+
+            foreach (var caracter in texto)
+            {
+                var indexConAcento = ConSignos.IndexOf(caracter);
+                if (indexConAcento > -1)
+                    textoSinAcentos = textoSinAcentos + (SinSignos.Substring(indexConAcento, 1));
+                else
+                    textoSinAcentos = textoSinAcentos + (caracter);
+            }
+            textoSinAcentos = textoSinAcentos.ToLower();
+            return textoSinAcentos;
         }
 
         public static bool EnviarCorreo(string De, string Contraseña, string Para, string Asunto, string Mensaje, bool banArchivo, string Archivo, bool Html, string Host, int Port, bool Ssl)

@@ -2401,7 +2401,9 @@ namespace CreativaSL.Web.Ganados.Models
 
                 if (Lista.Count == 0)
                 {
-                    Lista.Add(new ComprobanteVentaDetallesModels());
+                    Item = new ComprobanteVentaDetallesModels();
+                    Item.Genero = "Sin gando";
+                    Lista.Add(Item);
                 }
 
                 return Lista;

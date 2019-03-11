@@ -29,7 +29,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CatProveedorCombustibleModels combustibleModels = new CatProveedorCombustibleModels();
                 _CatProveedorCombustible_Datos datos = new _CatProveedorCombustible_Datos();
                 combustibleModels.Conexion = Conexion;
-                combustibleModels.listaProveedoresCombustible = datos.ObtenerCatProveedores(combustibleModels);
+                combustibleModels.listaProveedoresCombustible = datos.ObtenerCatProveedores(Conexion);
                 //combustibleModels = 
                 return View(combustibleModels);
             }
@@ -81,8 +81,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-
-                        
                         combustibleModels.Usuario = User.Identity.Name;
                         combustibleModels.Opcion = 1;
                         combustibleModels = Proovedordatos.acCatProveedorCombustible(combustibleModels);
@@ -91,13 +89,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
                             Token.ResetToken();
-                            return RedirectToAction("Index");
+                            return RedirectToAction("Index", "CatProveedor");
+                           // return RedirectToAction("Index");
                         }
                         else
-                        {
-                            
+                        {                            
                             combustibleModels.listaSucursal = cmb.ObtenerComboSucursales(combustibleModels.Conexion);
-
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                             return View(combustibleModels);
@@ -105,22 +102,19 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     }
                     else
                     {
-                        
                         combustibleModels.listaSucursal = cmb.ObtenerComboSucursales(combustibleModels.Conexion);
-
                         return View(combustibleModels);
                     }
                 }
                 else
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "CatProveedor");
+                    //return RedirectToAction("Index");
                 }
             }
             catch (Exception ex)
             {
-              
                 combustibleModels.listaSucursal = cmb.ObtenerComboSucursales(combustibleModels.Conexion);
-                
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
                 return View(combustibleModels);
@@ -148,7 +142,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CatProveedorModels Proveedor = new CatProveedorModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "CatProveedor");
+                //return RedirectToAction("Index");
             }
         }
 
@@ -165,8 +160,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-
-
                         combustibleModels.Usuario = User.Identity.Name;
                         combustibleModels.Opcion = 2;
                         combustibleModels = Proovedordatos.acCatProveedorCombustible(combustibleModels);
@@ -175,13 +168,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
                             Token.ResetToken();
-                            return RedirectToAction("Index");
+                            return RedirectToAction("Index", "CatProveedor");
+                            //return RedirectToAction("Index");
                         }
                         else
                         {
-
                             combustibleModels.listaSucursal = cmb.ObtenerComboSucursales(combustibleModels.Conexion);
-
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                             return View(combustibleModels);
@@ -189,15 +181,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     }
                     else
                     {
-
                         combustibleModels.listaSucursal = cmb.ObtenerComboSucursales(combustibleModels.Conexion);
-
                         return View(combustibleModels);
                     }
                 }
                 else
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "CatProveedor");
+                    //return RedirectToAction("Index");
                 }
             }
             catch (Exception ex)
@@ -262,7 +253,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CuentaBancariaProveedorModels Cuenta = new CuentaBancariaProveedorModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "CatProveedor");
+                // return RedirectToAction("Index");
             }
         }
         //GET: Admin/CatProveedor/CreateCuenta/3
@@ -325,7 +317,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         IDCuentaBancoP.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(IDCuentaBancoP);
                         return View(IDCuentaBancoP);
                     }
-
                 }
                 else
                 {
@@ -514,7 +505,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Contactos = ProveedorDatos.AcContactoProveedor(Contactos);
                         if (Contactos.Completado)
                         {
-
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
                             Token.ResetToken();
@@ -522,7 +512,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         }
                         else
                         {
-
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
                             return RedirectToAction("NuevoDatosContacto", "CatProveedorCombustible", new { id = Contactos.IDProveedor, id2 = Contactos.IDSucursal });
@@ -539,9 +528,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     return RedirectToAction("NuevoDatosContacto", "CatProveedorCombustible", new { id = Contactos.IDProveedor, id2 = Contactos.IDSucursal });
                 }
-
-
-
             }
             catch (Exception ex)
             {
@@ -594,7 +580,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Contactos = ProveedorDatos.AcContactoProveedor(Contactos);
                         if (Contactos.Completado)
                         {
-
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
                             Token.ResetToken();
@@ -602,7 +587,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         }
                         else
                         {
-
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
                             return RedirectToAction("NuevoDatosContacto", "CatProveedorCombustible", new { id = Contactos.IDProveedor, id2 = Contactos.IDSucursal });
@@ -619,9 +603,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     return RedirectToAction("NuevoDatosContacto", "CatProveedorCombustible", new { id = Contactos.IDProveedor, id2 = Contactos.IDSucursal });
                 }
-
-
-
             }
             catch (Exception ex)
             {
@@ -629,7 +610,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar cargar los datos. Contacte a soporte técnico.";
                 return View(Proveedor);
-
             }
         }
         // POST: Admin/CatProvedor/Delete/5

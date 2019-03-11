@@ -23,7 +23,7 @@
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-                                                                                                                        <div id="validation_summary" class="field_error "></div> //JS
+                <div id="validation_summary" class="field_error "></div> //JS
 
                 @Html.HiddenFor(model => model.id_proveedorServicio)
                 <div class="panel panel-default">
@@ -44,6 +44,12 @@
                                             @Html.ValidationMessageFor(model => model.IDSucursal)
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 col-xs-12 control-label">¿Todas las Sucurales?</label>
+                                <div class="col-md-6 col-xs-12">
+                                    @Html.CheckBoxFor(model => model.TodaSucursale, new { @class = "icheckbox" })
                                 </div>
                             </div>
                             <div class="form-group">
@@ -162,7 +168,8 @@
                     </div>
                     <div class="panel-footer">
                         <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                        <a href="@Url.Action("Index","CatProveedorServicio")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                        <a href="@Url.Action("Index","CatProveedor")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                        @*<a href="@Url.Action("Index","CatProveedorServicio")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>*@
                     </div>
                 </div>
                 @*</form>*@

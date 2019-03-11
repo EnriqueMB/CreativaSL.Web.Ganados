@@ -8,13 +8,23 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class DeduccionModels 
     {
-        public string IdGenerico { get; set; } //por si acaso se utiliza en otra vista, aqui seria el id de la compra
+        /// <summary>
+        /// Por si acaso se utiliza en otra vista, aqui seria el id de la compra, venta o flete
+        /// </summary>
+        public string IdGenerico { get; set; }
 
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Seleccione una deducción")]
         public int IdDeduccion { get; set; }
 
-        public string IdDetalleDoctoPagar { get; set; }
+        /// <summary>
+        /// Id del documento, puede ser el del documento por pagar o cobrar
+        /// </summary>
+        public string IdDocumento { get; set; } 
+        /// <summary>
+        /// Id del detalle, puede ser el del documento por pagar o cobrar
+        /// </summary>
+        public string IdDetalleDocto { get; set; }
 
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Ingrese un monto de la deducción")]

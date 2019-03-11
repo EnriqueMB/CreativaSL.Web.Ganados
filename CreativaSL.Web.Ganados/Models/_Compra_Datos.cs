@@ -3173,7 +3173,9 @@ namespace CreativaSL.Web.Ganados.Models
 
                 if(Lista.Count == 0)
                 {
-                    Lista.Add(new ComprobanteCompraDetallesModels());
+                    Item = new ComprobanteCompraDetallesModels();
+                    Item.Genero = "Sin ganado";
+                    Lista.Add(Item);
                 }
 
                 return Lista;
@@ -3183,7 +3185,6 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-
         public List<ComprobanteCompraPagosModels> GetComprobanteCompraDetallesPagos(CompraModels Compra)
         {
             try
@@ -3211,6 +3212,67 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public List<ComprobanteCompraDetallesDeduccionesModels> GetComprobanteCompraDetallesDeducciones(CompraModels Compra)
+        {
+            try
+            {
+                List<ComprobanteCompraDetallesDeduccionesModels> Lista = new List<ComprobanteCompraDetallesDeduccionesModels>();
+                ComprobanteCompraDetallesDeduccionesModels Item;
+                object[] parametros = { Compra.IDCompra };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_ComprobanteCompraDetallesDeducciones", parametros);
+
+                while (dr.Read())
+                {
+                    Item = new ComprobanteCompraDetallesDeduccionesModels();
+                    Item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    Item.Monto = !dr.IsDBNull(dr.GetOrdinal("subtotal")) ? dr.GetDecimal(dr.GetOrdinal("subtotal")) : 0;
+                    Item.Fecha = !dr.IsDBNull(dr.GetOrdinal("fecins")) ? dr.GetDateTime(dr.GetOrdinal("fecins")) : DateTime.Today;
+
+                    Lista.Add(Item);
+                }
+                dr.Close();
+
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<ComprobanteCompraDetallesOtrasPercepciones> GetComprobanteCompraDetallesOtrasPercepciones(CompraModels Compra)
+        {
+            try
+            {
+                List<ComprobanteCompraDetallesOtrasPercepciones> Lista = new List<ComprobanteCompraDetallesOtrasPercepciones>();
+                ComprobanteCompraDetallesOtrasPercepciones Item;
+                object[] parametros = { Compra.IDCompra };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_ComprobanteCompraDetallesOtrasPercepciones", parametros);
+
+                while (dr.Read())
+                {
+                    Item = new ComprobanteCompraDetallesOtrasPercepciones();
+                    Item.Fecha = !dr.IsDBNull(dr.GetOrdinal("fecins")) ? dr.GetDateTime(dr.GetOrdinal("fecins")) : DateTime.Today;
+                    Item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    Item.Cantidad = !dr.IsDBNull(dr.GetOrdinal("cantidad")) ? dr.GetDecimal(dr.GetOrdinal("cantidad")) : 0;
+                    Item.PrecioUnitario = !dr.IsDBNull(dr.GetOrdinal("precioUnitario")) ? dr.GetDecimal(dr.GetOrdinal("precioUnitario")) : 0;
+                    Item.Subtotal = !dr.IsDBNull(dr.GetOrdinal("subtotal")) ? dr.GetDecimal(dr.GetOrdinal("subtotal")) : 0;
+                    Item.Impuesto = !dr.IsDBNull(dr.GetOrdinal("impuestos")) ? dr.GetDecimal(dr.GetOrdinal("impuestos")) : 0;
+                    Item.Total = !dr.IsDBNull(dr.GetOrdinal("total")) ? dr.GetDecimal(dr.GetOrdinal("total")) : 0;
+
+                    Lista.Add(Item);
+                }
+                dr.Close();
+
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         #endregion
 
         #region Vista Evento
