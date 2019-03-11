@@ -102,21 +102,6 @@ namespace CreativaSL.Web.Ganados.Models
             memoryStream.Close();
             memoryStream = null;
             byteBuffer = null;
-            Graphics G = Graphics.FromImage(bmpReturn);
-            //G.Clear(Color.FromArgb(105, 105, 105));
-            //G.DrawImage(bmpReturn, bmpReturn.Width, 0, bmpReturn.Width, bmpReturn.Height);
-
-            ColorMap[] colorMap = new ColorMap[1];
-            colorMap[0] = new ColorMap();
-            colorMap[0].OldColor = Color.Black;
-            colorMap[0].NewColor = Color.Blue;
-            ImageAttributes attr = new ImageAttributes();
-            attr.SetRemapTable(colorMap);
-            // Draw using the color map
-            Rectangle rect = new Rectangle(0, 0, bmpReturn.Width, bmpReturn.Height);
-            G.DrawImage(bmpReturn, bmpReturn.Width, 0, bmpReturn.Width, bmpReturn.Height);
-            //G.DrawImage(bmpReturn, rect, 0, 0, rect.Width, rect.Height, GraphicsUnit.Pixel, attr);
-
 
             return bmpReturn;
         }

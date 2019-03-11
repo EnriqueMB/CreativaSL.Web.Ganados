@@ -103,7 +103,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    datos.IDFierro, datos.NombreArchivo, datos.Usuario
+                    datos.IDFierro, datos.ImgFierro, datos.NombreArchivo, datos.Usuario
                 };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "[dbo].[spCSLDB_Catalogo_set_CatFierroImagen]", parametros);
                 datos.IDFierro = aux.ToString();

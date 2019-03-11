@@ -222,8 +222,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             string fileName = Fierro.IDFierro + fileExtension;
                             Stream s = bannerImage.InputStream;
                             Image Img2 = new Bitmap(s);
-                            Img2 = Comun.ResizeImage(Img2, 1250, 800);
-                            Img2.Save(baseDir + fileName);
+                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)Img2.Clone(), 35L));
+                            Fierro.ImgFierro = image.ToBase64String(Img2.RawFormat);
+                            image.Save(baseDir + fileName);
                             Fierro.NombreArchivo = fileName;
                             Fierro = FierroDatos.ActualizarImagen(Fierro);
                             if (Fierro.Completado == true)
