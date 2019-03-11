@@ -3212,35 +3212,26 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        public List<ComprobanteCompraDetallesModels> GetComprobanteCompraDetallesDeducciones(CompraModels Compra)
+        public List<ComprobanteCompraDetallesDeduccionesModels> GetComprobanteCompraDetallesDeducciones(CompraModels Compra)
         {
             try
             {
-                List<ComprobanteCompraDetallesModels> Lista = new List<ComprobanteCompraDetallesModels>();
-                ComprobanteCompraDetallesModels Item;
+                List<ComprobanteCompraDetallesDeduccionesModels> Lista = new List<ComprobanteCompraDetallesDeduccionesModels>();
+                ComprobanteCompraDetallesDeduccionesModels Item;
                 object[] parametros = { Compra.IDCompra };
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_ComprobanteCompraDetalles", parametros);
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_ComprobanteCompraDetallesDeducciones", parametros);
 
                 while (dr.Read())
                 {
-                    Item = new ComprobanteCompraDetallesModels();
-                    Item.Cantidad = !dr.IsDBNull(dr.GetOrdinal("Cantidad")) ? dr.GetDecimal(dr.GetOrdinal("Cantidad")) : 0;
-                    Item.Genero = !dr.IsDBNull(dr.GetOrdinal("Genero")) ? dr.GetString(dr.GetOrdinal("Genero")) : string.Empty;
-                    Item.TotalKilos = !dr.IsDBNull(dr.GetOrdinal("totalKilos")) ? dr.GetDecimal(dr.GetOrdinal("totalKilos")) : 0;
-                    Item.PrecioPorKilo = !dr.IsDBNull(dr.GetOrdinal("precioKilo")) ? dr.GetDecimal(dr.GetOrdinal("precioKilo")) : 0;
-                    Item.Subtotal = !dr.IsDBNull(dr.GetOrdinal("precioTotal")) ? dr.GetDecimal(dr.GetOrdinal("precioTotal")) : 0;
+                    Item = new ComprobanteCompraDetallesDeduccionesModels();
+                    Item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    Item.Monto = !dr.IsDBNull(dr.GetOrdinal("subtotal")) ? dr.GetDecimal(dr.GetOrdinal("subtotal")) : 0;
+                    Item.Fecha = !dr.IsDBNull(dr.GetOrdinal("fecins")) ? dr.GetDateTime(dr.GetOrdinal("fecins")) : DateTime.Today;
 
                     Lista.Add(Item);
                 }
                 dr.Close();
-
-                if (Lista.Count == 0)
-                {
-                    Item = new ComprobanteCompraDetallesModels();
-                    Item.Genero = "Sin ganado";
-                    Lista.Add(Item);
-                }
 
                 return Lista;
             }
@@ -3249,6 +3240,39 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        public List<ComprobanteCompraDetallesOtrasPercepciones> GetComprobanteCompraDetallesOtrasPercepciones(CompraModels Compra)
+        {
+            try
+            {
+                List<ComprobanteCompraDetallesOtrasPercepciones> Lista = new List<ComprobanteCompraDetallesOtrasPercepciones>();
+                ComprobanteCompraDetallesOtrasPercepciones Item;
+                object[] parametros = { Compra.IDCompra };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_ComprobanteCompraDetallesOtrasPercepciones", parametros);
+
+                while (dr.Read())
+                {
+                    Item = new ComprobanteCompraDetallesOtrasPercepciones();
+                    Item.Fecha = !dr.IsDBNull(dr.GetOrdinal("fecins")) ? dr.GetDateTime(dr.GetOrdinal("fecins")) : DateTime.Today;
+                    Item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    Item.Cantidad = !dr.IsDBNull(dr.GetOrdinal("cantidad")) ? dr.GetDecimal(dr.GetOrdinal("cantidad")) : 0;
+                    Item.PrecioUnitario = !dr.IsDBNull(dr.GetOrdinal("precioUnitario")) ? dr.GetDecimal(dr.GetOrdinal("precioUnitario")) : 0;
+                    Item.Subtotal = !dr.IsDBNull(dr.GetOrdinal("subtotal")) ? dr.GetDecimal(dr.GetOrdinal("subtotal")) : 0;
+                    Item.Impuesto = !dr.IsDBNull(dr.GetOrdinal("impuestos")) ? dr.GetDecimal(dr.GetOrdinal("impuestos")) : 0;
+                    Item.Total = !dr.IsDBNull(dr.GetOrdinal("total")) ? dr.GetDecimal(dr.GetOrdinal("total")) : 0;
+
+                    Lista.Add(Item);
+                }
+                dr.Close();
+
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         #endregion
 
         #region Vista Evento

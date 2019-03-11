@@ -1659,6 +1659,7 @@
     <Compile Include="Models\CompraImpuestoModels.cs" />
     <Compile Include="Models\CompraModels.cs" />
     <Compile Include="Models\ComprobanteCompraCabeceraModels.cs" />
+    <Compile Include="Models\ComprobanteCompraDetallesDeduccionesModels.cs" />
     <Compile Include="Models\ComprobanteCompraDetallesModels.cs" />
     <Compile Include="Models\ComprobanteCompraPagosModels.cs" />
     <Compile Include="Models\ComprobanteFleteDetallesModels.cs" />
@@ -1712,6 +1713,7 @@
     <Compile Include="Models\ImpuestoModels.cs" />
     <Compile Include="Models\IncidenteFleteModels.cs" />
     <Compile Include="Models\LicenciaChoferModels.cs" />
+    <Compile Include="Models\ComprobanteCompraDetallesOtrasPercepciones.cs" />
     <Compile Include="Models\MenuModels.cs" />
     <Compile Include="Models\MovimientosProductosModels.cs" />
     <Compile Include="Models\MunicipioModels.cs" />

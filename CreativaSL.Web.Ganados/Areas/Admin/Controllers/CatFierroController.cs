@@ -143,7 +143,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                         return Content(Fierro.RespuestaAjax.ToJSON(), "application/json");
                     }
-                    return View(Fierro);
                 }
                 else
                 {

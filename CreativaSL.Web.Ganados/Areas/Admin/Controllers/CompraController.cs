@@ -2778,6 +2778,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Reporte_Datos R = new Reporte_Datos();
                 List<ComprobanteCompraDetallesModels> ListaComprobanteCompraDetalles = new List<ComprobanteCompraDetallesModels>();
                 List<ComprobanteCompraPagosModels> ListaComprobanteCompraPagosDetalles = new List<ComprobanteCompraPagosModels>();
+                List<ComprobanteCompraDetallesDeduccionesModels> ListaComprobanteCompraDeducciones = new List<ComprobanteCompraDetallesDeduccionesModels>();
+                List<ComprobanteCompraDetallesOtrasPercepciones> ListaComprobanteCompraDetallesOtrasPercepciones = new List<ComprobanteCompraDetallesOtrasPercepciones>();
 
                 CompraDatos = new _Compra_Datos();
                 Compra = new CompraModels();
@@ -2787,6 +2789,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Cabecera = CompraDatos.GetComprobanteCompraCabecera(Compra);
                 ListaComprobanteCompraDetalles = CompraDatos.GetComprobanteCompraDetalles(Compra);
                 ListaComprobanteCompraPagosDetalles = CompraDatos.GetComprobanteCompraDetallesPagos(Compra);
+                ListaComprobanteCompraDeducciones = CompraDatos.GetComprobanteCompraDetallesDeducciones(Compra);
+                ListaComprobanteCompraDetallesOtrasPercepciones = CompraDatos.GetComprobanteCompraDetallesOtrasPercepciones(Compra);
 
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
@@ -2817,6 +2821,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("ComprobanteCompraDetalles", ListaComprobanteCompraDetalles));
                 Rtp.DataSources.Add(new ReportDataSource("ComprobanteCompraDetallesPagos", ListaComprobanteCompraPagosDetalles));
+                Rtp.DataSources.Add(new ReportDataSource("ComprobanteCompraDetallesDeduccion", ListaComprobanteCompraDeducciones));
+                Rtp.DataSources.Add(new ReportDataSource("ComprobanteCompraDetallesOtrasPercepciones", ListaComprobanteCompraDetallesOtrasPercepciones));
 
                 string reportType = "PDF";
                 string mimeType;
