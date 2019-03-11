@@ -1,0 +1,135 @@
+﻿@{
+    ViewBag.Title = "Movimientos de caja chica";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span>Movimientos de caja actual</h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                        <ul class="panel-controls">
+                            <li><a href="@Url.Action("Salida","MiCajaChica")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Salida</a></li>
+                            <li><a href="@Url.Action("Entrega","MiCajaChica")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Entrega</a></li>
+                            <li><a href="@Url.Action("Otros","MiCajaChica")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Ver caja Adicional</a></li>
+                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                            <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Entrega</th>
+                                        <th>Entrada</th>
+                                        <th>Salida</th>
+                                        <th>Recibe</th>
+                                        <th>Concepto</th>
+                                        <th>Saldo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="id001">
+                                        <td>05/01/2019</td>
+                                        <td>LIC JULIO OCAMPO</td>
+                                        <td>$ 14,208.50</td>
+                                        <td></td>
+                                        <td>CRISTEL MTZ VIDAL</td>
+                                        <td>CAJA CHICA</td>
+                                        <td>$ 14,208.50</td>
+                                    </tr>
+                                    <tr id="id002">
+                                        <td>07/01/2019</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>$ 146.00</td>
+                                        <td>LIC ROSY CELIS</td>
+                                        <td>MATERIAL DE LIMPIEZA ( SHAMPO,DETERGENTE,FABULOSO,CLORO,AROMANTIZANTE, )</td>
+                                        <td>$ 14,062.50</td>
+                                    </tr>
+                                    <tr id="id003">
+                                        <td>07/01/2019</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>$ 300.00</td>
+                                        <td>LIC LUZ</td>
+                                        <td>AUTORIDADES ( GASTO DE JAULA OP EDUARDO CASTRO )</td>
+                                        <td>$ 13,762.50</td>
+                                    </tr>
+                                    <tr id="id004">
+                                        <td>08/01/2019</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>$ 735.00</td>
+                                        <td>LIC JULIO</td>
+                                        <td>INFRAESTRUCTURA ( 1PZA PVC BAÑO, 50 MTROS DE MANGUERA )</td>
+                                        <td>$ 13,027.50</td>
+                                    </tr>
+                                    <tr id="id005">
+                                        <td>08/01/2019</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>$ 950.00</td>
+                                        <td>LIC JULIO</td>
+                                        <td>INFRAESTRUCTURA ( 1 OXIGENO INDUSTRUAL )</td>
+                                        <td>$ 12,077.50</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres eliminar esta fila?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    var message = '@message';
+    var typemessage = '@typemessage';
+    </script>
+}
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script>
+    jQuery(document).ready(function () {
+        Mensaje(message, typemessage);
+        });
+    </script>
+}
+
