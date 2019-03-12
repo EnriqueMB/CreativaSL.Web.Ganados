@@ -29,7 +29,7 @@
                 @*@Html.HiddenFor(model => model.IDAlmacen)*@
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Iniciar </strong> Caja chica</h3>
+                        <h3 class="panel-title"><strong>Crear </strong> Caja chica</h3>
                         <ul class="panel-controls">
                             @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
                         </ul>
@@ -38,9 +38,23 @@
 
                         <div class="col-md-12">
 
-
-
                             <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 col-xs-12 control-label text-center">Reportar a:</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        @*@Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select" })
+                    @Html.ValidationMessageFor(model => model.IDSucursal)*@
+                                        <SELECT NAME="selCombo" class="form-control select" SIZE=1>
+                                            <OPTION VALUE="link pagina 1">CRISTEL MARTINEZ VIDAL</OPTION>
+                                            <OPTION VALUE="link pagina 2">ROSY CELIS</OPTION>
+                                        </SELECT>
+                                        <span class="help-block">Seleccione el contador principal</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            @*<div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-12 control-label text-center">Monto de apertura</label>
                                     <div class="col-md-12 col-xs-12">
@@ -48,26 +62,12 @@
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                             @Html.TextBox("txtMonto", "", new { id = "txtMonto", @class = "form-control" })
                                         </div>
-                                        @*@Html.ValidationMessageFor(model => model.ClaveAlmacen)*@
                                         <span class="help-block">Ingrese el monto de apertura de la caja chica</span>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="col-md-12 col-xs-12 control-label text-center">Contador</label>
-                                    <div class="col-md-12 col-xs-12">
-                                        @*@Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select" })
-                        @Html.ValidationMessageFor(model => model.IDSucursal)*@
-                                        <SELECT NAME="selCombo" class="form-control select" SIZE=1>
-                                            <OPTION VALUE="link pagina 1">CRISTEL MARTINEZ VIDAL</OPTION>
-                                            <OPTION VALUE="link pagina 2">ROSY CELIS</OPTION>
-                                        </SELECT>
-                                        <span class="help-block">Seleccione el contador al que se le entrega el dinero</span>
-                                    </div>
-                                </div>
-                            </div>
+
 
                         </div>
 
@@ -75,7 +75,7 @@
 
 
 
-                            <div class="col-md-6">
+                            @*<div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-12 control-label text-center">KEY</label>
                                     <div class="col-md-12 col-xs-12">
@@ -83,8 +83,23 @@
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                             @Html.Password("txtKey", "", new { id = "txtKey", @class = "form-control" })
                                         </div>
-                                        @*@Html.ValidationMessageFor(model => model.ClaveAlmacen)*@
-                                        <span class="help-block">Ingrese la clave para confirmar la transacción</span>
+                                        @Html.ValidationMessageFor(model => model.ClaveAlmacen)*@
+                                        @*<span class="help-block">Ingrese la clave para confirmar la transacción</span>
+                                    </div>
+                                </div>
+                            </div>*@
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 col-xs-12 control-label text-center">Contador</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        @*@Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select" })
+                    @Html.ValidationMessageFor(model => model.IDSucursal)*@
+                                        <SELECT NAME="selCombo" class="form-control select" SIZE=1>
+                                            <OPTION VALUE="link pagina 1">CRISTEL MARTINEZ VIDAL</OPTION>
+                                            <OPTION VALUE="link pagina 2">ROSY CELIS</OPTION>
+                                        </SELECT>
+                                        <span class="help-block">Seleccione el contador auxiliar</span>
                                     </div>
                                 </div>
                             </div>

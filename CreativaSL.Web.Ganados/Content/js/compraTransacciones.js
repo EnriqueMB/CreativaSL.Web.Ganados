@@ -321,6 +321,7 @@
                 "dataSrc": ''
             },
             "columns": [
+                { "data": "fecha" },
                 { "data": "descripcion" },
                 {
                     "data": "subtotal",
