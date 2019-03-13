@@ -1482,7 +1482,7 @@ SUM(Fields!Subtotal.Value)/Sum(CInt(Fields!TotalKilos.Value)))</Value>
             <DataSetName>ComprobanteCompraDetalles</DataSetName>
             <Top>8.146cm</Top>
             <Height>2.4cm</Height>
-            <Width>12.93057cm</Width>
+            <Width>12.93055cm</Width>
             <ZIndex>8</ZIndex>
             <Style>
               <Border>
@@ -3873,7 +3873,7 @@ SUM(Fields!Subtotal.Value)/Sum(CInt(Fields!TotalKilos.Value)))</Value>
             <DataSetName>ComprobanteCompraDetallesOtrasPercepciones</DataSetName>
             <Top>10.92412cm</Top>
             <Height>2.4cm</Height>
-            <Width>12.93057cm</Width>
+            <Width>12.93058cm</Width>
             <ZIndex>19</ZIndex>
             <Style>
               <Border>
@@ -4518,10 +4518,10 @@ SUM(Fields!Subtotal.Value)/Sum(CInt(Fields!TotalKilos.Value)))</Value>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=(Sum(Fields!Subtotal.Value, "ComprobanteCompraDetalles") + 
-Sum(Fields!Total.Value, "ComprobanteCompraDetallesOtrasPercepciones") - 
-Sum(Fields!Monto.Value, "ComprobanteCompraDetallesDeduccion")) -
-Sum(Fields!MontoPagado.Value, "ComprobanteCompraDetallesPagos")</Value>
+                    <Value>=(Sum(Fields!Subtotal.Value, "ComprobanteCompraDetalles") 
++ Sum(Fields!Total.Value, "ComprobanteCompraDetallesOtrasPercepciones") 
++ Sum(Fields!Monto.Value, "ComprobanteCompraDetallesDeduccion")) 
+- Sum(Fields!MontoPagado.Value, "ComprobanteCompraDetallesPagos")</Value>
                     <Style>
                       <FontWeight>Bold</FontWeight>
                       <Format>'$'#,0.00</Format>
