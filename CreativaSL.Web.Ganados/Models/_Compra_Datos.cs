@@ -1691,6 +1691,13 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.PrecioPorDocumentacion = !dr.IsDBNull(dr.GetOrdinal("subtotal")) ? dr.GetDecimal(dr.GetOrdinal("subtotal")) : 0;
                     Compra.TipoSalidaDocumentacion = !dr.IsDBNull(dr.GetOrdinal("TipoSalidaDocumentacion")) ? dr.GetString(dr.GetOrdinal("TipoSalidaDocumentacion")) : string.Empty;
                     Compra.StringTipoFlete = !dr.IsDBNull(dr.GetOrdinal("tipoFlete")) ? dr.GetString(dr.GetOrdinal("tipoFlete")) : string.Empty;
+
+                    Compra.DocumentoPorPagar.IDDocumentoPagar = !dr.IsDBNull(dr.GetOrdinal("id_documentoPagar")) ? dr.GetString(dr.GetOrdinal("id_documentoPagar")) : string.Empty;
+                    Compra.DocumentoPorPagar.TotalPercepciones = !dr.IsDBNull(dr.GetOrdinal("percepcion")) ? dr.GetDecimal(dr.GetOrdinal("percepcion")) : 0;
+                    Compra.DocumentoPorPagar.TotalDeducciones = !dr.IsDBNull(dr.GetOrdinal("deducion")) ? dr.GetDecimal(dr.GetOrdinal("deducion")) : 0;
+                    Compra.DocumentoPorPagar.Pagos = !dr.IsDBNull(dr.GetOrdinal("pagos")) ? dr.GetDecimal(dr.GetOrdinal("pagos")) : 0;
+                    Compra.DocumentoPorPagar.Total = !dr.IsDBNull(dr.GetOrdinal("total")) ? dr.GetDecimal(dr.GetOrdinal("total")) : 0;
+                    Compra.DocumentoPorPagar.Pendientes = !dr.IsDBNull(dr.GetOrdinal("pendiente")) ? dr.GetDecimal(dr.GetOrdinal("pendiente")) : 0;
                 }
                 dr.Close();
                 return Compra;

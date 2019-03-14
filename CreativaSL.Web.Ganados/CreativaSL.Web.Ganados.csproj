@@ -115,7 +115,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data">
-      <HintPath>..\..\..\..\Desktop\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+      <HintPath>..\..\ProyectoCafeCredencial\ProyectoCafe\bin\Debug\Microsoft.ApplicationBlocks.Data.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
@@ -1477,6 +1477,13 @@
     <Content Include="Areas\Admin\Views\CatDeduccion\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatDeduccion\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\AddDeduccion.cshtml" />
+    <Content Include="Areas\Admin\Views\HistorialCajaChica\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CajaChica\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CajaChica\ArqueoCaja.cshtml" />
+    <Content Include="Areas\Admin\Views\CajaChica\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\MiCajaChica\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\MiCajaChica\Salida.cshtml" />
+    <Content Include="Areas\Admin\Views\MiCajaChica\Entrega.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\EditDeduccion.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -1510,11 +1517,14 @@
     <Compile Include="App_Start\TokenModule.cs" />
     <Compile Include="App_Start\TokenProcessor.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Admin\Controllers\CajaChicaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatCorralController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatDeduccionController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatGanadoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatRangoPesoVentaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatTipoClienteController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HistorialCajaChicaController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MiCajaChicaController.cs" />
     <Compile Include="Content\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AlmacenController.cs" />

@@ -1552,6 +1552,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Compra.IDCompra = IDCompra;
                     Compra.Conexion = Conexion;
                     Compra.Usuario = User.Identity.Name;
+                    Compra.DocumentoPorPagar = new DocumentoPorPagarModels();
                     Compra = CompraDatos.GetDetails(Compra);
                     return View(Compra);
                 }

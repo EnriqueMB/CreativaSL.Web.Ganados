@@ -1,0 +1,136 @@
+﻿@{
+    ViewBag.Title = "Arqueo de caja";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section featured{
+
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("ArqueoCaja", "CajaChica", FormMethod.Post, new { id = "form-catalm", @class = "form-horizontal", autocomplete = "off" }))
+            {
+
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                <div id="validation_summary" class="field_error "></div> //JS
+                @*@Html.HiddenFor(model => model.IDAlmacen)*@
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Arqueo de </strong> Caja</h3>
+                        <ul class="panel-controls">
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Denominación</th>
+                                        <th>Cantidad</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="id001">
+                                        <td>M $   0.50</td>
+                                        <td>@Html.TextBox("M05C", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
+                                    </tr>
+                                    <tr id="id002">
+                                        <td>M $   1.00</td>
+                                        <td>@Html.TextBox("M1", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
+                                    </tr>
+                                    <tr id="id003">
+                                        <td>M $   2.00</td>
+                                        <td>@Html.TextBox("M2", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
+                                    </tr>
+                                    <tr id="id004">
+                                        <td>M $   5.00</td>
+                                        <td>@Html.TextBox("M5", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
+                                    </tr>
+                                    <tr id="id005">
+                                        <td>M $  10.00</td>
+                                        <td>@Html.TextBox("M10", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
+                                    </tr>
+                                    <tr id="id006">
+                                        <td>B $  20.00</td>
+                                        <td>@Html.TextBox("B20", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
+                                    </tr>
+                                    <tr id="id007">
+                                        <td>B $  50.00</td>
+                                        <td>@Html.TextBox("B50", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
+                                    </tr>
+                                    <tr id="id008">
+                                        <td>B $ 100.00</td>
+                                        <td>@Html.TextBox("B100", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
+                                    </tr>
+                                    <tr id="id009">
+                                        <td>B $ 200.00</td>
+                                        <td>@Html.TextBox("B200", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
+                                    </tr>
+                                    <tr id="id010">
+                                        <td>B $ 500.00</td>
+                                        <td>@Html.TextBox("B500", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
+                                    </tr>
+                                    <tr id="id011">
+                                        <td>B $1000.00</td>
+                                        <td>@Html.TextBox("B1000", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-md-6 control-label text-center">Total de efectivo: </label>
+                                <div class="col-md-6 col-xs-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBox("txtTotal", 0, new { id = "Total", @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("Index","CajaChica")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    </div>
+                </div>
+                @*</form>*@
+            }
+        </div>
+    </div>
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/CalAlmacen.js")"></script>
+    <script>
+    jQuery(document).ready(function () {
+
+        Mensaje(message, typemessage);
+        CatAlmacen.init();
+
+    });
+    </script>
+}
