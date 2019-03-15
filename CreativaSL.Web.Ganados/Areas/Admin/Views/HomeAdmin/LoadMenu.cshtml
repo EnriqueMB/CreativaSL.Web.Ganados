@@ -1,39 +1,53 @@
 ﻿@using System.Data
 @model CreativaSL.Web.Ganados.Models.MenuModels
 @{
+    /**/
+
     Layout = null;
 }
 @helper DibujarMenu(CreativaSL.Web.Ganados.Models.MenuModels Item)
 {
-if (Item.ParentMenuID == 0)
-{
-    if (Item.ListaMenu.Count == 0)
+    /**/
+
+    if (Item.ParentMenuID == 0)
     {
+        if (Item.ListaMenu.Count == 0)
+        {
+            if (Item.MenuID < 0)
+            {
+                <li class="" style="display: none">
+                    <a href="@Url.Action("Index", Item.UrlMenu)"><span class="@Item.IconMenu"></span> <span class="xn-text">@Item.NombreMenu</span></a>
+                </li>
+            }
+            else
+            {
                 <li class="">
                     <a href="@Url.Action("Index", Item.UrlMenu)"><span class="@Item.IconMenu"></span> <span class="xn-text">@Item.NombreMenu</span></a>
                 </li>
+            }
+
+        }
+        else
+        {
+            <li class="xn-openable">
+                <a><span class="@Item.IconMenu"></span> <span class="xn-text">@Item.NombreMenu</span></a>
+                <ul>
+                    @foreach (var SubMenu in Item.ListaMenu)
+                    {
+                        @DibujarMenu(SubMenu);
+                    }
+                </ul>
+            </li>
+        }
     }
     else
     {
-                <li class="xn-openable">
-                    <a><span class="@Item.IconMenu"></span> <span class="xn-text">@Item.NombreMenu</span></a>
-                    <ul>
-                        @foreach (var SubMenu in Item.ListaMenu)
-                        {
-                            @DibujarMenu(SubMenu);
-                        }
-                    </ul>
-                </li>
-    }
-}
-else
-{
-    if (Item.ListaMenu.Count == 0)
-    {
+        if (Item.ListaMenu.Count == 0)
+        {
             <li><a href="@Url.Action("Index", Item.UrlMenu)"><span class="@Item.IconMenu"></span> @Item.NombreMenu</a></li>
-    }
-    else
-    {
+        }
+        else
+        {
             <li class="xn-openable">
                 <a><span class="@Item.IconMenu"></span>@Item.NombreMenu</a>
                 <ul>
@@ -43,8 +57,8 @@ else
                     }
                 </ul>
             </li>
+        }
     }
-}
 }
 
 
