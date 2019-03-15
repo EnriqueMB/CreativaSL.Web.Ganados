@@ -15,15 +15,13 @@
                         <div class="coming-soon full-screen">
                             <div class="centered-box text-center">
                                 <div class="logo">
-                                    <img src="@Url.Content("~/Content/img/logo.png")" alt="logo">
+                                    <a href="@Url.Action("Index", "HomeAdmin")"><img src="@Url.Content("~/Content/img/logo.png")" alt="logo"></a>
                                 </div>
                                 <p class="large-para text-center"><span class="fa fa-chain-broken"></span> @ViewBag.Num</p>
                                 <div class="full-screen-404">
                                     <div class="text-center desc">
                                         <h1>@ViewBag.Description</h1>
                                         <p>@ViewBag.Title</p>
-                                        <a href="@Url.Action("Index", "HomeAdmin")">GRUPO OCAMPO</a>
-
                                     </div>
                                 </div>
                                 <p class="copyright">&copy; <span id="year"></span> <a href="http://www.creativasoftline.com" title="">Creativa Softline</a></p>
