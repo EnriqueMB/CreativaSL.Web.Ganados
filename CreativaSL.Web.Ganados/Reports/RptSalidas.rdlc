@@ -169,7 +169,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!Total.Value)</Value>
+                                  <Value>=iif(isnothing(Sum(Fields!Total.Value)), 0, Sum(Fields!Total.Value))</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                     <Format>'$'#,0.00</Format>

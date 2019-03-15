@@ -210,17 +210,13 @@
             opcionServer = opcion;
             ToggleDivTipoFlete(opcion);
 
-            $.ajax({
-                url: "http:www.google.com",
-                context: document.body,
-                error: function (jqXHR, exception) {
-                    console.log("offline");
-                },
-                success: function () {
-                    console.log("online");
-                    InitMap();
-                }
-            });
+            if (navigator.onLine) {
+                console.log("online");
+                InitMap();
+            }
+            else {
+                console.log("offline");
+            }
         });
 
         //$("#DocumentosPorCobrarDetallePagos_Id_formaPago").on("change", function () {
@@ -1492,17 +1488,13 @@
             DesbloquearTabs();
             LoadValidationProveedor();
             RunEventsProveedor();
-            $.ajax({
-                url: "http:www.google.com",
-                context: document.body,
-                error: function (jqXHR, exception) {
-                    console.log("offline");
-                },
-                success: function () {
-                    console.log("online");
-                    InitMap();
-                }
-            });
+            if (navigator.onLine) {
+                console.log("online");
+                InitMap();
+            }
+            else {
+                console.log("offline");
+            }
             LoadValidationFlete();
             RunEventsFlete();
             //LoadTableGanadoProgramado();
