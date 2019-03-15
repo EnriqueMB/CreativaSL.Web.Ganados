@@ -10,6 +10,7 @@
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/font-awesome.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/js/plugins/jquery-confirm.min.css")" rel="stylesheet" />
+    <link href="~/Content/css/bootstrap/bootstrap-select-image.css" rel="stylesheet" />
     <!--CSS GENERAL-->
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
     <style>
@@ -42,6 +43,11 @@
 
         .page-content {
             height: 100% !important;
+        }
+
+        .media-object{
+            height:75px;
+            width:150px;
         }
     </style>
 }
@@ -289,9 +295,9 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")"></script>
-    <!--SELECT PICKER-->
-    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script src="~/Content/js/plugins/bootstrap/bootstrap-select-image.js"></script>
     <!--FUNCIONES DE COMPRA JS-->
+
 
     <script src="~/Content/js/plugins/jquery.maskMoney.min.js"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/compraGanado.js")"></script>
@@ -315,6 +321,9 @@
             Mensaje(message, typemessage);
             CompraGanado.init(listaPrecioPesoProveedor, tolerancia, listaCorrales, listaFierros);
 
+             $('select.selectpicker').selectpicker({
+                 caretIcon: 'fa fa-sort-down'
+             });
 
         });
     </script>

@@ -318,6 +318,7 @@
     <Content Include="Content\css\animate\animate.css" />
     <Content Include="Content\css\animate\animate.min.css" />
     <Content Include="Content\css\blueimp\blueimp-gallery.min.css" />
+    <Content Include="Content\css\bootstrap\bootstrap-select-image.css" />
     <Content Include="Content\css\bootstrap\bootstrap.min.css" />
     <Content Include="Content\css\codemirror\codemirror.css" />
     <Content Include="Content\css\codemirror\theme\3024-day.css" />
@@ -351,6 +352,7 @@
     <Content Include="Content\css\codemirror\theme\xq-dark.css" />
     <Content Include="Content\css\codemirror\theme\xq-light.css" />
     <Content Include="Content\css\compra.css" />
+    <Content Include="Content\css\dd.css" />
     <Content Include="Content\css\dropzone\dropzone.css" />
     <Content Include="Content\css\fontawesome\font-awesome.min.css" />
     <Content Include="Content\css\fonts\fontawesome-webfont.svg" />
@@ -501,6 +503,7 @@
     <Content Include="Content\js\fleteTransacciones.js" />
     <Content Include="Content\js\Ganado.js" />
     <Content Include="Content\js\ImpuestoProductoServicioACCompra.js" />
+    <Content Include="Content\js\plugins\bootstrap\bootstrap-select-image.js" />
     <Content Include="Content\js\plugins\datatablesbtn\buttons.flash.min.js" />
     <Content Include="Content\js\plugins\datatablesbtn\buttons.html5.min.js" />
     <Content Include="Content\js\plugins\datatablesbtn\buttons.print.min.js" />
@@ -511,6 +514,7 @@
     <Content Include="Content\js\plugins\datatablesbtn\vfs_fonts.js" />
     <Content Include="Content\js\plugins\datetime-moment.js" />
     <Content Include="Content\js\plugins\jquery-validation\jquery.validate.min.js" />
+    <Content Include="Content\js\plugins\jquery.dd.js" />
     <Content Include="Content\js\plugins\jquery.maskMoney.js" />
     <Content Include="Content\js\plugins\jquery.maskMoney.min.js" />
     <Content Include="Content\js\RangoVenta.js" />

@@ -90,6 +90,9 @@
                 $(".kg").maskMoney('mask');
                 $(".merma").maskMoney('mask');
                 $(".money").maskMoney('mask');
+                $('select.selectpicker').selectpicker({
+                    caretIcon: 'fa fa-sort-down'
+                });
             }
         });
     }
@@ -153,7 +156,7 @@
         html_corral += '</select> ';
 
         //columna, fierro1
-        var html_fierro1 = '<select id="fierro1_' + id_fila + '"class="form-control selectCSL cslElegido" data-toggle="tooltip" data-placement="top" title="Fierro 1 seleccionado." >';
+        var html_fierro1 = '<select id="fierro1_' + id_fila + '"class="selectpicker form-control selectCSL cslElegido" data-toggle="tooltip" data-placement="top" title="Fierro 1 seleccionado." >';
         var opciones_fierro1 = '';
 
         for (var item in listaFierros) {
@@ -161,17 +164,17 @@
             
             if (id_fierro1.localeCompare(id_fierro_server) == 0) {
 
-                opciones_fierro1 += '<option value="' + listaFierros[item].IDFierro + '" data-id="' + listaFierros[item].IDFierro + '" selected>' + listaFierros[item].NombreFierro + '</option>';
+                opciones_fierro1 += '<option data-thumbnail="/Imagenes/Fierro/' + listaFierros[item].NombreArchivo +'" value="' + listaFierros[item].IDFierro + '" data-id="' + listaFierros[item].IDFierro + '" selected>' + listaFierros[item].NombreFierro + '</option>';
             }
             else {
-                opciones_fierro1 += '<option value="' + listaFierros[item].IDFierro + '" data-id="' + listaFierros[item].IDFierro + '">' + listaFierros[item].NombreFierro + '</option>';
+                opciones_fierro1 += '<option data-thumbnail="/Imagenes/Fierro/' + listaFierros[item].NombreArchivo +'" value="' + listaFierros[item].IDFierro + '" data-id="' + listaFierros[item].IDFierro + '">' + listaFierros[item].NombreFierro + '</option>';
             }
         }
         html_fierro1 += opciones_fierro1;
         html_fierro1 += '</select> ';
 
         //columna, fierro2
-        var html_fierro2 = '<select id="fierro2_' + id_fila + '"class="form-control selectCSL cslElegido" data-toggle="tooltip" data-placement="top" title="Fierro 2 seleccionado." >';
+        var html_fierro2 = '<select id="fierro2_' + id_fila + '"class="selectpicker form-control selectCSL cslElegido" data-toggle="tooltip" data-placement="top" title="Fierro 2 seleccionado." >';
         var opciones_fierro2 = '';
 
         for (var item in listaFierros) {
@@ -179,17 +182,17 @@
 
             if (id_fierro2.localeCompare(id_fierro_server) == 0) {
 
-                opciones_fierro2 += '<option value="' + listaFierros[item].NombreFierro + '" data-id="' + listaFierros[item].IDFierro + '" selected>' + listaFierros[item].NombreFierro + '</option>';
+                opciones_fierro2 += '<option data-thumbnail="/Imagenes/Fierro/' + listaFierros[item].NombreArchivo +'" value="' + listaFierros[item].NombreFierro + '" data-id="' + listaFierros[item].IDFierro + '" selected>' + listaFierros[item].NombreFierro + '</option>';
             }
             else {
-                opciones_fierro2 += '<option value="' + listaFierros[item].NombreFierro + '" data-id="' + listaFierros[item].IDFierro + '">' + listaFierros[item].NombreFierro + '</option>';
+                opciones_fierro2 += '<option data-thumbnail="/Imagenes/Fierro/' + listaFierros[item].NombreArchivo +'" value="' + listaFierros[item].NombreFierro + '" data-id="' + listaFierros[item].IDFierro + '">' + listaFierros[item].NombreFierro + '</option>';
             }
         }
         html_fierro2 += opciones_fierro2;
         html_fierro2 += '</select> ';
 
         //columna, fierro3
-        var html_fierro3 = '<select id="fierro3_' + id_fila + '"class="form-control selectCSL cslElegido" data-toggle="tooltip" data-placement="top" title="Fierro 3 seleccionado." >';
+        var html_fierro3 = '<select id="fierro3_' + id_fila + '"class="selectpicker form-control selectCSL cslElegido" data-toggle="tooltip" data-placement="top" title="Fierro 3 seleccionado." >';
         var opciones_fierro3 = '';
 
         for (var item in listaFierros) {
@@ -197,10 +200,10 @@
 
             if (id_fierro3.localeCompare(id_fierro_server) == 0) {
 
-                opciones_fierro3 += '<option value="' + listaFierros[item].NombreFierro + '" data-id="' + listaFierros[item].IDFierro + '" selected>' + listaFierros[item].NombreFierro + '</option>';
+                opciones_fierro3 += '<option data-thumbnail="/Imagenes/Fierro/' + listaFierros[item].NombreArchivo +'" value="' + listaFierros[item].NombreFierro + '" data-id="' + listaFierros[item].IDFierro + '" selected>' + listaFierros[item].NombreFierro + '</option>';
             }
             else {
-                opciones_fierro3 += '<option value="' + listaFierros[item].NombreFierro + '" data-id="' + listaFierros[item].IDFierro + '">' + listaFierros[item].NombreFierro + '</option>';
+                opciones_fierro3 += '<option data-thumbnail="/Imagenes/Fierro/' + listaFierros[item].NombreArchivo +'" value="' + listaFierros[item].NombreFierro + '" data-id="' + listaFierros[item].IDFierro + '">' + listaFierros[item].NombreFierro + '</option>';
             }
         }
         html_fierro3 += opciones_fierro3;
@@ -352,6 +355,9 @@
                     AgergarFilas(numeroFila, false, "Sin registrar", 0, "macho", 0, 0, 0, 0, 0, 0, 0, numeroFila, '', '', '');
                     numeroFila++;
                 }
+                $('select.selectpicker').selectpicker({
+                    caretIcon: 'fa fa-sort-down'
+                });
                 $(".kg").maskMoney('mask');
                 $(".merma").maskMoney('mask');
                 $(".money").maskMoney('mask');

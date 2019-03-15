@@ -2033,7 +2033,7 @@ SUM(Fields!Subtotal.Value)/Sum(CInt(Fields!TotalKilos.Value)))</Value>
             </Style>
           </Tablix>
           <Line Name="Line2">
-            <Top>20.07017cm</Top>
+            <Top>21.02267cm</Top>
             <Left>1.64077cm</Left>
             <Height>0cm</Height>
             <Width>10.44314cm</Width>
@@ -2061,7 +2061,7 @@ SUM(Fields!Subtotal.Value)/Sum(CInt(Fields!TotalKilos.Value)))</Value>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox15</rd:DefaultName>
-            <Top>20.24655cm</Top>
+            <Top>21.19905cm</Top>
             <Left>4.59408cm</Left>
             <Height>0.6cm</Height>
             <Width>5.27461cm</Width>
@@ -4520,7 +4520,7 @@ SUM(Fields!Subtotal.Value)/Sum(CInt(Fields!TotalKilos.Value)))</Value>
                   <TextRun>
                     <Value>=(Sum(Fields!Subtotal.Value, "ComprobanteCompraDetalles") 
 + Sum(Fields!Total.Value, "ComprobanteCompraDetallesOtrasPercepciones") 
-+ Sum(Fields!Monto.Value, "ComprobanteCompraDetallesDeduccion")) 
+- Sum(Fields!Monto.Value, "ComprobanteCompraDetallesDeduccion")) 
 - Sum(Fields!MontoPagado.Value, "ComprobanteCompraDetallesPagos")</Value>
                     <Style>
                       <FontWeight>Bold</FontWeight>
@@ -4572,7 +4572,7 @@ SUM(Fields!Subtotal.Value)/Sum(CInt(Fields!TotalKilos.Value)))</Value>
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>8.2073in</Height>
+        <Height>8.5823in</Height>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -4603,7 +4603,7 @@ SUM(Fields!Subtotal.Value)/Sum(CInt(Fields!TotalKilos.Value)))</Value>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>0.17639cm</Top>
+              <Top>0.17638cm</Top>
               <Left>6.95538cm</Left>
               <Height>0.6cm</Height>
               <Width>5.25167cm</Width>
