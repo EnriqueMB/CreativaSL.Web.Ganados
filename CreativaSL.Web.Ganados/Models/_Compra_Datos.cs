@@ -797,6 +797,7 @@ namespace CreativaSL.Web.Ganados.Models
                 item = new CatFierroModels();
                 item.IDFierro = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetString(dr.GetOrdinal("ID")) : string.Empty;
                 item.NombreFierro = !dr.IsDBNull(dr.GetOrdinal("Nombre")) ? dr.GetString(dr.GetOrdinal("Nombre")) : string.Empty;
+                item.NombreArchivo = !dr.IsDBNull(dr.GetOrdinal("NombreImagen")) ? dr.GetString(dr.GetOrdinal("NombreImagen")) : string.Empty;
                 lista.Add(item);
             }
             dr.Close();
