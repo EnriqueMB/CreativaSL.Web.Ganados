@@ -220,32 +220,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             string fileName = Fierro.IDFierro + fileExtension;
                             Stream s = bannerImage.InputStream;
                             Image Img2 = new Bitmap(s);
-                            //PixelFormat Pixen = Img2.PixelFormat;
-                            //if (PixelFormat.Format24bppRgb == Pixen)
-                            //{
-                            //    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)Img2.Clone(), 24L));
-                            //    Fierro.ImgFierro = image.ToBase64String(Img2.RawFormat);
-                            //    image.Save(baseDir + fileName);
-                            //}
-                            //else if (PixelFormat.Format32bppRgb == Pixen)
-                            //{
-                            //    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)Img2.Clone(), 32L));
-                            //    Fierro.ImgFierro = image.ToBase64String(Img2.RawFormat);
-                            //    image.Save(baseDir + fileName);
-                            //}
-                            //else
-                            //{
-                            //    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)Img2.Clone(), 16L));
-                            //    Fierro.ImgFierro = image.ToBase64String(Img2.RawFormat);
-                            //    image.Save(baseDir + fileName);
-                            //}
-                            //Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)Img2.Clone(), 35L));
-
-                            // First load the image somehow
                             
                             // Save the image with a quality of 50% 
-                            ComprimirImagen.SaveJpeg(baseDir + fileName, Img2, 50);
-
+                           Bitmap IMG3 = ComprimirImagen.SaveJpeg(baseDir + fileName, Img2, 50, true);
+                            Fierro.ImgFierro = IMG3.ToBase64String(ImageFormat.Jpeg);
                             //image.Save(baseDir + fileName);
                             Fierro.NombreArchivo = fileName;
                             Fierro = FierroDatos.ActualizarImagen(Fierro);

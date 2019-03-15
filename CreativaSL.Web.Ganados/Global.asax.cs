@@ -30,6 +30,8 @@ namespace CreativaSL.Web.Ganados
                 var httpApp = (HttpApplication)sender;
                 string URL = httpApp.Request.FilePath.ToLower();
                 string[] URLS = System.Text.RegularExpressions.Regex.Split(URL, "/");
+                string URLError = URLS[1];
+            
                 if (httpApp.Request.RawUrl.Split('/').Length > 2)
                 {
                     string URLValida = URLS[2];
@@ -40,7 +42,7 @@ namespace CreativaSL.Web.Ganados
                         List<string> ListaPermiso = new List<string>();
                         ListaPermiso = (List<string>)HttpContext.Current.Session["SessionListaPermiso"];
 
-                        if (URLValida == "account" || URLValida == "requestdata")
+                        if (URLValida == "account" || URLValida == "requestdata" || URLValida == "error")
                         {
 
                         }
@@ -65,6 +67,18 @@ namespace CreativaSL.Web.Ganados
 
                 }
             }
+
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Exception exception = Server.GetLastError();
+            Response.Clear();
+            HttpException httpException = exception as HttpException;
+            int error = httpException != null ? httpException.GetHttpCode() : 0;
+            Server.ClearError();
+           // Response.Redirect("/Admin/Error/?error={0}");
+            Response.Redirect(String.Format("/Admin/Error/?error={0}", error, exception.Message));
 
         }
     }

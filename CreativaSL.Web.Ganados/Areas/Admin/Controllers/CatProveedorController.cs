@@ -88,14 +88,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
                         if (bannerImage != null && bannerImage.ContentLength > 0)
                         {
-                            //string baseDir = Server.MapPath("~/Imagenes/Proveedor/INE/");
+                            string baseDir = Server.MapPath("~/Imagenes/Proveedor/INE/");
                             //string fileExtension = Path.GetExtension(bannerImage.FileName);
                             //string fileName = "Ine" + fileExtension;
                             Stream s = bannerImage.InputStream;
                             //Bitmap img = new Bitmap(s);
                             Image img = new Bitmap(s);
-                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                            Proveedor.ImgINE = image.ToBase64String(img.RawFormat);
+                            //Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                            Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
+                            Proveedor.ImgINE = IMG3.ToBase64String(ImageFormat.Jpeg);
+                            //Proveedor.ImgINE = image.ToBase64String(img.RawFormat);
                             //image.Save(baseDir + fileName);
                             //Stream s = bannerImage.InputStream;
                             //Bitmap img = new Bitmap(s);
@@ -109,8 +111,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             //string fileName = "Ine" + fileExtension;
                             Stream s = bannerImage2.InputStream;
                             Image img = new Bitmap(s);
-                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                            Proveedor.ImgManifestacionFierro = image.ToBase64String(img.RawFormat);
+                            Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
+                            Proveedor.ImgManifestacionFierro = IMG3.ToBase64String(ImageFormat.Jpeg);
+                            //Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                            //Proveedor.ImgManifestacionFierro = image.ToBase64String(img.RawFormat);
                             //image.Save(baseDir + fileName);
                             //Stream s = bannerImage2.InputStream;
                             //Bitmap img = new Bitmap(s);
@@ -214,8 +218,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                 //Bitmap img = new Bitmap(s);
                                 //Proveedor.ImgINE = img.ToBase64String(ImageFormat.Png);
                                 Image img = new Bitmap(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Proveedor.ImgINE = image.ToBase64String(img.RawFormat);
+                                Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
+                                Proveedor.ImgINE = IMG3.ToBase64String(ImageFormat.Jpeg);
+                                //Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                //Proveedor.ImgINE = image.ToBase64String(img.RawFormat);
                             }
                         }
                         else
@@ -231,8 +237,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                 //Bitmap img = new Bitmap(s);
                                 //Proveedor.ImgManifestacionFierro = img.ToBase64String(ImageFormat.Png);
                                 Image img = new Bitmap(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Proveedor.ImgManifestacionFierro = image.ToBase64String(img.RawFormat);
+                                Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
+                                Proveedor.ImgManifestacionFierro = IMG3.ToBase64String(ImageFormat.Jpeg);
+                                //Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                //Proveedor.ImgManifestacionFierro = image.ToBase64String(img.RawFormat);
                             }
                         }
                         else

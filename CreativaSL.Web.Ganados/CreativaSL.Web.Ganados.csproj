@@ -1485,6 +1485,8 @@
     <Content Include="Areas\Admin\Views\MiCajaChica\Salida.cshtml" />
     <Content Include="Areas\Admin\Views\MiCajaChica\Entrega.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\EditDeduccion.cshtml" />
+    <Content Include="Areas\Admin\Views\Error\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Error\PageNotFound.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1523,6 +1525,7 @@
     <Compile Include="Areas\Admin\Controllers\CatGanadoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatRangoPesoVentaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatTipoClienteController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ErrorController.cs" />
     <Compile Include="Areas\Admin\Controllers\HistorialCajaChicaController.cs" />
     <Compile Include="Areas\Admin\Controllers\MiCajaChicaController.cs" />
     <Compile Include="Content\AdminAreaRegistration.cs" />

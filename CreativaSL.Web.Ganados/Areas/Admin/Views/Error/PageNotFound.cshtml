@@ -1,0 +1,62 @@
+﻿
+<!DOCTYPE html>
+<html lang="es" class="full-screen">
+<head>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="LimpidThemes">
+
+    <title>Viajes Por Chiapas - Error 404 </title>
+
+    <!-- Styles -->
+
+    <link type="text/css" href="@Url.Content("~/404/bootstrap.min.css")" rel="stylesheet" media="screen">
+    <link type="text/css" href="@Url.Content("~/404/style.css")" rel="stylesheet" media="screen">
+    <link type="text/css" href="@Url.Content("~/404/font-awesome/css/font-awesome.min.css")" rel="stylesheet">
+    <!-- FONTS -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+
+</head>
+<body class="full-screen">
+    <!-- BEGIN: PRELOADER -->
+    <div id="loader">
+        <div>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    <!-- END: PRELOADER -->
+    <!-- BEGIN: SITE-WRAPPER -->
+    <div class="coming-soon-wrapper full-screen">
+        <div class="coming-soon full-screen">
+            <div class="centered-box text-center">
+                <div class="logo">
+                    <img src="@Url.Content("~/404/logo.png")" alt="logo">
+                </div>
+                <p class="large-para text-center"><span class="fa fa-chain-broken"></span>404</p>
+                <div class="full-screen-404">
+                    <div class="text-center desc">
+                        <h1>Página no encontrada</h1>
+                        <p>Parece que el enlace que buscas no existe.</p>
+                        <a href="http://www.viajeporchiapas.com/"><i class="fa fa-home"></i>Página de inicio</a>
+                    </div>
+                </div>
+                <p class="copyright">&copy; <span id="year"></span> <a href="http://www.creativasoftline.com" title="">Creativa Softline</a></p>
+            </div>
+        </div>
+    </div>
+    <!-- END: SITE-WRAPPER -->
+    <script type="text/javascript">
+        copyright = new Date();
+        update = copyright.getFullYear();
+        document.getElementById('year').innerHTML = update;
+    </script>
+    <!-- Load Scripts -->
+
+</body>
+</html>
