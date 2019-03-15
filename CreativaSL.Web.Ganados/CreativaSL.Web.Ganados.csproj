@@ -1489,6 +1489,8 @@
     <Content Include="Areas\Admin\Views\MiCajaChica\Salida.cshtml" />
     <Content Include="Areas\Admin\Views\MiCajaChica\Entrega.cshtml" />
     <Content Include="Areas\Admin\Views\Compra\EditDeduccion.cshtml" />
+    <Content Include="Areas\Admin\Views\Error\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Error\PageNotFound.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1527,6 +1529,7 @@
     <Compile Include="Areas\Admin\Controllers\CatGanadoController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatRangoPesoVentaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatTipoClienteController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ErrorController.cs" />
     <Compile Include="Areas\Admin\Controllers\HistorialCajaChicaController.cs" />
     <Compile Include="Areas\Admin\Controllers\MiCajaChicaController.cs" />
     <Compile Include="Content\AdminAreaRegistration.cs" />
@@ -1587,6 +1590,7 @@
     <Compile Include="Areas\Admin\Controllers\TicketController.cs" />
     <Compile Include="Areas\Admin\Controllers\VentaController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\AutorizadoAttribute.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -1968,6 +1972,7 @@
     <Folder Include="Imagenes\Fierro\" />
     <Folder Include="Imagenes\Proveedor\INE\" />
     <Folder Include="Imagenes\Proveedor\ManifestacionFierro\" />
+    <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Formatos\CartaPorte.rdlc" />
@@ -2027,7 +2032,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50240</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

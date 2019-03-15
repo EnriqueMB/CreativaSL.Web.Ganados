@@ -18,7 +18,6 @@ namespace CreativaSL.Web.Ganados
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
-
             //routes.IgnoreRoute("{*x}", new { x = @".*\.asmx(/.*)?" });
         }
     }

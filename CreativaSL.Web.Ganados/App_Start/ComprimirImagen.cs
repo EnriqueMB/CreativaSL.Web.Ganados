@@ -81,7 +81,7 @@ namespace CreativaSL.Web.Ganados.App_Start
             }
         }
 
-        public static void SaveJpeg(string path, Image img, int quality)
+        public static Bitmap SaveJpeg(string path, Image img, int quality, bool Guardar)
         {
             if (quality < 0 || quality > 100)
                 throw new ArgumentOutOfRangeException("quality must be between 0 and 100.");
@@ -92,7 +92,9 @@ namespace CreativaSL.Web.Ganados.App_Start
             ImageCodecInfo jpegCodec = GetEncoderInfo("image/jpeg");
             EncoderParameters encoderParams = new EncoderParameters(1);
             encoderParams.Param[0] = qualityParam;
-            img.Save(path, jpegCodec, encoderParams);
+            if (Guardar)
+                img.Save(path, jpegCodec, encoderParams);
+            return new Bitmap(img);
         }
 
         /// <summary> 
