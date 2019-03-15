@@ -1527,6 +1527,7 @@
     <Compile Include="Areas\Admin\Controllers\CatCorralController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatDeduccionController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatGanadoController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatProveedorTransporteController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatRangoPesoVentaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatTipoClienteController.cs" />
     <Compile Include="Areas\Admin\Controllers\ErrorController.cs" />
@@ -1969,6 +1970,7 @@
     <Folder Include="ArchivosEmpresa\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\CatBodega\" />
+    <Folder Include="Areas\Admin\Views\CatProveedorTransporte\" />
     <Folder Include="Imagenes\Fierro\" />
     <Folder Include="Imagenes\Proveedor\INE\" />
     <Folder Include="Imagenes\Proveedor\ManifestacionFierro\" />

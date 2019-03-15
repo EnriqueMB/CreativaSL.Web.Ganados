@@ -659,6 +659,11 @@
             QuitarValidaciones();
             $('#divNoAplicaFlete').hide(1000);
         }
+        else if (opcion == 3 || opcion === '') {
+            $("#DocumentosPorCobrarDetallePagos_fecha").datepicker("update");
+            AgregarValidaciones();
+            $('#divNoAplicaFlete').show(1000);
+        }
         
     }
     function ToggleDivBancarizado(opcion) {
