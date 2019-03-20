@@ -495,7 +495,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Venta.Flete.ListaMetodoPago = VentaDatos.GetListadoMetodoPago(Venta);
                         Venta.Flete.Trayecto.ListaLugarOrigen = VentaDatos.GetListadoLugaresEmpresa(Venta);
                         Venta.Flete.Trayecto.ListaLugarDestino = VentaDatos.GetListadoLugaresCliente(Venta);
-
+                        Venta.Flete.ListaChoferAuxiliar = VentaDatos.GetChoferesAuxiliares(Venta);
                         return View(Venta);
                     }
                     else

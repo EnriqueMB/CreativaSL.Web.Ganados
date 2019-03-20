@@ -404,6 +404,38 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public List<CatChoferModels> GetChoferesAuxiliares(VentaModels2 Venta)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                   Venta.Id_sucursal
+                };
+                CatChoferModels Chofer;
+                List<CatChoferModels> ListaChoferes = new List<CatChoferModels>();
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Combo_get_CatChoferesXSucursal", parametros);
+                while (dr.Read())
+                {
+                    Chofer = new CatChoferModels
+                    {
+                        IDChofer = !dr.IsDBNull(dr.GetOrdinal("IDChofer")) ? dr.GetString(dr.GetOrdinal("IDChofer")) : string.Empty,
+                        Nombre = !dr.IsDBNull(dr.GetOrdinal("NombreCompleto")) ? dr.GetString(dr.GetOrdinal("NombreCompleto")) : string.Empty,
+                    };
+                    ListaChoferes.Add(Chofer);
+                }
+                dr.Close();
+                return ListaChoferes;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         #endregion
         #region Vehiculos
         public List<CatVehiculoModels> GetVehiculosXIDEmpresa(VentaModels2 Venta)

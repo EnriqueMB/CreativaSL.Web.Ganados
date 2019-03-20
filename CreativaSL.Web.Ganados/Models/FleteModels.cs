@@ -73,6 +73,7 @@ namespace CreativaSL.Web.Ganados.Models
         public List<CFDI_FormaPagoModels> ListaFormaPago { get; set; }
         public List<CFDI_MetodoPagoModels> ListaMetodoPago { get; set; }
         public List<Flete_ProductoModels> ListaProductos { get; set; }
+        public List<CatChoferModels> ListaChoferAuxiliar { get; set; }
 
         //TablaRelacionada
         public FleteImpuestoModels FleteImpuesto { get; set; }

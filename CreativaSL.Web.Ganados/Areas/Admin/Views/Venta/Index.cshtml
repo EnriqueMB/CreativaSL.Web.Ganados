@@ -475,6 +475,7 @@
                             igual = status_actual.localeCompare(Concluida);
                             if (igual == 0) {
                                 botones = botones + "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-danger correo' title='Correo'  data-placement='top' data-original-title='Correo'><i class='fa fa-envelope'></i></a>" +
                                     "</div>" +
                                     "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                                     "<div class='btn-group'>" +
@@ -485,6 +486,11 @@
                                     "<li>" +
                                     "<a class='details' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
                                     "<i class='fa fa-eye'></i> Detalles" +
+                                    "</a>" +
+                                    "</li>" +
+                                    "<li>" +
+                                    "<a class='correo' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
+                                    "<i class='fa fa-envelope'></i> Correo" +
                                     "</a>" +
                                     "</li>" +
                                     "</ul>" +

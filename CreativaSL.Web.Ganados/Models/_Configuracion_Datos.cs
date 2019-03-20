@@ -21,17 +21,16 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     item = new ConfiguracionModels();
                     item.idTicket = !dr.IsDBNull(dr.GetOrdinal("id_configuracion")) ? dr.GetInt32(dr.GetOrdinal("id_configuracion")) : 0;
-                    item.textoTicket1 = !dr.IsDBNull(dr.GetOrdinal("TextoTicketUno")) ? dr.GetString(dr.GetOrdinal("TextoTicketUno")) : string.Empty;
-                    item.textoTicket2 = !dr.IsDBNull(dr.GetOrdinal("TextoTicketDos")) ? dr.GetString(dr.GetOrdinal("TextoTicketDos")) : string.Empty;
-                    item.textoTicket3 = !dr.IsDBNull(dr.GetOrdinal("TextoTicketTres")) ? dr.GetString(dr.GetOrdinal("TextoTicketTres")) : string.Empty;
-                    item.pagosDiasFestivos = !dr.IsDBNull(dr.GetOrdinal("PagoDiasFestivos")) ? dr.GetDecimal(dr.GetOrdinal("PagoDiasFestivos")) :0;
-                    item.pagosDiasDomingos = !dr.IsDBNull(dr.GetOrdinal("PagoDiasDomingo")) ? dr.GetDecimal(dr.GetOrdinal("PagoDiasDomingo")) : 0;
-                    item.pagosDiasVacaciones = !dr.IsDBNull(dr.GetOrdinal("PagoDiasVacaciones")) ? dr.GetDecimal(dr.GetOrdinal("PagoDiasVacaciones")) : 0;
-                    item.retardosFaltas = !dr.IsDBNull(dr.GetOrdinal("RetardosFalta")) ? dr.GetInt32(dr.GetOrdinal("RetardosFalta")) : 0;
+                    item.CorreoTxt = !dr.IsDBNull(dr.GetOrdinal("CorreoTxt")) ? dr.GetString(dr.GetOrdinal("CorreoTxt")) : string.Empty;
+                    item.Password = !dr.IsDBNull(dr.GetOrdinal("Password")) ? dr.GetString(dr.GetOrdinal("Password")) : string.Empty;
+                    item.HtmlTxt = !dr.IsDBNull(dr.GetOrdinal("HtmlTxt")) ? dr.GetBoolean(dr.GetOrdinal("HtmlTxt")) : true;
+                    item.HostTxt = !dr.IsDBNull(dr.GetOrdinal("HostTxt")) ? dr.GetString(dr.GetOrdinal("HostTxt")) : string.Empty;
+                    item.PortTxt = !dr.IsDBNull(dr.GetOrdinal("PortTxt")) ? dr.GetString(dr.GetOrdinal("PortTxt")) : string.Empty;
+                    item.EnableSslTxt = !dr.IsDBNull(dr.GetOrdinal("EnableSslTxt")) ? dr.GetBoolean(dr.GetOrdinal("EnableSslTxt")) : true;
                     lista.Add(item);
                 }
                 dr.Close();
-                return datos.listaTicket = lista;
+                return lista;
             }
             catch (Exception ex)
             {
@@ -48,15 +47,13 @@ namespace CreativaSL.Web.Ganados.Models
                 while (dr.Read())
                 {
                     datos.idTicket = !dr.IsDBNull(dr.GetOrdinal("id_configuracion")) ? dr.GetInt32(dr.GetOrdinal("id_configuracion")) : 0;
-                    datos.textoTicket1 = !dr.IsDBNull(dr.GetOrdinal("TextoTicketUno")) ? dr.GetString(dr.GetOrdinal("TextoTicketUno")) : string.Empty;
-                    datos.textoTicket2 = !dr.IsDBNull(dr.GetOrdinal("TextoTicketDos")) ? dr.GetString(dr.GetOrdinal("TextoTicketDos")) : string.Empty;
-                    datos.textoTicket3 = !dr.IsDBNull(dr.GetOrdinal("TextoTicketTres")) ? dr.GetString(dr.GetOrdinal("TextoTicketTres")) : string.Empty;
-                    datos.pagosDiasFestivos = !dr.IsDBNull(dr.GetOrdinal("PagoDiasFestivos")) ? dr.GetDecimal(dr.GetOrdinal("PagoDiasFestivos")) : 0;
-                    datos.pagosDiasDomingos = !dr.IsDBNull(dr.GetOrdinal("PagoDiasDomingo")) ? dr.GetDecimal(dr.GetOrdinal("PagoDiasDomingo")) : 0;
-                    datos.pagosDiasVacaciones = !dr.IsDBNull(dr.GetOrdinal("PagoDiasVacaciones")) ? dr.GetDecimal(dr.GetOrdinal("PagoDiasVacaciones")) : 0;
-                    datos.retardosFaltas = !dr.IsDBNull(dr.GetOrdinal("RetardosFalta")) ? dr.GetInt32(dr.GetOrdinal("RetardosFalta")) : 0;
-           
-               }
+                    datos.CorreoTxt = !dr.IsDBNull(dr.GetOrdinal("CorreoTxt")) ? dr.GetString(dr.GetOrdinal("CorreoTxt")) : string.Empty;
+                    datos.Password = !dr.IsDBNull(dr.GetOrdinal("Password")) ? dr.GetString(dr.GetOrdinal("Password")) : string.Empty;
+                    datos.HtmlTxt = !dr.IsDBNull(dr.GetOrdinal("HtmlTxt")) ? dr.GetBoolean(dr.GetOrdinal("HtmlTxt")) : true;
+                    datos.HostTxt = !dr.IsDBNull(dr.GetOrdinal("HostTxt")) ? dr.GetString(dr.GetOrdinal("HostTxt")) : string.Empty;
+                    datos.PortTxt = !dr.IsDBNull(dr.GetOrdinal("PortTxt")) ? dr.GetString(dr.GetOrdinal("PortTxt")) : string.Empty;
+                    datos.EnableSslTxt = !dr.IsDBNull(dr.GetOrdinal("EnableSslTxt")) ? dr.GetBoolean(dr.GetOrdinal("EnableSslTxt")) : true;
+                }
                 dr.Close();
                 return datos;
             }
@@ -69,8 +66,8 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                object[] parametros = { datos.idTicket, datos.pagosDiasFestivos, datos.retardosFaltas, datos.pagosDiasVacaciones, datos.pagosDiasDomingos,
-                                        datos.textoTicket1, datos.textoTicket2, datos.textoTicket3, datos.Usuario};
+                object[] parametros = { datos.idTicket, datos.CorreoTxt, datos.Password, datos.HtmlTxt, datos.HostTxt,
+                                        datos.PortTxt, datos.EnableSslTxt, datos.Usuario};
                 object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_c_ConfiguracionGeneral", parametros);
                 if (Resultado != null)
                 {
