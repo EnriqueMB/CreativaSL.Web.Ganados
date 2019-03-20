@@ -381,40 +381,43 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach (var Tranporte in ListaProvTransporte)
+                                                    @if (ListaProvCombustible != null)
                                                     {
-                                                        <tr id="@Tranporte.id_proveedorServicio">
-                                                            <td>@Tranporte.nombreSucursal</td>
-                                                            <td>@Tranporte.nombreRazonsocial</td>
-                                                            <td>@Tranporte.RFC</td>
-                                                            <td>@Tranporte.Direccion</td>
-                                                            <td style="text-align:center;">
-                                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                                    <a title="Editar" href="@Url.Action("Edit", "CatProveedorServicio", new { id = Tranporte.Id })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                                    <a title="Eliminar" id="delete-@Tranporte.Id" data-hrefa="@Url.Action("Delete", "CatProveedorServicio", new { id = Tranporte.Id })" onClick="delete_row('@Tranporte.Id');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
-                                                                </div>
-                                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                                    <div class="btn-group">
-                                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                                        </a>
-                                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                                            <li>
-                                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatProveedorServicio", new { id = Tranporte.Id })">
-                                                                                    <i class="fa fa-edit"></i> Editar
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a role="menuitem" tabindex="-1" id="delete-@Tranporte.Id" data-hrefa="@Url.Action("Delete", "CatProveedorServicio", new { id = Tranporte.Id })" onClick="delete_row('@Tranporte.Id');">
-                                                                                    <i class="fa fa-trash-o"></i> Eliminar
-                                                                                </a>
-                                                                            </li>
-                                                                        </ul>
+                                                        foreach (var Tranporte in ListaProvTransporte)
+                                                        {
+                                                            <tr id="@Tranporte.Id">
+                                                                <td>@Tranporte.NombreRazonSocial</td>
+                                                                <td>@Tranporte.RFC</td>
+                                                                <td>@Tranporte.DomicilioFiscal</td>
+                                                                <td style="text-align:center;">
+                                                                    <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                                        <a title="Editar" href="@Url.Action("Edit", "CatProveedorTransporte", new { id = Tranporte.Id })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                                        <a title="Eliminar" id="delete-@Tranporte.Id" data-hrefa="@Url.Action("Delete", "CatProveedorTransporte", new { id = Tranporte.Id })" onClick="delete_row('@Tranporte.Id');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                                     </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
+                                                                    <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                                        <div class="btn-group">
+                                                                            <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                                <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                                            </a>
+                                                                            <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                                <li>
+                                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatProveedorTransporte", new { id = Tranporte.Id })">
+                                                                                        <i class="fa fa-edit"></i> Editar
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a role="menuitem" tabindex="-1" id="delete-@Tranporte.Id" data-hrefa="@Url.Action("Delete", "CatProveedorTransporte", new { id = Tranporte.Id })" onClick="delete_row('@Tranporte.Id');">
+                                                                                        <i class="fa fa-trash-o"></i> Eliminar
+                                                                                    </a>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        }
                                                     }
+
                                                 </tbody>
                                             </table>
                                         </div>

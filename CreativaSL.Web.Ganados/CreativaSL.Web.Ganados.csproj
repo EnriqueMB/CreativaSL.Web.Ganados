@@ -1491,6 +1491,7 @@
     <Content Include="Areas\Admin\Views\Compra\EditDeduccion.cshtml" />
     <Content Include="Areas\Admin\Views\Error\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Error\PageNotFound.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorTransporte\Create.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1642,6 +1643,7 @@
     <Compile Include="Models\CatProveedorModels.cs" />
     <Compile Include="Models\CatProveedorAlmacenModels.cs" />
     <Compile Include="Models\CatProveedorServicioModels.cs" />
+    <Compile Include="Models\CatProveedorTransporteModels.cs" />
     <Compile Include="Models\CatPuestoModels.cs" />
     <Compile Include="Models\CatRangoPesoCompraModels.cs" />
     <Compile Include="Models\CatRangoPesoVentaModels.cs" />
@@ -1845,6 +1847,7 @@
     <Compile Include="Models\_CatProveedorAlmacen_Datos.cs" />
     <Compile Include="Models\_CatProveedorCombustible_Datos.cs" />
     <Compile Include="Models\_CatProveedorServicio_Datos.cs" />
+    <Compile Include="Models\_CatProveedorTransporte_Datos.cs" />
     <Compile Include="Models\_CatProveedor_Datos.cs" />
     <Compile Include="Models\_CatPuestos_Datos.cs" />
     <Compile Include="Models\_CatRangoPesoCompra_Datos.cs" />
@@ -1970,7 +1973,6 @@
     <Folder Include="ArchivosEmpresa\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\CatBodega\" />
-    <Folder Include="Areas\Admin\Views\CatProveedorTransporte\" />
     <Folder Include="Imagenes\Fierro\" />
     <Folder Include="Imagenes\Proveedor\INE\" />
     <Folder Include="Imagenes\Proveedor\ManifestacionFierro\" />

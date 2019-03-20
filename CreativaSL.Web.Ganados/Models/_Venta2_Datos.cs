@@ -1623,9 +1623,9 @@ namespace CreativaSL.Web.Ganados.Models
                     VentaDetalles.VentaFolio = !dr.IsDBNull(dr.GetOrdinal("folio")) ? dr.GetString(dr.GetOrdinal("folio")) : string.Empty;
                     VentaDetalles.VentaSucursal = !dr.IsDBNull(dr.GetOrdinal("nombreSuc")) ? dr.GetString(dr.GetOrdinal("nombreSuc")) : string.Empty;
                     VentaDetalles.VentaFecha = !dr.IsDBNull(dr.GetOrdinal("fechaHoraVenta")) ? dr.GetString(dr.GetOrdinal("fechaHoraVenta")) : string.Empty;
-                    VentaDetalles.VentaMerma = !dr.IsDBNull(dr.GetOrdinal("merma")) ? dr.GetString(dr.GetOrdinal("merma")) : string.Empty;
-                    VentaDetalles.VentaMermaMachos = !dr.IsDBNull(dr.GetOrdinal("mermaExtraMachos")) ? dr.GetString(dr.GetOrdinal("mermaExtraMachos")) : string.Empty;
-                    VentaDetalles.VentaMermaHembras = !dr.IsDBNull(dr.GetOrdinal("mermaExtraHembras")) ? dr.GetString(dr.GetOrdinal("mermaExtraHembras")) : string.Empty;
+                    VentaDetalles.VentaMerma = !dr.IsDBNull(dr.GetOrdinal("merma")) ? dr.GetString(dr.GetOrdinal("merma")) : "0";
+                    VentaDetalles.VentaMermaMachos = !dr.IsDBNull(dr.GetOrdinal("mermaExtraMachos")) ? dr.GetString(dr.GetOrdinal("mermaExtraMachos")) : "0";
+                    VentaDetalles.VentaMermaHembras = !dr.IsDBNull(dr.GetOrdinal("mermaExtraHembras")) ? dr.GetString(dr.GetOrdinal("mermaExtraHembras")) : "0";
                     VentaDetalles.VentaObservacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
 
                     VentaDetalles.FleteLineaFletera = !dr.IsDBNull(dr.GetOrdinal("lineaFletera")) ? dr.GetString(dr.GetOrdinal("lineaFletera")) : string.Empty;

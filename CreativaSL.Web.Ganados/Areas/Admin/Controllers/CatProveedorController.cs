@@ -28,11 +28,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 _CatProveedorAlmacen_Datos ProveedorDAlmacen = new _CatProveedorAlmacen_Datos();
                 _CatProveedorCombustible_Datos ProveedorDCombustible = new _CatProveedorCombustible_Datos();
                 _CatProveedorServicio_Datos ProveedorDServicio = new _CatProveedorServicio_Datos();
+                _CatProveedorTransporte_Datos ProveedorDTransporte = new _CatProveedorTransporte_Datos();
+
                 Proveedor.Conexion = Conexion;
                 Proveedor.listaProveedores = ProveedorDatos.ObtenerCatProveedores(Proveedor);
                 ViewBag.LProveedorAlmacen = ProveedorDAlmacen.ObtenerListaProveedorAlmacen(Conexion);
                 ViewBag.LProveedorCombistible = ProveedorDCombustible.ObtenerCatProveedores(Conexion);
                 ViewBag.LProveddorServicio = ProveedorDServicio.ObtenerCatProveedores(Conexion);
+                ViewBag.LProveddorTransporte = ProveedorDTransporte.ObtenerCatProveedoresTransportes(Conexion);
+
                 return View(Proveedor);
             }
             catch (Exception ex)
