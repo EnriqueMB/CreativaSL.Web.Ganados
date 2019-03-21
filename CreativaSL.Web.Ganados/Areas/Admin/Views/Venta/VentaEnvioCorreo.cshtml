@@ -1,0 +1,349 @@
+﻿@model CreativaSL.Web.Ganados.Models.VentaEnvioCorreo
+
+@{
+    ViewBag.Title = "VentaEnvioCorreo";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section css
+{
+    <!--FILEINPUT-->
+    @*<link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
+        <link href="@Url.Content("~/Content/js/plugins/font-awesome.min.css")" rel="stylesheet" />
+
+        <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />*@
+    <link href="@Url.Content("~/Content/css/validator.css")" rel="stylesheet" />
+}
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+
+    <div class="col-md-12">
+        @{ Html.EnableClientValidation(false); }
+        @using (Html.BeginForm("VentaEnvioCorreo", "Venta", FormMethod.Post, new { id = "frm_correoenvio", @class = "form-horizontal", autocomplete = "off" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Datos Correo</strong></h3>
+                    <ul class="panel-controls"></ul>
+                </div>
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
+                            <div id="validation_summary" class="field_error "></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span>Fecha Embarque</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.FechaEmbarque, "{0:dd/MM/yyyy}", new { id = "FechaEmbarque", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span> Proveedor</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.ProveedorVenta, new { id = "ProveedorVenta", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span>Nombre Chofer</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.NombreChofer, new { id = "NombreChofer", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span>Nombre Chofer Auxiliar</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.ChoferAuxiliar, new { id = "ChoferAuxiliar", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span> Cabezas Hembras</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.CabezaHembras, new { id = "CabezaHembras", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span> Pesos Hembras (KG) </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.PesoHembra, new { id = "PesoHembra", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span> Cabeza Machos </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.CabezaMachos, new { id = "CabezaMachos", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span> Pesos Machos (KG) </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.PesoMachos, new { id = "PesoMachos", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span> Peso Total (KG) </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.TotalGeneral, new { id = "TotalGeneral", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span> Lugar Destino </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.LugarDestino, new { id = "LugarDestino", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span> Telefono Movil </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.TelefonoMovil, new { id = "TelefonoMovil", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span> Modelo </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Modelo, new { id = "Modelo", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span> Color </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Color, new { id = "Color", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span> Placa </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Placas, new { id = "Placas", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span> GPS </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.GPS, new { id = "GPS", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span> Placas Jaula </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.PlacasJaulas, new { id = "PlacasJaulas", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span> Color Jaula </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.ColorJaula, new { id = "ColorJaula", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span> Marca </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Marca, new { id = "Marca", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span> Correo cliente y contactos </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <select id="Correo" name="Correo" class="controlError form-control select" data_live_search = "true" data_style = "form-control">
+                                                @foreach (var Correo in Model.VentaCorreo)
+                                                {
+                                                    
+                                                    <option value="@Correo.Correo">@Correo.NombreCliente "@Correo.Correo"</option>
+                                                    foreach (var item in Correo.VentaCorreoDetalle)
+	                                                {
+                                                    <option value="@item.Correo">@item.NombreCliente "@item.Correo"</option>
+	                                                }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span> Asunto </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Asunto, new { id = "Asunto", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <input type="submit" value="Enviar Correo" class="btn btn-primary pull-right">
+                    <a href="@Url.Action("Index","Venta")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                </div>
+            </div>
+        }
+    </div>
+
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+
+    <script>
+    jQuery(document).ready(function () {
+        Mensaje(message, typemessage);
+    });
+    </script>
+    }

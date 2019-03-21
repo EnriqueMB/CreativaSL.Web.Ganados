@@ -2483,5 +2483,85 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
+
+        #region DatosEnvioCorreo
+
+        [HttpGet]
+        public ActionResult VentaEnvioCorreo(string Id_1)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Id_1))
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista, verifique sus datos.";
+                    return View("Index");
+                }
+                if (Id_1.Length != 36)
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista, verifique sus datos.";
+                    return View("Index");
+                }
+
+                Token.SaveToken();
+                VentaEnvioCorreo VentaCorreo = new VentaEnvioCorreo();
+                _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                VentaCorreo.Conexion = Conexion;
+                VentaCorreo.IdVenta = Id_1;
+                VentaCorreo = VentaDatos.GetVentaEnvioCorreo(VentaCorreo);
+                VentaCorreo = VentaDatos.ObtenerComboCorreoClientesContacto(VentaCorreo);
+               
+                return View(VentaCorreo);
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos, error: " + Mensaje;
+                return View("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult VentaEnvioCorreo(VentaEnvioCorreo Venta)
+        {
+            try
+            {
+                ConfiguracionModels Configuracion = new ConfiguracionModels();
+                _Configuracion_Datos ConfiguracionDatos = new _Configuracion_Datos();
+                Configuracion.Conexion = Conexion;
+                Configuracion.idTicket = 1;
+                Configuracion = ConfiguracionDatos.ObtenerTicket(Configuracion);
+
+                int pesoHembra = 0, PesoMacho = 0, TotalGeneral = 0;
+                pesoHembra = Convert.ToInt32(Venta.PesoHembra);
+                PesoMacho = Convert.ToInt32(Venta.PesoMachos);
+                TotalGeneral = Convert.ToInt32(Venta.TotalGeneral);
+                Comun.EnviarCorreo(
+                    Configuracion.CorreoTxt
+                   , Configuracion.Password
+                   , Venta.Correo
+                   , Venta.Asunto
+                   , Comun.GenerarHtmlCorreoJaula(Venta.FechaEmbarque, Venta.ProveedorVenta, Venta.NombreChofer, Venta.ChoferAuxiliar, Venta.CabezaHembras, pesoHembra, Venta.CabezaMachos,
+                                                  PesoMacho, TotalGeneral, Venta.LugarDestino, Venta.TelefonoMovil, Venta.Modelo, Venta.Color, Venta.Placas, Venta.GPS, Venta.PlacasJaulas, Venta.ColorJaula, Venta.Marca)
+                   , false
+                   , ""
+                   , Configuracion.HtmlTxt
+                   , Configuracion.HostTxt
+                   , Convert.ToInt32(Configuracion.PortTxt)
+                   , Configuracion.EnableSslTxt);
+
+                TempData["typemessage"] = "1";
+                TempData["message"] = "El correo fue enviado con exito.";
+                return View("Index");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+            #endregion
     }
 }

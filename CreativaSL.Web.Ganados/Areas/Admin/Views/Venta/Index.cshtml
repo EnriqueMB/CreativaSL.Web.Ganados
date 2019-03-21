@@ -383,6 +383,7 @@
                                     "<a data-id='" + full["id_venta"] + "' class='btn tooltips  btn-blue btn-sm eventos_recepcion' title='Eventos y recepción'  data-placement='top' data-original-title='Eventos y recepción'><i class='fa fa-file'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
                                     "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-warning correo' title='Correo'  data-placement='top' data-original-title='Correo'><i class='fa fa-envelope'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                     "</div>" +
                                     "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
@@ -412,6 +413,11 @@
                                     "</a>" +
                                     "</li>" +
                                     "<li>" +
+                                    "<a class='correo' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
+                                    "<i class='fa fa-envelope'></i> Correo" +
+                                    "</a>" +
+                                    "</li>" +
+                                    "<li>" +
                                     "<a class='eliminar' role='menuitem' tabindex='-1' data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/'>" +
                                     "<i class='fa fa-trash-o'></i> Eliminar" +
                                     "</a>" +
@@ -429,6 +435,7 @@
                                     "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
                                     "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Eventos y recepción'  data-placement='top' data-original-title='Eventos y recepción'><i class='fa fa-book'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-warning correo' title='Correo'  data-placement='top' data-original-title='Correo'><i class='fa fa-envelope'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                     "</div>" +
                                     "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
@@ -463,6 +470,11 @@
                                     "</a>" +
                                     "</li>" +
                                     "<li>" +
+                                    "<a class='correo' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
+                                    "<i class='fa fa-envelope'></i> Correo" +
+                                    "</a>" +
+                                    "</li>" +
+                                    "<li>" +
                                     "<a class='eliminar' role='menuitem' tabindex='-1' data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/'>" +
                                     "<i class='fa fa-trash-o'></i> Eliminar" +
                                     "</a>" +
@@ -475,7 +487,6 @@
                             igual = status_actual.localeCompare(Concluida);
                             if (igual == 0) {
                                 botones = botones + "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-danger correo' title='Correo'  data-placement='top' data-original-title='Correo'><i class='fa fa-envelope'></i></a>" +
                                     "</div>" +
                                     "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                                     "<div class='btn-group'>" +
@@ -486,11 +497,6 @@
                                     "<li>" +
                                     "<a class='details' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
                                     "<i class='fa fa-eye'></i> Detalles" +
-                                    "</a>" +
-                                    "</li>" +
-                                    "<li>" +
-                                    "<a class='correo' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
-                                    "<i class='fa fa-envelope'></i> Correo" +
                                     "</a>" +
                                     "</li>" +
                                     "</ul>" +
@@ -611,6 +617,10 @@
                     $(".details").on("click", function () {
                         var IDCompra = $(this).data("id")
                         window.location.href = '/Admin/Venta/VentaDetalles?Id_1=' + IDCompra;
+                    });
+                    $(".correo").on("click", function () {
+                        var IDCompra = $(this).data("id")
+                        window.location.href = '/Admin/Venta/VentaEnvioCorreo?Id_1=' + IDCompra;
                     });
                     $(".documentos").on("click", function () {
                         var id = $(this).data("id")

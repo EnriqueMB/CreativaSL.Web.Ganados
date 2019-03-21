@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Xml;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -2473,5 +2474,95 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public VentaEnvioCorreo GetVentaEnvioCorreo(VentaEnvioCorreo Venta)
+        {
+            object[] parametros =
+            {
+                Venta.IdVenta
+            };
+            SqlDataReader dr = null;
+            dr = SqlHelper.ExecuteReader(Venta.Conexion, "[dbo].[spCSLDB_Venta_get_correo]", parametros);
+            while (dr.Read())
+            {
+                Venta.FechaEmbarque = !dr.IsDBNull(dr.GetOrdinal("FechaEmbarque")) ? dr.GetDateTime(dr.GetOrdinal("FechaEmbarque")) : DateTime.Today;
+                Venta.ProveedorVenta = !dr.IsDBNull(dr.GetOrdinal("PorveedorVenta")) ? dr.GetString(dr.GetOrdinal("PorveedorVenta")) : string.Empty;
+                Venta.CabezaHembras = !dr.IsDBNull(dr.GetOrdinal("CabezasHembras")) ? dr.GetInt32(dr.GetOrdinal("CabezasHembras")) : 0;
+                Venta.PesoHembra = !dr.IsDBNull(dr.GetOrdinal("PesosHembras")) ? dr.GetDecimal(dr.GetOrdinal("PesosHembras")) : 0;
+                Venta.CabezaMachos = !dr.IsDBNull(dr.GetOrdinal("CabezasMacho")) ? dr.GetInt32(dr.GetOrdinal("CabezasMacho")) : 0;
+                Venta.PesoMachos = !dr.IsDBNull(dr.GetOrdinal("PesosMachos")) ? dr.GetDecimal(dr.GetOrdinal("PesosMachos")) : 0;
+                Venta.TotalGeneral = !dr.IsDBNull(dr.GetOrdinal("TotalGeneral")) ? dr.GetDecimal(dr.GetOrdinal("TotalGeneral")) : 0;
+                Venta.LugarDestino = !dr.IsDBNull(dr.GetOrdinal("lugarDestino")) ? dr.GetString(dr.GetOrdinal("lugarDestino")) : string.Empty;
+                Venta.NombreChofer = !dr.IsDBNull(dr.GetOrdinal("NombreChofer")) ? dr.GetString(dr.GetOrdinal("NombreChofer")) : string.Empty;
+                Venta.TelefonoMovil = !dr.IsDBNull(dr.GetOrdinal("TelefonoMovil")) ? dr.GetString(dr.GetOrdinal("TelefonoMovil")) : string.Empty;
+                Venta.Modelo = !dr.IsDBNull(dr.GetOrdinal("Modelo")) ? dr.GetString(dr.GetOrdinal("Modelo")) : string.Empty;
+                Venta.Color = !dr.IsDBNull(dr.GetOrdinal("Color")) ? dr.GetString(dr.GetOrdinal("Color")) : string.Empty;
+                Venta.Placas = !dr.IsDBNull(dr.GetOrdinal("Placas")) ? dr.GetString(dr.GetOrdinal("Placas")) : string.Empty;
+                Venta.GPS = !dr.IsDBNull(dr.GetOrdinal("GPS")) ? dr.GetString(dr.GetOrdinal("GPS")) : string.Empty;
+                Venta.PlacasJaulas = !dr.IsDBNull(dr.GetOrdinal("PlacasJaulas")) ? dr.GetString(dr.GetOrdinal("PlacasJaulas")) : string.Empty;
+                Venta.ColorJaula = !dr.IsDBNull(dr.GetOrdinal("ColorJaula")) ? dr.GetString(dr.GetOrdinal("ColorJaula")) : string.Empty;
+                Venta.Marca = !dr.IsDBNull(dr.GetOrdinal("Marca")) ? dr.GetString(dr.GetOrdinal("Marca")) : string.Empty;
+                Venta.ChoferAuxiliar = !dr.IsDBNull(dr.GetOrdinal("ChoferAuxiliar")) ? dr.GetString(dr.GetOrdinal("ChoferAuxiliar")) : string.Empty;
+            }
+            dr.Close();
+            return Venta;
+        }
+
+
+        public VentaEnvioCorreo ObtenerComboCorreoClientesContacto(VentaEnvioCorreo Datos)
+        {
+            try
+            {
+                DataSet Ds = SqlHelper.ExecuteDataset(Datos.Conexion, "[dbo].[spCSLDB_Combo_get_CatClienteCorreo]", Datos.IdVenta);
+                if (Ds != null)
+                {
+                    if (Ds.Tables.Count == 1)
+                    {
+                        List<VentaEnvioCorreo> ListaPrinc = new List<VentaEnvioCorreo>();
+                        VentaEnvioCorreo Item;
+                        DataTableReader DTR = Ds.Tables[0].CreateDataReader();
+                        DataTable Tbl1 = Ds.Tables[0];
+                        while (DTR.Read())
+                        {
+                            Item = new VentaEnvioCorreo();
+                            Item.VentaCorreoDetalle = new List<VentaEnvioCorreo>();
+                            Item.Correo = !DTR.IsDBNull(DTR.GetOrdinal("CorreoCliente")) ? DTR.GetString(DTR.GetOrdinal("CorreoCliente")) : string.Empty;
+                            Item.Tipo = !DTR.IsDBNull(DTR.GetOrdinal("Cliente")) ? DTR.GetString(DTR.GetOrdinal("Cliente")) : string.Empty;
+                            Item.NombreCliente = !DTR.IsDBNull(DTR.GetOrdinal("NombreCliente")) ? DTR.GetString(DTR.GetOrdinal("NombreCliente")) : string.Empty;
+                            //string Aux = DTR.GetString(2);
+                            string Aux = !DTR.IsDBNull(DTR.GetOrdinal("TablaContacto")) ? DTR.GetString(DTR.GetOrdinal("TablaContacto")) : string.Empty;
+                            Aux = string.Format("<Main>{0}</Main>", Aux);
+                            XmlDocument xm = new XmlDocument();
+                            xm.LoadXml(Aux);
+                            XmlNodeList Registros = xm.GetElementsByTagName("Main");
+                            XmlNodeList Lista = ((XmlElement)Registros[0]).GetElementsByTagName("B");
+                            List<VentaEnvioCorreo> ListaAux = new List<VentaEnvioCorreo>();
+                            VentaEnvioCorreo ItemAux;
+                            foreach (XmlElement Nodo in Lista)
+                            {
+                                ItemAux = new VentaEnvioCorreo();
+                                XmlNodeList CorreoContacto = Nodo.GetElementsByTagName("CorreoContacto");
+                                XmlNodeList Tipo = Nodo.GetElementsByTagName("Contacto");
+                                XmlNodeList Nombre = Nodo.GetElementsByTagName("NombreContacto");
+                                ItemAux.Correo = CorreoContacto[0].InnerText;
+                                ItemAux.Tipo = Tipo[0].InnerText;
+                                ItemAux.NombreCliente = Nombre[0].InnerText;
+                                Item.VentaCorreoDetalle.Add(ItemAux);
+                            }
+                            ListaPrinc.Add(Item);
+                        }
+                        DTR.Close();
+                        Datos.VentaCorreo = ListaPrinc;
+                    }
+                }
+                return Datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
     }
 }

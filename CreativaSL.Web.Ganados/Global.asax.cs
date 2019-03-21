@@ -76,7 +76,7 @@ namespace CreativaSL.Web.Ganados
             Response.Clear();
             HttpException httpException = exception as HttpException;
             int error = httpException != null ? httpException.GetHttpCode() : 0;
-            if (error == 500 || error == 505 || error == 404)
+            if (error == 500 || error == 505 )
             {
                 Server.ClearError();
                 // Response.Redirect("/Admin/Error/?error={0}");

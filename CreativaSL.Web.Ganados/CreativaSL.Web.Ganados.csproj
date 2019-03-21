@@ -1492,6 +1492,7 @@
     <Content Include="Areas\Admin\Views\Error\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Error\PageNotFound.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorTransporte\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaEnvioCorreo.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1816,6 +1817,7 @@
     <Compile Include="Models\Validaciones\TestAttribute.cs" />
     <Compile Include="Models\Validaciones\TextoAttribute.cs" />
     <Compile Include="Models\VentaDetalleModels.cs" />
+    <Compile Include="Models\VentaEnvioCorreo.cs" />
     <Compile Include="Models\VentaGanadoModels.cs" />
     <Compile Include="Models\VentaModels.cs" />
     <Compile Include="Models\VentaModels2.cs" />

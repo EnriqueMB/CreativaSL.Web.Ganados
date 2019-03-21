@@ -12,8 +12,8 @@ namespace CreativaSL.Web.Ganados.Controllers
         public ActionResult Index()
         {
            // return View();
-            //return RedirectToAction("Index", "HomeAdmin", new { Area = "Admin" });
-            return RedirectToRoute(new { controller = "Home", action = "Index" });
+            return RedirectToAction("Index", "HomeAdmin", new { Area = "Admin" });
+            //return RedirectToRoute(new { controller = "Home", action = "Index" });
 
         }
     }

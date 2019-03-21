@@ -200,20 +200,38 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 usuario.email2 = collection["email2"];
                 usuario = usuario_datos.ResetPassword(usuario);
 
+                ConfiguracionModels Configuracion = new ConfiguracionModels();
+                _Configuracion_Datos ConfiguracionDatos = new _Configuracion_Datos();
+                Configuracion.Conexion = Conexion;
+                Configuracion.idTicket = 1;
+                Configuracion = ConfiguracionDatos.ObtenerTicket(Configuracion);
+
                 if (usuario.activo == true)
                 {
                     Comun.EnviarCorreo(
-                     ConfigurationManager.AppSettings.Get("CorreoTxt")
-                    , ConfigurationManager.AppSettings.Get("PasswordTxt")
-                    , usuario.email2
-                    , "Password reset grupo ocampo"
-                    , Comun.GenerarHtmlResetContraseña(usuario.cuenta, usuario.Password)
-                    , false
-                    , ""
-                    , Convert.ToBoolean(ConfigurationManager.AppSettings.Get("HtmlTxt"))
-                    , ConfigurationManager.AppSettings.Get("HostTxt")
-                    , Convert.ToInt32(ConfigurationManager.AppSettings.Get("PortTxt"))
-                    , Convert.ToBoolean(ConfigurationManager.AppSettings.Get("EnableSslTxt")));
+                    Configuracion.CorreoTxt
+                   , Configuracion.Password
+                   , usuario.email2
+                   , "Password reset Grupo Ocampo"
+                   , Comun.GenerarHtmlResetContraseña(usuario.cuenta, usuario.Password)
+                   , false
+                   , ""
+                   , Configuracion.HtmlTxt
+                   , Configuracion.HostTxt
+                   , Convert.ToInt32(Configuracion.PortTxt)
+                   , Configuracion.EnableSslTxt);
+                    //Comun.EnviarCorreo(
+                    // ConfigurationManager.AppSettings.Get("CorreoTxt")
+                    //, ConfigurationManager.AppSettings.Get("PasswordTxt")
+                    //, usuario.email2
+                    //, "Password reset grupo ocampo"
+                    //, Comun.GenerarHtmlResetContraseña(usuario.cuenta, usuario.Password)
+                    //, false
+                    //, ""
+                    //, Convert.ToBoolean(ConfigurationManager.AppSettings.Get("HtmlTxt"))
+                    //, ConfigurationManager.AppSettings.Get("HostTxt")
+                    //, Convert.ToInt32(ConfigurationManager.AppSettings.Get("PortTxt"))
+                    //, Convert.ToBoolean(ConfigurationManager.AppSettings.Get("EnableSslTxt")));
                     TempData["typemessage"] = "1";
                     TempData["message"] = "Password reseateada correctamente";
                     ModelState.AddModelError("", "Password reseateada correctamente");
