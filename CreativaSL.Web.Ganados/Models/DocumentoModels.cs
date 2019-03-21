@@ -8,6 +8,8 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class DocumentoModels
     {
+        public int Id_deduccion { get; set; }
+        public string Id_detalleDoctoCobrar { get; set; }
         /// <summary>
         /// Puede ser el id de la compra, venta o flete
         /// </summary>

@@ -281,6 +281,7 @@
             },
             "columns": [
                 { "data": "descripcion" },
+                { "data": "tipoDeduccion" },
                 { "data": "cantidad" },
                 {
                     "data": "total",

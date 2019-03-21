@@ -8,11 +8,11 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CatProveedorTransporteModels
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         [Required]
-        public string NombreRazonSocial { get; set; }
+        public string RazonFiscal { get; set; }
+        public string DireccionFiscal { get; set; }
         public string RFC { get; set; }
-        public string DomicilioFiscal { get; set; }
-        public bool TodasLasSucursales { get; set; }
+        public string PsgEmpresa { get; set; }
     }
 }
