@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "VentaDocumentos";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var ListaDeduccion = ViewBag.ListaDeducciones;
 }
 
 @section css
@@ -98,9 +99,10 @@
                                                 @Html.AntiForgeryToken()
                                                 @Html.HiddenFor(model => model.Id_servicio)
                                                 @Html.HiddenFor(model => model.Id_documentoPorPagar)
+                                                @Html.HiddenFor(model => model.Id_detalleDoctoCobrar)
 
                                                 <div class="form-group">
-                                                    <div class="col-md-5 controlError">
+                                                    <div class="col-md-3 controlError">
                                                         <label class="col-md-5 control-label">Precio por la documentación:</label>
                                                         <div class="col-md-7 col-xs-12">
                                                             <div class="input-group">
@@ -109,15 +111,25 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-5 controlError">
-                                                        <label class="col-md-5 control-label">Concepto de salida de gasto:</label>
+                                                    <div class="col-md-3 controlError">
+                                                        <label class="col-md-5 control-label">Descontar en:</label>
                                                         <div class="col-md-7 col-xs-12">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                                @Html.DropDownListFor(model => model.Id_conceptoSalidaDeduccion, new SelectList(Model.ListaConceptosSalidaDeduccion, "IDTipoClasificacionGasto", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                                @Html.DropDownListFor(model => model.Id_conceptoSalidaDeduccion, new SelectList(Model.ListaConceptosSalidaDeduccionCobro, "Id_tipoClasificacionCobro", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-4 controlError">
+                                                        <label class="col-md-5 control-label">Tipo de deducción:</label>
+                                                        <div class="col-md-7 col-xs-12">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                                @Html.DropDownListFor(model => model.Id_deduccion, new SelectList(ListaDeduccion, "Id", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                     <div class="col-md-2">
                                                         <button type="submit" id="btnGuardar" class="btn ">Guardar <i class="fa fa-save"></i></button>
                                                     </div>

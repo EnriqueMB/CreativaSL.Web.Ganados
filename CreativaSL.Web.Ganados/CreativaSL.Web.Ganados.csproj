@@ -517,6 +517,7 @@
     <Content Include="Content\js\plugins\jquery.dd.js" />
     <Content Include="Content\js\plugins\jquery.maskMoney.js" />
     <Content Include="Content\js\plugins\jquery.maskMoney.min.js" />
+    <Content Include="Content\js\ProveedorTransporte.js" />
     <Content Include="Content\js\RangoVenta.js" />
     <Content Include="Content\js\Socios.js" />
     <Content Include="Content\js\conciliacionAlmacen.js" />
@@ -1492,6 +1493,7 @@
     <Content Include="Areas\Admin\Views\Error\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Error\PageNotFound.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorTransporte\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedorTransporte\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />

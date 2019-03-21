@@ -795,6 +795,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         //aqui pondriamos alguna lista o valores de cargar si esta todo correcto
                         Venta.EventoVenta.ListaDeTiposDeduccion = VentaDatos.GetTiposDeduccionVentaGanado(Venta);
                         Venta.EventoVenta.ListaTiposEventos = VentaDatos.GetTiposEventos(Venta);
+                        _CatDeduccion_Datos oDatos = new _CatDeduccion_Datos();
+                        ViewBag.ListaDeducciones = oDatos.SpCIDDB_Combo_get_CatDeduccion(Conexion);
                         return View(Venta.EventoVenta);
                     }
                     else
@@ -1101,7 +1103,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                     if (Documentacion.RespuestaAjax.Success)
                     {
-                        Documentacion.ListaConceptosSalidaDeduccion = VentaDatos.GetTiposDeduccion(Venta);
+                        Documentacion.ListaConceptosSalidaDeduccionCobro = VentaDatos.GetTiposDeduccionCobro(Venta);
+                        _CatDeduccion_Datos oDatos = new _CatDeduccion_Datos();
+                        ViewBag.ListaDeducciones = oDatos.SpCIDDB_Combo_get_CatDeduccion(Conexion);
                         return View(Documentacion);
                     }
                     else
@@ -2262,6 +2266,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         //aqui pondriamos alguna lista o valores de cargar si esta todo correcto
                         Venta.EventoVenta.ListaDeTiposDeduccion = VentaDatos.GetTiposDeduccionVentaGanado(Venta);
                         Venta.EventoVenta.ListaTiposEventos = VentaDatos.GetTiposEventos(Venta);
+                        _CatDeduccion_Datos oDatos = new _CatDeduccion_Datos();
+                        ViewBag.ListaDeducciones = oDatos.SpCIDDB_Combo_get_CatDeduccion(Conexion);
+
                         return View(Venta.EventoVenta);
                     }
                     else

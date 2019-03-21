@@ -217,6 +217,18 @@
             else {
                 console.log("offline");
             }
+
+            $("#IDChofer option").remove();
+            $("#IDChofer").append('<option value="">-- Seleccione --</option>');
+            $('#IDChofer.select').selectpicker('refresh');
+
+            $('#IDVehiculo').empty();
+            $("#IDVehiculo").append('<option value="">-- Seleccione --</option>');
+            $('#IDVehiculo.select').selectpicker('refresh');
+
+            $("#Trayecto_id_lugarOrigen option").remove();
+            $("#Trayecto_id_lugarOrigen").append('<option value="" data-latitud="" data-longitud="">-- Seleccione --</option>');
+
         });
 
         //$("#DocumentosPorCobrarDetallePagos_Id_formaPago").on("change", function () {
@@ -400,6 +412,7 @@
             }
         });
     }
+
     function GetProveedoresXIDSucursal(IDSucursal) {
         $.ajax({
             url: '/Admin/Compra/GetProveedoresXIDSucursal/',

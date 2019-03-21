@@ -1,7 +1,7 @@
 ﻿@model CreativaSL.Web.Ganados.Models.CatProveedorTransporteModels
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 @section css
@@ -23,7 +23,7 @@
         </div>
         <div class="col-md-12">
             @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("Create", "CatProveedorTransporte", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off" }))
+            @using (Html.BeginForm("Edit", "CatProveedorTransporte", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
                 @*@Html.ValidationSummary(true)*@
@@ -84,8 +84,8 @@
                                 </div>
                             </div>
                         </div>
-                      
-                  
+
+
                     </div>
                     <div class="panel-footer">
                         <a href="@Url.Action("Index","CatProveedor")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>

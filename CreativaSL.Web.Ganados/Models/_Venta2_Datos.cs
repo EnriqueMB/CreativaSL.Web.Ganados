@@ -628,6 +628,8 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+
         #endregion
 
         #region Tipos deduccion venta
@@ -1134,7 +1136,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Venta.EventoVenta.Observacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
                     Venta.EventoVenta.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagenBase64")) ? dr.GetString(dr.GetOrdinal("imagenBase64")) : string.Empty;
                     Venta.EventoVenta.MontoDeduccion = !dr.IsDBNull(dr.GetOrdinal("deduccion")) ? dr.GetDecimal(dr.GetOrdinal("deduccion")) : 0;
-                    Venta.EventoVenta.Id_TipoDeDeduccion = !dr.IsDBNull(dr.GetOrdinal("id_tipoDeduccion")) ? dr.GetInt16(dr.GetOrdinal("id_tipoDeduccion")) : 0;
+                    Venta.EventoVenta.Id_TipoDeDeduccion = !dr.IsDBNull(dr.GetOrdinal("id_deduccion")) ? dr.GetInt32(dr.GetOrdinal("id_deduccion")) : 0;
+                    Venta.EventoVenta.Id_conceptoDocumento = !dr.IsDBNull(dr.GetOrdinal("id_conceptoDocumento")) ? dr.GetInt32(dr.GetOrdinal("id_conceptoDocumento")) : 0;
                 }
                 else
                 {
@@ -1166,6 +1169,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Documentos.CobrarFlete = !dr.IsDBNull(dr.GetOrdinal("cobrarFlete")) ? dr.GetInt16(dr.GetOrdinal("cobrarFlete")) : 0;
                     Documentos.Id_conceptoSalidaDeduccion = !dr.IsDBNull(dr.GetOrdinal("id_conceptoDocumento")) ? dr.GetInt16(dr.GetOrdinal("id_conceptoDocumento")) : 0;
                     Documentos.PrecioUnitarioDocumentacion = !dr.IsDBNull(dr.GetOrdinal("precioUnitario")) ? dr.GetDecimal(dr.GetOrdinal("precioUnitario")) : 0;
+                    Documentos.Id_detalleDoctoCobrar = !dr.IsDBNull(dr.GetOrdinal("id_detalleDoctoCobrar")) ? dr.GetString(dr.GetOrdinal("id_detalleDoctoCobrar")) : string.Empty;
+                    Documentos.Id_deduccion = !dr.IsDBNull(dr.GetOrdinal("id_deduccion")) ? dr.GetInt32(dr.GetOrdinal("id_deduccion")) : 0;
                 }
                 else
                 {
@@ -1182,10 +1187,11 @@ namespace CreativaSL.Web.Ganados.Models
                 object[] parametros =
                 {
                      Documento.Id_servicio
-                    ,Documento.Id_documentoPorPagar
                     ,Documento.Usuario
                     ,Documento.PrecioUnitarioDocumentacion
+                    ,Documento.Id_detalleDoctoCobrar
                     ,Documento.Id_conceptoSalidaDeduccion
+                    ,Documento.Id_deduccion
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Venta_ac_PrecioDocumento", parametros);
@@ -1710,7 +1716,7 @@ namespace CreativaSL.Web.Ganados.Models
                 // construct sql connection and sql command objects.
                 using (SqlConnection sqlcon = new SqlConnection(Modelo.Conexion))
                 {
-                    using (SqlCommand cmd = new SqlCommand("spCSLDB_Venta_ac_Ganado2", sqlcon))
+                    using (SqlCommand cmd = new SqlCommand("spCSLDB_Venta_ac_Ganado", sqlcon))
                     {
                         //parametros de entrada
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -1773,8 +1779,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Evento.Lugar,               Evento.FechaDeteccion,
                     Evento.HoraDeteccion,       Evento.Observacion,
                     Evento.ImagenBase64,        Evento.ListaIDGanadosDelEvento,
-                    Evento.Usuario,             Evento.Id_TipoDeDeduccion,
-                    Evento.MontoDeduccion
+                    Evento.Usuario,             Evento.Id_conceptoDocumento,
+                    Evento.MontoDeduccion,      Evento.Id_TipoDeDeduccion
                 };
 
                 RespuestaAjax RespuestaAjax = new RespuestaAjax();

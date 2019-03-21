@@ -28,10 +28,12 @@
             ignore: "",
             rules: {
                 "PrecioUnitarioDocumentacion": { numeroConComas: true },
-                Id_conceptoSalidaDeduccion: { min: 1 }
+                Id_conceptoSalidaDeduccion: { min: 1 },
+                Id_deduccion: { notEqual: "0" }
             },
             messages: {
-                Id_conceptoSalidaDeduccion: { min: "Por favor, seleccione un concepto de salida de deducción." }
+                Id_conceptoSalidaDeduccion: { min: "Por favor, seleccione un concepto de salida." },
+                Id_deduccion: { notEqual: "Por favor, seleccione un tipo de deducción." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -233,7 +235,7 @@
                 $("body").css("cursor", "default");
                 if (response.Success) {
                     Mensaje("Datos guardados con éxito.", "1");
-                    $("#Id_documentoPorPagar").val(response.Mensaje);
+                    $("#Id_detalleDoctoCobrar").val(response.Mensaje);
                 }
                 else {
                     window.location.href = '/Admin/Venta/Index/';
