@@ -310,25 +310,25 @@
 
                         <div class="form-group">
                             @*<div class="col-md-6 controlError">
-                                <label class="col-md-2 control-label">Forma de pago</label>
-                                <div class="col-md-10 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.DropDownListFor(model => model.Flete.FormaPago.Clave, new SelectList(Model.Flete.ListaFormaPago, "Clave", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Flete.FormaPago.Clave)
-                                </div>
-                            </div>*@
+            <label class="col-md-2 control-label">Forma de pago</label>
+            <div class="col-md-10 col-xs-12">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                    @Html.DropDownListFor(model => model.Flete.FormaPago.Clave, new SelectList(Model.Flete.ListaFormaPago, "Clave", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(model => model.Flete.FormaPago.Clave)
+            </div>
+        </div>*@
                             @*<div class="col-md-6 controlError">
-                                <label class="col-md-2 control-label">Kilómetraje Inicial</label>
-                                <div class="col-md-10 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-tachometer"></span></span>
-                                        @Html.TextBoxFor(model => model.Flete.kmInicialVehiculo, new { @class = "form-control", @type = "number" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Flete.kmInicialVehiculo)
-                                </div>
-                            </div>*@
+            <label class="col-md-2 control-label">Kilómetraje Inicial</label>
+            <div class="col-md-10 col-xs-12">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="fa fa-tachometer"></span></span>
+                    @Html.TextBoxFor(model => model.Flete.kmInicialVehiculo, new { @class = "form-control", @type = "number" })
+                </div>
+                @Html.ValidationMessageFor(model => model.Flete.kmInicialVehiculo)
+            </div>
+        </div>*@
                             <div class="col-md-6 controlError">
                                 <label class="col-md-2 control-label">Costo del flete</label>
                                 <div class="col-md-10 col-xs-12">
@@ -337,6 +337,16 @@
                                         @Html.TextBoxFor(model => model.Flete.precioFlete, "{0:f2}", new { @class = "form-control", placeholder = "Escriba el precio del flete." })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Flete.precioFlete)
+                                </div>
+                            </div>
+                            <div class="col-md-6 controlError">
+                                <label class="col-md-2 control-label">Chofer Auxilar</label>
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                        @Html.DropDownListFor(model => model.Flete.id_choferAuxilar, new SelectList(Model.Flete.ListaChoferAuxiliar, "IDChofer", "Nombre"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Flete.id_choferAuxilar)
                                 </div>
                             </div>
                         </div>

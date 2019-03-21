@@ -33,6 +33,7 @@ namespace CreativaSL.Web.Ganados.Models
         public string id_chofer { get; set; }
         public string id_jaula { get; set; }
         public string IDRemolque { get; set; }
+        public string id_choferAuxilar { get; set; }
 
         ///Campos unicos de la tabla
         public string Folio { get; set; }
@@ -73,6 +74,7 @@ namespace CreativaSL.Web.Ganados.Models
         public List<CFDI_FormaPagoModels> ListaFormaPago { get; set; }
         public List<CFDI_MetodoPagoModels> ListaMetodoPago { get; set; }
         public List<Flete_ProductoModels> ListaProductos { get; set; }
+        public List<CatChoferModels> ListaChoferAuxiliar { get; set; }
 
         //TablaRelacionada
         public FleteImpuestoModels FleteImpuesto { get; set; }

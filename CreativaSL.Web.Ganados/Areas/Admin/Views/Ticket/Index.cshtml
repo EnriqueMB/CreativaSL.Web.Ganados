@@ -38,53 +38,63 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        @*<th>Texto Uno</th>
-                                        <th>Texto Dos</th>
-                                        <th>Texto Tres</th>*@
-                                        <th>Pago Días Festivos</th>
-                                        <th>Pagos Días Domingo</th>
-                                        <th>Pagos Días Vacaciones</th>
-                                        @*<th>Retardo Faltas</th>*@
+                                        <th>Correo</th>
+                                        <th>Html</th>
+                                        <th>Host</th>
+                                        <th>Port</th>
+                                        <th>EnambleSsl</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var ticket in Model.listaTicket)
                                     {
-                                        <tr id="@ticket.idTicket">
-                                            @*<td>@ticket.textoTicket1</td>
-                                            <td>@ticket.textoTicket2</td>
-                                            <td>@ticket.textoTicket3</td>*@
-                                            <td>@ticket.pagosDiasFestivos</td>
-                                            <td>@ticket.pagosDiasDomingos</td>
-                                            <td>@ticket.pagosDiasVacaciones</td>
-                                            @*<td>@ticket.retardosFaltas</td>*@
-                                            <td style="text-align:center;">
-                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" href="@Url.Action("Edit", "Ticket", new { id = ticket.idTicket })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    @*<a title="Eliminar" id="delete-@almacen.IDAlmacen" data-hrefa="@Url.Action("Delete", "CatAlmacen", new { id = almacen.IDAlmacen  })" onClick="delete_row('@almacen.IDAlmacen');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>*@
+                                    <tr id="@ticket.idTicket">
+                                        <td>@ticket.CorreoTxt</td>
+                                        @if (ticket.HtmlTxt == true)
+                                        {
+                                            <td>Si</td>
+                                        }
+                                        else
+                                        {
+                                            <td>No</td>
+                                        }
+                                        <td>@ticket.HostTxt</td>
+                                        <td>@ticket.PortTxt</td>
+                                        @if (ticket.EnableSslTxt == true)
+                                        {
+                                            <td>Si</td>
+                                        }
+                                        else
+                                        {
+                                            <td>No</td>
+                                        }
+                                        <td style="text-align:center;">
+                                            <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                <a title="Editar" href="@Url.Action("Edit", "Ticket", new { id = ticket.idTicket })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                @*<a title="Eliminar" id="delete-@almacen.IDAlmacen" data-hrefa="@Url.Action("Delete", "CatAlmacen", new { id = almacen.IDAlmacen  })" onClick="delete_row('@almacen.IDAlmacen');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>*@
+                                            </div>
+                                            <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                <div class="btn-group">
+                                                    <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                        <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                    </a>
+                                                    <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "Ticket", new { id = ticket.idTicket })">
+                                                                <i class="fa fa-edit"></i> Editar
+                                                            </a>
+                                                        </li>
+                                                        @*<li>
+                            <a role="menuitem" tabindex="-1" id="delete-@almacen.IDAlmacen" data-hrefa="@Url.Action("Delete", "CatAlmacen", new { id =almacen.IDAlmacen  })" onClick="delete_row('@almacen.IDAlmacen');">
+                                <i class="fa fa-trash-o"></i> Eliminar
+                            </a>
+                        </li>*@
+                                                    </ul>
                                                 </div>
-                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                    <div class="btn-group">
-                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                        </a>
-                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "Ticket", new { id = ticket.idTicket })">
-                                                                    <i class="fa fa-edit"></i> Editar
-                                                                </a>
-                                                            </li>
-                                                            @*<li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@almacen.IDAlmacen" data-hrefa="@Url.Action("Delete", "CatAlmacen", new { id =almacen.IDAlmacen  })" onClick="delete_row('@almacen.IDAlmacen');">
-                                                                    <i class="fa fa-trash-o"></i> Eliminar
-                                                                </a>
-                                                            </li>*@
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                            </div>
+                                        </td>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>

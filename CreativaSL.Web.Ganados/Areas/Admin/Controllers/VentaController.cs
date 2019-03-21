@@ -495,7 +495,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Venta.Flete.ListaMetodoPago = VentaDatos.GetListadoMetodoPago(Venta);
                         Venta.Flete.Trayecto.ListaLugarOrigen = VentaDatos.GetListadoLugaresEmpresa(Venta);
                         Venta.Flete.Trayecto.ListaLugarDestino = VentaDatos.GetListadoLugaresCliente(Venta);
-
+                        Venta.Flete.ListaChoferAuxiliar = VentaDatos.GetChoferesAuxiliares(Venta);
                         return View(Venta);
                     }
                     else
@@ -961,6 +961,29 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Venta.Flete.ListaChofer = VentaDatos.GetChoferesXIDEmpresa(Venta);
 
                 return Content(Venta.Flete.ListaChofer.ToJSON(), "application/json");
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error. Por favor contacte a soporte técnico";
+                return View("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GetChoferesAuxilar(string Id_sucursal)
+        {
+            try
+            {
+                _Venta2_Datos VentaDatos = new _Venta2_Datos();
+                VentaModels2 Venta = new VentaModels2();
+                Venta.Conexion = Conexion;
+                Venta.Flete = new FleteModels();
+                Venta.Id_sucursal = Id_sucursal;
+                Venta.Usuario = User.Identity.Name;
+                Venta.Flete.ListaChoferAuxiliar = VentaDatos.GetChoferesAuxiliares(Venta);
+
+                return Content(Venta.Flete.ListaChoferAuxiliar.ToJSON(), "application/json");
             }
             catch
             {

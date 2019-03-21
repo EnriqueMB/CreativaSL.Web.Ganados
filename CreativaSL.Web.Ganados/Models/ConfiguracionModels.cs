@@ -19,6 +19,11 @@ namespace CreativaSL.Web.Ganados.Models
             _textoTicket2 = string.Empty;
             _textoTicket3 = string.Empty;
             Conexion = string.Empty;
+            _CorreoTxt = string.Empty;
+            _Password = string.Empty;
+            _HtmlTxt = true;
+            _PortTxt = string.Empty;
+            _EnableSslTxt = true;
         }
         private List<ConfiguracionModels> _listaTicket;
 
@@ -83,6 +88,54 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _retardoFaltas; }
             set { _retardoFaltas = value; }
+        }
+
+        private string _CorreoTxt;
+
+        public string CorreoTxt
+        {
+            get { return _CorreoTxt; }
+            set { _CorreoTxt = value; }
+        }
+
+        private string _Password;
+
+        public string Password
+        {
+            get { return _Password; }
+            set { _Password = value; }
+        }
+
+        private bool _HtmlTxt;
+
+        public bool HtmlTxt
+        {
+            get { return _HtmlTxt; }
+            set { _HtmlTxt = value; }
+        }
+
+        private string _HostTxt;
+
+        public string HostTxt
+        {
+            get { return _HostTxt; }
+            set { _HostTxt = value; }
+        }
+
+        private string _PortTxt;
+
+        public string PortTxt
+        {
+            get { return _PortTxt; }
+            set { _PortTxt = value; }
+        }
+
+        private bool _EnableSslTxt;
+
+        public bool EnableSslTxt
+        {
+            get { return _EnableSslTxt; }
+            set { _EnableSslTxt = value; }
         }
 
         #region Datos De Control

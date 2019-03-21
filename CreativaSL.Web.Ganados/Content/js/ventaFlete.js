@@ -53,6 +53,7 @@
             GetChoferesXIDEmpresa(Id_empresa, Id_sucursal);
             GetVehiculosXIDEmpresa(Id_empresa, Id_sucursal);
             GetLugaresXIDEmpresa(Id_empresa); //checar si se carga mejor por sucursal
+            GetChoferesAuxiliar(Id_sucursal);
         });
 
         $("#Flete_Id_empresa").on("change", function () {
@@ -62,6 +63,7 @@
             GetChoferesXIDEmpresa(Id_empresa, Id_sucursal);
             GetVehiculosXIDEmpresa(Id_empresa, Id_sucursal);
             GetLugaresXIDEmpresa(Id_empresa);
+            GetChoferesAuxiliar(Id_sucursal);
         });
 
         $("#CobrarFlete").on("change", function () {
@@ -282,6 +284,28 @@
 
 
                 
+            }
+        });
+    }
+    function GetChoferesAuxiliar(Id_sucursal) {
+        $.ajax({
+            url: '/Admin/Venta/GetChoferesAuxilar/',
+            type: "POST",
+            dataType: 'json',
+            data: { Id_sucursal: Id_sucursal },
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "1");
+            },
+            success: function (result) {
+
+                $("#Flete_id_choferAuxilar option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#Flete_id_choferAuxilar").append('<option value="' + result[i].IDChofer + '">' + result[i].Nombre + '</option>');
+                }
+                $('#Flete_id_choferAuxilar.select').selectpicker('refresh');
+
+
+
             }
         });
     }

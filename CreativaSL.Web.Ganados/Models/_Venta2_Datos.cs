@@ -404,6 +404,38 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public List<CatChoferModels> GetChoferesAuxiliares(VentaModels2 Venta)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                   Venta.Id_sucursal
+                };
+                CatChoferModels Chofer;
+                List<CatChoferModels> ListaChoferes = new List<CatChoferModels>();
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Combo_get_CatChoferesXSucursal", parametros);
+                while (dr.Read())
+                {
+                    Chofer = new CatChoferModels
+                    {
+                        IDChofer = !dr.IsDBNull(dr.GetOrdinal("IDChofer")) ? dr.GetString(dr.GetOrdinal("IDChofer")) : string.Empty,
+                        Nombre = !dr.IsDBNull(dr.GetOrdinal("NombreCompleto")) ? dr.GetString(dr.GetOrdinal("NombreCompleto")) : string.Empty,
+                    };
+                    ListaChoferes.Add(Chofer);
+                }
+                dr.Close();
+                return ListaChoferes;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         #endregion
         #region Vehiculos
         public List<CatVehiculoModels> GetVehiculosXIDEmpresa(VentaModels2 Venta)
@@ -1024,7 +1056,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Venta.Flete.Id_metodoPago = !dr.IsDBNull(dr.GetOrdinal("id_metodoPago")) ? dr.GetString(dr.GetOrdinal("id_metodoPago")) : string.Empty;
                     Venta.Flete.Id_formaPago = !dr.IsDBNull(dr.GetOrdinal("id_formaPago")) ? dr.GetInt16(dr.GetOrdinal("id_formaPago")) : 0;
                     Venta.TipoVenta = !dr.IsDBNull(dr.GetOrdinal("id_tipoVenta")) ? dr.GetInt16(dr.GetOrdinal("id_tipoVenta")) : 0;
-
+                    Venta.Flete.id_choferAuxilar = !dr.IsDBNull(dr.GetOrdinal("id_choferAuxiliar")) ? dr.GetString(dr.GetOrdinal("id_choferAuxiliar")) : string.Empty;
                 }
                 else
                 {
@@ -1660,7 +1692,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Flete.Trayecto.id_lugarOrigen,                    datos.Flete.Trayecto.id_lugarDestino,
                     //datos.Flete.CondicionPago,
                     //datos.Flete.MetodoPago.Clave,                           datos.Flete.FormaPago.Clave,
-                    datos.Flete.FechaTentativaEntrega,                      datos.TipoVenta 
+                    datos.Flete.FechaTentativaEntrega,                      datos.TipoVenta, datos.Flete.id_choferAuxilar
                 };
 
                 RespuestaAjax RespuestaAjax = new RespuestaAjax();
