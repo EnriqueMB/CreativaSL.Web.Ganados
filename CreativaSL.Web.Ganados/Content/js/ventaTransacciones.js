@@ -293,12 +293,12 @@
     };
 
     var EventosCobro = function () {
-        $("#btnDetalles").on("click", function () {
-            window.location.href = '/Admin/Venta/VentaProductoServicio?Id_documentoPorCobrar=' + Id_documentoPorCobrar + '&Id_venta=' + Id_venta + '&Id_detalleDocumento=';
-        });
-
         $("#btnAddCobro").on("click", function () {
             window.location.href = '/Admin/Venta/VentaCobro?id_1=' + Id_venta + '&id_2=';
+        });
+
+        $("#btnAddDeduccion").on("click", function () {
+            window.location.href = '/Admin/Venta/VentaDeduccion?id=' + Id_venta;
         });
 
         $("#btnGenerarComprobanteVenta").on("click", function () {

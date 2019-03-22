@@ -2417,6 +2417,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Reporte_Datos R = new Reporte_Datos();
                 List<ComprobanteVentaDetallesModels> ListaComprobanteVentaDetalles = new List<ComprobanteVentaDetallesModels>();
                 List<ComprobanteVentaPagosModels> ListaComprobanteVentaPagosDetalles = new List<ComprobanteVentaPagosModels>();
+                List<ComprobanteVentaDetallesDeduccionesModels> ListaComprobanteVentaDetallesDeducciones = new List<ComprobanteVentaDetallesDeduccionesModels>();
 
                 _Venta2_Datos Datos = new _Venta2_Datos();
                 VentaModels2 Venta = new VentaModels2();
@@ -2426,6 +2427,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Cabecera = Datos.GetComprobanteVentaCabecera(Venta);
                 ListaComprobanteVentaDetalles = Datos.GetComprobanteVentaDetalles(Venta);
                 ListaComprobanteVentaPagosDetalles = Datos.GetComprobanteVentaDetallesPagos(Venta);
+                ListaComprobanteVentaDetallesDeducciones = Datos.GetComprobanteVentaDetallesDeducciones(Venta);
 
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
@@ -2439,22 +2441,26 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     return RedirectToAction("Index", "Venta");
                 }
-                ReportParameter[] Parametros = new ReportParameter[8];
+                ReportParameter[] Parametros = new ReportParameter[14];
                 Parametros[0] = new ReportParameter("urlLogo", Cabecera.LogoEmpresa);
                 Parametros[1] = new ReportParameter("nombreEmpresa", Cabecera.NombreEmpresa);
                 Parametros[2] = new ReportParameter("rubroEmpresa", Cabecera.RubroEmpresa);
                 Parametros[3] = new ReportParameter("direccionEmpresa", Cabecera.DireccionEmpresa);
                 Parametros[4] = new ReportParameter("folio", Cabecera.Folio);
-                //Parametros[6] = new ReportParameter("nombreProveedor", Cabecera.NombreProveedor);
-                //Parametros[7] = new ReportParameter("telefonoProveedor", Cabecera.TelefonoProveedor);
-                //Parametros[8] = new ReportParameter("rfcProveedor", Cabecera.RFCProveedor);
-                Parametros[5] = new ReportParameter("diaImpresion", Cabecera.DiaImpresion);
-                Parametros[6] = new ReportParameter("mesImpresion", Cabecera.MesImpresion);
-                Parametros[7] = new ReportParameter("annoImpresion", Cabecera.AnnoImpresion);
+                Parametros[5] = new ReportParameter("NombreCliente", Cabecera.NombreCliente);
+                Parametros[6] = new ReportParameter("TelefonoCliente", Cabecera.TelefonoCliente);
+                Parametros[7] = new ReportParameter("RFCPCliente", Cabecera.RFCPCliente);
+                Parametros[8] = new ReportParameter("diaImpresion", Cabecera.DiaImpresion);
+                Parametros[9] = new ReportParameter("mesImpresion", Cabecera.MesImpresion);
+                Parametros[10] = new ReportParameter("annoImpresion", Cabecera.AnnoImpresion);
+                Parametros[11] = new ReportParameter("TipoVenta", Cabecera.TipoVenta.ToString());
+                Parametros[12] = new ReportParameter("TotalPorCobrarGanado", Cabecera.TotalPorCobrarGanado.ToString());
+                Parametros[13] = new ReportParameter("CostoFlete", Cabecera.CostoFlete.ToString());
 
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("ListaDetalles", ListaComprobanteVentaDetalles));
                 Rtp.DataSources.Add(new ReportDataSource("ListaDetallesPagos", ListaComprobanteVentaPagosDetalles));
+                Rtp.DataSources.Add(new ReportDataSource("ListaDetallesDeducciones", ListaComprobanteVentaDetallesDeducciones));
 
                 string reportType = "PDF";
                 string mimeType;
@@ -2570,5 +2576,20 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
             #endregion
+
+        [HttpGet]
+        public ActionResult VentaDeduccion()
+        {
+            try
+            {
+
+                return View();
+            }
+            catch (Exception)
+            {
+
+                
+            }
+        }
     }
 }

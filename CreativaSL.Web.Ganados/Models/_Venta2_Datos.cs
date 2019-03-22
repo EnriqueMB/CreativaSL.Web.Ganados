@@ -2404,6 +2404,9 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.AnnoImpresion = !dr.IsDBNull(dr.GetOrdinal("anno")) ? dr.GetString(dr.GetOrdinal("anno")) : string.Empty;
                     Item.MesImpresion = !dr.IsDBNull(dr.GetOrdinal("mes")) ? dr.GetString(dr.GetOrdinal("mes")) : string.Empty;
                     Item.DiaImpresion = !dr.IsDBNull(dr.GetOrdinal("dia")) ? dr.GetString(dr.GetOrdinal("dia")) : string.Empty;
+                    Item.TipoVenta = !dr.IsDBNull(dr.GetOrdinal("id_tipoVenta")) ? dr.GetInt32(dr.GetOrdinal("id_tipoVenta")) : 0;
+                    Item.TotalPorCobrarGanado = !dr.IsDBNull(dr.GetOrdinal("TotalPorCobrarGanado")) ? dr.GetDecimal(dr.GetOrdinal("TotalPorCobrarGanado")) : 0;
+                    Item.CostoFlete = !dr.IsDBNull(dr.GetOrdinal("costoFlete")) ? dr.GetDecimal(dr.GetOrdinal("costoFlete")) : 0;
                 }
                 dr.Close();
                 return Item;
@@ -2514,7 +2517,6 @@ namespace CreativaSL.Web.Ganados.Models
             return Venta;
         }
 
-
         public VentaEnvioCorreo ObtenerComboCorreoClientesContacto(VentaEnvioCorreo Datos)
         {
             try
@@ -2569,6 +2571,34 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public List<ComprobanteVentaDetallesDeduccionesModels> GetComprobanteVentaDetallesDeducciones(VentaModels2 Venta)
+        {
+            try
+            {
+                List<ComprobanteVentaDetallesDeduccionesModels> Lista = new List<ComprobanteVentaDetallesDeduccionesModels>();
+                ComprobanteVentaDetallesDeduccionesModels Item;
+                object[] parametros = { Venta.Id_venta };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_ComprobanteVentaDetallesDeducciones", parametros);
+
+                while (dr.Read())
+                {
+                    Item = new ComprobanteVentaDetallesDeduccionesModels();
+                    Item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty;
+                    Item.Monto = !dr.IsDBNull(dr.GetOrdinal("total")) ? dr.GetDecimal(dr.GetOrdinal("total")) : 0;
+                    Item.Fecha = !dr.IsDBNull(dr.GetOrdinal("fecins")) ? dr.GetDateTime(dr.GetOrdinal("fecins")) : DateTime.Today;
+
+                    Lista.Add(Item);
+                }
+                dr.Close();
+
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 }
