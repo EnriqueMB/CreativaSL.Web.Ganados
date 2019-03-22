@@ -52,14 +52,10 @@ namespace CreativaSL.Web.Ganados
                             //login.xxxxxx(new CatAdministrativoModels { conexion = ConfigurationManager.AppSettings.Get("strConnection"), nombre = URLValida });
                             if (string.IsNullOrEmpty(ListaPermiso.Find(x => x.Equals(URLValida))))
                             {
-                                if (TipoUsuario == 3)
+                                if (TipoUsuario == 3 || TipoUsuario == 1)
                                 {
                                     Response.Redirect("/Admin/Account");
                                     //mandar a login
-                                }
-                                else if (TipoUsuario == 1)
-                                {
-                                    Response.Redirect("/Admin/Account");
                                 }
                             }
                         }

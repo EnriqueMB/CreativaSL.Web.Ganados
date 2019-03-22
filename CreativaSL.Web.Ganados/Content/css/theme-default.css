@@ -3086,7 +3086,8 @@ blockquote.pull-right {
   border-bottom: 0px;
 }
 .nav-tabs > li {
-  margin-bottom: 0px;
+    margin-bottom: 0px;
+    
 }
 .nav-tabs > li > a {
   margin-right: 5px;
@@ -3103,7 +3104,7 @@ blockquote.pull-right {
   -o-transition: all 200ms ease;
   transition: all 200ms ease;
   background: #F5F5F5;
-  padding: 9px 15px;
+  padding: 9px 10px;
 }
 .nav-tabs > li:first-child > a {
   -moz-border-radius: 5px 0px 0px 0px;
