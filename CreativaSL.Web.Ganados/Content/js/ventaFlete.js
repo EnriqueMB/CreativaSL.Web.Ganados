@@ -68,7 +68,14 @@
 
         $("#CobrarFlete").on("change", function () {
             var opcion = $(this).val();
-            ToggleDivFlete(opcion,1);
+            ToggleDivFlete(opcion, 1);
+            if (navigator.onLine) {
+                console.log("online");
+                InitMap();
+            }
+            else {
+                console.log("offline");
+            }
         });
     }
     var Validaciones = function () {
@@ -445,22 +452,18 @@
     /*TERMINA FLETE*/
         return {
             init: function (opcion) {
-            $.ajax({
-                url: "http:www.google.com",
-                context: document.body,
-                error: function (jqXHR, exception) {
-                    console.log("offline");
-                },
-                success: function () {
-                    console.log("online");
-                    InitMap();
-                }
-            });
+
+            if (navigator.onLine) {
+                console.log("online");
+                InitMap();
+            }
+            else {
+                console.log("offline");
+            }
             
             Validaciones();
             Eventos();
 
-            
             ToggleDivFlete(opcion,0);
         }
     };

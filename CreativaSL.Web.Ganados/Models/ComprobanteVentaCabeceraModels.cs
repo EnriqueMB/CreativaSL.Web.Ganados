@@ -19,5 +19,8 @@ namespace CreativaSL.Web.Ganados.Models
         public string DiaImpresion { get; set; }
         public string MesImpresion { get; set; }
         public string AnnoImpresion { get; set; }
+        public int TipoVenta { get; set; }
+        public decimal TotalPorCobrarGanado { get; set; }
+        public decimal CostoFlete { get; set; }
     }
 }

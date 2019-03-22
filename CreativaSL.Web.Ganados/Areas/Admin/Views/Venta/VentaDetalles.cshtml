@@ -151,8 +151,9 @@
                                             <tr>
                                                 <th>Género</th>
                                                 <th>Cantidad</th>
-                                                <th>Total de kilos</th>
-                                                <th>Merma (%)</th>
+                                                <th>Total de kilos sin merma</th>
+                                                <th>Merma (kg.)</th>
+                                                <th>Total de kilos con merma</th>
                                                 <th>Subtotal ($)</th>
                                             </tr>
                                         </thead>
@@ -176,8 +177,10 @@
                                             <tr>
                                                 <th>Número de arete</th>
                                                 <th>Género</th>
-                                                <th>Peso</th>
                                                 <th>Precio por kilo ($)</th>
+                                                <th>Peso inicial</th>
+                                                <th>Merma extra</th>
+                                                <th>Peso final</th>
                                                 <th>Subtotal ($)</th>
                                             </tr>
                                         </thead>
@@ -201,8 +204,10 @@
                                             <tr>
                                                 <th>Número de arete</th>
                                                 <th>Género</th>
-                                                <th>Peso</th>
                                                 <th>Precio por kilo ($)</th>
+                                                <th>Peso inicial</th>
+                                                <th>Merma extra</th>
+                                                <th>Peso final</th>
                                                 <th>Subtotal ($)</th>
                                             </tr>
                                         </thead>
@@ -611,20 +616,20 @@
                         "data": null,
                         "render": function (data, type, row) {
                             var merma = row["merma"];
-                            return merma.toFixed(2) + ' %';
+                            return merma.toFixed(2) + ' kg.';
+                        }
+                    },
+                    {
+                        "data": null,
+                        "render": function (data, type, row) {
+                            var nuevoTotalKilos = Number.parseFloat(row["merma"]) + Number.parseFloat(row["totalKg"]);
+                            return nuevoTotalKilos.toFixed(2) + ' kg.';
                         }
                     },
                     {
                         "data": "subtotal",
                         "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
                     },
-                ],
-                "columnDefs": [
-                    {
-                        "targets": [3],
-                        "visible": false,
-                        "searchable": false
-                    }
                 ]
             });
 
@@ -646,6 +651,10 @@
                     { "data": "numArete" },
                     { "data": "genero" },
                     {
+                        "data": "precioXkilo",
+                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                    },
+                    {
                         "data": null,
                         "render": function (data, type, row) {
                             var totalPeso = row["peso"];
@@ -653,8 +662,18 @@
                         }
                     },
                     {
-                        "data": "precioXkilo",
-                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                        "data": null,
+                        "render": function (data, type, row) {
+                            var me = row["me"];
+                            return me + ' kg.'
+                        }
+                    },
+                    {
+                        "data": null,
+                        "render": function (data, type, row) {
+                            var nuevoPeso = Number.parseFloat(row["peso"]) + Number.parseFloat(row["me"]);
+                            return nuevoPeso + ' kg.'
+                        }
                     },
                     {
                         "data": "subtotal",
@@ -681,6 +700,10 @@
                     { "data": "numArete" },
                     { "data": "genero" },
                     {
+                        "data": "precioXkilo",
+                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                    },
+                    {
                         "data": null,
                         "render": function (data, type, row) {
                             var totalPeso = row["peso"];
@@ -688,8 +711,18 @@
                         }
                     },
                     {
-                        "data": "precioXkilo",
-                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                        "data": null,
+                        "render": function (data, type, row) {
+                            var me = row["me"];
+                            return me + ' kg.'
+                        }
+                    },
+                    {
+                        "data": null,
+                        "render": function (data, type, row) {
+                            var nuevoPeso = Number.parseFloat(row["peso"]) + Number.parseFloat(row["me"]);
+                            return nuevoPeso + ' kg.'
+                        }
                     },
                     {
                         "data": "subtotal",
