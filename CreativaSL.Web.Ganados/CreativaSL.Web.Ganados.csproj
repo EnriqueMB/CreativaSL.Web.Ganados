@@ -462,6 +462,7 @@
     <Content Include="Content\img\themes\default.jpg" />
     <Content Include="Content\img\themes\light.jpg" />
     <Content Include="Content\js\actions.js" />
+    <Content Include="Content\js\AddDeduccion.js" />
     <Content Include="Content\js\addProductoServicio.js" />
     <Content Include="Content\js\AgregarArchivo.js" />
     <Content Include="Content\js\AgregarArchivoEmpleado.js" />
@@ -2042,7 +2043,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50240</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:62940/</IISUrl>
+          <IISUrl>http://localhost:50240</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

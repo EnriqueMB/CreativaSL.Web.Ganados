@@ -21,7 +21,8 @@ namespace CreativaSL.Web.Ganados.Models
                     usuario,
                     deduccion.IdDeduccion,
                     deduccion.Monto,
-                    deduccion.IdDetalleDocto
+                    deduccion.IdDetalleDocto,
+                    deduccion.Id_conceptoDocumento
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(conexion, "dbo.spCSLDB_DocumentoPorPagar_AC_Deduccion", parametros);
@@ -65,6 +66,7 @@ namespace CreativaSL.Web.Ganados.Models
                         deduccion.IdDocumento = !dr.IsDBNull(dr.GetOrdinal("id_documentoPagar")) ? dr.GetString(dr.GetOrdinal("id_documentoPagar")) : string.Empty;
                         deduccion.IdDeduccion = !dr.IsDBNull(dr.GetOrdinal("id_deduccion")) ? dr.GetInt32(dr.GetOrdinal("id_deduccion")) : 0;
                         deduccion.Monto = !dr.IsDBNull(dr.GetOrdinal("subtotal")) ? dr.GetDecimal(dr.GetOrdinal("subtotal")) : 0;
+                        deduccion.Id_conceptoDocumento = !dr.IsDBNull(dr.GetOrdinal("id_conceptoDocumento")) ? dr.GetInt32(dr.GetOrdinal("id_conceptoDocumento")) : 0;
                     }
                 }
 

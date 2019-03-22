@@ -29,5 +29,7 @@ namespace CreativaSL.Web.Ganados.Models
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Ingrese un monto de la deducción")]
         public decimal Monto { get; set; }
+
+        public int Id_conceptoDocumento { get; set; }
     }
 }

@@ -3095,8 +3095,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatDeduccion_Datos datos = new _CatDeduccion_Datos();
             DeduccionModels deduccion = new DeduccionModels();
 
+            _Compra_Datos oDatos = new _Compra_Datos();
+
             deduccion.IdGenerico = id;
-            ViewBag.ListaDeducciones = datos.SpCIDDB_Combo_get_CatDeduccion(Conexion);
+
+            ObtenerViewBagListaDeduccion();
+
             Token.SaveToken();
 
             return View(deduccion);
@@ -3264,7 +3268,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         public void ObtenerViewBagListaDeduccion()
         {
             _CatDeduccion_Datos datosDeduccion = new _CatDeduccion_Datos();
+            _Compra_Datos oDatos = new _Compra_Datos();
+
             ViewBag.ListaDeducciones = datosDeduccion.SpCIDDB_Combo_get_CatDeduccion(Conexion);
+            ViewBag.ListaConceptosDocumentos = oDatos.GetListadoTipoClasificacionPago(new DocumentoModels { Conexion = Conexion });
         }
        
         #endregion
