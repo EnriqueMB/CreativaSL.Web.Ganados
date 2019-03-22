@@ -27,7 +27,6 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Observacion = !dr.IsDBNull(dr.GetOrdinal("Observacion")) ? dr.GetString(dr.GetOrdinal("Observacion")) : string.Empty; 
                     Item.Staus = !dr.IsDBNull(dr.GetOrdinal("Estatus")) ? dr.GetString(dr.GetOrdinal("Estatus")) : string.Empty;
                     Lista.Add(Item);
-
                 }
                 dr.Close();
                 datos.ListaGanados = Lista;

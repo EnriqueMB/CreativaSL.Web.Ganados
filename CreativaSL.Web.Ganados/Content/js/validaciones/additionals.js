@@ -242,7 +242,7 @@ $.validator.addMethod("numeroConComas", function (value, element, params) {
         return false;
     }
     else {
-        if (numero > 0) {
+        if (numero >= 0) {
             return true;
         }
         else {
