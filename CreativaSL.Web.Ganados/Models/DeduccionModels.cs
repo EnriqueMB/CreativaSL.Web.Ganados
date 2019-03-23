@@ -14,7 +14,6 @@ namespace CreativaSL.Web.Ganados.Models
         public string IdGenerico { get; set; }
 
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "Seleccione una deducción")]
         public int IdDeduccion { get; set; }
 
         /// <summary>
