@@ -2578,18 +2578,128 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             #endregion
 
         [HttpGet]
-        public ActionResult VentaDeduccion()
+        public ActionResult VentaDeduccion(string id)
         {
             try
             {
+                if (string.IsNullOrEmpty(id) || id.Length != 36)
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index");
+                }
 
-                return View();
+                _CatDeduccion_Datos datos = new _CatDeduccion_Datos();
+                DeduccionModels deduccion = new DeduccionModels();
+
+                _Compra_Datos oDatos = new _Compra_Datos();
+
+                deduccion.IdGenerico = id;
+
+                ObtenerViewBagListaDeduccion();
+
+                Token.SaveToken();
+
+                return View(deduccion);
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult VentaDeduccion(DeduccionModels deduccion)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        string usuario = User.Identity.Name;
+                        _Deduccion_Datos datos = new _Deduccion_Datos();
+
+                        RespuestaAjax respuesta = datos.SpCSLDB_DocumentoPorCobrar_AC_Deduccion(Conexion, usuario, 2, 1, deduccion);
+                        TempData["message"] = respuesta.Mensaje;
+
+                        if (respuesta.Success)
+                        {
+                            TempData["typemessage"] = "1";
+                            Token.ResetToken();
+                            return RedirectToAction("VentaTransacciones", new { IDVenta = deduccion.IdGenerico });
+                        }
+                        else
+                        {
+                            ObtenerViewBagListaDeduccion();
+                            TempData["typemessage"] = "2";
+                            return View(deduccion);
+                        }
+                    }
+                    else
+                    {
+                        ObtenerViewBagListaDeduccion();
+                        return View(deduccion);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DeleteDeduccion(string Id_documento, string Id_detalle)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Id_documento) || string.IsNullOrEmpty(Id_detalle) || Id_documento.Length != 36 || Id_detalle.Length != 36)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                _Deduccion_Datos datos = new _Deduccion_Datos();
+                string usuario = User.Identity.Name;
+                RespuestaAjax respuesta = new RespuestaAjax();
+                respuesta = datos.SpCSLDB_DocumentoPorCobrar_del_Deduccion(Conexion, Id_documento, Id_detalle, usuario);
+                TempData["message"] = respuesta.Mensaje;
+
+                if (respuesta.Success)
+                {
+                    TempData["typemessage"] = "1";
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                }
+
+                return Content(respuesta.ToJSON(), "application/json");
             }
             catch (Exception)
             {
 
-                
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return RedirectToAction("Index");
             }
+        }
+
+        public void ObtenerViewBagListaDeduccion()
+        {
+            _CatDeduccion_Datos datosDeduccion = new _CatDeduccion_Datos();
+            _Venta2_Datos oDatos = new _Venta2_Datos();
+
+            ViewBag.ListaDeducciones = datosDeduccion.SpCIDDB_Combo_get_CatDeduccion(Conexion);
+            ViewBag.ListaConceptosDocumentos = oDatos.GetTiposDeduccionVentaGanado(new VentaModels2 { Conexion = Conexion });
         }
     }
 }

@@ -1094,6 +1094,7 @@
     <Content Include="Content\js\Vehiculo.js" />
     <Content Include="Content\js\venta.js" />
     <Content Include="Content\js\ventaCobro.js" />
+    <Content Include="Content\js\VentaDeduccion.js" />
     <Content Include="Content\js\ventaDocumento.js" />
     <Content Include="Content\js\ventaDocumentos.js" />
     <Content Include="Content\js\ventaEvento.js" />
@@ -1496,6 +1497,7 @@
     <Content Include="Areas\Admin\Views\CatProveedorTransporte\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorTransporte\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaEnvioCorreo.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\VentaDeduccion.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
