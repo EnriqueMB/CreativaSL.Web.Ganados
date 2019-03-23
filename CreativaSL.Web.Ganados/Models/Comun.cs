@@ -346,7 +346,7 @@ namespace CreativaSL.Web.Ganados.Models
                                 <p style=""
                                 text-align: center;
                                 font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-                                "">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut delectus, cumque labore omnis ipsum adipisci, odit atque qui, placeat magni impedit voluptatibus deserunt possimus. Accusamus quae maiores quisquam omnis libero!</p>
+                                "">Buen dia, envío reporte de peso. Estamos a la orden GRUPO OCAMPO.</p>
                                 <div class=""table""></div>
                             </div>
 
