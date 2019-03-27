@@ -132,42 +132,51 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        Nomina.Conexion = Conexion;
-                        Nomina.Usuario = User.Identity.Name;
-                        Nomina.TablaEmpladoNomina = new DataTable();
-                        Nomina.TablaEmpladoNomina.Columns.Add("IDEmpleado", typeof(string));
-                        foreach (EmpleadoNominaViewModels Item in Nomina.ListaEmpleados)
+                        if (Nomina.FechaFin.CompareTo(Nomina.FechaInicio) == 1)
                         {
-                            if (Item.AbrirCaja)
+                            Nomina.Conexion = Conexion;
+                            Nomina.Usuario = User.Identity.Name;
+                            Nomina.TablaEmpladoNomina = new DataTable();
+                            Nomina.TablaEmpladoNomina.Columns.Add("IDEmpleado", typeof(string));
+                            foreach (EmpleadoNominaViewModels Item in Nomina.ListaEmpleados)
                             {
-                                object[] data = { Item.IDEmpleado };
-                                Nomina.TablaEmpladoNomina.Rows.Add(data);
+                                if (Item.AbrirCaja)
+                                {
+                                    object[] data = { Item.IDEmpleado };
+                                    Nomina.TablaEmpladoNomina.Rows.Add(data);
+                                }
                             }
-                        }
-                        Nomina.CountEmpleado = Nomina.TablaEmpladoNomina.Rows.Count;
-                        if (Nomina.CountEmpleado == 0)
-                        {
-                            Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
-                            ModelState.AddModelError("", "Tienes que seleccionar al menos un empleado para la nómina");
-                            return View(Nomina);
-                        }
-                        else
-                        {
-                            NominaDatos.ANomina(Nomina);
-                            if (Nomina.Completado)
+                            Nomina.CountEmpleado = Nomina.TablaEmpladoNomina.Rows.Count;
+                            if (Nomina.CountEmpleado == 0)
                             {
-                                TempData["typemessage"] = "1";
-                                TempData["message"] = "Los empleados fueron dados de alta correctamente en la nómina.";
-                                Token.ResetToken();
-                                return RedirectToAction("Index");
+                                Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
+                                ModelState.AddModelError("", "Tienes que seleccionar al menos un empleado para la nómina");
+                                return View(Nomina);
                             }
                             else
                             {
-                                Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
-                                TempData["typemessage"] = "2";
-                                TempData["message"] = "Los empleado no se guardaron correctamente. Intente más tarde.";
-                                return View(Nomina);
+                                NominaDatos.ANomina(Nomina);
+                                if (Nomina.Completado)
+                                {
+                                    TempData["typemessage"] = "1";
+                                    TempData["message"] = "Los empleados fueron dados de alta correctamente en la nómina.";
+                                    Token.ResetToken();
+                                    return RedirectToAction("Index");
+                                }
+                                else
+                                {
+                                    Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
+                                    TempData["typemessage"] = "2";
+                                    TempData["message"] = "Los empleado no se guardaron correctamente. Intente más tarde.";
+                                    return View(Nomina);
+                                }
                             }
+                        }
+                        else
+                        {
+                            Nomina.ListaSucursales = Combos.ObtenerComboSucursales(Conexion);
+                            ModelState.AddModelError("", "La fecha fin no puede ser menor a la fecha inicio");
+                            return View(Nomina);
                         }
                     }
                     else

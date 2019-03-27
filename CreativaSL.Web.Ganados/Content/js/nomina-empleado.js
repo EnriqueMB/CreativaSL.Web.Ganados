@@ -120,6 +120,7 @@
             autoclose: true
         });
         //$('#FechaFin').datepicker('setDaysOfWeekDisabled', [1,6]);
+        $('#FechaFin').datepicker().datepicker('setDate', '+2d');
     };
 
 

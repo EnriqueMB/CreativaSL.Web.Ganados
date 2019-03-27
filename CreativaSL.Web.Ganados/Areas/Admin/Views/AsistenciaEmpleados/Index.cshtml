@@ -151,6 +151,7 @@
 <script src="@Url.Content("~/Content/js/plugins/datatablesbtn/buttons.html5.min.js")"></script>
 <script src="@Url.Content("~/Content/js/plugins/datatablesbtn/buttons.print.min.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+
 <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
@@ -161,21 +162,23 @@
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
         EmpleadoFalta.init();
-        $("#Tbl5-g").dataTable({
+            $("#Tbl5-g").dataTable({
             "language": {
                 "url": "/Content/assets/json/Spanish.json"
             },
             "searching": false,
-             dom: 'Bfrtip',
-        buttons: [
-            {
-                extend: 'excel',
-                title: '',
-                filename: 'Lista-del-dia-@Model.fecha.ToShortDateString()'
-            }
-        ]
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    alert:"",
+                    extend: 'excel',
+                    title: '',
+                    filename: 'Lista-del-dia-@Model.fecha.ToShortDateString()'
+                }
+            ]
 
         });
+     
         });
 </script>
 }

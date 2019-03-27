@@ -339,6 +339,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     empleadoNomina.IDEmpleado = !dr.IsDBNull(dr.GetOrdinal("IDEmpleado")) ? dr.GetString(dr.GetOrdinal("IDEmpleado")) : string.Empty;
                     empleadoNomina.NombreCompleto = !dr.IsDBNull(dr.GetOrdinal("NombreCompleto")) ? dr.GetString(dr.GetOrdinal("NombreCompleto")) : string.Empty;
+                    empleadoNomina.IDPuesto = !dr.IsDBNull(dr.GetOrdinal("id_puesto")) ? dr.GetInt32(dr.GetOrdinal("id_puesto")) : 0;
                 }
                 dr.Close();
                 return empleadoNomina;

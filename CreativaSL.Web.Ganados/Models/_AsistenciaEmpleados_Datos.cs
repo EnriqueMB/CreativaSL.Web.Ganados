@@ -64,14 +64,15 @@ namespace CreativaSL.Web.Ganados.Models
 
                 
                 datos.listaAsistencia = Lista;
-                if (datos.listaAsistencia.Count>0)
-                {
-                    datos.Completado = true;
-                }
-                else
-                {
-                    datos.Completado = false;
-                }
+                datos.Completado = true;
+                //if (datos.listaAsistencia.Count >=0)
+                //{
+                //    datos.Completado = true;
+                //}
+                //else
+                //{
+                //    datos.Completado = false;
+                //}
                 Dr2.Close();
                 return datos.listaAsistencia;
             }
