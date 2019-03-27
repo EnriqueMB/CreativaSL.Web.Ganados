@@ -1,17 +1,18 @@
-﻿@model CreativaSL.Web.Ganados.Models.TransaccionesFleteModels
+﻿@model CreativaSL.Web.Ganados.Models.TransaccionesModels
 @{
-    ViewBag.Title = "AC_FleteTransacciones";
+    ViewBag.Title = "Transacciones";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+
 @section css
 {
     <!--FILEINPUT-->
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
-    <link href="@Url.Content("~/Content/js/plugins/font-awesome.min.css")"      rel="stylesheet" />
-    <link href="@Url.Content("~/Content/js/plugins/select.bootstrap.min.css")"  rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/select.bootstrap.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
     <!--CSS GENERAL-->
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
+
     <style>
          td.details-control {
             background: url("@Url.Content("~/Content/img/details_open.png")") no-repeat center center;
@@ -20,6 +21,9 @@
 
         tr.shown td.details-control {
             background: url("@Url.Content("~/Content/img/details_close.png")") no-repeat center center;
+        }
+        .form-control[disabled], .form-control[readonly] {
+            color: #000 !important;
         }
     </style>
 }
@@ -48,12 +52,12 @@
             <div role="tabpanel" class="tab-pane active" id="detalles">
                 <div class="col-md-12">
                     @{ Html.EnableClientValidation(false); }
-                    @using (Html.BeginForm("AC_FleteTransacciones", "Flete", FormMethod.Post, new { id = "frmTransacciones", @class = "form-horizontal", autocomplete = "off" }))
+                    @using (Html.BeginForm("Transacciones", "PesajeGanado", FormMethod.Post, new { id = "frmTransacciones", @class = "form-horizontal", autocomplete = "off" }))
                     {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true)
-                        @Html.HiddenFor(model => model.Id_flete)
-                        @Html.HiddenFor(model => model.DocumentosPorCobrar.Id_documentoCobrar)
+                        @Html.HiddenFor(model => model.IdModuloGenerico)
+                        @Html.HiddenFor(model => model.Id_documentoCobrar)
 
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -76,7 +80,7 @@
                                                     <div class="col-md-9 col-xs-12">
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                            @Html.TextBoxFor(model => model.DocumentosPorCobrar.TotalPercepciones, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                            @Html.TextBoxFor(model => model.TotalPercepciones, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                         </div>
                                                     </div>
                                                 </div>
@@ -86,23 +90,24 @@
                                                         <div class="col-md-9 col-xs-12">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                                @Html.TextBoxFor(model => model.DocumentosPorCobrar.TotalDeducciones, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                                @Html.TextBoxFor(model => model.TotalDeducciones, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 controlError">
                                                     <div class="controlError">
-                                                        <label class="col-md-3 control-label">Total del flete</label>
+                                                        <label class="col-md-3 control-label">Total de la venta</label>
                                                         <div class="col-md-9 col-xs-12">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                                @Html.TextBoxFor(model => model.DocumentosPorCobrar.Total, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                                @Html.TextBoxFor(model => model.Total, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <!-- START DEFAULT DATATABLE -->
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
@@ -119,7 +124,7 @@
                                                             <div class="col-md-9 col-xs-12">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                                    @Html.TextBoxFor(model => model.DocumentosPorCobrar.Impuestos, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                                    @Html.TextBoxFor(model => model.Impuestos, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -140,7 +145,7 @@
                                                                 <div class="col-md-9 col-xs-12">
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrar.TotalPercepciones, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                                        @Html.TextBoxFor(model => model.TotalPercepciones, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -157,7 +162,6 @@
                                                                     <th>Impuesto</th>
                                                                     <th>Subtotal</th>
                                                                     <th>Total</th>
-                                                                    <th>Acción</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody></tbody>
@@ -167,9 +171,8 @@
                                             </div>
                                             <!-- END DEFAULT DATATABLE -->
                                         </div>
-                                      
-                                    </div>
 
+                                    </div>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <!-- START DEFAULT DATATABLE -->
@@ -177,7 +180,7 @@
                                                 <div class="panel-heading">
                                                     <h3 class="panel-title">Deducciones</h3>
                                                     <ul class="panel-controls">
-                                                        <li><a id="btnDeduccion" class="btn btn-default btnCrear"><span class="fa fa-plus"></span>Agregar deducción</a></li>
+                                                        <li><a id="btnAddDeduccion" class="btn btn-default btnCrear"><span class="fa fa-plus"></span>Agregar deducción</a></li>
                                                         <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                                                         <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                                                     </ul>
@@ -190,7 +193,7 @@
                                                                 <div class="col-md-8 col-xs-12">
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrar.TotalDeducciones, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                                        @Html.TextBoxFor(model => model.TotalDeducciones, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -200,8 +203,8 @@
                                                         <table id="tbl_detallesDeducciones" class="table">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Tipo de deducción</th>
-                                                                    <th>Reducir en</th>
+                                                                    <th>Deducir en</th>
+                                                                    <th>Tipo deducción</th>
                                                                     <th>Cantidad</th>
                                                                     <th>Total</th>
                                                                     <th>Acción</th>
@@ -212,7 +215,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="panel-footer">
-                                                    <a id="regresar" href="@Url.Action("Index", "Flete")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                                                    <a id="regresar" href="@Url.Action("Index", "PesajeGanado")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                                                 </div>
                                             </div>
                                             <!-- END DEFAULT DATATABLE -->
@@ -229,12 +232,12 @@
             <div role="tabpanel" class="tab-pane" id="cobros">
                 <div class="col-md-12">
                     @{ Html.EnableClientValidation(false); }
-                    @using (Html.BeginForm("AC_FleteTransacciones", "Flete", FormMethod.Post, new { id = "frmTransacciones", @class = "form-horizontal", autocomplete = "off" }))
+                    @using (Html.BeginForm("VentaTransacciones", "Venta", FormMethod.Post, new { id = "frmTransacciones", @class = "form-horizontal", autocomplete = "off" }))
                     {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true)
-                        @Html.HiddenFor(model => model.Id_flete)
-                        @Html.HiddenFor(model => model.DocumentosPorCobrar.Id_documentoCobrar)
+                        @Html.HiddenFor(model => model.IdModuloGenerico)
+                        @Html.HiddenFor(model => model.Id_documentoCobrar)
 
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -257,7 +260,7 @@
                                                     <h3 class="panel-title"></h3>
                                                     <ul class="panel-controls">
                                                         <li><a id="btnAddCobro" class="btn btn-default btnCrear"><span class="fa fa-plus"></span>Agregar cobro</a></li>
-                                                        <li><a id="btnGenerarComprobanteFlete" class="btn btn-default btnCrear"><span class="fa fa-plus"></span>Generar comprobante de flete</a></li>
+                                                        <li><a id="btnGenerarComprobanteVenta" class="btn btn-default btnCrear"><span class="fa fa-plus"></span>Generar comprobante de venta</a></li>
                                                         <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                                                         <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                                                     </ul>
@@ -269,7 +272,7 @@
                                                             <div class="col-md-9 col-xs-12">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                                    @Html.TextBoxFor(model => model.DocumentosPorCobrar.Pagos, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                                    @Html.TextBoxFor(model => model.Pagos, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -279,18 +282,7 @@
                                                                 <div class="col-md-9 col-xs-12">
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrar.Pendiente, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 controlError">
-                                                            <div class="controlError">
-                                                                <label class="col-md-3 control-label">Cambio</label>
-                                                                <div class="col-md-9 col-xs-12">
-                                                                    <div class="input-group">
-                                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrar.Cambio, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                                        @Html.TextBoxFor(model => model.Pendiente, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -320,7 +312,7 @@
 
                             </div>
                             <div class="panel-footer">
-                                <a id="regresar" href="@Url.Action("Index", "Flete")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                                <a id="regresar" href="@Url.Action("Index", "PesajeGanado")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                             </div>
                         </div>
                     }
@@ -338,9 +330,9 @@
     <div class="message-box animated fadeIn" data-sound="alert" id="mb-delComprobante">
         <div class="mb-container">
             <div class="mb-middle">
-                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>registro</strong> ?</div>
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>comprobante de cobro</strong> ?</div>
                 <div class="mb-content">
-                    <p>¿Seguro que quieres eliminar este registro?</p>
+                    <p>¿Seguro que quieres eliminar este comprobante de cobro?</p>
                     <p>Presione "sí" si está seguro.</p>
                 </div>
                 <div class="mb-footer">
@@ -355,9 +347,9 @@
     <div class="message-box animated fadeIn" data-sound="alert" id="mb-deleteDetalle">
         <div class="mb-container">
             <div class="mb-middle">
-                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>registro</strong> ?</div>
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>producto o servicio</strong> ?</div>
                 <div class="mb-content">
-                    <p>¿Seguro que quieres eliminar este registro?</p>
+                    <p>¿Seguro que quieres eliminar este producto o servicio por cobrar?</p>
                     <p>Presione "sí" si está seguro.</p>
                 </div>
                 <div class="mb-footer">
@@ -384,12 +376,12 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/fleteTransacciones.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/TransaccionesPesajeGanado.js")"></script>
 
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
-            FleteTransaccion.init();
+            TransaccionesPesajeGanado.init();
         });
     </script>
 }

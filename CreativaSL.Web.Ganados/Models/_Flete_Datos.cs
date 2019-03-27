@@ -436,7 +436,8 @@ namespace CreativaSL.Web.Ganados.Models
                     EventoFlete.Observacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
                     EventoFlete.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagenBase64")) ? dr.GetString(dr.GetOrdinal("imagenBase64")) : string.Empty;
                     EventoFlete.MontoDeduccion = !dr.IsDBNull(dr.GetOrdinal("deduccion")) ? dr.GetDecimal(dr.GetOrdinal("deduccion")) : 0;
-                    EventoFlete.Id_TipoDeDeduccion = !dr.IsDBNull(dr.GetOrdinal("id_tipoDeduccion")) ? dr.GetInt16(dr.GetOrdinal("id_tipoDeduccion")) : 0;
+                    EventoFlete.Id_TipoDeDeduccion = !dr.IsDBNull(dr.GetOrdinal("id_tipoDeduccion")) ? dr.GetInt32(dr.GetOrdinal("id_tipoDeduccion")) : 0;
+                    EventoFlete.Id_conceptoDocumento = !dr.IsDBNull(dr.GetOrdinal("id_conceptoDocumento")) ? dr.GetInt32(dr.GetOrdinal("id_conceptoDocumento")) : 0;
                 }
                 else
                 {
@@ -1619,8 +1620,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Evento.Lugar,               Evento.FechaDeteccion,
                     Evento.HoraDeteccion,       Evento.Observacion,
                     Evento.ImagenBase64,        Evento.ListaIDGanadosDelEvento,
-                    Evento.Usuario,             Evento.Id_TipoDeDeduccion,
-                    Evento.MontoDeduccion
+                    Evento.Usuario,             Evento.Id_conceptoDocumento,
+                    Evento.MontoDeduccion,      Evento.Id_TipoDeDeduccion
                 };
 
                 RespuestaAjax RespuestaAjax = new RespuestaAjax();

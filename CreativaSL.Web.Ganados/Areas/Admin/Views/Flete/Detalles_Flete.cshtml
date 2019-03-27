@@ -229,7 +229,7 @@
                                 <div class="col-md-9 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                        @Html.TextBoxFor(model => model.TotalPercepciones, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                        @Html.TextBoxFor(model => model.TotalPercepciones, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                     </div>
                                 </div>
                             </div>
@@ -239,7 +239,7 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                            @Html.TextBoxFor(model => model.TotalDeducciones, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                            @Html.TextBoxFor(model => model.TotalDeducciones, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                         </div>
                                     </div>
                                 </div>
@@ -250,7 +250,7 @@
                                     <div class="col-md-9 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                            @Html.TextBoxFor(model => model.Total, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                            @Html.TextBoxFor(model => model.Total, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                         </div>
                                     </div>
                                 </div>
@@ -274,7 +274,7 @@
                                             <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                    @Html.TextBoxFor(model => model.Impuestos, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                    @Html.TextBoxFor(model => model.Impuestos, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                 </div>
                                             </div>
                                         </div>
@@ -284,7 +284,7 @@
                                                 <div class="col-md-9 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                        @Html.TextBoxFor(model => model.Subtotal, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                        @Html.TextBoxFor(model => model.Subtotal, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -295,7 +295,7 @@
                                                 <div class="col-md-9 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                        @Html.TextBoxFor(model => model.TotalPercepciones, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                        @Html.TextBoxFor(model => model.TotalPercepciones, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -349,7 +349,7 @@
                                                     <div class="col-md-8 col-xs-12">
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                            @Html.TextBoxFor(model => model.TotalDeducciones, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                            @Html.TextBoxFor(model => model.TotalDeducciones, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                         </div>
                                                     </div>
                                                 </div>
@@ -362,7 +362,8 @@
                                                 <table id="tbl_detallesDeducciones" class="table">
                                                     <thead>
                                                         <tr>
-                                                            <th>Deducir en</th>
+                                                            <th>Tipo de deducción</th>
+                                                            <th>Reducir en</th>
                                                             <th>Cantidad</th>
                                                             <th>Total</th>
                                                         </tr>
@@ -393,7 +394,7 @@
                                                 <div class="col-md-9 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                        @Html.TextBoxFor(model => model.Pagos, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                        @Html.TextBoxFor(model => model.Pagos, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -403,7 +404,7 @@
                                                     <div class="col-md-9 col-xs-12">
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                            @Html.TextBoxFor(model => model.Pendiente, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                            @Html.TextBoxFor(model => model.Pendiente, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                         </div>
                                                     </div>
                                                 </div>
@@ -414,7 +415,7 @@
                                                     <div class="col-md-9 col-xs-12">
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                            @Html.TextBoxFor(model => model.Cambio, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                            @Html.TextBoxFor(model => model.Cambio, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                         </div>
                                                     </div>
                                                 </div>
@@ -469,7 +470,7 @@
                                             <div class="col-md-8 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.DocumentosPrecioDocumentacion, "{0:f2}", new { @class = "form-control", @readonly = "readonly" })
+                                                    @Html.TextBoxFor(model => model.DocumentosPrecioDocumentacion, "{0:c2}", new { @class = "form-control", @readonly = "readonly" })
                                                 </div>
                                             </div>
                                         </div>
@@ -528,7 +529,6 @@
                                                     <th>Lugar</th>
                                                     <th>Fecha</th>
                                                     <th>Hora</th>
-                                                    <th>Acción</th>
                                                 </tr>
                                             </thead>
                                             <tbody></tbody>
@@ -708,12 +708,13 @@
                     "dataSrc": ''
                 },
                 "columns": [
-                    { "data": "descripcion" },
+                    { "data": "tipoDeduccion" },
+                    { "data": "deducirEn" },
                     { "data": "cantidad" },
                     {
                         "data": "total",
                         "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
-                    },
+                    }
                 ]
             });
 

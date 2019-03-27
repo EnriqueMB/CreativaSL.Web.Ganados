@@ -475,6 +475,7 @@
     <Content Include="Content\js\catDocumentos.js" />
     <Content Include="Content\js\catFierro.js" />
     <Content Include="Content\js\CatFierroSubir.js" />
+    <Content Include="Content\js\Cobro.js" />
     <Content Include="Content\js\compraAgendar.js" />
     <Content Include="Content\js\CompraAlmacenDetalle.js" />
     <Content Include="Content\js\compraDocumento.js" />
@@ -494,6 +495,7 @@
     <Content Include="Content\js\DocXCobrarCreate.js" />
     <Content Include="Content\js\DocXPagarCreate.js" />
     <Content Include="Content\js\fleteCobro.js" />
+    <Content Include="Content\js\FleteDeduccion.js" />
     <Content Include="Content\js\fleteDocumento.js" />
     <Content Include="Content\js\fleteDocumentos.js" />
     <Content Include="Content\js\fleteEvento.js" />
@@ -504,6 +506,7 @@
     <Content Include="Content\js\fleteTransacciones.js" />
     <Content Include="Content\js\Ganado.js" />
     <Content Include="Content\js\ImpuestoProductoServicioACCompra.js" />
+    <Content Include="Content\js\PesajeGanado.js" />
     <Content Include="Content\js\plugins\bootstrap\bootstrap-select-image.js" />
     <Content Include="Content\js\plugins\datatablesbtn\buttons.flash.min.js" />
     <Content Include="Content\js\plugins\datatablesbtn\buttons.html5.min.js" />
@@ -1084,6 +1087,7 @@
     <Content Include="Content\js\TipoProveedor.js" />
     <Content Include="Content\js\TipoServicio.js" />
     <Content Include="Content\js\TipoVehiculo.js" />
+    <Content Include="Content\js\TransaccionesPesajeGanado.js" />
     <Content Include="Content\js\UnidadMedida.js" />
     <Content Include="Content\js\UnidadProductoAlmacen.js" />
     <Content Include="Content\js\UPPCliente.js" />
@@ -1498,6 +1502,12 @@
     <Content Include="Areas\Admin\Views\CatProveedorTransporte\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaEnvioCorreo.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaDeduccion.cshtml" />
+    <Content Include="Areas\Admin\Views\Flete\FleteDeduccion.cshtml" />
+    <Content Include="Areas\Admin\Views\PesajeGanado\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PesajeGanado\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\PesajeGanado\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\PesajeGanado\Transacciones.cshtml" />
+    <Content Include="Areas\Admin\Views\PesajeGanado\Cobro.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1540,6 +1550,7 @@
     <Compile Include="Areas\Admin\Controllers\ErrorController.cs" />
     <Compile Include="Areas\Admin\Controllers\HistorialCajaChicaController.cs" />
     <Compile Include="Areas\Admin\Controllers\MiCajaChicaController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PesajeGanadoController.cs" />
     <Compile Include="Content\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AlmacenController.cs" />
@@ -1753,6 +1764,7 @@
     <Compile Include="Models\NominaModels.cs" />
     <Compile Include="Models\NominaResumenDetalleModels.cs" />
     <Compile Include="Models\NominaVacacionesModels.cs" />
+    <Compile Include="Models\PesajeGanadoModels.cs" />
     <Compile Include="Models\ProductorAlmacenSucursalModels.cs" />
     <Compile Include="Models\ProveedorLugarModels.cs" />
     <Compile Include="Models\RangoPrecioProveedorModels.cs" />
@@ -1797,6 +1809,7 @@
     <Compile Include="Models\ConfiguracionModels.cs" />
     <Compile Include="Models\TipoUsuarioModels.cs" />
     <Compile Include="Models\TransaccionesFleteModels.cs" />
+    <Compile Include="Models\TransaccionesModels.cs" />
     <Compile Include="Models\TrayectoModels.cs" />
     <Compile Include="Models\UnidadesProductosAlmacenModels.cs" />
     <Compile Include="Models\UPPClienteModels.cs" />
@@ -1885,6 +1898,7 @@
     <Compile Include="Models\_Menu_Datos.cs" />
     <Compile Include="Models\_NominaDiasFestivos_Datos.cs" />
     <Compile Include="Models\_Nomina_Datos.cs" />
+    <Compile Include="Models\_PesajeGanado_Datos.cs" />
     <Compile Include="Models\_RptGanadosVendidos_Datos.cs" />
     <Compile Include="Models\_RptProveedorMermaAlta_Datos.cs" />
     <Compile Include="Models\_RptProveedorMunicipio_Datos.cs" />
