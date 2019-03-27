@@ -75,13 +75,11 @@
         });
     };
 
-   
-
+    
     return {
         //main function to initiate template pages
         init: function (band, img64 ) {
             runValidator1();
-           
         }
     };
 }();
