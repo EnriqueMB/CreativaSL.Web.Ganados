@@ -2496,6 +2496,7 @@ namespace CreativaSL.Web.Ganados.Models
             while (dr.Read())
             {
                 Venta.FechaEmbarque = !dr.IsDBNull(dr.GetOrdinal("FechaEmbarque")) ? dr.GetDateTime(dr.GetOrdinal("FechaEmbarque")) : DateTime.Today;
+                Venta.HoraSalida = !dr.IsDBNull(dr.GetOrdinal("HoraSalida")) ? dr.GetString(dr.GetOrdinal("HoraSalida")) : string.Empty;
                 Venta.ProveedorVenta = !dr.IsDBNull(dr.GetOrdinal("PorveedorVenta")) ? dr.GetString(dr.GetOrdinal("PorveedorVenta")) : string.Empty;
                 Venta.CabezaHembras = !dr.IsDBNull(dr.GetOrdinal("CabezasHembras")) ? dr.GetInt32(dr.GetOrdinal("CabezasHembras")) : 0;
                 Venta.PesoHembra = !dr.IsDBNull(dr.GetOrdinal("PesosHembras")) ? dr.GetDecimal(dr.GetOrdinal("PesosHembras")) : 0;
