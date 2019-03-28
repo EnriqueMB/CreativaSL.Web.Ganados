@@ -36,16 +36,19 @@
         a:hover {
             color: #ffffff;
         }
-        #btnGuardar{
+
+        #btnGuardar {
             background-color: #E04B4A;
             border-color: #E04B4A;
             color: #fff;
         }
-        #btnGuardar:hover {
-            background-color: #a43f3e;
-            border-color:  #a43f3e;
-            color: #fff;
-        }
+
+            #btnGuardar:hover {
+                background-color: #a43f3e;
+                border-color: #a43f3e;
+                color: #fff;
+            }
+
         div#validation_summary dd {
             color: #e80c4d !important;
         }
@@ -70,6 +73,7 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
                 <li id="liDocumentacion" role="presentation" class="active"><a id="tabDocumentacion" class="pestaña" href="#documentacion" aria-controls="documentacion" role="tab" data-toggle="tab">Documentación</a></li>
+                <li id="liFierro" role="presentation" class="pestaña"><a id="tabFierro" class="pestaña" href="#Fierro" aria-controls="Fierro" role="tab" data-toggle="tab">Fierro</a></li>
                 @*<li id="liGenerar_documentos" role="presentation"><a id="tabGenerar_documentos" class="pestaña" href="#generar_documentos" aria-controls="generar_documentos" role="tab" data-toggle="tab">Generar Documentos</a></li>*@
             </ul>
             <!-- Tab panes -->
@@ -92,7 +96,7 @@
                                                 <br />
                                                 @Html.AntiForgeryToken()
                                                 @Html.HiddenFor(model => model.Id_servicio)
-                                                @Html.HiddenFor(model=>model.Id_documentoPorPagar)
+                                                @Html.HiddenFor(model => model.Id_documentoPorPagar)
 
                                                 <div class="form-group">
                                                     <div class="col-md-5 controlError">
@@ -158,55 +162,319 @@
                 </div>
 
                 @*<div role="tabpanel" class="tab-pane" id="generar_documentos">
-                    <div class="row">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="col-md-12">
+                        <div class="row">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="col-md-12">
 
-                                    <div class="">
-                                        <div class="col-md-4">
-                                            <a id="carta_porte" class="tile tile-warning tile-valign2" href="@Url.Action("ImagenesProveedor", "Compra", new { id = ViewBag.Id_compra })" target="_blank">
-                                                Imagenes del Proveedor
-                                                <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Grupo Ocampo</div>
-                                            </a>
+                                        <div class="">
+                                            <div class="col-md-4">
+                                                <a id="carta_porte" class="tile tile-warning tile-valign2" href="@Url.Action("ImagenesProveedor", "Compra", new { id = ViewBag.Id_compra })" target="_blank">
+                                                    Imagenes del Proveedor
+                                                    <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Grupo Ocampo</div>
+                                                </a>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <a id="carta_porte" class="tile tile-warning tile-valign2" href="@Url.Action("GanadoProgramado", "Compra", new { id = ViewBag.Id_compra })" target="_blank">
+                                                    Ganado Programado
+                                                    <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Grupo Ocampo</div>
+                                                </a>
+                                            </div>
+
                                         </div>
-
-                                        <div class="col-md-4">
-                                            <a id="carta_porte" class="tile tile-warning tile-valign2" href="@Url.Action("GanadoProgramado", "Compra", new { id = ViewBag.Id_compra })" target="_blank">
-                                                Ganado Programado
-                                                <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Grupo Ocampo</div>
-                                            </a>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>*@
-            </div>
-        </div>
+                    </div>*@
+                <div role="tabpanel" class="tab-pane" id="Fierro">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><strong>Fierro</strong> para la compra</h3>
+                                <ul class="panel-controls"></ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="content-frame">
+
+                                    <!-- START CONTENT FRAME TOP -->
+                                    <div class="content-frame-top">
+                                        <div class="page-title">
+                                            <h2><span class="fa fa-image"></span> Gallery</h2>
+                                        </div>
+                                        <div class="pull-right">
+                                        </div>
+                                    </div>
+
+                                    <!-- START CONTENT FRAME RIGHT -->
+                                    <div class="content-frame-right">
+                                        <div class="block push-up-10">
+                                           
+                                        </div>
+                                        <h4>Groups:</h4>
+                                        <div class="list-group border-bottom push-down-20">
+                                            <a href="#" class="list-group-item active">All <span class="badge badge-primary">12</span></a>
+                                            <a href="#" class="list-group-item">Nature <span class="badge badge-success">7</span></a>
+                                            <a href="#" class="list-group-item">Music <span class="badge badge-danger">3</span></a>
+                                            <a href="#" class="list-group-item">Space <span class="badge badge-info">2</span></a>
+                                            <a href="#" class="list-group-item">Girls <span class="badge badge-warning">3</span></a>
+                                        </div>
+                                        <h4>Tags:</h4>
+                                        <ul class="list-tags">
+                                            <li><a href="#"><span class="fa fa-tag"></span> amet</a></li>
+                                            <li><a href="#"><span class="fa fa-tag"></span> rutrum</a></li>
+                                            <li><a href="#"><span class="fa fa-tag"></span> nunc</a></li>
+                                            <li><a href="#"><span class="fa fa-tag"></span> tempor</a></li>
+                                            <li><a href="#"><span class="fa fa-tag"></span> eros</a></li>
+                                            <li><a href="#"><span class="fa fa-tag"></span> suspendisse</a></li>
+                                            <li><a href="#"><span class="fa fa-tag"></span> dolor</a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- END CONTENT FRAME RIGHT -->
+                                    <!-- START CONTENT FRAME BODY -->
+                                    <div class="content-frame-body content-frame-body-left">
+
+                                        <div class="pull-left push-up-10">
+                                            <button class="btn btn-primary" id="gallery-toggle-items">Toggle All</button>
+                                        </div>
+                                        <div class="pull-right push-up-10">
+                                            <div class="btn-group">
+                                                <button class="btn btn-primary"><span class="fa fa-pencil"></span> Unir a la compra</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="gallery" id="links">
+
+                                            <a class="gallery-item" href="@Url.Content("~/Content/assets/images/gallery/nature-2.jpg")" title="Nature Image 2" data-gallery>
+                                                <div class="image">
+                                                    <img src="@Url.Content("~/Content/assets/images/gallery/nature-2.jpg")" alt="Nature Image 2" />
+                                                    <ul class="gallery-item-controls">
+                                                        <li><label class="check"><input type="checkbox" class="icheckbox" /></label></li>
+                                                        <li><span class="gallery-item-remove"><i class="fa fa-times"></i></span></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="meta">
+                                                    <strong>Nature image 2</strong>
+                                                    <span>Description</span>
+                                                </div>
+                                            </a>
+
+                                            <a class="gallery-item" href="@Url.Content("~/Content/assets/images/gallery/space-1.jpg")" title="Space picture 1" data-gallery>
+                                                <div class="image">
+                                                    <img src="@Url.Content("~/Content/assets/images/gallery/space-1.jpg")" alt="Space picture 1" />
+                                                    <ul class="gallery-item-controls">
+                                                        <li><label class="check"><input type="checkbox" class="icheckbox" /></label></li>
+                                                        <li><span class="gallery-item-remove"><i class="fa fa-times"></i></span></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="meta">
+                                                    <strong>Space picture 1</strong>
+                                                    <span>Other description</span>
+                                                </div>
+                                            </a>
+
+                                            <a class="gallery-item" href="@Url.Content("~/Content/assets/images/gallery/music-2.jpg")" title="Music picture 2" data-gallery>
+                                                <div class="image">
+                                                    <img src="@Url.Content("~/Content/assets/images/gallery/music-2.jpg")" alt="Music picture 2" />
+                                                    <ul class="gallery-item-controls">
+                                                        <li><label class="check"><input type="checkbox" class="icheckbox" /></label></li>
+                                                        <li><span class="gallery-item-remove"><i class="fa fa-times"></i></span></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="meta">
+                                                    <strong>Music picture 2</strong>
+                                                    <span>Other description</span>
+                                                </div>
+                                            </a>
+
+                                            <a class="gallery-item" href="@Url.Content("~/Content/assets/images/gallery/nature-3.jpg")" title="Nature Image 3" data-gallery>
+                                                <div class="image">
+                                                    <img src="@Url.Content("~/Content/assets/images/gallery/nature-3.jpg")" alt="Nature Image 3" />
+                                                    <ul class="gallery-item-controls">
+                                                        <li><label class="check"><input type="checkbox" class="icheckbox" /></label></li>
+                                                        <li><span class="gallery-item-remove"><i class="fa fa-times"></i></span></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="meta">
+                                                    <strong>Nature image 3</strong>
+                                                    <span>Description</span>
+                                                </div>
+                                            </a>
+
+                                            <a class="gallery-item" href="@Url.Content("~/Content/assets/images/gallery/girls-2.jpg")" title="Girls Image 2" data-gallery>
+                                                <div class="image">
+                                                    <img src="@Url.Content("~/Content/assets/images/gallery/girls-2.jpg")" alt="Girls Image 2" />
+                                                    <ul class="gallery-item-controls">
+                                                        <li><label class="check"><input type="checkbox" class="icheckbox" /></label></li>
+                                                        <li><span class="gallery-item-remove"><i class="fa fa-times"></i></span></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="meta">
+                                                    <strong>Girls image 2</strong>
+                                                    <span>Description</span>
+                                                </div>
+                                            </a>
+
+                                            <a class="gallery-item" href="@Url.Content("~/Content/assets/images/gallery/space-2.jpg")" title="Space picture 2" data-gallery>
+                                                <div class="image">
+                                                    <img src="@Url.Content("~/Content/assets/images/gallery/space-2.jpg")" alt="Space picture 2" />
+                                                    <ul class="gallery-item-controls">
+                                                        <li><label class="check"><input type="checkbox" class="icheckbox" /></label></li>
+                                                        <li><span class="gallery-item-remove"><i class="fa fa-times"></i></span></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="meta">
+                                                    <strong>Space picture 2</strong>
+                                                    <span>Other description</span>
+                                                </div>
+                                            </a>
+
+                                            <a class="gallery-item" href="@Url.Content("~/Content/assets/images/gallery/nature-4.jpg")" title="Nature Image 4" data-gallery>
+                                                <div class="image">
+                                                    <img src="@Url.Content("~/Content/assets/images/gallery/nature-4.jpg")" alt="Nature Image 4" />
+                                                    <ul class="gallery-item-controls">
+                                                        <li><label class="check"><input type="checkbox" class="icheckbox" /></label></li>
+                                                        <li><span class="gallery-item-remove"><i class="fa fa-times"></i></span></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="meta">
+                                                    <strong>Nature image 4</strong>
+                                                    <span>Description</span>
+                                                </div>
+                                            </a>
+
+                                            <a class="gallery-item" href="@Url.Content("~/Content/assets/images/gallery/music-3.jpg")" title="Music picture 3" data-gallery>
+                                                <div class="image">
+                                                    <img src="@Url.Content("~/Content/assets/images/gallery/music-3.jpg")" alt="Music picture 3" />
+                                                    <ul class="gallery-item-controls">
+                                                        <li><label class="check"><input type="checkbox" class="icheckbox" /></label></li>
+                                                        <li><span class="gallery-item-remove"><i class="fa fa-times"></i></span></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="meta">
+                                                    <strong>Music picture 3</strong>
+                                                    <span>Other description</span>
+                                                </div>
+                                            </a>
+
+                                            <a class="gallery-item" href="@Url.Content("~/Content/assets/images/gallery/nature-5.jpg")" title="Nature Image 5" data-gallery>
+                                                <div class="image">
+                                                    <img src="@Url.Content("~/Content/assets/images/gallery/nature-5.jpg")" alt="Nature Image 5" />
+                                                    <ul class="gallery-item-controls">
+                                                        <li><label class="check"><input type="checkbox" class="icheckbox" /></label></li>
+                                                        <li><span class="gallery-item-remove"><i class="fa fa-times"></i></span></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="meta">
+                                                    <strong>Nature image 5</strong>
+                                                    <span>Description</span>
+                                                </div>
+                                            </a>
+
+                                            <a class="gallery-item" href="@Url.Content("~/Content/assets/images/gallery/nature-6.jpg")" title="Nature Image 6" data-gallery>
+                                                <div class="image">
+                                                    <img src="@Url.Content("~/Content/assets/images/gallery/nature-6.jpg")" alt="Nature Image 6" />
+                                                    <ul class="gallery-item-controls">
+                                                        <li><label class="check"><input type="checkbox" class="icheckbox" /></label></li>
+                                                        <li><span class="gallery-item-remove"><i class="fa fa-times"></i></span></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="meta">
+                                                    <strong>Nature image 6</strong>
+                                                    <span>Description</span>
+                                                </div>
+                                            </a>
+
+                                            <a class="gallery-item" href="@Url.Content("~/Content/assets/images/gallery/girls-3.jpg")" title="Girls Image 3" data-gallery>
+                                                <div class="image">
+                                                    <img src="@Url.Content("~/Content/assets/images/gallery/girls-3.jpg")" alt="Girls Image 3" />
+                                                    <ul class="gallery-item-controls">
+                                                        <li><label class="check"><input type="checkbox" class="icheckbox" /></label></li>
+                                                        <li><span class="gallery-item-remove"><i class="fa fa-times"></i></span></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="meta">
+                                                    <strong>Girls image 3</strong>
+                                                    <span>Description</span>
+                                                </div>
+                                            </a>
+
+                                            <a class="gallery-item" href="@Url.Content("~/Content/assets/images/gallery/nature-7.jpg")" title="Nature Image 7" data-gallery>
+                                                <div class="image">
+                                                    <img src="@Url.Content("~/Content/assets/images/gallery/nature-7.jpg")" alt="Nature Image 7" />
+                                                    <ul class="gallery-item-controls">
+                                                        <li><label class="check"><input type="checkbox" class="icheckbox" /></label></li>
+                                                        <li><span class="gallery-item-remove"><i class="fa fa-times"></i></span></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="meta">
+                                                    <strong>Nature image 7</strong>
+                                                    <span>Description</span>
+                                                </div>
+                                            </a>
+
+                                            <a class="gallery-item" href="@Url.Content("~/Content/assets/images/gallery/music-5.jpg")" title="Music picture 5" data-gallery>
+                                                <div class="image">
+                                                    <img src="@Url.Content("~/Content/assets/images/gallery/music-5.jpg")" alt="Music picture 5" />
+                                                    <ul class="gallery-item-controls">
+                                                        <li><label class="check"><input type="checkbox" class="icheckbox" /></label></li>
+                                                        <li><span class="gallery-item-remove"><i class="fa fa-times"></i></span></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="meta">
+                                                    <strong>Music picture 5</strong>
+                                                    <span>Other description</span>
+                                                </div>
+                                            </a>
+
+                                        </div>
+
+                                        <ul class="pagination pagination-sm pull-right push-down-20 push-up-20">
+                                            <li class="disabled"><a href="#">«</a></li>
+                                            <li class="active"><a href="#">1</a></li>
+                                            <li><a href="#">2</a></li>
+                                            <li><a href="#">3</a></li>
+                                            <li><a href="#">4</a></li>
+                                            <li><a href="#">»</a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- END CONTENT FRAME BODY -->
+                                </div>
+                                <!-- END CONTENT FRAME -->
 
 
-        <!--TERMINA TABS-->
-
-        <div class="message-box animated fadeIn" data-sound="alert" id="mb-deleteDocumento">
-            <div class="mb-container">
-                <div class="mb-middle">
-                    <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
-                    <div class="mb-content">
-                        <p>¿Seguro que quieres eliminar este documento?</p>
-                        <p>Presione "sí" si está seguro.</p>
-                    </div>
-                    <div class="mb-footer">
-                        <div class="pull-right">
-                            <button class="btn btn-success btn-lg mb-control-yes">Si</button>
-                            <button class="btn btn-default btn-lg mb-control-close">No</button>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
+
+    <!--TERMINA TABS-->
+
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-deleteDocumento">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres eliminar este documento?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
     <script>
         var message     = "@message";
@@ -231,14 +499,37 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
     <script src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")" type="text/javascript"></script>
+    <!-- END PLUGINS -->
+    <!-- START THIS PAGE PLUGINS-->
+
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/blueimp/jquery.blueimp-gallery.min.js")"></script>
+    <!-- END THIS PAGE PLUGINS-->
+    <!-- START TEMPLATE -->
 
     <script>
-    jQuery(document).ready(function () {
+        document.getElementById('links').onclick = function (event) {
+            event = event || window.event;
+            var target = event.target || event.srcElement;
+            var link = target.src ? target.parentNode : target;
+            var options = {
+                index: link, event: event, onclosed: function () {
+                    setTimeout(function () {
+                        $("body").css("overflow", "");
+                    }, 200);
+                }
+            };
+            var links = this.getElementsByTagName('a');
+            blueimp.Gallery(links, options);
+        };
+    </script>
 
-        Mensaje(message, typemessage);
+    <script>
+        jQuery(document).ready(function () {
 
-        CompraDocumentos.init();
-    });
+            Mensaje(message, typemessage);
+
+            CompraDocumentos.init();
+        });
     </script>
 }
 
