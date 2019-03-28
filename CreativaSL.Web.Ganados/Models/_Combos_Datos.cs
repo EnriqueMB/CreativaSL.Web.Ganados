@@ -450,5 +450,59 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public List<CatClienteModels> ObtenerComboClientes(string conexion)
+        {
+            try
+            {
+                CatClienteModels Cliente;
+                List<CatClienteModels> ListaClientes = new List<CatClienteModels>();
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "spCSLDB_Combo_get_CatCliente");
+                while (dr.Read())
+                {
+                    Cliente = new CatClienteModels
+                    {
+                        IDCliente = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetString(dr.GetOrdinal("ID")) : string.Empty,
+                        NombreRazonSocial = !dr.IsDBNull(dr.GetOrdinal("Nombre")) ? dr.GetString(dr.GetOrdinal("Nombre")) : string.Empty
+                    };
+
+                    ListaClientes.Add(Cliente);
+                }
+                dr.Close();
+                return ListaClientes;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CFDI_FormaPagoModels> GetListadoCFDIFormaPago(DocumentosPorCobrarDetallePagosModels DocumentoPorCobrarDetallePagos)
+        {
+            try
+            {
+                CFDI_FormaPagoModels item;
+                List<CFDI_FormaPagoModels> lista = new List<CFDI_FormaPagoModels>();
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(DocumentoPorCobrarDetallePagos.Conexion, "spCSLDB_Combo_get_CFDIFormaPago");
+                while (dr.Read())
+                {
+                    item = new CFDI_FormaPagoModels
+                    {
+                        Clave = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetInt16(dr.GetOrdinal("ID")) : 0,
+                        Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty,
+                        Bancarizado = !dr.IsDBNull(dr.GetOrdinal("Bancarizado")) ? dr.GetInt32(dr.GetOrdinal("Bancarizado")) : 0,
+                    };
+                    lista.Add(item);
+                }
+                dr.Close();
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

@@ -2670,7 +2670,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 _Deduccion_Datos datos = new _Deduccion_Datos();
                 string usuario = User.Identity.Name;
                 RespuestaAjax respuesta = new RespuestaAjax();
-                respuesta = datos.SpCSLDB_DocumentoPorCobrar_del_Deduccion(Conexion, Id_documento, Id_detalle, usuario);
+                respuesta = datos.SpCSLDB_DocumentoPorCobrar_del_Deduccion(Conexion, Id_documento, Id_detalle, usuario, 2);
                 TempData["message"] = respuesta.Mensaje;
 
                 if (respuesta.Success)

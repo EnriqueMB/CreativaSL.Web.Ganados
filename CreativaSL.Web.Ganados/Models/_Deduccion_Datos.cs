@@ -145,7 +145,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public RespuestaAjax SpCSLDB_DocumentoPorCobrar_del_Deduccion(string conexion, string idDocumento, string idDetalleDocumento, string usuario)
+        public RespuestaAjax SpCSLDB_DocumentoPorCobrar_del_Deduccion(string conexion, string idDocumento, string idDetalleDocumento, string usuario, int modulo)
         {
             try
             {
@@ -153,7 +153,8 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     idDocumento ,
                     idDetalleDocumento ,
-                    usuario
+                    usuario ,
+                    modulo
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(conexion, "dbo.spCSLDB_DocumentoPorCobrar_del_Deduccion", parametros);

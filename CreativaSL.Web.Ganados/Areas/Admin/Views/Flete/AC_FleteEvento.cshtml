@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "AC_FleteEvento";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var ListaDeduccion = ViewBag.ListaDeduccion;
+    var ListaTiposConceptos = ViewBag.ListaTiposConceptos;
 }
 
 
@@ -163,9 +165,9 @@
                         <div class="row">
                             <div id="divDeducciones">
                                 <div class="form-group">
-                                    <div class="controlError col-md-6">
-                                        <label class="col-md-2 control-label">Monto de la Deducción</label>
-                                        <div class="col-md-10 col-xs-12">
+                                    <div class="controlError col-md-4">
+                                        <label class="col-md-4 control-label">Monto de la Deducción</label>
+                                        <div class="col-md-8 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-money"></span></span>
                                                 @Html.TextBoxFor(model => model.MontoDeduccion, "{0:F2}", new { @type = "text", @class = "form-control" })
@@ -175,17 +177,30 @@
                                         </div>
                                     </div>
 
-                                    <div class="controlError col-md-6">
-                                        <label class="col-md-2 control-label">Tipo de deducción</label>
-                                        <div class="col-md-10 col-xs-12">
+                                    <div class="controlError col-md-4">
+                                        <label class="col-md-4 control-label">Tipo de deducción</label>
+                                        <div class="col-md-8 col-xs-12">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                @Html.DropDownListFor(model => model.Id_TipoDeDeduccion, new SelectList(Model.ListaDeTiposDeduccion, "Id_tipoClasificacionCobro", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                @Html.DropDownListFor(model => model.Id_TipoDeDeduccion, new SelectList(ListaDeduccion, "Id", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
                                             </div>
                                             @Html.ValidationMessageFor(model => model.Id_TipoDeDeduccion)
                                             <span class="help-block">Seleccione un tipo de deducción.</span>
                                         </div>
                                     </div>
+
+                                    <div class="controlError col-md-4">
+                                        <label class="col-md-4 control-label">Deduccir en</label>
+                                        <div class="col-md-8 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.DropDownListFor(model => model.Id_conceptoDocumento, new SelectList(ListaTiposConceptos, "Id_tipoClasificacionCobro", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Id_conceptoDocumento)
+                                            <span class="help-block">Seleccione un tipo de concepto.</span>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
