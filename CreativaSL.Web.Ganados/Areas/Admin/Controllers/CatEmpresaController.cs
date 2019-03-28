@@ -85,7 +85,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                         Empresa.Conexion = Conexion;
                         Empresa = EmpresaDatos.UpdateEmpresaXID(Empresa);
-                        Token.ResetToken();
+                        Token.SaveToken();
                         return Content(Empresa.RespuestaAjax.ToJSON(), "application/json");
                     }
                     else

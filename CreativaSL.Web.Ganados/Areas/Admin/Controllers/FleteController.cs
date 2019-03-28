@@ -1254,14 +1254,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         if (string.IsNullOrEmpty(DocumentoPorCobrarPago.ImagenBase64))
                         {
-                            DocumentoPorCobrarPago.ImagenMostrar = Auxiliar.SetDefaultImage();
+                            DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.SetDefaultImage();
                         }
-                        else
-                        {
-                            DocumentoPorCobrarPago.ImagenMostrar = DocumentoPorCobrarPago.ImagenBase64;
-                        }
-                        DocumentoPorCobrarPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(DocumentoPorCobrarPago.ImagenMostrar);
-
+                        
+                        DocumentoPorCobrarPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(DocumentoPorCobrarPago.ImagenBase64);
 
                         DocumentoPorCobrarPago.ListaFormaPagos = FleteDatos.GetListadoCFDIFormaPago(DocumentoPorCobrarPago);
                         DocumentoPorCobrarPago = FleteDatos.GetNombreEmpresaProveedorCliente(DocumentoPorCobrarPago);
@@ -1306,11 +1302,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     DocumentoPorCobrarPago.RespuestaAjax = new RespuestaAjax();
                     if (DocumentoPorCobrarPago.Bancarizado)
                     {
-                        if (DocumentoPorCobrarPago.HttpImagen == null)
-                        {
-                            DocumentoPorCobrarPago.ImagenBase64 = DocumentoPorCobrarPago.ImagenMostrar;
-                        }
-                        else
+                        if (DocumentoPorCobrarPago.HttpImagen != null)
                         {
                             DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorCobrarPago.HttpImagen);
                         }

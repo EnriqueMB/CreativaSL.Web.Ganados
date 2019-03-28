@@ -8,6 +8,8 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class UPPProvedorModels
     {
+        public int ImagenServer { get; set; }
+
         private string _id_proveedor;
 
         public string ImagenMostrar { get; set; }
