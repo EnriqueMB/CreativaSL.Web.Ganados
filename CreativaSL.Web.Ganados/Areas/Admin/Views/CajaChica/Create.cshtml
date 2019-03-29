@@ -1,10 +1,19 @@
-﻿@{
-    ViewBag.Title = "Caja chica";
+﻿@model CreativaSL.Web.Ganados.Models.CajaChicaModels
+
+@{
+    ViewBag.Title = "Crear caja chica";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-@section featured{
+@section css
+{
+    <!--FILEINPUT-->
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
+    <link href="~/Content/js/plugins/font-awesome.min.css" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
+}
 
+@section featured{
     @{
         var message = TempData["message"] ?? string.Empty;
         var typemessage = TempData["typemessage"] ?? string.Empty;
@@ -17,109 +26,67 @@
             <h3></h3>
         </div>
         <div class="col-md-12">
-            @*<form class="form-horizontal">*@
             @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("Create", "CajaChica", FormMethod.Post, new { id = "form-catalm", @class = "form-horizontal", autocomplete = "off" }))
+            @using (Html.BeginForm("Create", "CajaChica", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off", @enctype = "multipart/form-data" }))
             {
-
                 @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
                 <div id="validation_summary" class="field_error "></div> //JS
-
-                @*@Html.HiddenFor(model => model.IDAlmacen)*@
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Crear </strong> Caja chica</h3>
-                        <ul class="panel-controls">
-                            @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
-                        </ul>
+                        <h3 class="panel-title"><strong>Crear </strong> caja chica</h3>
                     </div>
+                    <ul class="panel-controls"></ul>
                     <div class="panel-body">
 
-                        <div class="col-md-12">
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="col-md-12 control-label text-center">Monto de apertura</label>
-                                    <div class="col-md-12 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBox("txtMonto", "", new { id = "txtMonto", @class = "form-control" })
-                                        </div>
-                                        <span class="help-block">Ingrese el monto de apertura de la caja chica</span>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-12 control-label text-center">Monto de apertura</label>
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.MontoApertura, new { id = "MontoApertura", @class = "form-control", placeholder = "Ingrese el monto de apertura." })
                                     </div>
+                                    <span class="help-block">Ingrese el monto de apertura de la caja chica</span>
+                                    @Html.ValidationMessageFor(model => model.MontoApertura)
                                 </div>
                             </div>
-
-
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="col-md-12 col-xs-12 control-label text-center">Asignar a:</label>
-                                    <div class="col-md-12 col-xs-12">
-                                        @*@Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select" })
-                    @Html.ValidationMessageFor(model => model.IDSucursal)*@
-                                        <SELECT NAME="selCombo" class="form-control select" SIZE=1>
-                                            <OPTION VALUE="link pagina 1">CRISTEL MARTINEZ VIDAL</OPTION>
-                                            <OPTION VALUE="link pagina 2">ROSY CELIS</OPTION>
-                                        </SELECT>
-                                        <span class="help-block">Seleccione el contador principal</span>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-
-
-
                         </div>
 
-                        <div class="col-md-12">
-
-
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="col-md-12 control-label text-center">KEY</label>
-                                    <div class="col-md-12 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.Password("txtKey", "", new { id = "txtKey", @class = "form-control" })
-                                        </div>
-
-                                        <span class="help-block">Ingrese la clave para confirmar la transacción</span>
-                                    </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-12 col-xs-12 control-label text-center">Asignar a:</label>
+                                <div class="col-md-12 col-xs-12">
+                                    @Html.DropDownListFor(model => model.IdPropietario, new SelectList(ViewBag.ListaEmpleados, "IDEmpleado", "Nombre"), new { id = "IdPropietario", @class = "form-control select", data_live_search = "true" })
+                                    @Html.ValidationMessageFor(model => model.IdPropietario)
+                                    <span class="help-block">Seleccione el contador principal</span>
                                 </div>
                             </div>
+                        </div>
 
-                            @*<div class="col-md-6">
-        <div class="form-group">
-            <label class="col-md-12 col-xs-12 control-label text-center">Contador</label>
-            <div class="col-md-12 col-xs-12">*@
-                            @*@Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select" })
-        @Html.ValidationMessageFor(model => model.IDSucursal)*@
-                            @*<SELECT NAME="selCombo" class="form-control select" SIZE=1>
-                        <OPTION VALUE="link pagina 1">CRISTEL MARTINEZ VIDAL</OPTION>
-                        <OPTION VALUE="link pagina 2">ROSY CELIS</OPTION>
-                    </SELECT>
-                    <span class="help-block">Seleccione el contador auxiliar</span>
-                </div>
-            </div>
-        </div>*@
-
-
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-12 control-label text-center">KEY</label>
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.PasswordFor(model => model.KeyWord, new { id = "KeyWord", @class = "form-control" })
+                                    </div>
+                                    <span class="help-block">Ingrese la clave para confirmar la transacción</span>
+                                    @Html.ValidationMessageFor(model => model.KeyWord)
+                                </div>
+                            </div>
                         </div>
 
 
-
-                    </div>
-                    <div class="panel-footer">
-                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                        <a href="@Url.Action("Index","HomeAdmin")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                     </div>
                 </div>
-                @*</form>*@
+
+                <div class="panel-footer">
+                    <a href="@Url.Action("Index","CajaChica")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    <button form="form-dg" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
+                </div>
             }
         </div>
     </div>
@@ -129,25 +96,21 @@
     </script>
 }
 @section script{
+    <
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/maskedinput/jquery.maskedinput.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/CalAlmacen.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/CajaChica.js")"></script>
+
     <script>
-    jQuery(document).ready(function () {
-
-        Mensaje(message, typemessage);
-        CatAlmacen.init();
-
-    });
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            CajaChica.init();
+        });
     </script>
 }
-
-
-
-

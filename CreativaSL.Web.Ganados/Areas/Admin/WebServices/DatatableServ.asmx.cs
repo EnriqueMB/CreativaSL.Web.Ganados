@@ -160,6 +160,34 @@ namespace CreativaSL.Web.Ganados.WebServices
             SendResponse(HttpContext.Current.Response, resultSet);
         }
 
+        [WebMethod(Description = "Server Side DataTables support", EnableSession = true)]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void CajaChicaIndex(object parameters)
+        {
+            var req = DataTableParameters.Get(parameters);
+            var resultSet = new DataTableResultSet();
+            _CajaChica_Datos Datos = new _CajaChica_Datos();
+            CajaChicaModelsResult Resultado = Datos.ObtenerCajasChicasHistorial(req);
+            resultSet.draw = req.Draw;
+            resultSet.recordsTotal = Resultado.TotalRecords;
+            resultSet.recordsFiltered = Resultado.SearchRecords;
+
+            foreach (CajaChicaModels Item in Resultado.Lista)
+            {
+                var columns = new List<string>();
+                columns.Add(Item.FechaAperturaString);
+                columns.Add(Item.NombreEmpleado);
+                columns.Add(Item.MontoAperturaString);
+                columns.Add(Item.PersonaEntrega);
+                columns.Add(Item.SaldoString);
+                string acciones = @"";
+                columns.Add(acciones);
+                resultSet.data.Add(columns);
+            }
+            SendResponse(HttpContext.Current.Response, resultSet);
+
+        }
+
         private void SendResponse(HttpResponse response, DataTableResultSet result)
         {
             response.Clear();

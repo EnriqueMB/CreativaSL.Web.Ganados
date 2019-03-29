@@ -1,0 +1,139 @@
+﻿@model CreativaSL.Web.Ganados.Models.MovimientosCajaChicaModels
+
+@{
+    ViewBag.Title = "Salida de caja chica";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section css
+{
+    <!--FILEINPUT-->
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
+    <link href="~/Content/js/plugins/font-awesome.min.css" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
+}
+
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("Create", "MiCajaChica", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off", @enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                @Html.HiddenFor(model => model.IdCaja);
+                <div id="validation_summary" class="field_error "></div> //JS
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Capturar salida de </strong> caja chica</h3>
+                    </div>
+                    <ul class="panel-controls"></ul>
+                    <div class="panel-body">
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span>Categoría</label>
+                            <div class="col-md-6 col-xs-12">
+                                @Html.DropDownListFor(model => model.IdCategoria, new SelectList(ViewBag.ListaConceptos, "IdConcepto", "Descripcion"), new { id = "IdConcepto", @class = "form-control select", data_live_search = "true" })
+                                @Html.ValidationMessageFor(model => model.IdCategoria)
+                                <span class="help-block">Seleccione una categoría</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span>Concepto</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.Concepto, new { id = "Concepto", @class = "form-control", placeholder = "Ingrese el concepto de la salida." })
+                                </div>
+                                <span class="help-block">Ingrese el concepto.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span>Monto</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.Salida, new { id = "Salida", @class = "form-control", placeholder = "Ingrese el monto." })
+                                </div>
+                                <span class="help-block">Ingrese el monto.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span>Persona que recibe</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.Recibe, new { id = "Salida", @class = "form-control", placeholder = "Ingrese el nombre de la persona que recibe el efectivo." })
+                                </div>
+                                <span class="help-block">Ingrese un nombre.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span>Tipo de salida</label>
+                            <div class="col-md-6 col-xs-12">
+                                @Html.DropDownListFor(model => model.IdFormaPago, new SelectList(ViewBag.ListaFormasPago, "IdFormaPago", "Descripcion"), new { id = "IdFormaPago", @class = "form-control select", data_live_search = "true" })
+                                @Html.ValidationMessageFor(model => model.IdFormaPago)
+                                <span class="help-block">Seleccione un tipo.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span>Folio del cheque</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.FolioCheque, new { id = "FolioCheque", @class = "form-control", placeholder = "Ingrese el folio del cheque en caso de que aplique." })
+                                </div>
+                                <span class="help-block">Ingrese el folio del cheque en case que aplique.</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                    <a href="@Url.Action("Index","MiCajaChica")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    <button form="form-dg" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+    <
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+    <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/maskedinput/jquery.maskedinput.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/DetalleCajaChica.js")"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            CajaChica.init();
+        });
+    </script>
+}
