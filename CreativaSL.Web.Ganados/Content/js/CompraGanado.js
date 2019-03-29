@@ -323,7 +323,7 @@
             $.ajax({
                 url: '/Admin/Compra/ModalListaFierros/',
                 type: "POST",
-                data: { },
+                data: { IDCompra: IDCompra },
                 success: function (data) {
                     $("body").css("cursor", "default");
                     $('#ContenidoModalFierro').html(data);

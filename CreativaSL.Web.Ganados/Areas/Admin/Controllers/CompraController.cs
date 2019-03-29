@@ -103,7 +103,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Compra = CompraDatos.GetGanadoCompra(Compra);
                     Compra.ListadoPrecioRangoPesoString = CompraDatos.GetListadoPrecioRangoPeso(Compra).ToJSON();
                     Compra.ListaCorralesString = CompraDatos.GetListaCorrales(Compra).ToJSON();
-                    Compra.ListaFierrosString = CompraDatos.GetListaFierros(Compra).ToJSON();
+                    //Compra.ListaFierrosString = CompraDatos.GetListaFierros(Compra).ToJSON();
+                    Compra.ListaFierrosString = CompraDatos.GetListaFierrosXCompra(Compra).ToJSON();
 
                     return View(Compra);
                 }
@@ -884,14 +885,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
 
         #region ListaFierros
-        public ActionResult ModalListaFierros()
+        public ActionResult ModalListaFierros(string IDCompra)
         {
             Compra = new CompraModels();
             CompraDatos = new _Compra_Datos();
+            Compra.IDCompra = IDCompra;
             Compra.Conexion = Conexion;
             CatFierroModels Fierro = new CatFierroModels();
-
-            Fierro.ListaFierro = CompraDatos.GetListaFierros(Compra);
+            Fierro.ListaFierro = CompraDatos.GetListaFierrosXCompra(Compra);
+            //Fierro.ListaFierro = CompraDatos.GetListaFierros(Compra);
 
             return PartialView("ModalFierros", Fierro);
         }
