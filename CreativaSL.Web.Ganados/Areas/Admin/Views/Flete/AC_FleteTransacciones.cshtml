@@ -76,7 +76,7 @@
                                                     <div class="col-md-9 col-xs-12">
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                            @Html.TextBoxFor(model => model.DocumentosPorCobrar.TotalPercepciones, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                            @Html.TextBoxFor(model => model.DocumentosPorCobrar.TotalPercepciones, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                         </div>
                                                     </div>
                                                 </div>
@@ -86,7 +86,7 @@
                                                         <div class="col-md-9 col-xs-12">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                                @Html.TextBoxFor(model => model.DocumentosPorCobrar.TotalDeducciones, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                                @Html.TextBoxFor(model => model.DocumentosPorCobrar.TotalDeducciones, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -97,7 +97,7 @@
                                                         <div class="col-md-9 col-xs-12">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                                @Html.TextBoxFor(model => model.DocumentosPorCobrar.Total, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                                @Html.TextBoxFor(model => model.DocumentosPorCobrar.Total, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -108,7 +108,6 @@
                                                 <div class="panel-heading">
                                                     <h3 class="panel-title">Percepciones</h3>
                                                     <ul class="panel-controls">
-                                                        <li><a id="btnDetalles" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Agregar detalle </a></li>
                                                         <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                                                         <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                                                     </ul>
@@ -120,7 +119,7 @@
                                                             <div class="col-md-9 col-xs-12">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                                    @Html.TextBoxFor(model => model.DocumentosPorCobrar.Impuestos, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                                    @Html.TextBoxFor(model => model.DocumentosPorCobrar.Impuestos, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -130,7 +129,7 @@
                                                                 <div class="col-md-9 col-xs-12">
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                                        @Html.TextBoxFor(model => model.Subtotal, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                                        @Html.TextBoxFor(model => model.Subtotal, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -141,7 +140,7 @@
                                                                 <div class="col-md-9 col-xs-12">
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrar.TotalPercepciones, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrar.TotalPercepciones, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -178,6 +177,7 @@
                                                 <div class="panel-heading">
                                                     <h3 class="panel-title">Deducciones</h3>
                                                     <ul class="panel-controls">
+                                                        <li><a id="btnDeduccion" class="btn btn-default btnCrear"><span class="fa fa-plus"></span>Agregar deducción</a></li>
                                                         <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                                                         <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                                                     </ul>
@@ -190,7 +190,7 @@
                                                                 <div class="col-md-8 col-xs-12">
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrar.TotalDeducciones, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrar.TotalDeducciones, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -200,9 +200,11 @@
                                                         <table id="tbl_detallesDeducciones" class="table">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Deducir en</th>
+                                                                    <th>Tipo de deducción</th>
+                                                                    <th>Reducir en</th>
                                                                     <th>Cantidad</th>
                                                                     <th>Total</th>
+                                                                    <th>Acción</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody></tbody>
@@ -267,7 +269,7 @@
                                                             <div class="col-md-9 col-xs-12">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                                    @Html.TextBoxFor(model => model.DocumentosPorCobrar.Pagos, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                                    @Html.TextBoxFor(model => model.DocumentosPorCobrar.Pagos, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -277,7 +279,7 @@
                                                                 <div class="col-md-9 col-xs-12">
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrar.Pendiente, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrar.Pendiente, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -288,7 +290,7 @@
                                                                 <div class="col-md-9 col-xs-12">
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrar.Cambio, "{0:f2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                                        @Html.TextBoxFor(model => model.DocumentosPorCobrar.Cambio, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -336,9 +338,9 @@
     <div class="message-box animated fadeIn" data-sound="alert" id="mb-delComprobante">
         <div class="mb-container">
             <div class="mb-middle">
-                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>comprobante de cobro</strong> ?</div>
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>registro</strong> ?</div>
                 <div class="mb-content">
-                    <p>¿Seguro que quieres eliminar este comprobante de cobro?</p>
+                    <p>¿Seguro que quieres eliminar este registro?</p>
                     <p>Presione "sí" si está seguro.</p>
                 </div>
                 <div class="mb-footer">
@@ -353,9 +355,9 @@
     <div class="message-box animated fadeIn" data-sound="alert" id="mb-deleteDetalle">
         <div class="mb-container">
             <div class="mb-middle">
-                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>producto o servicio</strong> ?</div>
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>registro</strong> ?</div>
                 <div class="mb-content">
-                    <p>¿Seguro que quieres eliminar este producto o servicio por cobrar?</p>
+                    <p>¿Seguro que quieres eliminar este registro?</p>
                     <p>Presione "sí" si está seguro.</p>
                 </div>
                 <div class="mb-footer">

@@ -6,8 +6,6 @@
         $('#LogoEmpresaHttp').fileinput({
             theme: 'fa',
             language: 'es',
-            //showRemove: false,
-            //showClose: false,
             showUpload: false,
             uploadUrl: "#",
             autoReplace: true,
@@ -45,10 +43,8 @@
                 { caption: 'Imagen del R.F.C.' }
             ],
             initialPreviewShowDelete: false,
-            //showRemove: false,
-            //showClose: false,
             layoutTemplates: { actionDelete: '' },
-            allowedFileExtensions: [["png", "jpg", "jpeg", "bmp"]],
+            allowedFileExtensions: ["png", "jpg", "jpeg", "bmp"],
             required: true
         });
     };
@@ -299,7 +295,7 @@
                 },
                 LogoRFCHttp: {
                     ImagenRequerida: true,
-                    ImagenRequerida: ["LogoRFC"]
+                    ImagenRequerida: ["ImagBDRFC"]
                 },
                 PSGEmpresa: {
                     required: true

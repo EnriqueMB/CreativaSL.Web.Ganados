@@ -9,9 +9,9 @@
     var numeroAutorizacion = $("#NumeroAutorizacion");
 
     var RunEventsComprobantePago = function () {
-        var Imagen = document.getElementById("ImagenMostrar").value;
         var ExtensionImagen = document.getElementById("ExtensionImagenBase64").value;
         var ImagenServidor = document.getElementById("ImagenBase64").value;
+
         if (ImagenServidor === null || ImagenServidor.length == 0 || ImagenServidor == '') {
             document.getElementById("HttpImagen").dataset.imgBD = "0";
         }
@@ -30,7 +30,7 @@
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:' + ExtensionImagen + ';base64,' + Imagen + '" />'
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:' + ExtensionImagen + ';base64,' + ImagenServidor + '" />'
             ],
             initialPreviewConfig: [
                 { caption: 'Imagen del recibo' }
@@ -59,7 +59,7 @@
                 bancarizadoForm.value = true;
                 cuentaBeneficiante.rules("add", { required: true });
                 cuentaOrdenante.rules("add", { required: true });
-                imagen.rules("add", { ImagenRequerida: true, ImagenRequerida: ["ImagenBase64"] });
+                imagen.rules("add", { ImagenRequerida: true, ImagenRequerida: ["ImagenServer"] });
                 //folioINE.rules("add", { required: true });
                 //numeroAutorizacion.rules("add", { required: true });
             }
@@ -92,17 +92,11 @@
         cuentaBeneficiante.rules("remove", "required");
         cuentaOrdenante.rules("remove", "required");
         imagen.rules("remove", "ImagenRequerida");
-        //folioINE.rules("remove", "required");
-        //numeroAutorizacion.rules("remove", "required");
 
         cuentaBeneficiante.closest(".controlError").removeClass("has-success has-error");
         cuentaOrdenante.closest(".controlError").removeClass("has-success has-error");
         imagen.closest(".controlError").removeClass("has-success has-error");
-        //folioINE.closest(".controlError").removeClass("has-success has-error");
-        //numeroAutorizacion.closest(".controlError").removeClass("has-success has-error");
 
-       // $("#validation_summary").find("dd[for='FolioIFE']").addClass('help-block valid').text('');
-       // $("#validation_summary").find("dd[for='NumeroAutorizacion']").addClass('help-block valid').text('');
         $("#validation_summary").find("dd[for='HttpImagen']").addClass('help-block valid').text('');
         $("#validation_summary").find("dd[for='Id_cuentaBancariaOrdenante']").addClass('help-block valid').text('');
         $("#validation_summary").find("dd[for='Id_cuentaBancariaBeneficiante']").addClass('help-block valid').text('');
@@ -146,16 +140,9 @@
                 fecha: {
                     required: true
                 },
-                //bancarizado
-                //"FolioIFE": {
-                //    required: true
-                //},
-                //"NumeroAutorizacion": {
-                //    required: true
-                //},
                 "HttpImagen":{
                     ImagenRequerida: true,
-                    ImagenRequerida: ["ImagenBase64"]
+                    ImagenRequerida: ["ImagenServer"]
                 },
                 "Id_cuentaBancariaOrdenante": {
                     required: true
@@ -179,13 +166,6 @@
                 fecha: {
                     required: "Seleccione la fecha"
                 },
-                //bancarizado
-                //FolioIFE: {
-                //    required: "Ingrese el folio del INE"
-                //},
-                //NumeroAutorizacion: {
-                //    required: "Ingrese el numero de autorización"
-                //},
                 HttpImagen: {
                     required: "Ingrese una imagen"
                 },

@@ -1,5 +1,5 @@
 ﻿var VentaTransaccion = function () {
-    "use strict"
+    "use strict";
     //datatables
     var tbl_detallesDocumentoPorCobrar, tbl_detallesDocumentoPorCobrarCobros, tbl_detallesDeducciones;
         
@@ -286,19 +286,69 @@
                 {
                     "data": "total",
                     "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                },
+                {
+                    "data": null,
+                    "render": function (data, type, full) {
+
+                        var menu = "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                            "<a data-hrefa='/Admin/Venta/DeleteDeduccion/' title='Eliminar' data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-danger tooltips btn-sm deleteDeduccion' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "</div>" +
+                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                            "<div class='btn-group'>" +
+                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                            "</a>" +
+                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                            "<a data-hrefa='/Admin/Venta/DeleteDeduccion/' class='deleteDeduccion' role='menuitem' tabindex='-1' data-id='" + full["id_detalleDoctoCobrar"] + "'>" +
+                            "<i class='fa fa-trash-o'></i> Eliminar" +
+                            "</a>" +
+                            "</li>" +
+                            "</ul>" +
+                            "</div>" +
+                            "</div>";
+                        return menu;
+                    }
                 }
-            ]
+            ],
+            "drawCallback": function (settings) {
+
+                $(".deleteDeduccion").on("click", function () {
+                    var url = $(this).attr('data-hrefa');
+                    var id_detalle = $(this).attr('data-id');
+                    var box = $("#mb-deleteDetalle");
+                    box.addClass("open");
+                    box.find(".mb-control-yes").on("click", function () {
+                        box.removeClass("open");
+                        $.ajax({
+                            url: url,
+                            data: { Id_documento: Id_documentoPorCobrar, Id_detalle: id_detalle },
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (result) {
+                                if (result.Success) {
+                                    box.find(".mb-control-yes").prop('onclick', null).off('click');
+                                }
+                                location.reload();
+                            },
+                            error: function (result) {
+                                location.reload();
+                            }
+                        });
+                    });
+                });
+            }
         });
         
     };
 
     var EventosCobro = function () {
-        $("#btnDetalles").on("click", function () {
-            window.location.href = '/Admin/Venta/VentaProductoServicio?Id_documentoPorCobrar=' + Id_documentoPorCobrar + '&Id_venta=' + Id_venta + '&Id_detalleDocumento=';
-        });
-
         $("#btnAddCobro").on("click", function () {
             window.location.href = '/Admin/Venta/VentaCobro?id_1=' + Id_venta + '&id_2=';
+        });
+
+        $("#btnAddDeduccion").on("click", function () {
+            window.location.href = '/Admin/Venta/VentaDeduccion?id=' + Id_venta;
         });
 
         $("#btnGenerarComprobanteVenta").on("click", function () {

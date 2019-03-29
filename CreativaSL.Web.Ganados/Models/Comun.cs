@@ -275,7 +275,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         public static string GenerarHtmlCorreoJaula(DateTime Fecha, string Proveedor, string NombreChofer, string ChoferAux, int CabezaHembras, int PesosHembras, int CabezaMachos, int PesosMachos,
-                                              int PesoGeneral, string LugarDestino, string TelefonoMovil, string Modelo, string Color, string Placa, string GPS, string PlajasJaula, string ColorJaula, string Marca)
+                                              int PesoGeneral, string LugarDestino, string TelefonoMovil, string Modelo, string Color, string Placa, string GPS, string PlajasJaula, string ColorJaula, string Marca, string HoraSalida)
         {
             int año = DateTime.Now.Year;
             string html = @"
@@ -333,7 +333,7 @@ namespace CreativaSL.Web.Ganados.Models
                             font-size: 2.5em;
                             padding: 1% 0%;
                             margin: auto;
-                            "">REPORTE DE JAULA</h2>
+                            "">REPORTE DE VENTA</h2>
                         </div>
                         <div class=""contenido"" style=""
                         padding: 2%;
@@ -346,7 +346,7 @@ namespace CreativaSL.Web.Ganados.Models
                                 <p style=""
                                 text-align: center;
                                 font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-                                "">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut delectus, cumque labore omnis ipsum adipisci, odit atque qui, placeat magni impedit voluptatibus deserunt possimus. Accusamus quae maiores quisquam omnis libero!</p>
+                                "">Buen dia, envío reporte de peso. Estamos a la orden GRUPO OCAMPO.</p>
                                 <div class=""table""></div>
                             </div>
 
@@ -383,6 +383,16 @@ namespace CreativaSL.Web.Ganados.Models
                                         text-align: center;
                                         background-color: #d8d8d8;
                                         "">
+                                            <td>Hora de Salida</td>
+                                            <td>" + HoraSalida + @"</td>
+                                        </tr>
+                                        <tr style=""
+                                        border-bottom: 1px solid #c8c8c8;
+                                        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                                        height: 50px;
+                                        text-align: center;
+                                        background-color: #d8d8d8;
+                                        "">
                                             <td>Proveedor</td>
                                             <td>" + Proveedor + @"</td>
                                         </tr>
@@ -393,7 +403,7 @@ namespace CreativaSL.Web.Ganados.Models
                                         text-align: center;
                                         background-color: #d8d8d8;
                                         "">
-                                            <td>Nombre Chofer</td>
+                                            <td>Nombre del Operador</td>
                                             <td>" + NombreChofer + @"</td>
                                         </tr>
                                         <tr style=""
@@ -403,7 +413,7 @@ namespace CreativaSL.Web.Ganados.Models
                                         text-align: center;
                                         background-color: #d8d8d8;
                                         "">
-                                            <td>Nombre Chofer Auxiliar</td>
+                                            <td>Nombre del Operador Auxiliar</td>
                                             <td>" + ChoferAux + @"</td>
                                         </tr>
                                         <tr style=""
@@ -473,7 +483,7 @@ namespace CreativaSL.Web.Ganados.Models
                                         text-align: center;
                                         background-color: #d8d8d8;
                                         "">
-                                            <td>Telefono Movil</td>
+                                            <td>Telefono de Operador</td>
                                             <td>" + TelefonoMovil + @"</td>
                                         </tr>
                                         <tr style=""

@@ -1,5 +1,5 @@
 ﻿var FleteEvento = function () {
-    "use strict"
+    "use strict";
     var Id_flete = $("#Id_flete").val();
     var Id_eventoFlete = $("#Id_eventoFlete").val();
     var opcionDeduccion = $("#AplicaDeduccion").val();
@@ -68,7 +68,7 @@
                 { "data": "numArete" },
                 { "data": "genero" },
                 { "data": "pesoAproximado" },
-                { "data": "propio" },
+                { "data": "propio" }
             ],
             "columnDefs": [
                 {
@@ -173,6 +173,7 @@
             e.preventDefault();
 
             var Id_tipoEvento = $("#Id_tipoEvento");
+            var Id_conceptoDocumento = $("#Id_conceptoDocumento");
             var HoraDeteccion = $("#HoraDeteccion");
             var Lugar = $("#Lugar");
             var FechaDeteccion = $("#FechaDeteccion");
@@ -186,12 +187,14 @@
             var expRegularMonto = /^([0-9]+)?([.][0-9]{1,2})?$/i;
 
             var opcion_Id_tipoEvento = Id_tipoEvento.val();
+            var opcion_Id_conceptoDocumento = Id_conceptoDocumento.val();
             var value_HoraDeteccion = HoraDeteccion.val();
             var value_Lugar = Lugar.val();
             var value_FechaDeteccion = FechaDeteccion.val();
             var value_MontoDeduccion = MontoDeduccion.val();
             var opcion_Id_TipoDeDeduccion = Id_TipoDeDeduccion.val();
             var flag_errorTipoEvento = 0;
+            var flag_errorConceptoDocumento = 0;
             var flag_errorLugar = 0;
             var flag_errorFecha = 0;
             var flag_errorHora = 0;
@@ -204,6 +207,7 @@
             value_Lugar = String(value_Lugar);
             value_FechaDeteccion = String(value_FechaDeteccion);
             opcion_Id_TipoDeDeduccion = String(opcion_Id_TipoDeDeduccion);
+            opcion_Id_conceptoDocumento = String(opcion_Id_conceptoDocumento);
 
             if (opcion_Id_tipoEvento.localeCompare("0") == 0) {
                 Id_tipoEvento.closest('.controlError').removeClass('has-success').addClass("has-error");
@@ -213,6 +217,16 @@
                 Id_tipoEvento.closest('.controlError').removeClass('has-error').addClass("has-success");
                 $("#ddTipoEvento").hide(0);
                 flag_errorTipoEvento = 0;
+            }
+
+            if (opcion_Id_conceptoDocumento.localeCompare("0") == 0) {
+                Id_conceptoDocumento.closest('.controlError').removeClass('has-success').addClass("has-error");
+                $("#ddConceptoDocumento").show(0);
+                flag_errorConceptoDocumento = 1;
+            } else {
+                Id_conceptoDocumento.closest('.controlError').removeClass('has-error').addClass("has-success");
+                $("#ddConceptoDocumento").hide(0);
+                flag_errorConceptoDocumento = 0;
             }
 
             if (value_Lugar === '' || value_Lugar.length == 0) {
@@ -290,7 +304,14 @@
                 flag_errorGanado = 0;
             }
 
-            if (flag_errorTipoEvento == 0 && flag_errorLugar == 0 && flag_errorFecha == 0 && flag_errorHora == 0 && flag_errorDeduccion == 0 && flag_errorGanado == 0 && flag_errorTipoDeduccion == 0) {
+            if (flag_errorTipoEvento == 0 &&
+                flag_errorLugar == 0 &&
+                flag_errorFecha == 0 &&
+                flag_errorHora == 0 &&
+                flag_errorDeduccion == 0 &&
+                flag_errorGanado == 0 &&
+                flag_errorTipoDeduccion == 0 &&
+                flag_errorConceptoDocumento == 0) {
                 var ganado = tblGanadoConEvento.rows().data();
                 var objGanado, cantidad = 0;
                 var ListaIDGanadosDelEvento = new Array();
@@ -338,6 +359,7 @@
             validation_summary.append("<dd id='ddMonto' style='color: #ff004d !important; '>Por favor, escriba un monto para la deducción.</dd>");
             validation_summary.append("<dd id='ddGanado' style='color: #ff004d !important; '>Por favor, seleccione un ganado para aplicarle el evento.</dd>");
             validation_summary.append("<dd id='ddTipoDeduccion' style='color: #ff004d !important; '>Por favor, seleccione un tipo de deducción.</dd>");
+            validation_summary.append("<dd id='ddConceptoDocumento' style='color: #ff004d !important; '>Por favor, seleccione un concepto.</dd>");
 
             $("#ddTipoEvento").hide(0);
             $("#ddLugar").hide(0);
@@ -346,6 +368,7 @@
             $("#ddMonto").hide(0);
             $("#ddGanado").hide(0);
             $("#ddTipoDeduccion").hide(0);
+            $("#ddConceptoDocumento").hide(0);
         }
     };
 }();

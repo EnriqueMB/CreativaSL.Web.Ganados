@@ -262,12 +262,6 @@
     };
 
     var EventosCobro = function () {
-        $("#btnAddCobroArticuloServicio").on("click", function () {
-            window.location.href = '/Admin/Compra/ProductoServicioCompra?Id_compra=' + IDCompra + '&Id_documentoPorCobrar=' + Id_documentoPorCobrar + '&Id_detalleDocumento=';
-        });
-        //$("#btnAddCobroComprobante").on("click", function () {
-        //    window.location.href = '/Admin/Compra/CobroCompra?id_1=' + IDCompra + '&id_2=';
-        //});
         $("#btnAddDeduccion").on("click", function () {
             window.location.href = '/Admin/Compra/AddDeduccion?id=' + IDCompra;
         });

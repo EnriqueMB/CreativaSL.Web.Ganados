@@ -8,6 +8,7 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class DocumentosPorCobrarDetallePagosModels
     {
+        public int ImagenServer { get; set; }
         public decimal pendiente { get; set; }
         public int id_status { get; set; }
         public string Id_compra { get; set; }

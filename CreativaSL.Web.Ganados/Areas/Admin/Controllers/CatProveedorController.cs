@@ -1032,7 +1032,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 if(Token.IsTokenValid())
                 {
-                    //HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
                     if (uPPProvedor.ImagenHttp != null)
                     {
                         uPPProvedor.Imagen = Auxiliar.ImageToBase64(uPPProvedor.ImagenHttp);

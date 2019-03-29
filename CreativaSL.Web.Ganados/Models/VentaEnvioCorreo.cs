@@ -24,6 +24,7 @@ namespace CreativaSL.Web.Ganados.Models
             Marca = string.Empty;
             ChoferAuxiliar = string.Empty;
             Conexion = string.Empty;
+            HoraSalida = string.Empty;
         }
 
         public string IdVenta { get; set; }
@@ -46,6 +47,7 @@ namespace CreativaSL.Web.Ganados.Models
         public string Marca { get; set; }
         public string ChoferAuxiliar { get; set; }
         public string Conexion { get; set; }
+        public string HoraSalida { get; set; }
 
         public string Asunto { get; set; }
         public string Mensaje { get; set; }

@@ -50,13 +50,13 @@ namespace CreativaSL.Web.Ganados.Models.Validaciones
                     extension = explodedFile[longitud - 1];
 
                     //Extension valida solo png
-                    if (string.Equals(extension, "png"))
+                    if (string.Equals(extension, "png") || string.Equals(extension, "jpg") || string.Equals(extension, "jpeg") || string.Equals(extension, "bmp"))
                     {
                         return ValidationResult.Success;
                     }
                     else
                     {
-                        return new ValidationResult(this.FormatErrorMessage(validationContext.DisplayName + "solo extensión png."));
+                        return new ValidationResult(this.FormatErrorMessage(validationContext.DisplayName + "solo extensión png, jpg, jpeg y bmp."));
                     }
                 }
                 else
@@ -76,13 +76,13 @@ namespace CreativaSL.Web.Ganados.Models.Validaciones
                     extension = explodedFile[longitud - 1];
 
                     //Extension valida solo png
-                    if (string.Equals(extension, "png"))
+                    if (string.Equals(extension, "png") || string.Equals(extension, "jpg") || string.Equals(extension, "jpeg") || string.Equals(extension, "bmp"))
                     {
                         return ValidationResult.Success;
                     }
                     else
                     {
-                        return new ValidationResult(this.FormatErrorMessage(validationContext.DisplayName + "solo extensión png."));
+                        return new ValidationResult(this.FormatErrorMessage(validationContext.DisplayName + "solo extensión png, jpg, jpeg y bmp."));
                     }
                 }
                 else

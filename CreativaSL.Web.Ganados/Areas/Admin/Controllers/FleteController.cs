@@ -703,8 +703,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         }
                         EventoFlete.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(EventoFlete.ImagenMostrar);
                         //aqui pondriamos alguna lista o valores de cargar si esta todo correcto
-                        EventoFlete.ListaDeTiposDeduccion = FleteDatos.GetTiposDeduccion(EventoFlete);
                         EventoFlete.ListaTiposEventos = FleteDatos.GetTiposEventos(EventoFlete);
+
+                        //EventoFlete.ListaDeTiposDeduccion = FleteDatos.GetTiposDeduccion(EventoFlete);
+                        _CatDeduccion_Datos oDatos = new _CatDeduccion_Datos();
+                        ViewBag.ListaDeduccion = oDatos.SpCIDDB_Combo_get_CatDeduccion(Conexion);
+                        ViewBag.ListaTiposConceptos = FleteDatos.GetTiposDeduccion(EventoFlete);
+
                         return View(EventoFlete);
                     }
                     else
@@ -1249,14 +1254,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         if (string.IsNullOrEmpty(DocumentoPorCobrarPago.ImagenBase64))
                         {
-                            DocumentoPorCobrarPago.ImagenMostrar = Auxiliar.SetDefaultImage();
+                            DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.SetDefaultImage();
                         }
-                        else
-                        {
-                            DocumentoPorCobrarPago.ImagenMostrar = DocumentoPorCobrarPago.ImagenBase64;
-                        }
-                        DocumentoPorCobrarPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(DocumentoPorCobrarPago.ImagenMostrar);
-
+                        
+                        DocumentoPorCobrarPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(DocumentoPorCobrarPago.ImagenBase64);
 
                         DocumentoPorCobrarPago.ListaFormaPagos = FleteDatos.GetListadoCFDIFormaPago(DocumentoPorCobrarPago);
                         DocumentoPorCobrarPago = FleteDatos.GetNombreEmpresaProveedorCliente(DocumentoPorCobrarPago);
@@ -1301,11 +1302,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     DocumentoPorCobrarPago.RespuestaAjax = new RespuestaAjax();
                     if (DocumentoPorCobrarPago.Bancarizado)
                     {
-                        if (DocumentoPorCobrarPago.HttpImagen == null)
-                        {
-                            DocumentoPorCobrarPago.ImagenBase64 = DocumentoPorCobrarPago.ImagenMostrar;
-                        }
-                        else
+                        if (DocumentoPorCobrarPago.HttpImagen != null)
                         {
                             DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorCobrarPago.HttpImagen);
                         }
@@ -2911,6 +2908,131 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View("Index");
             }
         }
+        #endregion
+
+        #region Deducción
+        [HttpGet]
+        public ActionResult FleteDeduccion(string id)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id) || id.Length != 36)
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index");
+                }
+
+                DeduccionModels deduccion = new DeduccionModels();
+
+                deduccion.IdGenerico = id;
+
+                ObtenerViewBagListaDeduccion();
+
+                Token.SaveToken();
+
+                return View(deduccion);
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult FleteDeduccion(DeduccionModels deduccion)
+        {
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        string usuario = User.Identity.Name;
+                        _Deduccion_Datos datos = new _Deduccion_Datos();
+
+                        RespuestaAjax respuesta = datos.SpCSLDB_DocumentoPorCobrar_AC_Deduccion(Conexion, usuario, 3, 1, deduccion);
+                        TempData["message"] = respuesta.Mensaje;
+
+                        if (respuesta.Success)
+                        {
+                            TempData["typemessage"] = "1";
+                            Token.ResetToken();
+                            return RedirectToAction("AC_FleteTransacciones", new { IDFlete = deduccion.IdGenerico });
+                        }
+                        else
+                        {
+                            ObtenerViewBagListaDeduccion();
+                            TempData["typemessage"] = "2";
+                            return View(deduccion);
+                        }
+                    }
+                    else
+                    {
+                        ObtenerViewBagListaDeduccion();
+                        return View(deduccion);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DeleteDeduccion(string Id_documento, string Id_detalle)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Id_documento) || string.IsNullOrEmpty(Id_detalle) || Id_documento.Length != 36 || Id_detalle.Length != 36)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                _Deduccion_Datos datos = new _Deduccion_Datos();
+                string usuario = User.Identity.Name;
+                RespuestaAjax respuesta = new RespuestaAjax();
+                respuesta = datos.SpCSLDB_DocumentoPorCobrar_del_Deduccion(Conexion, Id_documento, Id_detalle, usuario, 3);
+                TempData["message"] = respuesta.Mensaje;
+
+                if (respuesta.Success)
+                {
+                    TempData["typemessage"] = "1";
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                }
+
+                return Content(respuesta.ToJSON(), "application/json");
+            }
+            catch (Exception)
+            {
+
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return RedirectToAction("Index");
+            }
+        }
+
+        public void ObtenerViewBagListaDeduccion()
+        {
+            _CatDeduccion_Datos datosDeduccion = new _CatDeduccion_Datos();
+            _Flete_Datos oDatos = new _Flete_Datos();
+
+            ViewBag.ListaDeducciones = datosDeduccion.SpCIDDB_Combo_get_CatDeduccion(Conexion);
+            ViewBag.ListaConceptosDocumentos = oDatos.GetTiposDeduccion(new EventoFleteModels { Conexion = Conexion });
+        }
+
         #endregion
     }
 }

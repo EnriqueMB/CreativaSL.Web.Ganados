@@ -1,5 +1,5 @@
 ﻿var FleteTransaccion = function () {
-    "use strict"
+    "use strict";
     //datatables
     var tbl_detallesDocumentoPorCobrar, tbl_detallesDocumentoPorCobrarCobros;
     var tbl_detallesDeducciones;
@@ -281,23 +281,74 @@
                 "dataSrc": ''
             },
             "columns": [
-                { "data": "descripcion" },
+                { "data": "tipoDeduccion" },
+                { "data": "deducirEn" },
                 { "data": "cantidad" },
                 {
                     "data": "total",
                     "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
                 },
-            ]
+                {
+                    "data": null,
+                    "render": function (data, type, full) {
+
+                        var menu = "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                            "<a data-hrefa='/Admin/Flete/DeleteDeduccion/' title='Eliminar' data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-danger tooltips btn-sm deleteDeduccion' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "</div>" +
+                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                            "<div class='btn-group'>" +
+                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                            "</a>" +
+                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                            "<a data-hrefa='/Admin/Flete/DeleteDeduccion/' class='deleteDeduccion' role='menuitem' tabindex='-1' data-id='" + full["id_detalleDoctoCobrar"] + "'>" +
+                            "<i class='fa fa-trash-o'></i> Eliminar" +
+                            "</a>" +
+                            "</li>" +
+                            "</ul>" +
+                            "</div>" +
+                            "</div>";
+                        return menu;
+                    }
+                }
+            ],
+            "drawCallback": function (settings) {
+
+                $(".deleteDeduccion").on("click", function () {
+                    var url = $(this).attr('data-hrefa');
+                    var id_detalle = $(this).attr('data-id');
+                    var box = $("#mb-deleteDetalle");
+                    box.addClass("open");
+                    box.find(".mb-control-yes").on("click", function () {
+                        box.removeClass("open");
+                        $.ajax({
+                            url: url,
+                            data: { Id_documento: Id_documentoPorCobrar, Id_detalle: id_detalle },
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (result) {
+                                if (result.Success) {
+                                    box.find(".mb-control-yes").prop('onclick', null).off('click');
+                                }
+                                location.reload();
+                            },
+                            error: function (result) {
+                                location.reload();
+                            }
+                        });
+                    });
+                });
+            }
         });
     };
 
     var EventosCobro = function () {
-        $("#btnDetalles").on("click", function () {
-            window.location.href = '/Admin/Flete/AC_FleteProductoServicio?Id_documentoPorCobrar=' + Id_documentoPorCobrar + '&Id_flete=' + Id_flete + '&Id_detalleDocumento=';
-        });
-
         $("#btnAddCobro").on("click", function () {
             window.location.href = '/Admin/Flete/AC_FleteCobro?id_1=' + Id_flete + '&id_2=';
+        });
+
+        $("#btnDeduccion").on("click", function () {
+            window.location.href = '/Admin/Flete/FleteDeduccion?id=' + Id_flete;
         });
 
         $("#btnGenerarComprobanteFlete").on("click", function () {

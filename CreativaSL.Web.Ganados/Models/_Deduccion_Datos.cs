@@ -9,6 +9,41 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class _Deduccion_Datos
     {
+        public RespuestaAjax SpCSLDB_DocumentoPorCobrar_AC_Deduccion(string conexion, string usuario, int opcion, int subOpcion, DeduccionModels deduccion)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    opcion,
+                    subOpcion,
+                    deduccion.IdGenerico,
+                    usuario,
+                    deduccion.IdDeduccion,
+                    deduccion.Monto,
+                    deduccion.IdDetalleDocto,
+                    deduccion.Id_conceptoDocumento
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "dbo.spCSLDB_DocumentoPorCobrar_AC_Deduccion", parametros);
+                RespuestaAjax respuesta = new RespuestaAjax();
+
+                while (dr.Read())
+                {
+                    respuesta.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    respuesta.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                }
+
+                dr.Close();
+                return respuesta;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public RespuestaAjax SpCSLDB_DocumentoPorPagar_AC_Deduccion(string conexion, string usuario, int opcion, int subOpcion, DeduccionModels deduccion)
         {
             try
@@ -43,6 +78,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw;
             }
         }
+
         public void SpCSLDB_DocumentoPorPagar_get_Deduccion(string conexion, DeduccionModels deduccion)
         {
             try
@@ -91,6 +127,37 @@ namespace CreativaSL.Web.Ganados.Models
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(conexion, "dbo.spCSLDB_DocumentoPorPagar_del_Deduccion", parametros);
+                RespuestaAjax respuesta = new RespuestaAjax();
+
+                while (dr.Read())
+                {
+                    respuesta.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    respuesta.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                }
+
+                dr.Close();
+                return respuesta;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public RespuestaAjax SpCSLDB_DocumentoPorCobrar_del_Deduccion(string conexion, string idDocumento, string idDetalleDocumento, string usuario, int modulo)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    idDocumento ,
+                    idDetalleDocumento ,
+                    usuario ,
+                    modulo
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "dbo.spCSLDB_DocumentoPorCobrar_del_Deduccion", parametros);
                 RespuestaAjax respuesta = new RespuestaAjax();
 
                 while (dr.Read())
