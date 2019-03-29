@@ -8,6 +8,7 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class UPPClienteModels
     {
+        public int ImagenServer { get; set; }
         private string _id_cliente;
 
         public string ImagenMostrar { get; set; }

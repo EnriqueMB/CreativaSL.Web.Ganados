@@ -10,7 +10,6 @@
 {
     <!--FILEINPUT-->
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
-    @*<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />*@
     <link href="@Url.Content("~/Content/css/fontawesome/font-awesome.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
 }
@@ -30,8 +29,9 @@
         <div class="col-md-12">
             @{ Html.EnableClientValidation(false); }
             @using (Html.BeginForm("UPPProveedor", "CatProveedor", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off", @enctype = "multipart/form-data" }))
-            {   
-                @Html.HiddenFor(model=>model.Imagen)
+            {
+                @Html.HiddenFor(model => model.Imagen)
+                @Html.HiddenFor(model => model.ImagenServer)
                 @Html.AntiForgeryToken()
                 @*@Html.ValidationSummary(true)*@
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
@@ -41,9 +41,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"><strong>UPP</strong>Proveedor</h3>
                     </div>
-                    <ul class="panel-controls">
-                        @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
-                    </ul>
+                    <ul class="panel-controls"></ul>
                     <div class="panel-body">
                         <div class="col-md-12">
                             <div class="col-md-6">
@@ -183,18 +181,6 @@
             Mensaje(message, typemessage);
             UPPProveedor.init();
 
-            //$('#imagen').fileinput({
-            //    theme: 'fa',
-            //    language: 'es',
-            //    minfilecount: 1,
-            //    uploadurl: "#",
-            //    showupload: false,
-            //    showuploadedthumbs: false,
-            //    overwriteinitial: false,
-            //    allowedfileextensions: ['png'],
-            //    required: true
-            //})
-
             $('#ImagenHttp').fileinput({
             theme: 'fa',
             language: 'es',
@@ -224,8 +210,6 @@
         
                 getEstado($("#id_pais").val());</text>
             }
-            //$("#id_pais").val('MEX');
-            //getEstado($("#id_pais").val());
             $("#id_pais").change(function () {
 
                 var id = $("#id_pais").val();
@@ -255,8 +239,6 @@
                             items += "<option value=\"" + estado[i].codigoEstado + "\">" + estado[i].descripcion + "</option>";
                         }
                         $("#id_estadoCodigo").html(items);
-                        // getMunicipio($("#ListPaises").val(), $("#ListEstado").val());
-
 
                         $('#id_estadoCodigo.select').selectpicker('refresh');
                     }

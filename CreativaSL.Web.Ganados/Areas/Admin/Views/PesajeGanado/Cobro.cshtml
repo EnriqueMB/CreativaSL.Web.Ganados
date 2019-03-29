@@ -47,13 +47,15 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-12">
-                    @Html.HiddenFor(model => model.ExtensionImagenBase64)
-                    @Html.HiddenFor(model => model.ImagenMostrar)
-                    @Html.HiddenFor(model => model.ImagenBase64)
+
                     @{ Html.EnableClientValidation(false); }
                     @using (Html.BeginForm("Cobro", "PesajeGanado", FormMethod.Post, new { id = "form_Comprobante", @class = "form-horizontal", autocomplete = "off", enctype = "multipart/form-data" }))
                     {
                         @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.ExtensionImagenBase64)
+                        @Html.HiddenFor(model => model.ImagenBase64)
+                        @Html.HiddenFor(model => model.ImagenServer)
+
                         <div class="field_error" id="validation_summary"></div>
                         @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
                         <div class="panel panel-default">

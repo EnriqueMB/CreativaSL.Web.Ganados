@@ -31,16 +31,16 @@
             @using (Html.BeginForm("UPPCliente", "CatCliente", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off", @enctype = "multipart/form-data" }))
             {
                 @Html.HiddenFor(model => model.Imagen)
+                @Html.HiddenFor(model => model.ImagenServer)
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
                 <div id="validation_summary" class="field_error "></div> //JS
-                @Html.HiddenFor(model=>model.id_cliente)
+                @Html.HiddenFor(model => model.id_cliente)
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"><strong>UPP</strong>Cliente</h3>
                     </div>
-                    <ul class="panel-controls">
-                    </ul>
+                    <ul class="panel-controls"></ul>
                     <div class="panel-body">
                         <div class="col-md-12">
                             <div class="col-md-6">

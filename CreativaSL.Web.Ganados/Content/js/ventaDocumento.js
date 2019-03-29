@@ -9,7 +9,7 @@
         var successHandler1 = $('.successHandler', form1);
 
         form1.validate({ // initialize the plugin
-            //debug: true,
+            debug: true,
             errorElement: "dd",
             errorClass: 'text-danger',
             errorLabelContainer: $("#validation_summary"),
