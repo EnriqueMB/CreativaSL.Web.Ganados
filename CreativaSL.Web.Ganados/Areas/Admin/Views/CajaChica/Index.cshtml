@@ -59,7 +59,7 @@
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     <a title="Movimientos" href="@Url.Action("Movimientos", "CajaChica", new { id = item.IdCaja})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Movimientos"><i class="fa fa-arrow-circle-o-left"></i></a>
                                                     <a title="Arquear" href="@Url.Action("ArqueoCaja", "CajaChica", new { id = item.IdCaja})" class="btn btn-green tooltips" data-placement="top" data-original-title="Arquear"><i class="fa fa-cog"></i></a>
-                                                    <a title="Eliminar" id="delete-@item.IdCaja" data-hrefa="@Url.Action("Delete", "CajaChica", new { id =  item.IdCaja })" onClick="delete_row('@item.IdCaja');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Eliminar" id="delete-@item.IdCaja" data-sku="@item.IdCaja" href="@Url.Action("Delete", "CajaChica", new { id =  item.IdCaja })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -78,7 +78,7 @@
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@item.IdCaja" data-hrefa="@Url.Action("Delete", "CajaChica", new { id = item.IdCaja })" onClick="delete_row('@item.IdCaja');">
+                                                                <a role="menuitem" tabindex="-1" id="delete-@item.IdCaja" data-sku="@item.IdCaja" href="@Url.Action("Delete", "CajaChica", new { id = item.IdCaja })" class="deleteRow">
                                                                     <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>

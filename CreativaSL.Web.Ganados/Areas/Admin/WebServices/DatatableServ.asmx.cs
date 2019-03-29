@@ -178,8 +178,10 @@ namespace CreativaSL.Web.Ganados.WebServices
                 columns.Add(Item.FechaAperturaString);
                 columns.Add(Item.NombreEmpleado);
                 columns.Add(Item.MontoAperturaString);
-                columns.Add(Item.PersonaEntrega);
+                //columns.Add(Item.PersonaEntrega);
                 columns.Add(Item.SaldoString);
+                columns.Add(Item.TotalArqueoString);
+                columns.Add(Item.DiferenciaString);
                 string acciones = @"";
                 columns.Add(acciones);
                 resultSet.data.Add(columns);

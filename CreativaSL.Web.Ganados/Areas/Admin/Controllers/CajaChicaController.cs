@@ -172,5 +172,43 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
+        // POST: Admin/CajaChica/Delete
+        [HttpPost]
+        public ActionResult Delete(Int64 id)
+        {
+            _CajaChica_Datos datos = new _CajaChica_Datos();
+            try
+            {
+                int Resultado = datos.EliminarCaja(id, User.Identity.Name);
+                if (Resultado == 1)
+                {
+                    return Json("true");
+                }
+                return Json("false");
+            }
+            catch
+            {
+                return Json("false");
+            }
+        }
+
+        // GET: Admin/CajaChica/Movimientos
+        public ActionResult Movimientos(Int64 id)
+        {
+            try
+            {
+                _CajaChica_Datos regionDatos = new _CajaChica_Datos();
+                List<MovimientosCajaChicaModels> Lista = regionDatos.ObtenerDetalleXIdCaja(id);
+                ViewBag.IdCaja = id;
+                return View(Lista);
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la información";
+                return RedirectToAction("Index");
+            }
+        }
+
     }
 }

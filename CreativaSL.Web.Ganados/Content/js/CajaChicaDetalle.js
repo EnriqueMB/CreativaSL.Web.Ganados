@@ -34,14 +34,18 @@
             },
             ignore: "",
             rules: {
-                MontoApertura: { required: true, decimal: true },
-                IdPropietario: { required: true },
-                KeyWord: { required: true, numeros: true }
+                IdConcepto: { required: true, CMBINT: true },
+                Concepto: { required: true },
+                Salida: { required: true, decimal: true },
+                Recibe: { required: true },
+                IdFormaPago: { required: true, CMBINT: true }
             },
             messages: {
-                MontoApertura: { required: "Ingrese el monto de apertura.", decimal: "Ingrese un valor numérico válido." },
-                IdPropietario: { required: "Seleccione el propietario de la caja chica." },
-                KeyWord: { required: "Ingrese la clave del día para transacciones", numeros: "Ingrese un dato válido." }                
+                IdConcepto: { required: "Seleccione una categoría.", CMBINT: "Seleccione una categoría." },
+                Concepto: { required: "Ingrese el concepto." },
+                Salida: { required: "Ingrese el monto.", decimal: "Ingrese un dato numérico válido." },
+                Recibe: { required: "Ingrese el nombre de quien recibe el dinero." },
+                IdFormaPago: { required: "Seleccione una forma de pago.", CMBINT: "Seleccione una forma de pago." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

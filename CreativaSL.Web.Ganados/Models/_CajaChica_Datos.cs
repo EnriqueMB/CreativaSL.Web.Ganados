@@ -70,7 +70,9 @@ namespace CreativaSL.Web.Ganados.Models
                                 NombreEmpleado = !Dr.IsDBNull(Dr.GetOrdinal("NombreEmpleado")) ? Dr.GetString(Dr.GetOrdinal("NombreEmpleado")) : string.Empty,
                                 MontoApertura = !Dr.IsDBNull(Dr.GetOrdinal("MontoApertura")) ? Dr.GetDecimal(Dr.GetOrdinal("MontoApertura")) : 0m,
                                 Saldo = !Dr.IsDBNull(Dr.GetOrdinal("Saldo")) ? Dr.GetDecimal(Dr.GetOrdinal("Saldo")) : 0m,
-                                PersonaEntrega = !Dr.IsDBNull(Dr.GetOrdinal("PersonaEntrega")) ? Dr.GetString(Dr.GetOrdinal("PersonaEntrega")) : string.Empty
+                                TotalArqueo = !Dr.IsDBNull(Dr.GetOrdinal("Arqueo")) ? Dr.GetDecimal(Dr.GetOrdinal("Arqueo")) : 0m,
+                                Diferencia = !Dr.IsDBNull(Dr.GetOrdinal("Diferencia")) ? Dr.GetDecimal(Dr.GetOrdinal("Diferencia")) : 0m
+                                //PersonaEntrega = !Dr.IsDBNull(Dr.GetOrdinal("PersonaEntrega")) ? Dr.GetString(Dr.GetOrdinal("PersonaEntrega")) : string.Empty
                             };
                             Lista.Add(Item);
                         }
@@ -312,6 +314,93 @@ namespace CreativaSL.Web.Ganados.Models
                 object[] Parametros = { model.IdCaja, model.IdCategoria, model.Concepto, model.Salida,
                                         model.IdFormaPago, model.Recibe, model.FolioCheque, IdUsuario };
                 object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion, "cajachica.spCIDDB_GuardarMovimiento", Parametros);
+                if (Result != null)
+                {
+                    int Resultado = 0;
+                    int.TryParse(Result.ToString(), out Resultado);
+                    return Resultado;
+                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public int ModificarMovimiento(MovimientosCajaChicaModels model, string IdUsuario)
+        {
+            try
+            {
+                object[] Parametros = { model.IdMovimiento, model.IdCategoria, model.Concepto, model.Salida,
+                                        model.IdFormaPago, model.Recibe, model.FolioCheque, IdUsuario };
+                object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion, "cajachica.spCIDDB_ModificarMovimiento", Parametros);
+                if (Result != null)
+                {
+                    int Resultado = 0;
+                    int.TryParse(Result.ToString(), out Resultado);
+                    return Resultado;
+                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public MovimientosCajaChicaModels ObtenerDetalleMovimientoXId(Int64 IdMovimiento)
+        {
+            try
+            {
+                MovimientosCajaChicaModels model = new MovimientosCajaChicaModels();
+                SqlDataReader Dr = SqlHelper.ExecuteReader(_ConexionRepositorio.CadenaConexion, "cajachica.spCIDDB_ObtenerDatosCajaChicaDetalle", IdMovimiento);
+                while (Dr.Read())
+                {
+                    model.IdMovimiento = IdMovimiento;
+                    model.IdCategoria = !Dr.IsDBNull(Dr.GetOrdinal("IdConcepto")) ? Dr.GetInt32(Dr.GetOrdinal("IdConcepto")) : 0;
+                    model.Concepto = !Dr.IsDBNull(Dr.GetOrdinal("Concepto")) ? Dr.GetString(Dr.GetOrdinal("Concepto")) : string.Empty;
+                    model.Salida = !Dr.IsDBNull(Dr.GetOrdinal("Monto")) ? Dr.GetDecimal(Dr.GetOrdinal("Monto")) : 0m;
+                    model.IdFormaPago = !Dr.IsDBNull(Dr.GetOrdinal("IdFormaPago")) ? Dr.GetInt32(Dr.GetOrdinal("IdFormaPago")) : 0;
+                    model.Recibe = !Dr.IsDBNull(Dr.GetOrdinal("PersonaRecibe")) ? Dr.GetString(Dr.GetOrdinal("PersonaRecibe")) : string.Empty;
+                    break;
+                }
+                Dr.Close();
+                return model;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public int EliminarMovimiento(Int64 IdMovimiento, string IdUsuario)
+        {
+            try
+            {
+                object[] Parametros = { IdMovimiento, IdUsuario };
+                object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion, "cajachica.spCIDDB_EliminarMovimiento", Parametros);
+                if (Result != null)
+                {
+                    int Resultado = 0;
+                    int.TryParse(Result.ToString(), out Resultado);
+                    return Resultado;
+                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
+
+        public int EliminarCaja(Int64 IdCaja, string IdUsuario)
+        {
+            try
+            {
+                object[] Parametros = { IdCaja, IdUsuario };
+                object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion, "cajachica.spCIDDB_EliminarCajaChica", Parametros);
                 if (Result != null)
                 {
                     int Resultado = 0;

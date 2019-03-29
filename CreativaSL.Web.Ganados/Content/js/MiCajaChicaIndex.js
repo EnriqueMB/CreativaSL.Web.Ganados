@@ -1,5 +1,5 @@
 ﻿var CajaChica = function () {
-    "use strict";    
+    "use strict";
     
     var runDelete = function () {
         $('.table-responsive').delegate('a.deleteRow', 'click', function (e) {
@@ -18,11 +18,13 @@
                     dataType: 'json',
                     success: function (result) {
                         if (result == 'true') {
-                            $("#" + row).hide("slow", function () {
-                                box.find(".mb-control-yes").prop('onclick', null).off('click');
-                                $("#" + row).remove();
-                                Mensaje("Registro eliminado correctamente", "1");
-                            });
+                            Mensaje("Registro eliminado correctamente", "1");
+                            location.reload();
+                            //$("#" + row).hide("slow", function () {
+                            //    box.find(".mb-control-yes").prop('onclick', null).off('click');
+                            //    $("#" + row).remove();
+                            //    Mensaje("Registro eliminado correctamente", "1");
+                            //});
                         }
                         else {
                             Mensaje("Error al eliminar el registro", "2");
@@ -44,6 +46,7 @@
     return {
         //main function to initiate template pages
         init: function () {
+            //uiDatatable();
             runDelete();
         }
     };

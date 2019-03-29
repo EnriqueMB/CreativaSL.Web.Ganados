@@ -1,5 +1,6 @@
-﻿@{
-    ViewBag.Title = "Historial de cajas chicas";
+﻿@model ICollection<CreativaSL.Web.Ganados.Models.MovimientosCajaChicaModels>
+@{
+    ViewBag.Title = "Movimientos en caja chica";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -15,7 +16,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span>Historial de cajas chicas </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span>Movimientos en caja chica</h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -27,35 +28,51 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
+                            @*<li><a href="@Url.Action("Index","CajaChica")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Capturar movimiento</a></li>*@
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                         </ul>
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table class="table dataTable datatable2">
+                            <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th>Fecha de apertura</th>
-                                        <th>Propietario</th>
-                                        <th>Monto de apertura</th>
-                                        @*<th>Persona que entrega</th>*@
+                                        <th>Fecha</th>
+                                        <th>Entrega</th>
+                                        <th>Entrada</th>
+                                        <th>Salida</th>
+                                        <th>Recibe</th>
+                                        <th>Concepto</th>
                                         <th>Saldo</th>
-                                        <th>Arqueo</th>
-                                        <th>Diferencia</th>
-                                        <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr id="@item.IdMovimiento">
+                                            <td align="center">@item.FechaString</td>
+                                            <td>@item.Entrega</td>
+                                            <td align="right">@item.EntradaString</td>
+                                            <td align="right">@item.SalidaString</td>
+                                            <td>@item.Recibe</td>
+                                            <td>@item.Concepto</td>
+                                            <td align="right">@item.SaldoString</td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+
+                    <div class="panel-footer">
+                        <a href="@Url.Action("Index","CajaChica")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                     </div>
                 </div>
                 <!-- END DEFAULT DATATABLE -->
             </div>
         </div>
-    </div>
+    </div>   
     <script>
     var message = '@message';
     var typemessage = '@typemessage';
@@ -66,13 +83,9 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/HistorialCajaChicaIndex.js")"></script>
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
-            CajaChica.init();
         });
     </script>
 }
-
-

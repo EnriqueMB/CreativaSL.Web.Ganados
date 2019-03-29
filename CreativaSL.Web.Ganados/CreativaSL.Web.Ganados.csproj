@@ -469,6 +469,7 @@
     <Content Include="Content\js\Bancos.js" />
     <Content Include="Content\js\CajaChica.js" />
     <Content Include="Content\js\CajaChicaArqueo.js" />
+    <Content Include="Content\js\CajaChicaDetalle.js" />
     <Content Include="Content\js\CajaChicaIndex.js" />
     <Content Include="Content\js\CalAlmacen.js" />
     <Content Include="Content\js\Canvas.js" />
@@ -508,7 +509,9 @@
     <Content Include="Content\js\fleteImpuesto_ProductoServicio.js" />
     <Content Include="Content\js\fleteTransacciones.js" />
     <Content Include="Content\js\Ganado.js" />
+    <Content Include="Content\js\HistorialCajaChicaIndex.js" />
     <Content Include="Content\js\ImpuestoProductoServicioACCompra.js" />
+    <Content Include="Content\js\MiCajaChicaIndex.js" />
     <Content Include="Content\js\PesajeGanado.js" />
     <Content Include="Content\js\plugins\bootstrap\bootstrap-select-image.js" />
     <Content Include="Content\js\plugins\datatablesbtn\buttons.flash.min.js" />
@@ -1512,6 +1515,8 @@
     <Content Include="Areas\Admin\Views\PesajeGanado\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\PesajeGanado\Transacciones.cshtml" />
     <Content Include="Areas\Admin\Views\PesajeGanado\Cobro.cshtml" />
+    <Content Include="Areas\Admin\Views\MiCajaChica\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CajaChica\Movimientos.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />

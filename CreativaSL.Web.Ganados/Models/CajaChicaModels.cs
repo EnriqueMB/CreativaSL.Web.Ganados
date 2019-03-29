@@ -36,6 +36,21 @@ namespace CreativaSL.Web.Ganados.Models
             get { return string.Format("{0:c}", MontoApertura); }
         }
         public string FechaAperturaString { get { return string.Format("{0:dd/MM/yyyy}", FechaApertura); } }
+
+
+        public decimal TotalArqueo { get; set; }
+        public decimal Diferencia { get; set; }
+
+        public string TotalArqueoString
+        {
+            get { return string.Format("{0:c}", TotalArqueo); }
+        }
+
+        public string DiferenciaString
+        {
+            get { return string.Format("{0:c}", Diferencia); }
+        }
+
     }
 
     public class CajaChicaModelsResult
