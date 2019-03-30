@@ -58,7 +58,7 @@
                 bancarizadoForm.value = true;
                 cuentaBeneficiante.rules("add", { required: true });
                 cuentaOrdenante.rules("add", { required: true });
-                imagen.rules("add", { ImagenRequerida: true, ImagenRequerida: ["ImagenBase64"] });
+                imagen.rules("add", { ImagenRequerida: true, ImagenRequerida: ["ImagenServer"] });
             }
             else {
                 $('#divBancarizado').hide(1000);

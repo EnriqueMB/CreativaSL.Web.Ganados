@@ -300,8 +300,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 documentoPago.fecha = DateTime.Now;
                 documentoPago.Bancarizado = false;
 
-                documentoPago.ImagenMostrar = Auxiliar.SetDefaultImage();
-                documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenMostrar);
+                documentoPago.ImagenBase64 = Auxiliar.SetDefaultImage();
+                documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenBase64);
                 return View(documentoPago);
             }
             catch
@@ -327,8 +327,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 documentoPago.fecha = DateTime.Now;
                 documentoPago.Bancarizado = false;
 
-                documentoPago.ImagenMostrar = Auxiliar.SetDefaultImage();
-                documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenMostrar);
+                documentoPago.ImagenBase64 = Auxiliar.SetDefaultImage();
+                documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenBase64);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return View(documentoPago);
@@ -350,11 +350,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         DocumentoPorCobrarPago.RespuestaAjax = new RespuestaAjax();
                         if (DocumentoPorCobrarPago.Bancarizado)
                         {
-                            if (DocumentoPorCobrarPago.HttpImagen == null)
-                            {
-                                DocumentoPorCobrarPago.ImagenBase64 = DocumentoPorCobrarPago.ImagenMostrar;
-                            }
-                            else
+                            if (DocumentoPorCobrarPago.HttpImagen != null)
                             {
                                 DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorCobrarPago.HttpImagen);
                             }
@@ -394,8 +390,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             documentoPago.fecha = DateTime.Now;
                             documentoPago.Bancarizado = false;
 
-                            documentoPago.ImagenMostrar = Auxiliar.SetDefaultImage();
-                            documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenMostrar);
+                            documentoPago.ImagenBase64 = Auxiliar.SetDefaultImage();
+                            documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenBase64);
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrio un error al intentar guardar";
                             return View(documentoPago);
@@ -423,8 +419,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         documentoPago.fecha = DateTime.Now;
                         documentoPago.Bancarizado = false;
 
-                        documentoPago.ImagenMostrar = Auxiliar.SetDefaultImage();
-                        documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenMostrar);
+                        documentoPago.ImagenBase64 = Auxiliar.SetDefaultImage();
+                        documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenBase64);
                         return View(documentoPago);
                     }
                 }
@@ -455,8 +451,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 documentoPago.fecha = DateTime.Now;
                 documentoPago.Bancarizado = false;
 
-                documentoPago.ImagenMostrar = Auxiliar.SetDefaultImage();
-                documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenMostrar);
+                documentoPago.ImagenBase64 = Auxiliar.SetDefaultImage();
+                documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenBase64);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error contacte a soporte tecnico";
                 return RedirectToAction("DetallePagos", new { id = DocumentoPorCobrarPago.Id_documentoPorCobrar ,id2= DocumentoPorCobrarPago.id_status });
@@ -485,12 +481,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 if (string.IsNullOrEmpty(DocumentoPagarDetPago.ImagenBase64))
                 {
-                    DocumentoPagarDetPago.ImagenMostrar = Auxiliar.SetDefaultImage();
+                    DocumentoPagarDetPago.ImagenBase64 = Auxiliar.SetDefaultImage();
                 }
-                else
-                {
-                    DocumentoPagarDetPago.ImagenMostrar = DocumentoPagarDetPago.ImagenBase64;
-                }
+                
                 DocumentoPagarDetPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(DocumentoPagarDetPago.ImagenBase64);
 
 
@@ -523,11 +516,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         DocumentoPorCobrarPago.RespuestaAjax = new RespuestaAjax();
                         if (DocumentoPorCobrarPago.Bancarizado)
                         {
-                            if (DocumentoPorCobrarPago.HttpImagen == null)
-                            {
-                                DocumentoPorCobrarPago.ImagenBase64 = DocumentoPorCobrarPago.ImagenMostrar;
-                            }
-                            else
+                            if (DocumentoPorCobrarPago.HttpImagen != null)
                             {
                                 DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorCobrarPago.HttpImagen);
                             }
@@ -567,8 +556,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             documentoPago.fecha = DateTime.Now;
                             documentoPago.Bancarizado = false;
 
-                            documentoPago.ImagenMostrar = Auxiliar.SetDefaultImage();
-                            documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenMostrar);
+                            documentoPago.ImagenBase64 = Auxiliar.SetDefaultImage();
+                            documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenBase64);
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrio un error al intentar guardar";
                             return View(documentoPago);
@@ -596,8 +585,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         documentoPago.fecha = DateTime.Now;
                         documentoPago.Bancarizado = false;
 
-                        documentoPago.ImagenMostrar = Auxiliar.SetDefaultImage();
-                        documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenMostrar);
+                        documentoPago.ImagenBase64 = Auxiliar.SetDefaultImage();
+                        documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenBase64);
                         return View(documentoPago);
                     }
                 }
@@ -628,8 +617,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 documentoPago.fecha = DateTime.Now;
                 documentoPago.Bancarizado = false;
 
-                documentoPago.ImagenMostrar = Auxiliar.SetDefaultImage();
-                documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenMostrar);
+                documentoPago.ImagenBase64 = Auxiliar.SetDefaultImage();
+                documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenBase64);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error contacte a soporte tecnico";
                 return RedirectToAction("DetallePagos", new { id = DocumentoPorCobrarPago.Id_documentoPorCobrar, id2 = DocumentoPorCobrarPago.id_status });

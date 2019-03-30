@@ -1,6 +1,5 @@
-﻿@model ICollection<CreativaSL.Web.Ganados.Models.CajaChicaModels>
-@{
-    ViewBag.Title = "Cajas chicas abiertas";
+﻿@{
+    ViewBag.Title = "Movimientos de caja chica";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -16,19 +15,17 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span>Cajas chicas abiertas </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span>Movimientos de caja actual</h2>
     </div>
-    <!-- END PAGE TITLE -->
-    <!-- PAGE CONTENT WRAPPER -->
     <div class="page-content-wrap">
         <div class="row">
             <div class="col-md-12">
-                <!-- START DEFAULT DATATABLE -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("Create","CajaChica")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Crear caja chica</a></li>
+                            <li><a href="@Url.Action("ArqueoCaja","CajaChica")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Arqueo de caja</a></li>
+                            <li><a href="@Url.Action("Create","CajaChica")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva caja chica</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                         </ul>
@@ -38,72 +35,75 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th>Fecha de apertura</th>
-                                        <th>Propietario</th>
-                                        <th>Monto de apertura</th>
-                                        <th>Persona que entrega</th>
+                                        <th>Fecha</th>
+                                        <th>Entrega</th>
+                                        <th>Entrada</th>
+                                        <th>Salida</th>
+                                        <th>Recibe</th>
+                                        <th>Concepto</th>
                                         <th>Saldo</th>
-                                        <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Model)
-                                    {
-                                        <tr id="@item.IdCaja">
-                                            <td align="center">@item.FechaAperturaString</td>
-                                            <td>@item.NombreEmpleado</td>
-                                            <td align="right">@item.MontoAperturaString</td>
-                                            <td>@item.PersonaEntrega</td>
-                                            <td align="right">@item.SaldoString</td>
-                                            <td style="text-align:center;">
-                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Movimientos" href="@Url.Action("Movimientos", "CajaChica", new { id = item.IdCaja})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Movimientos"><i class="fa fa-arrow-circle-o-left"></i></a>
-                                                    <a title="Arquear" href="@Url.Action("ArqueoCaja", "CajaChica", new { id = item.IdCaja})" class="btn btn-green tooltips" data-placement="top" data-original-title="Arquear"><i class="fa fa-cog"></i></a>
-                                                    <a title="Eliminar" id="delete-@item.IdCaja" data-sku="@item.IdCaja" href="@Url.Action("Delete", "CajaChica", new { id =  item.IdCaja })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
-                                                </div>
-                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                    <div class="btn-group">
-                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                        </a>
-                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Movimientos", "CajaChica", new { id = item.IdCaja})">
-                                                                    <i class="fa fa-edit"></i> Movimientos
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("ArqueoCaja", "CajaChica", new { id = item.IdCaja})">
-                                                                    <i class="fa fa-edit"></i> Arquear
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@item.IdCaja" data-sku="@item.IdCaja" href="@Url.Action("Delete", "CajaChica", new { id = item.IdCaja })" class="deleteRow">
-                                                                    <i class="fa fa-trash-o"></i> Eliminar
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    }
+                                    <tr id="id001">
+                                        <td>05/01/2019</td>
+                                        <td>LIC JULIO OCAMPO</td>
+                                        <td>$ 14,208.50</td>
+                                        <td></td>
+                                        <td>CRISTEL MTZ VIDAL</td>
+                                        <td>CAJA CHICA</td>
+                                        <td>$ 14,208.50</td>
+                                    </tr>
+                                    <tr id="id002">
+                                        <td>07/01/2019</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>$ 146.00</td>
+                                        <td>LIC ROSY CELIS</td>
+                                        <td>MATERIAL DE LIMPIEZA ( SHAMPO,DETERGENTE,FABULOSO,CLORO,AROMANTIZANTE, )</td>
+                                        <td>$ 14,062.50</td>
+                                    </tr>
+                                    <tr id="id003">
+                                        <td>07/01/2019</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>$ 300.00</td>
+                                        <td>LIC LUZ</td>
+                                        <td>AUTORIDADES ( GASTO DE JAULA OP EDUARDO CASTRO )</td>
+                                        <td>$ 13,762.50</td>
+                                    </tr>
+                                    <tr id="id004">
+                                        <td>08/01/2019</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>$ 735.00</td>
+                                        <td>LIC JULIO</td>
+                                        <td>INFRAESTRUCTURA ( 1PZA PVC BAÑO, 50 MTROS DE MANGUERA )</td>
+                                        <td>$ 13,027.50</td>
+                                    </tr>
+                                    <tr id="id005">
+                                        <td>08/01/2019</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>$ 950.00</td>
+                                        <td>LIC JULIO</td>
+                                        <td>INFRAESTRUCTURA ( 1 OXIGENO INDUSTRUAL )</td>
+                                        <td>$ 12,077.50</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-                <!-- END DEFAULT DATATABLE -->
             </div>
         </div>
     </div>
-    <!-- PAGE CONTENT WRAPPER -->
     <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
         <div class="mb-container">
             <div class="mb-middle">
                 <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
                 <div class="mb-content">
-                    <p>¿Seguro que quieres eliminar éste registro?</p>
+                    <p>¿Seguro que quieres eliminar esta fila?</p>
                     <p>Presione "sí" si está seguro.</p>
                 </div>
                 <div class="mb-footer">
@@ -125,11 +125,10 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/CajaChicaIndex.js")"></script>
     <script>
-        jQuery(document).ready(function () {
-            Mensaje(message, typemessage);
-            CajaChica.init();
+    jQuery(document).ready(function () {
+        Mensaje(message, typemessage);
         });
     </script>
 }
+

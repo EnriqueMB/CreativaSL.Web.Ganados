@@ -1,11 +1,14 @@
 ﻿using System.Configuration;
 using System;
+using System.Collections.Generic;
 using CreativaSL.Web.Ganados.Models;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Filters;
 using System.Drawing;
 using System.IO;
+using System.Drawing.Imaging;
 using CreativaSL.Web.Ganados.App_Start;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers

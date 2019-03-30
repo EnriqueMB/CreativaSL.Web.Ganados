@@ -1,8 +1,10 @@
 ﻿using CreativaSL.Web.Ganados.App_Start;
 using CreativaSL.Web.Ganados.Models;
+using Microsoft.Reporting.WebForms;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -181,6 +183,41 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 RespuestaAjax respuesta = new RespuestaAjax();
                 string usuario = User.Identity.Name;
                 respuesta = oDatosPesaje.PesajeGanado_spCIDDB_del(id.Value, conexion, usuario);
+
+                return Content(respuesta.ToJSON(), "application/json");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DeleteCobro(string id_documentoPorCobrarDetallePagos, string id_documentoPorCobrar)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id_documentoPorCobrar) || string.IsNullOrEmpty(id_documentoPorCobrarDetallePagos) || id_documentoPorCobrar.Length != 36 || id_documentoPorCobrarDetallePagos.Length != 36)
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index");
+                }
+                _PesajeGanado_Datos oDatosPesaje = new _PesajeGanado_Datos();
+                RespuestaAjax respuesta = new RespuestaAjax();
+                string usuario = User.Identity.Name;
+                respuesta = oDatosPesaje.pesajeGanado_spCIDDB_del_cobro(id_documentoPorCobrar, id_documentoPorCobrarDetallePagos, usuario, conexion);
+
+                TempData["message"] = respuesta.Mensaje;
+
+                if (respuesta.Success)
+                {
+                    TempData["typemessage"] = "1";
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                }
 
                 return Content(respuesta.ToJSON(), "application/json");
             }
@@ -418,6 +455,92 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Verifique sus datos, error: " + Mensaje;
                 return RedirectToAction("Index", "PesajeGanado");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Comprobante(int? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos";
+                    return View("Index");
+                }
+
+                Reporte_Datos R = new Reporte_Datos();
+                List<ComprobantePagosModels> ListaComprobantePagosDetalles = new List<ComprobantePagosModels>();
+
+                _Comprobante_Datos oDatosComprobante = new _Comprobante_Datos();
+                ComprobanteCabeceraModels Cabecera = new ComprobanteCabeceraModels();
+
+                Cabecera = oDatosComprobante.Comprobante_spCSLDB_get_Cabecera(1, id.Value.ToString(), conexion);
+
+                ListaComprobantePagosDetalles = oDatosComprobante.Comprobante_spCIDDB_get_detallesPagos(1, id.Value.ToString(), conexion);
+
+                LocalReport Rtp = new LocalReport();
+                Rtp.EnableExternalImages = true;
+                Rtp.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Formatos"), "ComprobantePesajeGanado.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+                ReportParameter[] Parametros = new ReportParameter[13];
+                Parametros[0] = new ReportParameter("urlLogo", Cabecera.LogoEmpresa);
+                Parametros[1] = new ReportParameter("nombreEmpresa", Cabecera.NombreEmpresa);
+                Parametros[2] = new ReportParameter("rubroEmpresa", Cabecera.RubroEmpresa);
+                Parametros[3] = new ReportParameter("direccionEmpresa", Cabecera.DireccionEmpresa);
+                Parametros[4] = new ReportParameter("folio", Cabecera.Folio);
+                Parametros[5] = new ReportParameter("nombreCliente", Cabecera.NombreCliente);
+                Parametros[6] = new ReportParameter("telefonoCliente", Cabecera.TelefonoCliente);
+                Parametros[7] = new ReportParameter("rfcCliente", Cabecera.RFCCliente);
+                Parametros[8] = new ReportParameter("diaImpresion", Cabecera.DiaImpresion);
+                Parametros[9] = new ReportParameter("mesImpresion", Cabecera.MesImpresion);
+                Parametros[10] = new ReportParameter("annoImpresion", Cabecera.AnnoImpresion);
+                Parametros[11] = new ReportParameter("kilos", Cabecera.KilosPesajeGanado.ToString());
+                Parametros[12] = new ReportParameter("costoPesaje", Cabecera.CostoPesajeGanado.ToString());
+                
+                Rtp.SetParameters(Parametros);
+                Rtp.DataSources.Add(new ReportDataSource("ListaDetallesPagos", ListaComprobantePagosDetalles));
+
+                string reportType = "PDF";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>Comprobante</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
+                return View("Index");
+
             }
         }
     }

@@ -245,7 +245,7 @@ namespace CreativaSL.Web.Ganados.Models
                 CuentaBancariaModels item;
                 List<CuentaBancariaModels> lista = new List<CuentaBancariaModels>();
                 SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(DocumentoPorCobrarDetallePagos.Conexion, "spCSLDB_Compras_get_CuentasBancarias", parametros);
+                dr = SqlHelper.ExecuteReader(DocumentoPorCobrarDetallePagos.Conexion, "spCSLDB_DocumentosPorCobrar_get_CuentasBancarias", parametros);
                 while (dr.Read())
                 {
                     item = new CuentaBancariaModels();

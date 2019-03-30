@@ -803,27 +803,6 @@ namespace CreativaSL.Web.Ganados.Models
             dr.Close();
             return lista;
         }
-
-        public List<CatFierroModels> GetListaFierrosXCompra(CompraModels Compra)
-        {
-            CatFierroModels item;
-            List<CatFierroModels> lista = new List<CatFierroModels>();
-            SqlDataReader dr = null;
-
-            dr = SqlHelper.ExecuteReader(Compra.Conexion, "[dbo].[spCSLDB_Combo_get_CatFierroXCompra]", Compra.IDCompra);
-
-            while (dr.Read())
-            {
-                item = new CatFierroModels();
-                item.IDFierro = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetString(dr.GetOrdinal("ID")) : string.Empty;
-                item.NombreFierro = !dr.IsDBNull(dr.GetOrdinal("Nombre")) ? dr.GetString(dr.GetOrdinal("Nombre")) : string.Empty;
-                item.NombreArchivo = !dr.IsDBNull(dr.GetOrdinal("NombreImagen")) ? dr.GetString(dr.GetOrdinal("NombreImagen")) : string.Empty;
-                lista.Add(item);
-            }
-            dr.Close();
-            return lista;
-        }
-
         #endregion
         #region Metodo de pago
         public List<CFDI_MetodoPagoModels> GetMetodosPagos(CompraModels Compra)
@@ -2406,7 +2385,8 @@ namespace CreativaSL.Web.Ganados.Models
                     DocumentosPorPagarModels.NombreBancoBeneficiante,              DocumentosPorPagarModels.NumCuentaBeneficiante,
                     DocumentosPorPagarModels.FolioIFE,                             DocumentosPorPagarModels.Usuario,
                     DocumentosPorPagarModels.Bancarizado,                          DocumentosPorPagarModels.RfcEmisorOrdenante,
-                    DocumentosPorPagarModels.RfcEmisorBeneficiario,                DocumentosPorPagarModels.ImagenBase64
+                    DocumentosPorPagarModels.RfcEmisorBeneficiario,                DocumentosPorPagarModels.ImagenBase64,
+                    DocumentosPorPagarModels.Email,                                DocumentosPorPagarModels.Celular
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(DocumentosPorPagarModels.Conexion, "spCSLDB_Compra_AC_DetallesPago", parametros);
@@ -2857,6 +2837,9 @@ namespace CreativaSL.Web.Ganados.Models
                         DocumentoPago.NumCuentaBeneficiante = !dr.IsDBNull(dr.GetOrdinal("numCuentaBeneficiante")) ? dr.GetString(dr.GetOrdinal("numCuentaBeneficiante")) : string.Empty;
                         DocumentoPago.Bancarizado = !dr.IsDBNull(dr.GetOrdinal("bancarizado")) ? dr.GetBoolean(dr.GetOrdinal("bancarizado")) : false;
                         DocumentoPago.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
+                        DocumentoPago.ImagenServer = !dr.IsDBNull(dr.GetOrdinal("imagenServer")) ? dr.GetInt32(dr.GetOrdinal("imagenServer")) : 0;
+                        DocumentoPago.Email = !dr.IsDBNull(dr.GetOrdinal("email")) ? dr.GetString(dr.GetOrdinal("email")) : string.Empty;
+                        DocumentoPago.Celular = !dr.IsDBNull(dr.GetOrdinal("celular")) ? dr.GetString(dr.GetOrdinal("celular")) : string.Empty;
                     }
                     else
                     {
@@ -3430,75 +3413,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-
-
-        #endregion
-
-        #region Lista de Fierros Compra
-
-        public CompraFierroModels FierroCompra(CompraFierroModels Datos)
-        {
-            try
-            {
-                object[] parametros = { Datos.IdCompra };
-                DataSet Ds = SqlHelper.ExecuteDataset(Datos.Conexion, "[dbo].[spCSLDB_Compra_get_Fierro]", parametros);
-                if (Ds != null)
-                {
-                   if (Ds.Tables.Count > 0)
-                   {
-                        List<CompraFierroModels> ListaFierros = new List<CompraFierroModels>();
-                        CompraFierroModels Item;
-                        DataTableReader DTRD = Ds.Tables[0].CreateDataReader();
-                        DataTable Tbl1 = Ds.Tables[0];
-                        while (DTRD.Read())
-                        {
-                            Item = new CompraFierroModels();
-                            Item.IdFierro = DTRD.IsDBNull(DTRD.GetOrdinal("id_fierro")) ? DTRD.GetString(DTRD.GetOrdinal("id_fierro")) : string.Empty;
-                            Item.NombreFierro = DTRD.IsDBNull(DTRD.GetOrdinal("nombreFierro")) ? DTRD.GetString(DTRD.GetOrdinal("nombreFierro")) : string.Empty;
-                            Item.Observacion = DTRD.IsDBNull(DTRD.GetOrdinal("observacion")) ? DTRD.GetString(DTRD.GetOrdinal("observacion")) : string.Empty;
-                            Item.NombreImagen = DTRD.IsDBNull(DTRD.GetOrdinal("nombreImagen")) ? DTRD.GetString(DTRD.GetOrdinal("nombreImagen")) : string.Empty;
-                            ListaFierros.Add(Item);
-                        }
-                        Datos.ListaFierroCompra = ListaFierros;
-
-                        List<CompraFierroModels> ListaFierroCompra = new List<CompraFierroModels>();
-                        CompraFierroModels Item1;
-                        DataTableReader DTR = Ds.Tables[1].CreateDataReader();
-                        DataTable Tbl2 = Ds.Tables[1];
-                        while (DTR.Read())
-                        {
-                            Item1 = new CompraFierroModels();
-                            Item1.IdCompraFierro = DTRD.IsDBNull(DTRD.GetOrdinal("id_compraFierro")) ? DTRD.GetString(DTRD.GetOrdinal("id_compraFierro")) : string.Empty;
-                            Item1.NombreFierro = DTRD.IsDBNull(DTRD.GetOrdinal("nombreFierro")) ? DTRD.GetString(DTRD.GetOrdinal("nombreFierro")) : string.Empty;
-                            Item1.NombreImagen = DTRD.IsDBNull(DTRD.GetOrdinal("nombreImagen")) ? DTRD.GetString(DTRD.GetOrdinal("nombreImagen")) : string.Empty;
-                            ListaFierroCompra.Add(Item1);
-                        }
-                        Datos.ListaFierroXCompra = ListaFierroCompra;
-                    }
-                }
-                return Datos;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public int GuardarFierroCompra(CompraFierroModels datos, DataTable TablaFierro)
-        {
-            try
-            {
-                DataSet dt = SqlHelper.ExecuteDataset(datos.Conexion, CommandType.StoredProcedure, "[dbo].[spCSLDB_Compras_a_Fierros]",
-                new SqlParameter("@IDCompra", datos.IdCompra),
-                new SqlParameter("@TableFierro", TablaFierro),
-                new SqlParameter("@usuario", datos.IDUsuario));
-                return Convert.ToInt32(dt.Tables[0].Rows[0][0].ToString());
-            }
-            catch (Exception ex)
-            {
-                return -1;
-            }
-        }
+        
 
         #endregion
     }

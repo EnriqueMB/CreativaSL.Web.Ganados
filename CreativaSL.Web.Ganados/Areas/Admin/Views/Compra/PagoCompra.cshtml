@@ -61,6 +61,7 @@
                                 @Html.HiddenFor(model => model.ImagenMostrar)
                                 @Html.HiddenFor(model => model.ImagenBase64)
                                 @Html.HiddenFor(model => model.Bancarizado)
+                                @Html.HiddenFor(model => model.ImagenServer)
 
                                 <div class="form-group">
                                     <div class="col-md-6">
@@ -101,7 +102,7 @@
                                                             <option value="@formaPago.Clave" data-bancarizado="@formaPago.Bancarizado"
                                                                     @if (Model.Id_formaPago == formaPago.Clave) { <text>
                                                                     selected="selected"
-                                                                    </text>     }>
+                                                                    </text> }>
                                                                 @formaPago.Descripcion
                                                             </option>
                                                         }
@@ -176,7 +177,7 @@
                                                                                 data-idbanco="@cuentaBancaria.Banco.IDBanco"
                                                                                 @if (Model.Id_cuentaBancariaBeneficiante == cuentaBancaria.IDDatosBancarios) { <text>
                                                                                 selected="selected"
-                                                                                </text>     }>
+                                                                                </text> }>
                                                                             @cuentaBancaria.Titular
                                                                         </option>
                                                                     }
@@ -262,7 +263,7 @@
                                                                                 data-idbanco="@cuentaBancaria.Banco.IDBanco"
                                                                                 @if (Model.Id_cuentaBancariaOrdenante == cuentaBancaria.IDDatosBancarios) { <text>
                                                                                 selected="selected"
-                                                                                </text>     }>
+                                                                                </text> }>
                                                                             @cuentaBancaria.Titular
                                                                         </option>
                                                                     }
@@ -341,33 +342,47 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @*<div class="form-group controlError">
-                                            <div class="col-md-6">
-                                                <label class="col-md-2 control-label">Folio INE:</label>
-                                                <div class="controls">
-                                                    <div class="col-md-10 col-xs-12">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                            @Html.TextBoxFor(model => model.FolioIFE, new { @class = "form-control" })
-                                                        </div>
-                                                        <span class="help-block">Folio del INE.</span>
+                                    <div class="form-group controlError">
+                                        <div class="col-md-4">
+                                            <label class="col-md-2 control-label">RFC:</label>
+                                            <div class="controls">
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.RfcEmisorOrdenante, new { @class = "form-control" })
                                                     </div>
+                                                    <span class="help-block">RFC.</span>
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            <div class="col-md-6 controlError">
-                                                <label class="col-md-2 control-label">Número de autorización:</label>
-                                                <div class="controls">
-                                                    <div class="col-md-10 col-xs-12">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                            @Html.TextBoxFor(model => model.NumeroAutorizacion, new { @class = "form-control " })
-                                                        </div>
-                                                        <span class="help-block">Número de autorización.</span>
+                                        <div class="col-md-4 controlError">
+                                            <label class="col-md-2 control-label">Email:</label>
+                                            <div class="controls">
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control " })
                                                     </div>
+                                                    <span class="help-block">Email.</span>
                                                 </div>
                                             </div>
-                                        </div>*@
+                                        </div>
+
+                                        <div class="col-md-4 controlError">
+                                            <label class="col-md-2 control-label">Celular:</label>
+                                            <div class="controls">
+                                                <div class="col-md-10 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.Celular, new { @class = "form-control " })
+                                                    </div>
+                                                    <span class="help-block">Celular.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
 
                             </div>

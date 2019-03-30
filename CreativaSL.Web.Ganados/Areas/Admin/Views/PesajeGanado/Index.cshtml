@@ -114,7 +114,25 @@
                     "dataSrc": ''
                 },
                 "columns": [
-                    { "data": "fecha" },
+                    {
+                        "data": "fecha",
+                        "render": function (data, type, row) {
+                            var fecha;
+                            if (data === null)
+                                fecha = "Sin dato";
+                            else {
+                                var dateSplit = data.split('-');
+                                var dia = dateSplit[2];
+                                dia = dia.split('T');
+                                dia = dia[0];
+                                var mes = dateSplit[1];
+                                var año = dateSplit[0];
+                                fecha = dia + '-' + mes + '-' + año;
+                            }
+
+                            return fecha;
+                        }
+                    },
                     { "data": "sucursal" },
                     { "data": "cliente" },
                     {

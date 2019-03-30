@@ -130,7 +130,7 @@
 
                         var menu = "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
                             "<a data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='btn btn-yellow tooltips btn-sm editCobro' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
-                            "<a data-hrefa='/Admin/PesajeGanado/DeletePago/' title='Eliminar' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='btn btn-danger tooltips btn-sm deleteCobro' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "<a data-hrefa='/Admin/PesajeGanado/DeleteCobro/' title='Eliminar' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "' class='btn btn-danger tooltips btn-sm deleteCobro' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                             "<div class='btn-group'>" +
@@ -144,7 +144,7 @@
                             "</a>" +
                             "</li>" +
                             "<li>" +
-                            "<a data-hrefa='/Admin/PesajeGanado/DeletePago/' class='deleteCobro' role='menuitem' tabindex='-1' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "'>" +
+                            "<a data-hrefa='/Admin/PesajeGanado/DeleteCobro/' class='deleteCobro' role='menuitem' tabindex='-1' data-id='" + full["id_documentoPorCobrarDetallePagos"] + "'>" +
                             "<i class='fa fa-trash-o'></i> Eliminar" +
                             "</a>" +
                             "</li>" +
@@ -170,7 +170,7 @@
                         box.removeClass("open");
                         $.ajax({
                             url: url,
-                            data: { Id_documentoPorCobrarDetallePagos: id_detalle, Id_documentoPorCobrar: Id_documentoPorCobrar },
+                            data: { id_documentoPorCobrarDetallePagos: id_detalle, id_documentoPorCobrar: Id_documentoPorCobrar },
                             type: 'POST',
                             dataType: 'json',
                             success: function (result) {
@@ -213,7 +213,7 @@
                     "render": function (data, type, full) {
 
                         var menu = "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-hrefa='/Admin/Venta/DeleteDeduccion/' title='Eliminar' data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-danger tooltips btn-sm deleteDeduccion' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "<a data-hrefa='/Admin/PesajeGanado/DeleteDeduccion/' title='Eliminar' data-id='" + full["id_detalleDoctoCobrar"] + "' class='btn btn-danger tooltips btn-sm deleteDeduccion' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                             "<div class='btn-group'>" +
@@ -221,7 +221,7 @@
                             "<i class='fa fa-cog'></i> <span class='caret'></span>" +
                             "</a>" +
                             "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
-                            "<a data-hrefa='/Admin/Venta/DeleteDeduccion/' class='deleteDeduccion' role='menuitem' tabindex='-1' data-id='" + full["id_detalleDoctoCobrar"] + "'>" +
+                            "<a data-hrefa='/Admin/PesajeGanado/DeleteDeduccion/' class='deleteDeduccion' role='menuitem' tabindex='-1' data-id='" + full["id_detalleDoctoCobrar"] + "'>" +
                             "<i class='fa fa-trash-o'></i> Eliminar" +
                             "</a>" +
                             "</li>" +
@@ -269,13 +269,13 @@
         });
 
         $("#btnAddDeduccion").on("click", function () {
-            window.location.href = '/Admin/Venta/VentaDeduccion?id=' + Id_venta;
+            window.location.href = '/Admin/PesajeGanado/Deduccion?id=' + Id_venta;
         });
 
-        $("#btnGenerarComprobanteVenta").on("click", function () {
+        $("#btnGenerarComprobante").on("click", function () {
             window.open
                 (
-                '/Admin/Venta/ComprobanteVenta?id=' + Id_venta,
+                '/Admin/PesajeGanado/Comprobante?id=' + Id,
                 '_blank'
                 );
         });

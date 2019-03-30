@@ -1,5 +1,5 @@
 ﻿var DocumentoXCobrar = function () {
-    "use strict"
+    "use strict";
     var Id_documentoPorCobrar;
     var tipoServicio = document.getElementById("TipoServicio").value;
     var bancarizadoForm = document.getElementById("Bancarizado");

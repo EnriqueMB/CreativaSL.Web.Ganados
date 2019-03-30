@@ -79,6 +79,28 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public RespuestaAjax pesajeGanado_spCIDDB_del_cobro(string id_documentoPorCobrar, string id_documentoPorCobrarDetallePagos, string usuario, string conexion)
+        {
+            try
+            {
+                object[] parametros = { id_documentoPorCobrar, id_documentoPorCobrarDetallePagos, usuario };
+                SqlDataReader dr = null;
+                RespuestaAjax respuesta = new RespuestaAjax();
+                dr = SqlHelper.ExecuteReader(conexion, "pesajeGanado.spCIDDB_del_cobro", parametros);
+                while (dr.Read())
+                {
+                    respuesta.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    respuesta.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                }
+                dr.Close();
+                return respuesta;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public PesajeGanadoModels PesajeGanado_spCIDDB_get_pesajeGanadoXID(int id, string conexion)
         {
             try

@@ -467,10 +467,6 @@
     <Content Include="Content\js\AgregarArchivo.js" />
     <Content Include="Content\js\AgregarArchivoEmpleado.js" />
     <Content Include="Content\js\Bancos.js" />
-    <Content Include="Content\js\CajaChica.js" />
-    <Content Include="Content\js\CajaChicaArqueo.js" />
-    <Content Include="Content\js\CajaChicaDetalle.js" />
-    <Content Include="Content\js\CajaChicaIndex.js" />
     <Content Include="Content\js\CalAlmacen.js" />
     <Content Include="Content\js\Canvas.js" />
     <Content Include="Content\js\CatContactos.js" />
@@ -509,9 +505,7 @@
     <Content Include="Content\js\fleteImpuesto_ProductoServicio.js" />
     <Content Include="Content\js\fleteTransacciones.js" />
     <Content Include="Content\js\Ganado.js" />
-    <Content Include="Content\js\HistorialCajaChicaIndex.js" />
     <Content Include="Content\js\ImpuestoProductoServicioACCompra.js" />
-    <Content Include="Content\js\MiCajaChicaIndex.js" />
     <Content Include="Content\js\PesajeGanado.js" />
     <Content Include="Content\js\plugins\bootstrap\bootstrap-select-image.js" />
     <Content Include="Content\js\plugins\datatablesbtn\buttons.flash.min.js" />
@@ -527,7 +521,6 @@
     <Content Include="Content\js\plugins\jquery.dd.js" />
     <Content Include="Content\js\plugins\jquery.maskMoney.js" />
     <Content Include="Content\js\plugins\jquery.maskMoney.min.js" />
-    <Content Include="Content\js\plugins\nvd3\src\models\backup\bulletChart.js" />
     <Content Include="Content\js\ProveedorTransporte.js" />
     <Content Include="Content\js\RangoVenta.js" />
     <Content Include="Content\js\Socios.js" />
@@ -968,6 +961,7 @@
     <Content Include="Content\js\plugins\nvd3\src\intro.js" />
     <Content Include="Content\js\plugins\nvd3\src\models\axis.js" />
     <Content Include="Content\js\plugins\nvd3\src\models\backup\bullet.js" />
+    <Content Include="Content\js\plugins\nvd3\src\models\backup\bulletChart.js" />
     <Content Include="Content\js\plugins\nvd3\src\models\boilerplate.js" />
     <Content Include="Content\js\plugins\nvd3\src\models\bullet.js" />
     <Content Include="Content\js\plugins\nvd3\src\models\bulletChart.js" />
@@ -1507,7 +1501,6 @@
     <Content Include="Areas\Admin\Views\CatProveedorTransporte\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedorTransporte\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaEnvioCorreo.cshtml" />
-    <Content Include="Areas\Admin\Views\MiCajaChica\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\VentaDeduccion.cshtml" />
     <Content Include="Areas\Admin\Views\Flete\FleteDeduccion.cshtml" />
     <Content Include="Areas\Admin\Views\PesajeGanado\Index.cshtml" />
@@ -1515,8 +1508,6 @@
     <Content Include="Areas\Admin\Views\PesajeGanado\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\PesajeGanado\Transacciones.cshtml" />
     <Content Include="Areas\Admin\Views\PesajeGanado\Cobro.cshtml" />
-    <Content Include="Areas\Admin\Views\MiCajaChica\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\CajaChica\Movimientos.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1626,10 +1617,8 @@
     </Compile>
     <Compile Include="Models\AlmacenEntradaModels.cs" />
     <Compile Include="Models\ArchivoEmpleadoModels.cs" />
-    <Compile Include="Models\ArqueoCajaChicaModels.cs" />
     <Compile Include="Models\AsistenciaEmpleadoModels.cs" />
     <Compile Include="Models\Auxiliar.cs" />
-    <Compile Include="Models\CajaChicaModels.cs" />
     <Compile Include="Models\CalendarioFleteModels.cs" />
     <Compile Include="Models\CalendarioModels.cs" />
     <Compile Include="Models\CartaPorteDetallesModels.cs" />
@@ -1704,10 +1693,10 @@
     <Compile Include="Models\ClienteLugarModels.cs" />
     <Compile Include="Models\CompraAlmacenDetalleModels.cs" />
     <Compile Include="Models\CompraAlmacenModels.cs" />
-    <Compile Include="Models\CompraFierroModels.cs" />
     <Compile Include="Models\CompraGanadoModels.cs" />
     <Compile Include="Models\CompraImpuestoModels.cs" />
     <Compile Include="Models\CompraModels.cs" />
+    <Compile Include="Models\ComprobanteCabeceraModels.cs" />
     <Compile Include="Models\ComprobanteCompraCabeceraModels.cs" />
     <Compile Include="Models\ComprobanteCompraDetallesDeduccionesModels.cs" />
     <Compile Include="Models\ComprobanteCompraDetallesModels.cs" />
@@ -1715,12 +1704,12 @@
     <Compile Include="Models\ComprobanteFleteDetallesModels.cs" />
     <Compile Include="Models\ComprobanteFleteModels.cs" />
     <Compile Include="Models\ComprobanteFletePagosModels.cs" />
+    <Compile Include="Models\ComprobantePagosModels.cs" />
     <Compile Include="Models\ComprobanteVentaCabeceraModels.cs" />
     <Compile Include="Models\ComprobanteVentaDetallesDeduccionesModels.cs" />
     <Compile Include="Models\ComprobanteVentaDetallesModels.cs" />
     <Compile Include="Models\ComprobanteVentaPagosModels.cs" />
     <Compile Include="Models\Comun.cs" />
-    <Compile Include="Models\ConceptosCajaChicaModels.cs" />
     <Compile Include="Models\ConciliacionAlmacenDetalleModel.cs" />
     <Compile Include="Models\ConciliacionAlmacenModels.cs" />
     <Compile Include="Models\CuentaBancariaModels.cs" />
@@ -1758,7 +1747,6 @@
     <Compile Include="Models\FleteModels.cs" />
     <Compile Include="Models\Flete_ProductoModels.cs" />
     <Compile Include="Models\Flete_TipoDocumentoModels.cs" />
-    <Compile Include="Models\FormaPagoCajaChicaModels.cs" />
     <Compile Include="Models\GanadoModels.cs" />
     <Compile Include="Models\GanadoParaVender.cs" />
     <Compile Include="Models\GeneroGanadoModels.cs" />
@@ -1768,7 +1756,6 @@
     <Compile Include="Models\LicenciaChoferModels.cs" />
     <Compile Include="Models\ComprobanteCompraDetallesOtrasPercepciones.cs" />
     <Compile Include="Models\MenuModels.cs" />
-    <Compile Include="Models\MovimientosCajaChicaModels.cs" />
     <Compile Include="Models\MovimientosProductosModels.cs" />
     <Compile Include="Models\MunicipioModels.cs" />
     <Compile Include="Models\NominaConceptosEmpModels.cs" />
@@ -1836,7 +1823,6 @@
     <Compile Include="Models\Validaciones\DecimalMayor0Attribute.cs" />
     <Compile Include="Models\Validaciones\DescripcionAttribute.cs" />
     <Compile Include="Models\Validaciones\DireccionAttribute.cs" />
-    <Compile Include="Models\Validaciones\EnteroAttribute.cs" />
     <Compile Include="Models\Validaciones\IFEAttribute.cs" />
     <Compile Include="Models\Validaciones\InputFile.cs" />
     <Compile Include="Models\Validaciones\NombreAttribute.cs" />
@@ -1861,7 +1847,6 @@
     <Compile Include="Models\VerificacionJaulaModels.cs" />
     <Compile Include="Models\_Almacen_Datos.cs" />
     <Compile Include="Models\_AsistenciaEmpleados_Datos.cs" />
-    <Compile Include="Models\_CajaChica_Datos.cs" />
     <Compile Include="Models\_CatAlmacen_Datos.cs" />
     <Compile Include="Models\_CatBanco_Datos.cs" />
     <Compile Include="Models\_CatCategoriaPuesto_Datos.cs" />
@@ -1902,8 +1887,8 @@
     <Compile Include="Models\_Combos_Datos.cs" />
     <Compile Include="Models\_CompraAlmacen_Datos.cs" />
     <Compile Include="Models\_Compra_Datos.cs" />
+    <Compile Include="Models\_Comprobante_Datos.cs" />
     <Compile Include="Models\_ConciliacionAlmacen_Datos.cs" />
-    <Compile Include="Models\_ConexionRepositorio.cs" />
     <Compile Include="Models\_DatosRptUltCompraProveedor_Datos.cs" />
     <Compile Include="Models\_Deduccion_Datos.cs" />
     <Compile Include="Models\_DocumentoXCobrar_Datos.cs" />
@@ -2064,6 +2049,9 @@
     <Content Include="Reports\ReporteRendimientoVehiculo.rdlc" />
     <Content Include="Reports\ReporteSalidasAlmacen.rdlc" />
     <Content Include="Reports\ReporteVentaMermaDestino.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Formatos\ComprobantePesajeGanado.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
