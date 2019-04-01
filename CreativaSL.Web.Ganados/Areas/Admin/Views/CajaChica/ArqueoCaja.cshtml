@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<CreativaSL.Web.Ganados.Models.ArqueoCajaChicaModels>
+@{
     ViewBag.Title = "Arqueo de caja";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
@@ -9,7 +10,6 @@
         var message = TempData["message"] ?? string.Empty;
         var typemessage = TempData["typemessage"] ?? string.Empty;
     }
-
     <div class="row">
         <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
             <h3></h3>
@@ -19,73 +19,45 @@
         </div>
         <div class="col-md-12">
             @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("ArqueoCaja", "CajaChica", FormMethod.Post, new { id = "form-catalm", @class = "form-horizontal", autocomplete = "off" }))
+            @using (Html.BeginForm("ArqueoCaja", "CajaChica", FormMethod.Post, new { id = "form-dg", @class = "form-horizontal", autocomplete = "off" }))
             {
-
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
                 <div id="validation_summary" class="field_error "></div> //JS
-                @*@Html.HiddenFor(model => model.IDAlmacen)*@
+                @Html.Hidden("idCaja", (object)ViewBag.IdCaja);
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"><strong>Arqueo de </strong> Caja</h3>
-                        <ul class="panel-controls">
-                        </ul>
+                        <ul class="panel-controls"></ul>
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table class="table datatable">
+                            <table class="table ">
                                 <thead>
                                     <tr>
+                                        <th class="hidden">IdDenominacion</th>
                                         <th>Denominación</th>
+                                        <th class="hidden">Valor</th>
                                         <th>Cantidad</th>
+                                        <th>Subtotal</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr id="id001">
-                                        <td>M $   0.50</td>
-                                        <td>@Html.TextBox("M05C", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
+
+                                    @for (var i = 0; i < Model.Count(); i++)
+                                    {
+                                    <tr>
+                                        <td class="hidden">
+                                            @Html.HiddenFor(m => Model[i].IdDenominacion)
+                                            @Html.HiddenFor(m => Model[i].Descripcion)
+                                            @Html.HiddenFor(m => Model[i].Subtotal)
+                                        </td>
+                                        <td>@Model[i].Descripcion</td>
+                                        <td class="hidden">@Model[i].Valor</td>
+                                        <td>@Html.TextBoxFor(m => Model[i].Cantidad, new { id = "txt" + Model[i].IdDenominacion, @class = "form-control txtvalues" })</td>
+                                        <td>@Model[i].Subtotal</td>
                                     </tr>
-                                    <tr id="id002">
-                                        <td>M $   1.00</td>
-                                        <td>@Html.TextBox("M1", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
-                                    </tr>
-                                    <tr id="id003">
-                                        <td>M $   2.00</td>
-                                        <td>@Html.TextBox("M2", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
-                                    </tr>
-                                    <tr id="id004">
-                                        <td>M $   5.00</td>
-                                        <td>@Html.TextBox("M5", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
-                                    </tr>
-                                    <tr id="id005">
-                                        <td>M $  10.00</td>
-                                        <td>@Html.TextBox("M10", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
-                                    </tr>
-                                    <tr id="id006">
-                                        <td>B $  20.00</td>
-                                        <td>@Html.TextBox("B20", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
-                                    </tr>
-                                    <tr id="id007">
-                                        <td>B $  50.00</td>
-                                        <td>@Html.TextBox("B50", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
-                                    </tr>
-                                    <tr id="id008">
-                                        <td>B $ 100.00</td>
-                                        <td>@Html.TextBox("B100", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
-                                    </tr>
-                                    <tr id="id009">
-                                        <td>B $ 200.00</td>
-                                        <td>@Html.TextBox("B200", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
-                                    </tr>
-                                    <tr id="id010">
-                                        <td>B $ 500.00</td>
-                                        <td>@Html.TextBox("B500", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
-                                    </tr>
-                                    <tr id="id011">
-                                        <td>B $1000.00</td>
-                                        <td>@Html.TextBox("B1000", 0, new { id = "ClaveAlmacen", @class = "form-control" })</td>
-                                    </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -107,7 +79,6 @@
                         <a href="@Url.Action("Index","CajaChica")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                     </div>
                 </div>
-                @*</form>*@
             }
         </div>
     </div>
@@ -121,17 +92,15 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/CalAlmacen.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/CajaChicaArqueo.js")"></script>
     <script>
-    jQuery(document).ready(function () {
-
-        Mensaje(message, typemessage);
-        CatAlmacen.init();
-
-    });
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            Arqueo.init();
+        });
     </script>
 }

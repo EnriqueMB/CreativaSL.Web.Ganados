@@ -17,7 +17,6 @@
                 return true;
         }, 'Debe seleccionar una imagen.');
 
-
         $('#form-dg').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
@@ -42,7 +41,7 @@
             messages: {
                 MontoApertura: { required: "Ingrese el monto de apertura.", decimal: "Ingrese un valor numérico válido." },
                 IdPropietario: { required: "Seleccione el propietario de la caja chica." },
-                KeyWord: { required: "Ingrese la clave del día para transacciones", numeros: "Ingrese un dato válido." }                
+                KeyWord: { required: "Ingrese la clave del día para transacciones", numeros: "Ingrese un dato válido." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

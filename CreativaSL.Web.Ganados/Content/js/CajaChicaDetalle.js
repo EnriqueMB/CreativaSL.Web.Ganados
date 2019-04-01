@@ -17,7 +17,6 @@
                 return true;
         }, 'Debe seleccionar una imagen.');
 
-
         $('#form-dg').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
