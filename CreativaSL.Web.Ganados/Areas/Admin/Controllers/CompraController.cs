@@ -885,15 +885,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
 
         #region ListaFierros
-        public ActionResult ModalListaFierros()
+        public ActionResult ModalListaFierros(string IDCompra)
         {
             Compra = new CompraModels();
             CompraDatos = new _Compra_Datos();
             Compra.Conexion = Conexion;
+            Compra.IDCompra = IDCompra;
             CatFierroModels Fierro = new CatFierroModels();
-
-            Fierro.ListaFierro = CompraDatos.GetListaFierros(Compra);
-
+            //Fierro.ListaFierro = CompraDatos.GetListaFierros(Compra);
+            Fierro.ListaFierro = CompraDatos.GetListaFierrosXCompra(Compra);
             return PartialView("ModalFierros", Fierro);
         }
         #endregion
