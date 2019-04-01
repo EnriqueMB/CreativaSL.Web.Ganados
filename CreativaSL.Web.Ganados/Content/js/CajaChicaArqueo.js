@@ -13,7 +13,6 @@
             }
         });
 
-
         $('#form-dg').validate({
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
@@ -29,7 +28,7 @@
                     error.insertAfter(element);
                 }
             },
-            ignore: "",            
+            ignore: "",
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
                 errorHandler1.show();
