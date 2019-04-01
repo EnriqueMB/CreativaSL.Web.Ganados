@@ -803,27 +803,6 @@ namespace CreativaSL.Web.Ganados.Models
             dr.Close();
             return lista;
         }
-
-        public List<CatFierroModels> GetListaFierrosXCompra(CompraModels Compra)
-        {
-            CatFierroModels item;
-            List<CatFierroModels> lista = new List<CatFierroModels>();
-            SqlDataReader dr = null;
-
-            dr = SqlHelper.ExecuteReader(Compra.Conexion, "[dbo].[spCSLDB_Combo_get_CatFierroXCompra]", Compra.IDCompra);
-
-            while (dr.Read())
-            {
-                item = new CatFierroModels();
-                item.IDFierro = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetString(dr.GetOrdinal("ID")) : string.Empty;
-                item.NombreFierro = !dr.IsDBNull(dr.GetOrdinal("Nombre")) ? dr.GetString(dr.GetOrdinal("Nombre")) : string.Empty;
-                item.NombreArchivo = !dr.IsDBNull(dr.GetOrdinal("NombreImagen")) ? dr.GetString(dr.GetOrdinal("NombreImagen")) : string.Empty;
-                lista.Add(item);
-            }
-            dr.Close();
-            return lista;
-        }
-
         #endregion
         #region Metodo de pago
         public List<CFDI_MetodoPagoModels> GetMetodosPagos(CompraModels Compra)
@@ -2406,7 +2385,8 @@ namespace CreativaSL.Web.Ganados.Models
                     DocumentosPorPagarModels.NombreBancoBeneficiante,              DocumentosPorPagarModels.NumCuentaBeneficiante,
                     DocumentosPorPagarModels.FolioIFE,                             DocumentosPorPagarModels.Usuario,
                     DocumentosPorPagarModels.Bancarizado,                          DocumentosPorPagarModels.RfcEmisorOrdenante,
-                    DocumentosPorPagarModels.RfcEmisorBeneficiario,                DocumentosPorPagarModels.ImagenBase64
+                    DocumentosPorPagarModels.RfcEmisorBeneficiario,                DocumentosPorPagarModels.ImagenBase64,
+                    DocumentosPorPagarModels.Email,                                DocumentosPorPagarModels.Celular
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(DocumentosPorPagarModels.Conexion, "spCSLDB_Compra_AC_DetallesPago", parametros);
@@ -2857,6 +2837,9 @@ namespace CreativaSL.Web.Ganados.Models
                         DocumentoPago.NumCuentaBeneficiante = !dr.IsDBNull(dr.GetOrdinal("numCuentaBeneficiante")) ? dr.GetString(dr.GetOrdinal("numCuentaBeneficiante")) : string.Empty;
                         DocumentoPago.Bancarizado = !dr.IsDBNull(dr.GetOrdinal("bancarizado")) ? dr.GetBoolean(dr.GetOrdinal("bancarizado")) : false;
                         DocumentoPago.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
+                        DocumentoPago.ImagenServer = !dr.IsDBNull(dr.GetOrdinal("imagenServer")) ? dr.GetInt32(dr.GetOrdinal("imagenServer")) : 0;
+                        DocumentoPago.Email = !dr.IsDBNull(dr.GetOrdinal("email")) ? dr.GetString(dr.GetOrdinal("email")) : string.Empty;
+                        DocumentoPago.Celular = !dr.IsDBNull(dr.GetOrdinal("celular")) ? dr.GetString(dr.GetOrdinal("celular")) : string.Empty;
                     }
                     else
                     {
@@ -3434,6 +3417,27 @@ namespace CreativaSL.Web.Ganados.Models
 
         #endregion
 
+        public List<CatFierroModels> GetListaFierrosXCompra(CompraModels Compra)
+        {
+            CatFierroModels item;
+            List<CatFierroModels> lista = new List<CatFierroModels>();
+            SqlDataReader dr = null;
+
+            dr = SqlHelper.ExecuteReader(Compra.Conexion, "[dbo].[spCSLDB_Combo_get_CatFierroXCompra]", Compra.IDCompra);
+
+            while (dr.Read())
+            {
+                item = new CatFierroModels();
+                item.IDFierro = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetString(dr.GetOrdinal("ID")) : string.Empty;
+                item.NombreFierro = !dr.IsDBNull(dr.GetOrdinal("Nombre")) ? dr.GetString(dr.GetOrdinal("Nombre")) : string.Empty;
+                item.NombreArchivo = !dr.IsDBNull(dr.GetOrdinal("NombreImagen")) ? dr.GetString(dr.GetOrdinal("NombreImagen")) : string.Empty;
+                lista.Add(item);
+            }
+            dr.Close();
+            return lista;
+        }
+
+
         #region Lista de Fierros Compra
 
         public CompraFierroModels FierroCompra(CompraFierroModels Datos)
@@ -3444,8 +3448,8 @@ namespace CreativaSL.Web.Ganados.Models
                 DataSet Ds = SqlHelper.ExecuteDataset(Datos.Conexion, "[dbo].[spCSLDB_Compra_get_Fierro]", parametros);
                 if (Ds != null)
                 {
-                   if (Ds.Tables.Count > 0)
-                   {
+                    if (Ds.Tables.Count > 0)
+                    {
                         List<CompraFierroModels> ListaFierros = new List<CompraFierroModels>();
                         CompraFierroModels Item;
                         DataTableReader DTRD = Ds.Tables[0].CreateDataReader();

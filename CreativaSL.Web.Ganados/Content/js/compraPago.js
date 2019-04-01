@@ -1,17 +1,15 @@
 ﻿var CompraPago = function () {
-    "use strict"
+    "use strict";
     var Id_documentoPorPagar;
     var bancarizadoForm = document.getElementById("Bancarizado");
     var cuentaBeneficiante = $("#Id_cuentaBancariaBeneficiante");
     var cuentaOrdenante = $("#Id_cuentaBancariaOrdenante");
     var imagen = $("#HttpImagen");
-    //var folioINE = $("#FolioIFE");
-    //var numeroAutorizacion = $("#NumeroAutorizacion");
 
     var RunEventsComprobantePago = function () {
-        var Imagen = document.getElementById("ImagenMostrar").value;
         var ExtensionImagen = document.getElementById("ExtensionImagenBase64").value;
         var ImagenServidor = document.getElementById("ImagenBase64").value;
+
         if (ImagenServidor === null || ImagenServidor.length == 0 || ImagenServidor == '') {
             document.getElementById("HttpImagen").dataset.imgBD = "0";
         }
@@ -29,7 +27,7 @@
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:' + ExtensionImagen + ';base64,' + Imagen + '" />'
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:' + ExtensionImagen + ';base64,' + ImagenServidor + '" />'
             ],
             initialPreviewConfig: [
                 { caption: 'Imagen del recibo' }
@@ -57,7 +55,7 @@
                 bancarizadoForm.value = true;
                 cuentaBeneficiante.rules("add", { required: true });
                 cuentaOrdenante.rules("add", { required: true });
-                imagen.rules("add", { ImagenRequerida: true, ImagenRequerida: ["ImagenBase64"] });
+                imagen.rules("add", { ImagenRequerida: true, ImagenRequerida: ["ImagenServer"] });
                 //folioINE.rules("add", { required: true });
                 //numeroAutorizacion.rules("add", { required: true });
             }
@@ -136,7 +134,7 @@
                 //bancarizado
                 //"FolioIFE": { required: true },
                 //"NumeroAutorizacion": { required: true },
-                "HttpImagen": { ImagenRequerida: true, ImagenRequerida: ["ImagenBase64"] },
+                "HttpImagen": { ImagenRequerida: true, ImagenRequerida: ["ImagenServer"] },
                 "Id_cuentaBancariaOrdenante": { required: true },
                 "Id_cuentaBancariaBeneficiante":{ required: true }
             },

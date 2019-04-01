@@ -175,6 +175,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.fecha = !dr.IsDBNull(dr.GetOrdinal("fecha")) ? dr.GetDateTime(dr.GetOrdinal("fecha")) : DateTime.Now;
                     Lista.Add(Item);
                 }
+                dr.Close();
                 return Lista;
             }
 
@@ -209,6 +210,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     datos.Completado = false;
                 }
+                
                 return datos;
             }
             catch (Exception ex)
@@ -263,6 +265,7 @@ namespace CreativaSL.Web.Ganados.Models
                     if (!string.IsNullOrEmpty(item.Id.Trim()))
                         lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -288,6 +291,7 @@ namespace CreativaSL.Web.Ganados.Models
                     };
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -312,6 +316,7 @@ namespace CreativaSL.Web.Ganados.Models
                     DocumentoPagarDetallePagos.NombreEmpresa = !dr.IsDBNull(dr.GetOrdinal("nombreEmpresa")) ? dr.GetString(dr.GetOrdinal("nombreEmpresa")) : string.Empty;
                     DocumentoPagarDetallePagos.NombreProveedor_Cliente = !dr.IsDBNull(dr.GetOrdinal("nombreProveedorCliente")) ? dr.GetString(dr.GetOrdinal("nombreProveedorCliente")) : string.Empty;
                 }
+                dr.Close();
                 return DocumentoPagarDetallePagos;
             }
             catch (Exception ex)
@@ -346,6 +351,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -388,7 +394,9 @@ namespace CreativaSL.Web.Ganados.Models
                     DocumentoPago.NumCuentaBeneficiante = !dr.IsDBNull(dr.GetOrdinal("numCuentaBeneficiante")) ? dr.GetString(dr.GetOrdinal("numCuentaBeneficiante")) : string.Empty;
                     DocumentoPago.Bancarizado = !dr.IsDBNull(dr.GetOrdinal("bancarizado")) ? dr.GetBoolean(dr.GetOrdinal("bancarizado")) : false;
                     DocumentoPago.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
+                    DocumentoPago.ImagenServer = !dr.IsDBNull(dr.GetOrdinal("imagenServer")) ? dr.GetInt32(dr.GetOrdinal("imagenServer")) : 0;
                 }
+                dr.Close();
                 return DocumentoPago;
             }
             catch (Exception ex)
@@ -422,6 +430,7 @@ namespace CreativaSL.Web.Ganados.Models
                     DocumentosPagarModels.Completado = true;
                     DocumentosPagarModels.pendiente= !dr.IsDBNull(dr.GetOrdinal("pendiente")) ? dr.GetDecimal(dr.GetOrdinal("pendiente")) :0;
                 }
+                dr.Close();
                 return DocumentosPagarModels;
             }
             catch (Exception ex)
@@ -445,6 +454,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Descripcion = !dr.IsDBNull(dr.GetOrdinal("Descripcion")) ? dr.GetString(dr.GetOrdinal("Descripcion")) : string.Empty;
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)
@@ -473,6 +483,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     lista.Add(item);
                 }
+                dr.Close();
                 return lista;
             }
             catch (Exception ex)

@@ -154,46 +154,71 @@
         html_corral += '</select> ';
 
         //columna, fierro1
-        var html_fierro1 = '<select id="fierro1_' + id_fila + '"class="selectpicker form-control selectCSL cslElegido" data-toggle="tooltip" data-placement="top" title="Fierro 1 seleccionado." >';
-        var opciones_fierro1 = '';
+        var html_fierro1 = `<input id="fierro1_` + id_fila + `" readonly type="text" class="fierro1" value="- Seleccione -" name="fierro1" />`;
+       // var opciones_fierro1 = '';
 
         for (var item in listaFierros) {
             var id_fierro_server = listaFierros[item].IDFierro;
             
-            if (id_fierro1.localeCompare(id_fierro_server) == 0) {
+            /*if (id_fierro1.localeCompare(id_fierro_server) == 0) {
 
                 opciones_fierro1 += '<option data-thumbnail="/Imagenes/Fierro/' + listaFierros[item].NombreArchivo +'" value="' + listaFierros[item].IDFierro + '" data-id="' + listaFierros[item].IDFierro + '" selected>' + listaFierros[item].NombreFierro + '</option>';
             }
             else {
+
                 opciones_fierro1 += '<option data-thumbnail="/Imagenes/Fierro/' + listaFierros[item].NombreArchivo +'" value="' + listaFierros[item].IDFierro + '" data-id="' + listaFierros[item].IDFierro + '">' + listaFierros[item].NombreFierro + '</option>';
-            }
+            }*/
+            $(".capaModal.modalFierro1 .modalBody .fierroList").append(`
+            <div ref="fierro1" class="fierroItem">
+                <div class="fierroImagen">
+                    <figure>
+                        <img src="/Imagenes/Fierro/`+ listaFierros[item].NombreArchivo + `" alt="` + listaFierros[item].NombreArchivo +`" />
+                    </figure>
+                </div>
+                <div class="fierroDescripcion">
+                    <input type="text" value="`+ listaFierros[item].NombreFierro + `" readonly data-id="` + listaFierros[item].IDFierro+`"/>
+                </div>
+            </div>
+            `);
         }
-        html_fierro1 += opciones_fierro1;
-        html_fierro1 += '</select> ';
+        /*html_fierro1 += opciones_fierro1;
+        html_fierro1 += '</select> ';*/
 
         //columna, fierro2
-        var html_fierro2 = '<select id="fierro2_' + id_fila + '"class="selectpicker form-control selectCSL cslElegido" data-toggle="tooltip" data-placement="top" title="Fierro 2 seleccionado." >';
+        var html_fierro2 = `<input id="fierro2_` + id_fila + `" readonly type="text" class="fierro2" value="- Seleccione -" name="fierro2" />`;
         var opciones_fierro2 = '';
 
-        for (var item in listaFierros) {
+/*        for (var item in listaFierros) {
             var id_fierro_server = listaFierros[item].IDFierro;
 
-            if (id_fierro2.localeCompare(id_fierro_server) == 0) {
+           if (id_fierro2.localeCompare(id_fierro_server) == 0) {
 
                 opciones_fierro2 += '<option data-thumbnail="/Imagenes/Fierro/' + listaFierros[item].NombreArchivo +'" value="' + listaFierros[item].NombreFierro + '" data-id="' + listaFierros[item].IDFierro + '" selected>' + listaFierros[item].NombreFierro + '</option>';
             }
             else {
                 opciones_fierro2 += '<option data-thumbnail="/Imagenes/Fierro/' + listaFierros[item].NombreArchivo +'" value="' + listaFierros[item].NombreFierro + '" data-id="' + listaFierros[item].IDFierro + '">' + listaFierros[item].NombreFierro + '</option>';
             }
-        }
-        html_fierro2 += opciones_fierro2;
-        html_fierro2 += '</select> ';
+            $(".capaModal.modalFierro2 .modalBody .fierroList").append(`
+            <div ref="fierro2" class="fierroItem">
+                <div class="fierroImagen">
+                    <figure>
+                        <img src="/Imagenes/Fierro/`+ listaFierros[item].NombreArchivo + `" alt="` + listaFierros[item].NombreArchivo + `" />
+                    </figure>
+                </div>
+                <div class="fierroDescripcion">
+                    <input type="text" value="`+ listaFierros[item].NombreFierro + `" readonly data-id="` + listaFierros[item].IDFierro + `"/>
+                </div>
+            </div>
+            `);
+        }*/
+        //html_fierro2 += opciones_fierro2;
+        //html_fierro2 += '</select> ';
 
         //columna, fierro3
-        var html_fierro3 = '<select id="fierro3_' + id_fila + '"class="selectpicker form-control selectCSL cslElegido" data-toggle="tooltip" data-placement="top" title="Fierro 3 seleccionado." >';
+        var html_fierro3 = `<input id="fierro3_` + id_fila + `" readonly type="text" class="fierro3" value="- Seleccione -" name="fierro3" />`;
         var opciones_fierro3 = '';
 
-        for (var item in listaFierros) {
+      /*  for (var item in listaFierros) {
             var id_fierro_server = listaFierros[item].IDFierro;
 
             if (id_fierro3.localeCompare(id_fierro_server) == 0) {
@@ -203,12 +228,24 @@
             else {
                 opciones_fierro3 += '<option data-thumbnail="/Imagenes/Fierro/' + listaFierros[item].NombreArchivo +'" value="' + listaFierros[item].NombreFierro + '" data-id="' + listaFierros[item].IDFierro + '">' + listaFierros[item].NombreFierro + '</option>';
             }
-        }
-        html_fierro3 += opciones_fierro3;
-        html_fierro3 += '</select> ';
+            $(".capaModal.modalFierro3 .modalBody .fierroList").append(`
+            <div ref="fierro3" class="fierroItem">
+                <div class="fierroImagen">
+                    <figure>
+                        <img src="/Imagenes/Fierro/`+ listaFierros[item].NombreArchivo + `" alt="` + listaFierros[item].NombreArchivo + `" />
+                    </figure>
+                </div>
+                <div class="fierroDescripcion">
+                    <input type="text" value="`+ listaFierros[item].NombreFierro + `" readonly data-id="` + listaFierros[item].IDFierro + `"/>
+                </div>
+            </div>
+            `);
+        }*/
+        //html_fierro3 += opciones_fierro3;
+        //html_fierro3 += '</select> ';
 
         //columna, total
-        var html_total = '<input id="total_' + id_fila + '"class="form-control cslElegido inputCSL money" type="text" min="1" value="' + total + '"  data-toggle="tooltip" data-placement="top" title="Total de la compra ($)." readonly="readonly">';
+        var html_total = `<input id="total_` + id_fila + ` "class="form-control cslElegido inputCSL money" type="text" min="1" value="` + total + `"  data-toggle="tooltip" data-placement="top" title="Total de la compra ($)." readonly="readonly">`;
 
         tblGanado.row.add([
             html_imagen,
@@ -252,6 +289,59 @@
         nNodes = tblGanado.rows().nodes().to$().find('.cslElegido');
     }
 
+    // Eventos click de inputs de fierro en tabla
+
+    //Abrir modales
+    $(document).on("click", "#tblGanado .fierro1", function () {
+        var getIdFila = $(this).attr('id');
+        $(".blackCap, .capaModal.modalFierro1 .modalFierroContent").addClass('active');
+        $(".capaModal.modalFierro1").attr('idfila', getIdFila);
+    });
+    $(document).on("click", "#tblGanado .fierro2", function () {
+        var getIdFila = $(this).attr('id');
+        $(".blackCap, .capaModal.modalFierro1 .modalFierroContent").addClass('active');
+        $(".capaModal.modalFierro1").attr('idfila', getIdFila);
+    });
+    $(document).on("click", "#tblGanado .fierro3", function () {
+        var getIdFila = $(this).attr('id');
+        $(".blackCap, .capaModal.modalFierro1 .modalFierroContent").addClass('active');
+        $(".capaModal.modalFierro1").attr('idfila', getIdFila);
+    });
+
+    $(".blackCap,.closeModalButton").click(function () {
+        $(".blackCap, .modalFierroContent").removeClass('active');
+    });
+    //End abrir modales
+
+    // Asignación de valores a inputs
+    $(document).on("click",".fierroItem",function () {
+        var getIdFila = $(this).parent().parent().parent().parent().attr('idfila');
+        var inputValue = $(this).find('input').attr('value');
+        $("#tblGanado input[id=" + getIdFila + "]").attr('value', inputValue);
+        $(".blackCap, .modalFierroContent").removeClass('active');
+    });
+
+    $(document).on("click", ".searchFierro a[class*='btn-danger']", function () {
+        var getIdFila = $(this).parent().parent().parent().parent().attr('idfila');
+        var inputValue = "Sin Asignar";
+        $("#tblGanado input[id=" + getIdFila + "]").attr('value', inputValue);
+        $(".blackCap, .modalFierroContent").removeClass('active');
+    });
+    // End asignación de valores
+
+    // Función de búsqueda
+    $(document).bind("change paste keyup", $(".modalFierroContent.active .searchFierro input").val(),function () {
+        //alert("search ha cambiado");
+        var actualValue = $(".modalFierroContent.active .searchFierro input").val();
+        // $(".fierroItem").find("input:not(input[value*='" + actualValue + "'])").css("display","none");
+        $(".fierroList .fierroItem:has(input:not(input[value*='" + actualValue + "']))").css("display", "none");
+        $(".fierroList .fierroItem:has(input[value*='" + actualValue + "'])").css("display", "block");
+        if (actualValue == "") {
+            $(".fierroList .fierroItem").css("display", "block");
+        }
+    });
+    // End función de búsqueda
+    
 
     var RunEventoGanado = function () {
         $("#tblGanado tbody").on("click", ".deleteGanado", function (e) {
@@ -323,7 +413,7 @@
             $.ajax({
                 url: '/Admin/Compra/ModalListaFierros/',
                 type: "POST",
-                data: { IDCompra: IDCompra },
+                data: { },
                 success: function (data) {
                     $("body").css("cursor", "default");
                     $('#ContenidoModalFierro').html(data);

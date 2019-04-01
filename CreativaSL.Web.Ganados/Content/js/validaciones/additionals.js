@@ -84,11 +84,11 @@ $.validator.addMethod("ImagenRequerida", function (value, element, params) {
         var imagenServidor = document.getElementById(params[0]).value;
 
         if (imagenServidor === "0") {
-            console.log("false");
+            
             return false;
         }
         else {
-            console.log("true");
+            
             return true;
         }
     }

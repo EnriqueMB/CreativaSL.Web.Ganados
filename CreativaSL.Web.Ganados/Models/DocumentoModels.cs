@@ -40,5 +40,6 @@ namespace CreativaSL.Web.Ganados.Models
         //Select 
         public List<CatTipoDocumentoModels> ListaTipoDocumentos { get; set; }
 
+     
     }
 }

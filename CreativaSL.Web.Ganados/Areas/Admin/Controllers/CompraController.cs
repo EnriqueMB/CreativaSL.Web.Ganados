@@ -885,15 +885,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
 
         #region ListaFierros
-        public ActionResult ModalListaFierros(string IDCompra)
+        public ActionResult ModalListaFierros()
         {
             Compra = new CompraModels();
             CompraDatos = new _Compra_Datos();
-            Compra.IDCompra = IDCompra;
             Compra.Conexion = Conexion;
             CatFierroModels Fierro = new CatFierroModels();
-            Fierro.ListaFierro = CompraDatos.GetListaFierrosXCompra(Compra);
-            //Fierro.ListaFierro = CompraDatos.GetListaFierros(Compra);
+
+            Fierro.ListaFierro = CompraDatos.GetListaFierros(Compra);
 
             return PartialView("ModalFierros", Fierro);
         }
@@ -2076,6 +2075,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 if (IDCompra.Length == 0 || IDCompra.Length == 36)
                 {
+
                     CompraDatos = new _Compra_Datos();
                     DocumentoModels Documento = new DocumentoModels();
                     Documento.Id_servicio = IDCompra;
@@ -2188,6 +2188,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
             }
         }
+
+
         #endregion
 
         #region Vista Cobro
@@ -2400,13 +2402,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         if (string.IsNullOrEmpty(DocumentoPorPagarPago.ImagenBase64))
                         {
-                            DocumentoPorPagarPago.ImagenMostrar = Auxiliar.SetDefaultImage();
+                            DocumentoPorPagarPago.ImagenBase64 = Auxiliar.SetDefaultImage();
                         }
-                        else
-                        {
-                            DocumentoPorPagarPago.ImagenMostrar = DocumentoPorPagarPago.ImagenBase64;
-                        }
-                        DocumentoPorPagarPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(DocumentoPorPagarPago.ImagenMostrar);
+                       
+                        DocumentoPorPagarPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(DocumentoPorPagarPago.ImagenBase64);
 
                         Compra = new CompraModels();
                         Compra.Conexion = Conexion;
@@ -2453,11 +2452,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     DocumentoPorPagarPago.RespuestaAjax = new RespuestaAjax();
                     if (DocumentoPorPagarPago.Bancarizado)
                     {
-                        if (DocumentoPorPagarPago.HttpImagen == null)
-                        {
-                            DocumentoPorPagarPago.ImagenBase64 = DocumentoPorPagarPago.ImagenMostrar;
-                        }
-                        else
+                        if (DocumentoPorPagarPago.HttpImagen != null)
                         {
                             DocumentoPorPagarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorPagarPago.HttpImagen);
                         }
