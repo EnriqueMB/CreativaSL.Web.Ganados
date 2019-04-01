@@ -8,6 +8,8 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class PesajeGanadoModels
     {
+        [Required(AllowEmptyStrings = false)]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public int Id { get; set; }
 
         [Required]

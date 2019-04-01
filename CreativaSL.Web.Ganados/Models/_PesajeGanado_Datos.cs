@@ -228,6 +228,23 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public string PesajeGanado_spCIDDB_get_DetallesDocXcobrarPAGOS(int id, string conexion)
+        {
+            try
+            {
+                object[] parametros = { id };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "pesajeGanado.spCIDDB_get_DetallesDocXcobrarPAGOS", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public DocumentosPorCobrarDetallePagosModels PesajeGanado_spCSLDB_get_GetDetalleDocumentoPago(DocumentosPorCobrarDetallePagosModels DocumentoPago)
         {
             try
@@ -371,6 +388,68 @@ namespace CreativaSL.Web.Ganados.Models
                 }
                 dr.Close();
                 return DocumentosPorCobrarModels;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public PesajeGanadoDetalleModels PesajeGanado_spCIDDB_get_detalle(int id, string conexion)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    id
+                };
+
+                PesajeGanadoDetalleModels oDetalle = new PesajeGanadoDetalleModels();
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "pesajeGanado.spCIDDB_get_detalle", parametros);
+
+                while (dr.Read())
+                {
+                    oDetalle.Id = !dr.IsDBNull(dr.GetOrdinal("id")) ? dr.GetInt32(dr.GetOrdinal("id")) : 0;
+                    oDetalle.Folio = !dr.IsDBNull(dr.GetOrdinal("folio")) ? dr.GetString(dr.GetOrdinal("folio")) : string.Empty;
+                    oDetalle.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("nombreSucursal")) ? dr.GetString(dr.GetOrdinal("nombreSucursal")) : string.Empty;
+                    oDetalle.Id_documentoCobrar = !dr.IsDBNull(dr.GetOrdinal("id_documentoPorCobrar")) ? dr.GetString(dr.GetOrdinal("id_documentoPorCobrar")) : string.Empty;
+                    oDetalle.NombreCliente = !dr.IsDBNull(dr.GetOrdinal("nombreCliente")) ? dr.GetString(dr.GetOrdinal("nombreCliente")) : string.Empty;
+                    oDetalle.FechaCreacion = !dr.IsDBNull(dr.GetOrdinal("fechaCreacion")) ? dr.GetString(dr.GetOrdinal("fechaCreacion")) : string.Empty;
+                    oDetalle.FechaFinalizacion = !dr.IsDBNull(dr.GetOrdinal("fechaFinalizacion")) ? dr.GetString(dr.GetOrdinal("fechaFinalizacion")) : string.Empty;
+                    oDetalle.MontoTotalKilo = !dr.IsDBNull(dr.GetOrdinal("pesoTotal")) ? dr.GetDecimal(dr.GetOrdinal("pesoTotal")) : 0;
+                    oDetalle.MontoTotalPorCobrar = !dr.IsDBNull(dr.GetOrdinal("montoPorCobrar")) ? dr.GetDecimal(dr.GetOrdinal("montoPorCobrar")) : 0;
+                    oDetalle.TotalPercepciones = !dr.IsDBNull(dr.GetOrdinal("totalPercepciones")) ? dr.GetDecimal(dr.GetOrdinal("totalPercepciones")) : 0;
+                    oDetalle.TotalDeducciones = !dr.IsDBNull(dr.GetOrdinal("totalDeducciones")) ? dr.GetDecimal(dr.GetOrdinal("totalDeducciones")) : 0;
+                    oDetalle.Total = !dr.IsDBNull(dr.GetOrdinal("total")) ? dr.GetDecimal(dr.GetOrdinal("total")) : 0;
+                    oDetalle.Impuestos = !dr.IsDBNull(dr.GetOrdinal("impuestos")) ? dr.GetDecimal(dr.GetOrdinal("impuestos")) : 0;
+                    oDetalle.Subtotal = !dr.IsDBNull(dr.GetOrdinal("subtotal")) ? dr.GetDecimal(dr.GetOrdinal("subtotal")) : 0;
+                    oDetalle.Pagos = !dr.IsDBNull(dr.GetOrdinal("pagos")) ? dr.GetDecimal(dr.GetOrdinal("pagos")) : 0;
+                }
+                dr.Close();
+                return oDetalle;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public RespuestaAjax PesajeGanado_spCIDDB_finalizar(int id, string conexion, string usuario)
+        {
+            try
+            {
+                object[] parametros = { id, usuario };
+                SqlDataReader dr = null;
+                RespuestaAjax respuesta = new RespuestaAjax();
+                dr = SqlHelper.ExecuteReader(conexion, "pesajeGanado.spCIDDB_finalizar", parametros);
+                while (dr.Read())
+                {
+                    respuesta.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    respuesta.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                }
+                dr.Close();
+                return respuesta;
             }
             catch (Exception ex)
             {

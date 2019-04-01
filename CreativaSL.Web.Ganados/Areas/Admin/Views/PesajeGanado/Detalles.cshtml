@@ -1,0 +1,475 @@
+﻿@model CreativaSL.Web.Ganados.Models.PesajeGanadoDetalleModels
+@{
+    ViewBag.Title = "Detalles";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section css
+{
+    <style>
+        .vista_previa {
+            cursor: pointer;
+        }
+
+        #imagen_previa {
+            width: 100% !important;
+        }
+
+        .form-control[disabled], .form-control[readonly] {
+            color: #000 !important;
+        }
+    </style>
+}
+@section featured
+{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty; ;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <!--INICIA TABS-->
+        <div class="panel panel-default tabs">
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
+                <li role="presentation" class=""><a href="#cobros" aria-controls="cobros" role="tab" data-toggle="tab">Cobros</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="general">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">INFORMACION</h3>
+                                @Html.HiddenFor(model => model.Id)
+                                @Html.HiddenFor(model => model.Id_documentoCobrar)
+
+                                <ul class="panel-controls">
+                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <h4>Datos del pesaje de ganado</h4>
+                                            <dl class="dl-horizontal">
+                                                <dt>Folio</dt>
+                                                <dd>@Model.Folio</dd>
+                                                <dt>Sucursal</dt>
+                                                <dd>@Model.NombreSucursal</dd>
+                                                <dt>Fecha de creación</dt>
+                                                <dd>@Model.FechaCreacion</dd>
+                                                <dt>Fecha de finalización</dt>
+                                                <dd>@Model.FechaFinalizacion</dd>
+                                                <dt>Kilos</dt>
+                                                <dd>@Model.MontoTotalKilo KG.</dd>
+                                                <dt>Cobro</dt>
+                                                <dd>@Model.MontoTotalPorCobrar.ToString("C2")</dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <a href="@Url.Action("Index", "PesajeGanado")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+                <div role="tabpanel" class="tab-pane" id="cobros">
+                    <div class="col-md-12">
+                        <br />
+                        <div class="form-group">
+                            <div class="col-md-4 controlError">
+                                <label class="col-md-3 control-label">Total Percepciones ($)</label>
+                                <div class="col-md-9 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+                                        @Html.TextBoxFor(model => model.TotalPercepciones, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 controlError">
+                                <div class="controlError">
+                                    <label class="col-md-3 control-label">Total deducciones ($)</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+                                            @Html.TextBoxFor(model => model.TotalDeducciones, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 controlError">
+                                <div class="controlError">
+                                    <label class="col-md-3 control-label">Total del pesaje ($)</label>
+                                    <div class="col-md-9 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+                                            @Html.TextBoxFor(model => model.Total, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">PRODUCTOS O SERVICIOS POR COBRAR REALIZADOS DURANTE LA VENTA</h3>
+                                <ul class="panel-controls">
+                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+
+                            </div>
+                            <div class="panel-body">
+                                <div class="page-content-wrap">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-4 controlError">
+                                                <label class="col-md-3 control-label">Impuestos</label>
+                                                <div class="col-md-9 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+                                                        @Html.TextBoxFor(model => model.Impuestos, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 controlError">
+                                                <div class="controlError">
+                                                    <label class="col-md-3 control-label">Subtotal</label>
+                                                    <div class="col-md-9 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+                                                            @Html.TextBoxFor(model => model.Subtotal, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 controlError">
+                                                <div class="controlError">
+                                                    <label class="col-md-3 control-label">Total percepciones</label>
+                                                    <div class="col-md-9 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+                                                            @Html.TextBoxFor(model => model.TotalPercepciones, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="table-responsive">
+                                            <div class="table-responsive">
+                                                <table id="tbl_docxcobrardetalles" class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Descripción</th>
+                                                            <th>Cantidad</th>
+                                                            <th>Precio unitario</th>
+                                                            <th>Impuestos</th>
+                                                            <th>Subtotal</th>
+                                                            <th>Total ($)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">DEDUCCIONES APLICADAS</h3>
+                                <ul class="panel-controls">
+                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="page-content-wrap">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-4 controlError">
+                                                <div class="controlError">
+                                                    <label class="col-md-4 control-label">Total deducciones</label>
+                                                    <div class="col-md-8 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+                                                            @Html.TextBoxFor(model => model.TotalDeducciones, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="table-responsive">
+                                            <div class="table-responsive">
+                                                <table id="tbl_detallesDeducciones" class="table datatable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Deducir en</th>
+                                                            <th>Tipo de deducción</th>
+                                                            <th>Cantidad</th>
+                                                            <th>Total</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">COBROS REALIZADOS DURANTE LA COMPRA</h3>
+                                <ul class="panel-controls">
+                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="page-content-wrap">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-4 controlError">
+                                                <label class="col-md-3 control-label">Cobros realizados</label>
+                                                <div class="col-md-9 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+                                                        @Html.TextBoxFor(model => model.Pagos, "{0:c2}", new { autocomplete = "off", @class = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="table-responsive">
+                                            <div class="table-responsive">
+                                                <table id="tbl_docxcobrardetallesPagos" class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Tipo de pago</th>
+                                                            <th>Banco</th>
+                                                            <th>Número: Cuenta / Tarjeta / Clabe</th>
+                                                            <th>Observación</th>
+                                                            <th>Fecha realizada</th>
+                                                            <th>Imagen</th>
+                                                            <th>Cantidad</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="panel-footer">
+                                <a href="@Url.Action("Index", "PesajeGanado")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--TERMINA TABS-->
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modalImagen" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Imagen</h4>
+                </div>
+                <div class="modal-body">
+                    <img id="imagen_previa" src="" alt="Imagen_previa" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        var message     = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            var Id = $("#Id").val();
+            var Id_documentoCobrar = $("#Id_documentoCobrar").val();
+
+            var tbl_docxcobrardetalles = $('#tbl_docxcobrardetalles').DataTable({
+                "language": {
+                    "url": "/Content/assets/json/Spanish.json"
+                },
+                responsive: true,
+                "ajax": {
+                    "data": {
+                        "Id": Id, "Id_documentoCobrar": Id_documentoCobrar
+                    },
+                    "url": "/Admin/PesajeGanado/DTDetallesDocumentoPorCobrarPesajeGanado/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "dataSrc": ''
+                },
+                "columns": [
+                    { "data": "descripcion" },
+                    { "data": "cantidad" },
+                    {
+                        "data": "precioUnitario",
+                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                    },
+                    {
+                        "data": "impuestos",
+                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                    },
+                    {
+                        "data": "subtotal",
+                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                    },
+                    {
+                        "data": "total",
+                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                    }
+                ]
+            });
+
+            var tbl_docxcobrardetallesPagos = $('#tbl_docxcobrardetallesPagos').DataTable({
+                "language": {
+                    "url": "/Content/assets/json/Spanish.json"
+                },
+                responsive: true,
+                "ajax": {
+                    "data": {
+                        "Id": Id
+                    },
+                    "url": "/Admin/PesajeGanado/DTDetallesDocXcobrarPAGOS/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "dataSrc": ''
+                },
+                "columns": [
+                    { "data": "TipoPago" },
+                    { "data": "Banco" },
+                    { "data": "NumCuenta" },
+                    { "data": "Observacion" },
+                    {
+                        "data": "Fecha",
+                        "render": function (data, type, row) {
+                            var fecha;
+                            if (data === null)
+                                fecha = "Sin dato";
+                            else {
+                                var dateSplit = data.split('-');
+                                var dia = dateSplit[2];
+                                dia = dia.split('T');
+                                dia = dia[0];
+                                var mes = dateSplit[1];
+                                var año = dateSplit[0];
+                                fecha = dia + '-' + mes + '-' + año;
+                            }
+
+                            return fecha;
+                        }
+                    },
+                     {
+                         "data": null,
+                         "render": function (data, type, full) {
+                             var imagen64 = full["Imagen"];
+
+                             var img = "";
+
+                             if (imagen64) {
+                                 var extension = "";
+                                 var position = imagen64.indexOf("iVBOR");
+                                 //imagen png
+                                 if (position != -1)
+                                     extension = "image/png";
+
+                                 position = imagen64.indexOf("/9j/4");
+                                 if (position != -1)
+                                     extension = "image/jpeg";
+                                 //bmp de 256 colores
+                                 position = imagen64.indexOf("Qk3");
+                                 if (position == 0)
+                                     extension = "image/bmp";
+
+                                 //bmp de monocromatico colores
+                                 position = imagen64.indexOf("Qk2");
+                                 if (position == 0)
+                                     extension = "image/bmp";
+
+                                 //bmp de 16 colores
+                                 position = imagen64.indexOf("Qk1");
+                                 if (position == 0)
+                                     extension = "image/bmp";
+
+                                 img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='data:" + extension + ";base64," + imagen64 + "' />";
+                             }
+                             else {
+                                 img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
+                             }
+                             return img;
+                         }
+                     },
+                    {
+                        "data": "Cantidad",
+                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                    }
+                ],
+                "drawCallback": function (settings) {
+
+                    $('img.vista_previa').on('click', function () {
+                        var src_image = $(this).attr('src');
+                        $("#imagen_previa").attr("src", src_image);
+                        $("#modalImagen").modal();
+                    });
+
+                }
+            });
+
+            Mensaje(message, typemessage);
+        });
+    </script>
+}
+
+
+
+
