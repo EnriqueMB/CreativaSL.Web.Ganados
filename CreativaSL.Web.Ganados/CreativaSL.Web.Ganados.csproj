@@ -1508,6 +1508,9 @@
     <Content Include="Areas\Admin\Views\PesajeGanado\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\PesajeGanado\Transacciones.cshtml" />
     <Content Include="Areas\Admin\Views\PesajeGanado\Cobro.cshtml" />
+    <Content Include="Areas\Admin\Views\CajaChica\Movimientos.cshtml" />
+    <Content Include="Areas\Admin\Views\MiCajaChica\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\MiCajaChica\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
