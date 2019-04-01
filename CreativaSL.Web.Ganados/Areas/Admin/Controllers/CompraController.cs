@@ -2074,6 +2074,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 if (IDCompra.Length == 0 || IDCompra.Length == 36)
                 {
+
                     CompraDatos = new _Compra_Datos();
                     DocumentoModels Documento = new DocumentoModels();
                     Documento.Id_servicio = IDCompra;
@@ -2186,6 +2187,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
             }
         }
+
+
         #endregion
 
         #region Vista Cobro
