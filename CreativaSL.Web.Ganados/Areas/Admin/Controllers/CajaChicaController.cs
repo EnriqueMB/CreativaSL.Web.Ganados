@@ -46,6 +46,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
+
         // POST: Admin/CajaChica/Create
         [HttpPost]
         public ActionResult Create(CajaChicaModels model)

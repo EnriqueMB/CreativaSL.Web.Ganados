@@ -1,5 +1,6 @@
 ﻿var CajaChica = function () {
     "use strict";    
+
     
     var runDelete = function () {
         $('.table-responsive').delegate('a.deleteRow', 'click', function (e) {
