@@ -45,9 +45,9 @@
             height: 100% !important;
         }
 
-        .media-object{
-            height:75px;
-            width:150px;
+        .media-object {
+            height: 75px;
+            width: 150px;
         }
     </style>
 }
@@ -226,7 +226,9 @@
                                                                 <th>Eliminar</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody></tbody>
+                                                        <tbody>
+                                                           
+                                                        </tbody>
                                                     </table>
                                                 </div>
                                             </div>
@@ -274,7 +276,31 @@
             </div>
         </div>
     </div>
+    <!-- Modal section para inputs de selección de fierro 1, 2 y 3 -->
+    <div class="blackCap"></div>
+    <div idfila="" class="capaModal modalFierro1">
+        <div class="modalFierroContent">
+            <div class="modalTop">
+                <div class="modalTitle">
+                    <h3>SELECCIÓN DE FIERRO</h3>
+                </div>
+                <div class="closeModalContent">
+                    <button class="closeModalButton"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="modalBody">
+                <div class="searchFierro">
+                    <input type="text" placeholder="Ingrese el nombre que desea buscar" />
+                    <a class="btn btn-danger">Dejar sin asignar</a>
+                </div>
+                <div class="fierroList">
 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End modal section -->
     <script>
         var message     = "@message";
         var typemessage = "@typemessage";
