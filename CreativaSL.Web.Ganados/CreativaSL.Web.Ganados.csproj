@@ -1693,6 +1693,7 @@
     <Compile Include="Models\ClienteLugarModels.cs" />
     <Compile Include="Models\CompraAlmacenDetalleModels.cs" />
     <Compile Include="Models\CompraAlmacenModels.cs" />
+    <Compile Include="Models\CompraFierroModels.cs" />
     <Compile Include="Models\CompraGanadoModels.cs" />
     <Compile Include="Models\CompraImpuestoModels.cs" />
     <Compile Include="Models\CompraModels.cs" />

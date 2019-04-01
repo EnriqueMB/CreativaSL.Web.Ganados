@@ -103,7 +103,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Compra = CompraDatos.GetGanadoCompra(Compra);
                     Compra.ListadoPrecioRangoPesoString = CompraDatos.GetListadoPrecioRangoPeso(Compra).ToJSON();
                     Compra.ListaCorralesString = CompraDatos.GetListaCorrales(Compra).ToJSON();
-                    Compra.ListaFierrosString = CompraDatos.GetListaFierros(Compra).ToJSON();
+                    //Compra.ListaFierrosString = CompraDatos.GetListaFierros(Compra).ToJSON();
+                    Compra.ListaFierrosString = CompraDatos.GetListaFierrosXCompra(Compra).ToJSON();
 
                     return View(Compra);
                 }
