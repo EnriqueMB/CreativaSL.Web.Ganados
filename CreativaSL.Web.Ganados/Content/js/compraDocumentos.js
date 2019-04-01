@@ -250,3 +250,49 @@
         }
     };
 }();
+
+$(".addToList").click(function () {
+    $.each($(".gallery .gallery-item input[type='checkbox']:checked"), function (i, l) {
+        // console.log($(this).attr("name"));
+        var getRef = $(this).attr("name");
+        var countElementsInList = $(".listaFierroContent .lista .listaItem[refitem='" + getRef + "']").length;
+        if (countElementsInList == 0) {
+            var getDescription = $(".gallery .gallery-item[refitem='" + getRef + "'] .meta strong").text();
+            $(".listaFierroContent .lista").append(`
+                    <div refitem='`+ getRef + `' class="listaItem">
+                    <div class="description"><input readonly name="`+ getRef + `" value="` + getDescription + `" /></div>
+                    <div class="buttonErase" eraseto='`+ getRef + `'>
+                    <a class="btn btn-danger tooltips btn-sm eliminar" data-original-title="Eliminar" title="Eliminar de esta lista"><i class="fa fa-trash-o"></i></a>
+                    </div>
+                    </div>
+                `);
+            $(".gallery .gallery-item[refitem='" + getRef + "']").addClass("dontShow");
+        }
+        countElementsInList = $(".listaFierroContent .lista .listaItem").length;
+        console.log(countElementsInList);
+        if (countElementsInList > 0) {
+            $(".listaFierroContent form button[type='submit']").addClass("showButton");
+            $(".listaFierroContent .lista .listaMessage").css("display", "none");
+        }
+        else {
+            $(".listaFierroContent form button[type='submit']").removeClass("showButton");
+        }
+
+
+    });
+});
+
+$(document).on("click", ".buttonErase", function () {
+    var getRef = $(this).attr("eraseto");
+    $(".gallery .gallery-item[refitem='" + getRef + "']").removeClass('dontShow');
+    $(".gallery .gallery-item[refitem='" + getRef + "'] .icheckbox_minimal-grey").removeClass('checked');
+    $(".gallery .gallery-item[refitem='" + getRef + "'] input[type='checkbox']").prop('checked', false);
+    $(".listaFierroContent .lista .listaItem[refitem='" + getRef + "']").remove();
+
+    var countElementsInList = $(".listaFierroContent .lista .listaItem").length;
+    console.log(countElementsInList);
+    if (countElementsInList == 0) {
+        $(".listaFierroContent form button[type='submit']").removeClass("showButton");
+        $(".listaFierroContent .lista .listaMessage").css("display", "block");
+    }
+});
