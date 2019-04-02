@@ -8,6 +8,10 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class DocumentoModels
     {
+        public DocumentoModels()
+        {
+            ListaFierro = new CompraFierroModels();
+        }
         public int Id_deduccion { get; set; }
         public string Id_detalleDoctoCobrar { get; set; }
         /// <summary>
@@ -40,6 +44,6 @@ namespace CreativaSL.Web.Ganados.Models
         //Select 
         public List<CatTipoDocumentoModels> ListaTipoDocumentos { get; set; }
 
-     
+        public CompraFierroModels ListaFierro { get; set; }
     }
 }

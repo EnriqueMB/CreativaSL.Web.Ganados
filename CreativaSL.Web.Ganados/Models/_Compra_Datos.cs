@@ -3457,10 +3457,10 @@ namespace CreativaSL.Web.Ganados.Models
                         while (DTRD.Read())
                         {
                             Item = new CompraFierroModels();
-                            Item.IdFierro = DTRD.IsDBNull(DTRD.GetOrdinal("id_fierro")) ? DTRD.GetString(DTRD.GetOrdinal("id_fierro")) : string.Empty;
-                            Item.NombreFierro = DTRD.IsDBNull(DTRD.GetOrdinal("nombreFierro")) ? DTRD.GetString(DTRD.GetOrdinal("nombreFierro")) : string.Empty;
-                            Item.Observacion = DTRD.IsDBNull(DTRD.GetOrdinal("observacion")) ? DTRD.GetString(DTRD.GetOrdinal("observacion")) : string.Empty;
-                            Item.NombreImagen = DTRD.IsDBNull(DTRD.GetOrdinal("nombreImagen")) ? DTRD.GetString(DTRD.GetOrdinal("nombreImagen")) : string.Empty;
+                            Item.IdFierro = !DTRD.IsDBNull(DTRD.GetOrdinal("id_fierro")) ? DTRD.GetString(DTRD.GetOrdinal("id_fierro")) : string.Empty;
+                            Item.NombreFierro = !DTRD.IsDBNull(DTRD.GetOrdinal("nombreFierro")) ? DTRD.GetString(DTRD.GetOrdinal("nombreFierro")) : string.Empty;
+                            Item.Observacion = !DTRD.IsDBNull(DTRD.GetOrdinal("observacion")) ? DTRD.GetString(DTRD.GetOrdinal("observacion")) : string.Empty;
+                            Item.NombreImagen = !DTRD.IsDBNull(DTRD.GetOrdinal("nombreImagen")) ? DTRD.GetString(DTRD.GetOrdinal("nombreImagen")) : "sin_imagen.jpg";
                             ListaFierros.Add(Item);
                         }
                         Datos.ListaFierroCompra = ListaFierros;
@@ -3472,9 +3472,9 @@ namespace CreativaSL.Web.Ganados.Models
                         while (DTR.Read())
                         {
                             Item1 = new CompraFierroModels();
-                            Item1.IdCompraFierro = DTRD.IsDBNull(DTRD.GetOrdinal("id_compraFierro")) ? DTRD.GetString(DTRD.GetOrdinal("id_compraFierro")) : string.Empty;
-                            Item1.NombreFierro = DTRD.IsDBNull(DTRD.GetOrdinal("nombreFierro")) ? DTRD.GetString(DTRD.GetOrdinal("nombreFierro")) : string.Empty;
-                            Item1.NombreImagen = DTRD.IsDBNull(DTRD.GetOrdinal("nombreImagen")) ? DTRD.GetString(DTRD.GetOrdinal("nombreImagen")) : string.Empty;
+                            Item1.IdCompraFierro = !DTR.IsDBNull(DTR.GetOrdinal("id_compraFierro")) ? DTR.GetString(DTR.GetOrdinal("id_compraFierro")) : string.Empty;
+                            Item1.NombreFierro = !DTR.IsDBNull(DTR.GetOrdinal("nombreFierro")) ? DTR.GetString(DTR.GetOrdinal("nombreFierro")) : string.Empty;
+                            Item1.NombreImagen = !DTR.IsDBNull(DTR.GetOrdinal("nombreImagen")) ? DTR.GetString(DTR.GetOrdinal("nombreImagen")) : "sin_imagen.jpg";
                             ListaFierroCompra.Add(Item1);
                         }
                         Datos.ListaFierroXCompra = ListaFierroCompra;
@@ -3488,14 +3488,14 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public int GuardarFierroCompra(CompraFierroModels datos, DataTable TablaFierro)
+        public int GuardarFierroCompra(string Conexion, string IdCompra, string IdUsuario, DataTable TablaFierro)
         {
             try
             {
-                DataSet dt = SqlHelper.ExecuteDataset(datos.Conexion, CommandType.StoredProcedure, "[dbo].[spCSLDB_Compras_a_Fierros]",
-                new SqlParameter("@IDCompra", datos.IdCompra),
+                DataSet dt = SqlHelper.ExecuteDataset(Conexion, CommandType.StoredProcedure, "[dbo].[spCSLDB_Compras_a_Fierros]",
+                new SqlParameter("@IDCompra", IdCompra),
                 new SqlParameter("@TableFierro", TablaFierro),
-                new SqlParameter("@usuario", datos.IDUsuario));
+                new SqlParameter("@usuario", IdUsuario));
                 return Convert.ToInt32(dt.Tables[0].Rows[0][0].ToString());
             }
             catch (Exception ex)

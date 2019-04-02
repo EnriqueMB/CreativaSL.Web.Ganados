@@ -12,6 +12,7 @@ using System.Net;
 using Newtonsoft.Json;
 using CreativaSL.Web.Ganados.App_Start;
 using Microsoft.Reporting.WebForms;
+using System.Data;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -2004,13 +2005,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 //0 = nuevo, 36 = edit, si es diferente es un id no valido
                 if (Id_compra.Length == 36)
                 {
+                    
                     _Compra_Datos CompraDatos = new _Compra_Datos();
                     DocumentoModels Documento = new DocumentoModels();
                     Documento.Id_servicio = Id_1;
                     Documento.Conexion = Conexion;
                     Documento = CompraDatos.GetGeneralesDocumentosCompra(Documento);
                     Documento.ListaConceptosSalidaDeduccion = CompraDatos.GetListadoTipoClasificacionPago(Documento);
-
+                    Documento.ListaFierro.IdCompra = Documento.Id_servicio;
+                    Documento.ListaFierro.Conexion = Conexion;
+                    Documento.ListaFierro = CompraDatos.FierroCompra(Documento.ListaFierro);
                     return View(Documento);
                 }
                 else
@@ -2189,7 +2193,57 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult FierroCompra(string Id_1, FormCollection Form)
+        {
+            try
+            {
+                CompraDatos = new _Compra_Datos();
+                string Usuario = User.Identity.Name;
+                string Id_servicio = string.Empty;
+                DataTable TablaIDFiero = new DataTable();
+                TablaIDFiero.Columns.Add("IDFierro", typeof(string));
+                List<string> Lista = new List<string>();
+                foreach (var item in Form.AllKeys)
+                {
+                    if (item == "Id_servicio")
+                    {
+                        Id_servicio = Form["Id_servicio"].ToString();
+                    }
+                    else
+                    {
+                        if (item.Length == 36)
+                        {
+                            string IDFierro = Form[item].ToString();
+                            TablaIDFiero.Rows.Add(item);
+                        }
+                    }
+                   
+                }
 
+                int Valor = 0;
+                Valor = CompraDatos.GuardarFierroCompra(Conexion, Id_servicio, Usuario, TablaIDFiero);
+                if (Valor == 1)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "Se registrarón correctament los fierros a la compra.";
+                    return RedirectToAction("DocumentosCompra", "Compra", new { Id_1 = Id_servicio });
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Ocurrio un error al registrar los fierro por compra. Intente más tarde ó contacte a soporte técnico";
+                    return RedirectToAction("DocumentosCompra", "Compra", new { Id_1 = Id_servicio });
+                }
+               
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Error al cargar la vista";
+                return RedirectToAction("Index", "Compra");
+            }
+        }
         #endregion
 
         #region Vista Cobro
