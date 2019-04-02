@@ -1,0 +1,376 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section css{
+    <style>
+        .transacciones {
+            background-color: #95b75d !important;
+            border-color: #95b75d !important;
+            color: white !important;
+        }
+    </style>
+}
+
+
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span>Venta general</h2>
+    </div>
+    <!-- END PAGE TITLE -->
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                        <ul class="panel-controls">
+                            <li><a href="@Url.Action("Create","VentaGeneral")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo venta general</a></li>
+                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                            <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table id="tbl_VentaGeneral" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Folio</th>
+                                        <th>Sucursal</th>
+                                        <th>Cliente</th>
+                                        <th>Precio ($)</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel-footer"></div>
+                </div>
+                <!-- END DEFAULT DATATABLE -->
+            </div>
+        </div>
+    </div>
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres eliminar este registro?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-finalizar">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-check"></span> Finalizar <strong>venta general</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres finalizar esta venta?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes" style="background-color: green; border-color: green;">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    var message = '@message';
+    var typemessage = '@typemessage';
+    </script>
+}
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+
+            var tbl_PesajeGanado = $('#tbl_VentaGeneral').DataTable({
+                "language": {
+                    "url": "/Content/assets/json/Spanish.json"
+                },
+                responsive: true,
+                "ajax": {
+                    "data": {
+
+                    },
+                    "url": "/Admin/VentaGeneral/DTIndex/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "dataSrc": ''
+                },
+                "columns": [
+                    {
+                        "data": "fecha",
+                        "render": function (data, type, row) {
+                            var fecha;
+                            if (data === null)
+                                fecha = "Sin dato";
+                            else {
+                                var dateSplit = data.split('-');
+                                var dia = dateSplit[2];
+                                dia = dia.split('T');
+                                dia = dia[0];
+                                var mes = dateSplit[1];
+                                var año = dateSplit[0];
+                                fecha = dia + '-' + mes + '-' + año;
+                            }
+
+                            return fecha;
+                        }
+                    },
+                    { "data": "folio" },
+                    { "data": "nombreSucursal" },
+                    { "data": "nombreCliente" },
+                    {
+                        "data": "total",
+                        "render": $.fn.dataTable.render.number(',', '.', 2, '$')
+                    },
+                    {
+                        "data": null,
+                        "render": function (data, type, full) {
+                            var finalizado = String(full["finalizado"]);
+
+                            if (finalizado.localeCompare("true") == 0)
+                            {
+                                return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                                    "<a data-id='" + full["id"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                    "</div>" +
+                                    "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                    "<div class='btn-group'>" +
+                                    "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                    "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                                    "</a>" +
+                                    "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+
+                                    "<li>" +
+                                    "<a class='details' data-id='" + full["id"] + "'  role='menuitem' tabindex='-1'>" +
+                                    "<i class='fa fa-eye'></i> Detalles" +
+                                    "</a>" +
+                                    "</li>" +
+
+                                    "</ul>" +
+                                    "</div>" +
+                                    "</div>";
+                            }
+                            else
+                            {
+                                return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                                    "<a data-id='" + full["id"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                    "<a data-id='" + full["id"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transacciones'><i class='fa fa-money'></i></a>" +
+                                    "<a data-id='" + full["id"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Editar'><i class='fa fa-edit'></i></a>" +
+                                    "<a data-id='" + full["id"] + "' class='btn btn-danger tooltips btn-sm delete' title='Eliminar' data-placement='top' data-original-title='Eliminar'  data-hrefa='/Admin/PesajeGanado/delete/'><i class='fa fa-trash-o'></i></a>" +
+                                    "<a data-id='" + full["id"] + "' class='btn btn-blue tooltips btn-sm concluir' title='Concluir'  data-placement='top' data-original-title='Concluir' data-hrefa='/Admin/PesajeGanado/Finalizar/'><i class='fa fa-check'></i></a>" +
+                                    "</div>" +
+                                    "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                    "<div class='btn-group'>" +
+                                    "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                    "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                                    "</a>" +
+                                    "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+
+                                    "<li>" +
+                                    "<a class='details' data-id='" + full["id"] + "'  role='menuitem' tabindex='-1'>" +
+                                    "<i class='fa fa-eye'></i> Detalles" +
+                                    "</a>" +
+                                    "</li>" +
+
+                                    "<li>" +
+                                    "<a class='transacciones' role='menuitem' tabindex='-1' data-id='" + full["id"] + "'>" +
+                                    "<i class='fa fa-money'></i> Transacciones" +
+                                    "</a>" +
+                                    "</li>" +
+
+                                    "<li>" +
+                                    "<a class='edit' role='menuitem' tabindex='-1' data-id='" + full["id"] + "'>" +
+                                    "<i class='fa fa-edit'></i> Editar" +
+                                    "</a>" +
+                                    "</li>" +
+
+                                    "<li>" +
+                                    "<a class='delete' role='menuitem' tabindex='-1' data-id='" + full["id"] + "' data-hrefa='/Admin/PesajeGanado/delete/'>" +
+                                    "<i class='fa fa-trash-o'></i> Eliminar" +
+                                    "</a>" +
+                                    "</li>" +
+
+                                    "<li>" +
+                                    "<a class='concluir' role='menuitem' tabindex='-1' data-id='" + full["id"] + "' data-hrefa='/Admin/PesajeGanado/Finalizar/'>" +
+                                    "<i class='fa fa-check'></i> Concluir" +
+                                    "</a>" +
+                                    "</li>" +
+
+                                    "</ul>" +
+                                    "</div>" +
+                                    "</div>";
+                            }
+                                
+
+                            return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                                "<a data-id='" + full["id"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                "<a data-id='" + full["id"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transacciones'><i class='fa fa-money'></i></a>" +
+                                "<a data-id='" + full["id"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Editar'><i class='fa fa-edit'></i></a>" +
+                                "<a data-id='" + full["id"] + "' class='btn btn-danger tooltips btn-sm delete' title='Eliminar' data-placement='top' data-original-title='Eliminar'  data-hrefa='/Admin/PesajeGanado/delete/'><i class='fa fa-trash-o'></i></a>" +
+                                "<a data-id='" + full["id"] + "' class='btn btn-blue tooltips btn-sm concluir' title='Concluir'  data-placement='top' data-original-title='Concluir' data-hrefa='/Admin/PesajeGanado/Finalizar/'><i class='fa fa-check'></i></a>" +
+                                "</div>" +
+                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                "<div class='btn-group'>" +
+                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                                "</a>" +
+                                "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+
+                                "<li>" +
+                                "<a class='details' data-id='" + full["id"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-eye'></i> Detalles" +
+                                "</a>" +
+                                "</li>" +
+
+                                "<li>" +
+                                "<a class='transacciones' role='menuitem' tabindex='-1' data-id='" + full["id"] + "'>" +
+                                "<i class='fa fa-money'></i> Transacciones" +
+                                "</a>" +
+                                "</li>" +
+
+                                "<li>" +
+                                "<a class='edit' role='menuitem' tabindex='-1' data-id='" + full["id"] + "'>" +
+                                "<i class='fa fa-edit'></i> Editar" +
+                                "</a>" +
+                                "</li>" +
+
+                                "<li>" +
+                                "<a class='delete' role='menuitem' tabindex='-1' data-id='" + full["id"] + "' data-hrefa='/Admin/PesajeGanado/delete/'>" +
+                                "<i class='fa fa-trash-o'></i> Eliminar" +
+                                "</a>" +
+                                "</li>" +
+
+                                "<li>" +
+                                "<a class='concluir' role='menuitem' tabindex='-1' data-id='" + full["id"] + "' data-hrefa='/Admin/PesajeGanado/Finalizar/'>" +
+                                "<i class='fa fa-check'></i> Concluir" +
+                                "</a>" +
+                                "</li>" +
+
+                                "</ul>" +
+                                "</div>" +
+                                "</div>";
+                        }
+                    }
+                ],
+                //Para agregar algún evento a la tabla se puede poner aquí
+                "drawCallback": function (settings) {
+                    $(".concluir").on("click", function () {
+                        var url = $(this).attr('data-hrefa');
+                        var box = $("#mb-finalizar");
+                        var id = $(this).attr('data-id');
+                        box.addClass("open");
+                        box.find(".mb-control-yes").on("click", function () {
+                            box.removeClass("open");
+                            $.ajax({
+                                url: url,
+                                data: { id: id },
+                                type: 'POST',
+                                dataType: 'json',
+                                success: function (result) {
+                                    if (result.Success) {
+                                        box.find(".mb-control-yes").prop('onclick', null).off('click');
+                                        Mensaje(result.Mensaje, "1");
+                                        tbl_PesajeGanado.ajax.reload();
+                                    }
+                                    else {
+                                        box.find(".mb-control-yes").prop('onclick', null).off('click');
+                                        Mensaje(result.Mensaje, "2");
+                                    }
+                                        
+                                },
+                                error: function () {
+                                    box.find(".mb-control-yes").prop('onclick', null).off('click');
+                                    Mensaje(result.Mensaje, "2");
+                                }
+                            });
+                        });
+                    });
+
+
+                    $(".details").on("click", function () {
+                        var id = $(this).data("id");
+                        window.location.href = '/Admin/PesajeGanado/Detalles?id=' + id;
+                    });
+
+                    $(".transacciones").on("click", function () {
+                        var id = $(this).data("id");
+                        window.location.href = '/Admin/PesajeGanado/Transacciones?id=' + id;
+                    });
+
+                    $(".edit").on("click", function () {
+                        var id = $(this).data("id");
+                        window.location.href = '/Admin/PesajeGanado/Edit?id=' + id;
+                    });
+
+                    $(".delete").on("click", function () {
+                        var url = $(this).attr('data-hrefa');
+                        var box = $("#mb-remove-row");
+                        var id = $(this).attr('data-id');
+                        box.addClass("open");
+                        box.find(".mb-control-yes").on("click", function () {
+                            box.removeClass("open");
+                            $.ajax({
+                                url: url,
+                                data: { id: id },
+                                type: 'POST',
+                                dataType: 'json',
+                                success: function (result) {
+                                    if (result.Success) {
+                                        box.find(".mb-control-yes").prop('onclick', null).off('click');
+                                        Mensaje(result.Mensaje, "1");
+                                        tbl_PesajeGanado.ajax.reload();
+                                    }
+                                    else {
+                                        box.find(".mb-control-yes").prop('onclick', null).off('click');
+                                        Mensaje(result.Mensaje, "2");
+                                    }
+                                },
+                                error: function () {
+                                    box.find(".mb-control-yes").prop('onclick', null).off('click');
+                                    Mensaje(result.Mensaje, "2");
+                                }
+                            });
+                        });
+                    });
+                }
+            });
+        });
+    </script>
+}
+
+
