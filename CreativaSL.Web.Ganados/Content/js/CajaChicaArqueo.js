@@ -66,10 +66,31 @@
         //});
     };
 
+    var eventos = function () {
+        $('.txtvalues').keyup(function () {
+            calcularArqueo();
+        });
+    };
+
+    function calcularArqueo() {
+        var table = document.getElementById("tbl1");
+        var total = 0;
+        for (var i = 1; i < table.rows.length; i++) { //el 1 es para evitar los titulos
+
+            var row = "";
+            var denominacion = table.rows[i].cells[2].innerHTML; 
+            var cantidad = table.rows[i].cells[3].firstChild.value;
+            total += denominacion * cantidad;
+
+        }
+        document.getElementById("Total").value = total;
+    }
+
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
+            eventos();
         }
     };
 }();

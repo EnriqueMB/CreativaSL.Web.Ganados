@@ -1517,6 +1517,7 @@
     <Content Include="Areas\Admin\Views\CajaChica\Movimientos.cshtml" />
     <Content Include="Areas\Admin\Views\MiCajaChica\Create.cshtml" />
     <Content Include="Areas\Admin\Views\MiCajaChica\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\PesajeGanado\Detalles.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1781,6 +1782,7 @@
     <Compile Include="Models\NominaModels.cs" />
     <Compile Include="Models\NominaResumenDetalleModels.cs" />
     <Compile Include="Models\NominaVacacionesModels.cs" />
+    <Compile Include="Models\PesajeGanadoDetalleModels.cs" />
     <Compile Include="Models\PesajeGanadoModels.cs" />
     <Compile Include="Models\ProductorAlmacenSucursalModels.cs" />
     <Compile Include="Models\ProveedorLugarModels.cs" />

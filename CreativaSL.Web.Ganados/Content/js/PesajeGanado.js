@@ -24,12 +24,13 @@
             },
             ignore: "",
             rules: {
+                Id_cliente: { required: true },
                 Id_sucursal: { required: true },
                 PesoTotal: { required: true, min: 0 },
                 MontoPorCobrar: { required: true, min: 1 }
             },
             messages: {
-
+                Id_cliente: { required: "Seleccione un cliente." },
                 Id_sucursal: { required: "Seleccione una sucursal." },
                 PesoTotal: { required: "Ingrese un peso máximo", min: "Ingrese un peso mayor a 0" },
                 MontoPorCobrar: { required: "Ingrese un monto a cobrar", min: "Ingrese un monto a cobrar mayor a 1"  }

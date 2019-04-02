@@ -173,14 +173,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                RespuestaAjax respuesta = new RespuestaAjax();
                 if (id == null || id == 0)
                 {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Verifique sus datos.";
-                    return RedirectToAction("Index");
+                    respuesta.Success = false;
+                    respuesta.Mensaje = "Verifique sus datos.";
+                    return Content(respuesta.ToJSON(), "application/json");
                 }
                 _PesajeGanado_Datos oDatosPesaje = new _PesajeGanado_Datos();
-                RespuestaAjax respuesta = new RespuestaAjax();
                 string usuario = User.Identity.Name;
                 respuesta = oDatosPesaje.PesajeGanado_spCIDDB_del(id.Value, conexion, usuario);
 
@@ -291,6 +291,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 throw;
             }
         }
+
         [HttpPost]
         public ContentResult DTDetallesDocumentoPorCobrarPesajeGanado(string Id, string Id_documentoCobrar)
         {
@@ -338,6 +339,25 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
                
+                return Content(Mensaje.ToJSON(), "application/json");
+            }
+        }
+
+        [HttpPost]
+        public ContentResult DTDetallesDocXcobrarPAGOS(int Id)
+        {
+            try
+            {
+                _PesajeGanado_Datos oDatosPesaje = new _PesajeGanado_Datos();
+                string respuesta = oDatosPesaje.PesajeGanado_spCIDDB_get_DetallesDocXcobrarPAGOS(Id, conexion);
+
+                return Content(respuesta, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+
                 return Content(Mensaje.ToJSON(), "application/json");
             }
         }
@@ -541,6 +561,61 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["message"] = "No se puede cargar la vista, error: " + Mensaje;
                 return View("Index");
 
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Detalles(int? id)
+        {
+
+            try
+            {
+                if (id == null)
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista, verifique sus datos.";
+                    return View("Index");
+                }
+
+                _PesajeGanado_Datos oDatosPesajeGanado = new _PesajeGanado_Datos();
+                PesajeGanadoDetalleModels oDetalles = new PesajeGanadoDetalleModels();
+                oDetalles = oDatosPesajeGanado.PesajeGanado_spCIDDB_get_detalle(id.Value, conexion);
+
+                return View(oDetalles);
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos, error: " + Mensaje;
+                return View("Index");
+            }
+            
+            
+        }
+
+        [HttpPost]
+        public ActionResult Finalizar(int? id)
+        {
+            try
+            {
+                RespuestaAjax respuesta = new RespuestaAjax();
+                if (id == null || id == 0)
+                {
+                    respuesta.Success = false;
+                    respuesta.Mensaje = "Verifique sus datos.";
+                    return Content(respuesta.ToJSON(), "application/json");
+                }
+                _PesajeGanado_Datos oDatosPesaje = new _PesajeGanado_Datos();
+
+                string usuario = User.Identity.Name;
+                respuesta = oDatosPesaje.PesajeGanado_spCIDDB_finalizar(id.Value, conexion, usuario);
+
+                return Content(respuesta.ToJSON(), "application/json");
+            }
+            catch
+            {
+                return View();
             }
         }
     }
