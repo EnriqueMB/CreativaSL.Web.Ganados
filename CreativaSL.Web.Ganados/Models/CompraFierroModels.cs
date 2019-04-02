@@ -7,6 +7,19 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CompraFierroModels
     {
+        public CompraFierroModels()
+        {
+            IdCompraFierro = string.Empty;
+            IdCompra = string.Empty;
+            IdFierro = string.Empty;
+            NombreFierro = string.Empty;
+            Observacion = string.Empty;
+            NombreImagen = string.Empty;
+            ListaFierroCompra = new List<CompraFierroModels>();
+            ListaFierroXCompra = new List<CompraFierroModels>();
+            Conexion = string.Empty;
+            IDUsuario = string.Empty;
+        }
         public string IdCompraFierro { get; set; }
         public string IdCompra { get; set; }
         public string IdFierro { get; set; }

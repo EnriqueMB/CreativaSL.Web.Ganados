@@ -260,7 +260,7 @@ $(".addToList").click(function () {
             var getDescription = $(".gallery .gallery-item[refitem='" + getRef + "'] .meta strong").text();
             $(".listaFierroContent .lista").append(`
                     <div refitem='`+ getRef + `' class="listaItem">
-                    <div class="description"><input readonly name="`+ getRef + `" value="` + getDescription + `" /></div>
+                    <div class="description"><input type="text" readonly id="`+ getRef + `" name="`+ getRef + `" value="` + getDescription + `" /></div>
                     <div class="buttonErase" eraseto='`+ getRef + `'>
                     <a class="btn btn-danger tooltips btn-sm eliminar" data-original-title="Eliminar" title="Eliminar de esta lista"><i class="fa fa-trash-o"></i></a>
                     </div>
