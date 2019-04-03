@@ -153,7 +153,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <div class="col-md-offset-11 col-md-1">
-                                            <button type="button" class="btn btn-primary">Agregar</button>
+                                            <button id="btnAddProducto" type="button" class="btn btn-primary">Agregar</button>
                                         </div>
                                     </div>
                                 </div>
@@ -165,8 +165,8 @@
                         <table id="tbl1" class="table">
                             <thead>
                                 <tr>
-                                    <th style="display:none">id_producto</th>
-                                    <th style="display:none">id_tipoProducto</th>
+                                    <th>id_producto</th>
+                                    <th>id_tipoProducto</th>
                                     <th>Producto</th>
                                     <th>Cantidad</th>
                                     <th>Precio unitario</th>
@@ -197,7 +197,10 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script src="~/Content/js/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Content/js/plugins/jquery.maskMoney.min.js"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/VentaGeneral.js")"></script>
+
 
     <script>
         jQuery(document).ready(function () {

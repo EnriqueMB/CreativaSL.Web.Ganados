@@ -45,6 +45,23 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             ViewBag.ListaClientes = oDatosCombo.ObtenerComboClientes(conexion);
             ViewBag.ListaTipoProductos = oDatosCombo.VentaGeneral_spCIDDB_get_catTipoProducto(conexion);
         }
+
+        public ActionResult ComboVehiculos()
+        {
+            try
+            {
+                _Combos_Datos oDatosCombo = new _Combos_Datos();
+                List<CatVehiculoModels> ListaVehiculos = oDatosCombo.Dbo_spCSLDB_Combo_get_CatVehiculosAll(conexion);
+
+                return Content(ListaVehiculos.ToJSON(), "application/json");
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error. Por favor contacte a soporte técnico";
+                return Json("");
+            }
+        }
         #endregion
 
         #region DT

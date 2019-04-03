@@ -546,6 +546,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.IDVehiculo = !dr.IsDBNull(dr.GetOrdinal("IDVehiculo")) ? dr.GetString(dr.GetOrdinal("IDVehiculo")) : string.Empty;
                     Item.nombreMarca = !dr.IsDBNull(dr.GetOrdinal("NombreVehiculo")) ? dr.GetString(dr.GetOrdinal("NombreVehiculo")) : string.Empty;
                     Item.Modelo = !dr.IsDBNull(dr.GetOrdinal("Tipo")) ? dr.GetString(dr.GetOrdinal("Tipo")) : string.Empty;
+
+                    Lista.Add(Item);
                 }
                 dr.Close();
                 return Lista;
