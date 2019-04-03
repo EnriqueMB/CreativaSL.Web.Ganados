@@ -94,10 +94,21 @@
             processData: false,
             cache: false,
             error: function (response) {
-                Mensaje(response.Mensaje, "2");
+                if (response.Href != "") {
+                    window.location.href = '/Admin/Compra/DocumentosCompra?Id_1=' + response.Href;
+                    Mensaje(response.Mensaje, "2");
+                }
+                else {
+                    Mensaje(response.Mensaje, "2");
+                }
             },
             success: function (response) {
-                window.location.href = '/Admin/CatFierro/Index';
+                if (response.Href != "") {
+                   window.location.href = '/Admin/Compra/DocumentosCompra?Id_1=' + response.Href;
+                }
+                else {
+                    window.location.href = '/Admin/CatFierro/Index';
+                }
             }
         });
     }
