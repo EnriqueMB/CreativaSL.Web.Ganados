@@ -234,18 +234,13 @@
                                         <div><h3 class="listaFierroTitulo">FIERROS YA REGISTRADOS</h3></div>
                                         <div class="listaFierroContent">
                                             <div class="fierroRegistrados">
+                                                @foreach (var item in Model.ListaFierro.ListaFierroXCompra) {
                                                 <div class="fierroRegItem">
-                                                    <p>Título de descripción de fierro.</p>
-                                                    <button imageref="img1" class="btn btn-info seePreview" type="button"><i class='fa fa-eye'></i></button>
+                                                    <p>@item.NombreFierro</p>
+                                                    <button imageref="@item.IdCompraFierro" class="btn btn-info seePreview" type="button"><i class='fa fa-eye'></i></button>
                                                 </div>
-                                                <div class="fierroRegItem">
-                                                    <p>Título de descripción de fierro.</p>
-                                                    <button imageref="img2" class="btn btn-info seePreview" type="button"><i class='fa fa-eye'></i></button>
-                                                </div>
-                                                <div class="fierroRegItem">
-                                                    <p>Título de descripción de fierro.</p>
-                                                    <button imageref="img3" class="btn btn-info seePreview" type="button"><i class='fa fa-eye'></i></button>
-                                                </div>
+                                                }
+                                           
                                             </div>
                                         </div>
                                     </div>
@@ -275,7 +270,7 @@
                                                     </div>
                                                     <div class="meta">
                                                         <strong>@item.NombreFierro</strong>
-                                                        <span>@item.Observacion</span>
+                                                        <!-- <span>@item.Observacion</span> -->
                                                     </div>
                                                 </a>
                                             }
@@ -309,12 +304,12 @@
                                                 {
                                                     if (i == Model.ListaFierro.current)
                                                     {
-                                                        <li class="active"><a href="/Admin/Compra/DocumentosCompra?Id_1=@Model.Id_servicio&current=@Html.Raw(i)" class="paginator">@Html.Raw(i) <span class="sr-only">(current)</span></a></li>
+                                                        <li class="active"><a href="/Admin/Compra/DocumentosCompra?Id_1=@Model.Id_servicio&current=@Html.Raw(i)&#Fierro" class="paginator">@Html.Raw(i) <span class="sr-only">(current)</span></a></li>
 
                                                     }
-                                                    else
+                                                    else 
                                                     {
-                                                        <li class=""><a href="/Admin/Compra/DocumentosCompra?Id_1=@Model.Id_servicio&current=@Html.Raw(i)" class="paginator">@Html.Raw(i) <span class="sr-only">(current)</span></a></li>
+                                                        <li class=""><a href="/Admin/Compra/DocumentosCompra?Id_1=@Model.Id_servicio&current=@Html.Raw(i)#Fierro" class="paginator">@Html.Raw(i) <span class="sr-only">(current)</span></a></li>
                                                     }
                                                 }
                                             }
@@ -343,36 +338,19 @@
             <button><i class="fa fa-times"></i></button>
         </div>
         <div class="gContent">
-            <div imageref="img1" class="gItem">
+            @foreach (var item in Model.ListaFierro.ListaFierroXCompra){
+            <div imageref="@item.IdCompraFierro" class="gItem">
                 <div class="gModalBody">
                     <figure>
-                        <img src="https://i.pinimg.com/originals/aa/07/7c/aa077c73a8b7b337d096f1979b495d9a.jpg" />
+                        <img src="@Url.Content("~/Imagenes/Fierro/" + item.NombreImagen + "")" alt="@item.NombreFierro" />
                     </figure>
                 </div>
                 <div class="gModalFooter">
-                    <h3>Título de ejemplo que no debe ser tan largo pero aquí andará :3</h3>
+                    <h3>@item.NombreFierro</h3>
                 </div>
             </div>
-            <div imageref="img2" class="gItem">
-                <div class="gModalBody">
-                    <figure>
-                        <img src="https://http2.mlstatic.com/fierros-para-herrar-D_NQ_NP_13314-MLM3264751123_102012-F.jpg" />
-                    </figure>
-                </div>
-                <div class="gModalFooter">
-                    <h3>Título de ejemplo que no debe ser tan largo pero aquí andará :3</h3>
-                </div>
-            </div>
-            <div imageref="img3" class="gItem">
-                <div class="gModalBody">
-                    <figure>
-                        <img src="https://www.grupoelmolino.com/wp-content/uploads/2018/06/hierro-nitrogeno.jpg" />
-                    </figure>
-                </div>
-                <div class="gModalFooter">
-                    <h3>Título de ejemplo que no debe ser tan largo pero aquí andará :3</h3>
-                </div>
-            </div>
+            }
+       
         </div>
         <div class="gModalPrevContent"><i class="fa fa-caret-left"></i></div>
         <div class="gModalNextContent"><i class="fa fa-caret-right"></i></div>
