@@ -1692,6 +1692,7 @@
     <Compile Include="Models\CatTipoDocumentoModels.cs" />
     <Compile Include="Models\CatTipoEventoEnvioModels.cs" />
     <Compile Include="Models\CatTipoGanadoPorPesoModels.cs" />
+    <Compile Include="Models\CatTipoProducto.cs" />
     <Compile Include="Models\CatTipoProveedorModels.cs" />
     <Compile Include="Models\CatTipoServicioModels.cs" />
     <Compile Include="Models\CatTipoVehiculoModels.cs" />

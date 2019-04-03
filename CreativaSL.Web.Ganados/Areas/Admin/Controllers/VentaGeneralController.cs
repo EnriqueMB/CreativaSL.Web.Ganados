@@ -43,6 +43,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _Combos_Datos oDatosCombo = new _Combos_Datos();
             ViewBag.ListaSucursal = oDatosCombo.ObtenerComboSucursales(conexion);
             ViewBag.ListaClientes = oDatosCombo.ObtenerComboClientes(conexion);
+            ViewBag.ListaTipoProductos = oDatosCombo.VentaGeneral_spCIDDB_get_catTipoProducto(conexion);
         }
         #endregion
 

@@ -504,5 +504,56 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public List<CatTipoProducto> VentaGeneral_spCIDDB_get_catTipoProducto(string conexion)
+        {
+            try
+            {
+                CatTipoProducto item;
+                List<CatTipoProducto> lista = new List<CatTipoProducto>();
+
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "ventaGeneral.spCIDDB_get_catTipoProducto");
+                while (dr.Read())
+                {
+                    item = new CatTipoProducto
+                    {
+                        Id = !dr.IsDBNull(dr.GetOrdinal("id")) ? dr.GetInt32(dr.GetOrdinal("id")) : 0,
+                        Descripcion = !dr.IsDBNull(dr.GetOrdinal("descripcion")) ? dr.GetString(dr.GetOrdinal("descripcion")) : string.Empty
+                    };
+
+                    lista.Add(item);
+                }
+                dr.Close();
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CatVehiculoModels> Dbo_spCSLDB_Combo_get_CatVehiculosAll(string Conexion)
+        {
+            try
+            {
+                List<CatVehiculoModels> Lista = new List<CatVehiculoModels>();
+                CatVehiculoModels Item;
+                SqlDataReader dr = SqlHelper.ExecuteReader(Conexion, "dbo.spCSLDB_Combo_get_CatVehiculosAll");
+                while (dr.Read())
+                {
+                    Item = new CatVehiculoModels();
+                    Item.IDVehiculo = !dr.IsDBNull(dr.GetOrdinal("IDVehiculo")) ? dr.GetString(dr.GetOrdinal("IDVehiculo")) : string.Empty;
+                    Item.nombreMarca = !dr.IsDBNull(dr.GetOrdinal("NombreVehiculo")) ? dr.GetString(dr.GetOrdinal("NombreVehiculo")) : string.Empty;
+                    Item.Modelo = !dr.IsDBNull(dr.GetOrdinal("Tipo")) ? dr.GetString(dr.GetOrdinal("Tipo")) : string.Empty;
+                }
+                dr.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
