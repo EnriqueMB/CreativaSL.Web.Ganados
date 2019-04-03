@@ -3444,7 +3444,7 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                object[] parametros = { Datos.IdCompra };
+                object[] parametros = { Datos.IdCompra, Datos.offset, Datos.fetchNext };
                 DataSet Ds = SqlHelper.ExecuteDataset(Datos.Conexion, "[dbo].[spCSLDB_Compra_get_Fierro]", parametros);
                 if (Ds != null)
                 {
@@ -3478,6 +3478,14 @@ namespace CreativaSL.Web.Ganados.Models
                             ListaFierroCompra.Add(Item1);
                         }
                         Datos.ListaFierroXCompra = ListaFierroCompra;
+
+                        DataTableReader DTRT = Ds.Tables[2].CreateDataReader();
+                        DataTable Tbl3 = Ds.Tables[2];
+                        while (DTRT.Read())
+                        {
+                            Datos.totalFierro = !DTRT.IsDBNull(DTRT.GetOrdinal("TotalFierro")) ? DTRT.GetInt32(DTRT.GetOrdinal("TotalFierro")) : 0;
+                            break;
+                        }
                     }
                 }
                 return Datos;

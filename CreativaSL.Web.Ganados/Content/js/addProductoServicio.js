@@ -43,7 +43,7 @@
             dataType: 'json',
             data: {  },
             error: function () {
-                Mensaje("Ocurrió un error al cargar el combo", "1");
+                Mensaje("Ocurrió un error al cargar el combo", "2");
             },
             success: function (result) {
                 $("#Id_almacen option").remove();
@@ -66,7 +66,7 @@
                 dataType: 'json',
                 data: { almacen: almacen },
                 error: function () {
-                    Mensaje("Ocurrió un error al cargar el combo", "1");
+                    Mensaje("Ocurrió un error al cargar el combo", "2");
                 },
                 success: function (result) {
                     $("#Id_producto option").remove();

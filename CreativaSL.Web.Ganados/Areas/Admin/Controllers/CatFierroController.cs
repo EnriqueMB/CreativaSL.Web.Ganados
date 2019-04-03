@@ -49,7 +49,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                return View();
+                CatFierroModels fierro = new CatFierroModels();
+                return View(fierro);
             }
             catch (Exception)
             {
@@ -68,12 +69,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // GET: Admin/CatFierro/Create
         [HttpGet]
-        public ActionResult Create()
+        public ActionResult Create(string Id_servicio)
         {
             try
             {
+
                 Token.SaveToken();
                 CatFierroModels Fierro = new CatFierroModels();
+                Fierro.Id_servicio = Id_servicio;
                 return View(Fierro);
             }
             catch (Exception)
@@ -115,12 +118,62 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Fierro = FierroDatos.ActualizarImagen(Fierro);
                         if (Fierro.Completado == true)
                         {
-                            TempData["typemessage"] = "1";
-                            TempData["message"] = "Los datos se guardarón correctamente.";
+                            if (!string.IsNullOrEmpty(Fierro.Id_servicio))
+                            {
+                                TempData["typemessage"] = "1";
+                                TempData["message"] = "El fierro se registro correctamente a la compra.";
+                                Token.ResetToken();
+                                Fierro.RespuestaAjax = new RespuestaAjax();
+                                Fierro.RespuestaAjax.Success = true;
+                                Fierro.RespuestaAjax.Href = Fierro.Id_servicio;
+                                return Content(Fierro.RespuestaAjax.ToJSON(), "application/json");
+                                //return RedirectToAction("DocumentosCompra", "Compra", new { Id_1 = Fierro.Id_servicio });
+                            }
+                            else
+                            {
+                                TempData["typemessage"] = "1";
+                                TempData["message"] = "Los datos se guardarón correctamente.";
+                                Token.ResetToken();
+                                Fierro.RespuestaAjax = new RespuestaAjax();
+                                Fierro.RespuestaAjax.Success = true;
+                                return Content(Fierro.RespuestaAjax.ToJSON(), "application/json");
+                            }
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(Fierro.Id_servicio))
+                            {
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "Ocurrio un error al intentar guardar el fierro a la compra. Intente más tarde.";
+                                Token.ResetToken();
+                                Fierro.RespuestaAjax = new RespuestaAjax();
+                                Fierro.RespuestaAjax.Success = false;
+                                Fierro.RespuestaAjax.Href = Fierro.Id_servicio;
+                                Fierro.RespuestaAjax.Mensaje = "Ocurrio un error al intentar guardar el fierro a la compra. Intente más tarde.";
+                                return Content(Fierro.RespuestaAjax.ToJSON(), "application/json");
+                            }
+                            else
+                            {
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                                Fierro.RespuestaAjax = new RespuestaAjax();
+                                Fierro.RespuestaAjax.Success = false;
+
+                                return Content(Fierro.RespuestaAjax.ToJSON(), "application/json");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(Fierro.Id_servicio))
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar el fierro a la compra. Intente más tarde.";
                             Token.ResetToken();
                             Fierro.RespuestaAjax = new RespuestaAjax();
-                            Fierro.RespuestaAjax.Success = true;
-
+                            Fierro.RespuestaAjax.Success = false;
+                            Fierro.RespuestaAjax.Href = Fierro.Id_servicio;
+                            Fierro.RespuestaAjax.Mensaje = "Ocurrio un error al intentar guardar el fierro a la compra. Intente más tarde.";
                             return Content(Fierro.RespuestaAjax.ToJSON(), "application/json");
                         }
                         else
@@ -133,44 +186,63 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             return Content(Fierro.RespuestaAjax.ToJSON(), "application/json");
                         }
                     }
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(Fierro.Id_servicio))
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Ocurrio un error al intentar guardar el fierro a la compra. Intente más tarde.";
+                        Token.ResetToken();
+                        Fierro.RespuestaAjax = new RespuestaAjax();
+                        Fierro.RespuestaAjax.Success = false;
+                        Fierro.RespuestaAjax.Href = Fierro.Id_servicio;
+                        Fierro.RespuestaAjax.Mensaje = "Ocurrio un error al intentar guardar el fierro a la compra. Intente más tarde.";
+                        return Content(Fierro.RespuestaAjax.ToJSON(), "application/json");
+                    }
                     else
                     {
                         TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intantar guardar la imagen. Intente más tarde.";
+                        TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         Fierro.RespuestaAjax = new RespuestaAjax();
                         Fierro.RespuestaAjax.Success = false;
 
                         return Content(Fierro.RespuestaAjax.ToJSON(), "application/json");
                     }
                 }
-                else
-                {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Verifique sus datos";
-
-                    Fierro.RespuestaAjax = new RespuestaAjax();
-                    Fierro.RespuestaAjax.Success = false;
-
-                    return Content(Fierro.RespuestaAjax.Mensaje, "application/json");
-                }
                
             }
             catch (Exception ex)
             {
-                TempData["typemessage"] = "2";
-                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
-                Fierro.RespuestaAjax = new RespuestaAjax();
-                Fierro.RespuestaAjax.Success = false;
-
-                return Content(Fierro.RespuestaAjax.Mensaje, "application/json");
+                if (!string.IsNullOrEmpty(Fierro.Id_servicio))
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Ocurrio un error al intentar guardar el fierro a la compra. Intente más tarde.";
+                    Token.ResetToken();
+                    Fierro.RespuestaAjax = new RespuestaAjax();
+                    Fierro.RespuestaAjax.Success = false;
+                    Fierro.RespuestaAjax.Href = Fierro.Id_servicio;
+                    Fierro.RespuestaAjax.Mensaje = "Ocurrio un error al intentar guardar el fierro a la compra. Intente más tarde.";
+                    return Content(Fierro.RespuestaAjax.ToJSON(), "application/json");
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                    Fierro.RespuestaAjax = new RespuestaAjax();
+                    Fierro.RespuestaAjax.Success = false;
+                    
+                    return Content(Fierro.RespuestaAjax.ToJSON(), "application/json");
+                }
             }
         }
-        public ActionResult UploadImagen()
+        public ActionResult UploadImagen(string Id_servicio)
         {
             try
             {
                 Token.SaveToken();
                 CatFierroModels Fierro = new CatFierroModels();
+                Fierro.Id_servicio = Id_servicio;
                 return View(Fierro);
             }
             catch (Exception)
@@ -229,46 +301,85 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             Fierro = FierroDatos.ActualizarImagen(Fierro);
                             if (Fierro.Completado == true)
                             {
-                                TempData["typemessage"] = "1";
-                                TempData["message"] = "Los datos se guardaron correctamente.";
-                                Token.ResetToken();
-                                return RedirectToAction("Index");
+                                if (!string.IsNullOrEmpty(Fierro.Id_servicio))
+                                {
+                                    TempData["typemessage"] = "1";
+                                    TempData["message"] = "El fierro se registro correctamente a la compra.";
+                                    Token.ResetToken();
+                                    return RedirectToAction("DocumentosCompra", "Compra", new { Id_1 = Fierro.Id_servicio });
+                                }
+                                else
+                                {
+                                    TempData["typemessage"] = "1";
+                                    TempData["message"] = "Los datos se guardaron correctamente.";
+                                    Token.ResetToken();
+                                    return RedirectToAction("Index");
+                                }
                             }
                             else
                             {
-                                TempData["typemessage"] = "2";
-                                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                                return View(Fierro);
+                                if (!string.IsNullOrEmpty(Fierro.Id_servicio))
+                                {
+                                    TempData["typemessage"] = "2";
+                                    TempData["message"] = "Ocurrio un error al intentar guardar la imagen de fierro. Intente más tarde.";
+                                    return RedirectToAction("DocumentosCompra", "Compra", new { Id_1 = Fierro.Id_servicio });
+                                }
+                                else
+                                {
+                                    TempData["typemessage"] = "2";
+                                    TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                                    return View(Fierro);
+                                }
                             }
                         }
                     }
                     else
                     {
-                        TempData["typemessage"] = "2";
-                        TempData["message"] = "Ocurrio un error al intentar guardar la imagen. Intente más tarde.";
-                        return View(Fierro);
+                        if (!string.IsNullOrEmpty(Fierro.Id_servicio))
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar la imagen del fierro. Intente más tarde.";
+                            return RedirectToAction("DocumentosCompra", "Compra", new { Id_1 = Fierro.Id_servicio });
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+                            return View(Fierro);
+                        }
                     }
                 }
                 else
                 {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Verifique sus datos";
-
-                    Fierro.RespuestaAjax = new RespuestaAjax();
-                    Fierro.RespuestaAjax.Success = false;
-
-                    return Content(Fierro.RespuestaAjax.Mensaje, "application/json");
+                    if (!string.IsNullOrEmpty(Fierro.Id_servicio))
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Verifique sus datos";
+                        return RedirectToAction("DocumentosCompra", "Compra", new { Id_1 = Fierro.Id_servicio });
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Verifique sus datos";
+                        return View(Fierro);
+                    }
                 }
                 return View(Fierro);
             }
             catch (Exception ex)
             {
-                TempData["typemessage"] = "2";
-                TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
-                Fierro.RespuestaAjax = new RespuestaAjax();
-                Fierro.RespuestaAjax.Success = false;
-
-                return Content(Fierro.RespuestaAjax.Mensaje, "application/json");
+                if (!string.IsNullOrEmpty(Fierro.Id_servicio))
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos";
+                    return RedirectToAction("DocumentosCompra", "Compra", new { Id_1 = Fierro.Id_servicio });
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos";
+                    return View(Fierro);
+                }
             }
         }
         // GET: Admin/CatFierro/Edit/5

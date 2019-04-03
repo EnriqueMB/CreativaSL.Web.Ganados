@@ -9,6 +9,7 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CatProductosAlmacenModels
     {
+        public string UnidadMedida { get; set; }
         public CatProductosAlmacenModels() {
             _listaProductosAlmacen = new List<CatProductosAlmacenModels>();
             _listaTipoCodigoProducto = new List<CatTipoCodigoProductoModels>();

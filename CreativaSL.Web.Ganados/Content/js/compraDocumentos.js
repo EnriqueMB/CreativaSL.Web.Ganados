@@ -296,3 +296,62 @@ $(document).on("click", ".buttonErase", function () {
         $(".listaFierroContent .lista .listaMessage").css("display", "block");
     }
 });
+
+// Funcionalidad gModal para fierros ya registrados
+
+var actualElementClicked;
+var numFierroRegistrado = $(".fierroRegistrados .fierroRegItem").length;
+
+$(document).on("click", ".seePreview", function () {
+    $(".blackCap").addClass('active');
+    $(".gModalContent").addClass('active');
+    var getImageRef = $(this).attr('imageref');
+    $(".gModalContent .gContent .gItem[imageref='" + getImageRef + "']").addClass('active');
+    actualElementClicked = $(this).parent().index() + 1;
+    //alert(actualElementClicked);
+});
+$(".blackCap,.gModalHead button").click(function () {
+    $(".blackCap").removeClass('active');
+    $(".gModalContent").removeClass('active');
+    $(".gModalContent .gContent .gItem").removeClass('active');
+    // alert(actualElementClicked);
+});
+
+// Control de Prev y Next Button
+$(".gModalPrevContent").click(function () {
+    $.each($(".gModalContent .gContent .gItem"), function (i, l) {
+        $(this).removeClass('fromLeft');
+        $(this).removeClass('fromRight');
+    });
+    $(".gModalContent .gContent .gItem:nth-of-type(" + actualElementClicked + ")").removeClass('fromLeft');
+    $(".gModalContent .gContent .gItem:nth-of-type(" + actualElementClicked + ")").addClass('fromRight');
+    $(".gModalContent .gContent .gItem:nth-of-type(" + actualElementClicked + ")").removeClass('active');
+    actualElementClicked--;
+    if (actualElementClicked == 0) {
+        actualElementClicked = numFierroRegistrado;
+    }
+    $(".gModalContent .gContent .gItem:nth-of-type(" + actualElementClicked + ")").removeClass('fromRight');
+    $(".gModalContent .gContent .gItem:nth-of-type(" + actualElementClicked + ")").addClass('fromLeft');
+    $(".gModalContent .gContent .gItem:nth-of-type(" + actualElementClicked + ")").addClass('active');
+    console.log(actualElementClicked);
+
+});
+$(".gModalNextContent").click(function () {
+    $.each($(".gModalContent .gContent .gItem"), function (i, l) {
+        $(this).removeClass('fromLeft');
+        $(this).removeClass('fromRight');
+    });
+    $(".gModalContent .gContent .gItem:nth-of-type(" + actualElementClicked + ")").removeClass('fromRight');
+    $(".gModalContent .gContent .gItem:nth-of-type(" + actualElementClicked + ")").addClass('fromLeft');
+    $(".gModalContent .gContent .gItem:nth-of-type(" + actualElementClicked + ")").removeClass('active');
+
+    actualElementClicked++;
+    if (actualElementClicked > numFierroRegistrado) {
+        actualElementClicked = 1;
+    }
+    $(".gModalContent .gContent .gItem:nth-of-type(" + actualElementClicked + ")").removeClass('fromLeft');
+    $(".gModalContent .gContent .gItem:nth-of-type(" + actualElementClicked + ")").addClass('fromRight');
+    $(".gModalContent .gContent .gItem:nth-of-type(" + actualElementClicked + ")").addClass('active');
+    console.log(actualElementClicked);
+});
+// End funcionalidad gModal

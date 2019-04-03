@@ -26,82 +26,91 @@
         <h3></h3>
     </div>
    
-<div class="col-md-12">
-    @{ Html.EnableClientValidation(false); }
-    @using (Html.BeginForm("Create", "CatFierro", FormMethod.Post, new { id = "frm_fierro", @class = "form-horizontal", autocomplete = "off", @enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><strong>Fierro</strong></h3>
-                <ul class="panel-controls"></ul>
-            </div>
-            <div class="panel-body">
-
-                <div class="form-group">
-                    <div class="col-md-12">
-                        @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
-                        <div id="validation_summary" class="field_error "></div>
-                    </div>
+    <div class="col-md-12">
+        @{ Html.EnableClientValidation(false);
+        }
+        @using (Html.BeginForm("Create", "CatFierro", FormMethod.Post, new { id = "frm_fierro", @class = "form-horizontal", autocomplete = "off", @enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Id_servicio)
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Fierro</strong></h3>
+                    <ul class="panel-controls"></ul>
                 </div>
+                <div class="panel-body">
 
-                <div class="form-group">
-                    <div class="controlError col-md-6">
-                        <label class="col-md-3 control-label">Nombre del fierro</label>
-                        <div class="col-md-9 col-xs-12">
-                            <div class="input-group">
-                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                @Html.TextBoxFor(model => model.NombreFierro, new { @class = "form-control" })
-                            </div>
-                            <span class="help-block">Ingrese el nombre del fierro</span>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
+                            <div id="validation_summary" class="field_error "></div>
                         </div>
                     </div>
-                    <div class="controlError col-md-6">
-                        <label class="col-md-3 control-label">Observación</label>
-                        <div class="col-md-9 col-xs-12">
-                            <div class="input-group">
-                                <span class="input-group-addon"><span class="fa fa-file-text"></span></span>
-                                @Html.TextAreaFor(model => model.Observaciones, new { @class = "form-control" })
+
+                    <div class="form-group">
+                        <div class="controlError col-md-6">
+                            <label class="col-md-3 control-label">Nombre del fierro</label>
+                            <div class="col-md-9 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.NombreFierro, new { @class = "form-control" })
+                                </div>
+                                <span class="help-block">Ingrese el nombre del fierro</span>
                             </div>
-                            <span class="help-block">Ingrese alguna observación.</span>
+                        </div>
+                        <div class="controlError col-md-6">
+                            <label class="col-md-3 control-label">Observación</label>
+                            <div class="col-md-9 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-file-text"></span></span>
+                                    @Html.TextAreaFor(model => model.Observaciones, new { @class = "form-control" })
+                                </div>
+                                <span class="help-block">Ingrese alguna observación.</span>
+                            </div>
+                        </div>
+                        @*<div class="controlError col-md-4">
+                            <label class="col-md-3 control-label">Nombre Imagen</label>
+                            <div class="col-md-9 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.NombreImagen, new { @class = "form-control" })
+                                </div>
+                                <span class="help-block">Ingrese el nombre de la imagen</span>
+                            </div>
+                        </div>*@
+                    </div>
+
+                    <div class="form-group">
+                        <div class="controlError col-md-12">
+                            <label class="col-md-1 control-label">Dibuje el fierro</label>
+                            <div class="col-md-11 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+
+                                    <div id="wPaint" class="col-md-6" style="width: 100%; height:300px;"></div>
+
+                                    <center id="wPaint-img"></center>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    @*<div class="controlError col-md-4">
-                        <label class="col-md-3 control-label">Nombre Imagen</label>
-                        <div class="col-md-9 col-xs-12">
-                            <div class="input-group">
-                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                @Html.TextBoxFor(model => model.NombreImagen, new { @class = "form-control" })
-                            </div>
-                            <span class="help-block">Ingrese el nombre de la imagen</span>
-                        </div>
-                    </div>*@
+
                 </div>
-
-                <div class="form-group">
-                    <div class="controlError col-md-12">
-                        <label class="col-md-1 control-label">Dibuje el fierro</label>
-                        <div class="col-md-11 col-xs-12">
-                            <div class="input-group">
-                                <span class="input-group-addon"><span class="fa fa-camera"></span></span>
-
-                                <div id="wPaint" class="col-md-6" style="width: 100%; height:300px;"></div>
-
-                                <center id="wPaint-img"></center>
-                            </div>
-                        </div>
-                    </div>
+                <div class="panel-footer">
+                    <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                    @if (!string.IsNullOrEmpty(Model.Id_servicio))
+                    {
+                        string Id_1 = Model.Id_servicio;
+                       <a href="@Url.Action("DocumentosCompra","Compra", new { Id_1 })" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Index","CatFierro")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                    }
                 </div>
-
             </div>
-            <div class="panel-footer">
-                <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                <a href="@Url.Action("Index","CatFierro")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
-            </div>
-        </div>
-    }
-</div>
+        }
+    </div>
 
     <script>
         var message = '@message';

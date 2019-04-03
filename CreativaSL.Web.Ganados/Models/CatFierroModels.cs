@@ -18,6 +18,7 @@ namespace CreativaSL.Web.Ganados.Models
             _ImagenContruida = string.Empty;
             _NombreImagen = string.Empty;
             _NombreArchivo = string.Empty;
+            Id_servicio = string.Empty;
         }
         public string Extension { get; set; }
         public RespuestaAjax RespuestaAjax { get; set; }
@@ -110,6 +111,8 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _ImagenContruida; }
             set { _ImagenContruida = value; }
         }
+
+        public string Id_servicio { get; set; }
 
         #region Datos De Control
         public string Conexion { get; set; }
