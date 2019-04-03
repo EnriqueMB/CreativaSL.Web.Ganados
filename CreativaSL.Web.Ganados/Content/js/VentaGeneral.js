@@ -60,13 +60,94 @@
             }
         });
     };
+    var eventos = function () {
+        $('#div1').hide(0);
+        $('#div2').hide(0);
+        $('#div3').hide(0);
+        $('#div4').hide(0);
 
+        $("#TipoProducto").on("change", function () {
+            var opcion = $(this).val();
+            if (opcion === "1") {
+                //los tipo 1, equivale a producto que hay en almacen por lo que hay que obtener los almacenes activos
+                GetAlmacenes();
+                $('#div1').show(1000);
+                
+            }
+            else if (opcion === "2") {
+                console.log("2");
+            }
+        });
 
+        $("#Almacenes").on("change", function () {
+            var opcion = $(this).val();
+
+            if (opcion !== '') {
+                GetProductos_Almacen(opcion);
+                $('#div2').show(1000);
+            }
+        });
+
+        $("#Producto").on("change", function () {
+            var opcion = $(this).val();
+
+            if (opcion !== '') {
+                var existencia = $(this).children(":selected").attr("data-existencia");
+                var unidadmedida = $(this).children(":selected").attr("data-unidadmedida");
+
+                $("#cantidadExistencia").val(existencia + " " + unidadmedida);
+
+                $('#div3').show(1000);
+                $('#div4').show(1000);
+            }
+        });
+        
+    };
+
+    function GetAlmacenes() {
+        $.ajax({
+            url: '/Admin/DocumentoXCobrar/GetAlmacenes/',
+            type: "POST",
+            dataType: 'json',
+            data: {},
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "2");
+            },
+            success: function (result) {
+                $("#Almacenes option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#Almacenes").append('<option value="' + result[i].IDAlmacen + '">' + result[i].Descripcion + '</option>');
+                }
+                $('#Almacenes.select').selectpicker('refresh');
+
+            }
+        });
+    }
+
+    function GetProductos_Almacen(almacen) {
+        $.ajax({
+            url: '/Admin/DocumentoXCobrar/GetProductosAlmacen/',
+            type: "POST",
+            dataType: 'json',
+            data: { almacen: almacen },
+            error: function () {
+                Mensaje("Ocurrió un error al cargar el combo", "2");
+            },
+            success: function (result) {
+                $("#Producto option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    $("#Producto").append('<option value="' + result[i].IDProductoAlmacen + '" data-existencia="' + result[i].Existencia + '" data-preciounidad="' + result[i].PrecioUnidad + '" data-id_unidadproducto="' + result[i].Id_unidadProducto + '" data-unidadmedida="' + result[i].UnidadMedida + '" >' + result[i].Nombre + '</option>');
+                }
+                $('#Producto.select').selectpicker('refresh');
+            }
+        });
+    }
 
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
+            eventos();
         }
     };
 }();

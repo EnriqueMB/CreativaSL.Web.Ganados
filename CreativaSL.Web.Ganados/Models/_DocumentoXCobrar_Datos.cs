@@ -342,6 +342,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item.Existencia = !dr.IsDBNull(dr.GetOrdinal("existencia")) ? dr.GetDecimal(dr.GetOrdinal("existencia")) : 0;
                     item.PrecioUnidad = !dr.IsDBNull(dr.GetOrdinal("precioUnidad")) ? dr.GetDecimal(dr.GetOrdinal("precioUnidad")) : 0;
                     item.Id_unidadProducto = !dr.IsDBNull(dr.GetOrdinal("id_unidadProducto")) ? dr.GetString(dr.GetOrdinal("id_unidadProducto")) : string.Empty;
+                    item.UnidadMedida = !dr.IsDBNull(dr.GetOrdinal("unidadMedida")) ? dr.GetString(dr.GetOrdinal("unidadMedida")) : string.Empty;
                     lista.Add(item);
                 }
                 dr.Close();
