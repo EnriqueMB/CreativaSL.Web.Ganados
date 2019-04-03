@@ -1796,6 +1796,7 @@
     <Compile Include="Models\RecepcionDestinoModels.cs" />
     <Compile Include="Models\RecepcionOrigenVentaModels.cs" />
     <Compile Include="Models\ReporteCabeceraGanado.cs" />
+    <Compile Include="Models\ReporteCajaChica.cs" />
     <Compile Include="Models\ReporteGanadoModels.cs" />
     <Compile Include="Models\Reporte_Datos.cs" />
     <Compile Include="Models\RespuestaAjax.cs" />
@@ -2080,6 +2081,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Formatos\ComprobantePesajeGanado.rdlc" />
+    <Content Include="Reports\ReporteCajaChica.rdlc">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Reports\ReporteCajaChica - Copia.rdlc">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

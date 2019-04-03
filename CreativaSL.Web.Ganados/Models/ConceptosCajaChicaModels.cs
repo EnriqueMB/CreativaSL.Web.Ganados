@@ -9,5 +9,12 @@ namespace CreativaSL.Web.Ganados.Models
     {
         public int IdConcepto { get; set; }
         public string Descripcion { get; set; }
+        public decimal Importe { get; set; }
+
+        public string ImporteString
+        {
+            get { return string.Format("{0:c}", Importe); }
+        }
+
     }
 }
