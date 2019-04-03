@@ -394,7 +394,6 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-
         public int EliminarCaja(Int64 IdCaja, string IdUsuario)
         {
             try
@@ -414,5 +413,93 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public ReporteCajaChica ObtenerDatosReporteCajaChica(Int64 IdCaja)
+        {
+            try
+            {
+                DataSet Ds = SqlHelper.ExecuteDataset(_ConexionRepositorio.CadenaConexion, "cajachica.spCIDDB_get_ReporteCajaChica", IdCaja);
+                if(Ds!= null)
+                {
+                    if(Ds.Tables.Count == 3)
+                    {
+                        ReporteCajaChica Resultado = new ReporteCajaChica();
+
+                        #region Movimientos
+
+                        List<MovimientosCajaChicaModels> Lista = new List<MovimientosCajaChicaModels>();
+                        DataTableReader Dr = Ds.Tables[0].CreateDataReader();
+                        MovimientosCajaChicaModels Item;
+                        while (Dr.Read())
+                        {
+                            Item = new MovimientosCajaChicaModels
+                            {
+                                IdMovimiento = !Dr.IsDBNull(Dr.GetOrdinal("IdMovimiento")) ? Dr.GetInt64(Dr.GetOrdinal("IdMovimiento")) : 0,
+                                Fecha = !Dr.IsDBNull(Dr.GetOrdinal("Fecha")) ? Dr.GetDateTime(Dr.GetOrdinal("Fecha")) : DateTime.MinValue,
+                                Entrega = !Dr.IsDBNull(Dr.GetOrdinal("Entrega")) ? Dr.GetString(Dr.GetOrdinal("Entrega")) : string.Empty,
+                                Entrada = !Dr.IsDBNull(Dr.GetOrdinal("Entrada")) ? Dr.GetDecimal(Dr.GetOrdinal("Entrada")) : 0m,
+                                Salida = !Dr.IsDBNull(Dr.GetOrdinal("Salida")) ? Dr.GetDecimal(Dr.GetOrdinal("Salida")) : 0m,
+                                Recibe = !Dr.IsDBNull(Dr.GetOrdinal("Recibe")) ? Dr.GetString(Dr.GetOrdinal("Recibe")) : string.Empty,
+                                Concepto = !Dr.IsDBNull(Dr.GetOrdinal("Concepto")) ? Dr.GetString(Dr.GetOrdinal("Concepto")) : string.Empty,
+                                Saldo = !Dr.IsDBNull(Dr.GetOrdinal("Saldo")) ? Dr.GetDecimal(Dr.GetOrdinal("Saldo")) : 0m
+                            };
+                            Lista.Add(Item);
+                        }
+                        Dr.Close();
+
+                        Resultado.ListaMovimientos = Lista;
+                        #endregion
+
+                        #region Arqueo
+
+                        List<ArqueoCajaChicaModels> ListaArqueo = new List<ArqueoCajaChicaModels>();
+                        DataTableReader Dr2 = Ds.Tables[1].CreateDataReader();
+                        ArqueoCajaChicaModels ItemArqueo;
+                        while (Dr2.Read())
+                        {
+                            ItemArqueo = new ArqueoCajaChicaModels
+                            {
+                                Valor = !Dr2.IsDBNull(Dr2.GetOrdinal("Denominacion")) ? Dr2.GetDecimal(Dr2.GetOrdinal("Denominacion")) : 0m,
+                                Cantidad = !Dr2.IsDBNull(Dr2.GetOrdinal("Cantidad")) ? Dr2.GetInt32(Dr2.GetOrdinal("Cantidad")) : 0,
+                                Subtotal = !Dr2.IsDBNull(Dr2.GetOrdinal("Importe")) ? Dr2.GetDecimal(Dr2.GetOrdinal("Importe")) : 0m
+                            };
+
+                            ListaArqueo.Add(ItemArqueo);
+                        }
+                        Dr2.Close();
+
+                        Resultado.ListaDenominaciones = ListaArqueo;
+
+                        #endregion
+
+                        #region Conceptos
+                        List<ConceptosCajaChicaModels> ListaConceptos = new List<ConceptosCajaChicaModels>();
+                        DataTableReader Dr3 = Ds.Tables[2].CreateDataReader();
+                        ConceptosCajaChicaModels ItemConcepto;
+                        while (Dr3.Read())
+                        {
+                            ItemConcepto = new ConceptosCajaChicaModels
+                            {
+                                Importe = !Dr3.IsDBNull(Dr3.GetOrdinal("Importe")) ? Dr3.GetDecimal(Dr3.GetOrdinal("Importe")) : 0m,
+                                Descripcion = !Dr3.IsDBNull(Dr3.GetOrdinal("Concepto")) ? Dr3.GetString(Dr3.GetOrdinal("Concepto")) : string.Empty
+                            };
+                            ListaConceptos.Add(ItemConcepto);
+                        }
+                        Dr3.Close();
+
+                        Resultado.ListaConceptos = ListaConceptos;
+                        #endregion
+
+                        return Resultado;
+                    }
+                }
+                return null;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

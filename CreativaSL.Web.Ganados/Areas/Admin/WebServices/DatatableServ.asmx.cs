@@ -182,7 +182,26 @@ namespace CreativaSL.Web.Ganados.WebServices
                 columns.Add(Item.SaldoString);
                 columns.Add(Item.TotalArqueoString);
                 columns.Add(Item.DiferenciaString);
-                string acciones = @"";
+                UrlHelper urlHlp = new UrlHelper(HttpContext.Current.Request.RequestContext, RouteTable.Routes);
+                string acciones = @"
+                    <div class='visible-md visible-lg hidden-sm hidden-xs'>
+                        <a title='Reporte' href='" + urlHlp.RouteUrl("Admin_default", new { controller = "CajaChica", action = "ReporteCajaChica", id = Item.IdCaja}) + @"' class='btn btn-green tooltips' data-placement='top' data-original-title='Reporte'><i class='fa fa-cog'></i></a>
+                    </div>
+                    <div class='visible-xs visible-sm hidden-md hidden-lg'>
+                        <div class='btn-group'>
+                            <a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'>
+                                <i class='fa fa-cog'></i> <span class='caret'></span>
+                            </a>
+                            <ul role='menu' class='dropdown-menu pull-right dropdown-dark'>
+                                <li>
+                                    <a role='menuitem' tabindex='-1' href='" + urlHlp.RouteUrl("Admin_default", new { controller = "CajaChica", action = "ReporteCajaChica", id = Item.IdCaja }) + @"'>
+                                        <i class='fa fa-cog'></i> Reporte
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    ";
                 columns.Add(acciones);
                 resultSet.data.Add(columns);
             }

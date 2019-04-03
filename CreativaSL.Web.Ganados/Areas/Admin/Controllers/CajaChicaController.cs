@@ -1,7 +1,10 @@
 ﻿using CreativaSL.Web.Ganados.App_Start;
 using CreativaSL.Web.Ganados.Models;
+using CreativaSL.Web.Ganados.ViewModels;
+using Microsoft.Reporting.WebForms;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Web.Mvc;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
@@ -45,7 +48,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(new CajaChicaModels());
             }
         }
-
 
         // POST: Admin/CajaChica/Create
         [HttpPost]
@@ -208,6 +210,70 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la información";
                 return RedirectToAction("Index");
+            }
+        }
+
+        public ActionResult ReporteCajaChica(Int64 id)
+        {
+            try
+            {
+                _CajaChica_Datos datos = new _CajaChica_Datos();
+                Reporte_Datos R = new Reporte_Datos();
+                ReporteCajaChica model = datos.ObtenerDatosReporteCajaChica(id);
+                DatosEmpresaViewModels x = R.ObtenerDatosEmpresaTipo1(_ConexionRepositorio.CadenaConexion);
+                LocalReport Rtp = new LocalReport
+                {
+                    EnableExternalImages = true
+                };
+                Rtp.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Reports"), "ReporteCajaChica.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "HistorialCajaChica");
+                }
+                ReportParameter[] Parametros = new ReportParameter[6];
+                Parametros[0] = new ReportParameter("Empresa", x.RazonFiscal);
+                Parametros[1] = new ReportParameter("RFC", x.RFC);
+                Parametros[2] = new ReportParameter("Direccion", x.DireccionFiscal);
+                Parametros[3] = new ReportParameter("Telefono", x.NumTelefonico1);
+                Parametros[4] = new ReportParameter("TelefonoMovil", x.NumTelefonico2);
+                Parametros[5] = new ReportParameter("UrlLogo", x.LogoEmpresa);
+                
+                Rtp.SetParameters(Parametros);
+                Rtp.DataSources.Add(new ReportDataSource("Movimientos", model.ListaMovimientos));
+                Rtp.DataSources.Add(new ReportDataSource("Arqueo", model.ListaDenominaciones));
+                Rtp.DataSources.Add(new ReportDataSource("Conceptos", model.ListaConceptos));
+                string reportType = "PDF";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + reportType + "</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "HistorialCajaChica");
             }
         }
 
