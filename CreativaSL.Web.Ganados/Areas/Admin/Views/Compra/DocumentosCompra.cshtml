@@ -201,12 +201,17 @@
                                     <!-- START CONTENT FRAME TOP -->
                                     <div class="content-frame-top">
                                         <div class="page-title">
-                                            <h2><span class="fa fa-image"></span> Gallery</h2>
+                                            <h2><span class="fa fa-image"></span> Fierros</h2>
+
                                         </div>
-                                        <div class="pull-right">
+                                        <div class="panel-heading">
+                                            <ul class="panel-controls">
+                                                <li><a href="@Url.Action("Create","CatFierro", new { Model.Id_servicio })" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Fierro</a></li>
+                                            </ul>
+                                            <div class="pull-right">
+                                            </div>
                                         </div>
                                     </div>
-
                                     <!-- START CONTENT FRAME RIGHT -->
                                     <div class="content-frame-right">
                                         <div class="block push-up-10">
@@ -226,13 +231,30 @@
                                                 </div>
                                             }
                                         </div>
+                                        <div><h3 class="listaFierroTitulo">FIERROS YA REGISTRADOS</h3></div>
+                                        <div class="listaFierroContent">
+                                            <div class="fierroRegistrados">
+                                                <div class="fierroRegItem">
+                                                    <p>Título de descripción de fierro.</p>
+                                                    <button imageref="img1" class="btn btn-info seePreview" type="button"><i class='fa fa-eye'></i></button>
+                                                </div>
+                                                <div class="fierroRegItem">
+                                                    <p>Título de descripción de fierro.</p>
+                                                    <button imageref="img2" class="btn btn-info seePreview" type="button"><i class='fa fa-eye'></i></button>
+                                                </div>
+                                                <div class="fierroRegItem">
+                                                    <p>Título de descripción de fierro.</p>
+                                                    <button imageref="img3" class="btn btn-info seePreview" type="button"><i class='fa fa-eye'></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <!-- END CONTENT FRAME RIGHT -->
                                     <!-- START CONTENT FRAME BODY -->
                                     <div class="content-frame-body content-frame-body-left">
 
                                         <div class="pull-left push-up-10">
-                                            <button class="btn btn-primary" id="gallery-toggle-items">Toggle All</button>
+                                            <button class="btn btn-primary" id="gallery-toggle-items">Seleccionar Todo</button>
                                         </div>
                                         <div class="pull-right push-up-10">
                                             <div class="btn-group">
@@ -256,17 +278,46 @@
                                                         <span>@item.Observacion</span>
                                                     </div>
                                                 </a>
-                                                }
+                                            }
 
                                         </div>
 
                                         <ul class="pagination pagination-sm pull-right push-down-20 push-up-20">
-                                            <li class="disabled"><a href="#">«</a></li>
-                                            <li class="active"><a href="#">1</a></li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li><a href="#">4</a></li>
-                                            <li><a href="#">»</a></li>
+                                            @*<li class="disabled"><a href="#">«</a></li>
+                                                <li class="active"><a href="#">1</a></li>
+                                                <li><a href="#">2</a></li>
+                                                <li><a href="#">3</a></li>
+                                                <li><a href="#">4</a></li>
+                                                <li><a href="#">»</a></li>*@
+                                            @{
+                                                double numeroPagina = 0;
+                                                try
+                                                {
+                                                    numeroPagina = ((double)Model.ListaFierro.totalFierro / Model.ListaFierro.fetchNext);
+                                                }
+                                                catch (Exception)
+                                                {
+                                                    numeroPagina = 0;
+                                                }
+                                                int numeroPaginaReal = (int)numeroPagina;
+                                                double residuo = numeroPagina - numeroPaginaReal;
+                                                if (residuo > 0.1)
+                                                {
+                                                    numeroPaginaReal = numeroPaginaReal + 1;
+                                                }
+                                                for (int i = 1; i <= numeroPaginaReal; i++)
+                                                {
+                                                    if (i == Model.ListaFierro.current)
+                                                    {
+                                                        <li class="active"><a href="/Admin/Compra/DocumentosCompra?Id_1=@Model.Id_servicio&current=@Html.Raw(i)" class="paginator">@Html.Raw(i) <span class="sr-only">(current)</span></a></li>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <li class=""><a href="/Admin/Compra/DocumentosCompra?Id_1=@Model.Id_servicio&current=@Html.Raw(i)" class="paginator">@Html.Raw(i) <span class="sr-only">(current)</span></a></li>
+                                                    }
+                                                }
+                                            }
                                         </ul>
                                     </div>
                                     <!-- END CONTENT FRAME BODY -->
@@ -285,7 +336,48 @@
         </div>
     </div>
 
-
+    <!-- Modal Gallery Section -->
+    <div class="blackCap"></div>
+    <div class="gModalContent">
+        <div class="gModalHead">
+            <button><i class="fa fa-times"></i></button>
+        </div>
+        <div class="gContent">
+            <div imageref="img1" class="gItem">
+                <div class="gModalBody">
+                    <figure>
+                        <img src="https://i.pinimg.com/originals/aa/07/7c/aa077c73a8b7b337d096f1979b495d9a.jpg" />
+                    </figure>
+                </div>
+                <div class="gModalFooter">
+                    <h3>Título de ejemplo que no debe ser tan largo pero aquí andará :3</h3>
+                </div>
+            </div>
+            <div imageref="img2" class="gItem">
+                <div class="gModalBody">
+                    <figure>
+                        <img src="https://http2.mlstatic.com/fierros-para-herrar-D_NQ_NP_13314-MLM3264751123_102012-F.jpg" />
+                    </figure>
+                </div>
+                <div class="gModalFooter">
+                    <h3>Título de ejemplo que no debe ser tan largo pero aquí andará :3</h3>
+                </div>
+            </div>
+            <div imageref="img3" class="gItem">
+                <div class="gModalBody">
+                    <figure>
+                        <img src="https://www.grupoelmolino.com/wp-content/uploads/2018/06/hierro-nitrogeno.jpg" />
+                    </figure>
+                </div>
+                <div class="gModalFooter">
+                    <h3>Título de ejemplo que no debe ser tan largo pero aquí andará :3</h3>
+                </div>
+            </div>
+        </div>
+        <div class="gModalPrevContent"><i class="fa fa-caret-left"></i></div>
+        <div class="gModalNextContent"><i class="fa fa-caret-right"></i></div>
+    </div>
+    <!-- End Modal Gallery -->
     <!--TERMINA TABS-->
 
     <div class="message-box animated fadeIn" data-sound="alert" id="mb-deleteDocumento">
@@ -337,9 +429,9 @@
     <!-- START TEMPLATE -->
     <script>
         // Funcionalidad Galeria y lista de fierro
-        
-        
-        
+
+
+
     </script>
 
     <script>

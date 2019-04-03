@@ -1995,7 +1995,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         /// <param name="Id_1">Id de la compra</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult DocumentosCompra(string Id_1)
+        public ActionResult DocumentosCompra(string Id_1, string current)
         {
             try
             {
@@ -2012,6 +2012,25 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Documento.Conexion = Conexion;
                     Documento = CompraDatos.GetGeneralesDocumentosCompra(Documento);
                     Documento.ListaConceptosSalidaDeduccion = CompraDatos.GetListadoTipoClasificacionPago(Documento);
+                    try
+                    {
+                        Documento.ListaFierro.current = Convert.ToInt32(current);
+                        if (Documento.ListaFierro.current <= 0)
+                        {
+                            Documento.ListaFierro.current = 1;
+                            Documento.ListaFierro.offset = 0;
+                        }
+                        else
+                        {
+                            Documento.ListaFierro.offset = (Documento.ListaFierro.current - 1) * Documento.ListaFierro.fetchNext;
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+                        Documento.ListaFierro.current = 1;
+                        Documento.ListaFierro.offset = 0;
+                    }
                     Documento.ListaFierro.IdCompra = Documento.Id_servicio;
                     Documento.ListaFierro.Conexion = Conexion;
                     Documento.ListaFierro = CompraDatos.FierroCompra(Documento.ListaFierro);
@@ -2194,7 +2213,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult FierroCompra(string Id_1, FormCollection Form)
+        public ActionResult FierroCompra(FormCollection Form)
         {
             try
             {

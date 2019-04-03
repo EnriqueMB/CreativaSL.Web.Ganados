@@ -68,12 +68,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // GET: Admin/CatFierro/Create
         [HttpGet]
-        public ActionResult Create()
+        public ActionResult Create(string Id_servicio)
         {
             try
             {
+
                 Token.SaveToken();
                 CatFierroModels Fierro = new CatFierroModels();
+                Fierro.Id_servicio = Id_servicio;
                 return View(Fierro);
             }
             catch (Exception)

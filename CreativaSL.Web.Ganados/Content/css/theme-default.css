@@ -7562,54 +7562,66 @@ display:none;
     font-weight: bold;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+
 .listaFierroContent {
     padding: 1%;
 }
-.listaFierroContent * {
-    box-sizing: border-box;
-}
-.listaFierroContent .lista .listaMessage{
-    text-align: center;
-}
-.listaFierroContent .lista .listaItem > *{
-    display: inline-block;
-    vertical-align: middle;
-    padding: 2% 1%;
-}
-.listaFierroContent .lista .listaItem {
-    border: 1px solid #ccc;
-}
-.listaFierroContent .lista .listaItem .description{
-    width: calc(100% / 1.1 - 25px);
-}
-.listaFierroContent .lista .listaItem .description input{
-    width: 100%;
-    background-color: transparent;
-    border: none;
-}
-.listaFierroContent .lista .listaItem .buttonErase{
-    width calc(10%);
-}
-.listaFierroContent form button[type="submit"]{
-    display: none;
-    margin: auto;
-    margin-top: 5%;
-    padding: 3% 2%;
-    color: #fff;
-    background-color: #333;
-    border: none;
-    border-radius: 0px;
-    font-size: 0.9em;
-    width: 80%;
-    transition: ease all 0.2s;
-}
-.listaFierroContent form button[type="submit"].showButton{
-    display: block;
-}
-.listaFierroContent form button[type="submit"]:hover{
-    background-color: #000;
-    cursor: pointer;
-}
+
+    .listaFierroContent * {
+        box-sizing: border-box;
+    }
+
+    .listaFierroContent .lista .listaMessage {
+        text-align: center;
+    }
+
+    .listaFierroContent .lista .listaItem > * {
+        display: inline-block;
+        vertical-align: middle;
+        padding: 2% 1%;
+    }
+
+    .listaFierroContent .lista .listaItem {
+        border: 1px solid #ccc;
+    }
+
+        .listaFierroContent .lista .listaItem .description {
+            width: calc(100% / 1.1 - 25px);
+        }
+
+            .listaFierroContent .lista .listaItem .description input {
+                width: 100%;
+                background-color: transparent;
+                border: none;
+            }
+
+        .listaFierroContent .lista .listaItem .buttonErase {
+            width calc(10%);
+        }
+
+    .listaFierroContent form button[type="submit"] {
+        display: none;
+        margin: auto;
+        margin-top: 5%;
+        margin-bottom: 10%;
+        padding: 3% 2%;
+        color: #fff;
+        background-color: #333;
+        border: none;
+        border-radius: 0px;
+        font-size: 0.9em;
+        width: 80%;
+        transition: ease all 0.2s;
+    }
+
+        .listaFierroContent form button[type="submit"].showButton {
+            display: block;
+        }
+
+        .listaFierroContent form button[type="submit"]:hover {
+            background-color: #000;
+            cursor: pointer;
+        }
 
 .gallery .gallery-item.dontShow {
     animation-name: desaparece;
@@ -7619,41 +7631,46 @@ display:none;
 }
 
 @keyframes desaparece {
-    0%{
+    0% {
         opacity: 1;
     }
-    90%{
+
+    90% {
         opacity: 0;
     }
 }
+
 #tblGanado tbody input[class*="fierro"] {
     width: 100%;
     padding: 3%;
     border: 1px solid #ccc;
     background-color: transparent;
 }
-#tblGanado tbody input[class*="fierro"]:hover {
-    cursor: pointer;
-    background-color: #ccc;
-}
 
-.blackCap{
+    #tblGanado tbody input[class*="fierro"]:hover {
+        cursor: pointer;
+        background-color: #ccc;
+    }
+
+.blackCap {
     position: fixed;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.8);
     z-index: 10;
     visibility: hidden;
     opacity: 0;
     transition: ease all .5s;
 }
-.blackCap.active{
-    visibility: visible;
-    opacity: 1;
-}
-.capaModal .modalFierroContent{
+
+    .blackCap.active {
+        visibility: visible;
+        opacity: 1;
+    }
+
+.capaModal .modalFierroContent {
     background-color: #fff;
     position: fixed;
     z-index: 100;
@@ -7665,7 +7682,7 @@ display:none;
     left: 0;
     right: 0;
     bottom: 0;
-    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5); 
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5);
     border-radius: 3px;
     visibility: hidden;
     opacity: 0;
@@ -7673,136 +7690,317 @@ display:none;
     transition: ease all 0.5s;
     overflow: hidden;
 }
-.capaModal .modalFierroContent.active{
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-.capaModal .modalFierroContent * {
-    box-sizing: border-box;
-}
-.capaModal .modalFierroContent .modalTop{
-    width: 100%;
-    height: 100px;
-}
-.capaModal .modalFierroContent .modalTop > *{
-    display: inline-block;
-    vertical-align: middle;
-    margin: 2% 1%;
-}
-.capaModal .modalFierroContent .modalTop .modalTitle{
-    width: 80%;
-    padding: 2%;
-}
-.capaModal .modalFierroContent .modalTop .modalTitle h3{
-    font-size: 2.1em;
-}
-.capaModal .modalFierroContent .modalTop .closeModalContent button{
-    background-color: transparent;
-    color: #333;
-    border: none;
-    font-size: 2.8em;
-}
-.capaModal .modalFierroContent .modalTop .closeModalContent{
-    width: 10%;
-}
-.capaModal .modalFierroContent .modalBody{
-    overflow: hidden;
-    height: 100%;
-}
-.capaModal .modalFierroContent .modalBody .searchFierro > *{
-    display: inline-block !important;
-    vertical-align: middle;
-    margin: 1% 1%;
-}
-.capaModal .modalFierroContent .modalBody .searchFierro{
-    padding: 1%;
-    height: 100px;
-}
-.capaModal .modalFierroContent .modalBody .searchFierro input{
-    width: 62%;
-    background-color: transparent;
-    border: none;
-    border-bottom: 1px solid #ccc;
-    padding: 2%;
-}
-.capaModal .modalFierroContent .modalBody .fierroSelected{
-    padding-bottom: 2%;
-    margin-bottom: 2%;
-    border-bottom: 1px solid #ccc;
-}
-.capaModal .modalFierroContent .modalBody .fierroSelected .fierroItem{
-    background-color: #333;
-}
-.capaModal .modalFierroContent .modalBody .fierroSelected .fierroDescripcion{
-    color: #fff;
-}
-.capaModal .modalFierroContent .modal-body{
-    background-color: #e8e8e8;
-}
-.capaModal .modalFierroContent .fierroList{
-    overflow-x: hidden;
-    overflow-y: scroll;
-    height: 300px;
-}
-.capaModal .modalFierroContent .fierroList::-webkit-scrollbar{
-    width: 5px;
-    border-radius: 15px;
-}
 
-.capaModal .modalFierroContent .fierroList::-webkit-scrollbar-track {
-    
-    background: transparent;
-}
-.capaModal .modalFierroContent .fierroList::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 15px;
-}
-.capaModal .modalFierroContent .fierroList::-webkit-scrollbar-thumb:hover {
-    
-    background: #555;
-}
-.capaModal .modalFierroContent .fierroItem > * {
-    display: inline-block;
-    vertical-align: middle;
-}
-.capaModal .modalFierroContent .fierroItem{
-    background-color: transparent;
-    border-bottom: 1px solid #ccc;
-    transition: ease all 0.2s;
-    padding: 2%;
-}
-.capaModal .modalFierroContent .fierroItem:hover{
-    cursor: pointer;
-    background-color: #ccc;
-}
-.capaModal .modalFierroContent .fierroItem .fierroImagen{
-    width: 30%;
-}
-.capaModal .modalFierroContent .fierroItem .fierroImagen figure{
-    width: 100%;
-}
-.capaModal .modalFierroContent .fierroItem .fierroImagen figure img{
-    width: 100%;
-    display: block;
-    margin: auto;
-}
-.capaModal .modalFierroContent .fierroItem .fierroDescripcion{
-    width: 60%;
-}
-.capaModal .modalFierroContent .fierroItem .fierroDescripcion input{
-    font-size: 1.2em;
-    text-align: center;
-    background-color: transparent;
-    border: none;
-    width: 100%;
-     -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none; 
-}
-.capaModal .modalFierroContent .fierroItem .fierroDescripcion input:hover{
-    cursor: pointer;
-}
+    .capaModal .modalFierroContent.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .capaModal .modalFierroContent * {
+        box-sizing: border-box;
+    }
+
+    .capaModal .modalFierroContent .modalTop {
+        width: 100%;
+        height: 100px;
+    }
+
+        .capaModal .modalFierroContent .modalTop > * {
+            display: inline-block;
+            vertical-align: middle;
+            margin: 2% 1%;
+        }
+
+        .capaModal .modalFierroContent .modalTop .modalTitle {
+            width: 80%;
+            padding: 2%;
+        }
+
+            .capaModal .modalFierroContent .modalTop .modalTitle h3 {
+                font-size: 2.1em;
+            }
+
+        .capaModal .modalFierroContent .modalTop .closeModalContent button {
+            background-color: transparent;
+            color: #333;
+            border: none;
+            font-size: 2.8em;
+        }
+
+        .capaModal .modalFierroContent .modalTop .closeModalContent {
+            width: 10%;
+        }
+
+    .capaModal .modalFierroContent .modalBody {
+        overflow: hidden;
+        height: 100%;
+    }
+
+        .capaModal .modalFierroContent .modalBody .searchFierro > * {
+            display: inline-block !important;
+            vertical-align: middle;
+            margin: 1% 1%;
+        }
+
+        .capaModal .modalFierroContent .modalBody .searchFierro {
+            padding: 1%;
+            height: 100px;
+        }
+
+            .capaModal .modalFierroContent .modalBody .searchFierro input {
+                width: 62%;
+                background-color: transparent;
+                border: none;
+                border-bottom: 1px solid #ccc;
+                padding: 2%;
+            }
+
+        .capaModal .modalFierroContent .modalBody .fierroSelected {
+            padding-bottom: 2%;
+            margin-bottom: 2%;
+            border-bottom: 1px solid #ccc;
+        }
+
+            .capaModal .modalFierroContent .modalBody .fierroSelected .fierroItem {
+                background-color: #333;
+            }
+
+            .capaModal .modalFierroContent .modalBody .fierroSelected .fierroDescripcion {
+                color: #fff;
+            }
+
+    .capaModal .modalFierroContent .modal-body {
+        background-color: #e8e8e8;
+    }
+
+    .capaModal .modalFierroContent .fierroList {
+        overflow-x: hidden;
+        overflow-y: scroll;
+        height: 300px;
+    }
+
+        .capaModal .modalFierroContent .fierroList::-webkit-scrollbar {
+            width: 5px;
+            border-radius: 15px;
+        }
+
+        .capaModal .modalFierroContent .fierroList::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .capaModal .modalFierroContent .fierroList::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 15px;
+        }
+
+            .capaModal .modalFierroContent .fierroList::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+
+    .capaModal .modalFierroContent .fierroItem > * {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .capaModal .modalFierroContent .fierroItem {
+        background-color: transparent;
+        border-bottom: 1px solid #ccc;
+        transition: ease all 0.2s;
+        padding: 2%;
+    }
+
+        .capaModal .modalFierroContent .fierroItem:hover {
+            cursor: pointer;
+            background-color: #ccc;
+        }
+
+        .capaModal .modalFierroContent .fierroItem .fierroImagen {
+            width: 30%;
+        }
+
+            .capaModal .modalFierroContent .fierroItem .fierroImagen figure {
+                width: 100%;
+            }
+
+                .capaModal .modalFierroContent .fierroItem .fierroImagen figure img {
+                    width: 100%;
+                    display: block;
+                    margin: auto;
+                }
+
+        .capaModal .modalFierroContent .fierroItem .fierroDescripcion {
+            width: 60%;
+        }
+
+            .capaModal .modalFierroContent .fierroItem .fierroDescripcion input {
+                font-size: 1.2em;
+                text-align: center;
+                background-color: transparent;
+                border: none;
+                width: 100%;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+
+                .capaModal .modalFierroContent .fierroItem .fierroDescripcion input:hover {
+                    cursor: pointer;
+                }
 
 /* End Cambios*/
+
+/* Cambios 01-04-2019*/
+
+.listaFierroContent .fierroRegistrados .fierroRegItem {
+    background-color: #ccc;
+    margin: 1%;
+}
+
+    .listaFierroContent .fierroRegistrados .fierroRegItem > * {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .listaFierroContent .fierroRegistrados .fierroRegItem p {
+        width: calc(100% - 20% - 20px);
+        margin: 0;
+        padding: 1%;
+        text-align: justify;
+        margin-right: 3%;
+    }
+
+.gModalContent {
+    width: 50%;
+    height: 60%;
+    position: fixed;
+    display: block;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(100px);
+    transition: ease all 0.5s;
+}
+
+    .gModalContent.active {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .gModalContent .gContent {
+        position: relative;
+    }
+
+        .gModalContent .gContent .gItem {
+            position: absolute;
+            top: 0;
+            visibility: hidden;
+            opacity: 0;
+            transition: ease all 0.5s;
+        }
+
+            .gModalContent .gContent .gItem.fromLeft {
+                transform: translateX(-200px);
+            }
+
+            .gModalContent .gContent .gItem.fromRight {
+                transform: translateX(200px);
+            }
+
+            .gModalContent .gContent .gItem.active {
+                visibility: visible;
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+    .gModalContent .gModalHead {
+        position: relative;
+        background-color: transparent;
+    }
+
+        .gModalContent .gModalHead button {
+            position: absolute;
+            right: 0;
+            border-radius: 50%;
+            background-color: #fff;
+            border: none;
+            padding: 0%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.8em;
+            transition: ease all 0.2s;
+            z-index: 10;
+        }
+
+            .gModalContent .gModalHead button:hover {
+                border-radius: 3px;
+                cursor: pointer;
+            }
+
+            .gModalContent .gModalHead button:focus {
+                outline: none;
+            }
+
+    .gModalContent .gModalBody {
+        background-color: #fff;
+        border-radius: 3px;
+        width: 50%;
+        display: block;
+        margin: auto;
+    }
+
+        .gModalContent .gModalBody figure {
+            width: 100%;
+        }
+
+            .gModalContent .gModalBody figure img {
+                width: 100%;
+                border: 8px solid #fff;
+            }
+
+    .gModalContent .gModalFooter h3 {
+        text-align: center;
+        color: #fff;
+        margin-top: 3%;
+    }
+
+    .gModalContent .gModalPrevContent,
+    .gModalContent .gModalNextContent {
+        position: fixed;
+        top: 50%;
+        color: #fff;
+        font-size: 3.4em;
+        text-align: center;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: transparent;
+        padding: 0px;
+        transition: ease all 0.2s;
+    }
+
+        .gModalContent .gModalPrevContent:hover,
+        .gModalContent .gModalNextContent:hover {
+            background-color: #fff;
+            color: #333;
+            cursor: pointer;
+        }
+
+    .gModalContent .gModalPrevContent {
+        left: 5%;
+        padding-right: 5px;
+    }
+
+    .gModalContent .gModalNextContent {
+        right: 5%;
+        padding-left: 5px;
+    }
+
+/* End cambios */

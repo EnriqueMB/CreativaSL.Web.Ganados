@@ -31,5 +31,16 @@ namespace CreativaSL.Web.Ganados.Models
         public List<CompraFierroModels> ListaFierroXCompra { get; set; }
         public string Conexion { get; set; }
         public string IDUsuario { get; set; }
+
+        public int numeroFierro { get; set; }
+        public int offset { get; set; }
+        public int current { get; set; }
+        public int totalFierro { get; set; }
+        private int _fetchNext = 20;
+        public int fetchNext
+        {
+            get { return _fetchNext; }
+            set { _fetchNext = value; }
+        }
     }
 }
