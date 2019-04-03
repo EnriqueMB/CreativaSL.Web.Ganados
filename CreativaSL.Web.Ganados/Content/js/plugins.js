@@ -186,6 +186,19 @@ $(function() {
                     onresize(100);
                 });
             }
+
+            if ($(".datatableNoOrder").length > 0) {
+                $(".datatableNoOrder").dataTable({
+                    "language": {
+                        "url": "/Content/assets/json/Spanish.json"
+                    },
+                    "ordering": false,
+                    responsive: true
+                });
+                $(".datatableNoOrder").on('page.dt', function () {
+                    onresize(100);
+                });
+            }
             
             if($(".datatable_simple").length > 0){                
                 $(".datatable_simple").dataTable({"ordering": false, "info": false, "lengthChange": false,"searching": false});
