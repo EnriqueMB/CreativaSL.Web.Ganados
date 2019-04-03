@@ -76,7 +76,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    datos.Opcion, datos.IDFierro, datos.NombreFierro, datos.ImgFierro, datos.Observaciones, datos.NombreArchivo, datos.Usuario
+                    datos.Opcion, datos.IDFierro, datos.NombreFierro, datos.ImgFierro, datos.Observaciones, datos.NombreArchivo, datos.Id_servicio, datos.Usuario
                 };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatFierro", parametros);
                 datos.IDFierro = aux.ToString();
