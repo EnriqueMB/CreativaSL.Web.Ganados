@@ -33,8 +33,6 @@
                         precision: 2
                     }
                 );
-
-
             }
         });
 
@@ -100,9 +98,14 @@
         $("#btnAddProducto").on("click", function () {
             var id_producto = $("#Producto").val();
             var id_tipoProducto = $("#TipoProducto").val();
+            var producto = "";
+            var cantidadExistencia = "";
 
-            if ($("#Producto option:selected"))
-                var producto = $("#Producto option:selected").text();
+            if ($("#Producto option:selected")) {
+                producto = $("#Producto option:selected").text();
+                cantidadExistencia = $("#Producto").children(":selected").attr("data-existencia");
+            }
+             
 
             var readonlyCantidad = "";
             var precioUnitario = "0.00";
@@ -117,11 +120,12 @@
             else if (id_tipoProducto === "2") { //vehiculo
                 readonlyCantidad = "readonly = 'readonly'";
                 cClass = "";
+                cantidadExistencia = 1;
             }
 
-            var inputCantidad = "<input type='text' class=' iCantidad " + cClass + "' value='" + cantidad + "' " + readonlyCantidad + ">";
+            var inputCantidad = "<input type='text' class=' iCantidad " + cClass + "' value='" + cantidad + "' " + readonlyCantidad + " data-cantidadexistencia='" + cantidadExistencia + "' data-toggle='tooltip' data-placement='top' title='Cantidad máxima permitida: " + cantidadExistencia + "'>";
             var inputPrecioUnitario = "<input type='text'  class='cMoney' value='" + precioUnitario + "'>";
-            var inputSubtotal = "<input type='text' class='' value='$ " + (Number.parseFloat(cantidad) * Number.parseFloat(precioUnitario)).toFixed(2) + "' readonly='readonly'>";
+            var inputSubtotal = "<input type='text' class='' value='$ " + format(Number.parseFloat(cantidad) * Number.parseFloat(precioUnitario), 2) + "' readonly='readonly'>";
 
             var eliminar = '<div class="visible-md visible-lg hidden-sm hidden-xs">' +
                 '<a title="Eliminar" class="btn btn-danger tooltips btn-sm delete" data-toggle="tooltip" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>' +
@@ -147,15 +151,26 @@
 
         });
 
-
         $('#tbl1 tbody').on('keyup', 'tr', function () {
             var data = tbl1.row(this).node();
             var cells = $(data).find("td");
-            var cantidad = Number.parseFloat($(cells[1]).find("input").val());
-            var precioUnitario = GetMoneySinSimbolo($(cells[2]).find("input").val());
-            var subtotal = "$ " + (cantidad * precioUnitario).toFixed(2);
+            var cantidad = GetNumber($(cells[1]).find("input").val());
+            var cantidadExistencia = $(cells[1]).find("input").attr("data-cantidadexistencia");
 
-            $(cells[3]).find("input").val(subtotal);
+            //console.log(cantidad);
+            //console.log(cantidadExistencia);
+
+            if (cantidad <= cantidadExistencia) {
+                var precioUnitario = GetMoneySinSimbolo($(cells[2]).find("input").val());
+                var subtotal = "$ " + format((cantidad * precioUnitario), 2);
+                $(cells[3]).find("input").val(subtotal);
+                $(cells[1]).find("input").addClass("okDT");
+                $(cells[1]).find("input").removeClass("errorDT");
+            }
+            else {
+                $(cells[1]).find("input").addClass("errorDT");
+                $(cells[1]).find("input").removeClass("okDT");
+            }
         });
 
         $(document).on('submit', 'form#frm_ventaGeneral', function (e) {
@@ -241,6 +256,35 @@
 
     };
 
+    function format(nStr, decimales) {
+        console.log(nStr);
+        nStr += '';
+        var x = nStr.split('.');
+        var x1 = x[0];
+        var x2 = 0;
+        if (x.length > 1) {
+            var aux = Number.parseFloat('.' + x[1]).toFixed(decimales).split('.');
+            x2 = "." + aux[1];
+        }
+        else {
+            x2 = ".";
+            for (var i = 0; i < decimales; i++) {
+                x2 += "0"; 
+            }
+        }
+
+        //var x2 = x.length > 1 ? Number.parseFloat('.' + x[1]).toFixed(decimales) : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+
+        console.log(x1);
+        console.log(x2);
+
+        return x1 + x2;
+    } 
+
     function AddProducto(id_producto, id_tipoProducto, producto, cantidad, precioUnitario, subtotal, eliminar) {
 
         tbl1.row.add([
@@ -269,6 +313,17 @@
         }
         else {
             return Number.parseFloat(newValue);
+        }
+    }
+
+    function GetNumber(value) {
+        value = value.toString().replace(/,/g, "");
+
+        if (Number.isNaN(value)) {
+            return 0;
+        }
+        else {
+            return Number.parseFloat(value);
         }
     }
 
