@@ -1,5 +1,5 @@
 ﻿var CompraEvento = function () {
-    "use strict"
+    "use strict";
     var Id_compra = $("#Id_compra").val();
     var Id_eventoCompra = $("#Id_eventoCompra").val();
     var tblGanadoConEvento, tblGanadoCargado;
