@@ -257,7 +257,7 @@ $(".addToList").click(function () {
         var getRef = $(this).attr("name");
         var countElementsInList = $(".listaFierroContent .lista .listaItem[refitem='" + getRef + "']").length;
         if (countElementsInList == 0) {
-            var getDescription = $(".gallery .gallery-item[refitem='" + getRef + "'] .meta strong").text();
+            var getDescription = $(".gallery .gallery-item[refitem='" + getRef + "'] .meta p").text();
             $(".listaFierroContent .lista").append(`
                     <div refitem='`+ getRef + `' class="listaItem">
                     <div class="description"><input type="text" readonly id="`+ getRef + `" name="`+ getRef + `" value="` + getDescription + `" /></div>
@@ -355,3 +355,22 @@ $(".gModalNextContent").click(function () {
     console.log(actualElementClicked);
 });
 // End funcionalidad gModal
+
+// Control de clase active en Tabs (Se hace para controlar la paginación)
+var pageURL = $(location).attr("href");
+console.log(pageURL);
+
+if (pageURL.endsWith("Fierro")) {
+    $("#documentacion").removeClass('active');
+    $("#liDocumentacion").removeClass('active');
+    $("#Fierro").addClass('active');
+    $("#liFierro").addClass('active');
+}
+else {
+    $("#documentacion").addClass('active');
+    $("#liDocumentacion").addClass('active');
+    $("#Fierro").removeClass('active');
+    $("#liFierro").removeClass('active');
+}
+
+// End Control Paginación
