@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Models;
 using CreativaSL.Web.Ganados.App_Start;
 using System.IO;
+using CreativaSL.Web.Ganados.ViewModels;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -792,5 +793,94 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 throw;
             }
         }
+
+        //CuentaUser
+
+        // GET: Admin/CatEmpleado/CuentaUser/id
+        public ActionResult CuentaUser(string id)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(id))
+                {
+                    Token.SaveToken();
+                    _Usuario_Datos UsuarioDatos = new _Usuario_Datos();
+                    ViewBag.ComboTipoUsuario = UsuarioDatos.ObtenerComboTipoUsuario(new UsuarioModels { conexion = Conexion, opcion = 1 });
+                    CuentaEmpleadoViewModels model = new CuentaEmpleadoViewModels { IdEmpleado = id };
+                    return View(model);
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista";
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
+        }
+
+        // POST: Admin/CatEmpleado/CuentaUser
+        [HttpPost]
+        public ActionResult CuentaUser(CuentaEmpleadoViewModels model)
+        {
+            CatEmpleado_Datos EmpleadoDatos = new CatEmpleado_Datos();
+            _Usuario_Datos UsuarioDatos = new _Usuario_Datos();
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        CatEmpleado_Datos datos = new CatEmpleado_Datos();
+                        int Resultado = datos.CrearCuenta(model, User.Identity.Name);
+                        if (Resultado == 1)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            if (Resultado == 2)
+                            {
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "La cuenta de usuario ya existe. Debe ingresar otra.";
+                                ViewBag.ComboTipoUsuario = UsuarioDatos.ObtenerComboTipoUsuario(new UsuarioModels { conexion = Conexion, opcion = 1 });
+                                return View(model);
+                            }
+                            else
+                            {
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                                ViewBag.ComboTipoUsuario = UsuarioDatos.ObtenerComboTipoUsuario(new UsuarioModels { conexion = Conexion, opcion = 1 });
+                                return View(model);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.ComboTipoUsuario = UsuarioDatos.ObtenerComboTipoUsuario(new UsuarioModels { conexion = Conexion, opcion = 1 });
+                        return View(model);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrió un error al intentar guardar los datos. Contacte a soporte técnico.";
+                return View(model);
+            }
+        }
+
     }
 }

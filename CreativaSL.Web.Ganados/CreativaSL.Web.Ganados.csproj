@@ -493,6 +493,7 @@
     <Content Include="Content\js\compraTransacciones.js" />
     <Content Include="Content\js\compraCobro.js" />
     <Content Include="Content\js\Configuracion.js" />
+    <Content Include="Content\js\CuentaEmpleado.js" />
     <Content Include="Content\js\Demo_CatCorral.js" />
     <Content Include="Content\js\demo_tablesTipoProveedor.js" />
     <Content Include="Content\js\documentoXPagarPagos.js" />
@@ -1521,6 +1522,7 @@
     <Content Include="Areas\Admin\Views\PesajeGanado\Detalles.cshtml" />
     <Content Include="Areas\Admin\Views\VentaGeneral\Index.cshtml" />
     <Content Include="Areas\Admin\Views\VentaGeneral\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpleado\CuentaUser.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1949,6 +1951,7 @@
     <Compile Include="ViewModels\ConciliacionAlmacenDetalleViewModels.cs" />
     <Compile Include="ViewModels\ConciliacionAlmacenViewModels.cs" />
     <Compile Include="ViewModels\CuentaBancariaViewModels.cs" />
+    <Compile Include="ViewModels\CuentaEmpleadoViewModels.cs" />
     <Compile Include="ViewModels\DatosEmpresaViewModels.cs" />
     <Compile Include="ViewModels\EmpleadoNominaViewModels.cs" />
     <Compile Include="ViewModels\EntradaAlmacenDetalleViewModels.cs" />

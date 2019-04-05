@@ -1,4 +1,5 @@
-﻿using Microsoft.ApplicationBlocks.Data;
+﻿using CreativaSL.Web.Ganados.ViewModels;
+using Microsoft.ApplicationBlocks.Data;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -32,6 +33,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.NombreCategoriaP = !dr.IsDBNull(dr.GetOrdinal("CategoriaPuesto")) ? dr.GetString(dr.GetOrdinal("CategoriaPuesto")) : string.Empty;
                     Item.GrupoSanguineo = !dr.IsDBNull(dr.GetOrdinal("GrupoSanguineo")) ? dr.GetString(dr.GetOrdinal("GrupoSanguineo")) : string.Empty;
                     Item.DirCalle = !dr.IsDBNull(dr.GetOrdinal("Direccion")) ? dr.GetString(dr.GetOrdinal("Direccion")) : string.Empty;
+                    Item.TieneCuenta = !dr.IsDBNull(dr.GetOrdinal("TieneCuenta")) ? dr.GetBoolean(dr.GetOrdinal("TieneCuenta")) : false;
                     Lista.Add(Item);
                 }
                 dr.Close();
@@ -555,5 +557,26 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         #endregion
+
+        public int CrearCuenta(CuentaEmpleadoViewModels model, string IdUsuario)
+        {
+            try
+            {
+                object[] Parametros = { model.IdEmpleado, model.IdTipoUsuario, model.Cuenta, model.Password, model.Correo, IdUsuario };
+                object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion, "cajachica.spCIDDB_AsignarCuentaUsuarioAEmpleado", Parametros);
+                if (Result != null)
+                {
+                    int Resultado = 0;
+                    int.TryParse(Result.ToString(), out Resultado);
+                    return Resultado;
+                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

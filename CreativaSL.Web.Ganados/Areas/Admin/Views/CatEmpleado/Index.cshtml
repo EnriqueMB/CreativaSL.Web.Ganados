@@ -79,6 +79,10 @@
                                                     {
                                                         <a title="Alta Nominal" class="btn btn-green" id="alta-@Empleado.IDEmpleado" href="@Url.Action("AltaNomina", "CatEmpleado", new { id = Empleado.IDEmpleado})"><i class="fa fa-thumbs-up"></i></a>
                                                     }
+                                                    @if (!Empleado.TieneCuenta)
+                                                    {
+                                                        <a title="Crear cuenta" class="btn btn-primary" href="@Url.Action("CuentaUser", "CatEmpleado", new { id = Empleado.IDEmpleado})"><i class="fa fa-thumbs-down"></i></a>
+                                                    }
                                                     <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatEmpleado", new { id = Empleado.IDEmpleado })"><i class="fa fa-edit"></i></a>
                                                     <a title="Eliminar" class="btn delete btn-danger deleteRow" id="delete-@Empleado.IDEmpleado" data-hrefa="@Url.Action("Delete", "CatEmpleado", new { id = Empleado.IDEmpleado})" onClick="delete_row('@Empleado.IDEmpleado');"><i class="fa fa-trash-o"></i></a>
                                                 </div>
@@ -106,6 +110,15 @@
                                                                 <li>
                                                                     <a role="menuitem" tabindex="-1" id="alta-@Empleado.IDEmpleado" data-hrefa="@Url.Action("AltaBajaNomina", "CatEmpleado", new { id = Empleado.IDEmpleado, id2 = Empleado.AltaNominal})" onClick="alta_row('@Empleado.IDEmpleado');">
                                                                         <i class="fa fa-thumbs-up"></i> Alta Nomina
+                                                                    </a>
+                                                                </li>
+                                                            }
+
+                                                            @if (!Empleado.TieneCuenta)
+                                                            {
+                                                                <li>
+                                                                    <a role="menuitem" tabindex="-1" data-href="@Url.Action("CuentaUser", "CatEmpleado", new { id = Empleado.IDEmpleado})">
+                                                                        <i class="fa fa-thumbs-down"></i> Crear cuenta 
                                                                     </a>
                                                                 </li>
                                                             }
