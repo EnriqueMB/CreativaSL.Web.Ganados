@@ -55,7 +55,7 @@
                                         <td>@Model[i].Descripcion</td>
                                         <td class="hidden">@Model[i].Valor</td>
                                         <td>@Html.TextBoxFor(m => Model[i].Cantidad, new { id = "txt" + Model[i].IdDenominacion, @class = "form-control txtvalues" })</td>
-                                        <td>@Model[i].Subtotal</td>
+                                        <td>@Model[i].Subtotal.ToString("0")</td>
                                     </tr>
                                     }
                                 </tbody>
