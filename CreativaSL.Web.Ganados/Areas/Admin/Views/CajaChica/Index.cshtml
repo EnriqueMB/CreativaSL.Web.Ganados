@@ -57,11 +57,10 @@
                                             <td align="right">@item.SaldoString</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Movimientos" href="@Url.Action("Movimientos", "CajaChica", new { id = item.IdCaja})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Movimientos"><i class="fa fa-arrow-circle-o-left"></i></a>
-                                                    <a title="Arquear" href="@Url.Action("ArqueoCaja", "CajaChica", new { id = item.IdCaja})" class="btn btn-green tooltips" data-placement="top" data-original-title="Arquear"><i class="fa fa-cog"></i></a>
+                                                    <a title="Movimientos" href="@Url.Action("Movimientos", "CajaChica", new { id = item.IdCaja})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Movimientos"><i class="fa fa-list-alt"></i></a>
+                                                    <a title="Arquear" href="@Url.Action("ArqueoCaja", "CajaChica", new { id = item.IdCaja})" class="btn btn-green tooltips" data-placement="top" data-original-title="Arquear"><i class="fa fa-money"></i></a>
                                                     <a title="Eliminar" id="delete-@item.IdCaja" data-sku="@item.IdCaja" href="@Url.Action("Delete", "CajaChica", new { id =  item.IdCaja })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
-
-                                                    <a title="Reporte" href="@Url.Action("Reporte", "CajaChica", new { id = item.IdCaja})" class="btn btn-green tooltips" data-placement="top" data-original-title="Reporte"><i class="fa fa-cog"></i></a>
+                                                    @*<a title="Reporte" href="@Url.Action("Reporte", "CajaChica", new { id = item.IdCaja})" class="btn btn-green tooltips" data-placement="top" data-original-title="Reporte"><i class="fa fa-bar-chart-o"></i></a>*@
 
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
@@ -72,12 +71,12 @@
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
                                                                 <a role="menuitem" tabindex="-1" href="@Url.Action("Movimientos", "CajaChica", new { id = item.IdCaja})">
-                                                                    <i class="fa fa-edit"></i> Movimientos
+                                                                    <i class="fa fa-list-alt"></i> Movimientos
                                                                 </a>
                                                             </li>
                                                             <li>
                                                                 <a role="menuitem" tabindex="-1" href="@Url.Action("ArqueoCaja", "CajaChica", new { id = item.IdCaja})">
-                                                                    <i class="fa fa-edit"></i> Arquear
+                                                                    <i class="fa fa-money"></i> Arquear
                                                                 </a>
                                                             </li>
                                                             <li>
@@ -85,6 +84,12 @@
                                                                     <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>
+                                                            @*<li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Reporte", "CajaChica", new { id = item.IdCaja })">
+                                                                    <i class="fa fa-bar-chart-o"></i> Reporte
+                                                                </a>
+                                                            </li>*@
+
                                                         </ul>
                                                     </div>
                                                 </div>
