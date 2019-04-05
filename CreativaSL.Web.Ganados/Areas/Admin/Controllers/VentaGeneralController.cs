@@ -37,6 +37,53 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult Create(string id_sucursal, string id_cliente, List<VentaGeneralDetalleModels> listaProducto)
+        {
+            if( string.IsNullOrEmpty(id_sucursal) || string.IsNullOrEmpty(id_cliente) || listaProducto == null || id_sucursal.Length != 36 || id_cliente.Length != 36 || listaProducto.Count < 0)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index", "VentaGeneral");
+            }
+
+            if (Token.IsTokenValid())
+            {
+                _VentaGeneral_Datos oDatosVentaGeneral = new _VentaGeneral_Datos();
+                VentaGeneralModels oVentaGeneral = new VentaGeneralModels();
+                oVentaGeneral.Id_cliente = id_cliente;
+                oVentaGeneral.Id_sucursal = id_sucursal;
+                oVentaGeneral.ListaDetalles = listaProducto;
+
+                string usuario = User.Identity.Name;
+                RespuestaAjax oRespuesta = oDatosVentaGeneral.VentaGeneral_spCIDDB_ac(oVentaGeneral, conexion, usuario, 1);
+
+                if (oRespuesta.Success)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "Los datos se guardaron correctamente.";
+                    Token.ResetToken();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
+
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                RespuestaAjax oRespuesta = new RespuestaAjax();
+                oRespuesta.Success = false;
+
+                return RedirectToAction("Index");
+            }
+        }
+
         #region Helper
         public void CargarListasDefault()
         {
