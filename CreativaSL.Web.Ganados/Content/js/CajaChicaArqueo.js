@@ -80,8 +80,12 @@
             var row = "";
             var denominacion = table.rows[i].cells[2].innerHTML; 
             var cantidad = table.rows[i].cells[3].firstChild.value;
-            total += denominacion * cantidad;
 
+            var subtotal = denominacion * cantidad;
+
+            table.rows[i].cells[4].innerHTML = subtotal;
+
+            total += subtotal;
         }
         document.getElementById("Total").value = total;
     }
