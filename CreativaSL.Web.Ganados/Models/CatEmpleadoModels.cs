@@ -38,6 +38,7 @@ namespace CreativaSL.Web.Ganados.Models
             _ListaCmbGrupoSanguineo = new List<CatGrupoSanguineoModels>();
             _ListaCmbCategoriaPuesto = new List<CatCategoriaPuestoModels>();
             _Telefono = string.Empty;
+            _TieneCuenta = false;
             FechaNacimiento = DateTime.Today;
             Licencia = string.Empty;
         }
@@ -347,6 +348,14 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _Asistencia; }
             set { _Asistencia = value; }
+        }
+
+        private bool _TieneCuenta;
+
+        public bool TieneCuenta
+        {
+            get { return _TieneCuenta; }
+            set { _TieneCuenta = value; }
         }
 
 

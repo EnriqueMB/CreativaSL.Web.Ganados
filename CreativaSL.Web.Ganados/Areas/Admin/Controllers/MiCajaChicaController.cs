@@ -19,7 +19,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 _CajaChica_Datos regionDatos = new _CajaChica_Datos();
                 Int64 idCaja = regionDatos.ObtenerIdCajaChica(User.Identity.Name);
-                idCaja = 4;
+                //idCaja = 4;
                 if (idCaja > 0)
                 {
                     List<MovimientosCajaChicaModels> Lista = regionDatos.ObtenerDetalleXIdCaja(idCaja);
