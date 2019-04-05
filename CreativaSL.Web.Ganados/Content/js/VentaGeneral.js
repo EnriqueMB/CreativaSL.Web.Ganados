@@ -2,6 +2,7 @@
     "use strict";
     var tbl1;
     var nNodes;
+    var ITEMS_FILA = 6;
     // Funcion para validar registrar
     var eventos = function () {
 
@@ -97,58 +98,70 @@
 
         $("#btnAddProducto").on("click", function () {
             var id_producto = $("#Producto").val();
-            var id_tipoProducto = $("#TipoProducto").val();
-            var producto = "";
-            var cantidadExistencia = "";
 
-            if ($("#Producto option:selected")) {
-                producto = $("#Producto option:selected").text();
-                cantidadExistencia = $("#Producto").children(":selected").attr("data-existencia");
+            if (ValidarProducto(id_producto)) {
+                var id_tipoProducto = $("#TipoProducto").val();
+                var producto = "";
+                var cantidadExistencia = "";
+                var almacen = "";
+                var id_unidadProducto = "";
+
+                if ($("#Producto option:selected")) {
+                    producto = $("#Producto option:selected").text();
+                    cantidadExistencia = $("#Producto").children(":selected").attr("data-existencia");
+                }
+
+                var readonlyCantidad = "";
+                var precioUnitario = "0.00";
+                var cantidad = "1.00";
+                var cClass = "";
+
+                if (id_tipoProducto === "1") { //producto almacen
+                    precioUnitario = $("#Producto").children(":selected").attr("data-preciounidad");
+                    precioUnitario = Number.parseFloat(precioUnitario).toFixed(2);
+                    cClass = "cCantidad";
+                    almacen = $("#Almacenes").val();
+                    id_unidadProducto = $("#Producto").children(":selected").attr("data-id_unidadproducto");
+                }
+                else if (id_tipoProducto === "2") { //vehiculo
+                    readonlyCantidad = "readonly = 'readonly'";
+                    cClass = "";
+                    cantidadExistencia = 1;
+                }
+
+                var inputCantidad = "<input type='text' class=' iCantidad " + cClass + "' value='" + cantidad + "' " + readonlyCantidad + " data-cantidadexistencia='" + cantidadExistencia + "' data-almacen='" + almacen + "' data-id_unidadproducto='" + id_unidadProducto + "' data-toggle='tooltip' data-placement='top' title='Cantidad máxima permitida: " + cantidadExistencia + "'>";
+                var inputPrecioUnitario = "<input type='text'  class='cMoney' value='" + precioUnitario + "'>";
+                var inputSubtotal = "<input type='text' class='' value='$ " + format(Number.parseFloat(cantidad) * Number.parseFloat(precioUnitario), 2) + "' readonly='readonly'>";
+
+                var eliminar = '<div class="visible-md visible-lg hidden-sm hidden-xs">' +
+                    '<a title="Eliminar" class="btn btn-danger tooltips btn-sm delete" data-toggle="tooltip" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>' +
+                    '</div>' +
+                    '<div class="visible-xs visible-sm hidden-md hidden-lg">' +
+                    '<div class="btn-group">' +
+                    '<a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#"' +
+                    '<i class="fa fa-cog"></i> <span class="caret"></span>' +
+                    '</a>' +
+                    '<ul role="menu" class="dropdown-menu pull-right dropdown-dark">' +
+                    '<li>' +
+                    '<a class="delete" role="menuitem" tabindex="-1">' +
+                    '<i class="fa fa-trash-o"></i> Eliminar' +
+                    '</a>' +
+                    '</li>' +
+                    '</ul>' +
+                    '</div>' +
+                    '</div>';
+
+                AddProducto(id_producto, id_tipoProducto, producto, inputCantidad, inputPrecioUnitario, inputSubtotal, eliminar);
+
+                ActualizarSimbolos();
+
+                var total = ObtenerTotalVenta();
+                $("#tfooter1").html("Total: $" + total);
+
             }
-             
-
-            var readonlyCantidad = "";
-            var precioUnitario = "0.00";
-            var cantidad = "1.00";
-            var cClass = "";
-
-            if (id_tipoProducto === "1") { //producto almacen
-                precioUnitario = $("#Producto").children(":selected").attr("data-preciounidad");
-                precioUnitario = Number.parseFloat(precioUnitario).toFixed(2);
-                cClass = "cCantidad";
+            else {
+                alert("Este producto ya esta agregado a la venta.");
             }
-            else if (id_tipoProducto === "2") { //vehiculo
-                readonlyCantidad = "readonly = 'readonly'";
-                cClass = "";
-                cantidadExistencia = 1;
-            }
-
-            var inputCantidad = "<input type='text' class=' iCantidad " + cClass + "' value='" + cantidad + "' " + readonlyCantidad + " data-cantidadexistencia='" + cantidadExistencia + "' data-toggle='tooltip' data-placement='top' title='Cantidad máxima permitida: " + cantidadExistencia + "'>";
-            var inputPrecioUnitario = "<input type='text'  class='cMoney' value='" + precioUnitario + "'>";
-            var inputSubtotal = "<input type='text' class='' value='$ " + format(Number.parseFloat(cantidad) * Number.parseFloat(precioUnitario), 2) + "' readonly='readonly'>";
-
-            var eliminar = '<div class="visible-md visible-lg hidden-sm hidden-xs">' +
-                '<a title="Eliminar" class="btn btn-danger tooltips btn-sm delete" data-toggle="tooltip" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>' +
-                '</div>' +
-                '<div class="visible-xs visible-sm hidden-md hidden-lg">' +
-                '<div class="btn-group">' +
-                '<a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#"' +
-                '<i class="fa fa-cog"></i> <span class="caret"></span>' +
-                '</a>' +
-                '<ul role="menu" class="dropdown-menu pull-right dropdown-dark">' +
-                '<li>' +
-                '<a class="delete" role="menuitem" tabindex="-1">' +
-                '<i class="fa fa-trash-o"></i> Eliminar' +
-                '</a>' +
-                '</li>' +
-                '</ul>' +
-                '</div>' +
-                '</div>';
-
-            AddProducto(id_producto, id_tipoProducto, producto, inputCantidad, inputPrecioUnitario, inputSubtotal, eliminar);
-
-            ActualizarSimbolos();
-
         });
 
         $('#tbl1 tbody').on('keyup', 'tr', function () {
@@ -157,107 +170,176 @@
             var cantidad = GetNumber($(cells[1]).find("input").val());
             var cantidadExistencia = $(cells[1]).find("input").attr("data-cantidadexistencia");
 
-            //console.log(cantidad);
-            //console.log(cantidadExistencia);
-
             if (cantidad <= cantidadExistencia) {
                 var precioUnitario = GetMoneySinSimbolo($(cells[2]).find("input").val());
-                var subtotal = "$ " + format((cantidad * precioUnitario), 2);
+                var subtotal = "$ " + format(cantidad * precioUnitario, 2);
                 $(cells[3]).find("input").val(subtotal);
-                $(cells[1]).find("input").addClass("okDT");
-                $(cells[1]).find("input").removeClass("errorDT");
+                $(cells[1]).find("input").addClass("successCID");
+                $(cells[1]).find("input").removeClass("errorCID");
             }
             else {
-                $(cells[1]).find("input").addClass("errorDT");
-                $(cells[1]).find("input").removeClass("okDT");
+                $(cells[1]).find("input").addClass("errorCID");
+                $(cells[1]).find("input").removeClass("successCID");
             }
+
+            var total = ObtenerTotalVenta();
+            $("#tfooter1").html("Total: $" + total);
+
+        });
+
+        $("#tbl1 tbody").on("click", ".delete", function (e) {
+
+            var tr = $(this).parents('tr');
+            var box = $("#mb-delete-row");
+            box.addClass("open");
+            box.find(".mb-control-yes").on("click", function () {
+                box.removeClass("open");
+                tbl1.row(tr).remove().draw(false);
+                var total = ObtenerTotalVenta();
+                $("#tfooter1").html("Total: $" + total);
+            });
         });
 
         $(document).on('submit', 'form#frm_ventaGeneral', function (e) {
             e.preventDefault();
+            var tieneErrorTbl = true;
+            var tieneErrorSucursal = true;
+            var tieneErrorCliente = true;
             nNodes = tbl1.rows().data();
-            console.log("submit");
-            console.log(nNodes);
-            console.log("---------------------");
 
+            //validamos sucursal
+            var sucursal = $("#Id_sucursal").val();
 
-         
-            //if (flag_errorGanado === 0) {
-            //    for (var i = 0; i < nNodes.length; i += NUM_ELEMENTOS_FILA) {
-            //        var parse_nuevoCosto = Number.parseFloat(GetMoneySinSimbolo(nNodes[i + NUEVO_COSTO_POR_KILO].value).toString().replace(/,/g, "")).toFixed(2);
+            if (sucursal === '') {
+                tieneErrorSucursal = true;
+                $("#Id_sucursal").closest('.input-group ').removeClass('has-success').addClass("has-error");
+                $("#ddSucursal").show(0);
+            }
+            else {
+                tieneErrorSucursal = false;
+                $("#Id_sucursal").closest('.input-group ').removeClass('has-error').addClass("has-success");
+                $("#ddSucursal").hide(0);
+            }
 
-            //        if (isNaN(parse_nuevoCosto)) {
-            //            nNodes[i + NUEVO_COSTO_POR_KILO].classList.remove('okCSLGanado');
-            //            nNodes[i + NUEVO_COSTO_POR_KILO].classList.add('errorCSLGanado');
-            //            flag_ganado = 0;
-            //        }
-            //        else {
-            //            var validarExpreMonto = expRegularMonto.test(parse_nuevoCosto);
-            //            //validando con la expresión regular positivo, con solo 2 digitos 
-            //            if (validarExpreMonto === false) {
-            //                nNodes[i + NUEVO_COSTO_POR_KILO].classList.remove('okCSLGanado');
-            //                nNodes[i + NUEVO_COSTO_POR_KILO].classList.add('errorCSLGanado');
-            //                flag_ganado = 0;
-            //            }
-            //            else {
-            //                nNodes[i + NUEVO_COSTO_POR_KILO].classList.remove('errorCSLGanado');
-            //                nNodes[i + NUEVO_COSTO_POR_KILO].classList.add('okCSLGanado');
-            //            }
-            //        }
-            //    }
+            //validamos cliente
+            var cliente = $("#Id_cliente").val();
 
-            //    if (flag_ganado === 1) {
-            //        $("#ddGanado").hide(0);
-            //    }
-            //    else {
-            //        $("#ddGanado").show(0);
-            //    }
-            //}
+            if (cliente === '') {
+                tieneErrorCliente = true;
+                $("#Id_cliente").closest('.input-group ').removeClass('has-success').addClass("has-error");
+                $("#ddCliente").show(0);
+            }
+            else {
+                tieneErrorCliente = false;
+                $("#Id_cliente").closest('.input-group ').removeClass('has-error').addClass("has-success");
+                $("#ddCliente").hide(0);
+            }
 
-            //if (flag_errorTipoEvento === 0 && flag_errorLugar === 0 && flag_errorFecha === 0 && flag_errorHora === 0 && flag_ganado === 1 && flag_errorGanado === 0) {
-            //    //todo bien, obtenemos los id de los ganados y el nuevo precio 
-            //    var ListaIDGanadosDelEvento = new Array();
-            //    var ListaNuevoPrecioGanado = new Array();
-            //    var cantidad = 0;
+            //validamos tabla de productos
+            if (nNodes.length > 0) {
+                tieneErrorTbl = false;
+                $("#tbl1").addClass("successCID");
+                $("#tbl1").removeClass("errorCID");
+                $("#ddTabla").hide(0);
+            }
+            else {
+                tieneErrorTbl = true;
+                $("#tbl1").addClass("errorCID");
+                $("#tbl1").removeClass("successCID");
+                $("#ddTabla").show(0);
+            }
 
-            //    for (i = 0; i < nNodes.length; i += NUM_ELEMENTOS_FILA) {
-            //        //var nuevo_costo = nNodes[i + NUEVO_COSTO_POR_KILO].value;
-            //        parse_nuevoCosto = Number.parseFloat(GetMoneySinSimbolo(nNodes[i + NUEVO_COSTO_POR_KILO].value).toString().replace(/,/g, "")).toFixed(2);
+            if (!tieneErrorSucursal && !tieneErrorCliente && !tieneErrorTbl) {
 
-            //        var id_ganado = nNodes[i + NUM_ARETE].dataset.id;
-            //        var item = id_ganado + "|" + parse_nuevoCosto;
+                //obtenemos los productos 
+                var productos = [];
+                var rows = tbl1.rows().data();
+                for (var i = 0; i < rows.length; i++) {
+                    var cells = rows[i];
 
-            //        ListaIDGanadosDelEvento.unshift(item);
-            //        cantidad = cantidad + 1;
-            //    }
+                    var rowActualDT = tbl1.row(i).node();
+                    var cellsActualDT = $(rowActualDT).find("td");
 
-            //    var form = $('form#frm_evento')[0];
-            //    var formData = new FormData(form);
+                    var id = 0;
+                    var fk_id = 0;
+                    var id_producto = cells[0];
+                    var id_tipoProducto = cells[1];
+                    var id_documentoPorCobrar = '';
+                    var cantidad = $(cellsActualDT[1]).find("input").val();
+                    var precioUnitario = GetMoneySinSimbolo($(cellsActualDT[2]).find("input").val());
+                    var almacen = $(cellsActualDT[1]).find("input").attr("data-almacen");
+                    var id_unidadProducto = $(cellsActualDT[1]).find("input").attr("data-id_unidadproducto");
 
-            //    formData.append('ListaIDGanadosDelEvento', ListaIDGanadosDelEvento);
-            //    formData.append('Cantidad', cantidad);
+                    var producto =
+                    {
+                        Id: id,
+                        Fk_id: fk_id,
+                        Id_producto: id_producto,
+                        Id_tipoProducto: id_tipoProducto,
+                        Id_documentoPorCobrar: id_documentoPorCobrar,
+                        Cantidad: cantidad,
+                        PrecioUnitario: precioUnitario,
+                        Id_almacen: almacen,
+                        Id_unidadProducto: id_unidadProducto
+                    };
 
-            //    $.ajax({
-            //        type: 'POST',
-            //        data: formData,
-            //        url: '/Admin/Compra/EventoCompra/',
-            //        contentType: false,
-            //        processData: false,
-            //        cache: false,
-            //        success: function (response) {
-            //            window.location.href = '/Admin/Compra/RecepcionCompra?IDCompra=' + Id_compra;
-            //        },
-            //        error: function (request, status, error) {
-            //            window.location.href = '/Admin/Compra/RecepcionCompra?IDCompra=' + Id_compra;
-            //        }
-            //    });
-            //}
+                    productos.push(producto);
+                }
+
+                var Datos = {
+                    id_sucursal: sucursal,
+                    id_cliente: cliente,
+                    listaProducto: productos
+                };
+
+                $.ajax({
+                    dataType: 'json',
+                    type: 'POST',
+                    url: '/Admin/VentaGeneral/Create/',
+                    data: Datos,
+                    success: function (response) {
+                        window.location.href = '/Admin/VentaGeneral/Index';
+                    },
+                    error: function (request, status, error) {
+                        window.location.href = '/Admin/VentaGeneral/Index';
+                    }
+                });
+            }
         });
 
     };
 
+    function ObtenerTotalVenta() {
+        var rows = tbl1.rows().nodes();
+        var total = 0;
+
+        for (var i = 0; i < rows.length; i++) {
+            var cells = $(rows[i]).find("td");
+            var subtotal = GetMoneySinSimbolo($(cells[3]).find("input").val());
+            total += subtotal;
+        }
+
+        return format(total, 2);
+    }
+
+    function ValidarProducto(id_producto) {
+        var rows = tbl1.rows().data();
+        var unico = true;
+
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var id_productoRow = row[0];
+
+            if (id_producto === id_productoRow) {
+                unico = false;
+                break;
+            }
+        }
+
+        return unico;
+    }
+
     function format(nStr, decimales) {
-        console.log(nStr);
         nStr += '';
         var x = nStr.split('.');
         var x1 = x[0];
@@ -278,9 +360,6 @@
         while (rgx.test(x1)) {
             x1 = x1.replace(rgx, '$1' + ',' + '$2');
         }
-
-        console.log(x1);
-        console.log(x2);
 
         return x1 + x2;
     } 
@@ -439,11 +518,21 @@
         }
     }
 
+    function InicializarMensajesError() {
+        $("#validation_summary").append("<dd id='ddSucursal' style='color: #ff004d !important; '>Por favor, seleccione una sucursal.</dd>");
+        $("#validation_summary").append("<dd id='ddCliente' style='color: #ff004d !important; '>Por favor, seleccione un cliente.</dd>");
+        $("#validation_summary").append("<dd id='ddTabla' style='color: #ff004d !important; '>Por favor, agregue un producto a la venta.</dd>");
+
+        $("#ddSucursal").hide(0);
+        $("#ddCliente").hide(0);
+        $("#ddTabla").hide(0);
+    }
+
     return {
         //main function to initiate template pages
         init: function () {
+            InicializarMensajesError();
             eventos();
         }
     };
 }();
-

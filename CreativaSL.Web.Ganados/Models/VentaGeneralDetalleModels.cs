@@ -12,5 +12,11 @@ namespace CreativaSL.Web.Ganados.Models
         public string Id_producto { get; set; }
         public int Id_tipoProducto { get; set; }
         public string Id_documentoPorCobrar { get; set; }
+
+        public decimal Cantidad { get; set; }
+        public decimal PrecioUnitario { get; set; }
+
+        public string Id_almacen { get; set; }
+        public string Id_unidadProducto { get; set; }
     }
 }
