@@ -81,7 +81,7 @@
                                                     }
                                                     @if (!Empleado.TieneCuenta)
                                                     {
-                                                        <a title="Crear cuenta" class="btn btn-primary" href="@Url.Action("CuentaUser", "CatEmpleado", new { id = Empleado.IDEmpleado})"><i class="fa fa-thumbs-down"></i></a>
+                                                        <a title="Crear cuenta" class="btn btn-info" href="@Url.Action("CuentaUser", "CatEmpleado", new { id = Empleado.IDEmpleado})"><i class="fa fa-user"></i></a>
                                                     }
                                                     <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatEmpleado", new { id = Empleado.IDEmpleado })"><i class="fa fa-edit"></i></a>
                                                     <a title="Eliminar" class="btn delete btn-danger deleteRow" id="delete-@Empleado.IDEmpleado" data-hrefa="@Url.Action("Delete", "CatEmpleado", new { id = Empleado.IDEmpleado})" onClick="delete_row('@Empleado.IDEmpleado');"><i class="fa fa-trash-o"></i></a>
@@ -118,7 +118,7 @@
                                                             {
                                                                 <li>
                                                                     <a role="menuitem" tabindex="-1" data-href="@Url.Action("CuentaUser", "CatEmpleado", new { id = Empleado.IDEmpleado})">
-                                                                        <i class="fa fa-thumbs-down"></i> Crear cuenta 
+                                                                        <i class="fa fa-user"></i> Crear cuenta 
                                                                     </a>
                                                                 </li>
                                                             }
