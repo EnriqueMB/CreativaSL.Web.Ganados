@@ -1095,6 +1095,7 @@
     <Content Include="Content\js\TipoServicio.js" />
     <Content Include="Content\js\TipoVehiculo.js" />
     <Content Include="Content\js\TransaccionesPesajeGanado.js" />
+    <Content Include="Content\js\TransaccionesVentaGeneral.js" />
     <Content Include="Content\js\UnidadMedida.js" />
     <Content Include="Content\js\UnidadProductoAlmacen.js" />
     <Content Include="Content\js\UPPCliente.js" />
@@ -1523,6 +1524,9 @@
     <Content Include="Areas\Admin\Views\VentaGeneral\Index.cshtml" />
     <Content Include="Areas\Admin\Views\VentaGeneral\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpleado\CuentaUser.cshtml" />
+    <Content Include="Areas\Admin\Views\VentaGeneral\Transacciones.cshtml" />
+    <Content Include="Areas\Admin\Views\VentaGeneral\Cobro.cshtml" />
+    <Content Include="Areas\Admin\Views\VentaGeneral\Detalles.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1866,8 +1870,10 @@
     <Compile Include="Models\VentaDetalleModels.cs" />
     <Compile Include="Models\VentaEnvioCorreo.cs" />
     <Compile Include="Models\VentaGanadoModels.cs" />
+    <Compile Include="Models\VentaGeneralComprobanteDetalleModels.cs" />
     <Compile Include="Models\VentaGeneralModels.cs" />
     <Compile Include="Models\VentaGeneralDetalleModels.cs" />
+    <Compile Include="Models\VentaGeneralVistaDetallesModels.cs" />
     <Compile Include="Models\VentaModels.cs" />
     <Compile Include="Models\VentaModels2.cs" />
     <Compile Include="Models\VentaTransacionesModels.cs" />
@@ -2090,6 +2096,7 @@
     <Content Include="Reports\ReporteCajaChica - Copia.rdlc">
       <SubType>Designer</SubType>
     </Content>
+    <EmbeddedResource Include="Formatos\ComprobanteVentaGeneral.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -38,6 +38,12 @@ namespace CreativaSL.Web.Ganados.Models
                         Item.KilosPesajeGanado = !dr.IsDBNull(dr.GetOrdinal("kilosPesaje")) ? dr.GetDecimal(dr.GetOrdinal("kilosPesaje")) : 0;
                         Item.CostoPesajeGanado = !dr.IsDBNull(dr.GetOrdinal("montoPorCobrarPesaje")) ? dr.GetDecimal(dr.GetOrdinal("montoPorCobrarPesaje")) : 0;
                     }
+                    else if(modulo == 2) //venta general
+                    {
+                        Item.NombreCliente = !dr.IsDBNull(dr.GetOrdinal("nombreCliente")) ? dr.GetString(dr.GetOrdinal("nombreCliente")) : string.Empty;
+                        Item.RFCCliente = !dr.IsDBNull(dr.GetOrdinal("rfcCliente")) ? dr.GetString(dr.GetOrdinal("rfcCliente")) : string.Empty;
+                        Item.TelefonoCliente = !dr.IsDBNull(dr.GetOrdinal("telefonoCliente")) ? dr.GetString(dr.GetOrdinal("telefonoCliente")) : string.Empty;
+                    }
 
                 }
                 dr.Close();
