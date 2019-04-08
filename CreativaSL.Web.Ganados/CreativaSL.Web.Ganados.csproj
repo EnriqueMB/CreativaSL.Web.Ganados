@@ -2089,14 +2089,14 @@
     <Content Include="Reports\ReporteVentaMermaDestino.rdlc" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Formatos\ComprobantePesajeGanado.rdlc" />
+    <Content Include="Formatos\ComprobantePesajeGanado.rdlc" />
     <Content Include="Reports\ReporteCajaChica.rdlc">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Reports\ReporteCajaChica - Copia.rdlc">
       <SubType>Designer</SubType>
     </Content>
-    <EmbeddedResource Include="Formatos\ComprobanteVentaGeneral.rdlc" />
+    <Content Include="Formatos\ComprobanteVentaGeneral.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
