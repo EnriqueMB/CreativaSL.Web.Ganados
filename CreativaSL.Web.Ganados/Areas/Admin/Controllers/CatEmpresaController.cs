@@ -8,6 +8,7 @@ using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
 using CreativaSL.Web.Ganados.App_Start;
 using System.IO;
+using System.Drawing;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -78,10 +79,39 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         EmpresaDatos = new _CatEmpresa_Datos();
 
                         if (Empresa.LogoEmpresaHttp != null)
-                            Empresa.LogoEmpresa = Auxiliar.ImageToBase64(Empresa.LogoEmpresaHttp);
+                        {
+                            Stream oStreamLogoEmpresa = Empresa.LogoEmpresaHttp.InputStream;
+
+                            if (Path.GetExtension(Empresa.LogoEmpresaHttp.FileName).ToLower() == ".heic")
+                            {
+
+                                Image img = (Image)Auxiliar.ProcessFile(oStreamLogoEmpresa);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                Empresa.LogoEmpresa = image.ToBase64String(img.RawFormat);
+                            }
+                            else
+                            {
+                                Empresa.LogoEmpresa = Auxiliar.ImageToBase64(Empresa.LogoEmpresaHttp);
+                            }
+                            
+                        }
 
                         if (Empresa.LogoRFCHttp != null)
-                            Empresa.LogoRFC = Auxiliar.ImageToBase64(Empresa.LogoRFCHttp);
+                        {
+                            Stream oStreamLogoRFC = Empresa.LogoRFCHttp.InputStream;
+
+                            if (Path.GetExtension(Empresa.LogoRFCHttp.FileName).ToLower() == ".heic")
+                            {
+
+                                Image img = (Image)Auxiliar.ProcessFile(oStreamLogoRFC);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                Empresa.LogoRFC = image.ToBase64String(img.RawFormat);
+                            }
+                            else
+                            {
+                                Empresa.LogoRFC = Auxiliar.ImageToBase64(Empresa.LogoRFCHttp);
+                            }
+                        }
 
                         Empresa.Conexion = Conexion;
                         Empresa = EmpresaDatos.UpdateEmpresaXID(Empresa);
@@ -436,13 +466,34 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
 
                 _CatEmpresa_Datos Datos = new _CatEmpresa_Datos();
-                ArchivoModel.UrlArchivo = Guid.NewGuid().ToString() + Path.GetExtension(ArchivoModel.Archivo.FileName);
-                ArchivoModel.NombreArchivo = ArchivoModel.Archivo.FileName;
+
+                if (Path.GetExtension(ArchivoModel.Archivo.FileName).ToLower() == ".heic")
+                {
+                    ArchivoModel.UrlArchivo = Guid.NewGuid().ToString() + ".png";
+                    ArchivoModel.NombreArchivo = ArchivoModel.Archivo.FileName.Replace(Path.GetExtension(ArchivoModel.Archivo.FileName), ".png");
+                }
+                else
+                {
+                    ArchivoModel.UrlArchivo = Guid.NewGuid().ToString() + Path.GetExtension(ArchivoModel.Archivo.FileName);
+                    ArchivoModel.NombreArchivo = ArchivoModel.Archivo.FileName;
+                }
+
                 RespuestaAjax respuesta = Datos.EMPRESA_ac_Archivo(ArchivoModel, Conexion, User.Identity.Name, 1);
 
                 if (respuesta.Success)
                 {
-                    ArchivoModel.Archivo.SaveAs(Server.MapPath("~/ArchivosEmpresa/" + ArchivoModel.UrlArchivo));
+
+                    if (Path.GetExtension(ArchivoModel.Archivo.FileName).ToLower() == ".heic")
+                    {
+                        Stream oStream = ArchivoModel.Archivo.InputStream;
+                        Bitmap bmp = Auxiliar.ProcessFile(oStream);
+                        bmp.Save(Server.MapPath("~/ArchivosEmpresa/" + ArchivoModel.UrlArchivo));
+                    }
+                    else
+                    {
+                        ArchivoModel.Archivo.SaveAs(Server.MapPath("~/ArchivosEmpresa/" + ArchivoModel.UrlArchivo));
+                    }
+
                     TempData["typemessage"] = "1";
                 }
                 else

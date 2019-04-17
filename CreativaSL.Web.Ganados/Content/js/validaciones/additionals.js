@@ -98,7 +98,7 @@ $.validator.addMethod("ImagenRequerida", function (value, element, params) {
         var longitud = arrayString.length;
         var extension = arrayString[longitud - 1];
 
-        if (extension.localeCompare("png") === 0 || extension.localeCompare("jpg") === 0 || extension.localeCompare("jpeg") === 0 || extension.localeCompare("bmp") === 0) {
+        if (extension.localeCompare("png") === 0 || extension.localeCompare("jpg") === 0 || extension.localeCompare("jpeg") === 0 || extension.localeCompare("bmp") === 0, extension.localeCompare("heic") === 0) {
             return true;
         }
         else {

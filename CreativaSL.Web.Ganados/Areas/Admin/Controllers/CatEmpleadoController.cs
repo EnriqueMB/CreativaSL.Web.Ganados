@@ -9,6 +9,7 @@ using CreativaSL.Web.Ganados.Models;
 using CreativaSL.Web.Ganados.App_Start;
 using System.IO;
 using CreativaSL.Web.Ganados.ViewModels;
+using System.Drawing;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -708,13 +709,32 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
 
                 CatEmpleado_Datos Datos = new CatEmpleado_Datos();
-                ArchivoModel.UrlArchivo = Guid.NewGuid().ToString() + Path.GetExtension(ArchivoModel.Archivo.FileName);
-                ArchivoModel.NombreArchivo = ArchivoModel.Archivo.FileName;
+
+                if (Path.GetExtension(ArchivoModel.Archivo.FileName).ToLower() == ".heic")
+                {
+                    ArchivoModel.UrlArchivo = Guid.NewGuid().ToString() + ".png";
+                    ArchivoModel.NombreArchivo = ArchivoModel.Archivo.FileName.Replace(Path.GetExtension(ArchivoModel.Archivo.FileName), ".png");
+                }
+                else
+                {
+                    ArchivoModel.UrlArchivo = Guid.NewGuid().ToString() + Path.GetExtension(ArchivoModel.Archivo.FileName);
+                    ArchivoModel.NombreArchivo = ArchivoModel.Archivo.FileName;
+                }
                 RespuestaAjax respuesta = Datos.EMPLEADO_ac_Archivo(ArchivoModel, Conexion, User.Identity.Name, 1);
 
                 if (respuesta.Success)
                 {
-                    ArchivoModel.Archivo.SaveAs(Server.MapPath("~/ArchivosEmpleado/" + ArchivoModel.UrlArchivo));
+                    if (Path.GetExtension(ArchivoModel.Archivo.FileName).ToLower() == ".heic")
+                    {
+                        Stream oStream = ArchivoModel.Archivo.InputStream;
+                        Bitmap bmp = Auxiliar.ProcessFile(oStream);
+                        bmp.Save(Server.MapPath("~/ArchivosEmpleado/" + ArchivoModel.UrlArchivo));
+                    }
+                    else
+                    {
+                        ArchivoModel.Archivo.SaveAs(Server.MapPath("~/ArchivosEmpleado/" + ArchivoModel.UrlArchivo));
+                    }
+                    
                     TempData["typemessage"] = "1";
                 }
                 else

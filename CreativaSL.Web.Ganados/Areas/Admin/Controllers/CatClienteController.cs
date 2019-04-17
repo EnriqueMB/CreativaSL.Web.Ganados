@@ -9,6 +9,8 @@ using CreativaSL.Web.Ganados.Models;
 using System.Data;
 using CreativaSL.Web.Ganados.ViewModels;
 using CreativaSL.Web.Ganados.App_Start;
+using System.IO;
+using System.Drawing;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -832,7 +834,24 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     //HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
                     if (uppModel.ImagenHttp != null)
                     {
-                        uppModel.Imagen = Auxiliar.ImageToBase64(uppModel.ImagenHttp);
+                        //uppModel.Imagen = Auxiliar.ImageToBase64(uppModel.ImagenHttp);
+
+                        Stream s = uppModel.ImagenHttp.InputStream;
+
+                        if (Path.GetExtension(uppModel.ImagenHttp.FileName).ToLower() == ".heic")
+                        {
+
+                            Image img = (Image)Auxiliar.ProcessFile(s);
+                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                            uppModel.Imagen = image.ToBase64String(img.RawFormat);
+                        }
+                        else
+                        {
+                            Image img = new Bitmap(s);
+                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                            uppModel.Imagen = image.ToBase64String(img.RawFormat);
+                        }
+
                     }
 
 

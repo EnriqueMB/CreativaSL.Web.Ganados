@@ -90,6 +90,9 @@
       <HintPath>..\packages\ExcelDataReader.DataSet.3.3.0\lib\net45\ExcelDataReader.DataSet.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Magick.NET-Q16-AnyCPU, Version=7.12.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
+      <HintPath>..\packages\Magick.NET-Q16-AnyCPU.7.12.0\lib\net40\Magick.NET-Q16-AnyCPU.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -2091,9 +2094,6 @@
   <ItemGroup>
     <Content Include="Formatos\ComprobantePesajeGanado.rdlc" />
     <Content Include="Reports\ReporteCajaChica.rdlc">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Reports\ReporteCajaChica - Copia.rdlc">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Formatos\ComprobanteVentaGeneral.rdlc" />

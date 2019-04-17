@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using ImageMagick;
+using System.Drawing.Imaging;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -444,6 +446,20 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 throw;
             }
+        }
+
+        public static Bitmap ProcessFile(Stream oStream)
+        {
+            oStream.Position = 0;
+
+            MagickImage image = new MagickImage(oStream);
+
+            Bitmap bmp = image.ToBitmap(ImageFormat.Png);
+
+            oStream.Close();
+            oStream.Dispose();
+
+            return bmp;
         }
     }
 }

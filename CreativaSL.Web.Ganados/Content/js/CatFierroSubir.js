@@ -1,11 +1,11 @@
 ﻿var FierroSubir = function () {
-    "use strict"
+    "use strict";
     var runValidator1 = function () {
         var form1 = $('#form-dg');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
         $.validator.addMethod("validarImagen", function () {
-            console.log(document.getElementById("ImgFierro").value);
+            //console.log(document.getElementById("ImgFierro").value);
             if (document.getElementById("ImgFierro").value === '') {
                 if ((document.getElementById("ImgFierro").value === ''))
                     return false;

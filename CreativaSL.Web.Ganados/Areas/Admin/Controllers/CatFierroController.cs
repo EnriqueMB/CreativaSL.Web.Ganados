@@ -263,14 +263,30 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 if (Token.IsTokenValid())
                 {
                     HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+
+                    MemoryStream ms = new MemoryStream();
+                    bannerImage.InputStream.CopyTo(ms);
+                    bannerImage.InputStream.Position = ms.Position = 0;
+                    Stream s2 = ms;
+
                     if (!string.IsNullOrEmpty(bannerImage.FileName))
                     {
                         if (bannerImage != null && bannerImage.ContentLength > 0)
                         {
                             Stream s = bannerImage.InputStream;
-                            Bitmap img = new Bitmap(s);
-                            Fierro.ImgFierro = img.ToBase64String(ImageFormat.Png);
-                            //ModelState.Remove("ImgFierro");
+
+                            if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
+                            {
+
+                                Image img = (Image)Auxiliar.ProcessFile(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                Fierro.ImgFierro = image.ToBase64String(img.RawFormat);
+                            }
+                            else
+                            {
+                                Bitmap img = new Bitmap(s);
+                                Fierro.ImgFierro = img.ToBase64String(ImageFormat.Png);
+                            }
                         }
                     }
                     else
@@ -289,14 +305,26 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             string baseDir = Server.MapPath("~/Imagenes/Fierro/");
                             string fileExtension = Path.GetExtension(bannerImage.FileName);
-                            string fileName = Fierro.IDFierro + fileExtension;
-                            Stream s = bannerImage.InputStream;
-                            Image Img2 = new Bitmap(s);
+                            fileExtension = fileExtension == (".heic") ? ".png" : fileExtension;
                             
-                            // Save the image with a quality of 50% 
-                           Bitmap IMG3 = ComprimirImagen.SaveJpeg(baseDir + fileName, Img2, 50, true);
+                            string fileName = Fierro.IDFierro + fileExtension;
+                            Bitmap IMG3 = null;
+                            
+
+                            if (Path.GetExtension(bannerImage.FileName) == ".heic")
+                            {
+                                Image img = (Image)Auxiliar.ProcessFile(s2);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                IMG3 = ComprimirImagen.SaveJpeg(baseDir + fileName, image, 50, true);
+                            }
+                            else
+                            {
+                                Image Img2 = new Bitmap(s2);
+                                IMG3 = ComprimirImagen.SaveJpeg(baseDir + fileName, Img2, 50, true);
+                            }
+
                             Fierro.ImgFierro = IMG3.ToBase64String(ImageFormat.Jpeg);
-                            //image.Save(baseDir + fileName);
+
                             Fierro.NombreArchivo = fileName;
                             Fierro = FierroDatos.ActualizarImagen(Fierro);
                             if (Fierro.Completado == true)
