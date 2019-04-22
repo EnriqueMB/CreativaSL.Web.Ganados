@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using CreativaSL.Web.Ganados.App_Start;
 using Microsoft.Reporting.WebForms;
 using System.Data;
+using System.Drawing;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -418,7 +419,20 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         //verificamos si tiene alguna imagen
                         if (Evento.HttpImagen != null)
                         {
-                            Evento.ImagenBase64 = Auxiliar.ImageToBase64(Evento.HttpImagen);
+                            Stream s = Evento.HttpImagen.InputStream;
+                            //Evento.ImagenBase64 = Auxiliar.ImageToBase64(Evento.HttpImagen);
+                            if (Path.GetExtension(Evento.HttpImagen.FileName).ToLower() == ".heic")
+                            {
+                                Image img = (Image)Auxiliar.ProcessFile(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                Evento.ImagenBase64 = image.ToBase64String(img.RawFormat);
+                            }
+                            else
+                            {
+                                Image img = new Bitmap(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                Evento.ImagenBase64 = image.ToBase64String(img.RawFormat);
+                            }
                         }
                         else
                         {

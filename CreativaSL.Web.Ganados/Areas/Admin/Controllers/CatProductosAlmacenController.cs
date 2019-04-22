@@ -83,12 +83,25 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
                         if (bannerImage != null && bannerImage.ContentLength > 0)
                         {
+                            //Stream s = bannerImage.InputStream;
+                            //Image img = new Bitmap(s);
+                            //Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                            //Producto.Imagen = image.ToBase64String(img.RawFormat);
+
                             Stream s = bannerImage.InputStream;
-                            //Bitmap img = new Bitmap(s);
-                            //Producto.Imagen = img.ToBase64String(ImageFormat.Png);
-                            Image img = new Bitmap(s);
-                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                            Producto.Imagen = image.ToBase64String(img.RawFormat);
+
+                            if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
+                            {
+                                Image img = (Image)Auxiliar.ProcessFile(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                Producto.Imagen = image.ToBase64String(img.RawFormat);
+                            }
+                            else
+                            {
+                                Image img = new Bitmap(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                Producto.Imagen = image.ToBase64String(img.RawFormat);
+                            }
                         }
 
                         Producto.Conexion = Conexion;
@@ -177,11 +190,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             if (bannerImage != null && bannerImage.ContentLength > 0)
                             {
                                 Stream s = bannerImage.InputStream;
-                                //Bitmap img = new Bitmap(s);
-                                //Producto.Imagen = img.ToBase64String(ImageFormat.Png);
-                                Image img = new Bitmap(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Producto.Imagen = image.ToBase64String(img.RawFormat);
+
+                                if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
+                                {
+
+                                    Image img = (Image)Auxiliar.ProcessFile(s);
+                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                    Producto.Imagen = image.ToBase64String(img.RawFormat);
+                                }
+                                else
+                                {
+                                    Image img = new Bitmap(s);
+                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                    Producto.Imagen = image.ToBase64String(img.RawFormat);
+                                }
+
                             }
                         }
                         else

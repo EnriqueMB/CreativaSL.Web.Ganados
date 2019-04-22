@@ -93,8 +93,22 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         if (bannerImage != null && bannerImage.ContentLength > 0)
                         {
                             Stream s = bannerImage.InputStream;
-                            Bitmap img = new Bitmap(s);
-                            Vehiculo.img64 = img.ToBase64String(ImageFormat.Png);
+                            //Bitmap img = new Bitmap(s);
+                            //Vehiculo.img64 = img.ToBase64String(ImageFormat.Png);
+
+                            if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
+                            {
+                                Image img = (Image)Auxiliar.ProcessFile(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                Vehiculo.img64 = image.ToBase64String(img.RawFormat);
+                            }
+                            else
+                            {
+                                Image img = new Bitmap(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                Vehiculo.img64 = image.ToBase64String(ImageFormat.Png);
+                            }
+
                         }
                         Vehiculo.Estatus = true;
                         Vehiculo = VehiculoDatos.AcCatVehiculo(Vehiculo);
@@ -192,8 +206,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             if (bannerImage != null && bannerImage.ContentLength > 0)
                             {
                                 Stream s = bannerImage.InputStream;
-                                Bitmap img = new Bitmap(s);
-                                Vehiculo.img64 = img.ToBase64String(ImageFormat.Png);
+                                //Bitmap img = new Bitmap(s);
+                                //Vehiculo.img64 = img.ToBase64String(ImageFormat.Png);
+
+                                if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
+                                {
+                                    Image img = (Image)Auxiliar.ProcessFile(s);
+                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                    Vehiculo.img64 = image.ToBase64String(img.RawFormat);
+                                }
+                                else
+                                {
+                                    Image img = new Bitmap(s);
+                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                    Vehiculo.img64 = image.ToBase64String(ImageFormat.Png);
+                                }
                             }
                         }
                         else

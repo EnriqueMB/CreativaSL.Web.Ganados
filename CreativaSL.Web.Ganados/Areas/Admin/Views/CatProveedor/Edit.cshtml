@@ -8,7 +8,6 @@
 {
     <!--FILEINPUT-->
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
-   @*<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />*@
     <link href="@Url.Content("~/Content/css/fontawesome/font-awesome.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
 }
@@ -292,10 +291,10 @@
             theme: 'fa',
             language: 'es',
             maxFileCount: 1,
+            autoReplace: true,
             uploadUrl: "#",
             overwriteInitial: true,
             showUploadedThumbs: false,
-            allowedFileExtensions: ['png', 'jpg', 'jpge'],
             initialPreview: [
                 '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.ImgINE" />'
             ],
@@ -307,7 +306,19 @@
             showRemove: false,
             showClose: false,
             showUpload: false,
-            layoutTemplates: { actionDelete: '' }
+            layoutTemplates: { actionDelete: '' },
+
+            allowedFileExtensions: ['png', 'jpg', 'gif', 'jpeg', 'heic'],
+            previewFileIcon: '<i class="fa fa-file"></i>',
+            preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
+            previewFileIconSettings: { // configure your icon file extensions
+                'heic': '<i class="fa fa-file-text text-primary"></i>'
+            },
+            previewFileExtSettings: { // configure the logic for determining icon file extensions
+                'heic': function (ext) {
+                    return ext.match(/(heic)$/i);
+                }
+            }
         })
         $('#ImgManifestacionFierros').fileinput({
             theme: 'fa',
@@ -329,7 +340,18 @@
             showClose: false,
             showUpload: false,
             layoutTemplates: { actionDelete: '' }, // disable thumbnail deletion
-            allowedFileExtensions: ["png", 'jpg', 'jpge']
+
+            allowedFileExtensions: ['png', 'jpg', 'gif', 'jpeg', 'heic'],
+            previewFileIcon: '<i class="fa fa-file"></i>',
+            preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
+            previewFileIconSettings: { // configure your icon file extensions
+                'heic': '<i class="fa fa-file-text text-primary"></i>'
+            },
+            previewFileExtSettings: { // configure the logic for determining icon file extensions
+                'heic': function (ext) {
+                    return ext.match(/(heic)$/i);
+                }
+            }
         })
 
     </script>

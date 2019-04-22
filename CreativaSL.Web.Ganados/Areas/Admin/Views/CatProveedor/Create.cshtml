@@ -8,7 +8,6 @@
 {
     <!--FILEINPUT-->
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
-    @*<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />*@
     <link href="@Url.Content("~/Content/css/fontawesome/font-awesome.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
 }
@@ -299,8 +298,19 @@
                 showUpload: false,
                 showUploadedThumbs: false,
                 overwriteInitial: false,
-                allowedFileExtensions: ['png', 'jpg', 'jpge', 'gif'],
-                required: true
+                required: true,
+
+                allowedFileExtensions: ['png', 'jpg', 'gif', 'jpeg', 'heic'],
+                previewFileIcon: '<i class="fa fa-file"></i>',
+                preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
+                previewFileIconSettings: { // configure your icon file extensions
+                    'heic': '<i class="fa fa-file-text text-primary"></i>'
+                },
+                previewFileExtSettings: { // configure the logic for determining icon file extensions
+                    'heic': function (ext) {
+                        return ext.match(/(heic)$/i);
+                    }
+                }
             })
             $('#ImgManifestacionFierros').fileinput({
                 theme: 'fa',
@@ -310,8 +320,19 @@
                 overwriteInitial: false,
                 showUpload: false,
                 showUploadedThumbs: false,
-                allowedFileExtensions: ['png', 'jpg', 'jpge', 'gif'],
-                required: true
+                required: true,
+
+                allowedFileExtensions: ['png', 'jpg', 'gif', 'jpeg', 'heic'],
+                previewFileIcon: '<i class="fa fa-file"></i>',
+                preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
+                previewFileIconSettings: { // configure your icon file extensions
+                    'heic': '<i class="fa fa-file-text text-primary"></i>'
+                },
+                previewFileExtSettings: { // configure the logic for determining icon file extensions
+                    'heic': function (ext) {
+                        return ext.match(/(heic)$/i);
+                    }
+                }
             })
         });
     </script>
