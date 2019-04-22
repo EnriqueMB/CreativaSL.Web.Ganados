@@ -107,7 +107,7 @@ namespace CreativaSL.Web.Ganados.Models
         /// <summary>
         /// Registro Federal de Contribuyente del cliente
         /// </summary>        
-        [Required(ErrorMessage = "Debe ingresar el RFC")]
+        //[Required(ErrorMessage = "Debe ingresar el RFC")]
         [Display(Name = "rfc")]
         [RFC(ErrorMessage = "Ingrese un RFC válido")]
         public string RFC
@@ -133,7 +133,7 @@ namespace CreativaSL.Web.Ganados.Models
         /// <summary>
         /// Fecha de inicio de la relación
         /// </summary>
-        [Required(ErrorMessage = "Debe seleccionar una fecha de inicio de relación")]
+       // [Required(ErrorMessage = "Debe seleccionar una fecha de inicio de relación")]
         [Display(Name = "Fecha de inicio de relación")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
@@ -243,7 +243,15 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _ListaRegimenCMB; }
             set { _ListaRegimenCMB = value; }
         }
-        
+
+        private bool _TodaSucursale;
+
+        public bool TodaSucursale
+        {
+            get { return _TodaSucursale; }
+            set { _TodaSucursale = value; }
+        }
+
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }

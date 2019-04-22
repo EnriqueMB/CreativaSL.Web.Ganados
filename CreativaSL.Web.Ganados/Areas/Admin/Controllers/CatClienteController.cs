@@ -90,6 +90,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         if (!validarContacto(clienteID.NombreResponsable))
                         {
+                            clienteID.Conexion = Conexion;
+                            clienteID.ListaCmbSucursal = ClienteDatos.ObteneComboCatSucursal(clienteID);
+                            clienteID.ListaRegimenCMB = ClienteDatos.ObtenerComboRegimenFiscal(clienteID);
+                            clienteID.ListaTipoCliente = ClienteDatos.ObtenerListaTipoClientes(clienteID);
                             ModelState.AddModelError("", "El nombre del contacto es necesario.");
                             return View(clienteID);
                         }
