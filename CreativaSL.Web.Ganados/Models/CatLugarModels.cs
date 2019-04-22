@@ -41,8 +41,8 @@ namespace CreativaSL.Web.Ganados.Models
 
         //Nombre del dueño 
         private string _nombrePropietario;
-        [Required(ErrorMessage = "El nombre es obligatorio")]
-        [Display(Name = "nombre")]
+        [Required(ErrorMessage = "El nombre del Propietario es obligatorio")]
+        [Display(Name = "nombre del Propietario")]
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ\s]*$", ErrorMessage = "Solo Letras")]
         public string nombrePropietario
@@ -51,7 +51,7 @@ namespace CreativaSL.Web.Ganados.Models
             set { _nombrePropietario = value; }
         }
         private string _apellidoPaterno;
-        [Required(ErrorMessage = "El nombre es obligatorio")]
+        //[Required(ErrorMessage = "El nombre es obligatorio")]
         [Display(Name = "Apellido Paterno")]
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ\s]*$", ErrorMessage = "Solo Letras")]
@@ -79,7 +79,7 @@ namespace CreativaSL.Web.Ganados.Models
             set { _bascula = value; }
         }
         private string _observaciones;
-        [Required(ErrorMessage = "El nombre es obligatorio")]
+       // [Required(ErrorMessage = "El nombre es obligatorio")]
         [Display(Name = "nombre")]
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s\.\,\#]*$", ErrorMessage = "Solo Letras")]
@@ -208,8 +208,8 @@ namespace CreativaSL.Web.Ganados.Models
         /// DESCRIPCION DEL LUGAR 
         /// </summary>
         private string _descripcion;
-        [Required(ErrorMessage = "El nombre es obligatorio")]
-        [Display(Name = "nombre")]
+        [Required(ErrorMessage = "El nombre del lugar es obligatorio")]
+        [Display(Name = "nombre del lugar")]
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ\s]*$", ErrorMessage = "Solo Letras")]
         public string descripcion

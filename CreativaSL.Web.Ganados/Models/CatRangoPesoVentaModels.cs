@@ -32,5 +32,7 @@ namespace CreativaSL.Web.Ganados.Models
         [Range(1, int.MaxValue, ErrorMessage = "Introduzca un número mayor a 0")]
         [Precio(ErrorMessage = "Solo números y decimales")]
         public decimal Precio { get; set; }
+
+        public string NombreRango { get; set; }
     }
 }

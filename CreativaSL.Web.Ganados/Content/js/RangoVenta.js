@@ -27,14 +27,16 @@
                 PesoMinimo: { CMBINT: true, required:true,numeros:true},
                 PesoMaximo: { CMBINT: true, required: true, numeros: true },
                 Precio: { CMBINT: true, required: true, numeros: true },
-                Id_tipoCliente: { CMBINT: true, required: true }
+                Id_tipoCliente: { CMBINT: true, required: true },
+                NombreRango: { required: true, maxlength: 100  }
             },
             messages: {
                 
                 PesoMinimo: { CMBINT: "Ingrese un peso mínimo mayor a 0.", required: "Ingrese un peso mínimo",numeros:"Ingrese un peso mínimo válido" },
                 PesoMaximo: { CMBINT: "Ingrese un peso máximo mayor a 0.", required: "Ingrese un peso máximo", numeros: "Ingrese un peso máximo válido" },
                 Precio: { CMBINT: "Ingrese un precio mayor a 0.", required: "Ingrese un precio", numeros: "Ingrese un precio válido" },
-                Id_tipoCliente: { CMBINT: 'Seleccion un tipo de proveedor.', required: 'Seleccione un valor válido' }
+                Id_tipoCliente: { CMBINT: 'Seleccion un tipo de proveedor.', required: 'Seleccione un valor válido' },
+                NombreRango: { required: "Ingres el tipo de rango que le pertenece.", maxlength: "El campo  admite máximo 100 caracteres." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

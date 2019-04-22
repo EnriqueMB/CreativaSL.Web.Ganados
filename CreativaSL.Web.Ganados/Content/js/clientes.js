@@ -26,27 +26,28 @@
             rules: {
                 IDSucursal: { required: true },
                 NombreRazonSocial: { required: true, texto: true, maxlength: 300 },
+                NombreResponsable: { required: true, nombre: true, maxlength: 300, minlength: 4 }, //{ nombre: true, maxlenght: 300 },
                 IDRegimenFiscal: { required: true },
-                RFC: { required: true, rfc: true },
-                Direccion: { direccion: true, maxlength: 300 },
-                FechaIngreso: { required: true },
-                NombreResponsable: { required: true, nombre: true, maxlength: 300, minlength: 4}, //{ nombre: true, maxlenght: 300 },
-                Celular: { telefono: true },
-                Telefono: { telefono: true },
+                //RFC: { required: true, rfc: true },
+                //Direccion: { direccion: true, maxlength: 300 },
+                //FechaIngreso: { required: true },
+                
+                //Celular: { telefono: true },
+                //Telefono: { telefono: true },
                 TipoCliente: { min: 1 }
                 //CorreoElectronico: { required: true, email: true },              
                 //PSGCliente: {required: true}
             },
             messages: {
                 IDSucursal: { required: "Seleccione una sucursal." },
-                NombreRazonSocial: { required: "Ingrese el nombre o Razón social.", texto: "Ingrese un nombre o razón social válido.", maxlength: "El campo nombre o razón social admite máximo 300 caracteres." },
+                NombreRazonSocial: { required: "Ingrese la Razón social.", texto: "Ingrese una razón social válido.", maxlength: "El campo razón social admite máximo 300 caracteres." },
+                NombreResponsable: { required: "Ingrese el Nombre del Contacto", nombre: "Ingrese un nombre de contacto válido.", maxlength: "El campo nombre de contacto admite máximo 300 caracteres.", minlength: "El campo nombre de contacto admite minimo 4 caracteres." }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
                 IDRegimenFiscal: { required: "Seleccione un régimen fiscal." },
-                RFC: { required: "Ingrese el RFC del cliente.", rfc: "Ingrese un RFC válido." },
-                Direccion: { direccion: "Ingrese un dirección válida.", maxlength: "El campo domicilio fiscal admite máximo 300 caracteres." },
-                FechaIngreso: { required: "Ingrese la fecha de inicio de relación." },
-                NombreResponsable: { required: "Ingrese el Nombre del Contacto", nombre: "Ingrese un nombre de contacto válido.", maxlength: "El campo nombre de contacto admite máximo 300 caracteres.", minlength: "El campo nombre de contacto admite minimo 4 caracteres."  }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
-                Celular: { telefono: "Ingrese un número de celular válido." },
-                Telefono: { telefono: "Ingrese un número de teléfono válido." },
+                //RFC: { required: "Ingrese el RFC del cliente.", rfc: "Ingrese un RFC válido." },
+                //Direccion: { direccion: "Ingrese un dirección válida.", maxlength: "El campo domicilio fiscal admite máximo 300 caracteres." },
+                //FechaIngreso: { required: "Ingrese la fecha de inicio de relación." },
+                //Celular: { telefono: "Ingrese un número de celular válido." },
+                //Telefono: { telefono: "Ingrese un número de teléfono válido." },
                 TipoCliente: { min: "Ingrese un tipo de cliente." }
                 //CorreoElectronico: { required: "Ingrese el correo electrónico del cliente.", email: "Ingrese un correo electrónico válido." },
                 //PSGCliente: { required: "Ingrese el P.S.G. del cliente." }

@@ -194,7 +194,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _RFC;
-        [Required(ErrorMessage = "El nombre es obligatorio")]
+        //[Required(ErrorMessage = "El nombre es obligatorio")]
         [Display(Name = "nombre")]
         [StringLength(20, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         [RegularExpression(@"^[A-Za-záéíóúñÁÉÍÓÚÑ0-9\s]*$", ErrorMessage = "Solo Letras, Números")]
@@ -203,12 +203,12 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _RFC; }
             set { _RFC = value; }
         }
-        [Required(ErrorMessage = "Seleccione la imagen del INE")]
+        //[Required(ErrorMessage = "Seleccione la imagen del INE")]
         [Display(Name = "Imagen INE")]
         public HttpPostedFileBase[] ImgINEE { get; set; }
 
         private HttpPostedFileBase[] _ImgManifestacionFierros;
-        [Required(ErrorMessage = "Seleccione la imagen de la manifestación del fierro")]
+        //[Required(ErrorMessage = "Seleccione la imagen de la manifestación del fierro")]
         [Display(Name = "Manifestación Fierro")]
         public HttpPostedFileBase[] ImgManifestacionFierros
         {
@@ -321,9 +321,9 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private int _IDPeriodo;
-        [Required(ErrorMessage = "Seleccione un periodo")]
+        //[Required(ErrorMessage = "Seleccione un periodo")]
         [Display(Name = "Periodo")]
-        [CombosInt(ErrorMessage = "Seleccione un tipo periodo")]
+       // [CombosInt(ErrorMessage = "Seleccione un tipo periodo")]
         public int IDPeriodo
         {
             get { return _IDPeriodo; }

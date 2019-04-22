@@ -88,7 +88,8 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Usuario ?? string.Empty,
                     datos.PSGCliente ?? string.Empty ,
                     datos.Tolerancia ,
-                    datos.TipoCliente
+                    datos.TipoCliente,
+                    datos.TodaSucursale
                 };
                 object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatCliente", parametros);
                 datos.IDCliente = aux.ToString();
