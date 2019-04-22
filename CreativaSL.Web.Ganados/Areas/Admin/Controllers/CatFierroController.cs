@@ -285,7 +285,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             else
                             {
                                 Bitmap img = new Bitmap(s);
-                                Fierro.ImgFierro = img.ToBase64String(ImageFormat.Png);
+                                Fierro.ImgFierro = img.ToBase64String(img.RawFormat);
                             }
                         }
                     }

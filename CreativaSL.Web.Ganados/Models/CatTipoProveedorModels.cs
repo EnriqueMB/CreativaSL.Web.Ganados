@@ -9,6 +9,7 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CatTipoProveedorModels
     {
+        public decimal MermaFavor { get; set; }
 
         public CatTipoProveedorModels()
         {

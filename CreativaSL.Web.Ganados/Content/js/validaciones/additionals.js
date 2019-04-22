@@ -98,14 +98,16 @@ $.validator.addMethod("ImagenRequerida", function (value, element, params) {
         var longitud = arrayString.length;
         var extension = arrayString[longitud - 1];
 
-        if (extension.localeCompare("png") === 0 || extension.localeCompare("jpg") === 0 || extension.localeCompare("jpeg") === 0 || extension.localeCompare("bmp") === 0, extension.localeCompare("heic") === 0) {
+        console.log(extension);
+
+        if (extension.localeCompare("png") === 0 || extension.localeCompare("jpg") === 0 || extension.localeCompare("jpeg") === 0 || extension.localeCompare("bmp") === 0 || extension.localeCompare("heic") === 0) {
             return true;
         }
         else {
             return false;
         }
     }
-}, 'Solo archivos con formato PNG, JPG, JPEG y BMP.');
+}, 'Solo archivos con formato PNG, JPG, JPEG, BMP y HEIC.');
 
 $.validator.addMethod("formatoPNG", function (value, element, params) {
     //Bandera que me indica si hay o no imagen en el servidor

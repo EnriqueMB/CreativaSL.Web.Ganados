@@ -31,7 +31,7 @@
                 @Html.AntiForgeryToken()
                 @*@Html.ValidationSummary(true)*@
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-                                                                                                                            <div id="validation_summary" class="field_error "></div> //JS
+                <div id="validation_summary" class="field_error "></div> //JS
 
                 @Html.HiddenFor(model => model.IDVehiculo)
                 <div class="panel panel-default">

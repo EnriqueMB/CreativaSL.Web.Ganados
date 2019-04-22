@@ -14,6 +14,7 @@ using CreativaSL.Web.Ganados.App_Start;
 using Microsoft.Reporting.WebForms;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -2145,7 +2146,23 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                         if (Documento.ImagenPost != null)
                         {
-                            Documento.ImagenServer = Auxiliar.ImageToBase64(Documento.ImagenPost);
+                            //Documento.ImagenServer = Auxiliar.ImageToBase64(Documento.ImagenPost);
+
+                            Stream s = Documento.ImagenPost.InputStream;
+
+                            if (Path.GetExtension(Documento.ImagenPost.FileName).ToLower() == ".heic")
+                            {
+                                Image img = (Image)Auxiliar.ProcessFile(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                Documento.ImagenServer = image.ToBase64String(img.RawFormat);
+                            }
+                            else
+                            {
+                                Image img = new Bitmap(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                Documento.ImagenServer = image.ToBase64String(img.RawFormat);
+                            }
+
                         }
                         Documento.RespuestaAjax = new RespuestaAjax();
                         Documento = CompraDatos.AC_Documento(Documento);
@@ -2541,7 +2558,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         if (DocumentoPorPagarPago.HttpImagen != null)
                         {
-                            DocumentoPorPagarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorPagarPago.HttpImagen);
+                            //DocumentoPorPagarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorPagarPago.HttpImagen);
+                            Stream s = DocumentoPorPagarPago.HttpImagen.InputStream;
+
+                            if (Path.GetExtension(DocumentoPorPagarPago.HttpImagen.FileName).ToLower() == ".heic")
+                            {
+                                Image img = (Image)Auxiliar.ProcessFile(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                DocumentoPorPagarPago.ImagenBase64 = image.ToBase64String(img.RawFormat);
+                            }
+                            else
+                            {
+                                Image img = new Bitmap(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                DocumentoPorPagarPago.ImagenBase64 = image.ToBase64String(img.RawFormat);
+                            }
                         }
                     }
                     CompraDatos = new _Compra_Datos();
@@ -3041,6 +3072,22 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                     if (Evento.HttpImagen != null)
                     {
+                        Stream s = Evento.HttpImagen.InputStream;
+
+                        if (Path.GetExtension(Evento.HttpImagen.FileName).ToLower() == ".heic")
+                        {
+                            Image img = (Image)Auxiliar.ProcessFile(s);
+                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                            Evento.ImagenBase64 = image.ToBase64String(img.RawFormat);
+                        }
+                        else
+                        {
+                            Image img = new Bitmap(s);
+                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                            Evento.ImagenBase64 = image.ToBase64String(img.RawFormat);
+                        }
+
+
                         Evento.ImagenBase64 = Auxiliar.ImageToBase64(Evento.HttpImagen);
                     }
 

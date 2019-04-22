@@ -106,7 +106,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             {
                                 Image img = new Bitmap(s);
                                 Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Vehiculo.img64 = image.ToBase64String(ImageFormat.Png);
+                                Vehiculo.img64 = image.ToBase64String(img.RawFormat);
                             }
 
                         }
@@ -219,7 +219,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                 {
                                     Image img = new Bitmap(s);
                                     Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    Vehiculo.img64 = image.ToBase64String(ImageFormat.Png);
+                                    Vehiculo.img64 = image.ToBase64String(img.RawFormat);
                                 }
                             }
                         }

@@ -1,5 +1,5 @@
 ﻿var CompraAgendar = function () {
-    "use strict"
+    "use strict";
     //google maps
     var map, directionsDisplay, directionsService;
     //datatables
@@ -124,20 +124,12 @@
             rules: {
                 IDProveedor: { required: true },
                 IDSucursal: { required: true },
-                IDPLugarProveedor: { required: true },
-                GanadosPactadoMachos: { required: true,  digits: true  },
-                GanadosPactadoHembras: { required: true, digits: true  },
-                FechaHoraProgramada: { required: true, fecha: true },
-                HoraProgramada: { required:true, horas24:true }
+                IDPLugarProveedor: { required: true }
             },
             messages: {
                 IDProveedor: {  required: "Por favor, seleccione un proveedor."  },
                 IDSucursal: {   required: "Por favor, seleccione una Sucursal."  },
-                IDPLugarProveedor: { required: "Por favor, seleccione un lugar del proveedor." },
-                GanadosPactadoMachos: {  required: "Por favor, escriba una cantidad de ganado machos.", digits: "Por favor, el ganado pactado machos, debe ser igual o mayor que 0 (solo números enteros)." },
-                GanadosPactadoHembras: { required: "Por favor, escriba una cantidad de ganado hembras", digits: "Por favor, el ganado pactado hembras, debe ser igual o mayor que 0 (solo números enteros)." },
-                FechaHoraProgramada: { required: "Por favor, seleccione una fecha para la compra a realizar.",   date: "Por favor, la fecha de la compra es con formado dd/mm/aaaa." },
-                HoraProgramada: { required: "Por favor, seleccione una hora para la compra a realizar." }
+                IDPLugarProveedor: { required: "Por favor, seleccione un lugar del proveedor." }
             },
             invalidHandler: function (event, validator) {
                 successHandler1.hide();
