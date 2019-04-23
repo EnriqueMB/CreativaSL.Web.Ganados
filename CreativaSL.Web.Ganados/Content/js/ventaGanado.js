@@ -67,10 +67,11 @@
                     "data": "subtotal",
                     "render": $.fn.dataTable.render.number(',', '.', 2, '$')
                 },
+                { "data": "precioCompra" }
             ],
             "columnDefs": [
                 {
-                    "targets": [0, 1, 5, 7],
+                    "targets": [0, 1, 5, 7, 9],
                     "visible": false,
                     "searchable": false
                 }
@@ -125,7 +126,8 @@
                                 return "$ 0.00";
                             }
                             else {
-                                var pesoInicial = Number.parseFloat(row["pesoInicial"]).toFixed(2);
+                                //var pesoInicial = Number.parseFloat(row["pesoInicial"]).toFixed(2);
+                                var pesoInicial = Number.parseFloat(row["pesoInicial"]) + Number.parseFloat(row["me"]);
                                 var genero = row["genero"].trim();
 
                                 var nuevoPrecio = PrecioSugerido(pesoInicial, genero);
@@ -144,11 +146,12 @@
                 {
                     "data": "subtotal",
                     "render": $.fn.dataTable.render.number(',', '.', 2, '$')
-                }
+                },
+                { "data": "precioCompra" }
             ],
             "columnDefs": [
                 {
-                    "targets": [0, 1, 5, 7],
+                    "targets": [0, 1, 5, 7, 11],
                     "visible": false,
                     "searchable": false
                 }
@@ -178,12 +181,19 @@
                             var antiguoPrecio = Number.parseFloat(GetKilosSinSimboloSinEspacios(row[6].innerHTML));
 
                             me = Number.parseFloat(me);
-                            var nuevoPrecioPorKilo = Number.parseFloat(GetMoneySinSimbolo(row[4].innerHTML));
+                            var genero = row[2].innerHTML;
+                            genero = genero.trim();
+                            var pesoConMerma = Number.parseFloat(peso) + me;
+                            var nuevoPrecioPorKilo = PrecioSugerido(pesoConMerma, genero);
+                            
+                            //var nuevoPrecioPorKilo = PrecioSugerido(Number.parseFloat(GetMoneySinSimbolo(row[4].innerHTML)),);
 
                             var nuevoPeso = Number.parseFloat(peso);
                             nuevoPeso = nuevoPeso + me;
                             var nuevoSubtotal = nuevoPeso * nuevoPrecioPorKilo;
+
                             row[6].innerHTML = "$" + Number.parseFloat(nuevoSubtotal).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                            row[4].innerHTML = Number.parseFloat(nuevoPrecioPorKilo).toFixed(0).replace(/\d(?=(\d{3})+\.)/g, '$&,') + " kg."; 
 
                             var total = Number.parseFloat(GetMoneySinSimbolo($("#MontoTotalGanado").val()));
                             total = total - antiguoPrecio;
@@ -361,6 +371,7 @@
                 //lo agrego a la tabla jaula para su envio
                 tblGanadoJaula.row.add({
                     "id_ganado": d.id_ganado,
+                    "precioCompra": d.precioCompra,
                     "id_detalle": d.id_detalle,
                     "numArete": d.numArete,
                     "corral": d.corral,
@@ -405,13 +416,18 @@
             var rows = tblGanadoJaula.rows('.selected').data();
             for (var i = 0; i < rows.length; i++) {
                 var d = rows[i];
-
+                
                 var arrayRow = Object.values(d);
                 var subtotal = TipoDeVenta === 1 ? d.subtotal : d.pesoInicial * d.precioKilo;
-                var pesoInicial = TipoDeVenta === 1 ? d.pesoInicial : arrayRow.length == 11 ? arrayRow[7] : arrayRow[5];
+                var pesoInicial = TipoDeVenta === 1 ? d.pesoInicial : arrayRow.length == 11 ? arrayRow[5] : arrayRow[5];
+                var precioCompra = d.precioCompra;
+
+                console.log(pesoInicial);
+                console.log(arrayRow);
 
                 tblGanadoCorral.row.add({
                     "id_ganado": d.id_ganado,
+                    "precioCompra": d.precioCompra,
                     "id_detalle": d.id_detalle,
                     "numArete": d.numArete,
                     "corral": d.corral,
@@ -422,9 +438,24 @@
                     "subtotal": subtotal
                 }).draw();
 
+                if (TipoDeVenta === 2) {
+                    var pesoInicial2 = d.pesoInicial;
+                    var mermaExtra = Number.parseFloat(d.me);
+                    pesoInicial2 = pesoInicial2 + mermaExtra;
+
+                    var precioXKilo2 = Number.parseFloat(PrecioSugerido(pesoInicial2, d.genero.trim())).toFixed(2);
+
+                    var nuevoMontoTotalGanado = pesoInicial2 * precioXKilo2;
+
+                    montoTotalGanado -= nuevoMontoTotalGanado;
+                    subtotal = precioCompra;
+
+                }
+
                 //quito los datos a los inputs
                 genero = d.genero;
                 genero = genero.trim();
+
                 if (genero.localeCompare("MACHO") === 0) {
                     cabezas_machos -= 1;
                     kgMachos -= pesoInicial;
@@ -439,19 +470,7 @@
                 kgTotal = kgMachos + kgHembras;
                 costoTotal = costoMachos + costoHembras;
 
-                if (TipoDeVenta === 2) {
-                    var pesoInicial2 = d.pesoInicial;
-                    var mermaExtra = Number.parseFloat(d.me);
-                    pesoInicial2 = pesoInicial2 + mermaExtra;
-
-                    var precioXKilo2 = Number.parseFloat(PrecioSugerido(pesoInicial2, d.genero.trim())).toFixed(2);
-
-                    var nuevoMontoTotalGanado = pesoInicial2 * precioXKilo2;
-
-                    montoTotalGanado -= nuevoMontoTotalGanado;
-                }
                 ActualizarInputs();
-
             }
             tblGanadoJaula.rows('.selected').remove().draw(false);
             CalculoMerma();

@@ -2896,8 +2896,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 List<ComprobanteCompraPagosModels> ListaComprobanteCompraPagosDetalles = new List<ComprobanteCompraPagosModels>();
                 List<ComprobanteCompraDetallesDeduccionesModels> ListaComprobanteCompraDeducciones = new List<ComprobanteCompraDetallesDeduccionesModels>();
                 List<ComprobanteCompraDetallesOtrasPercepciones> ListaComprobanteCompraDetallesOtrasPercepciones = new List<ComprobanteCompraDetallesOtrasPercepciones>();
+                List<ComprobanteGanadoModels> ListaComprobanteGanadoMachos = new List<ComprobanteGanadoModels>();
+                List<ComprobanteGanadoModels> ListaComprobanteGanadoHembras = new List<ComprobanteGanadoModels>();
 
                 CompraDatos = new _Compra_Datos();
+                _Comprobante_Datos oDatosComprobante = new _Comprobante_Datos();
+
                 Compra = new CompraModels();
                 ComprobanteCompraCabeceraModels Cabecera = new ComprobanteCompraCabeceraModels();
                 Compra.IDCompra = Id_1;
@@ -2907,6 +2911,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 ListaComprobanteCompraPagosDetalles = CompraDatos.GetComprobanteCompraDetallesPagos(Compra);
                 ListaComprobanteCompraDeducciones = CompraDatos.GetComprobanteCompraDetallesDeducciones(Compra);
                 ListaComprobanteCompraDetallesOtrasPercepciones = CompraDatos.GetComprobanteCompraDetallesOtrasPercepciones(Compra);
+                ListaComprobanteGanadoMachos = oDatosComprobante.Comprobante_spCIDDB_get_detallesGanadosCompra(true, 1, Id_1,Conexion);
+                ListaComprobanteGanadoHembras = oDatosComprobante.Comprobante_spCIDDB_get_detallesGanadosCompra(false, 1, Id_1, Conexion);
 
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
@@ -2939,6 +2945,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Rtp.DataSources.Add(new ReportDataSource("ComprobanteCompraDetallesPagos", ListaComprobanteCompraPagosDetalles));
                 Rtp.DataSources.Add(new ReportDataSource("ComprobanteCompraDetallesDeduccion", ListaComprobanteCompraDeducciones));
                 Rtp.DataSources.Add(new ReportDataSource("ComprobanteCompraDetallesOtrasPercepciones", ListaComprobanteCompraDetallesOtrasPercepciones));
+                Rtp.DataSources.Add(new ReportDataSource("ComprobanteCompraGanadoMachos", ListaComprobanteGanadoMachos));
+                Rtp.DataSources.Add(new ReportDataSource("ComprobanteCompraGanadoHembras", ListaComprobanteGanadoHembras));
 
                 string reportType = "PDF";
                 string mimeType;
