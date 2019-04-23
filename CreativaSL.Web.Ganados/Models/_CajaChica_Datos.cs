@@ -268,7 +268,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     Item = new ConceptosCajaChicaModels
                     {
-                        IdConcepto = !Dr.IsDBNull(Dr.GetOrdinal("IDConcepto")) ? Dr.GetInt32(Dr.GetOrdinal("IDConcepto")) : 0,
+                        IdConcepto = !Dr.IsDBNull(Dr.GetOrdinal("IDConcepto")) ? Dr.GetInt16(Dr.GetOrdinal("IDConcepto")) : 0,
                         Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty
                     };
                     Lista.Add(Item);
