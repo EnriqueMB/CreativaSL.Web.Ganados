@@ -482,6 +482,8 @@
     <Content Include="Content\js\catDocumentos.js" />
     <Content Include="Content\js\catFierro.js" />
     <Content Include="Content\js\CatFierroSubir.js" />
+    <Content Include="Content\js\Clasificacion.js" />
+    <Content Include="Content\js\ClasificacionIndex.js" />
     <Content Include="Content\js\Cobro.js" />
     <Content Include="Content\js\compraAgendar.js" />
     <Content Include="Content\js\CompraAlmacenDetalle.js" />
@@ -1530,6 +1532,9 @@
     <Content Include="Areas\Admin\Views\VentaGeneral\Transacciones.cshtml" />
     <Content Include="Areas\Admin\Views\VentaGeneral\Cobro.cshtml" />
     <Content Include="Areas\Admin\Views\VentaGeneral\Detalles.cshtml" />
+    <Content Include="Areas\Admin\Views\CatClasificacion\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatClasificacion\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatClasificacion\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1563,6 +1568,7 @@
     <Compile Include="App_Start\TokenProcessor.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\Controllers\CajaChicaController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatClasificacionController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatCorralController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatDeduccionController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatGanadoController.cs" />
@@ -1716,6 +1722,7 @@
     <Compile Include="Models\CFDI_RegimenFiscalModels.cs" />
     <Compile Include="Models\CFDI_TipoFactorModels.cs" />
     <Compile Include="Models\CFDI_TipoImpuestoModels.cs" />
+    <Compile Include="Models\Clasificacion.cs" />
     <Compile Include="Models\ClienteLugarModels.cs" />
     <Compile Include="Models\CompraAlmacenDetalleModels.cs" />
     <Compile Include="Models\CompraAlmacenModels.cs" />
@@ -1923,6 +1930,7 @@
     <Compile Include="Models\_CatTipoVehiculos_Datos.cs" />
     <Compile Include="Models\_CatUnidadMedida_Datos.cs" />
     <Compile Include="Models\_CatVehiculo_Datos.cs" />
+    <Compile Include="Models\_Clasificacion_Datos.cs" />
     <Compile Include="Models\_Combos_Datos.cs" />
     <Compile Include="Models\_CompraAlmacen_Datos.cs" />
     <Compile Include="Models\_Compra_Datos.cs" />
