@@ -82,5 +82,36 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public List<ComprobanteGanadoModels> Comprobante_spCIDDB_get_detallesGanados(bool esMacho, int modulo, string id, string conexion)
+        {
+            try
+            {
+                List<ComprobanteGanadoModels> Lista = new List<ComprobanteGanadoModels>();
+                ComprobanteGanadoModels Item;
+                object[] parametros = { esMacho, modulo, id };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "comprobante.spCIDDB_get_detallesGanado", parametros);
+
+                while (dr.Read())
+                {
+                    Item = new ComprobanteGanadoModels();
+                    Item.RangoPeso = !dr.IsDBNull(dr.GetOrdinal("rangoPeso")) ? dr.GetString(dr.GetOrdinal("rangoPeso")) : string.Empty;
+                    Item.Cabezas = !dr.IsDBNull(dr.GetOrdinal("cabezas")) ? dr.GetInt32(dr.GetOrdinal("cabezas")) : 0;
+                    Item.TipoGanado = !dr.IsDBNull(dr.GetOrdinal("tipoGanado")) ? dr.GetString(dr.GetOrdinal("tipoGanado")) : string.Empty;
+                    Item.Kilos = !dr.IsDBNull(dr.GetOrdinal("kilos")) ? dr.GetDecimal(dr.GetOrdinal("kilos")) : 0;
+                    Item.Precio = !dr.IsDBNull(dr.GetOrdinal("precio")) ? dr.GetDecimal(dr.GetOrdinal("precio")) : 0;
+                    Item.Importe = !dr.IsDBNull(dr.GetOrdinal("importe")) ? dr.GetDecimal(dr.GetOrdinal("importe")) : 0;
+                    Item.PesoPromedio = !dr.IsDBNull(dr.GetOrdinal("pesoPromedio")) ? dr.GetDecimal(dr.GetOrdinal("pesoPromedio")) : 0;
+                    Lista.Add(Item);
+                }
+                dr.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

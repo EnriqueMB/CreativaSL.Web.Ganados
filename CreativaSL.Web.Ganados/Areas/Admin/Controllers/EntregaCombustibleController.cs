@@ -131,9 +131,25 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
                         if (bannerImage != null && bannerImage.ContentLength > 0)
                         {
+                            //Stream s = bannerImage.InputStream;
+                            //Bitmap img = new Bitmap(s);
+                            //Entrega.UrlImagen64 = img.ToBase64String(ImageFormat.Png);
+
                             Stream s = bannerImage.InputStream;
-                            Bitmap img = new Bitmap(s);
-                            Entrega.UrlImagen64 = img.ToBase64String(ImageFormat.Png);
+                            
+                            if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
+                            {
+                                Image img = (Image)Auxiliar.ProcessFile(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                Entrega.UrlImagen64 = image.ToBase64String(ImageFormat.Jpeg);
+                            }
+                            else
+                            {
+                                Image img = new Bitmap(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                Entrega.UrlImagen64 = image.ToBase64String(img.RawFormat);
+                            }
+
                         }
                         else
                         {
@@ -261,9 +277,25 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             if (bannerImage != null && bannerImage.ContentLength > 0)
                             {
+                                //Stream s = bannerImage.InputStream;
+                                //Bitmap img = new Bitmap(s);
+                                //Entrega.UrlImagen64 = img.ToBase64String(ImageFormat.Png);
+
                                 Stream s = bannerImage.InputStream;
-                                Bitmap img = new Bitmap(s);
-                                Entrega.UrlImagen64 = img.ToBase64String(ImageFormat.Png);
+                                
+                                if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
+                                {
+                                    Image img = (Image)Auxiliar.ProcessFile(s);
+                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                    Entrega.UrlImagen64 = image.ToBase64String(ImageFormat.Jpeg);
+                                }
+                                else
+                                {
+                                    Image img = new Bitmap(s);
+                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                    Entrega.UrlImagen64 = image.ToBase64String(img.RawFormat);
+                                }
+
                             }
                         }
                         else

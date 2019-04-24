@@ -94,7 +94,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             {
                                 Image img = (Image)Auxiliar.ProcessFile(s);
                                 Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Producto.Imagen = image.ToBase64String(img.RawFormat);
+                                Producto.Imagen = image.ToBase64String(ImageFormat.Jpeg);
                             }
                             else
                             {
@@ -196,7 +196,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                                     Image img = (Image)Auxiliar.ProcessFile(s);
                                     Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    Producto.Imagen = image.ToBase64String(img.RawFormat);
+                                    Producto.Imagen = image.ToBase64String(ImageFormat.Jpeg);
                                 }
                                 else
                                 {

@@ -1741,6 +1741,7 @@
     <Compile Include="Models\ComprobanteFleteDetallesModels.cs" />
     <Compile Include="Models\ComprobanteFleteModels.cs" />
     <Compile Include="Models\ComprobanteFletePagosModels.cs" />
+    <Compile Include="Models\ComprobanteGanadoModels.cs" />
     <Compile Include="Models\ComprobantePagosModels.cs" />
     <Compile Include="Models\ComprobanteVentaCabeceraModels.cs" />
     <Compile Include="Models\ComprobanteVentaDetallesDeduccionesModels.cs" />

@@ -10,7 +10,7 @@
     var guardarIDs = new Array();
     var longitud_permitida_arete = 10;
     var IMAGEN = 0, MENSAJE = 1, ARETE = 2, GENERO = 3, PESO = 4, REPESO = 5, MERMA = 6, PESOPAGAR = 7, COSTOPORKILO = 8, CORRAL = 9, FIERRO1 = 10, FIERRO2 = 11, FIERRO3 = 12, TOTAL = 13, BTN_ELIMINAR = 14, BTN_ELIMINAR_MIN = 15;
-
+    var mermaFavor = $("#MermaFavor").val();
 
     var LoadTableGanado = function () {
         tblGanado = $('#tblGanado').DataTable({
@@ -85,7 +85,9 @@
                         data[i].id_corral,
                         Number.parseFloat(data[i].subtotal).toFixed(CANTDECIMALES),
                         data[i].id_detalleDocumentoPorPagar,
-                        data[i].id_fierro1, data[i].id_fierro2, data[i].id_fierro3);
+                        data[i].id_fierro1, data[i].id_fierro2, data[i].id_fierro3,
+                        data[i].nombreFierro1, data[i].nombreFierro2, data[i].nombreFierro3
+                    );
                 }
                 $(".kg").maskMoney('mask');
                 $(".merma").maskMoney('mask');
@@ -98,7 +100,18 @@
     function AgergarFilas(
         id_fila,    guardado,   mensaje,    numArete,   genero,
         peso, repeso, merma, pesopagar, costoxkilo,
-        id_corral, total, iddetalledocumento, id_fierro1, id_fierro2, id_fierro3) {
+        id_corral, total, iddetalledocumento, id_fierro1, id_fierro2, id_fierro3, nombreFierro1, nombreFierro2, nombreFierro3) {
+        
+        if (nombreFierro1 === '' || nombreFierro1 === null) {
+            nombreFierro1 = '- Seleccione -';
+        }
+        if (nombreFierro2 === '' || nombreFierro2 === null) {
+            nombreFierro2 = '- Seleccione -';
+        }
+        if (nombreFierro3 === '' || nombreFierro3 === null) {
+            nombreFierro3 = '- Seleccione -';
+        }
+           
         //columna, imagen y aviso
         var html_imagen = '';
         guardado = String(guardado);
@@ -154,7 +167,7 @@
         html_corral += '</select> ';
 
         //columna, fierro1
-        var html_fierro1 = '<input id="fierro1_' + id_fila + '" data-id="" readonly type="text" class="fierro1 cslElegido" value="- Seleccione -" name="fierro1" />';
+        var html_fierro1 = '<input id="fierro1_' + id_fila + '" readonly type="text" class="fierro1 cslElegido inputCSL" value="' + nombreFierro1 + '" name="fierro1" data-id = "' + id_fierro1 + '"/>';
 
         for (var itemFierro in listaFierros) {
             var id_fierro_server = listaFierros[itemFierro].IDFierro;
@@ -174,11 +187,11 @@
         }
 
         //columna, fierro2
-        var html_fierro2 = '<input id="fierro2_' + id_fila + '" data-id="" readonly type="text" class="fierro2 cslElegido" value="- Seleccione -" name="fierro2" />';
+        var html_fierro2 = '<input id="fierro2_' + id_fila + '" readonly type="text" class="fierro2 cslElegido inputCSL" value="' + nombreFierro2 + '" name="fierro2" data-id = "' + id_fierro2 + '" />';
         var opciones_fierro2 = '';
 
         //columna, fierro3
-        var html_fierro3 = '<input id="fierro3_' + id_fila + '" data-id="" readonly type="text" class="fierro3 cslElegido" value="- Seleccione -" name="fierro3" />';
+        var html_fierro3 = '<input id="fierro3_' + id_fila + '" readonly type="text" class="fierro3 cslElegido inputCSL" value="' + nombreFierro3 + '" name="fierro3" data-id = "' + id_fierro3 + '" />';
         var opciones_fierro3 = '';
 
         //columna, total
@@ -233,16 +246,31 @@
         var getIdFila = $(this).attr('id');
         $(".blackCap, .capaModal.modalFierro1 .modalFierroContent").addClass('active');
         $(".capaModal.modalFierro1").attr('idfila', getIdFila);
+
+        var $tr = $(this).closest("tr");
+        var fila = $tr.find('.cslElegido');
+        var idx = fila[ARETE].dataset.id;
+        guardarIDs.push(idx);
     });
     $(document).on("click", "#tblGanado .fierro2", function () {
         var getIdFila = $(this).attr('id');
         $(".blackCap, .capaModal.modalFierro1 .modalFierroContent").addClass('active');
         $(".capaModal.modalFierro1").attr('idfila', getIdFila);
+
+        var $tr = $(this).closest("tr");
+        var fila = $tr.find('.cslElegido');
+        var idx = fila[ARETE].dataset.id;
+        guardarIDs.push(idx);
     });
     $(document).on("click", "#tblGanado .fierro3", function () {
         var getIdFila = $(this).attr('id');
         $(".blackCap, .capaModal.modalFierro1 .modalFierroContent").addClass('active');
         $(".capaModal.modalFierro1").attr('idfila', getIdFila);
+
+        var $tr = $(this).closest("tr");
+        var fila = $tr.find('.cslElegido');
+        var idx = fila[ARETE].dataset.id;
+        guardarIDs.push(idx);
     });
 
     $(".blackCap,.closeModalButton").click(function () {
@@ -259,6 +287,8 @@
         $("#tblGanado input[id=" + getIdFila + "]").attr('value', inputValue);
         $("#tblGanado input[id=" + getIdFila + "]").attr('data-id', getDataID);
         $(".blackCap, .modalFierroContent").removeClass('active');
+
+       
     });
 
     $(document).on("click", ".searchFierro a[class*='btn-danger']", function () {
@@ -346,7 +376,6 @@
                 }
             });
         });
-
         $('#btnVerListaFierros').on('click', function () {
             $("body").css("cursor", "progress");
 
@@ -390,7 +419,7 @@
             }
             else {
                 for (var i = 0; i < numero; i++) {
-                    AgergarFilas(numeroFila, false, "Sin registrar", 0, "macho", 0, 0, 0, 0, 0, 0, 0, numeroFila, '', '', '');
+                    AgergarFilas(numeroFila, false, "Sin registrar", 0, "macho", 0, 0, 0, 0, 0, 0, 0, numeroFila, '', '', '', '', '', '');
                     numeroFila++;
                 }
                 $('select.selectpicker').selectpicker({
@@ -626,8 +655,6 @@
             var $tr = $(this).closest("tr");
             var fila = $tr.find('.cslElegido');
 
-            //fila[TOTAL].value = TotalPagar(fila[PESOPAGAR].value, fila[COSTOPORKILO].value);
-
             var pesoPagar = Number.parseFloat(GetMoneySinSimbolo(fila[PESOPAGAR].value));
             var costoPorKilo = Number.parseFloat(GetMoneySinSimbolo(fila[COSTOPORKILO].value));
 
@@ -728,16 +755,21 @@
     function calculosGanado(fila) {
         var mermaObtenida, pesoPagar, precioXkilo, total, pesoFinal;
         var genero = fila[GENERO].value;
-        var peso = GetKilosSinSimbolo(fila[PESO].value);
-        var repeso = GetKilosSinSimbolo(fila[REPESO].value);
+        var peso = Number.parseFloat(GetKilosSinSimbolo(fila[PESO].value));
+        var repeso = Number.parseFloat(GetKilosSinSimbolo(fila[REPESO].value));
 
         //NO hay repeso
         if (repeso <= 0) {
             repeso = peso;
         }
         //merma
-        mermaObtenida = MermaGenerada(peso, repeso);
-        pesoPagar = PesoSugerido(peso, mermaObtenida);
+        if (repeso >= peso) {
+            mermaObtenida = 0;
+        }
+        else{
+            mermaObtenida = MermaGenerada(peso, repeso);
+        }
+        pesoPagar = PesoSugerido(peso, repeso, mermaObtenida);
         precioXkilo = PrecioSugerido(pesoPagar, genero);
         total = TotalPagar(pesoPagar, precioXkilo);
         fila[MERMA].value = mermaObtenida;
@@ -760,10 +792,9 @@
         return mermaGenerada.toFixed(CANTDECIMALES);
     }
 
-    function PesoSugerido(peso, MermaObtenida) {
+    function PesoSugerido(peso, repeso, MermaObtenida) {
         if (MermaObtenida > tolerancia) {
-
-            var pesoPagar = peso - (peso * (tolerancia / 100));
+            var pesoPagar = repeso + (repeso * (mermaFavor / 100));
 
             return Math.trunc(pesoPagar);
         }

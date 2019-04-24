@@ -9,6 +9,7 @@ using CreativaSL.Web.Ganados.Models;
 using CreativaSL.Web.Ganados.App_Start;
 using System.IO;
 using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -87,7 +88,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                                 Image img = (Image)Auxiliar.ProcessFile(oStreamLogoEmpresa);
                                 Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Empresa.LogoEmpresa = image.ToBase64String(img.RawFormat);
+                                Empresa.LogoEmpresa = image.ToBase64String(ImageFormat.Jpeg);
                             }
                             else
                             {
@@ -105,7 +106,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                                 Image img = (Image)Auxiliar.ProcessFile(oStreamLogoRFC);
                                 Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Empresa.LogoRFC = image.ToBase64String(img.RawFormat);
+                                Empresa.LogoRFC = image.ToBase64String(ImageFormat.Jpeg);
                             }
                             else
                             {

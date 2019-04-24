@@ -280,7 +280,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                                 Image img = (Image)Auxiliar.ProcessFile(s);
                                 Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Fierro.ImgFierro = image.ToBase64String(img.RawFormat);
+                                Fierro.ImgFierro = image.ToBase64String(ImageFormat.Jpeg);
                             }
                             else
                             {
