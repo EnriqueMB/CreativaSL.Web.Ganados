@@ -64,7 +64,7 @@
                     "render": $.fn.dataTable.render.number(',', '.', 2, '$')
                 },
                 {
-                    "data": "subtotal",
+                    "data": "precioCompra",
                     "render": $.fn.dataTable.render.number(',', '.', 2, '$')
                 },
                 { "data": "precioCompra" }
@@ -419,11 +419,11 @@
                 
                 var arrayRow = Object.values(d);
                 var subtotal = TipoDeVenta === 1 ? d.subtotal : d.pesoInicial * d.precioKilo;
-                var pesoInicial = TipoDeVenta === 1 ? d.pesoInicial : arrayRow.length == 11 ? arrayRow[5] : arrayRow[5];
+                var pesoInicial = TipoDeVenta === 1 ? d.pesoInicial : arrayRow.length == 11 ? arrayRow[5] : arrayRow[8];
                 var precioCompra = d.precioCompra;
 
-                console.log(pesoInicial);
-                console.log(arrayRow);
+                //console.log(pesoInicial);
+                //console.log(arrayRow);
 
                 tblGanadoCorral.row.add({
                     "id_ganado": d.id_ganado,
@@ -435,7 +435,7 @@
                     "merma": d.merma,
                     "pesoInicial": pesoInicial,
                     "precioKilo": d.precioKilo,
-                    "subtotal": subtotal
+                    "subtotal": precioCompra
                 }).draw();
 
                 if (TipoDeVenta === 2) {
@@ -443,12 +443,15 @@
                     var mermaExtra = Number.parseFloat(d.me);
                     pesoInicial2 = pesoInicial2 + mermaExtra;
 
-                    var precioXKilo2 = Number.parseFloat(PrecioSugerido(pesoInicial2, d.genero.trim())).toFixed(2);
+                    var precioXKilo2 = Number.parseFloat(PrecioSugerido(pesoInicial2, d.genero.trim()));
 
                     var nuevoMontoTotalGanado = pesoInicial2 * precioXKilo2;
 
                     montoTotalGanado -= nuevoMontoTotalGanado;
                     subtotal = precioCompra;
+                    console.log("------------------");
+                    console.log(subtotal);
+                    console.log("------------------");
 
                 }
 

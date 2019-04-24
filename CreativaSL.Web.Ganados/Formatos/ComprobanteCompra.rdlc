@@ -397,7 +397,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox4</rd:DefaultName>
-            <Left>2.84431cm</Left>
+            <Left>2.84432cm</Left>
             <Height>0.57354cm</Height>
             <Width>10.08626cm</Width>
             <ZIndex>3</ZIndex>
@@ -2989,6 +2989,7 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
                                 <TextRun>
                                   <Value>MACHOS</Value>
                                   <Style>
+                                    <FontWeight>Bold</FontWeight>
                                     <Color>White</Color>
                                   </Style>
                                 </TextRun>
@@ -3834,6 +3835,7 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
                                 <TextRun>
                                   <Value>HEMBRAS</Value>
                                   <Style>
+                                    <FontWeight>Bold</FontWeight>
                                     <Color>White</Color>
                                   </Style>
                                 </TextRun>
@@ -4926,7 +4928,7 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>0.17636cm</Top>
+              <Top>0.17635cm</Top>
               <Left>6.95538cm</Left>
               <Height>0.6cm</Height>
               <Width>5.25167cm</Width>

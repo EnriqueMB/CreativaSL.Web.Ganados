@@ -124,38 +124,13 @@
                         "data": null,
                         "render": function (data, type, full) {
                             var imagen64 = full["ImgFierro"];
-                            var img = "";
-                            if (imagen64 != null) {
-
-                                var extension = "";
-
-                                var position = imagen64.indexOf("iVBOR");
-                                //imagen png
-                                if (position != -1)
-                                    extension = "image/png";
-
-                                position = imagen64.indexOf("/9j/4");
-                                if (position != -1)
-                                    extension = "image/jpeg";
-                                //bmp de 256 colores
-                                position = imagen64.indexOf("Qk3");
-                                if (position == 0)
-                                    extension = "image/bmp";
-
-                                //bmp de monocromatico colores
-                                position = imagen64.indexOf("Qk2");
-                                if (position == 0)
-                                    extension = "image/bmp";
-
-                                //bmp de 16 colores
-                                position = imagen64.indexOf("Qk1");
-                                if (position == 0)
-                                    extension = "image/bmp";
-
-                                img = "<img class='file-preview-image' style='width: auto; height: 150px;' src='data:" + extension + ";base64," + imagen64 + "' />";
+                            var img;
+                            
+                            if (imagen64 === null || imagen64 === '') {
+                                img = "<img class='file-preview-image' style='width: auto; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
                             }
                             else {
-                                img = "<img class='file-preview-image' style='width: auto; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
+                                img = "<img class='file-preview-image' style='width: auto; height: 150px;' src='/Imagenes/Fierro/"+ imagen64 +"' />";
                             }
                             return img;
                         }

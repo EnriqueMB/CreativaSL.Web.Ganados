@@ -426,7 +426,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             {
                                 Image img = (Image)Auxiliar.ProcessFile(s);
                                 Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Evento.ImagenBase64 = image.ToBase64String(img.RawFormat);
+                                Evento.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
                             }
                             else
                             {
@@ -2154,7 +2154,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             {
                                 Image img = (Image)Auxiliar.ProcessFile(s);
                                 Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Documento.ImagenServer = image.ToBase64String(img.RawFormat);
+                                Documento.ImagenServer = image.ToBase64String(ImageFormat.Jpeg);
                             }
                             else
                             {
@@ -2565,7 +2565,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             {
                                 Image img = (Image)Auxiliar.ProcessFile(s);
                                 Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                DocumentoPorPagarPago.ImagenBase64 = image.ToBase64String(img.RawFormat);
+                                DocumentoPorPagarPago.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
                             }
                             else
                             {
@@ -2911,8 +2911,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 ListaComprobanteCompraPagosDetalles = CompraDatos.GetComprobanteCompraDetallesPagos(Compra);
                 ListaComprobanteCompraDeducciones = CompraDatos.GetComprobanteCompraDetallesDeducciones(Compra);
                 ListaComprobanteCompraDetallesOtrasPercepciones = CompraDatos.GetComprobanteCompraDetallesOtrasPercepciones(Compra);
-                ListaComprobanteGanadoMachos = oDatosComprobante.Comprobante_spCIDDB_get_detallesGanadosCompra(true, 1, Id_1,Conexion);
-                ListaComprobanteGanadoHembras = oDatosComprobante.Comprobante_spCIDDB_get_detallesGanadosCompra(false, 1, Id_1, Conexion);
+                ListaComprobanteGanadoMachos = oDatosComprobante.Comprobante_spCIDDB_get_detallesGanados(true, 1, Id_1,Conexion);
+                ListaComprobanteGanadoHembras = oDatosComprobante.Comprobante_spCIDDB_get_detallesGanados(false, 1, Id_1, Conexion);
 
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
@@ -3086,7 +3086,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             Image img = (Image)Auxiliar.ProcessFile(s);
                             Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                            Evento.ImagenBase64 = image.ToBase64String(img.RawFormat);
+                            Evento.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
                         }
                         else
                         {

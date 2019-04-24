@@ -103,7 +103,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                                 Image img = (Image)Auxiliar.ProcessFile(s);
                                 Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Proveedor.ImgINE = image.ToBase64String(img.RawFormat);
+                                Proveedor.ImgINE = image.ToBase64String(ImageFormat.Jpeg);
                             }
                             else
                             {
@@ -127,7 +127,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                                 Image img = (Image)Auxiliar.ProcessFile(s);
                                 Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Proveedor.ImgManifestacionFierro = image.ToBase64String(img.RawFormat);
+                                Proveedor.ImgManifestacionFierro = image.ToBase64String(ImageFormat.Jpeg);
                             }
                             else
                             {
@@ -242,7 +242,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                                     Image img = (Image)Auxiliar.ProcessFile(s);
                                     Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    Proveedor.ImgINE = image.ToBase64String(img.RawFormat);
+                                    Proveedor.ImgINE = image.ToBase64String(ImageFormat.Jpeg);
                                 }
                                 else
                                 {
@@ -273,7 +273,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                                     Image img = (Image)Auxiliar.ProcessFile(s);
                                     Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    Proveedor.ImgManifestacionFierro = image.ToBase64String(img.RawFormat);
+                                    Proveedor.ImgManifestacionFierro = image.ToBase64String(ImageFormat.Jpeg);
                                 }
                                 else
                                 {

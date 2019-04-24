@@ -4,6 +4,8 @@ using Microsoft.Reporting.WebForms;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -255,7 +257,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         if (DocumentoPorCobrarPago.HttpImagen != null)
                         {
-                            DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorCobrarPago.HttpImagen);
+                            //DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorCobrarPago.HttpImagen);
+                            Stream s = DocumentoPorCobrarPago.HttpImagen.InputStream;
+
+                            if (Path.GetExtension(DocumentoPorCobrarPago.HttpImagen.FileName).ToLower() == ".heic")
+                            {
+                                Image img = (Image)Auxiliar.ProcessFile(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                DocumentoPorCobrarPago.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
+                            }
+                            else
+                            {
+                                Image img = new Bitmap(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                DocumentoPorCobrarPago.ImagenBase64 = image.ToBase64String(img.RawFormat);
+                            }
                         }
                     }
                     _VentaGeneral_Datos oDatosVentaGeneral = new _VentaGeneral_Datos();

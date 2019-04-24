@@ -78,8 +78,19 @@
             showRemove: false,
             showClose: false,
             layoutTemplates: { actionDelete: '' },
-            allowedFileExtensions: ["png", 'jpg', 'bmp', 'jpeg'],
-            required: true
+            required: true,
+
+            allowedFileExtensions: ['png', 'jpg', 'gif', 'jpeg', 'heic'],
+            previewFileIcon: '<i class="fa fa-file"></i>',
+            preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
+            previewFileIconSettings: { // configure your icon file extensions
+                'heic': '<i class="fa fa-file-text text-primary"></i>'
+            },
+            previewFileExtSettings: { // configure the logic for determining icon file extensions
+                'heic': function (ext) {
+                    return ext.match(/(heic)$/i);
+                }
+            }
         })
     }
     return {

@@ -83,7 +83,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public List<ComprobanteGanadoModels> Comprobante_spCIDDB_get_detallesGanadosCompra(bool esMacho, int modulo, string id, string conexion)
+        public List<ComprobanteGanadoModels> Comprobante_spCIDDB_get_detallesGanados(bool esMacho, int modulo, string id, string conexion)
         {
             try
             {
