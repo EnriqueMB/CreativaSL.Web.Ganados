@@ -22,12 +22,13 @@
                 }
             },
             ignore: "",
-            rules: {
-                
-                Descripcion: { required: true }
+            rules: {                
+                Descripcion: { required: true },
+                Orden: { required: true }
             },
             messages: {
-                Descripcion: { required: "Ingrese el nombre de la categoría." }
+                Descripcion: { required: "Ingrese el nombre de la categoría." },
+                Orden: { required: "Ingrese el orden de la categoría." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

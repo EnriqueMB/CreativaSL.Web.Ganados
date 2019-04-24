@@ -1535,6 +1535,9 @@
     <Content Include="Areas\Admin\Views\CatClasificacion\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatClasificacion\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatClasificacion\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatClasificacion\Subcategorias.cshtml" />
+    <Content Include="Areas\Admin\Views\CatClasificacion\CreateSub.cshtml" />
+    <Content Include="Areas\Admin\Views\CatClasificacion\EditSub.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />

@@ -54,6 +54,20 @@
                             </div>
                         </div>
 
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-12 control-label text-center">Orden</label>
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.Orden, new { id = "Orden", @class = "form-control", placeholder = "Ingrese el orden de la categoría." })
+                                    </div>
+                                    <span class="help-block">Ingrese el orden de la categoría.</span>
+                                    @Html.ValidationMessageFor(model => model.Orden)
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 

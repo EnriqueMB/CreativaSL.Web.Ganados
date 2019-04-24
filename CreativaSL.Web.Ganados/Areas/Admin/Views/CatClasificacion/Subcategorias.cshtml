@@ -16,7 +16,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span>Clasificación de gastos </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span>Sub-Clasificación de gastos </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -28,7 +28,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("Create","CatClasificacion")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Crear categoría</a></li>
+                            <li><a href="@Url.Action("CreateSub","CatClasificacion", new { id = ViewBag.ParentId})" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Crear Sub-categoría</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                         </ul>
@@ -51,41 +51,35 @@
                                         <td>@item.Orden</td>
                                         <td style="text-align:center;">
                                             <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                <a title="SubCategorías" href="@Url.Action("Subcategorias", "CatClasificacion", new { id = item.IdTipoClasificacion })" class="btn btn-primary tooltips" data-placement="top" data-original-title="SubCategorías"><i class="fa fa-list"></i></a>
                                                 @if (!item.SoloLectura)
                                                 {
-                                                    <a title="Modificar" href="@Url.Action("Edit", "CatClasificacion", new { id = item.IdTipoClasificacion })" class="btn btn-green tooltips" data-placement="top" data-original-title="Modificar"><i class="fa fa-money"></i></a>
-                                                    <a title="Eliminar" id="delete-@item.IdTipoClasificacion" data-sku="@item.IdTipoClasificacion" href="@Url.Action("Delete", "CatClasificacion", new { id = item.IdTipoClasificacion })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Modificar" href="@Url.Action("EditSub", "CatClasificacion", new { id = item.IdTipoClasificacion, id2 = item.ParentId })" class="btn btn-green tooltips" data-placement="top" data-original-title="Modificar"><i class="fa fa-money"></i></a>
+                                                    <a title="Eliminar" id="delete-@item.IdTipoClasificacion" data-sku="@item.IdTipoClasificacion" href="@Url.Action("DeleteSub", "CatClasificacion", new { id = item.IdTipoClasificacion })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 }
                                             </div>
                                             <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                @if (!item.SoloLectura)
+                                                {
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                        </a>
+                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
 
-                                                <div class="btn-group">
-                                                    <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                        <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                    </a>
-                                                    <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                        <li>
-                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Subcategorias", "CatClasificacion", new { id = item.IdTipoClasificacion })">
-                                                                <i class="fa fa-list"></i> SubCategorías
-                                                            </a>
-                                                        </li>
-                                                        @if (!item.SoloLectura)
-                                                        {
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatClasificacion", new { id = item.IdTipoClasificacion })">
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("EditSub", "CatClasificacion", new { id = item.IdTipoClasificacion, id2 = item.ParentId })">
                                                                     <i class="fa fa-money"></i> Modificar
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@item.IdTipoClasificacion" data-sku="@item.IdTipoClasificacion" href="@Url.Action("Delete", "CatClasificacion", new { id = item.IdTipoClasificacion })" class="deleteRow">
+                                                                <a role="menuitem" tabindex="-1" id="delete-@item.IdTipoClasificacion" data-sku="@item.IdTipoClasificacion" href="@Url.Action("DeleteSub", "CatClasificacion", new { id = item.IdTipoClasificacion })" class="deleteRow">
                                                                     <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>
-                                                        }
-                                                    </ul>
-                                                </div>
 
+                                                        </ul>
+                                                    </div>
+                                                }
                                             </div>
                                         </td>
                                     </tr>
@@ -93,6 +87,9 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                    <div class="panel-footer">
+                        <a href="@Url.Action("Index","CatClasificacion")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                     </div>
                 </div>
                 <!-- END DEFAULT DATATABLE -->

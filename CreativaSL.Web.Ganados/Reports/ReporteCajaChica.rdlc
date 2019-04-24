@@ -1091,7 +1091,7 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>Movimientos</DataSetName>
-            <Top>0.42529cm</Top>
+            <Top>0.10779cm</Top>
             <Height>2.47938cm</Height>
             <Width>25.5cm</Width>
             <Style>
@@ -1808,7 +1808,6 @@
                             <rd:FormatSymbolCulture>es-MX</rd:FormatSymbolCulture>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>

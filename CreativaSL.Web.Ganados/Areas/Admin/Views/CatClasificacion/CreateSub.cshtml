@@ -27,7 +27,7 @@
         </div>
         <div class="col-md-12">
             @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("Create", "CatClasificacion", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off", @enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("CreateSub", "CatClasificacion", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off", @enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
@@ -35,7 +35,7 @@
                 <div id="validation_summary" class="field_error "></div> //JS
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Crear </strong> Sub-clasificación de gastos</h3>
+                        <h3 class="panel-title"><strong>Crear </strong> clasificación de gasto</h3>
                     </div>
                     <ul class="panel-controls"></ul>
                     <div class="panel-body">
@@ -53,7 +53,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="col-md-12 control-label text-center">Orden</label>
@@ -67,12 +66,11 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
                 <div class="panel-footer">
-                    <a href="@Url.Action("Index","CatClasificacion")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    <a href="@Url.Action("Subcategorias","CatClasificacion", new { id = Model.ParentId })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                     <button form="form-dg" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
                 </div>
             }
