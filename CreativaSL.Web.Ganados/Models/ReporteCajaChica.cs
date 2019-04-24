@@ -9,6 +9,8 @@ namespace CreativaSL.Web.Ganados.Models
     {
         public List<MovimientosCajaChicaModels> ListaMovimientos { get; set; }
 
+        public List<MovimientosCajaChicaModels> ListaMovimientosCheque { get; set; }
+
         public List<ArqueoCajaChicaModels> ListaDenominaciones { get; set; }
 
         public List<ConceptosCajaChicaModels> ListaConceptos { get; set; }

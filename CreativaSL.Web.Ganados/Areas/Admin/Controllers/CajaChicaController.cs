@@ -247,6 +247,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Rtp.DataSources.Add(new ReportDataSource("Movimientos", model.ListaMovimientos));
                 Rtp.DataSources.Add(new ReportDataSource("Arqueo", model.ListaDenominaciones));
                 Rtp.DataSources.Add(new ReportDataSource("Conceptos", model.ListaConceptos));
+                Rtp.DataSources.Add(new ReportDataSource("MovimientosCheque", model.ListaMovimientosCheque));
                 string reportType = "PDF";
                 string mimeType;
                 string encoding;
