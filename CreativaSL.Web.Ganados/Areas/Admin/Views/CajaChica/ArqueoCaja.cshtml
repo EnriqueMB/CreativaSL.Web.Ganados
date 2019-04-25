@@ -46,17 +46,17 @@
 
                                     @for (var i = 0; i < Model.Count(); i++)
                                     {
-                                    <tr>
-                                        <td class="hidden">
-                                            @Html.HiddenFor(m => Model[i].IdDenominacion)
-                                            @Html.HiddenFor(m => Model[i].Descripcion)
-                                            @Html.HiddenFor(m => Model[i].Subtotal)
-                                        </td>
-                                        <td>@Model[i].Descripcion</td>
-                                        <td class="hidden">@Model[i].Valor</td>
-                                        <td>@Html.TextBoxFor(m => Model[i].Cantidad, new { id = "txt" + Model[i].IdDenominacion, @class = "form-control txtvalues" })</td>
-                                        <td>@Model[i].Subtotal.ToString("0")</td>
-                                    </tr>
+                                        <tr>
+                                            <td class="hidden">
+                                                @Html.HiddenFor(m => Model[i].IdDenominacion)
+                                                @Html.HiddenFor(m => Model[i].Descripcion)
+                                                @Html.HiddenFor(m => Model[i].Subtotal)
+                                            </td>
+                                            <td>@Model[i].Descripcion</td>
+                                            <td class="hidden">@Model[i].Valor</td>
+                                            <td>@Html.TextBoxFor(m => Model[i].Cantidad, new { id = "txt" + Model[i].IdDenominacion, @class = "form-control txtvalues" })</td>
+                                            <td>@Model[i].Subtotal.ToString("0")</td>
+                                        </tr>
                                     }
                                 </tbody>
                             </table>
@@ -82,6 +82,23 @@
             }
         </div>
     </div>
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-confirm-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span><strong>Confirmar acción</strong></div>
+                <div class="mb-content">
+                    <p>¿Desea continuar? El proceso no es reversible.</p>
+                    <p>Presione "sí" para continuar.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
         var message = '@message';
         var typemessage = '@typemessage';
@@ -92,7 +109,7 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
-    
+
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
