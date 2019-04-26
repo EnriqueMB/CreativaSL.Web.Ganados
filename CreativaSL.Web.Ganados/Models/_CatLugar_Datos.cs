@@ -104,6 +104,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.nombreSucursal = dr["nombreSucursal"].ToString();
                     datos.bascula = Convert.ToBoolean(dr["bascula"].ToString());
                     datos.Direccion = dr["direccion"].ToString();
+                    datos.id_sucursal = dr["id_sucursal"].ToString();
                 }
                 dr.Close();
                 return datos;
