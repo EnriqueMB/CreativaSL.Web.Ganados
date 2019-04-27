@@ -38,14 +38,16 @@
                 Concepto: { required: true },
                 Salida: { required: true, decimal: true },
                 Recibe: { required: true },
-                IdFormaPago: { required: true, CMBINT: true }
+                IdFormaPago: { required: true, CMBINT: true },
+                FolioCheque: { required: true}
             },
             messages: {
                 IdConcepto: { required: "Seleccione una categoría.", CMBINT: "Seleccione una categoría." },
                 Concepto: { required: "Ingrese el concepto." },
                 Salida: { required: "Ingrese el monto.", decimal: "Ingrese un dato numérico válido." },
                 Recibe: { required: "Ingrese el nombre de quien recibe el dinero." },
-                IdFormaPago: { required: "Seleccione una forma de pago.", CMBINT: "Seleccione una forma de pago." }
+                IdFormaPago: { required: "Seleccione una forma de pago.", CMBINT: "Seleccione una forma de pago." },
+                FolioCheque: { required: "Ingrese un folio" }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

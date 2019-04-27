@@ -55,7 +55,20 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Lugar.listaPaises = LugarDatos.obtenerListaPaises(Lugar);
                 Lugar.listaEstado = LugarDatos.obtenerListaEstados(Lugar);
                 Lugar.listaMunicipio = LugarDatos.obtenerListaMunicipios(Lugar);
-                Lugar.listaSucursal = LugarDatos.obtenerListaSucursales(Lugar);
+
+                List<CatSucursalesModels> ListaSucursalesTmp = LugarDatos.obtenerListaSucursales(Lugar);
+
+                if (ListaSucursalesTmp.Count > 0)
+                {
+                    ListaSucursalesTmp.Add(new CatSucursalesModels
+                    {
+                        IDSucursal = "-1",
+                        NombreSucursal = "Todas las sucursales"
+                    }
+                    );
+                }
+                Lugar.listaSucursal = ListaSucursalesTmp;
+
                 return View(Lugar);
             }
             catch (Exception ex)
@@ -96,7 +109,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             Lugar.listaPaises = LugarDatos.obtenerListaPaises(Lugar);
                             Lugar.listaEstado = LugarDatos.obtenerListaEstados(Lugar);
                             Lugar.listaMunicipio = LugarDatos.obtenerListaMunicipios(Lugar);
-                            Lugar.listaSucursal = LugarDatos.obtenerListaSucursales(Lugar);
+                            //Lugar.listaSucursal = LugarDatos.obtenerListaSucursales(Lugar); ;
+
+                            List<CatSucursalesModels> ListaSucursalesTmp = LugarDatos.obtenerListaSucursales(Lugar);
+
+                            if (ListaSucursalesTmp.Count > 0)
+                            {
+                                ListaSucursalesTmp.Add(new CatSucursalesModels
+                                {
+                                    IDSucursal = "-1",
+                                    NombreSucursal = "Todas las sucursales"
+                                }
+                                );
+                            }
+                            Lugar.listaSucursal = ListaSucursalesTmp;
+
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrió un error al guardar el registro.";
                             return View(Lugar);
@@ -108,7 +135,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Lugar.listaPaises = LugarDatos.obtenerListaPaises(Lugar);
                         Lugar.listaEstado = LugarDatos.obtenerListaEstados(Lugar);
                         Lugar.listaMunicipio = LugarDatos.obtenerListaMunicipios(Lugar);
-                        Lugar.listaSucursal = LugarDatos.obtenerListaSucursales(Lugar);
+                        //Lugar.listaSucursal = LugarDatos.obtenerListaSucursales(Lugar);
+
+                        List<CatSucursalesModels> ListaSucursalesTmp = LugarDatos.obtenerListaSucursales(Lugar);
+
+                        if (ListaSucursalesTmp.Count > 0)
+                        {
+                            ListaSucursalesTmp.Add(new CatSucursalesModels
+                            {
+                                IDSucursal = "-1",
+                                NombreSucursal = "Todas las sucursales"
+                            }
+                            );
+                        }
+                        Lugar.listaSucursal = ListaSucursalesTmp;
+
                         return View(Lugar);
                     }
                 }

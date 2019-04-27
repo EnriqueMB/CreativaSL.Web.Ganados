@@ -35,6 +35,8 @@ namespace CreativaSL.Web.Ganados.Models
             set { _EsMacho = value; }
         }
 
+        public string NombreRango { get; set; }
+
         private decimal _PesoMinimo;
         [Required(ErrorMessage = "El peso minimo es obligatorio")]
         [Display(Name = "peso minimo")]

@@ -10,6 +10,8 @@ using System.Web.Mvc;
 using Microsoft.Reporting.WebForms;
 using System.Web.UI.WebControls;
 using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -746,7 +748,22 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     EventoFlete.Usuario = User.Identity.Name;
                     if (EventoFlete.HttpImagen != null)
                     {
-                        EventoFlete.ImagenBase64 = Auxiliar.ImageToBase64(EventoFlete.HttpImagen);
+                        //EventoFlete.ImagenBase64 = Auxiliar.ImageToBase64(EventoFlete.HttpImagen);
+                        Stream s = EventoFlete.HttpImagen.InputStream;
+                        
+                        if (Path.GetExtension(EventoFlete.HttpImagen.FileName).ToLower() == ".heic")
+                        {
+                            System.Drawing.Image img = (System.Drawing.Image)Auxiliar.ProcessFile(s);
+                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
+                            EventoFlete.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
+                        }
+                        else
+                        {
+                            System.Drawing.Image img = new Bitmap(s);
+                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
+                            EventoFlete.ImagenBase64 = image.ToBase64String(img.RawFormat);
+                        }
+
                     }
 
                     EventoFlete.RespuestaAjax = FleteDatos.AC_Evento(EventoFlete);
@@ -1304,7 +1321,23 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         if (DocumentoPorCobrarPago.HttpImagen != null)
                         {
-                            DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorCobrarPago.HttpImagen);
+                            //DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorCobrarPago.HttpImagen);
+
+                            Stream s = DocumentoPorCobrarPago.HttpImagen.InputStream;
+                            
+                            if (Path.GetExtension(DocumentoPorCobrarPago.HttpImagen.FileName).ToLower() == ".heic")
+                            {
+                                System.Drawing.Image img = (System.Drawing.Image)Auxiliar.ProcessFile(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
+                                DocumentoPorCobrarPago.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
+                            }
+                            else
+                            {
+                                System.Drawing.Image img = new Bitmap(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
+                                DocumentoPorCobrarPago.ImagenBase64 = image.ToBase64String(img.RawFormat);
+                            }
+
                         }
                     }
                     _Flete_Datos FleteDatos = new _Flete_Datos();
@@ -1627,7 +1660,22 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         //verificamos si tiene alguna imagen
                         if (Evento.HttpImagen != null)
                         {
-                            Evento.ImagenBase64 = Auxiliar.ImageToBase64(Evento.HttpImagen);
+                            //Evento.ImagenBase64 = Auxiliar.ImageToBase64(Evento.HttpImagen);
+                            Stream s = Evento.HttpImagen.InputStream;
+
+                            if (Path.GetExtension(Evento.HttpImagen.FileName).ToLower() == ".heic")
+                            {
+                                System.Drawing.Image img = (System.Drawing.Image)Auxiliar.ProcessFile(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
+                                Evento.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
+                            }
+                            else
+                            {
+                                System.Drawing.Image img = new Bitmap(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
+                                Evento.ImagenBase64 = image.ToBase64String(img.RawFormat);
+                            }
+
                         }
                         else
                         {
@@ -2376,7 +2424,22 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                         if (Documento.ImagenPost != null)
                         {
-                            Documento.ImagenServer = Auxiliar.ImageToBase64(Documento.ImagenPost);
+                            //Documento.ImagenServer = Auxiliar.ImageToBase64(Documento.ImagenPost);
+                            Stream s = Documento.ImagenPost.InputStream;
+
+                            if (Path.GetExtension(Documento.ImagenPost.FileName).ToLower() == ".heic")
+                            {
+                                System.Drawing.Image img = (System.Drawing.Image)Auxiliar.ProcessFile(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
+                                Documento.ImagenServer = image.ToBase64String(ImageFormat.Jpeg);
+                            }
+                            else
+                            {
+                                System.Drawing.Image img = new Bitmap(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
+                                Documento.ImagenServer = image.ToBase64String(img.RawFormat);
+                            }
+
                         }
                         Documento.RespuestaAjax = new RespuestaAjax();
                         Documento = FleteDatos.AC_Documento(Documento);

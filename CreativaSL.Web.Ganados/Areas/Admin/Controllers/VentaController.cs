@@ -10,6 +10,8 @@ using System.Web.UI.WebControls;
 using CreativaSL.Web.Ganados.Models;
 using System.Configuration;
 using Microsoft.Reporting.WebForms;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -833,7 +835,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Evento.Usuario = User.Identity.Name;
                     if (Evento.HttpImagen != null)
                     {
-                        Evento.ImagenBase64 = Auxiliar.ImageToBase64(Evento.HttpImagen);
+                        //Evento.ImagenBase64 = Auxiliar.ImageToBase64(Evento.HttpImagen);
+                        Stream s = Evento.HttpImagen.InputStream;
+
+                        if (Path.GetExtension(Evento.HttpImagen.FileName).ToLower() == ".heic")
+                        {
+                            System.Drawing.Image img = (System.Drawing.Image)Auxiliar.ProcessFile(s);
+                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
+                            Evento.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
+                        }
+                        else
+                        {
+                            System.Drawing.Image img = new Bitmap(s);
+                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
+                            Evento.ImagenBase64 = image.ToBase64String(img.RawFormat);
+                        }
                     }
 
                     Evento.RespuestaAjax = VentaDatos.AC_Evento(Evento);
@@ -1239,7 +1255,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                         if (Documento.ImagenPost != null)
                         {
-                            Documento.ImagenServer = Auxiliar.ImageToBase64(Documento.ImagenPost);
+                            //Documento.ImagenServer = Auxiliar.ImageToBase64(Documento.ImagenPost);
+                            Stream s = Documento.ImagenPost.InputStream;
+
+                            if (Path.GetExtension(Documento.ImagenPost.FileName).ToLower() == ".heic")
+                            {
+                                System.Drawing.Image img = (System.Drawing.Image)Auxiliar.ProcessFile(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
+                                Documento.ImagenServer = image.ToBase64String(ImageFormat.Jpeg);
+                            }
+                            else
+                            {
+                                System.Drawing.Image img = new Bitmap(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
+                                Documento.ImagenServer = image.ToBase64String(img.RawFormat);
+                            }
                         }
                         Documento.RespuestaAjax = new RespuestaAjax();
                         Documento = VentaDatos.AC_Documento(Documento);
@@ -1821,7 +1851,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         if (DocumentoPorCobrarPago.HttpImagen != null)
                         {
-                            DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorCobrarPago.HttpImagen);
+                            //DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorCobrarPago.HttpImagen);
+                            Stream s = DocumentoPorCobrarPago.HttpImagen.InputStream;
+
+                            if (Path.GetExtension(DocumentoPorCobrarPago.HttpImagen.FileName).ToLower() == ".heic")
+                            {
+                                System.Drawing.Image img = (System.Drawing.Image)Auxiliar.ProcessFile(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
+                                DocumentoPorCobrarPago.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
+                            }
+                            else
+                            {
+                                System.Drawing.Image img = new Bitmap(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
+                                DocumentoPorCobrarPago.ImagenBase64 = image.ToBase64String(img.RawFormat);
+                            }
                         }
                     }
                     _Venta2_Datos VentaDatos = new _Venta2_Datos();
@@ -2411,16 +2455,23 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 List<ComprobanteVentaDetallesModels> ListaComprobanteVentaDetalles = new List<ComprobanteVentaDetallesModels>();
                 List<ComprobanteVentaPagosModels> ListaComprobanteVentaPagosDetalles = new List<ComprobanteVentaPagosModels>();
                 List<ComprobanteVentaDetallesDeduccionesModels> ListaComprobanteVentaDetallesDeducciones = new List<ComprobanteVentaDetallesDeduccionesModels>();
+                List<ComprobanteGanadoModels> ListaComprobanteGanadoMachos = new List<ComprobanteGanadoModels>();
+                List<ComprobanteGanadoModels> ListaComprobanteGanadoHembras = new List<ComprobanteGanadoModels>();
 
                 _Venta2_Datos Datos = new _Venta2_Datos();
+                _Comprobante_Datos oDatosComprobante = new _Comprobante_Datos();
+
                 VentaModels2 Venta = new VentaModels2();
                 ComprobanteVentaCabeceraModels Cabecera = new ComprobanteVentaCabeceraModels();
+
                 Venta.Id_venta = id;
                 Venta.Conexion = Conexion;
                 Cabecera = Datos.GetComprobanteVentaCabecera(Venta);
                 ListaComprobanteVentaDetalles = Datos.GetComprobanteVentaDetalles(Venta);
                 ListaComprobanteVentaPagosDetalles = Datos.GetComprobanteVentaDetallesPagos(Venta);
                 ListaComprobanteVentaDetallesDeducciones = Datos.GetComprobanteVentaDetallesDeducciones(Venta);
+                ListaComprobanteGanadoMachos = oDatosComprobante.Comprobante_spCIDDB_get_detallesGanados(true, 2, id, Conexion);
+                ListaComprobanteGanadoHembras = oDatosComprobante.Comprobante_spCIDDB_get_detallesGanados(false, 2, id, Conexion);
 
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
@@ -2454,6 +2505,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Rtp.DataSources.Add(new ReportDataSource("ListaDetalles", ListaComprobanteVentaDetalles));
                 Rtp.DataSources.Add(new ReportDataSource("ListaDetallesPagos", ListaComprobanteVentaPagosDetalles));
                 Rtp.DataSources.Add(new ReportDataSource("ListaDetallesDeducciones", ListaComprobanteVentaDetallesDeducciones));
+                Rtp.DataSources.Add(new ReportDataSource("ComprobanteVentaGanadoMachos", ListaComprobanteGanadoMachos));
+                Rtp.DataSources.Add(new ReportDataSource("ComprobanteVentaGanadoHembras", ListaComprobanteGanadoHembras));
 
                 string reportType = "PDF";
                 string mimeType;

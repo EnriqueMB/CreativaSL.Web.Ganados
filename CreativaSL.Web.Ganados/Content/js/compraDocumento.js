@@ -9,7 +9,7 @@
         var successHandler1 = $('.successHandler', form1);
 
         form1.validate({ // initialize the plugin
-            debug: true,
+            //debug: true,
             errorElement: "dd",
             errorClass: 'text-danger',
             errorLabelContainer: $("#validation_summary_AC_FleteDocumentos"),
@@ -78,8 +78,19 @@
             showRemove: false,
             showClose: false,
             layoutTemplates: { actionDelete: '' },
-            allowedFileExtensions: ["png", 'jpg', 'bmp', 'jpeg'],
-            required: true
+            required: true,
+
+            allowedFileExtensions: ['png', 'jpg', 'gif', 'jpeg', 'heic'],
+            previewFileIcon: '<i class="fa fa-file"></i>',
+            preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
+            previewFileIconSettings: { // configure your icon file extensions
+                'heic': '<i class="fa fa-file-text text-primary"></i>'
+            },
+            previewFileExtSettings: { // configure the logic for determining icon file extensions
+                'heic': function (ext) {
+                    return ext.match(/(heic)$/i);
+                }
+            }
         })
     }
     return {

@@ -9,6 +9,8 @@ using CreativaSL.Web.Ganados.Models;
 using CreativaSL.Web.Ganados.App_Start;
 using Microsoft.Reporting.WebForms;
 using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -353,7 +355,22 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             if (DocumentoPorPagarPago.HttpImagen != null)
                             {
-                                DocumentoPorPagarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorPagarPago.HttpImagen);
+                                //DocumentoPorPagarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorPagarPago.HttpImagen);
+
+                                Stream s = DocumentoPorPagarPago.HttpImagen.InputStream;
+                                
+                                if (Path.GetExtension(DocumentoPorPagarPago.HttpImagen.FileName).ToLower() == ".heic")
+                                {
+                                    Image img = (Image)Auxiliar.ProcessFile(s);
+                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                    DocumentoPorPagarPago.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
+                                }
+                                else
+                                {
+                                    Image img = new Bitmap(s);
+                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                    DocumentoPorPagarPago.ImagenBase64 = image.ToBase64String(img.RawFormat);
+                                }
                             }
                         }
                         DocumentoPorPagarPago = DocumentoDatos.AC_ComprobanteCompra(DocumentoPorPagarPago);
@@ -522,7 +539,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             if (DocumentoPorPagarPago.HttpImagen != null)
                             {
-                                DocumentoPorPagarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorPagarPago.HttpImagen);
+                                //DocumentoPorPagarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorPagarPago.HttpImagen);
+                                Stream s = DocumentoPorPagarPago.HttpImagen.InputStream;
+                                //Evento.ImagenBase64 = Auxiliar.ImageToBase64(Evento.HttpImagen);
+                                if (Path.GetExtension(DocumentoPorPagarPago.HttpImagen.FileName).ToLower() == ".heic")
+                                {
+                                    Image img = (Image)Auxiliar.ProcessFile(s);
+                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                    DocumentoPorPagarPago.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
+                                }
+                                else
+                                {
+                                    Image img = new Bitmap(s);
+                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                    DocumentoPorPagarPago.ImagenBase64 = image.ToBase64String(img.RawFormat);
+                                }
                             }
                         }
                         DocumentoPorPagarPago = DocumentoDatos.AC_ComprobanteCompra(DocumentoPorPagarPago);

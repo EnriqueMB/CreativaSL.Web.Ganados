@@ -11,6 +11,7 @@ using CreativaSL.Web.Ganados.ViewModels;
 using CreativaSL.Web.Ganados.App_Start;
 using System.IO;
 using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -90,6 +91,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         if (!validarContacto(clienteID.NombreResponsable))
                         {
+                            clienteID.Conexion = Conexion;
+                            clienteID.ListaCmbSucursal = ClienteDatos.ObteneComboCatSucursal(clienteID);
+                            clienteID.ListaRegimenCMB = ClienteDatos.ObtenerComboRegimenFiscal(clienteID);
+                            clienteID.ListaTipoCliente = ClienteDatos.ObtenerListaTipoClientes(clienteID);
                             ModelState.AddModelError("", "El nombre del contacto es necesario.");
                             return View(clienteID);
                         }
@@ -843,7 +848,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                             Image img = (Image)Auxiliar.ProcessFile(s);
                             Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                            uppModel.Imagen = image.ToBase64String(img.RawFormat);
+                            uppModel.Imagen = image.ToBase64String(ImageFormat.Jpeg);
                         }
                         else
                         {

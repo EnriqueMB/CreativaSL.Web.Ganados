@@ -103,13 +103,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                                 Image img = (Image)Auxiliar.ProcessFile(s);
                                 Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Proveedor.ImgINE = image.ToBase64String(img.RawFormat);
+                                Proveedor.ImgINE = image.ToBase64String(ImageFormat.Jpeg);
                             }
                             else
                             {
                                 Image img = new Bitmap(s);
                                 Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
-                                Proveedor.ImgINE = IMG3.ToBase64String(ImageFormat.Jpeg);
+                                Proveedor.ImgINE = IMG3.ToBase64String(img.RawFormat);
                             }
 
 
@@ -127,13 +127,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                                 Image img = (Image)Auxiliar.ProcessFile(s);
                                 Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Proveedor.ImgManifestacionFierro = image.ToBase64String(img.RawFormat);
+                                Proveedor.ImgManifestacionFierro = image.ToBase64String(ImageFormat.Jpeg);
                             }
                             else
                             {
                                 Image img = new Bitmap(s);
                                 Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
-                                Proveedor.ImgManifestacionFierro = IMG3.ToBase64String(ImageFormat.Jpeg);
+                                Proveedor.ImgManifestacionFierro = IMG3.ToBase64String(img.RawFormat);
                             }
 
 
@@ -242,13 +242,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                                     Image img = (Image)Auxiliar.ProcessFile(s);
                                     Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    Proveedor.ImgINE = image.ToBase64String(img.RawFormat);
+                                    Proveedor.ImgINE = image.ToBase64String(ImageFormat.Jpeg);
                                 }
                                 else
                                 {
                                     Image img = new Bitmap(s);
                                     Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
-                                    Proveedor.ImgINE = IMG3.ToBase64String(ImageFormat.Jpeg);
+                                    Proveedor.ImgINE = IMG3.ToBase64String(img.RawFormat);
                                 }
 
 
@@ -273,13 +273,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                                     Image img = (Image)Auxiliar.ProcessFile(s);
                                     Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    Proveedor.ImgManifestacionFierro = image.ToBase64String(img.RawFormat);
+                                    Proveedor.ImgManifestacionFierro = image.ToBase64String(ImageFormat.Jpeg);
                                 }
                                 else
                                 {
                                     Image img = new Bitmap(s);
                                     Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
-                                    Proveedor.ImgManifestacionFierro = IMG3.ToBase64String(ImageFormat.Jpeg);
+                                    Proveedor.ImgManifestacionFierro = IMG3.ToBase64String(img.RawFormat);
                                 }
 
                             }

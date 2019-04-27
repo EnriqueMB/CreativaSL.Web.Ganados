@@ -53,17 +53,20 @@
             submitHandler: function (form) {
                 successHandler1.show();
                 errorHandler1.hide();
-                form.submit();
+
+                var box = $('#mb-confirm-row');
+                box.addClass('open');
+                box.find('.mb-control-yes').off('click').on('click', function (e) {
+                    box.removeClass('open');
+                    form.submit();
+                });
+
+
+
+                //form.submit();
                 //this.submit();
             }
         });
-
-        //$(".txtvalues").rules("add", {
-        //    required: true,
-        //    messages: {
-        //        required: "Debe ingresar un valor en cantidad"
-        //    }
-        //});
     };
 
     var eventos = function () {

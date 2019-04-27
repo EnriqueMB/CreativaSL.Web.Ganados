@@ -244,7 +244,8 @@ namespace CreativaSL.Web.Ganados.Models
                         Salida = !Dr.IsDBNull(Dr.GetOrdinal("Salida")) ? Dr.GetDecimal(Dr.GetOrdinal("Salida")) : 0m,
                         Recibe = !Dr.IsDBNull(Dr.GetOrdinal("Recibe")) ? Dr.GetString(Dr.GetOrdinal("Recibe")) : string.Empty,
                         Concepto = !Dr.IsDBNull(Dr.GetOrdinal("Concepto")) ? Dr.GetString(Dr.GetOrdinal("Concepto")) : string.Empty,
-                        Saldo = !Dr.IsDBNull(Dr.GetOrdinal("Saldo")) ? Dr.GetDecimal(Dr.GetOrdinal("Saldo")) : 0m
+                        Saldo = !Dr.IsDBNull(Dr.GetOrdinal("Saldo")) ? Dr.GetDecimal(Dr.GetOrdinal("Saldo")) : 0m,
+                        FormaPago = !Dr.IsDBNull(Dr.GetOrdinal("Tipo")) ? Dr.GetString(Dr.GetOrdinal("Tipo")) : string.Empty
                     };
                     Lista.Add(Item);
                 }
@@ -268,7 +269,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     Item = new ConceptosCajaChicaModels
                     {
-                        IdConcepto = !Dr.IsDBNull(Dr.GetOrdinal("IDConcepto")) ? Dr.GetInt32(Dr.GetOrdinal("IDConcepto")) : 0,
+                        IdConcepto = !Dr.IsDBNull(Dr.GetOrdinal("IDConcepto")) ? Dr.GetInt16(Dr.GetOrdinal("IDConcepto")) : 0,
                         Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty
                     };
                     Lista.Add(Item);
@@ -363,6 +364,7 @@ namespace CreativaSL.Web.Ganados.Models
                     model.Salida = !Dr.IsDBNull(Dr.GetOrdinal("Monto")) ? Dr.GetDecimal(Dr.GetOrdinal("Monto")) : 0m;
                     model.IdFormaPago = !Dr.IsDBNull(Dr.GetOrdinal("IdFormaPago")) ? Dr.GetInt32(Dr.GetOrdinal("IdFormaPago")) : 0;
                     model.Recibe = !Dr.IsDBNull(Dr.GetOrdinal("PersonaRecibe")) ? Dr.GetString(Dr.GetOrdinal("PersonaRecibe")) : string.Empty;
+                    model.FolioCheque = !Dr.IsDBNull(Dr.GetOrdinal("Folio")) ? Dr.GetString(Dr.GetOrdinal("Folio")) : string.Empty;
                     break;
                 }
                 Dr.Close();
@@ -421,7 +423,7 @@ namespace CreativaSL.Web.Ganados.Models
                 DataSet Ds = SqlHelper.ExecuteDataset(_ConexionRepositorio.CadenaConexion, "cajachica.spCIDDB_get_ReporteCajaChica", IdCaja);
                 if(Ds!= null)
                 {
-                    if(Ds.Tables.Count == 3)
+                    if(Ds.Tables.Count == 4)
                     {
                         ReporteCajaChica Resultado = new ReporteCajaChica();
 
@@ -436,6 +438,7 @@ namespace CreativaSL.Web.Ganados.Models
                             {
                                 IdMovimiento = !Dr.IsDBNull(Dr.GetOrdinal("IdMovimiento")) ? Dr.GetInt64(Dr.GetOrdinal("IdMovimiento")) : 0,
                                 Fecha = !Dr.IsDBNull(Dr.GetOrdinal("Fecha")) ? Dr.GetDateTime(Dr.GetOrdinal("Fecha")) : DateTime.MinValue,
+                                FolioCheque = !Dr.IsDBNull(Dr.GetOrdinal("Folio")) ? Dr.GetString(Dr.GetOrdinal("Folio")) : string.Empty,
                                 Entrega = !Dr.IsDBNull(Dr.GetOrdinal("Entrega")) ? Dr.GetString(Dr.GetOrdinal("Entrega")) : string.Empty,
                                 Entrada = !Dr.IsDBNull(Dr.GetOrdinal("Entrada")) ? Dr.GetDecimal(Dr.GetOrdinal("Entrada")) : 0m,
                                 Salida = !Dr.IsDBNull(Dr.GetOrdinal("Salida")) ? Dr.GetDecimal(Dr.GetOrdinal("Salida")) : 0m,
@@ -489,6 +492,30 @@ namespace CreativaSL.Web.Ganados.Models
 
                         Resultado.ListaConceptos = ListaConceptos;
                         #endregion
+
+
+                        #region MovimientosCheque
+
+                        List<MovimientosCajaChicaModels> ListaCheque = new List<MovimientosCajaChicaModels>();
+                        DataTableReader Dr4 = Ds.Tables[3].CreateDataReader();
+                        MovimientosCajaChicaModels ItemCheque;
+                        while (Dr4.Read())
+                        {
+                            ItemCheque = new MovimientosCajaChicaModels
+                            {
+                                Fecha = !Dr4.IsDBNull(Dr4.GetOrdinal("Fecha")) ? Dr4.GetDateTime(Dr4.GetOrdinal("Fecha")) : DateTime.MinValue,
+                                FolioCheque = !Dr4.IsDBNull(Dr4.GetOrdinal("Folio")) ? Dr4.GetString(Dr4.GetOrdinal("Folio")) : string.Empty,
+                                Salida = !Dr4.IsDBNull(Dr4.GetOrdinal("Salida")) ? Dr4.GetDecimal(Dr4.GetOrdinal("Salida")) : 0m,
+                                Recibe = !Dr4.IsDBNull(Dr4.GetOrdinal("Recibe")) ? Dr4.GetString(Dr4.GetOrdinal("Recibe")) : string.Empty,
+                                Concepto = !Dr4.IsDBNull(Dr4.GetOrdinal("Concepto")) ? Dr4.GetString(Dr4.GetOrdinal("Concepto")) : string.Empty,
+                            };
+                            ListaCheque.Add(ItemCheque);
+                        }
+                        Dr4.Close();
+
+                        Resultado.ListaMovimientosCheque = ListaCheque;
+                        #endregion
+
 
                         return Resultado;
                     }

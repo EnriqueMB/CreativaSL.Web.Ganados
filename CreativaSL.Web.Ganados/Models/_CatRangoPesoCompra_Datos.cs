@@ -26,6 +26,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.PesoMaximo = !dr.IsDBNull(dr.GetOrdinal("PesoMaximo")) ? dr.GetDecimal(dr.GetOrdinal("PesoMaximo")) : 0;
                     Item.Precio = !dr.IsDBNull(dr.GetOrdinal("Precio")) ? dr.GetDecimal(dr.GetOrdinal("Precio")) : 0;
                     Item.TipoProveedor = !dr.IsDBNull(dr.GetOrdinal("TipoProveedor")) ? dr.GetString(dr.GetOrdinal("TipoProveedor")) : string.Empty;
+                    Item.NombreRango = !dr.IsDBNull(dr.GetOrdinal("NombreRango")) ? dr.GetString(dr.GetOrdinal("NombreRango")) : string.Empty;
                     Lista.Add(Item);
                 }
                 dr.Close();
@@ -45,7 +46,7 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] parametros =
                 {
-                    datos.Opcion, datos.IDRango, datos.EsMacho, datos.PesoMinimo, datos.PesoMaximo, datos.Precio, datos.IDTipoProveedor, datos.Usuario
+                    datos.Opcion, datos.IDRango, datos.EsMacho, datos.PesoMinimo, datos.PesoMaximo, datos.Precio, datos.IDTipoProveedor, datos.Usuario, datos.NombreRango ?? string.Empty
                 };
                 object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatRangoPesoCompra", parametros);
                 if (Resultado != null)
@@ -112,6 +113,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.PesoMaximo = !dr.IsDBNull(dr.GetOrdinal("PesoMaximo")) ? dr.GetDecimal(dr.GetOrdinal("PesoMaximo")) : 0;
                     datos.Precio = !dr.IsDBNull(dr.GetOrdinal("Precio")) ? dr.GetDecimal(dr.GetOrdinal("Precio")) : 0;
                     datos.IDTipoProveedor = !dr.IsDBNull(dr.GetOrdinal("IDTipoProveedor")) ? dr.GetInt32(dr.GetOrdinal("IDTipoProveedor")) : 0;
+                    datos.NombreRango = !dr.IsDBNull(dr.GetOrdinal("NombreRango")) ? dr.GetString(dr.GetOrdinal("NombreRango")) : string.Empty;
                 }
                 dr.Close();
                 return datos;

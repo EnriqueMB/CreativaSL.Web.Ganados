@@ -16,7 +16,7 @@ namespace CreativaSL.Web.Ganados.Models
                 int Resultado = 0;
                 object[] parametros =
                 {
-                    datos.Opcion,datos.IDTipoProveedor,datos.Descripcion ,datos.Usuario
+                    datos.Opcion,datos.IDTipoProveedor,datos.Descripcion ,datos.Usuario, datos.MermaFavor
                 };
                 SqlDataReader dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_ac_CatTipoProveedor", parametros);
                 while (dr.Read())
@@ -83,6 +83,7 @@ namespace CreativaSL.Web.Ganados.Models
 
                     datos.IDTipoProveedor = Convert.ToInt32(dr["id_tipoProveedor"].ToString());
                     datos.Descripcion = dr["descripcion"].ToString();
+                    datos.MermaFavor = !dr.IsDBNull(dr.GetOrdinal("mermaFavor")) ? dr.GetDecimal(dr.GetOrdinal("mermaFavor")) : 0;
 
                 }
                 dr.Close();
@@ -107,6 +108,7 @@ namespace CreativaSL.Web.Ganados.Models
                     item = new CatTipoProveedorModels();
                     item.IDTipoProveedor = Convert.ToInt32(dr["id_tipoProveedor"].ToString());
                     item.Descripcion = dr["descripcion"].ToString();
+                    item.MermaFavor = !dr.IsDBNull(dr.GetOrdinal("mermaFavor")) ? dr.GetDecimal(dr.GetOrdinal("mermaFavor")) : 0;
 
                     lista.Add(item);
                 }

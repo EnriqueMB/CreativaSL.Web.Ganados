@@ -251,6 +251,9 @@
     };
 }();
 
+// Array fierro global
+var arrayFierro = [];
+
 $(".addToList").click(function () {
     $.each($(".gallery .gallery-item input[type='checkbox']:checked"), function (i, l) {
         // console.log($(this).attr("name"));
@@ -258,14 +261,15 @@ $(".addToList").click(function () {
         var countElementsInList = $(".listaFierroContent .lista .listaItem[refitem='" + getRef + "']").length;
         if (countElementsInList == 0) {
             var getDescription = $(".gallery .gallery-item[refitem='" + getRef + "'] .meta p").text();
-            $(".listaFierroContent .lista").append(`
-                    <div refitem='`+ getRef + `' class="listaItem">
-                    <div class="description"><input type="text" readonly id="`+ getRef + `" name="`+ getRef + `" value="` + getDescription + `" /></div>
+            var itemFierro = `<div refitem='` + getRef + `' class="listaItem">
+                    <div class="description"><input type="text" readonly id="`+ getRef + `" name="` + getRef + `" value="` + getDescription + `" /></div>
                     <div class="buttonErase" eraseto='`+ getRef + `'>
                     <a class="btn btn-danger tooltips btn-sm eliminar" data-original-title="Eliminar" title="Eliminar de esta lista"><i class="fa fa-trash-o"></i></a>
                     </div>
-                    </div>
-                `);
+                    </div>`
+            $(".listaFierroContent .lista").append(itemFierro);
+            arrayFierro.push(itemFierro)
+            localStorage.setItem("tempFierros", JSON.stringify(arrayFierro));
             $(".gallery .gallery-item[refitem='" + getRef + "']").addClass("dontShow");
         }
         countElementsInList = $(".listaFierroContent .lista .listaItem").length;
@@ -282,12 +286,57 @@ $(".addToList").click(function () {
     });
 });
 
+// Si hay elementos en memoria, que los pinte
+
+if (localStorage.getItem("tempFierros")) {
+    temp = localStorage.getItem("tempFierros");
+    arrayFierro = JSON.parse(temp);
+    console.log(arrayFierro);
+    for (var i = 0; i < JSON.parse(temp).length; i++) {
+        $(".listaFierroContent .lista").append(JSON.parse(temp)[i]);
+    }
+
+    // Enseñar botón porque hay elementos
+    countElementsInList = $(".listaFierroContent .lista .listaItem").length;
+    console.log(countElementsInList);
+    if (countElementsInList > 0) {
+        $(".listaFierroContent form button[type='submit']").addClass("showButton");
+        $(".listaFierroContent .lista .listaMessage").css("display", "none");
+    }
+    else {
+        $(".listaFierroContent form button[type='submit']").removeClass("showButton");
+    }
+
+    // Obtener referencias de la lista para ocultar elementos de galería
+    var getRef;
+    $.each($(".listaFierroContent .lista .listaItem"), function (i, l) {
+        getRef = $(this).attr("refitem");
+        $(".gallery .gallery-item[refitem='" + getRef + "']").addClass("dontShow");
+    });
+}
+
+// Al hacer submit, se elimina la memoria
+
+$("#frm_Fierro").submit(function () {
+    localStorage.removeItem('tempFierros');
+});
+
+
 $(document).on("click", ".buttonErase", function () {
     var getRef = $(this).attr("eraseto");
     $(".gallery .gallery-item[refitem='" + getRef + "']").removeClass('dontShow');
     $(".gallery .gallery-item[refitem='" + getRef + "'] .icheckbox_minimal-grey").removeClass('checked');
     $(".gallery .gallery-item[refitem='" + getRef + "'] input[type='checkbox']").prop('checked', false);
     $(".listaFierroContent .lista .listaItem[refitem='" + getRef + "']").remove();
+    // elimina el elemento del arreglo, y lo reasigna a memoria
+    for (var i = 0; i < arrayFierro.length; i++) {
+        if (arrayFierro[i].includes(getRef)) {
+            arrayFierro = $.grep(arrayFierro, function (value) {
+                return value != arrayFierro[i];
+            });
+        }
+    }
+    localStorage.setItem("tempFierros", JSON.stringify(arrayFierro));
 
     var countElementsInList = $(".listaFierroContent .lista .listaItem").length;
     console.log(countElementsInList);

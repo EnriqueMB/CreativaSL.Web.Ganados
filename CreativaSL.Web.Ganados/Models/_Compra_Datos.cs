@@ -1389,6 +1389,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Compra.MontoTotalGanado = !dr.IsDBNull(dr.GetOrdinal("montoTotalGanado")) ? dr.GetDecimal(dr.GetOrdinal("montoTotalGanado")) : 0;
                     Compra.Proveedor.IDTipoProveedor = !dr.IsDBNull(dr.GetOrdinal("id_tipoProveedor")) ? dr.GetInt16(dr.GetOrdinal("id_tipoProveedor")) : 0;
                     Compra.IDSucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty;
+                    Compra.MermaFavor = !dr.IsDBNull(dr.GetOrdinal("mermaFavor")) ? dr.GetDecimal(dr.GetOrdinal("mermaFavor")) : 0;
                 }
                 dr.Close();
                 return Compra;

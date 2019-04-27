@@ -64,7 +64,8 @@ namespace CreativaSL.Web.Ganados.Models
                     item.PesoMaximo,
                     item.Precio,
                     item.Id_tipoCliente,
-                    usuario
+                    usuario,
+                    item.NombreRango ?? string.Empty
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(conexion, "spCSLDB_Catalogo_ac_CatRangoPesoVenta", parametros);
@@ -98,6 +99,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.PesoMaximo = !dr.IsDBNull(dr.GetOrdinal("PesoMaximo")) ? dr.GetDecimal(dr.GetOrdinal("PesoMaximo")) : 0;
                     datos.Precio = !dr.IsDBNull(dr.GetOrdinal("Precio")) ? dr.GetDecimal(dr.GetOrdinal("Precio")) : 0;
                     datos.Id_tipoCliente = !dr.IsDBNull(dr.GetOrdinal("IDTipoCliente")) ? dr.GetInt32(dr.GetOrdinal("IDTipoCliente")) : 0;
+                    datos.NombreRango = !dr.IsDBNull(dr.GetOrdinal("NombreRango")) ? dr.GetString(dr.GetOrdinal("NombreRango")) : string.Empty;
                 }
                 dr.Close();
                 return datos;

@@ -40,37 +40,39 @@
                                 <thead>
                                     <tr>
                                         <th>Descripción</th>
+                                        <th>Merma a favor</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var TipoProveedor in Model.listaTipoProveedores)
                                     {
-                                        <tr id="@TipoProveedor.IDTipoProveedor">
-                                            <td>@TipoProveedor.Descripcion</td>
+                                    <tr id="@TipoProveedor.IDTipoProveedor">
+                                        <td>@TipoProveedor.Descripcion</td>
+                                        <td>@TipoProveedor.MermaFavor.ToString("0.00") %</td>
 
-                                            <td style="text-align:center;">
-                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" href="@Url.Action("Edit", "CatTipoProveedor", new { id = TipoProveedor.IDTipoProveedor })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" data-id="@TipoProveedor.IDTipoProveedor" id="delete-@TipoProveedor.IDTipoProveedor" onClick="delete_row('@TipoProveedor.IDTipoProveedor', '@Url.Action("Delete", "CatTipoProveedor")');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
-                                                    @*<a title="Eliminar" href="@Url.Action("Delete", "CatTipoProveedor", new { id = TipoProveedor.IDTipoProveedor  })"  class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>*@
+                                        <td style="text-align:center;">
+                                            <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                <a title="Editar" href="@Url.Action("Edit", "CatTipoProveedor", new { id = TipoProveedor.IDTipoProveedor })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                <a title="Eliminar" data-id="@TipoProveedor.IDTipoProveedor" id="delete-@TipoProveedor.IDTipoProveedor" onClick="delete_row('@TipoProveedor.IDTipoProveedor', '@Url.Action("Delete", "CatTipoProveedor")');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                @*<a title="Eliminar" href="@Url.Action("Delete", "CatTipoProveedor", new { id = TipoProveedor.IDTipoProveedor  })"  class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>*@
+                                            </div>
+                                            <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                <div class="btn-group">
+                                                    <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                        <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                    </a>
+                                                    <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatTipoProveedor", new { id = TipoProveedor.IDTipoProveedor })">
+                                                                <i class="fa fa-edit"></i> Editar
+                                                            </a>
+                                                        </li>
+                                                    </ul>
                                                 </div>
-                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                    <div class="btn-group">
-                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                        </a>
-                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatTipoProveedor", new { id = TipoProveedor.IDTipoProveedor })">
-                                                                    <i class="fa fa-edit"></i> Editar
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                            </div>
+                                        </td>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>

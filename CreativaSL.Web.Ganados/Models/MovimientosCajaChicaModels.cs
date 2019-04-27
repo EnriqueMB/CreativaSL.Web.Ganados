@@ -9,6 +9,13 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class MovimientosCajaChicaModels
     {
+        public MovimientosCajaChicaModels()
+        {
+            FolioCheque = string.Empty;
+            Concepto = string.Empty;
+        }
+
+
         public Int64 IdCaja { get; set; }
         public Int64 IdMovimiento { get; set; }
         public DateTime Fecha { get; set; }
@@ -33,6 +40,8 @@ namespace CreativaSL.Web.Ganados.Models
         public string FormaPago { get; set; }
         public decimal Saldo { get; set; }
 
+        [Required(ErrorMessage = "Ingrese el folio.")]
+        [Display(Name = "Folio")]
         public string FolioCheque { get; set; }
 
         public string FechaString { get { return string.Format("{0:dd/MM/yyyy}", Fecha); } }

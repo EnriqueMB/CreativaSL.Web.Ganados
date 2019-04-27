@@ -36,7 +36,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <label class="col-md-12 control-label text-center">Descripción del tipo de proveedor</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group">
@@ -47,11 +47,20 @@
                                     <span class="help-block">Ingrese la descripción del tipo de proveedor </span>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <label class="col-md-12 control-label text-center">Merma a favor</label>
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.MermaFavor, new { @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.MermaFavor)
+                                    <span class="help-block">Ingrese la merma a favor del proveedor en caso de merma alta. </span>
+                                </div>
+                            </div>
                         </div>
-                        
-                        
-                        
                     </div>
+
                     <div class="panel-footer">
                         <input type="submit" value="Guardar" class="btn btn-primary pull-right">
                         <a href="@Url.Action("Index","CatTipoProveedor")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>

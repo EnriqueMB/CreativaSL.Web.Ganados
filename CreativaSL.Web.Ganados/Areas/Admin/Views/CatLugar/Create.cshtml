@@ -35,36 +35,32 @@
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="col-md-12 control-label text-center">Nombre del propietario</label>
+                                    <label class="col-md-12 control-label text-center">Nombre del Propietario</label>
                                     <div class="col-md-12 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                             @Html.TextBoxFor(model => model.nombrePropietario, new { id = "nombrePropietario", @class = "form-control" })
-
-
                                         </div>
                                         <span class="help-block text-center">Nombre del Propietario</span>
                                         @Html.ValidationMessageFor(model => model.nombrePropietario)
                                     </div>
-                                    </div>
                                 </div>
-                            <div class="col-md-4">
+                            </div>
+                            @*<div class="col-md-4">
                                 <div class="form-group">
                                     <label class="col-md-12 control-label text-center">Apellido Paterno</label>
                                     <div class="col-md-12 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                             @Html.TextBoxFor(model => model.apellidoPaterno, new { id = "apellidoPaterno", @class = "form-control" })
-
-
                                         </div>
                                         <span class="help-block text-center">Apellido Paterno</span>
                                         @Html.ValidationMessageFor(model => model.apellidoPaterno)
                                     </div>
-                                    </div>
                                 </div>
+                            </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="col-md-12 control-label text-center">Apellido Materno</label>
@@ -72,30 +68,23 @@
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                             @Html.TextBoxFor(model => model.apellidoMaterno, new { id = "apellidoMaterno", @class = "form-control" })
-
-
                                         </div>
                                         <span class="help-block text-center">Apellido Materno</span>
                                         @Html.ValidationMessageFor(model => model.apellidoMaterno)
                                     </div>
-                                    </div>
                                 </div>
-
-
+                            </div>*@
                         </div>
-
                         <div class="form-group">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-md-12 control-label text-center">Descripción del lugar</label>
+                                    <label class="col-md-12 control-label text-center">Nombre del lugar</label>
                                     <div class="col-md-12 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                             @Html.TextBoxFor(model => model.descripcion, new { id = "descripcion", @class = "form-control" })
-
-
                                         </div>
-                                        <span class="help-block text-center">Descripción del lugar</span>
+                                        <span class="help-block text-center">Nombre del lugar</span>
                                         @Html.ValidationMessageFor(model => model.descripcion)
                                     </div>
                                 </div>
@@ -106,8 +95,6 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                         @Html.TextBoxFor(model => model.ejido, new { id = "ejido", @class = "form-control" })
-                                        
-
                                     </div>
                                     <span class="help-block text-center">Ejido del lugar</span>
                                     @Html.ValidationMessageFor(model => model.ejido)
@@ -117,40 +104,32 @@
                                 <label class="col-md-12 control-label text-center">¿Tiene Báscula?</label>
                                 <div class="col-md-12 col-xs-12">
                                     <div class="input-group text-center" style="margin: auto;padding: 5px;">
-
                                         @Html.CheckBoxFor(model => model.bascula)
                                     </div>
-
                                 </div>
                             </div>
-                            
                         </div>
-
                         <div class="form-group">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-12 control-label text-center">Dirección del lugar</label>
                                     <div class="col-md-12 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextAreaFor(model => model.Direccion, new { id = "Direccion", @class = "form-control", @style = " resize:none;" })
-
+                                            @Html.TextAreaFor(model => model.Direccion, new { id = "Direccion", @class = "form-control", @style = " resize:none;", @rows = "4" })
                                         </div>
                                         <span class="help-block text-center">Dirección del lugar</span>
                                         @Html.ValidationMessageFor(model => model.Direccion)
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-12 control-label text-center">Observaciones</label>
                                     <div class="col-md-12 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextAreaFor(model => model.observaciones, new { id = "observaciones", @class = "form-control", @style = " resize:none;" })
+                                            @Html.TextAreaFor(model => model.observaciones, new { id = "observaciones", @class = "form-control", @style = " resize:none;", @rows = "4" })
 
                                         </div>
                                         <span class="help-block text-center">Observaciones</span>

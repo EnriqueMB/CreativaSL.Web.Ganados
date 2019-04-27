@@ -1,0 +1,104 @@
+﻿@model CreativaSL.Web.Ganados.Models.Clasificacion
+
+@{
+    ViewBag.Title = "Clasificación de gastos";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section css
+{
+    <!--FILEINPUT-->
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
+    <link href="~/Content/js/plugins/font-awesome.min.css" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
+}
+
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("Edit", "CatClasificacion", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off", @enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                <div id="validation_summary" class="field_error "></div> //JS
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Editar </strong> clasificación de gasto</h3>
+                    </div>
+                    <ul class="panel-controls"></ul>
+                    <div class="panel-body">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-12 control-label text-center">Categoría</label>
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.Descripcion, new { id = "Descripcion", @class = "form-control", placeholder = "Ingrese el nombre de la categoría." })
+                                    </div>
+                                    <span class="help-block">Ingrese el nombre de la categoría.</span>
+                                    @Html.ValidationMessageFor(model => model.Descripcion)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-12 control-label text-center">Orden</label>
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                        @Html.TextBoxFor(model => model.Orden, new { id = "Orden", @class = "form-control", placeholder = "Ingrese el orden de la categoría." })
+                                    </div>
+                                    <span class="help-block">Ingrese el orden de la categoría.</span>
+                                    @Html.ValidationMessageFor(model => model.Orden)
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                    <a href="@Url.Action("Index","CatClasificacion")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    <button form="form-dg" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+    <
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+    <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/maskedinput/jquery.maskedinput.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/Clasificacion.js")"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            Clasificacion.init();
+        });
+    </script>
+}

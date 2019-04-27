@@ -88,7 +88,7 @@
                     <div class="col-md-10 col-xs-12">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="fa fa-camera"></span></span>
-                            @Html.TextBoxFor(model => model.ImagenPost, new { @type = "file", @class = "form-control", @accept = "image/png, image/jpg, image/jpeg, image/bmp" })
+                            @Html.TextBoxFor(model => model.ImagenPost, new { @type = "file", @class = "form-control" })
                         </div>
                         @Html.ValidationMessageFor(model => model.ImagenPost)
                     </div>

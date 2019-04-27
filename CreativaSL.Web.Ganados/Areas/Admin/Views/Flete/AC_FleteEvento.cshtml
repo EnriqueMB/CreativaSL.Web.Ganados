@@ -52,7 +52,7 @@
             @{ Html.EnableClientValidation(false); }
             @Html.HiddenFor(model => model.ImagenMostrar)
             @Html.HiddenFor(model => model.ExtensionImagenBase64)
-            @using (Html.BeginForm("AC_Evento", "Venta", FormMethod.Post, new { id = "frm_evento", @class = "form-horizontal", autocomplete = "off" }))
+            @using (Html.BeginForm("AC_Evento", "Flete", FormMethod.Post, new { id = "frm_evento", @class = "form-horizontal", autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
