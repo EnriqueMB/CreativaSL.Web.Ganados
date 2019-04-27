@@ -120,10 +120,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <div class="col-md-6 controlError">
-                                        <label class="col-md-2 control-label">Monto:</label>
+                                    <div class="col-md-4 controlError">
+                                        <label class="col-md-3 control-label">Monto:</label>
                                         <div class="controls">
-                                            <div class="col-md-10 col-xs-12">
+                                            <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                                     @Html.TextBoxFor(model => model.Monto, "{0:f2}", new { @class = "form-control", type = "number" })
@@ -133,10 +133,23 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6 controlError">
-                                        <label class="col-md-2 control-label">Fecha de pago:</label>
+                                    <div class="col-md-4 controlError">
+                                        <label class="col-md-3 control-label">Pendiente:</label>
                                         <div class="controls">
-                                            <div class="col-md-10 col-xs-12">
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    @Html.TextBoxFor(model => model.pendiente, "{0:c2}", new { @class = "form-control", @readonly="readonly" })
+                                                </div>
+                                                <span class="help-block">Pendiente.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 controlError">
+                                        <label class="col-md-3 control-label">Fecha de pago:</label>
+                                        <div class="controls">
+                                            <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                                     @Html.TextBoxFor(model => model.fecha, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker", @readonly = "readonly" })

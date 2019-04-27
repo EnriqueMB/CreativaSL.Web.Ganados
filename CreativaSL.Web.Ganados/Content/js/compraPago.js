@@ -54,7 +54,7 @@
                 $('#divBancarizado').show(1000);
                 bancarizadoForm.value = true;
                 cuentaBeneficiante.rules("add", { required: true });
-                cuentaOrdenante.rules("add", { required: true });
+                //cuentaOrdenante.rules("add", { required: true });
                 imagen.rules("add", { ImagenRequerida: true, ImagenRequerida: ["ImagenServer"] });
                 //folioINE.rules("add", { required: true });
                 //numeroAutorizacion.rules("add", { required: true });
@@ -85,13 +85,13 @@
     }
     function QuitarValidacionesBancarizadas() {
         cuentaBeneficiante.rules("remove", "required");
-        cuentaOrdenante.rules("remove", "required");
+        //cuentaOrdenante.rules("remove", "required");
         imagen.rules("remove", "ImagenRequerida");
         //folioINE.rules("remove", "required");
         //numeroAutorizacion.rules("remove", "required");
 
         cuentaBeneficiante.closest(".controlError").removeClass("has-success has-error");
-        cuentaOrdenante.closest(".controlError").removeClass("has-success has-error");
+        //cuentaOrdenante.closest(".controlError").removeClass("has-success has-error");
         imagen.closest(".controlError").removeClass("has-success has-error");
         //folioINE.closest(".controlError").removeClass("has-success has-error");
         //numeroAutorizacion.closest(".controlError").removeClass("has-success has-error");
@@ -99,7 +99,7 @@
         //$("#validation_summary").find("dd[for='FolioIFE']").addClass('help-block valid').text('');
         //$("#validation_summary").find("dd[for='NumeroAutorizacion']").addClass('help-block valid').text('');
         $("#validation_summary").find("dd[for='HttpImagen']").addClass('help-block valid').text('');
-        $("#validation_summary").find("dd[for='Id_cuentaBancariaOrdenante']").addClass('help-block valid').text('');
+        //$("#validation_summary").find("dd[for='Id_cuentaBancariaOrdenante']").addClass('help-block valid').text('');
         $("#validation_summary").find("dd[for='Id_cuentaBancariaBeneficiante']").addClass('help-block valid').text('');
     }
     
@@ -135,7 +135,7 @@
                 //"FolioIFE": { required: true },
                 //"NumeroAutorizacion": { required: true },
                 "HttpImagen": { ImagenRequerida: true, ImagenRequerida: ["ImagenServer"] },
-                "Id_cuentaBancariaOrdenante": { required: true },
+                //"Id_cuentaBancariaOrdenante": { required: true },
                 "Id_cuentaBancariaBeneficiante":{ required: true }
             },
             messages: {
@@ -147,7 +147,7 @@
                 //FolioIFE: { required: "Por favor, escriba el folio del INE" },
                 //NumeroAutorizacion: { required: "Por favor, escriba el numero de autorización" },
                 HttpImagen: { required: "Por favor, ingrese una imagen" },
-                Id_cuentaBancariaOrdenante: { required: "Por favor, seleccione una cuenta de banco del cliente." },
+                //Id_cuentaBancariaOrdenante: { required: "Por favor, seleccione una cuenta de banco del cliente." },
                 Id_cuentaBancariaBeneficiante: { required: "Por favor, seleccione una cuenta de banco de la empresa." }
             },
             invalidHandler: function (event, validator) {

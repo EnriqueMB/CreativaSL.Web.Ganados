@@ -1,5 +1,5 @@
 ﻿var FleteCobro = function () {
-    "use strict"
+    "use strict";
     var Id_documentoPorCobrar;
     var bancarizadoForm = document.getElementById("Bancarizado");
     var cuentaBeneficiante = $("#Id_cuentaBancariaBeneficiante");
@@ -58,7 +58,7 @@
                 $('#divBancarizado').show(1000);
                 bancarizadoForm.value = true;
                 cuentaBeneficiante.rules("add", { required: true });
-                cuentaOrdenante.rules("add", { required: true });
+                //cuentaOrdenante.rules("add", { required: true });
                 imagen.rules("add", { ImagenRequerida: true, ImagenRequerida: ["ImagenServer"] });
                 //folioINE.rules("add", { required: true });
                 //numeroAutorizacion.rules("add", { required: true });
@@ -90,15 +90,15 @@
     }
     function QuitarValidacionesBancarizadas() {
         cuentaBeneficiante.rules("remove", "required");
-        cuentaOrdenante.rules("remove", "required");
+        //cuentaOrdenante.rules("remove", "required");
         imagen.rules("remove", "ImagenRequerida");
 
         cuentaBeneficiante.closest(".controlError").removeClass("has-success has-error");
-        cuentaOrdenante.closest(".controlError").removeClass("has-success has-error");
+        //cuentaOrdenante.closest(".controlError").removeClass("has-success has-error");
         imagen.closest(".controlError").removeClass("has-success has-error");
 
         $("#validation_summary").find("dd[for='HttpImagen']").addClass('help-block valid').text('');
-        $("#validation_summary").find("dd[for='Id_cuentaBancariaOrdenante']").addClass('help-block valid').text('');
+        //$("#validation_summary").find("dd[for='Id_cuentaBancariaOrdenante']").addClass('help-block valid').text('');
         $("#validation_summary").find("dd[for='Id_cuentaBancariaBeneficiante']").addClass('help-block valid').text('');
     }
     
@@ -144,9 +144,9 @@
                     ImagenRequerida: true,
                     ImagenRequerida: ["ImagenServer"]
                 },
-                "Id_cuentaBancariaOrdenante": {
-                    required: true
-                },
+                //"Id_cuentaBancariaOrdenante": {
+                //    required: true
+                //},
                 "Id_cuentaBancariaBeneficiante":{
                     required: true
                 }
@@ -169,11 +169,11 @@
                 HttpImagen: {
                     required: "Ingrese una imagen"
                 },
-                Id_cuentaBancariaOrdenante: {
-                    required: "Seleccione una cuenta de banco de la empresa"
-                },
+                //Id_cuentaBancariaOrdenante: {
+                //    required: "Seleccione una cuenta de banco de la empresa"
+                //},
                 Id_cuentaBancariaBeneficiante: {
-                    required: "Seleccione una cuenta de banco del proveedor / cliente"
+                    required: "Seleccione una cuenta de banco de la empresa"
                 }
             },
             invalidHandler: function (event, validator) {

@@ -96,16 +96,17 @@ $.validator.addMethod("ImagenRequerida", function (value, element, params) {
         //Si hay obtenemos la extensión
         var arrayString = element.value.split(".");
         var longitud = arrayString.length;
-        var extension = arrayString[longitud - 1];
+        var extension = arrayString[longitud - 1].trim().toLowerCase();
+        console.log("extension: " + extension);
 
-        if (extension.localeCompare("png") === 0 || extension.localeCompare("jpg") === 0 || extension.localeCompare("jpeg") === 0 || extension.localeCompare("bmp") === 0, extension.localeCompare("heic") === 0) {
+        if (extension.localeCompare("png") == 0 || extension.localeCompare("jpg") == 0 || extension.localeCompare("jpeg") == 0 || extension.localeCompare("bmp") == 0 || extension.localeCompare("heic") == 0) {
             return true;
         }
         else {
             return false;
         }
     }
-}, 'Solo archivos con formato PNG, JPG, JPEG y BMP.');
+}, 'Solo archivos con formato PNG, JPG, JPEG, HEIC y BMP.');
 
 $.validator.addMethod("formatoPNG", function (value, element, params) {
     //Bandera que me indica si hay o no imagen en el servidor
