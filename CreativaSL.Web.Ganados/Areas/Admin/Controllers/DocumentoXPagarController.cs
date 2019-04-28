@@ -286,9 +286,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Token.SaveToken();
                 DocumentoPorPagarDetallePagosModels documentoPago = new DocumentoPorPagarDetallePagosModels();
                 DocumentoXPagar_Datos DocPagarDatos = new DocumentoXPagar_Datos();
+
                 documentoPago.Id_documentoPorPagar = id;
                 documentoPago.Usuario = User.Identity.Name;
                 documentoPago.Conexion = Conexion;
+
+                documentoPago = DocPagarDatos.SpCSLDB_get_GetDetalleDocumentoPago(documentoPago);
+               
                 documentoPago.TipoServicio = 1;
                 documentoPago.id_status = id2;
                 documentoPago.ListaAsignar = DocPagarDatos.GetListadoAsignarPagos(documentoPago);
@@ -346,6 +350,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 if (Token.IsTokenValid())
                 {
+                    ModelState.Remove("pendiente");
                     if (ModelState.IsValid)
                     {
                         DocumentoPorPagarPago.Conexion = Conexion;
@@ -530,6 +535,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 if (Token.IsTokenValid())
                 {
+                    ModelState.Remove("pendiente");
                     if (ModelState.IsValid)
                     {
                         DocumentoPorPagarPago.Conexion = Conexion;

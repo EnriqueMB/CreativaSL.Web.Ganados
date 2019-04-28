@@ -102,7 +102,6 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-
         public List<DocumentoPorPagarDetalleModels> ObtenerDetalleListaDocumentosPagarDetalle(DocumentoPorPagarDetalleModels datos)
         {
             try
@@ -395,6 +394,7 @@ namespace CreativaSL.Web.Ganados.Models
                     DocumentoPago.Bancarizado = !dr.IsDBNull(dr.GetOrdinal("bancarizado")) ? dr.GetBoolean(dr.GetOrdinal("bancarizado")) : false;
                     DocumentoPago.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
                     DocumentoPago.ImagenServer = !dr.IsDBNull(dr.GetOrdinal("imagenServer")) ? dr.GetInt32(dr.GetOrdinal("imagenServer")) : 0;
+                    DocumentoPago.pendiente = !dr.IsDBNull(dr.GetOrdinal("pendiente")) ? dr.GetDecimal(dr.GetOrdinal("pendiente")) : 0;
                 }
                 dr.Close();
                 return DocumentoPago;
@@ -517,6 +517,28 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public DocumentoPorPagarDetallePagosModels SpCSLDB_get_GetDetalleDocumentoPago(DocumentoPorPagarDetallePagosModels oModel)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    oModel.Id_documentoPorPagar
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(oModel.Conexion, "dbo.spCSLDB_get_GetDetalleDocumentoPago", parametros);
+                while (dr.Read())
+                {
+                    oModel.pendiente = !dr.IsDBNull(dr.GetOrdinal("pendiente")) ? dr.GetDecimal(dr.GetOrdinal("pendiente")) : 0;
+                }
+                dr.Close();
+                return oModel;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 }
