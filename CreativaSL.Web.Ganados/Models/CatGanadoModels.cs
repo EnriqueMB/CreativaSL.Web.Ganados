@@ -9,6 +9,9 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CatGanadoModels
     {
+        public string IdSucursal { get; set; }
+        public int IdCorral { get; set; }
+
         public CatGanadoModels()
         {
             _IDGanado = string.Empty;

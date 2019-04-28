@@ -25,7 +25,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 GanadoM = GanadoD.ObtenerGanado(GanadoM);
                 return View(GanadoM);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 CatGanadoModels GanadoM = new CatGanadoModels();
                 GanadoM.ListaGanados = new List<CatGanadoModels>();
@@ -75,16 +75,20 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 GanadoM.IDGanado = id;
                 GanadoM = GanadoD.ObtenerGanadoXID(GanadoM);
                 GanadoM.ListaEventoEnvio = GanadoD.ObtenerComboTipoServicio(Conexion);
-                
+
+                CargarListas(GanadoM.IdSucursal);
                 return View(GanadoM);
 
             }
             catch (Exception)
             {
                 CatGanadoModels GanadoM = new CatGanadoModels();
+                _CatGanado_Datos GanadoD = new _CatGanado_Datos();
+                GanadoM = GanadoD.ObtenerGanadoXID(GanadoM);
                 GanadoM.ListaGanados = new List<CatGanadoModels>();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
+                CargarListas(GanadoM.IdSucursal);
                 return View(GanadoM);
             }
         }
@@ -103,7 +107,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         GanadoID.Conexion = Conexion;
                         GanadoID.Usuario = User.Identity.Name;
                         GanadoID = CatGanado_Datos.C_Ganado(GanadoID);
-                        if (GanadoID.Completado==true)
+                        if (GanadoID.Completado == true)
                         {
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
@@ -113,6 +117,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         else
                         {
                             GanadoID.ListaEventoEnvio = CatGanado_Datos.ObtenerComboTipoServicio(Conexion);
+                            CargarListas(GanadoID.IdSucursal);
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                             return View(GanadoID);
@@ -122,6 +127,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         GanadoID.Conexion = Conexion;
                         GanadoID.ListaEventoEnvio = CatGanado_Datos.ObtenerComboTipoServicio(Conexion);
+                        CargarListas(GanadoID.IdSucursal);
                         return View(GanadoID);
 
                     }
@@ -130,12 +136,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     return RedirectToAction("Index");
                 }
-                
+
             }
             catch
             {
                 GanadoID.Conexion = Conexion;
                 GanadoID.ListaEventoEnvio = CatGanado_Datos.ObtenerComboTipoServicio(Conexion);
+                CargarListas(GanadoID.IdSucursal);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
                 return View(GanadoID);
@@ -162,6 +169,20 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 return View();
             }
+        }
+
+        private void CargarListas(string id_sucursal)
+        {
+            _Combos_Datos oDatosCorral = new _Combos_Datos();
+            List<CatCorralesModels> ListaCorralTmp = oDatosCorral.SpCSLDB_Combo_get_CatCorrales(Conexion, id_sucursal);
+
+            var result = ListaCorralTmp.Find(x => x.Id_corral == 0);
+
+            if (result != null)
+            {
+                ListaCorralTmp.Remove(result);
+            }
+            ViewBag.ListaCorrales = ListaCorralTmp;
         }
     }
 }

@@ -53,7 +53,8 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Observacion = !dr.IsDBNull(dr.GetOrdinal("Observacion")) ? dr.GetString(dr.GetOrdinal("Observacion")) : string.Empty;
                     datos.Staus = !dr.IsDBNull(dr.GetOrdinal("Estatus")) ? dr.GetString(dr.GetOrdinal("Estatus")) : string.Empty;
                     datos.IDTipoEventoEnvio = !dr.IsDBNull(dr.GetOrdinal("IDEstatus")) ? dr.GetInt32(dr.GetOrdinal("IDEstatus")) : 0;
-
+                    datos.IdSucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty;
+                    datos.IdCorral = !dr.IsDBNull(dr.GetOrdinal("id_corral")) ? dr.GetInt16(dr.GetOrdinal("id_corral")) : 0;
                 }
                 dr.Close();
                 return datos;
@@ -95,7 +96,8 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     ganado.IDGanado,
                     ganado.Observacion,
-                    ganado.IDTipoEventoEnvio
+                    ganado.IDTipoEventoEnvio,
+                    ganado.IdCorral
                 };
                 object aux = SqlHelper.ExecuteScalar(ganado.Conexion, "spCSLDB_c_GanadosXIDGanado", parametros);
                 ganado.IDGanado = aux.ToString();

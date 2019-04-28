@@ -60,7 +60,7 @@
                                 <div class="col-md-6 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.Corral, new { id = "Corral", @class = "form-control", placeholder = "No se puede editar", @readonly = "readonly" })
+                                        @Html.DropDownListFor(model => model.IdCorral, new SelectList(ViewBag.ListaCorrales, "Id_corral", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
                                     </div>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@
                             <div class="form-group">
                                 <label class="col-md-2 col-xs-12 control-label"><span>* </span> Estado </label>
                                 <div class="col-md-6 col-xs-12">
-                                    @Html.DropDownListFor(model => model.IDTipoEventoEnvio, new SelectList(Model.ListaEventoEnvio, "IDTipoEventoEnvio", "Descripcion"), new { id = "IDTipoEventoEnvio", @class = "form-control select", data_live_search = "true" })
+                                    @Html.DropDownListFor(model => model.IDTipoEventoEnvio, new SelectList(Model.ListaEventoEnvio, "IDTipoEventoEnvio", "Descripcion"), new { id = "IDTipoEventoEnvio", @class = "form-control select", data_live_search = "true", data_style = "form-control" })
                                     @Html.ValidationMessageFor(model => model.IDTipoEventoEnvio)
                                 </div>
                             </div>
@@ -112,7 +112,6 @@
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
         Ganado.init();
-        //$('#IDCategoriaPuesto.select').selectpicker('val', 'Model.IDCategoriaPuesto');
     });
     </script>
 }
