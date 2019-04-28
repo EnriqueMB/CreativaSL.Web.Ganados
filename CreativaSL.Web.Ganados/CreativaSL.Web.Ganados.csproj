@@ -533,6 +533,7 @@
     <Content Include="Content\js\plugins\jquery.dd.js" />
     <Content Include="Content\js\plugins\jquery.maskMoney.js" />
     <Content Include="Content\js\plugins\jquery.maskMoney.min.js" />
+    <Content Include="Content\js\plugins\nvd3\src\models\backup\bullet.js" />
     <Content Include="Content\js\ProveedorTransporte.js" />
     <Content Include="Content\js\RangoVenta.js" />
     <Content Include="Content\js\Socios.js" />
@@ -972,7 +973,6 @@
     <Content Include="Content\js\plugins\nvd3\src\interactiveLayer.js" />
     <Content Include="Content\js\plugins\nvd3\src\intro.js" />
     <Content Include="Content\js\plugins\nvd3\src\models\axis.js" />
-    <Content Include="Content\js\plugins\nvd3\src\models\backup\bullet.js" />
     <Content Include="Content\js\plugins\nvd3\src\models\backup\bulletChart.js" />
     <Content Include="Content\js\plugins\nvd3\src\models\boilerplate.js" />
     <Content Include="Content\js\plugins\nvd3\src\models\bullet.js" />
