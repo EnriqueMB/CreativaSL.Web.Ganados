@@ -2409,6 +2409,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.TipoVenta = !dr.IsDBNull(dr.GetOrdinal("id_tipoVenta")) ? dr.GetInt32(dr.GetOrdinal("id_tipoVenta")) : 0;
                     Item.TotalPorCobrarGanado = !dr.IsDBNull(dr.GetOrdinal("TotalPorCobrarGanado")) ? dr.GetDecimal(dr.GetOrdinal("TotalPorCobrarGanado")) : 0;
                     Item.CostoFlete = !dr.IsDBNull(dr.GetOrdinal("costoFlete")) ? dr.GetDecimal(dr.GetOrdinal("costoFlete")) : 0;
+                    Item.ElaboradoPor = !dr.IsDBNull(dr.GetOrdinal("elaboradoPor")) ? dr.GetString(dr.GetOrdinal("elaboradoPor")) : string.Empty;
                 }
                 dr.Close();
                 return Item;

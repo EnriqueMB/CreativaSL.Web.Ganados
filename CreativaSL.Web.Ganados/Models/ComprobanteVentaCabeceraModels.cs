@@ -7,6 +7,7 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class ComprobanteVentaCabeceraModels
     {
+        public string ElaboradoPor { get; set; }
         public string LogoEmpresa { get; set; }
         public string NombreEmpresa { get; set; }
         public string RubroEmpresa { get; set; }

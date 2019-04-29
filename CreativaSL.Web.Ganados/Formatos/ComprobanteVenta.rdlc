@@ -2878,7 +2878,13 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>Firma de conformidad</Value>
+                        <Value>Elaborado por: </Value>
+                        <Style>
+                          <FontWeight>Bold</FontWeight>
+                        </Style>
+                      </TextRun>
+                      <TextRun>
+                        <Value>=Parameters!ElaboradoPor.Value</Value>
                         <Style>
                           <FontWeight>Bold</FontWeight>
                         </Style>
@@ -5130,6 +5136,12 @@ Sum(Fields!Importe.Value)))</Value>
       <Nullable>true</Nullable>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
+    <ReportParameter Name="ElaboradoPor">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
@@ -5205,6 +5217,11 @@ Sum(Fields!Importe.Value)))</Value>
           <ColumnIndex>1</ColumnIndex>
           <RowIndex>3</RowIndex>
           <ParameterName>CostoFlete</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>2</ColumnIndex>
+          <RowIndex>3</RowIndex>
+          <ParameterName>ElaboradoPor</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

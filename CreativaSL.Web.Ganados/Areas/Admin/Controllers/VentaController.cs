@@ -2485,7 +2485,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     return RedirectToAction("Index", "Venta");
                 }
-                ReportParameter[] Parametros = new ReportParameter[14];
+                ReportParameter[] Parametros = new ReportParameter[15];
                 Parametros[0] = new ReportParameter("urlLogo", Cabecera.LogoEmpresa);
                 Parametros[1] = new ReportParameter("nombreEmpresa", Cabecera.NombreEmpresa);
                 Parametros[2] = new ReportParameter("rubroEmpresa", Cabecera.RubroEmpresa);
@@ -2500,6 +2500,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Parametros[11] = new ReportParameter("TipoVenta", Cabecera.TipoVenta.ToString());
                 Parametros[12] = new ReportParameter("TotalPorCobrarGanado", Cabecera.TotalPorCobrarGanado.ToString());
                 Parametros[13] = new ReportParameter("CostoFlete", Cabecera.CostoFlete.ToString());
+                Parametros[14] = new ReportParameter("ElaboradoPor", Cabecera.ElaboradoPor);
 
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("ListaDetalles", ListaComprobanteVentaDetalles));
