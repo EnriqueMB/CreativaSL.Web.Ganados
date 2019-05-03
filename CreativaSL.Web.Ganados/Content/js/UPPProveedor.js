@@ -26,25 +26,10 @@
             ignore: "",
             rules: {
                 UPP: { required: true },
-                nombrePredio: { required: true, texto: true, maxlength: 200 },
-                propietario: { required: true, texto: true },
-                fechaAlta: { required: true },
-                ImagenHttp: { ImagenRequerida: true, ImagenRequerida: ["ImagenServer"] },
-                id_municipio: { CMBINT: true },
-                id_estadoCodigo: { required: true },
-                id_pais: { required: true },
+                ImagenHttp: { ImagenRequerida: true, ImagenRequerida: ["ImagenServer"] }
             },
             messages: {
-                UPP: { required: "Ingrese el UPP." },
-                nombrePredio: { required: "Ingrese el UPP.", texto: "Ingrese un nombre valido.", maxlength: "El nombre del predio admite máximo 200 caracteres."},
-
-                propietario: { required: "Ingrese el nombre del propietario", texto: "Ingrese un nombre valido" },
-                fechaAlta: { required: "Ingrese la fecha de alta." },
-
-                id_municipio: { CMBINT: "Seleccione un municipio." },
-                id_estadoCodigo: { required: "Ingrese un estado válido." },
-                id_pais: { required: "Ingrese un pais válido." },
-
+                UPP: { required: "Ingrese el UPP." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

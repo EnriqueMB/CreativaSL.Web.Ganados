@@ -26,24 +26,12 @@
             rules: {
 
                 nombreContacto: { required: true, nombre:true },
-                apPaterno: { required: true, nombre: true },
-                apMaterno: { required: true, nombre: true },
-                correo: { required: true, email: true },
-                telefonoContacto: { required: true, telefono: true },
-                celularContacto: { required: true, telefono: true },
-                direccion: {required: true}
-
+                apPaterno: { required: true, nombre: true }
             },
             messages: {
 
                 nombreContacto: { required: "Ingrese un nombre de contacto",nombre:"Solo letras" },
-
-                apPaterno: { required: "Ingrese un apellido Paterno", nombre: "Solo letras" },
-                apMaterno: { required: "Ingrese un apellido materno", nombre: "Solo Letras" },
-                correo: { required: "Ingrese un correo electrónico",email: "Ingrese un correo electrónico válido." },
-                telefonoContacto: { required: "Ingrese un teléfono de casa", telefono: "Ingrese un número valido" },
-                celularContacto: { required: "Ingrese un teléfono de celular", telefono: "Ingrese un número valido" },
-                direccion: { required: "Ingrese una dirección de contacto" }
+                apPaterno: { required: "Ingrese un apellido Paterno", nombre: "Solo letras" }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

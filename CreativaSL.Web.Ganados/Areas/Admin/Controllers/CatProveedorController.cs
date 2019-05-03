@@ -1071,15 +1071,36 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     if (uPPProvedor.ImagenHttp != null)
                     {
-                        uPPProvedor.Imagen = Auxiliar.ImageToBase64(uPPProvedor.ImagenHttp);
+                        //uPPProvedor.Imagen = Auxiliar.ImageToBase64(uPPProvedor.ImagenHttp);
+
+                        Stream s = uPPProvedor.ImagenHttp.InputStream;
+
+                        if (Path.GetExtension(uPPProvedor.ImagenHttp.FileName).ToLower() == ".heic")
+                        {
+                            Image img = (Image)Auxiliar.ProcessFile(s);
+                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                            uPPProvedor.Imagen = image.ToBase64String(ImageFormat.Jpeg);
+                        }
+                        else
+                        {
+                            Image img = new Bitmap(s);
+                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                            uPPProvedor.Imagen = image.ToBase64String(img.RawFormat);
+                        }
                     }
-                    
 
                     if (ModelState.IsValid)
                     {
                         uPPProvedor.Conexion = Conexion;
                         uPPProvedor.id_proveedor = id;
                         uPPProvedor.Usuario = User.Identity.Name;
+
+                        if(uPPProvedor.id_municipio == 0)
+                            uPPProvedor.id_municipio = 102; //Reforma
+
+                        if (uPPProvedor.id_estado == 0)
+                            uPPProvedor.id_municipio = 7; //Chiapas
+                        
                         uPPProvedor = ProveedorDatos.CUPPProveedor(uPPProvedor);
                         if (uPPProvedor.Completado)
                         {

@@ -93,7 +93,7 @@ namespace CreativaSL.Web.Ganados.Models
             set { _apMaterno = value; }
         }
         private string _correo;
-        [Required(ErrorMessage = "La dirección es obligatoria")]
+        
         [Display(Name = "correo")]
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         [Correo(ErrorMessage = "Ingrese un formato válido para el correo")]
@@ -103,7 +103,7 @@ namespace CreativaSL.Web.Ganados.Models
             set { _correo = value; }
         }
         private string _telefonoContacto;
-        [Required(ErrorMessage = "La dirección es obligatoria")]
+
         [Display(Name = "Telefono")]
         [StringLength(25, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 1)]
         [Telefono(ErrorMessage = "Solo  números")]
@@ -122,7 +122,7 @@ namespace CreativaSL.Web.Ganados.Models
             set { _celularContacto = value; }
         }
         private string _direccion;
-        [Required(ErrorMessage = "La dirección es obligatoria")]
+
         [Display(Name = "direccion")]
         public string direccion
         {

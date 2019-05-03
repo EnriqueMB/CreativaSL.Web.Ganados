@@ -29,7 +29,7 @@ namespace CreativaSL.Web.Ganados.Models
             set { _UPP = value; }
         }
         private DateTime _fechaAlta;
-        [Required(ErrorMessage = "La fecha de alta es obligatoria")]
+        
         [Display(Name = "Fecha de alta")]
         public DateTime fechaAlta
         {
@@ -38,7 +38,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
        
         private string _nombrePredio;
-        [Required(ErrorMessage = "El nombre del predio es obligatorio")]
+        
         [Display(Name = "Nombre del predio")]
         public string nombrePredio
         {
@@ -46,7 +46,7 @@ namespace CreativaSL.Web.Ganados.Models
             set { _nombrePredio = value; }
         }
         private string _propietario;
-        [Required(ErrorMessage = "El Nombe del propietario es obligatorio")]
+        
         [Display(Name = "Nombre Propietario")]
         public string propietario
         {
