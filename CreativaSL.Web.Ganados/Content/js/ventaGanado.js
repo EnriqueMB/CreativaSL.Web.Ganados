@@ -162,7 +162,7 @@
             "drawCallback": function (settings) {
                 $(".kg2").maskMoney(
                     {
-                        //allowNegative: true, //aun en pruebas
+                        allowNegative: true, //aun en pruebas
                         allowZero: true,
                         suffix: ' kg',
                         precision: 0
@@ -199,15 +199,11 @@
                             var nuevoSubtotal = nuevoPeso * nuevoPrecioPorKilo;
 
                             row[6].innerHTML = "$" + Number.parseFloat(nuevoSubtotal).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-                            row[4].innerHTML = Number.parseFloat(nuevoPrecioPorKilo).toFixed(0).replace(/\d(?=(\d{3})+\.)/g, '$&,') + " kg."; 
+                            row[4].innerHTML = "$" + Number.parseFloat(nuevoPrecioPorKilo).toFixed(0).replace(/\d(?=(\d{3})+\.)/g, '$&,'); 
 
                             var total = Number.parseFloat(GetMoneySinSimbolo($("#MontoTotalGanado").val()));
-                            //console.log("total1: " + total);
                             total = total - antiguoPrecio;
-                            //console.log("total2: " + total);
                             total = total + nuevoSubtotal;
-                            //console.log("total3: " + total);
-                            //console.log("---------------------------");
 
                             $("#MontoTotalGanado").val(total.toFixed(2));
                             $(".money").maskMoney('mask');
@@ -235,8 +231,6 @@
                 var genero = cells[x + 2].innerHTML;
                 genero = genero.trim();
                 var mermaExtraUsuario = Number.parseFloat(GetKilosSinSimbolo($(cells[x + 5]).find("input").val()));
-
-                console.log("Calculo de merma extra: " + mermaExtraUsuario);
 
                 if (genero.localeCompare("MACHO") == 0) {
                     mermaGeneralMachos += mermaExtraUsuario;
@@ -335,7 +329,6 @@
 
                 var ganados = [];
 
-                //console.log(tblGanado);
                 for (var i = 0; i < tblGanado.length; i += 7) {
                     var id_ganado = $(tblGanado[i + 5]).find("input[name='me']").attr("data-id");
                     var me = Number.parseFloat(GetKilosSinSimbolo($(tblGanado[i + 5]).find("input[name='me']").val()));
@@ -417,7 +410,8 @@
                 costoTotal = costoMachos + costoHembras;
 
                 if (TipoDeVenta === 2) {
-                    montoTotalGanado += subtotal;
+                    //montoTotalGanado += subtotal;
+                    montoTotalGanado = ObtenerSubtotalXTbl(tblGanadoJaula.rows().nodes().to$().find("td")); 
                 }
 
                 ActualizarInputs();
@@ -429,7 +423,8 @@
             var rows = tblGanadoJaula.rows('.selected').data();
             for (var i = 0; i < rows.length; i++) {
                 var d = rows[i];
-                
+                console.log(d);
+
                 var arrayRow = Object.values(d);
                 var subtotal = TipoDeVenta === 1 ? d.subtotal : d.pesoInicial * d.precioKilo;
                 var pesoInicial = TipoDeVenta === 1 ? d.pesoInicial : arrayRow.length == 11 ? arrayRow[5] : arrayRow[8];
@@ -451,18 +446,18 @@
                 if (TipoDeVenta === 2) {
                     var pesoInicial2 = d.pesoInicial;
                     var mermaExtra = Number.parseFloat(d.me);
-                    console.log("Merma extra: " + mermaExtra);
                     pesoInicial2 = pesoInicial2 + mermaExtra;
 
                     var precioXKilo2 = Number.parseFloat(PrecioSugerido(pesoInicial2, d.genero.trim()));
-
                     var nuevoMontoTotalGanado = pesoInicial2 * precioXKilo2;
+
+                    console.log("mermaExtra: " + mermaExtra);
+                    console.log("pesoInicial2: " + pesoInicial2);
+                    console.log("nuevoMontoTotalGanado: " + nuevoMontoTotalGanado);
+                    console.log("-----------------------------------");
 
                     montoTotalGanado -= nuevoMontoTotalGanado;
                     subtotal = precioCompra;
-                    //console.log("------------------");
-                    //console.log(subtotal);
-                    //console.log("------------------");
 
                 }
 
@@ -506,6 +501,20 @@
             });
         });
     };
+
+    function ObtenerSubtotalXTbl(tblGanado) {
+        
+        var montoTotal = 0;
+        
+        if (tblGanado.length > 7) {
+            for (var i = 0; i < tblGanado.length; i += 7) {
+                var subtotalRow = $(tblGanado[i + 6]).html().replace('$', '$ ');
+                subtotalRow = GetMoneySinSimbolo(subtotalRow);
+                montoTotal += Number.parseFloat(subtotalRow);
+            }
+        }
+        return montoTotal;
+    }
 
     function GetKilosSinSimbolo(value) {
         var newValue = value.split(" ", 1);
@@ -590,17 +599,9 @@
             error = 1;
         }
         else {
-            if (numero >= 0) {
-                $("#txtME").addClass("has-success");
-                $("#txtME").removeClass("has-error");
-                $("#validation_summary").find("dd[for='ME']").addClass('help-block valid').text('');
-            }
-            else {
-                $("#txtME").addClass("has-error");
-                $("#txtME").removeClass("has-success");
-                $("#validation_summary").find("dd[for='ME']").addClass('help-block valid').text('-M.E. debe ser un número positivo mayor o igual a 0.');
-                error = 1;
-            }
+            $("#txtME").addClass("has-success");
+            $("#txtME").removeClass("has-error");
+            $("#validation_summary").find("dd[for='ME']").addClass('help-block valid').text('');
         }
 
         var montototal = $("#MontoTotalGanado").val();
