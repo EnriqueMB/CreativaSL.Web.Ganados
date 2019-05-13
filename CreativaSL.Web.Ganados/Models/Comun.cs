@@ -286,7 +286,7 @@ namespace CreativaSL.Web.Ganados.Models
                     <meta charset=""UTF-8"">
                     <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
                     <meta http-equiv=""X-UA-Compatible"" content=""ie=edge"">
-                    <title>Correo Ocampo</title>
+                    <title>Correo AG Chapala</title>
                 </head>
                 <!-- width: 0; 
                                     height: 0; 
@@ -346,7 +346,7 @@ namespace CreativaSL.Web.Ganados.Models
                                 <p style=""
                                 text-align: center;
                                 font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-                                "">Buen dia, envío reporte de peso. Estamos a la orden GRUPO OCAMPO.</p>
+                                "">Buen dia, envío reporte de peso. Estamos a la orden ASOCIACIÓN GANADERA CHAPALA.</p>
                                 <div class=""table""></div>
                             </div>
 

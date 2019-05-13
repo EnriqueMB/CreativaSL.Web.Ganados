@@ -1,5 +1,5 @@
 ﻿var VentaEvento = function () {
-    "use strict"
+    "use strict";
     var Id_venta = $("#Id_venta").val();
     var Id_eventoVenta = $("#Id_eventoVenta").val();
     var opcionDeduccion = $("#AplicaDeduccion").val();

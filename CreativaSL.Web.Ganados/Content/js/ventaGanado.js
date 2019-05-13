@@ -160,7 +160,13 @@
                 return a.id_ganado;
             },
             "drawCallback": function (settings) {
-                $(".kg2").maskMoney({ allowZero: true, suffix: ' kg', precision: 0 });
+                $(".kg2").maskMoney(
+                    {
+                        //allowNegative: true, //aun en pruebas
+                        allowZero: true,
+                        suffix: ' kg',
+                        precision: 0
+                    });
 
                 $('.kg2').keyup(function () {
                     var me = $(this).val().split(" ", 1).toString().replace(/,/g, "");
@@ -196,8 +202,12 @@
                             row[4].innerHTML = Number.parseFloat(nuevoPrecioPorKilo).toFixed(0).replace(/\d(?=(\d{3})+\.)/g, '$&,') + " kg."; 
 
                             var total = Number.parseFloat(GetMoneySinSimbolo($("#MontoTotalGanado").val()));
+                            //console.log("total1: " + total);
                             total = total - antiguoPrecio;
+                            //console.log("total2: " + total);
                             total = total + nuevoSubtotal;
+                            //console.log("total3: " + total);
+                            //console.log("---------------------------");
 
                             $("#MontoTotalGanado").val(total.toFixed(2));
                             $(".money").maskMoney('mask');
@@ -225,6 +235,8 @@
                 var genero = cells[x + 2].innerHTML;
                 genero = genero.trim();
                 var mermaExtraUsuario = Number.parseFloat(GetKilosSinSimbolo($(cells[x + 5]).find("input").val()));
+
+                console.log("Calculo de merma extra: " + mermaExtraUsuario);
 
                 if (genero.localeCompare("MACHO") == 0) {
                     mermaGeneralMachos += mermaExtraUsuario;
@@ -265,6 +277,7 @@
         );
         $(".kgMerma").maskMoney(
             {
+                allowNegative: true,
                 allowZero: true,
                 precision: 0,
                 suffix: ' kg'
@@ -422,9 +435,6 @@
                 var pesoInicial = TipoDeVenta === 1 ? d.pesoInicial : arrayRow.length == 11 ? arrayRow[5] : arrayRow[8];
                 var precioCompra = d.precioCompra;
 
-                //console.log(pesoInicial);
-                //console.log(arrayRow);
-
                 tblGanadoCorral.row.add({
                     "id_ganado": d.id_ganado,
                     "precioCompra": d.precioCompra,
@@ -441,6 +451,7 @@
                 if (TipoDeVenta === 2) {
                     var pesoInicial2 = d.pesoInicial;
                     var mermaExtra = Number.parseFloat(d.me);
+                    console.log("Merma extra: " + mermaExtra);
                     pesoInicial2 = pesoInicial2 + mermaExtra;
 
                     var precioXKilo2 = Number.parseFloat(PrecioSugerido(pesoInicial2, d.genero.trim()));
@@ -449,9 +460,9 @@
 
                     montoTotalGanado -= nuevoMontoTotalGanado;
                     subtotal = precioCompra;
-                    console.log("------------------");
-                    console.log(subtotal);
-                    console.log("------------------");
+                    //console.log("------------------");
+                    //console.log(subtotal);
+                    //console.log("------------------");
 
                 }
 
@@ -521,7 +532,6 @@
         }
     }
 
-
     function GetMoneySinSimbolo(value) {
         var newValue = value.split(" ", 2);
         newValue = newValue[1];
@@ -545,19 +555,18 @@
         v = v.split('').reverse().join('').replace(/^[\,]/, '');
         return v;
     }
+
     function Validar() {
         var error = 0;
         var ganado = tblGanadoJaula.rows().data();
 
         if (ganado.length == 0) {
-            //console.log("SIN GANADO");
             $("#tblGanadoJaula").addClass("errorTableCSL");
             $("#tblGanadoJaula").removeClass("okCSLGanado");
             $("#validation_summary").find("dd[for='Ganado']").addClass('help-block valid').text('-Debe de seleccionar un ganado para su venta');
             error = 1;
         }
         else {
-            //console.log("YA TIENE GANADO");
             $("#tblGanadoJaula").addClass("okCSLGanado");
             $("#tblGanadoJaula").removeClass("errorTableCSL");
             $("#validation_summary").find("dd[for='Ganado']").addClass('help-block valid').text('');
