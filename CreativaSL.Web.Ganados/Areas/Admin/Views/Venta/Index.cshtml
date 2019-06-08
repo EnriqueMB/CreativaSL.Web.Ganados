@@ -78,6 +78,7 @@
                                     <tr>
                                         <th>Folio</th>
                                         <th>Fecha</th>
+                                        <th>Hora</th>
                                         <th>Cliente</th>
                                         <th>Lugar destino</th>
                                         <th>Total ganado</th>
@@ -244,6 +245,23 @@
                             }
 
                             return fecha;
+                        }
+                    },
+                    {
+                    
+                        "data": null,
+                        "render": function (data, type, full) {
+                            var hora = full["fecha"];
+                            if (hora === null)
+                                hora = "Sin Hora";
+                            else {
+                                var dateSplit = hora.split('-');
+                                var dia = dateSplit[2];
+                                dia = dia.split('T');
+                                dia = dia[1];
+                                hora = dia + ' Horas';
+                            }
+                            return hora;
                         }
                     },
                     { "data": "nombreContacto" },

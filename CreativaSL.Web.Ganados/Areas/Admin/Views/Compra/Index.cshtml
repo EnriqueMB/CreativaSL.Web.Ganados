@@ -78,9 +78,10 @@
                                     <tr>
                                         <th rowspan="2"></th>
                                         <th rowspan="2">Folio</th>
+                                        <th colspan="2">Fecha de compra</th>
                                         <th rowspan="2">Nombre cliente</th>
                                         <th rowspan="2">Lugar</th>
-                                        <th colspan="3">Ganado pactado</th>
+                                        @*<th colspan="3">Ganado pactado</th>*@
                                         <th colspan="4">Ganado comprado</th>
                                         <th colspan="2">Transacciones</th>
                                         <th rowspan="2">Merma(%)</th>
@@ -88,9 +89,11 @@
                                         <th rowspan="2">Acción</th>
                                     </tr>
                                     <tr>
-                                        <th>Machos</th>
+                                        <th>Fecha</th>
+                                        <th>Hora</th>
+                                        @*<th>Machos</th>
                                         <th>Hembras</th>
-                                        <th>Total ganado</th>
+                                        <th>Total ganado</th>*@
                                         <th>Machos</th>
                                         <th>Hembras</th>
                                         <th>Total ganado</th>
@@ -232,7 +235,7 @@
     <script>
         function format(d) {
             var fechaProgramada;
-
+            console.log(d);
             if (d.FechaProgramada === null)
                 fechaProgramada = "Sin dato";
             else {
@@ -258,6 +261,7 @@
                 fechaTerminada = dia + '-' + mes + '-' + año;
             }
 
+
             return '<table class="table" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
                 '<tr>' +
                 '<td>Fecha programada:</td>' +
@@ -267,6 +271,22 @@
                 '<td>Fecha concluida:</td>' +
                 '<td>' + fechaTerminada + '</td>' +
                 '</tr>' +
+                /////
+                '<tr>' +
+                '<td>Ganado Pactado Macho:</td>' +
+                '<td>' + d.GanadoPactadoMachos + '</td>' +
+                '</tr>' +
+
+                '<tr>' +
+                '<td>Ganado Pactado Hembra:</td>' +
+                '<td>' + d.GanadoPactadoHembras + '</td>' +
+                '</tr>' +
+
+                '<tr>' +
+                '<td>Total Ganado Pactado:</td>' +
+                '<td>' + d.GanadoPactadoTotal + '</td>' +
+                '</tr>' +
+                ////
                 '</table>';
         }
 
@@ -292,11 +312,49 @@
                     "width": "5%"
                 },
                 { "data": "Folio" },
+                {
+                    "data": null,
+                    "render": function (data, type, full) {
+                        var fecha= full["FechaProgramada"] ;
+                        if (fecha === null)
+                            fecha = "Sin concluir";
+                        else {
+                            var dateSplit = fecha.split('-');
+                            var dia = dateSplit[2];
+                            dia = dia.split('T');
+                            dia = dia[0];
+                            var mes = dateSplit[1];
+                            var año = dateSplit[0];
+                            fecha = dia + '-' + mes + '-' + año;
+                            //console.log(dia);
+                            //console.log(dateSplit);
+                        }
+                        return fecha;
+                    }
+                },
+                {
+                    "data": null,
+                    "render": function (data, type, full) {
+                        var hora = full["FechaProgramada"];
+                        if (hora === null)
+                            hora = "Sin concluir";
+                        else {
+                            var dateSplit = hora.split('-');
+                            var dia = dateSplit[2];
+                            dia = dia.split('T');
+                            dia = dia[1];
+                            //dia = dia.split(':0');
+                            //dia = dia[0];
+                            hora = dia + ' Horas';
+                        }
+                        return hora;
+                    }
+                },
                 { "data": "NombreProveedor" },
-                { "data": "LugarDestino" },
-                { "data": "GanadoPactadoMachos" },
-                { "data": "GanadoPactadoHembras" },
-                { "data": "GanadoPactadoTotal" },
+                { "data": "LugarDestino" },                
+                //{ "data": "GanadoPactadoMachos" },
+                //{ "data": "GanadoPactadoHembras" },
+                //{ "data": "GanadoPactadoTotal" },
                 { "data": "GanadoCompradoMachos" },
                 { "data": "GanadoCompradoHembras" },
                 { "data": "GanadoCompradoTotal" },
@@ -638,8 +696,7 @@
         // Add event listener for opening and closing details
         $('#tblIndexCompra tbody').on('click', 'td.details-control', function () {
             var tr = $(this).closest('tr');
-            var row = tblIndexCompra1.row(tr);
-
+            var row = tblIndexCompra1.row(tr);           
             if (row.child.isShown()) {
                 // This row is already open - close it
                 row.child.hide();
