@@ -259,7 +259,10 @@
                                 var dia = dateSplit[2];
                                 dia = dia.split('T');
                                 dia = dia[1];
-                                hora = dia + ' Horas';
+                                var S = dia.split(':');
+                                var H = S[0];
+                                var M = S[1];
+                                hora = H +':'+ M+' Horas';                                
                             }
                             return hora;
                         }

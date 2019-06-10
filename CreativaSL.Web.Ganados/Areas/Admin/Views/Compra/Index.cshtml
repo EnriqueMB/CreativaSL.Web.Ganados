@@ -343,9 +343,10 @@
                             var dia = dateSplit[2];
                             dia = dia.split('T');
                             dia = dia[1];
-                            //dia = dia.split(':0');
-                            //dia = dia[0];
-                            hora = dia + ' Horas';
+                            var S = dia.split(':');
+                            var H = S[0];
+                            var M = S[1];
+                            hora = H +':'+ M+' Horas';
                         }
                         return hora;
                     }
