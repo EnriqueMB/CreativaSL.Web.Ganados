@@ -399,5 +399,29 @@ namespace CreativaSL.Web.Ganados.Models
                 return -1;
             }
         }
+
+        //Modificar Password
+        public void cCatCuentaUser(UsuarioModels _datos)
+        {
+            try
+            {
+                object[] valores = { _datos.id_usuario, _datos.NuevoPassword};
+
+                object aux = SqlHelper.ExecuteScalar(_datos.conexion, "[dbo].[spCSLDB_UpdatePassword]", valores);
+                _datos.id_usuario = aux.ToString();
+                if (!string.IsNullOrEmpty(_datos.id_usuario))
+                {
+                    _datos.Completado = true;
+                }
+                else
+                {
+                    _datos.Completado = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
