@@ -117,7 +117,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public UsuarioModels AbcCatUsuarios(UsuarioModels datos)
+        public UsuarioModels AbcCatUsuarios(UsuarioModels datos, bool pss)
         {
             try
             {
@@ -125,7 +125,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     datos.opcion, datos.id_usuario, datos.id_tipoUsuario, datos.nombre, datos.apPat,
                     datos.apMat, datos.fechaNac, datos.direccion, datos.codigoPostal, datos.telefono, datos.Correo,
-                    datos.url_foto, datos.cuenta, datos.Password, datos.user
+                    datos.url_foto, datos.cuenta, datos.Password, datos.user,pss
                     };
                 object aux = SqlHelper.ExecuteScalar(datos.conexion, "spCSLDB_abc_CatUsuarios", parametros);
                 datos.id_usuario = aux.ToString();
