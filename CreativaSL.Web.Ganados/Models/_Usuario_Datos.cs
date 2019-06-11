@@ -80,6 +80,7 @@ namespace CreativaSL.Web.Ganados.Models
                     //datos.url_foto = dr["url_foto"].ToString();
                     datos.cuenta = dr["clvUser"].ToString();
                     //datos.password = "dc89sd989sdd";
+                    datos.nombre = datos.nombre + ' ' + datos.apPat + ' ' + datos.apMat;
                 }
                 dr.Close();
                 return datos;

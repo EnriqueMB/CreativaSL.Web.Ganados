@@ -35,8 +35,42 @@
                         </ul>
                     </div>
                     <div class="panel-body">
+                        <div class="infoPreviewContainer">
+                            <h3>Información de Ganado</h3>
+                            <div class="infoItem">
+                                <div class="group">
+                                    <label>Machos:</label>
+                                    <input readonly value="0 Machos" type="text" name="numGanadoMacho" />
+                                </div>
+                                <div class="group">
+                                    <label>Peso:</label>
+                                    <input readonly value="0 KG." type="text" name="pesoGanadoMacho" />
+                                </div>
+                            </div>
+                            <div class="infoItem">
+                                <div class="group">
+                                    <label>Hembras:</label>
+                                    <input readonly value="0 Hembras" type="text" name="numGanadoHembras" />
+                                </div>
+                                <div class="group">
+                                    <label>Peso:</label>
+                                    <input readonly value="0 KG." type="text" name="pesoGanadoHembras" />
+                                </div>
+                            </div>
+                            <div class="infoItem">
+                                <div class="group">
+                                    <label>Total de Ganado:</label>
+                                    <input readonly value="0" type="text" name="totalGanado" />
+                                </div>
+                                <div class="group">
+                                    <label>Peso Total:</label>
+                                    <input readonly value="0 KG." type="text" name="pesoTotal" />
+                                </div>
+                            </div>
+
+                        </div>
                         <div class="table-responsive">
-                            <table id="Jtabla" class="table datatable">
+                            <table id="Jtabla" class="table">
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>
@@ -109,8 +143,15 @@
     </script>
     <script>
         $(document).ready(function () {
-            
+            var table = $('#Jtabla').DataTable();
+
             $(this).on("keyup", function () {
+               //table.search(this.value).draw();
+                var a = table.rows('.ready')
+                    .nodes()
+                    .to$();
+                console.log(a);
+                console.log(table);
                 var Hembras = 0;
                 var machos = 0;
                 var pesoMachos = 0;
@@ -124,12 +165,30 @@
                         machos++;
                         pesoMachos += parseInt($("table tbody tr:nth-of-type(" + i + ") td:nth-of-type(5)").text());
                     }
-                    else {
+                    else if (Genero.includes("HEMBRA")){
                         Hembras++;
                         PesoHembras += parseInt($("table tbody tr:nth-of-type(" + i + ") td:nth-of-type(5)").text());
                     }
                  
                 }
+
+                // Asignaciones cantidades de machos y hembras
+                $(".infoPreviewContainer .infoItem .group input[name='numGanadoMacho']").val(machos + " Machos");
+                $(".infoPreviewContainer .infoItem .group input[name='numGanadoHembras']").val(Hembras + " Hembras");
+
+                // Asignaciones pesos de machos y hembras
+                $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoMacho']").val(pesoMachos + " KG.");
+                $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoHembras']").val(PesoHembras + " KG.");
+
+                // Total de ganado y peso total
+
+                var totalGanado = machos + Hembras;
+                var totalPeso = pesoMachos + PesoHembras;
+
+                $(".infoPreviewContainer .infoItem .group input[name='totalGanado']").val(totalGanado + " de ganado");
+                $(".infoPreviewContainer .infoItem .group input[name='pesoTotal']").val(totalPeso + " KG.");
+               
+
             });
         });
     </script>
