@@ -48,9 +48,9 @@
                             }
                         </div>
                         @*<div class="profile-controls">
-                            <a href="pages-profile.html" class="profile-control-left"><span class="fa fa-info"></span></a>
-                            <a href="pages-messages.html" class="profile-control-right"><span class="fa fa-envelope"></span></a>
-                        </div>*@
+                                <a href="pages-profile.html" class="profile-control-left"><span class="fa fa-info"></span></a>
+                                <a href="pages-messages.html" class="profile-control-right"><span class="fa fa-envelope"></span></a>
+                            </div>*@
                     </div>
                 </li>
                 <li class="xn-title">Menu</li>
@@ -71,21 +71,23 @@
                 <!-- END TOGGLE NAVIGATION -->
                 <!-- SEARCH -->
                 @*<li class="xn-search">
-                    <form role="form">
-                        <input type="text" name="search" placeholder="Search..." />
-                    </form>
-                </li>*@
+                        <form role="form">
+                            <input type="text" name="search" placeholder="Search..." />
+                        </form>
+                    </li>*@
                 <!-- END SEARCH -->
                 <!-- SIGN OUT -->
                 <li class="xn-icon-button pull-right">
                     <a class="mb-control" data-box="#mb-signout"><span class="fa fa-sign-out"></span></a>
                 </li>
+
+                <li class="xn-icon-button pull-right">
+                    <a href="@Url.Action("Edit","CuentaUser")" data-box="#mb-ajuste"><span class="fa fa-user"></span></a>                 
+                </li>
                 <!-- END SIGN OUT -->
                 <!-- MESSAGES -->
-               
                 <!-- END MESSAGES -->
                 <!-- TASKS -->
-
                 <!-- END TASKS -->
             </ul>
             <ul class="breadcrumb">
@@ -94,7 +96,7 @@
             <!-- END X-NAVIGATION VERTICAL -->
             <!-- START BREADCRUMB -->
             <div class="page-content-wrap">
-            @RenderSection("featured", required: false)
+                @RenderSection("featured", required: false)
             </div>
             <!-- END PAGE CONTENT WRAPPER -->
         </div>
@@ -120,6 +122,10 @@
         </div>
         @RenderBody()
     </div>
+    @*********@
+  
+    @*********@
+
     <!-- END MESSAGE BOX-->
     <!-- START SCRIPTS -->
     <!-- START PLUGINS -->
@@ -152,7 +158,7 @@
     <script src="@Url.Content("~/Content/js/plugins/daterangepicker/bootstrap-datepicker.es.js")" charset="UTF-8"></script>
     <!-- END TEMPLATE -->
     <!-- END SCRIPTS -->
-   
+
 </body>
 </html>
 

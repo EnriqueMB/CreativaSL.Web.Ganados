@@ -10,6 +10,7 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class UsuarioModels
     {
+        public string NuevoPassword { get; set; }
         public UsuarioModels()
         {
             _id_usuario = string.Empty;
@@ -327,7 +328,6 @@ namespace CreativaSL.Web.Ganados.Models
             set { _NombreUrl = value; }
         }
 
-        
 
         //VARIABLES PARA PERMISOS POR USUARIO
         private DataTable _TablaPermisos;
