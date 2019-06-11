@@ -145,51 +145,87 @@
         $(document).ready(function () {
             var table = $('#Jtabla').DataTable();
 
-            $(this).on("keyup", function () {
-               //table.search(this.value).draw();
-                var a = table.rows('.ready')
-                    .nodes()
-                    .to$();
-                console.log(a);
-                console.log(table);
-                var Hembras = 0;
+            table.on('search.dt', function () {
+                var valueSearch = table.rows({ search: 'applied' }).data();
+                var hembras = 0;
                 var machos = 0;
                 var pesoMachos = 0;
-                var PesoHembras = 0;
-                var tablaCount = $("table tbody > *").length;
+                var pesoHembras = 0;
 
-                for (var i = 1; i <= tablaCount; i++) 
+                for (var i = 0; i < valueSearch.length; i++)
                 {
-                    var Genero = $("table tbody tr:nth-of-type(" + i + ") td:nth-of-type(4)").text();
-                    if (Genero.includes("MACHO")) {
+                    var genero = String(valueSearch[i][3]).trim();
+                    
+                    if (genero.localeCompare("MACHO") == 0){
                         machos++;
-                        pesoMachos += parseInt($("table tbody tr:nth-of-type(" + i + ") td:nth-of-type(5)").text());
+                        pesoMachos += Number.parseInt(valueSearch[i][4]);
                     }
-                    else if (Genero.includes("HEMBRA")){
-                        Hembras++;
-                        PesoHembras += parseInt($("table tbody tr:nth-of-type(" + i + ") td:nth-of-type(5)").text());
+                    else if (genero.localeCompare("HEMBRA") == 0){
+                        hembras++;
+                        pesoHembras += Number.parseInt(valueSearch[i][4]);
                     }
-                 
                 }
 
-                // Asignaciones cantidades de machos y hembras
                 $(".infoPreviewContainer .infoItem .group input[name='numGanadoMacho']").val(machos + " Machos");
-                $(".infoPreviewContainer .infoItem .group input[name='numGanadoHembras']").val(Hembras + " Hembras");
+                $(".infoPreviewContainer .infoItem .group input[name='numGanadoHembras']").val(hembras + " Hembras");
 
-                // Asignaciones pesos de machos y hembras
+                
                 $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoMacho']").val(pesoMachos + " KG.");
-                $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoHembras']").val(PesoHembras + " KG.");
+                $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoHembras']").val(pesoHembras + " KG.");
 
-                // Total de ganado y peso total
-
-                var totalGanado = machos + Hembras;
-                var totalPeso = pesoMachos + PesoHembras;
+                var totalGanado = machos + hembras;
+                var totalPeso = pesoMachos + pesoHembras;
 
                 $(".infoPreviewContainer .infoItem .group input[name='totalGanado']").val(totalGanado + " de ganado");
                 $(".infoPreviewContainer .infoItem .group input[name='pesoTotal']").val(totalPeso + " KG.");
-               
 
             });
+
+            //$(this).on("keyup", function () {
+            //   //table.search(this.value).draw();
+            //    var a = table.rows('.ready')
+            //        .nodes()
+            //        .to$();
+            //    console.log(a);
+            //    console.log(table);
+            //    var Hembras = 0;
+            //    var machos = 0;
+            //    var pesoMachos = 0;
+            //    var PesoHembras = 0;
+            //    var tablaCount = $("table tbody > *").length;
+
+            //    for (var i = 1; i <= tablaCount; i++) 
+            //    {
+            //        var Genero = $("table tbody tr:nth-of-type(" + i + ") td:nth-of-type(4)").text();
+            //        if (Genero.includes("MACHO")) {
+            //            machos++;
+            //            pesoMachos += parseInt($("table tbody tr:nth-of-type(" + i + ") td:nth-of-type(5)").text());
+            //        }
+            //        else if (Genero.includes("HEMBRA")){
+            //            Hembras++;
+            //            PesoHembras += parseInt($("table tbody tr:nth-of-type(" + i + ") td:nth-of-type(5)").text());
+            //        }
+                 
+            //    }
+
+            //    // Asignaciones cantidades de machos y hembras
+            //    $(".infoPreviewContainer .infoItem .group input[name='numGanadoMacho']").val(machos + " Machos");
+            //    $(".infoPreviewContainer .infoItem .group input[name='numGanadoHembras']").val(Hembras + " Hembras");
+
+            //    // Asignaciones pesos de machos y hembras
+            //    $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoMacho']").val(pesoMachos + " KG.");
+            //    $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoHembras']").val(PesoHembras + " KG.");
+
+            //    // Total de ganado y peso total
+
+            //    var totalGanado = machos + Hembras;
+            //    var totalPeso = pesoMachos + PesoHembras;
+
+            //    $(".infoPreviewContainer .infoItem .group input[name='totalGanado']").val(totalGanado + " de ganado");
+            //    $(".infoPreviewContainer .infoItem .group input[name='pesoTotal']").val(totalPeso + " KG.");
+               
+
+            //});
         });
     </script>
 }
