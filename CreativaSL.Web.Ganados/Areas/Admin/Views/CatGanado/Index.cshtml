@@ -36,11 +36,14 @@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table class="table datatable">
+                            <table id="Jtabla" class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th>Número de Arete</th>
+                                        <th>Fecha</th>
+                                        <th>N° de Arete</th>
+                                        <th>Proveedor</th>
                                         <th>Género</th>
+                                        <th>Peso KG</th>
                                         <th>Corral</th>
                                         <th>Observación</th>
                                         <th>Estatus</th>
@@ -51,8 +54,11 @@
                                     @foreach (var Ganado in Model.ListaGanados)
                                     {
                                         <tr id="@Ganado.IDGanado">
+                                            <td>@Ganado.FechaCompra.ToShortDateString()</td>
                                             <td>@Ganado.NumArete</td>
+                                            <td>@Ganado.Proveedor</td>
                                             <td>@Ganado.Genero</td>
+                                            <td>@Ganado.PesoGanado</td>
                                             <td>@Ganado.Corral</td>
                                             <td>@Ganado.Observacion</td>
                                             <td>@Ganado.Staus</td>
@@ -97,9 +103,35 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script>
-    jQuery(document).ready(function () {
-        Mensaje(message, typemessage);
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
         });
     </script>
-    }
+    <script>
+        $(document).ready(function () {
+            
+            $(this).on("keyup", function () {
+                var Hembras = 0;
+                var machos = 0;
+                var pesoMachos = 0;
+                var PesoHembras = 0;
+                var tablaCount = $("table tbody > *").length;
+
+                for (var i = 1; i <= tablaCount; i++) 
+                {
+                    var Genero = $("table tbody tr:nth-of-type(" + i + ") td:nth-of-type(4)").text();
+                    if (Genero.includes("MACHO")) {
+                        machos++;
+                        pesoMachos += parseInt($("table tbody tr:nth-of-type(" + i + ") td:nth-of-type(5)").text());
+                    }
+                    else {
+                        Hembras++;
+                        PesoHembras += parseInt($("table tbody tr:nth-of-type(" + i + ") td:nth-of-type(5)").text());
+                    }
+                 
+                }
+            });
+        });
+    </script>
+}
 

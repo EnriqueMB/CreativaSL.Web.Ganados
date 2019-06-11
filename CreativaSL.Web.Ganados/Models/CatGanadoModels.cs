@@ -22,6 +22,7 @@ namespace CreativaSL.Web.Ganados.Models
             _Observacion = string.Empty;
             _Status = string.Empty;
             _ListaGanados = new List<CatGanadoModels>();
+            _PesoGanado = 0;
         }
 
         private List<CatTipoEventoEnvioModels> _ListaEventoEnvio;
@@ -117,6 +118,31 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _ListaGanados; }
             set { _ListaGanados = value; }
         }
+
+        private int _PesoGanado;
+
+        public int PesoGanado
+        {
+            get { return _PesoGanado; }
+            set { _PesoGanado = value; }
+        }
+
+        private DateTime _FechaCompra;
+
+        public DateTime FechaCompra
+        {
+            get { return _FechaCompra; }
+            set { _FechaCompra = value; }
+        }
+
+        private string _Proveedor;
+
+        public string Proveedor
+        {
+            get { return _Proveedor; }
+            set { _Proveedor = value; }
+        }
+
 
         #region Datos De Control
         public string Conexion { get; set; }
