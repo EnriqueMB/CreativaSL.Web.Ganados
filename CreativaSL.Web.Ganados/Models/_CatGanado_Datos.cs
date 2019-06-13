@@ -120,5 +120,21 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public string DatatableGanadoActual(CatGanadoModels venta)
+        {
+            try
+            {
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(venta.Conexion, "[dbo].[spCSLDB_Transferancia_get_DatatableGanadoActual]");
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

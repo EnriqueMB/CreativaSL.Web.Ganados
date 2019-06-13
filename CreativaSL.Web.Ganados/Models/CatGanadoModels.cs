@@ -23,6 +23,8 @@ namespace CreativaSL.Web.Ganados.Models
             _Status = string.Empty;
             _ListaGanados = new List<CatGanadoModels>();
             _PesoGanado = 0;
+            _listaSucursal = new List<CatSucursalesModels>();
+            _ListaCorral = new List<CatCorralModels>();
         }
 
         private List<CatTipoEventoEnvioModels> _ListaEventoEnvio;
@@ -142,7 +144,22 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _Proveedor; }
             set { _Proveedor = value; }
         }
+        private List<CatSucursalesModels> _listaSucursal;
+        public List<CatSucursalesModels> listaSucursal
+        {
+            get { return _listaSucursal; }
+            set { _listaSucursal = value; }
+        }
 
+        private List<CatCorralModels> _ListaCorral;
+
+        public List<CatCorralModels> ListaCorral
+        {
+            get { return _ListaCorral; }
+            set { _ListaCorral = value; }
+        }
+
+        public RespuestaAjax RespuestaAjax { get; set; }
 
         #region Datos De Control
         public string Conexion { get; set; }

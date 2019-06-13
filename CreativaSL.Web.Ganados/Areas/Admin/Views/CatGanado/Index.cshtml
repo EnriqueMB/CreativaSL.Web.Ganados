@@ -29,7 +29,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            @*<li><a href="@Url.Action("Create","CatCliente")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Cliente</a></li>*@
+                            <li><a href="@Url.Action("Transferir","CatGanado")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Transferir Ganado</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                         </ul>
@@ -180,52 +180,6 @@
                 $(".infoPreviewContainer .infoItem .group input[name='pesoTotal']").val(totalPeso + " KG.");
 
             });
-
-            //$(this).on("keyup", function () {
-            //   //table.search(this.value).draw();
-            //    var a = table.rows('.ready')
-            //        .nodes()
-            //        .to$();
-            //    console.log(a);
-            //    console.log(table);
-            //    var Hembras = 0;
-            //    var machos = 0;
-            //    var pesoMachos = 0;
-            //    var PesoHembras = 0;
-            //    var tablaCount = $("table tbody > *").length;
-
-            //    for (var i = 1; i <= tablaCount; i++) 
-            //    {
-            //        var Genero = $("table tbody tr:nth-of-type(" + i + ") td:nth-of-type(4)").text();
-            //        if (Genero.includes("MACHO")) {
-            //            machos++;
-            //            pesoMachos += parseInt($("table tbody tr:nth-of-type(" + i + ") td:nth-of-type(5)").text());
-            //        }
-            //        else if (Genero.includes("HEMBRA")){
-            //            Hembras++;
-            //            PesoHembras += parseInt($("table tbody tr:nth-of-type(" + i + ") td:nth-of-type(5)").text());
-            //        }
-                 
-            //    }
-
-            //    // Asignaciones cantidades de machos y hembras
-            //    $(".infoPreviewContainer .infoItem .group input[name='numGanadoMacho']").val(machos + " Machos");
-            //    $(".infoPreviewContainer .infoItem .group input[name='numGanadoHembras']").val(Hembras + " Hembras");
-
-            //    // Asignaciones pesos de machos y hembras
-            //    $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoMacho']").val(pesoMachos + " KG.");
-            //    $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoHembras']").val(PesoHembras + " KG.");
-
-            //    // Total de ganado y peso total
-
-            //    var totalGanado = machos + Hembras;
-            //    var totalPeso = pesoMachos + PesoHembras;
-
-            //    $(".infoPreviewContainer .infoItem .group input[name='totalGanado']").val(totalGanado + " de ganado");
-            //    $(".infoPreviewContainer .infoItem .group input[name='pesoTotal']").val(totalPeso + " KG.");
-               
-
-            //});
         });
     </script>
 }
