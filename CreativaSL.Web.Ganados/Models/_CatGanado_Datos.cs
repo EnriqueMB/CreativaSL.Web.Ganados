@@ -26,6 +26,9 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Corral = !dr.IsDBNull(dr.GetOrdinal("Corral")) ? dr.GetString(dr.GetOrdinal("Corral")) : string.Empty; 
                     Item.Observacion = !dr.IsDBNull(dr.GetOrdinal("Observacion")) ? dr.GetString(dr.GetOrdinal("Observacion")) : string.Empty; 
                     Item.Staus = !dr.IsDBNull(dr.GetOrdinal("Estatus")) ? dr.GetString(dr.GetOrdinal("Estatus")) : string.Empty;
+                    Item.PesoGanado = !dr.IsDBNull(dr.GetOrdinal("Peso")) ? dr.GetInt32(dr.GetOrdinal("Peso")) : 0;
+                    Item.FechaCompra = !dr.IsDBNull(dr.GetOrdinal("Fecha")) ? dr.GetDateTime(dr.GetOrdinal("Fecha")) : DateTime.Today;
+                    Item.Proveedor = !dr.IsDBNull(dr.GetOrdinal("Proveedor")) ? dr.GetString(dr.GetOrdinal("Proveedor")) : string.Empty;
                     Lista.Add(Item);
                 }
                 dr.Close();
@@ -114,6 +117,22 @@ namespace CreativaSL.Web.Ganados.Models
             catch (Exception ex)
             {
 
+                throw ex;
+            }
+        }
+
+        public string DatatableGanadoActual(CatGanadoModels venta)
+        {
+            try
+            {
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(venta.Conexion, "[dbo].[spCSLDB_Transferancia_get_DatatableGanadoActual]");
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
         }

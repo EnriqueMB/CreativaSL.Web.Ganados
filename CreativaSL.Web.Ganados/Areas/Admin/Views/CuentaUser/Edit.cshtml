@@ -1,0 +1,164 @@
+﻿@model CreativaSL.Web.Ganados.Models.UsuarioModels
+@{
+    /**/
+
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section featured{
+
+    @{
+        /**/
+
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">            
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("Edit", "CuentaUser", FormMethod.Post, new { id = "form-productos", @class = "form-horizontal", autocomplete = "off" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                <div id="validation_summary" class="field_error "></div> //JS
+
+                @*@Html.HiddenFor(model => model.id_usuario)*@
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Información</strong> del Usuario</h3>                          
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Nombre</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>                                                
+                                            @Html.TextBoxFor(model => model.nombre, new { id = "nombre", @class = "form-control", @readonly = "readonly" })
+                                        </div>                                            
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Teléfono</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>                                                
+                                            @Html.TextBoxFor(model => model.telefono, new { id = "telefono", @class = "form-control", @readonly = "readonly" })
+                                        </div>                                            
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Correo</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Correo, new { id = "correo", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Dirección</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.direccion, new { id = "direccion", @class = "form-control", @readonly = "readonly" })
+                                        </div>                                            
+                                    </div>
+                                </div>                                    
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Usuario</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.cuenta, new { id = "cuenta", @class = "form-control", @readonly = "readonly" })
+                                        </div>                                            
+                                    </div>
+                                </div>                          
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Nueva Contraseña</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-unlock-alt"></span></span>                                                
+                                            @Html.PasswordFor(model => model.NuevoPassword, new { id = "oldPass", @class = "form-control", @required = "required" })
+                                            @Html.ValidationMessageFor(model => model.NuevoPassword)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Confirmar Nueva Contraseña</label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-unlock-alt"></span></span>
+                                            @Html.PasswordFor(model => model.NuevoPassword, new { id = "newPass", @class = "form-control", @required = "required" })
+                                            @Html.ValidationMessageFor(model => model.NuevoPassword)
+                                        </div>
+                                        <p class="errorPass" style="color: #e44e44; display: none;">Las contraseñas deben ser iguales</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar" class="btn btn-primary pull-right submitButton">
+                        <a href="@Url.Action("Index", "HomeAdmin")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                    </div>
+                </div>                   
+            }
+        </div>
+    </div>
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/Productos.js")"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            $('#Licencia').change(function () {
+                $('#licencia-cont').toggle(1000);
+            });
+            Mensaje(message, typemessage);
+            Productos.init();
+        });
+
+        //Bloquear botón submit
+        // Validar contraseñas iguales
+        $("#newPass").on("keyup", function () {
+            var newPass = $(this).val();
+            var oldPass = $("#oldPass").val();
+            if (newPass != oldPass) {
+                $(this).parent().parent().parent().addClass('has-error');
+                $("#oldPass").parent().parent().parent().addClass('has-error');
+                $(".errorPass").css("display", "block");
+                //$(".submitButton").prop("disabled", "true");        
+            }
+            else {
+                $(this).parent().parent().parent().removeClass('has-error');
+                $("#oldPass").parent().parent().parent().removeClass('has-error');
+                $(this).parent().parent().parent().addClass('has-success');
+                $(".errorPass").css("display", "none");
+                //$(".submitButton").prop("disabled", "false");
+            }
+        });
+    </script>
+}

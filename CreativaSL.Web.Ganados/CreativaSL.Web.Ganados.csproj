@@ -482,6 +482,7 @@
     <Content Include="Content\js\catDocumentos.js" />
     <Content Include="Content\js\catFierro.js" />
     <Content Include="Content\js\CatFierroSubir.js" />
+    <Content Include="Content\js\TransferirGanado.js" />
     <Content Include="Content\js\Clasificacion.js" />
     <Content Include="Content\js\ClasificacionIndex.js" />
     <Content Include="Content\js\Cobro.js" />
@@ -1538,6 +1539,8 @@
     <Content Include="Areas\Admin\Views\CatClasificacion\Subcategorias.cshtml" />
     <Content Include="Areas\Admin\Views\CatClasificacion\CreateSub.cshtml" />
     <Content Include="Areas\Admin\Views\CatClasificacion\EditSub.cshtml" />
+    <Content Include="Areas\Admin\Views\CuentaUser\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatGanado\Transferir.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1578,6 +1581,7 @@
     <Compile Include="Areas\Admin\Controllers\CatProveedorTransporteController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatRangoPesoVentaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatTipoClienteController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CuentaUserController.cs" />
     <Compile Include="Areas\Admin\Controllers\ErrorController.cs" />
     <Compile Include="Areas\Admin\Controllers\HistorialCajaChicaController.cs" />
     <Compile Include="Areas\Admin\Controllers\MiCajaChicaController.cs" />
@@ -1754,6 +1758,7 @@
     <Compile Include="Models\CuentaBancariaModels.cs" />
     <Compile Include="Models\CuentaBancariaProveedorModels.cs" />
     <Compile Include="Models\CuentaBancariasProveedorAlmacenModels.cs" />
+    <Compile Include="Models\CuentaUserModels.cs" />
     <Compile Include="Models\DataTableParameters.cs" />
     <Compile Include="Models\DataTableResultSet.cs" />
     <Compile Include="Models\DatosGeneralesGanados.cs" />

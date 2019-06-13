@@ -85,7 +85,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         usuario.conexion = Conexion;
                         usuario.opcion = 1;
                         usuario.user = User.Identity.Name;
-                        usuario = UsuarioDatos.AbcCatUsuarios(usuario);
+                        usuario = UsuarioDatos.AbcCatUsuarios(usuario,false);
                         if (usuario.Completado == true)
                         {
                             TempData["typemessage"] = "1";
@@ -136,6 +136,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 usuario.id_usuario = id;
                 usuario.tablaTipoUsuariosCmb = UsuarioDatos.ObtenerComboTipoUsuario(usuario);
                 usuario = UsuarioDatos.ObtenerDetalleUsuarioxID(usuario);
+
+                usuario.Password = "qwerty321";
+                usuario.passUser = "qwerty321";
+
                 return View(usuario);
             }
             catch (Exception)
@@ -166,10 +170,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     ModelState.Remove("password");
                     if (ModelState.IsValid)
                     {
+                        bool var = false;
+                        if (usuario.Password != "qwerty321")
+                            var = true;
+                        else
+                            var = false;
+                        
+
                         usuario.conexion = Conexion;
                         usuario.opcion = 2;
                         usuario.user = User.Identity.Name;
-                        usuario = UsuarioDatos.AbcCatUsuarios(usuario);
+                        usuario = UsuarioDatos.AbcCatUsuarios(usuario, var);
                         if (usuario.Completado == true)
                         {
                             TempData["typemessage"] = "1";
