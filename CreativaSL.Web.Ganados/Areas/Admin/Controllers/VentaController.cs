@@ -2571,6 +2571,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 VentaCorreo.IdVenta = Id_1;
                 VentaCorreo = VentaDatos.GetVentaEnvioCorreo(VentaCorreo);
                 VentaCorreo = VentaDatos.ObtenerComboCorreoClientesContacto(VentaCorreo);
+
                
                 return View(VentaCorreo);
             }
@@ -2604,7 +2605,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                    , Venta.Correo
                    , Venta.Asunto
                    , Comun.GenerarHtmlCorreoJaula(Venta.FechaEmbarque, Venta.ProveedorVenta, Venta.NombreChofer, Venta.ChoferAuxiliar, Venta.CabezaHembras, pesoHembra, Venta.CabezaMachos,
-                                                  PesoMacho, TotalGeneral, Venta.LugarDestino, Venta.TelefonoMovil, Venta.Modelo, Venta.Color, Venta.Placas, Venta.GPS, Venta.PlacasJaulas, Venta.ColorJaula, Venta.Marca, Venta.HoraSalida)
+                                                  PesoMacho, TotalGeneral, Venta.TotalCabezas, Venta.LugarDestino, Venta.TelefonoMovil, Venta.Modelo, Venta.Color, Venta.Placas, Venta.GPS, Venta.PlacasJaulas, Venta.ColorJaula, Venta.Marca, Venta.HoraSalida)
                    , false
                    , ""
                    , Configuracion.HtmlTxt

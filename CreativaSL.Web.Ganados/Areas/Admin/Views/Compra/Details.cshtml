@@ -48,6 +48,8 @@
                                 @Html.HiddenFor(model => model.IDCompra)
                                 @Html.HiddenFor(model => model.DocumentoPorPagar.IDDocumentoPagar)
                                 <ul class="panel-controls">
+                                    <li><a id="btnGenerarComprobantePago"   class="btn btn-default btnCrear"><span class="fa fa-plus"></span>Generar comprobante de compra</a></li>
+                                    @*<li><a href="@Url.Action("ComprobanteCompra","Compra", new {Id_1 = Model.IDCompra })" class="btn btn-default btnCrear"><span class="fa fa-plus"></span>Generar comprobante de compra</a></li>*@                                   
                                     <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                                     <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                                 </ul>
@@ -1212,7 +1214,13 @@
                     }
                 ]
             });
-
+            $("#btnGenerarComprobantePago").on("click", function () {
+                window.open
+                    (
+                    '/Admin/Compra/ComprobanteCompra?Id_1=' + IDCompra,
+                    '_blank'
+                    );
+            });
 
             Mensaje(message, typemessage);
         });

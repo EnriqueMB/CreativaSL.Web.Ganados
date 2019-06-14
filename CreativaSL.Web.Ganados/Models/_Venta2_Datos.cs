@@ -2504,6 +2504,7 @@ namespace CreativaSL.Web.Ganados.Models
                 Venta.PesoHembra = !dr.IsDBNull(dr.GetOrdinal("PesosHembras")) ? dr.GetDecimal(dr.GetOrdinal("PesosHembras")) : 0;
                 Venta.CabezaMachos = !dr.IsDBNull(dr.GetOrdinal("CabezasMacho")) ? dr.GetInt32(dr.GetOrdinal("CabezasMacho")) : 0;
                 Venta.PesoMachos = !dr.IsDBNull(dr.GetOrdinal("PesosMachos")) ? dr.GetDecimal(dr.GetOrdinal("PesosMachos")) : 0;
+                Venta.TotalCabezas = Venta.CabezaHembras + Venta.CabezaMachos;
                 Venta.TotalGeneral = !dr.IsDBNull(dr.GetOrdinal("TotalGeneral")) ? dr.GetDecimal(dr.GetOrdinal("TotalGeneral")) : 0;
                 Venta.LugarDestino = !dr.IsDBNull(dr.GetOrdinal("lugarDestino")) ? dr.GetString(dr.GetOrdinal("lugarDestino")) : string.Empty;
                 Venta.NombreChofer = !dr.IsDBNull(dr.GetOrdinal("NombreChofer")) ? dr.GetString(dr.GetOrdinal("NombreChofer")) : string.Empty;
@@ -2517,6 +2518,7 @@ namespace CreativaSL.Web.Ganados.Models
                 Venta.Marca = !dr.IsDBNull(dr.GetOrdinal("Marca")) ? dr.GetString(dr.GetOrdinal("Marca")) : string.Empty;
                 Venta.ChoferAuxiliar = !dr.IsDBNull(dr.GetOrdinal("ChoferAuxiliar")) ? dr.GetString(dr.GetOrdinal("ChoferAuxiliar")) : string.Empty;
             }
+            
             dr.Close();
             return Venta;
         }
