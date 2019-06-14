@@ -278,5 +278,78 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
+        // GET: Admin/CajaChica/Movimientos/EntradaCajaChica/1
+        [HttpGet]
+        public ActionResult EntradaCajaChica(Int64 id)
+        {
+            try
+            {
+                Token.SaveToken();
+                CajaChicaModels cajaChica = new CajaChicaModels();
+                ViewBag.IdCaja = id;
+                cajaChica.IdCaja = id;
+                return View(cajaChica);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        // POST: Admin/CajaChica/Movimientos/EntradaCajaChica/1
+        [HttpPost]
+        public ActionResult EntradaCajaChica(CajaChicaModels model)
+        {
+            _CajaChica_Datos datos = new _CajaChica_Datos();
+            try
+            {
+                if (Token.IsTokenValid())
+                {
+                    ModelState.Remove("IdPropietario");
+                    if (ModelState.IsValid)
+                    {
+                        int Resultado = datos.GuardarMovimientoEntrada(model, User.Identity.Name);
+                        if (Resultado == 1)
+                        {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Datos guardados correctamente.";
+                            Token.ResetToken();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            string mensajeError = string.Empty;
+                            switch (Resultado)
+                            {
+                                case -1:
+                                    mensajeError = "Contraseña incorrecta.";
+                                    break;
+                                default:
+                                    mensajeError = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                                    break;
+                            }
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = mensajeError;
+                            return View(model);
+                        }
+                    }
+                    else
+                    {
+                        return View(model);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Error al procesar los datos";
+                return View(model);
+            }
+        }
     }
 }

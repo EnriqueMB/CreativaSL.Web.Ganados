@@ -470,6 +470,7 @@
     <Content Include="Content\js\AgregarArchivo.js" />
     <Content Include="Content\js\AgregarArchivoEmpleado.js" />
     <Content Include="Content\js\Bancos.js" />
+    <Content Include="Content\js\EntradaCajaChica.js" />
     <Content Include="Content\js\CajaChica.js" />
     <Content Include="Content\js\CajaChicaArqueo.js" />
     <Content Include="Content\js\CajaChicaDetalle.js" />
@@ -1541,6 +1542,7 @@
     <Content Include="Areas\Admin\Views\CatClasificacion\EditSub.cshtml" />
     <Content Include="Areas\Admin\Views\CuentaUser\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatGanado\Transferir.cshtml" />
+    <Content Include="Areas\Admin\Views\CajaChica\EntradaCajaChica.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
