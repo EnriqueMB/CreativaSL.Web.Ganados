@@ -48,6 +48,7 @@
                                 @Html.HiddenFor(model => model.Id_venta)
                                 @Html.HiddenFor(model => model.Id_documentoPorCobrar)
                                 <ul class="panel-controls">
+                                    <li><a id="btnGenerarComprobanteVenta" class="btn btn-default btnCrear"><span class="fa fa-plus"></span>Generar comprobante de venta</a></li>
                                     <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                                     <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                                 </ul>
@@ -1032,7 +1033,13 @@
                     });
                 }
             });
-
+            $("#btnGenerarComprobanteVenta").on("click", function () {
+                window.open
+                    (
+                    '/Admin/Venta/ComprobanteVenta?id=' + Id_venta,
+                    '_blank'
+                    );
+            });
             Mensaje(message, typemessage);
         });
     </script>

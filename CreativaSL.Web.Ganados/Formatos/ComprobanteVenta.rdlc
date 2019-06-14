@@ -1759,7 +1759,7 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
             <Top>3.45278cm</Top>
             <Left>0.3175cm</Left>
             <Height>0.6cm</Height>
-            <Width>1.69908cm</Width>
+            <Width>1.84019cm</Width>
             <ZIndex>6</ZIndex>
             <Style>
               <Border>
@@ -1791,7 +1791,7 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
             <Top>4.19389cm</Top>
             <Left>0.3175cm</Left>
             <Height>0.6cm</Height>
-            <Width>1.69908cm</Width>
+            <Width>1.84019cm</Width>
             <ZIndex>7</ZIndex>
             <Style>
               <Border>
@@ -1819,9 +1819,9 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
             </Paragraphs>
             <rd:DefaultName>Textbox50</rd:DefaultName>
             <Top>3.45278cm</Top>
-            <Left>2.19297cm</Left>
+            <Left>2.45556cm</Left>
             <Height>0.6cm</Height>
-            <Width>10.48581cm</Width>
+            <Width>10.22322cm</Width>
             <ZIndex>8</ZIndex>
             <Style>
               <Border>
@@ -1849,9 +1849,9 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
             </Paragraphs>
             <rd:DefaultName>Textbox50</rd:DefaultName>
             <Top>4.22917cm</Top>
-            <Left>2.19297cm</Left>
+            <Left>2.45556cm</Left>
             <Height>0.6cm</Height>
-            <Width>10.4605cm</Width>
+            <Width>10.19791cm</Width>
             <ZIndex>9</ZIndex>
             <Style>
               <Border>
@@ -3037,7 +3037,7 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
             <Top>5.00556cm</Top>
             <Left>0.3175cm</Left>
             <Height>0.6cm</Height>
-            <Width>1.69908cm</Width>
+            <Width>1.84019cm</Width>
             <ZIndex>24</ZIndex>
             <Style>
               <Border>
@@ -3065,9 +3065,9 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
             </Paragraphs>
             <rd:DefaultName>Textbox5</rd:DefaultName>
             <Top>5.00556cm</Top>
-            <Left>2.19297cm</Left>
+            <Left>2.45556cm</Left>
             <Height>0.6cm</Height>
-            <Width>10.4605cm</Width>
+            <Width>10.19791cm</Width>
             <ZIndex>25</ZIndex>
             <Style>
               <Border>
@@ -3086,7 +3086,13 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Folio:</Value>
+                    <Value>N°Compra</Value>
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>:</Value>
                     <Style />
                   </TextRun>
                 </TextRuns>
@@ -3099,7 +3105,7 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
             <Top>5.78195cm</Top>
             <Left>0.3175cm</Left>
             <Height>0.6cm</Height>
-            <Width>1.69908cm</Width>
+            <Width>1.84019cm</Width>
             <ZIndex>26</ZIndex>
             <Style>
               <Border>
@@ -3127,9 +3133,9 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
             </Paragraphs>
             <rd:DefaultName>Textbox7</rd:DefaultName>
             <Top>5.78195cm</Top>
-            <Left>2.19297cm</Left>
+            <Left>2.45556cm</Left>
             <Height>0.6cm</Height>
-            <Width>10.4605cm</Width>
+            <Width>10.19791cm</Width>
             <ZIndex>27</ZIndex>
             <Style>
               <Border>
@@ -3163,7 +3169,7 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
             <Top>6.52306cm</Top>
             <Left>0.3175cm</Left>
             <Height>0.6cm</Height>
-            <Width>1.69908cm</Width>
+            <Width>1.84019cm</Width>
             <ZIndex>28</ZIndex>
             <Style>
               <Border>
@@ -3191,9 +3197,9 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
             </Paragraphs>
             <rd:DefaultName>Textbox10</rd:DefaultName>
             <Top>6.55833cm</Top>
-            <Left>2.19297cm</Left>
+            <Left>2.45556cm</Left>
             <Height>0.6cm</Height>
-            <Width>10.48581cm</Width>
+            <Width>10.22322cm</Width>
             <ZIndex>29</ZIndex>
             <Style>
               <Border>
@@ -3225,7 +3231,7 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
             <Top>7.33472cm</Top>
             <Left>0.3175cm</Left>
             <Height>0.6cm</Height>
-            <Width>1.69908cm</Width>
+            <Width>1.84019cm</Width>
             <ZIndex>30</ZIndex>
             <Style>
               <Border>
@@ -3253,9 +3259,9 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
             </Paragraphs>
             <rd:DefaultName>Textbox12</rd:DefaultName>
             <Top>7.33472cm</Top>
-            <Left>2.19297cm</Left>
+            <Left>2.45556cm</Left>
             <Height>0.6cm</Height>
-            <Width>10.48581cm</Width>
+            <Width>10.22322cm</Width>
             <ZIndex>31</ZIndex>
             <Style>
               <Border>
@@ -5002,7 +5008,7 @@ Sum(Fields!Importe.Value)))</Value>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>0.28206cm</Top>
+              <Top>0.28205cm</Top>
               <Left>7.4018cm</Left>
               <Height>0.6cm</Height>
               <Width>5.25167cm</Width>

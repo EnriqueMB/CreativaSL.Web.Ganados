@@ -4661,7 +4661,7 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Fecha</Value>
+                    <Value>Fecha:</Value>
                     <Style />
                   </TextRun>
                 </TextRuns>
@@ -4723,7 +4723,7 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>N° Compra</Value>
+                    <Value>N° Compra:</Value>
                     <Style>
                       <FontSize>9pt</FontSize>
                     </Style>
