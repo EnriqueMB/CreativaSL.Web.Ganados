@@ -275,8 +275,9 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         public static string GenerarHtmlCorreoJaula(DateTime Fecha, string Proveedor, string NombreChofer, string ChoferAux, int CabezaHembras, int PesosHembras, int CabezaMachos, int PesosMachos,
-                                              int PesoGeneral, string LugarDestino, string TelefonoMovil, string Modelo, string Color, string Placa, string GPS, string PlajasJaula, string ColorJaula, string Marca, string HoraSalida)
+                                              int PesoGeneral, int TotalCabezas, string LugarDestino, string TelefonoMovil, string Modelo, string Color, string Placa, string GPS, string PlajasJaula, string ColorJaula, string Marca, string HoraSalida)
         {
+            //int TotalCabezas = CabezaHembras + CabezaMachos;
             int año = DateTime.Now.Year;
             string html = @"
                 <!DOCTYPE html>
@@ -465,6 +466,16 @@ namespace CreativaSL.Web.Ganados.Models
                                         "">
                                             <td>Peso Total (KG)</td>
                                             <td>" + PesoGeneral + @" (KG)</td>
+                                        </tr>
+                                        <tr style=""
+                                        border-bottom: 1px solid #c8c8c8;
+                                        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                                        height: 50px;
+                                        text-align: center;
+                                        background-color: #d8d8d8;
+                                        "">
+                                            <td>Total Cabezas</td>
+                                            <td>" + TotalCabezas + @"</td>
                                         </tr>
                                         <tr style=""
                                         border-bottom: 1px solid #c8c8c8;

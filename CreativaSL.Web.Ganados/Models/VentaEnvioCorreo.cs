@@ -35,6 +35,7 @@ namespace CreativaSL.Web.Ganados.Models
         public int CabezaMachos { get; set; }
         public decimal PesoMachos { get; set; }
         public decimal TotalGeneral { get; set; }
+        public int TotalCabezas { get; set; }
         public string LugarDestino { get; set; }
         public string NombreChofer { get; set; }
         public string TelefonoMovil { get; set; }
