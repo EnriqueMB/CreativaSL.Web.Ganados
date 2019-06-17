@@ -213,5 +213,31 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public EntregaCombustibleModels MostrarTickets(EntregaCombustibleModels datos)
+        {
+            try
+            {
+                object[] parametros = { datos.IDEntregaCombustible };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "Mostrar_Ticket_EntregaCombustible", parametros);
+                while (dr.Read())
+                {
+
+                    datos.UrlImagen64Tickets = dr.IsDBNull(dr.GetOrdinal("imgTicket")) ?
+                         Auxiliar.SetDefaultImage(): string.IsNullOrEmpty(dr.GetString(dr.GetOrdinal("imgTicket"))) ?
+                        Auxiliar.SetDefaultImage() : dr.GetString(dr.GetOrdinal("imgTicket"));
+                    
+                    break;
+                }
+                dr.Close();
+                return datos;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

@@ -118,7 +118,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data">
-      <HintPath>..\..\..\..\..\..\DLL\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+      <HintPath>..\..\..\..\Downloads\CID\Microsoft.ApplicationBlocks.Data.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
@@ -1538,6 +1538,7 @@
     <Content Include="Areas\Admin\Views\CatClasificacion\Subcategorias.cshtml" />
     <Content Include="Areas\Admin\Views\CatClasificacion\CreateSub.cshtml" />
     <Content Include="Areas\Admin\Views\CatClasificacion\EditSub.cshtml" />
+    <Content Include="Areas\Admin\Views\EntregaCombustible\ModalTicket.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
