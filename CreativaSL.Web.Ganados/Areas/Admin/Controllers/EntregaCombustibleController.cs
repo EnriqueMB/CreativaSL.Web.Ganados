@@ -31,7 +31,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Entregas.BandIDSucursal = Convert.ToBoolean("false");
                 Entregas.BandIDVehiuculo = Convert.ToBoolean("false");
                 Entregas.Conexion = Conexion;
-               Entregas.listaEntregaCombustible = Datos.ObtenerEntregasCombustible(Entregas);
+                Entregas.listaEntregaCombustible = Datos.ObtenerEntregasCombustible(Entregas);
                 return View(Entregas);
             }
             catch (Exception)
@@ -523,6 +523,24 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 ex.Message.ToString();
                 return Json("", JsonRequestBehavior.AllowGet);
             }
+        }
+        public ActionResult ModalTicket(string ID)
+        {
+
+            EntregaCombustibleModels Entrega = new EntregaCombustibleModels();
+            _EntregaCombustible_Datos Datos = new _EntregaCombustible_Datos();
+            Entrega.Conexion = Conexion;
+            Entrega.IDEntregaCombustible = ID;
+            Datos.MostrarTickets(Entrega);
+
+            //Compra = new CompraModels();
+            //CompraDatos = new _Compra_Datos();
+            //Compra.Proveedor.IDTipoProveedor = IDTipoProveedor;
+            //Compra.Conexion = Conexion;
+            //Compra.ListaRangoPeso = CompraDatos.GetListadoPrecioRangoPeso(Compra);
+
+            //return PartialView("ModalListadoPrecios", Compra);
+            return PartialView("ModalTicket", Entrega);
         }
 
     }

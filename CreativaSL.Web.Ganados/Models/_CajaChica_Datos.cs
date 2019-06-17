@@ -313,8 +313,16 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                object[] Parametros = { model.IdCaja, model.IdCategoria, model.Concepto, model.Salida,
-                                        model.IdFormaPago, model.Recibe, model.FolioCheque, IdUsuario };
+                object[] Parametros = { model.IdCaja,
+                                        model.IdCategoria,
+                                        model.Concepto,
+                                        model.Salida,
+                                        model.IdFormaPago,
+                                        model.Recibe,
+                                        model.FolioCheque,
+                                        model.Alias ?? string.Empty,
+                                        model.FotoCheque,
+                                        IdUsuario };
                 object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion, "cajachica.spCIDDB_GuardarMovimiento", Parametros);
                 if (Result != null)
                 {
@@ -334,8 +342,17 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                object[] Parametros = { model.IdMovimiento, model.IdCategoria, model.Concepto, model.Salida,
-                                        model.IdFormaPago, model.Recibe, model.FolioCheque, IdUsuario };
+                object[] Parametros = { model.IdMovimiento,
+                                        model.IdCategoria,
+                                        model.Concepto,
+                                        model.Salida,
+                                        model.IdFormaPago,
+                                        model.Recibe,
+                                        model.FolioCheque,
+                                        model.Alias ?? string.Empty,
+                                        model.FotoCheque,
+                                        model.Estatus,
+                                        IdUsuario };
                 object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion, "cajachica.spCIDDB_ModificarMovimiento", Parametros);
                 if (Result != null)
                 {
@@ -366,6 +383,9 @@ namespace CreativaSL.Web.Ganados.Models
                     model.IdFormaPago = !Dr.IsDBNull(Dr.GetOrdinal("IdFormaPago")) ? Dr.GetInt32(Dr.GetOrdinal("IdFormaPago")) : 0;
                     model.Recibe = !Dr.IsDBNull(Dr.GetOrdinal("PersonaRecibe")) ? Dr.GetString(Dr.GetOrdinal("PersonaRecibe")) : string.Empty;
                     model.FolioCheque = !Dr.IsDBNull(Dr.GetOrdinal("Folio")) ? Dr.GetString(Dr.GetOrdinal("Folio")) : string.Empty;
+                    model.Alias = !Dr.IsDBNull(Dr.GetOrdinal("Alias")) ? Dr.GetString(Dr.GetOrdinal("Alias")) : string.Empty;
+                    model.FotoCheque = !Dr.IsDBNull(Dr.GetOrdinal("FotoComprobante")) ? Dr.GetString(Dr.GetOrdinal("FotoComprobante")) : string.Empty;
+                    model.Estatus = !Dr.IsDBNull(Dr.GetOrdinal("Estatus")) ? Dr.GetBoolean(Dr.GetOrdinal("Estatus")) : false;
                     break;
                 }
                 Dr.Close();

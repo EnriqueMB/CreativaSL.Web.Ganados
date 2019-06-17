@@ -111,6 +111,8 @@
                                                     <a title="Procesar" class="btn btn-primary processRow" href="@Url.Action("Procesar", "EntregaCombustible", new { id = Item.IDEntregaCombustible })"><i class="fa fa-caret-square-o-right"></i></a>
                                                     <a title="Editar" href="@Url.Action("Edit", "EntregaCombustible", new { id = Item.IDEntregaCombustible})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                                                     <a title="Eliminar" id="delete-@Item.IDEntregaCombustible" data-sku="@Item.IDEntregaCombustible" href="@Url.Action("Delete", "EntregaCombustible", new { id =  Item.IDEntregaCombustible })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    @*se agrego el boton de ver*@
+                                                    <a title="Ver" class="btn btn-blue verTk" data-id="@Item.IDEntregaCombustible"> <i class="fa fa-eye"> </i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -136,6 +138,11 @@
                                                             <li>
                                                                 <a role="menuitem" class="deleteRow" tabindex="-1" id="delete-@Item.IDEntregaCombustible" data-sku="@Item.IDEntregaCombustible" href="@Url.Action("Delete", "EntregaCombustible", new { id =  Item.IDEntregaCombustible })">
                                                                     <i class="fa fa-trash-o"></i> Eliminar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" data-id="@Item.IDEntregaCombustible" class="verTk">
+                                                                    <i class="fa fa-eye" ></i> Ver 
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -189,6 +196,12 @@
             </div>
         </div>
     </div>
+    <div id="ModalTicket" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
+        <div class="modal-dialog modal-lg" id="ContenidoModalTicket">
+
+        </div>
+    </div>
+
 
 
     <script>
@@ -207,15 +220,48 @@
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
-            
+
             Combustible.init();
 
             $('#tbl_combustible').DataTable({
                 "language": {
                     "url": "/Content/assets/json/Spanish.json"
                 },
-                "order": [[ 0, "desc" ]]
+                "order": [[0, "desc"]]
             });
+
+            $(".verTk").on("click", function () {
+           
+               var id = $(this).attr("data-id");
+
+                $("body").css("cursor", "progress");
+                $.ajax({
+                    url: '/Admin/EntregaCombustible/ModalTicket/',
+                    type: "POST",
+                    data: { ID: id },
+                    success: function (data) {
+                        $("body").css("cursor", "default");
+                        $('#ContenidoModalTicket').html(data);
+                        $('#ModalTicket').modal({ backdrop: 'static', keyboard: false });
+                    }
+                });
+            });
+
+           /* function MostrarTicket(ID) {
+                $("body").css("cursor", "progress");
+                $.ajax({
+                    url: '/Admin/EntregaCombustible/ModalTicket/',
+                    type: "POST",
+                    data: { ID: ID },
+                    success: function (data) {
+                        $("body").css("cursor", "default");
+                        $('#ContenidoModaTicket').html(data);
+                        $('#ModalTicket').modal({ backdrop: 'static', keyboard: false });
+
+                       
+                    }
+                });
+            }*/
 
         });
     </script>
