@@ -2,6 +2,9 @@
 using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -75,6 +78,23 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     if (ModelState.IsValid)
                     {
+                        HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                        if (bannerImage != null && bannerImage.ContentLength > 0)
+                        {
+                            Stream s = bannerImage.InputStream;
+                            if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
+                            {
+                                Image img = (Image)Auxiliar.ProcessFile(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                model.FotoCheque = image.ToBase64String(ImageFormat.Jpeg);
+                            }
+                            else
+                            {
+                                Image img = new Bitmap(s);
+                                Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
+                                model.FotoCheque = IMG3.ToBase64String(img.RawFormat);
+                            }
+                        }
                         int Resultado = datos.GuardarMovimiento(model, User.Identity.Name);
                         if (Resultado == 1)
                         {
@@ -149,6 +169,30 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     if (ModelState.IsValid)
                     {
+                        HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                        if (!string.IsNullOrEmpty(bannerImage.FileName))
+                        {
+                            if (bannerImage != null && bannerImage.ContentLength > 0)
+                            {
+                                Stream s = bannerImage.InputStream;
+                                if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
+                                {
+                                    Image img = (Image)Auxiliar.ProcessFile(s);
+                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                    model.FotoCheque = image.ToBase64String(ImageFormat.Jpeg);
+                                }
+                                else
+                                {
+                                    Image img = new Bitmap(s);
+                                    Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
+                                    model.FotoCheque = IMG3.ToBase64String(img.RawFormat);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            model.Estatus = true;
+                        }
                         int Resultado = datos.ModificarMovimiento(model, User.Identity.Name);
                         if (Resultado == 1)
                         {

@@ -43,6 +43,9 @@ namespace CreativaSL.Web.Ganados.Models
         [Required(ErrorMessage = "Ingrese el folio.")]
         [Display(Name = "Folio")]
         public string FolioCheque { get; set; }
+        public string Alias { get; set; }
+        public string FotoCheque { get; set; }
+        public bool Estatus { get; set; }
 
         public string FechaString { get { return string.Format("{0:dd/MM/yyyy}", Fecha); } }
         public string SaldoString { get { return string.Format("{0:c}", Saldo); } }

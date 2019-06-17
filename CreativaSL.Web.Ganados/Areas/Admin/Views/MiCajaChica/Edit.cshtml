@@ -11,6 +11,7 @@
     <!--FILEINPUT-->
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
     <link href="~/Content/js/plugins/font-awesome.min.css" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/fontawesome/font-awesome.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
 }
 
@@ -103,7 +104,28 @@
                                 <span class="help-block">Ingrese el folio de nota o de cheque según sea el caso.</span>
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label">Alias</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                    @Html.TextBoxFor(model => model.Alias, new { id = "Alias", @class = "form-control", placeholder = "Ingrese el alias." })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Alias)
+                                <span class="help-block">Ingrese el nombre de Alias</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label">Ingrese del Comprobante ó Cheque</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.FotoCheque, new { id = "FotoCheque", @type = "file", @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.FotoCheque)
+                                <span class="help-block">Ingrese por lo menos 1 imagen.</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -120,7 +142,9 @@
     </script>
 }
 @section script{
-    <
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
@@ -135,6 +159,39 @@
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
             CajaChica.init();
+            $('#FotoCheque').fileinput({
+            theme: 'fa',
+            language: 'es',
+            maxFileCount: 1,
+            autoReplace: true,
+            uploadUrl: "#",
+            overwriteInitial: true,
+            showUploadedThumbs: false,
+            initialPreview: [
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.FotoCheque" />'
+            ],
+            initialCaption : 'Foto Comprobante ó Cheque.png',
+            initialPreviewConfig: [
+                { caption: 'Foto Comprobante ó Cheque.png'}
+            ],
+            initialPreviewShowDelete: false,
+            showRemove: false,
+            showClose: false,
+            showUpload: false,
+            layoutTemplates: { actionDelete: '' },
+
+            allowedFileExtensions: ['png', 'jpg', 'gif', 'jpeg', 'heic'],
+            previewFileIcon: '<i class="fa fa-file"></i>',
+            preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
+            previewFileIconSettings: { // configure your icon file extensions
+                'heic': '<i class="fa fa-file-text text-primary"></i>'
+            },
+            previewFileExtSettings: { // configure the logic for determining icon file extensions
+                'heic': function (ext) {
+                    return ext.match(/(heic)$/i);
+                }
+            }
+        })
         });
     </script>
 }

@@ -6,9 +6,8 @@
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
         $.validator.addMethod("validarImagen", function () {
-            console.log(document.getElementById("Imagen").value);
-            if (document.getElementById("Imagen").value === '') {
-                if ((document.getElementById("Imagen").value === ''))
+            if (document.getElementById("FotoCheque").value === '') {
+                if ((document.getElementById("FotoCheque").value === ''))
                     return false;
                 else
                     return true;
@@ -39,7 +38,8 @@
                 Salida: { required: true, decimal: true },
                 Recibe: { required: true },
                 IdFormaPago: { required: true, CMBINT: true },
-                FolioCheque: { required: true}
+                FolioCheque: { required: true }
+                //FotoCheque: { validarImagen: true }
             },
             messages: {
                 IdConcepto: { required: "Seleccione una categoría.", CMBINT: "Seleccione una categoría." },
@@ -48,6 +48,7 @@
                 Recibe: { required: "Ingrese el nombre de quien recibe el dinero." },
                 IdFormaPago: { required: "Seleccione una forma de pago.", CMBINT: "Seleccione una forma de pago." },
                 FolioCheque: { required: "Ingrese un folio" }
+                //FotoCheque: { validarImagen: "Seleccione una imagen de comprobante ó cheque" }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

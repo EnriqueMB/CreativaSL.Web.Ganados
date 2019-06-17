@@ -51,55 +51,53 @@
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model)
-                                    {
-                                    <tr id="@item.IdMovimiento">
-                                        <td align="center">@item.FechaString</td>
-                                        <td>@item.Entrega</td>
-                                        <td align="right">@item.EntradaString</td>
-                                        <td align="right">@item.SalidaString</td>
-                                        <td>@item.Recibe</td>
-                                        <td>@item.FormaPago</td>
-                                        <td>@item.Concepto</td>
-                                        <td align="right">@item.SaldoString</td>
-                                        <td style="text-align:center;">
-                                            <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                     {
+                                        <tr id="@item.IdMovimiento">
+                                            <td align="center">@item.FechaString</td>
+                                            <td>@item.Entrega</td>
+                                            <td align="right">@item.EntradaString</td>
+                                            <td align="right">@item.SalidaString</td>
+                                            <td>@item.Recibe</td>
+                                            <td>@item.FormaPago</td>
+                                            <td>@item.Concepto</td>
+                                            <td align="right">@item.SaldoString</td>
+                                            <td style="text-align:center;">
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
 
-                                                @if (item.IdMovimiento != -1)
-                                                {
-                                                    if (item.IDTipoMovimiento == 2)
+                                                    @if (item.IdMovimiento != -1)
                                                     {
-                                                        <a title="Modificar" href="@Url.Action("Edit", "MiCajaChica", new { id = item.IdMovimiento })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Editar"><i class="fa fa-edit"></i></a>
-                                                        <a title="Eliminar" id="delete-@item.IdMovimiento" data-sku="@item.IdMovimiento" href="@Url.Action("Delete", "MiCajaChica", new { id = item.IdMovimiento })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                        if (item.IDTipoMovimiento == 2)
+                                                        {
+                                                            <a title="Modificar" href="@Url.Action("Edit", "MiCajaChica", new { id = item.IdMovimiento })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Editar"><i class="fa fa-edit"></i></a>
+                                                            <a title="Eliminar" id="delete-@item.IdMovimiento" data-sku="@item.IdMovimiento" href="@Url.Action("Delete", "MiCajaChica", new { id = item.IdMovimiento })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                        }
                                                     }
-                                                }
-                                            </div>
-                                            <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                @if (item.IdMovimiento != -1)
-                                                {
-                                                    <div class="btn-group">
-                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                        </a>
-
-                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "MiCajaChica", new { id = item.IdMovimiento })">
-                                                                    <i class="fa fa-edit"></i> Movimientos
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" data-sku="@item.IdMovimiento" id="delete-@item.IdMovimiento" href="@Url.Action("Delete", "MiCajaChica", new { id = item.IdMovimiento })" class="deleteRow">
-                                                                    <i class="fa fa-trash-o"></i> Eliminar
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-
-                                                    </div>
-                                                }
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    }
+                                                </div>
+                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                    @if (item.IdMovimiento != -1)
+                                                     {
+                                                        <div class="btn-group">
+                                                            <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                            </a>
+                                                            <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                <li>
+                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "MiCajaChica", new { id = item.IdMovimiento })">
+                                                                        <i class="fa fa-edit"></i> Movimientos
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a role="menuitem" tabindex="-1" data-sku="@item.IdMovimiento" id="delete-@item.IdMovimiento" href="@Url.Action("Delete", "MiCajaChica", new { id = item.IdMovimiento })" class="deleteRow">
+                                                                        <i class="fa fa-trash-o"></i> Eliminar
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                     }
+                                                </div>
+                                            </td>
+                                        </tr>
+                                     }
                                 </tbody>
                             </table>
                         </div>
