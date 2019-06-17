@@ -269,5 +269,78 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        #region Archivos
+        public string CHOFER_index_Archivo(string conexion, string id_chofer)
+        {
+            try
+            {
+                object[] parametros = { id_chofer };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "spCSLDB_CHOFER_index_Archivo", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public RespuestaAjax CHOFER_ac_Archivo(ArchivoChoferModels item, string conexion, string usuario, int opcion)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    item.Id,
+                    item.Id_chofer,
+                    item.Descripcion,
+                    item.UrlArchivo,
+                    item.NombreArchivo,
+                    usuario,
+                    opcion
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "spCSLDB_CHOFER_ac_Archivo", parametros);
+                RespuestaAjax respuesta = new RespuestaAjax();
+                respuesta.Success = false;
+                respuesta.Mensaje = "";
+                while (dr.Read())
+                {
+                    respuesta.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    respuesta.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    respuesta.Href = !dr.IsDBNull(dr.GetOrdinal("nombreChofer")) ? dr.GetString(dr.GetOrdinal("nombreChofer")) : string.Empty;
+                }
+                dr.Close();
+                return respuesta;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public RespuestaAjax CHOFER_del_Archivo(string conexion, int id)
+        {
+            try
+            {
+                object[] parametros = { id };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "spCSLDB_CHOFER_del_Archivo", parametros);
+                RespuestaAjax respuesta = new RespuestaAjax();
+                while (dr.Read())
+                {
+                    respuesta.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    respuesta.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                }
+                dr.Close();
+                return respuesta;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
     }
 }

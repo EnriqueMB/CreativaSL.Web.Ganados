@@ -9,6 +9,8 @@ using CreativaSL.Web.Ganados.Models;
 using System.Data;
 using System.Globalization;
 using CreativaSL.Web.Ganados.App_Start;
+using System.IO;
+using System.Drawing;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -119,6 +121,189 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(Chofer);
             }
         }
+        //==================================================================================
+
+        [HttpGet]
+        public ActionResult Archivos(string id, string nombreChofer)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id.Trim()) || string.IsNullOrEmpty(nombreChofer))
+                {
+                    return RedirectToAction("Index");
+                }
+
+                ViewBag.NombreChofer = nombreChofer;
+                ViewBag.Id_chofer = id;
+
+                return View();
+            }
+            catch (Exception)
+            {
+                CatChoferModels Chofer = new CatChoferModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult LoadTableArchivos(string id_chofer)
+        {
+            try
+            {
+                CatChofer_Datos Datos = new CatChofer_Datos();
+                string datatable = Datos.CHOFER_index_Archivo(Conexion, id_chofer);
+
+                return Content(datatable, "application/json");
+            }
+            catch (Exception ex)
+            {
+                return Content("", "application/json");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult AgregarArchivo(string id_chofer)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id_chofer.Trim()))
+                {
+                    return RedirectToAction("Index");
+                }
+
+                ArchivoChoferModels Archivo = new ArchivoChoferModels();
+
+                Archivo.Id_chofer = id_chofer;
+
+                return View(Archivo);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult AgregarArchivo(ArchivoChoferModels ArchivoModel)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(ArchivoModel);
+
+                }
+
+                CatChofer_Datos Datos = new CatChofer_Datos();
+
+                if (Path.GetExtension(ArchivoModel.Archivo.FileName).ToLower() == ".heic")
+                {
+                    ArchivoModel.UrlArchivo = Guid.NewGuid().ToString() + ".png";
+                    ArchivoModel.NombreArchivo = ArchivoModel.Archivo.FileName.Replace(Path.GetExtension(ArchivoModel.Archivo.FileName), ".png");
+                }
+                else
+                {
+                    ArchivoModel.UrlArchivo = Guid.NewGuid().ToString() + Path.GetExtension(ArchivoModel.Archivo.FileName);
+                    ArchivoModel.NombreArchivo = ArchivoModel.Archivo.FileName;
+                }
+                RespuestaAjax respuesta = Datos.CHOFER_ac_Archivo(ArchivoModel, Conexion, User.Identity.Name, 1);
+
+                if (respuesta.Success)
+                {
+                    if (Path.GetExtension(ArchivoModel.Archivo.FileName).ToLower() == ".heic")
+                    {
+                        Stream oStream = ArchivoModel.Archivo.InputStream;
+                        Bitmap bmp = Auxiliar.ProcessFile(oStream);
+                        bmp.Save(Server.MapPath("~/ArchivosChofer/" + ArchivoModel.UrlArchivo));
+                    }
+                    else
+                    {
+                        ArchivoModel.Archivo.SaveAs(Server.MapPath("~/ArchivosChofer/" + ArchivoModel.UrlArchivo));
+                    }
+
+                    TempData["typemessage"] = "1";
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                }
+
+                TempData["message"] = respuesta.Mensaje;
+
+                return RedirectToAction("Archivos", "CatChofer", new { id = ArchivoModel.Id_chofer, nombreChofer = respuesta.Href });
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult DescargarArchivo(string nombreArchivoServer, string nombreArchivo)
+        {
+            try
+            {
+                string path = AppDomain.CurrentDomain.BaseDirectory + "ArchivosChofer/";
+                byte[] fileBytes = System.IO.File.ReadAllBytes(path + nombreArchivoServer);
+                string fileName = nombreArchivo;
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EliminarArchivo(string nombreArchivoServer, int? id)
+        {
+            try
+            {
+                RespuestaAjax respuesta = new RespuestaAjax();
+
+                if ((string.IsNullOrEmpty(nombreArchivoServer.Trim())) || (id == null || id == 0))
+                {
+                    respuesta.Success = false;
+                    respuesta.Mensaje = "Verifique sus datos";
+                    return Content(respuesta.ToJSON(), "application/json");
+                }
+
+                //Borramos el archivo del servidor para no acumular basura
+                string pathRoot = Server.MapPath("~/ArchivosChofer");
+                string filePath = pathRoot + "\\" + nombreArchivoServer;
+
+                if ((System.IO.File.Exists(filePath)))
+                {
+                    System.IO.File.Delete(filePath);
+                    //Ponemos en activo 0 el archivo
+
+                    CatChofer_Datos Datos = new CatChofer_Datos();
+                    respuesta = Datos.CHOFER_del_Archivo(Conexion, id.Value);
+
+                    respuesta.Success = respuesta.Success;
+                    respuesta.Mensaje = respuesta.Mensaje;
+                    return Content(respuesta.ToJSON(), "application/json");
+                }
+                else
+                {
+                    respuesta.Success = false;
+                    respuesta.Mensaje = "Verifique sus datos";
+                    return Content(respuesta.ToJSON(), "application/json");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         // GET: Admin/CatChofer/Edit/5
         //======================== EDITAR ===========================
         //Obtiene el detalle del registro del chofer para ser editado
