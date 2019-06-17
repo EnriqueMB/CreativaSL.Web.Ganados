@@ -112,6 +112,8 @@ namespace CreativaSL.Web.Ganados.Models
         /// <summary>
         /// Identificador del vehículo
         /// </summary>
+        /// 
+
         public string IDVehiculo
         {
             get { return _IDVehiculo; }
@@ -190,7 +192,7 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _Total; }
             set { _Total = value; }
         }
-                
+
         public string TotalFormat
         {
             get { return string.Format("{0:C}", _Total); }
@@ -201,11 +203,20 @@ namespace CreativaSL.Web.Ganados.Models
         /// <summary>
         /// Imagen en Base 64
         /// </summary>
-        public string UrlImagen64
+        public string UrlImagen64      //---------------se puede utilizar otra vez para sacar la imagen
         {
             get { return _UrlImagen64; }
             set { _UrlImagen64 = value; }
         }
+
+        public string UrlImagen64Tickets      //---------------se puede utilizar otra vez para sacar la imagen
+        {
+            get { return _UrlImagen64; }
+            set { _UrlImagen64 = value; }
+        }
+
+
+
 
         private string _Estatus;
         /// <summary>
