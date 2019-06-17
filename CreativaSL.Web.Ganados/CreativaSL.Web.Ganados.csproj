@@ -118,7 +118,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data">
-      <HintPath>..\..\..\..\Downloads\CID\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+      <HintPath>..\..\..\Microsoft.ApplicationBlocks.Data.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
@@ -470,6 +470,7 @@
     <Content Include="Content\js\AgregarArchivo.js" />
     <Content Include="Content\js\AgregarArchivoEmpleado.js" />
     <Content Include="Content\js\Bancos.js" />
+    <Content Include="Content\js\EntradaCajaChica.js" />
     <Content Include="Content\js\CajaChica.js" />
     <Content Include="Content\js\CajaChicaArqueo.js" />
     <Content Include="Content\js\CajaChicaDetalle.js" />
@@ -482,6 +483,7 @@
     <Content Include="Content\js\catDocumentos.js" />
     <Content Include="Content\js\catFierro.js" />
     <Content Include="Content\js\CatFierroSubir.js" />
+    <Content Include="Content\js\TransferirGanado.js" />
     <Content Include="Content\js\Clasificacion.js" />
     <Content Include="Content\js\ClasificacionIndex.js" />
     <Content Include="Content\js\Cobro.js" />
@@ -1538,7 +1540,9 @@
     <Content Include="Areas\Admin\Views\CatClasificacion\Subcategorias.cshtml" />
     <Content Include="Areas\Admin\Views\CatClasificacion\CreateSub.cshtml" />
     <Content Include="Areas\Admin\Views\CatClasificacion\EditSub.cshtml" />
-    <Content Include="Areas\Admin\Views\EntregaCombustible\ModalTicket.cshtml" />
+    <Content Include="Areas\Admin\Views\CuentaUser\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatGanado\Transferir.cshtml" />
+    <Content Include="Areas\Admin\Views\CajaChica\EntradaCajaChica.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1579,6 +1583,7 @@
     <Compile Include="Areas\Admin\Controllers\CatProveedorTransporteController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatRangoPesoVentaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatTipoClienteController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CuentaUserController.cs" />
     <Compile Include="Areas\Admin\Controllers\ErrorController.cs" />
     <Compile Include="Areas\Admin\Controllers\HistorialCajaChicaController.cs" />
     <Compile Include="Areas\Admin\Controllers\MiCajaChicaController.cs" />
@@ -1755,6 +1760,7 @@
     <Compile Include="Models\CuentaBancariaModels.cs" />
     <Compile Include="Models\CuentaBancariaProveedorModels.cs" />
     <Compile Include="Models\CuentaBancariasProveedorAlmacenModels.cs" />
+    <Compile Include="Models\CuentaUserModels.cs" />
     <Compile Include="Models\DataTableParameters.cs" />
     <Compile Include="Models\DataTableResultSet.cs" />
     <Compile Include="Models\DatosGeneralesGanados.cs" />

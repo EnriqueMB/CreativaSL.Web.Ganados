@@ -15,7 +15,7 @@ namespace CreativaSL.Web.Ganados.Models
             Concepto = string.Empty;
         }
 
-
+        public Int64 IDTipoMovimiento { get; set; }
         public Int64 IdCaja { get; set; }
         public Int64 IdMovimiento { get; set; }
         public DateTime Fecha { get; set; }

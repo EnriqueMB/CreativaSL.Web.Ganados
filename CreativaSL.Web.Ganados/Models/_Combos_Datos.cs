@@ -582,5 +582,28 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public List<CatCorralModels> ObtenerComboCorralXIDSucursal(string Conexion, string IDSucursal)
+        {
+            try
+            {
+                List<CatCorralModels> Lista = new List<CatCorralModels>();
+                CatCorralModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "[dbo].[spCSLDB_Combo_get_CatCorralesXSucursal]", IDSucursal);
+                while (Dr.Read())
+                {
+                    Item = new CatCorralModels();
+                    Item.Id_corral = !Dr.IsDBNull(Dr.GetOrdinal("IDCorral")) ? Dr.GetInt16(Dr.GetOrdinal("IDCorral")) : 0;
+                    Item.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("Descripcion")) ? Dr.GetString(Dr.GetOrdinal("Descripcion")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                Dr.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

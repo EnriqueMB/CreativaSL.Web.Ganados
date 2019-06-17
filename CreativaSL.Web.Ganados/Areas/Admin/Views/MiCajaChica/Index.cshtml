@@ -63,10 +63,14 @@
                                         <td align="right">@item.SaldoString</td>
                                         <td style="text-align:center;">
                                             <div class="visible-md visible-lg hidden-sm hidden-xs">
+
                                                 @if (item.IdMovimiento != -1)
                                                 {
-                                                    <a title="Modificar" href="@Url.Action("Edit", "MiCajaChica", new { id = item.IdMovimiento })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Editar"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" id="delete-@item.IdMovimiento" data-sku="@item.IdMovimiento" href="@Url.Action("Delete", "MiCajaChica", new { id = item.IdMovimiento })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    if (item.IDTipoMovimiento == 2)
+                                                    {
+                                                        <a title="Modificar" href="@Url.Action("Edit", "MiCajaChica", new { id = item.IdMovimiento })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Editar"><i class="fa fa-edit"></i></a>
+                                                        <a title="Eliminar" id="delete-@item.IdMovimiento" data-sku="@item.IdMovimiento" href="@Url.Action("Delete", "MiCajaChica", new { id = item.IdMovimiento })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    }
                                                 }
                                             </div>
                                             <div class="visible-xs visible-sm hidden-md hidden-lg">

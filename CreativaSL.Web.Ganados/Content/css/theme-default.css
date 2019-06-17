@@ -8015,3 +8015,31 @@ display:none;
     }
 
 /* End cambios */
+
+/* Cambios 11 / 06 / 2019 */
+
+.panel-body .infoPreviewContainer {
+    width: 50%;
+    display: block;
+    margin: auto;
+}
+    .panel-body .infoPreviewContainer h3 {
+        text-align:center;
+    }
+    .panel-body .infoPreviewContainer .infoItem > *,
+    .panel-body .infoPreviewContainer .infoItem .group > *{
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0% 1%;
+    }
+    .panel-body .infoPreviewContainer .infoItem .group label {
+        width: 100px;
+    }
+    .panel-body .infoPreviewContainer .infoItem .group input {
+        width: 100%;
+        border-radius: 5px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        padding: 2% 4%;
+    }
+/*End cambios*/

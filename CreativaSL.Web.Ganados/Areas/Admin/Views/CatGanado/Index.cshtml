@@ -29,18 +29,55 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            @*<li><a href="@Url.Action("Create","CatCliente")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Cliente</a></li>*@
+                            <li><a href="@Url.Action("Transferir","CatGanado")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Transferir Ganado</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                         </ul>
                     </div>
                     <div class="panel-body">
+                        <div class="infoPreviewContainer">
+                            <h3>Información de Ganado</h3>
+                            <div class="infoItem">
+                                <div class="group">
+                                    <label>Machos:</label>
+                                    <input readonly value="0 Machos" type="text" name="numGanadoMacho" />
+                                </div>
+                                <div class="group">
+                                    <label>Peso:</label>
+                                    <input readonly value="0 KG." type="text" name="pesoGanadoMacho" />
+                                </div>
+                            </div>
+                            <div class="infoItem">
+                                <div class="group">
+                                    <label>Hembras:</label>
+                                    <input readonly value="0 Hembras" type="text" name="numGanadoHembras" />
+                                </div>
+                                <div class="group">
+                                    <label>Peso:</label>
+                                    <input readonly value="0 KG." type="text" name="pesoGanadoHembras" />
+                                </div>
+                            </div>
+                            <div class="infoItem">
+                                <div class="group">
+                                    <label>Total de Ganado:</label>
+                                    <input readonly value="0" type="text" name="totalGanado" />
+                                </div>
+                                <div class="group">
+                                    <label>Peso Total:</label>
+                                    <input readonly value="0 KG." type="text" name="pesoTotal" />
+                                </div>
+                            </div>
+
+                        </div>
                         <div class="table-responsive">
-                            <table class="table datatable">
+                            <table id="Jtabla" class="table">
                                 <thead>
                                     <tr>
-                                        <th>Número de Arete</th>
+                                        <th>Fecha</th>
+                                        <th>N° de Arete</th>
+                                        <th>Proveedor</th>
                                         <th>Género</th>
+                                        <th>Peso KG</th>
                                         <th>Corral</th>
                                         <th>Observación</th>
                                         <th>Estatus</th>
@@ -51,8 +88,11 @@
                                     @foreach (var Ganado in Model.ListaGanados)
                                     {
                                         <tr id="@Ganado.IDGanado">
+                                            <td>@Ganado.FechaCompra.ToShortDateString()</td>
                                             <td>@Ganado.NumArete</td>
+                                            <td>@Ganado.Proveedor</td>
                                             <td>@Ganado.Genero</td>
+                                            <td>@Ganado.PesoGanado</td>
                                             <td>@Ganado.Corral</td>
                                             <td>@Ganado.Observacion</td>
                                             <td>@Ganado.Staus</td>
@@ -97,9 +137,50 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script>
-    jQuery(document).ready(function () {
-        Mensaje(message, typemessage);
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
         });
     </script>
-    }
+    <script>
+        $(document).ready(function () {
+            var table = $('#Jtabla').DataTable();
+
+            table.on('search.dt', function () {
+                var valueSearch = table.rows({ search: 'applied' }).data();
+                var hembras = 0;
+                var machos = 0;
+                var pesoMachos = 0;
+                var pesoHembras = 0;
+
+                for (var i = 0; i < valueSearch.length; i++)
+                {
+                    var genero = String(valueSearch[i][3]).trim();
+                    
+                    if (genero.localeCompare("MACHO") == 0){
+                        machos++;
+                        pesoMachos += Number.parseInt(valueSearch[i][4]);
+                    }
+                    else if (genero.localeCompare("HEMBRA") == 0){
+                        hembras++;
+                        pesoHembras += Number.parseInt(valueSearch[i][4]);
+                    }
+                }
+
+                $(".infoPreviewContainer .infoItem .group input[name='numGanadoMacho']").val(machos + " Machos");
+                $(".infoPreviewContainer .infoItem .group input[name='numGanadoHembras']").val(hembras + " Hembras");
+
+                
+                $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoMacho']").val(pesoMachos + " KG.");
+                $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoHembras']").val(pesoHembras + " KG.");
+
+                var totalGanado = machos + hembras;
+                var totalPeso = pesoMachos + pesoHembras;
+
+                $(".infoPreviewContainer .infoItem .group input[name='totalGanado']").val(totalGanado + " de ganado");
+                $(".infoPreviewContainer .infoItem .group input[name='pesoTotal']").val(totalPeso + " KG.");
+
+            });
+        });
+    </script>
+}
 

@@ -80,6 +80,7 @@ namespace CreativaSL.Web.Ganados.Models
                     //datos.url_foto = dr["url_foto"].ToString();
                     datos.cuenta = dr["clvUser"].ToString();
                     //datos.password = "dc89sd989sdd";
+                    datos.nombre = datos.nombre + ' ' + datos.apPat + ' ' + datos.apMat;
                 }
                 dr.Close();
                 return datos;
@@ -116,7 +117,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public UsuarioModels AbcCatUsuarios(UsuarioModels datos)
+        public UsuarioModels AbcCatUsuarios(UsuarioModels datos, bool pss)
         {
             try
             {
@@ -124,7 +125,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     datos.opcion, datos.id_usuario, datos.id_tipoUsuario, datos.nombre, datos.apPat,
                     datos.apMat, datos.fechaNac, datos.direccion, datos.codigoPostal, datos.telefono, datos.Correo,
-                    datos.url_foto, datos.cuenta, datos.Password, datos.user
+                    datos.url_foto, datos.cuenta, datos.Password, datos.user,pss
                     };
                 object aux = SqlHelper.ExecuteScalar(datos.conexion, "spCSLDB_abc_CatUsuarios", parametros);
                 datos.id_usuario = aux.ToString();
@@ -397,6 +398,30 @@ namespace CreativaSL.Web.Ganados.Models
             catch (Exception ex)
             {
                 return -1;
+            }
+        }
+
+        //Modificar Password
+        public void cCatCuentaUser(UsuarioModels _datos)
+        {
+            try
+            {
+                object[] valores = { _datos.id_usuario, _datos.NuevoPassword};
+
+                object aux = SqlHelper.ExecuteScalar(_datos.conexion, "[dbo].[spCSLDB_UpdatePassword]", valores);
+                _datos.id_usuario = aux.ToString();
+                if (!string.IsNullOrEmpty(_datos.id_usuario))
+                {
+                    _datos.Completado = true;
+                }
+                else
+                {
+                    _datos.Completado = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

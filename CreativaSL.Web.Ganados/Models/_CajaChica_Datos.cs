@@ -245,7 +245,8 @@ namespace CreativaSL.Web.Ganados.Models
                         Recibe = !Dr.IsDBNull(Dr.GetOrdinal("Recibe")) ? Dr.GetString(Dr.GetOrdinal("Recibe")) : string.Empty,
                         Concepto = !Dr.IsDBNull(Dr.GetOrdinal("Concepto")) ? Dr.GetString(Dr.GetOrdinal("Concepto")) : string.Empty,
                         Saldo = !Dr.IsDBNull(Dr.GetOrdinal("Saldo")) ? Dr.GetDecimal(Dr.GetOrdinal("Saldo")) : 0m,
-                        FormaPago = !Dr.IsDBNull(Dr.GetOrdinal("Tipo")) ? Dr.GetString(Dr.GetOrdinal("Tipo")) : string.Empty
+                        FormaPago = !Dr.IsDBNull(Dr.GetOrdinal("Tipo")) ? Dr.GetString(Dr.GetOrdinal("Tipo")) : string.Empty,
+                        IDTipoMovimiento = !Dr.IsDBNull(Dr.GetOrdinal("IDTipoMovimiento")) ? Dr.GetInt32(Dr.GetOrdinal("IDTipoMovimiento")) : 0
                     };
                     Lista.Add(Item);
                 }
@@ -421,9 +422,9 @@ namespace CreativaSL.Web.Ganados.Models
             try
             {
                 DataSet Ds = SqlHelper.ExecuteDataset(_ConexionRepositorio.CadenaConexion, "cajachica.spCIDDB_get_ReporteCajaChica", IdCaja);
-                if(Ds!= null)
+                if (Ds != null)
                 {
-                    if(Ds.Tables.Count == 4)
+                    if (Ds.Tables.Count == 4)
                     {
                         ReporteCajaChica Resultado = new ReporteCajaChica();
 
@@ -522,11 +523,30 @@ namespace CreativaSL.Web.Ganados.Models
                 }
                 return null;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
 
+        public int GuardarMovimientoEntrada(CajaChicaModels model, string IdUsuario)
+        {
+            try
+            {
+                object[] Parametros = { model.IdCaja, model.MontoApertura, model.KeyWord, IdUsuario };
+                object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion, "[cajachica].[spCIDDB_GuardarMovimientoEntrada]", Parametros);
+                if (Result != null)
+                {
+                    int Resultado = 0;
+                    int.TryParse(Result.ToString(), out Resultado);
+                    return Resultado;
+                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

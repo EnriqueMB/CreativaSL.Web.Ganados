@@ -51,6 +51,7 @@ namespace CreativaSL.Web.Ganados.Models
             get { return string.Format("{0:c}", Diferencia); }
         }
 
+        public string Observacion { get; set; }
     }
 
     public class CajaChicaModelsResult

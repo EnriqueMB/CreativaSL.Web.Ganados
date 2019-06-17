@@ -67,7 +67,7 @@
                                 </div>
                             </div>
                         </div>
-                         <div class="form-group">
+                        <div class="form-group">
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label class="col-md-3 control-label"><span> </span> Hora de Salida</label>
@@ -179,6 +179,19 @@
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                             @Html.TextBoxFor(model => model.TotalGeneral, new { id = "TotalGeneral", @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"><span> </span> Total Cabezas </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.TotalCabezas, new { id = "TotalGeneral", @class = "form-control", @readonly = "readonly" })
                                         </div>
                                     </div>
                                 </div>
@@ -307,15 +320,15 @@
                                     <label class="col-md-3 control-label"><span> </span> Correo cliente y contactos </label>
                                     <div class="col-md-8 col-xs-12">
                                         <div class="input-group">
-                                            <select id="Correo" name="Correo" class="controlError form-control select" data_live_search = "true" data_style = "form-control">
+                                            <select id="Correo" name="Correo" class="controlError form-control select" data_live_search="true" data_style="form-control">
                                                 @foreach (var Correo in Model.VentaCorreo)
                                                 {
-                                                    
+
                                                     <option value="@Correo.Correo">@Correo.NombreCliente "@Correo.Correo"</option>
                                                     foreach (var item in Correo.VentaCorreoDetalle)
-	                                                {
-                                                    <option value="@item.Correo">@item.NombreCliente "@item.Correo"</option>
-	                                                }
+                                                    {
+                                                        <option value="@item.Correo">@item.NombreCliente "@item.Correo"</option>
+                                                    }
                                                 }
                                             </select>
                                         </div>
@@ -323,7 +336,7 @@
                                 </div>
                             </div>
                         </div>
-                       
+
                         <div class="form-group">
                             <div class="col-md-8">
                                 <div class="form-group">

@@ -12,8 +12,10 @@ namespace CreativaSL.Web.Ganados.Models
             _IDNomina = string.Empty;
             _IDEmpleado = string.Empty;
             _NombreEmpleado = string.Empty;
+            _diasLaborados = 0;
             Sueldo = 0;
             CategoriaPuesto = string.Empty;
+            _puesto = string.Empty;
         }
 
         private string _IDNomina;
@@ -68,6 +70,15 @@ namespace CreativaSL.Web.Ganados.Models
         public decimal Sueldo { get; set; }
         public string CategoriaPuesto { get; set; }
 
+        private string _puesto;
+
+        public string Puesto
+        {
+            get { return _puesto; }
+            set { _puesto = value; }
+        }
+
+
         private bool _Pagado;
 
         public bool Pagado
@@ -75,6 +86,14 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _Pagado; }
             set { _Pagado = value; }
         }
+        private int _diasLaborados;
+
+        public int DiasLaborados
+        {
+            get { return _diasLaborados; }
+            set { _diasLaborados = value; }
+        }
+
 
         #region Datos De Control
         public string Conexion { get; set; }

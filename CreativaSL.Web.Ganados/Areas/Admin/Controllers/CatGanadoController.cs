@@ -36,9 +36,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         // GET: Admin/CatGanado/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Transferir()
         {
-            return View();
+            try
+            {
+                CatGanadoModels Ganado = new CatGanadoModels();
+                Ganado.Conexion = Conexion;
+                _Combos_Datos Datos = new _Combos_Datos();
+                Ganado.listaSucursal = Datos.ObtenerComboSucursales(Conexion);
+                return View(Ganado);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // GET: Admin/CatGanado/Create
@@ -183,6 +195,50 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 ListaCorralTmp.Remove(result);
             }
             ViewBag.ListaCorrales = ListaCorralTmp;
+        }
+
+        [HttpPost]
+        public ActionResult ObtenerCorralXIdSucursal(string IDSucursal)
+        {
+            try
+            {
+                CatCorralModels Corral = new CatCorralModels();
+                _Combos_Datos Datos = new _Combos_Datos();
+                Corral.Id_sucursal = IDSucursal;
+                Corral.ListaCorral = Datos.ObtenerComboCorralXIDSucursal(Conexion, Corral.Id_sucursal);
+                return Content(Corral.ListaCorral.ToJSON(), "application/json");
+            }
+            catch
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrio un error. Por favor contacte a soporte técnico";
+                return Json("");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DatatableGanadoActual()
+        {
+            try
+            {
+                CatGanadoModels ganado = new CatGanadoModels();
+                _CatGanado_Datos Datos = new _CatGanado_Datos();
+                ganado.Conexion = Conexion;
+                ganado.RespuestaAjax = new RespuestaAjax();
+                ganado.RespuestaAjax.Mensaje = Datos.DatatableGanadoActual(ganado);
+                ganado.RespuestaAjax.Success = true;
+
+                return Content(ganado.RespuestaAjax.Mensaje, "application/json");
+
+            }
+            catch (Exception ex)
+            {
+                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                CatGanadoModels ganado = new CatGanadoModels();
+                ganado.RespuestaAjax.Mensaje = Mensaje;
+                ganado.RespuestaAjax.Success = false;
+                return Content(ganado.RespuestaAjax.ToJSON(), "application/json");
+            }
         }
     }
 }

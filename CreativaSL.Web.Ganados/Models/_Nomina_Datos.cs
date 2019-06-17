@@ -364,8 +364,9 @@ namespace CreativaSL.Web.Ganados.Models
                             Item.Percepciones = Dr2.GetDecimal(Dr2.GetOrdinal("Percepciones"));
                             Item.Deducciones = Dr2.GetDecimal(Dr2.GetOrdinal("Deducciones"));
                             Item.Total = Dr2.GetDecimal(Dr2.GetOrdinal("Total"));
-                            Item.CategoriaPuesto = Dr2.GetString(Dr2.GetOrdinal("CategoriaPuesto"));
+                            Item.Puesto = Dr2.GetString(Dr2.GetOrdinal("Puesto"));
                             Item.Sueldo = Dr2.GetDecimal(Dr2.GetOrdinal("Sueldo"));
+                            Item.DiasLaborados = Dr2.GetInt16(Dr2.GetOrdinal("DiasLaborados"));
                             Lista.Add(Item);
                         }
                         Datos.ListaNominaDetalle = Lista;
