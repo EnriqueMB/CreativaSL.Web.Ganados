@@ -39,65 +39,141 @@
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>
+                                        <th>Folio</th>
                                         <th>Entrega</th>
                                         <th>Entrada</th>
                                         <th>Salida</th>
                                         <th>Recibe</th>
                                         <th>Tipo</th>
                                         <th>Concepto</th>
+                                        <th>Cobrado</th>
                                         <th>Saldo</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model)
-                                     {
-                                        <tr id="@item.IdMovimiento">
-                                            <td align="center">@item.FechaString</td>
-                                            <td>@item.Entrega</td>
-                                            <td align="right">@item.EntradaString</td>
-                                            <td align="right">@item.SalidaString</td>
-                                            <td>@item.Recibe</td>
-                                            <td>@item.FormaPago</td>
-                                            <td>@item.Concepto</td>
-                                            <td align="right">@item.SaldoString</td>
-                                            <td style="text-align:center;">
-                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                    {
+                                    <tr id="@item.IdMovimiento">
+                                        <td align="center">@item.FechaString</td>
+                                        <td>@item.FolioCheque</td>
+                                        <td>@item.Entrega</td>
+                                        <td align="right">@item.EntradaString</td>
+                                        <td align="right">@item.SalidaString</td>
+                                        <td>@item.Recibe</td>
+                                        <td>@item.FormaPago</td>
+                                        <td>@item.Concepto</td>
+                                        @if (item.IDTipoMovimiento == 2)
+                                        {
+                                            if (item.IdFormaPago == 2)
+                                            {
+                                                if (item.Estatus)
+                                                {
+                                                    <td style="text-align:center"><div title="Cobrado" style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:green"></div></td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="text-align:center"><div title="Por Cobrar" style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:red"></div></td>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <td>No aplica</td>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <td>No aplica</td>
+                                        }
+                                        <td align="right">@item.SaldoString</td>
+                                        <td style="text-align:center;">
+                                            <div class="visible-md visible-lg hidden-sm hidden-xs">
 
-                                                    @if (item.IdMovimiento != -1)
+                                                @if (item.IdMovimiento != -1)
+                                                {
+                                                    if (item.IDTipoMovimiento == 2)
                                                     {
-                                                        if (item.IDTipoMovimiento == 2)
+                                                        if (item.IdFormaPago == 2)
+                                                        {
+                                                            if (!item.Estatus)
+                                                            {
+                                                                <a title="Cheque Cobrado" id="Cheque-@item.IdMovimiento" data-sku="@item.IdMovimiento" href="@Url.Action("EstatusCheque", "MiCajaChica", new { id = item.IdMovimiento })" class="btn btn-blue tooltips ChequeRow" data-placement="top" data-original-title="Cobrar Cheque"><i class="fa fa-thumbs-up"></i></a>
+                                                                <a title="Modificar" href="@Url.Action("Edit", "MiCajaChica", new { id = item.IdMovimiento })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Editar"><i class="fa fa-edit"></i></a>
+                                                                <a title="Eliminar" id="delete-@item.IdMovimiento" data-sku="@item.IdMovimiento" href="@Url.Action("Delete", "MiCajaChica", new { id = item.IdMovimiento })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                            }
+                                                        }
+                                                        else
                                                         {
                                                             <a title="Modificar" href="@Url.Action("Edit", "MiCajaChica", new { id = item.IdMovimiento })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Editar"><i class="fa fa-edit"></i></a>
                                                             <a title="Eliminar" id="delete-@item.IdMovimiento" data-sku="@item.IdMovimiento" href="@Url.Action("Delete", "MiCajaChica", new { id = item.IdMovimiento })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                         }
+
                                                     }
-                                                </div>
-                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                    @if (item.IdMovimiento != -1)
-                                                     {
-                                                        <div class="btn-group">
-                                                            <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                                <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                            </a>
-                                                            <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                                <li>
-                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "MiCajaChica", new { id = item.IdMovimiento })">
-                                                                        <i class="fa fa-edit"></i> Movimientos
+                                                }
+                                            </div>
+                                            <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                @if (item.IdMovimiento != -1)
+                                                {
+                                                    if (item.IDTipoMovimiento == 2)
+                                                    {
+
+                                                        if (item.IdFormaPago == 2)
+                                                        {
+                                                            if (!item.Estatus)
+                                                            {
+                                                                <div class="btn-group">
+                                                                    <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                        <i class="fa fa-cog"></i> <span class="caret"></span>
                                                                     </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a role="menuitem" tabindex="-1" data-sku="@item.IdMovimiento" id="delete-@item.IdMovimiento" href="@Url.Action("Delete", "MiCajaChica", new { id = item.IdMovimiento })" class="deleteRow">
-                                                                        <i class="fa fa-trash-o"></i> Eliminar
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                     }
-                                                </div>
-                                            </td>
-                                        </tr>
-                                     }
+
+                                                                    <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                        <li>
+                                                                            <a role="menuitem" tabindex="-1" data-sku="@item.IdMovimiento" id="Cheque-@item.IdMovimiento" href="@Url.Action("EstatusCheque", "MiCajaChica", new { id = item.IdMovimiento })" class="ChequeRow">
+                                                                                <i class="fa fa-thumbs-up"></i> Cheque Cobrado
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "MiCajaChica", new { id = item.IdMovimiento })">
+                                                                                <i class="fa fa-edit"></i> Movimientos
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a role="menuitem" tabindex="-1" data-sku="@item.IdMovimiento" id="delete-@item.IdMovimiento" href="@Url.Action("Delete", "MiCajaChica", new { id = item.IdMovimiento })" class="deleteRow">
+                                                                                <i class="fa fa-trash-o"></i> Eliminar
+                                                                            </a>
+                                                                        </li>
+
+                                                                    </ul>
+                                                                </div>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="btn-group">
+                                                                <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                    <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                                </a>
+
+                                                                <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                    <li>
+                                                                        <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "MiCajaChica", new { id = item.IdMovimiento })">
+                                                                            <i class="fa fa-edit"></i> Movimientos
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a role="menuitem" tabindex="-1" data-sku="@item.IdMovimiento" id="delete-@item.IdMovimiento" href="@Url.Action("Delete", "MiCajaChica", new { id = item.IdMovimiento })" class="deleteRow">
+                                                                            <i class="fa fa-trash-o"></i> Eliminar
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -114,6 +190,24 @@
                 <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
                 <div class="mb-content">
                     <p>¿Seguro que quieres eliminar éste registro?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-cheque-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Mi caja Chica <strong> Cobrar Cheque</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que el cheque esta cobrado?</p>
                     <p>Presione "sí" si está seguro.</p>
                 </div>
                 <div class="mb-footer">
