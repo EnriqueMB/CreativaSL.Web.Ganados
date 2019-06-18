@@ -388,7 +388,9 @@ namespace CreativaSL.Web.Ganados.Models
                     model.Recibe = !Dr.IsDBNull(Dr.GetOrdinal("PersonaRecibe")) ? Dr.GetString(Dr.GetOrdinal("PersonaRecibe")) : string.Empty;
                     model.FolioCheque = !Dr.IsDBNull(Dr.GetOrdinal("Folio")) ? Dr.GetString(Dr.GetOrdinal("Folio")) : string.Empty;
                     model.Alias = !Dr.IsDBNull(Dr.GetOrdinal("Alias")) ? Dr.GetString(Dr.GetOrdinal("Alias")) : string.Empty;
-                    model.FotoCheque = !Dr.IsDBNull(Dr.GetOrdinal("FotoComprobante")) ? Dr.GetString(Dr.GetOrdinal("FotoComprobante")) : string.Empty;
+                    model.FotoCheque = Dr.IsDBNull(Dr.GetOrdinal("FotoComprobante")) ?
+                        Auxiliar.SetDefaultImage() : string.IsNullOrEmpty(Dr.GetString(Dr.GetOrdinal("FotoComprobante"))) ?
+                       Auxiliar.SetDefaultImage() : Dr.GetString(Dr.GetOrdinal("FotoComprobante"));
                     model.Estatus = !Dr.IsDBNull(Dr.GetOrdinal("Estatus")) ? Dr.GetBoolean(Dr.GetOrdinal("Estatus")) : false;
                     break;
                 }
