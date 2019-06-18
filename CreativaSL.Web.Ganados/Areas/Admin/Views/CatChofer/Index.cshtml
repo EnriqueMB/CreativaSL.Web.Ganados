@@ -69,6 +69,7 @@
                                             }*@
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    <a title="Archivos" class="btn btn-success" href="@Url.Action("Archivos", "CatChofer", new { id = Chofer.IDChofer, nombreChofer = Chofer.Nombre })"><i class="fa fa-file-text"></i></a>
                                                     <a title="Editar" href="@Url.Action("Edit", "CatChofer", new { id = Chofer.IDChofer })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                                                     <a title="Eliminar" id="delete-@Chofer.IDChofer" data-hrefa="@Url.Action("Delete", "CatChofer", new { id = Chofer.IDChofer  })" onClick="delete_row('@Chofer.IDChofer');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>

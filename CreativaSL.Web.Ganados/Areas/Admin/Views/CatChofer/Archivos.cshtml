@@ -1,0 +1,185 @@
+﻿
+
+@{
+    ViewBag.Title = "Archivos";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section css
+{
+
+}
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <!--INICIA TABS-->
+    <div class="panel panel-default tabs">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active" role="presentation"><a href="#archivos" aria-controls="archivos" role="tab" data-toggle="tab">Archivos</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="archivos">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><strong>Archivos del chofer: @ViewBag.NombreChofer</strong></h3>
+                            <ul class="panel-controls">
+                                <li><a href="@Url.Action("AgregarArchivo","CatChofer", new { Id_chofer = @ViewBag.Id_chofer })" class="btn btn-default btnCrear"><span class="fa fa-plus"></span>Agregar archivo</a></li>
+                                <li><a href="@Url.Action("Index","CatChofer")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span>Regresar</a></li>
+                                <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table id="TblArchivos" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre del archivo</th>
+                                            <th>Descripción del archivo</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--TERMINA TABS-->
+    <!--INICIA SECCION MODALES-->
+    <!--TERMINA SECCION MODALES-->
+
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres eliminar este registro?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+
+            var TblArchivos = $('#TblArchivos').DataTable({
+                "language": {
+                    "url": "/Content/assets/json/Spanish.json"
+                },
+                responsive: true,
+                "ajax": {
+                    "data": {
+                        "Id_chofer": "@ViewBag.Id_chofer"
+                    },
+                    "url": "/Admin/CatChofer/LoadTableArchivos/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "dataSrc": ''
+                },
+                "columns": [
+                    { "data": "nombreArchivo" },
+                    { "data": "descripcion" },
+                    {
+                        "data": null,
+                        "render": function (data, type, full) {
+
+                            return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                                "<a href='/Admin/CatChofer/DescargarArchivo?nombreArchivoServer=" + full["urlArchivo"] + "&nombreArchivo=" + full["nombreArchivo"] + "' target='_blanck' title='Descargar' class='btn btn-success tooltips btn-sm descargarArchivo' data-placement='top' data-original-title='Descargar'><i class='fa fa-cloud-download'></i></a>" +
+                                "<a title='Eliminar' data-hrefa='/Admin/CatChofer/EliminarArchivo?nombreArchivoServer=" + full["urlArchivo"] + "&id=" + full["id"] + "' class='btn btn-danger tooltips btn-sm deleteArchivo' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                                "</div>" +
+                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                "<div class='btn-group'>" +
+                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                                "</a>" +
+                                "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+
+                                "<li>" +
+                                "<a  href='/Admin/CatChofer/DescargarArchivo?nombreArchivoServer=" + full["urlArchivo"] + "&nombreArchivo=" + full["nombreArchivo"] + "' target='_blanck' class='descargarArchivo' role='menuitem' tabindex='-1'>" +
+                                "<i class='fa fa-cloud-download'></i> Descargar" +
+                                "</a>" +
+                                "</li>" +
+
+                                "<li>" +
+                                "<a class='deleteArchivo' role='menuitem' tabindex='-1'  data-hrefa='/Admin/CatChofer/EliminarArchivo?nombreArchivoServer=" + full["urlArchivo"] + "&id=" + full["id"] + "'>" +
+                                "<i class='fa fa-trash-o'></i> Eliminar" +
+                                "</a>" +
+                                "</li>" +
+
+                                "</ul>" +
+                                "</div>" +
+                                "</div>";
+                        }
+                    }
+                ],
+                //Para agregar algún evento a la tabla se puede poner aquí
+                "drawCallback": function (settings) {
+                    $(".deleteArchivo").on("click", function () {
+                        var url = $(this).attr('data-hrefa');
+                        var box = $("#mb-remove-row");
+                        box.addClass("open");
+                        box.find(".mb-control-yes").on("click", function () {
+                            box.removeClass("open");
+                            $.ajax({
+                                url: url,
+                                type: 'POST',
+                                dataType: 'json',
+                                success: function (result) {
+                                    if (result.Success) {
+                                        box.find(".mb-control-yes").prop('onclick', null).off('click');
+                                        Mensaje(result.Mensaje, "1");
+                                        TblArchivos.ajax.reload();
+                                    }
+                                    else
+                                        Mensaje(result.Mensaje, "2");
+                                },
+                                error: function () {
+                                    Mensaje(result.Mensaje, "2");
+                                }
+                            });
+                        });
+                    });
+                }
+            });
+
+        });
+    </script>
+}
+
