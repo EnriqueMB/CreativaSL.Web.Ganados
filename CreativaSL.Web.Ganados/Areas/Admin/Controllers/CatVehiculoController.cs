@@ -158,7 +158,187 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(Vehiculo);
             }
         }
+        #region Archivos
+        [HttpPost]
+        public ActionResult LoadTableArchivos(string id_vehiculo)
+        {
+            try
+            {
+                _CatVehiculo_Datos Datos = new _CatVehiculo_Datos();
+                string datatable = Datos.VEHICULO_index_Archivo(Conexion, id_vehiculo);
 
+                return Content(datatable, "application/json");
+            }
+            catch (Exception ex)
+            {
+                return Content("", "application/json");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Archivos(string id, string nombreVehiculo)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id.Trim()) || string.IsNullOrEmpty(nombreVehiculo))
+                {
+                    return RedirectToAction("Index");
+                }
+
+                ViewBag.NombreVehiculo = nombreVehiculo;
+                ViewBag.Id_vehiculo = id;
+
+                return View();
+            }
+            catch (Exception)
+            {
+                CatVehiculoModels Vehiculo = new CatVehiculoModels();
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No se puede cargar la vista";
+                return RedirectToAction("Index");
+            }
+        }
+        [HttpGet]
+        public ActionResult AgregarArchivo(string id_vehiculo)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id_vehiculo.Trim()))
+                {
+                    return RedirectToAction("Index");
+                }
+
+                ArchivoVehiculoModels Archivo = new ArchivoVehiculoModels();
+
+                Archivo.Id_vehiculo = id_vehiculo;
+
+                return View(Archivo);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult AgregarArchivo(ArchivoVehiculoModels ArchivoModel)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(ArchivoModel);
+
+                }
+
+                _CatVehiculo_Datos Datos = new _CatVehiculo_Datos();
+
+                if (Path.GetExtension(ArchivoModel.Archivo.FileName).ToLower() == ".heic")
+                {
+                    ArchivoModel.UrlArchivo = Guid.NewGuid().ToString() + ".png";
+                    ArchivoModel.NombreArchivo = ArchivoModel.Archivo.FileName.Replace(Path.GetExtension(ArchivoModel.Archivo.FileName), ".png");
+                }
+                else
+                {
+                    ArchivoModel.UrlArchivo = Guid.NewGuid().ToString() + Path.GetExtension(ArchivoModel.Archivo.FileName);
+                    ArchivoModel.NombreArchivo = ArchivoModel.Archivo.FileName;
+                }
+                RespuestaAjax respuesta = Datos.VEHICULO_ac_Archivo(ArchivoModel, Conexion, User.Identity.Name, 1);
+
+                if (respuesta.Success)
+                {
+                    if (Path.GetExtension(ArchivoModel.Archivo.FileName).ToLower() == ".heic")
+                    {
+                        Stream oStream = ArchivoModel.Archivo.InputStream;
+                        Bitmap bmp = Auxiliar.ProcessFile(oStream);
+                        bmp.Save(Server.MapPath("~/ArchivosVehiculo/" + ArchivoModel.UrlArchivo));
+                    }
+                    else
+                    {
+                        ArchivoModel.Archivo.SaveAs(Server.MapPath("~/ArchivosVehiculo/" + ArchivoModel.UrlArchivo));
+                    }
+
+                    TempData["typemessage"] = "1";
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                }
+
+                TempData["message"] = respuesta.Mensaje;
+
+                return RedirectToAction("Archivos", "CatVehiculo", new { id = ArchivoModel.Id_vehiculo, nombreVehiculo = respuesta.Href });
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult DescargarArchivo(string nombreArchivoServer, string nombreArchivo)
+        {
+            try
+            {
+                string path = AppDomain.CurrentDomain.BaseDirectory + "ArchivosVehiculo/";
+                byte[] fileBytes = System.IO.File.ReadAllBytes(path + nombreArchivoServer);
+                string fileName = nombreArchivo;
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EliminarArchivo(string nombreArchivoServer, int? id)
+        {
+            try
+            {
+                RespuestaAjax respuesta = new RespuestaAjax();
+
+                if ((string.IsNullOrEmpty(nombreArchivoServer.Trim())) || (id == null || id == 0))
+                {
+                    respuesta.Success = false;
+                    respuesta.Mensaje = "Verifique sus datos";
+                    return Content(respuesta.ToJSON(), "application/json");
+                }
+
+                //Borramos el archivo del servidor para no acumular basura
+                string pathRoot = Server.MapPath("~/ArchivosVehiculo");
+                string filePath = pathRoot + "\\" + nombreArchivoServer;
+
+                if ((System.IO.File.Exists(filePath)))
+                {
+                    System.IO.File.Delete(filePath);
+                    //Ponemos en activo 0 el archivo
+
+                    _CatVehiculo_Datos Datos = new _CatVehiculo_Datos();
+                    respuesta = Datos.VEHICULO_del_Archivo(Conexion, id.Value);
+
+                    respuesta.Success = respuesta.Success;
+                    respuesta.Mensaje = respuesta.Mensaje;
+                    return Content(respuesta.ToJSON(), "application/json");
+                }
+                else
+                {
+                    respuesta.Success = false;
+                    respuesta.Mensaje = "Verifique sus datos";
+                    return Content(respuesta.ToJSON(), "application/json");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
 
         // GET: Admin/CatVehiculo/Edit/5
         public ActionResult Edit(string id)

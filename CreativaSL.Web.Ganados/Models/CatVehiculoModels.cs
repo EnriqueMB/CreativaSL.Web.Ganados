@@ -35,6 +35,7 @@ namespace CreativaSL.Web.Ganados.Models
 
             _DateLastService = DateTime.MinValue;
 
+            _nombreVehiculo = string.Empty;
             //datos de control
             Conexion = string.Empty;
             Resultado = 0;
@@ -273,6 +274,13 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _Estatus; }
             set { _Estatus = value; }
+        }
+        private string _nombreVehiculo;
+
+        public string nombreVehiculo
+        {
+            get { return _nombreVehiculo; }
+            set { _nombreVehiculo = value; }
         }
 
         private DateTime _DateLastService;
