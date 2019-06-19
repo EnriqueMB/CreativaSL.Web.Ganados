@@ -1,14 +1,48 @@
 ﻿@model CreativaSL.Web.Ganados.Models.CatGanadoModels
 
 @{
-    ViewBag.Title = "Transferir";
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-}
+                /**/
 
+                ViewBag.Title = "Transferir";
+                Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section css
+{
+    <link href="~/Content/js/plugins/select.bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+
+        .errorTableCSL {
+            border: 1px solid #ff004d;
+        }
+
+        .okCSLGanado {
+            border-color: #95b75d !important;
+        }
+
+        .form-control[disabled],
+        .form-control[readonly] {
+            color: #000 !important;
+        }
+
+        .page-content {
+            height: 100% !important;
+        }
+
+        .btnCSL {
+            border-color: #999;
+            color: #1b1e24;
+            border-radius: 20%;
+        }
+    </style>
+
+}
 @section featured{
     @{
-        var message = TempData["message"] ?? string.Empty;
-        var typemessage = TempData["typemessage"] ?? string.Empty;
+                        /**/
+
+                        var message = TempData["message"] ?? string.Empty;
+                        var typemessage = TempData["typemessage"] ?? string.Empty;
     }
     <div class="row">
         <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
@@ -82,7 +116,11 @@
                                             <th>Núm. arete</th>
                                             <th>Corral</th>
                                             <th>Genero</th>
+                                            <th>Merma</th>
                                             <th>Peso pagado</th>
+                                            <th>Precio/kilo (pagado)</th>
+                                            <th>Costo</th>
+                                            <th>PC</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -93,7 +131,11 @@
                                             <th>Núm. arete</th>
                                             <th>Corral</th>
                                             <th>Genero</th>
+                                            <th>Merma</th>
                                             <th>Peso</th>
+                                            <th>Precio/kilo</th>
+                                            <th>Subtotal</th>
+                                            <th>PC</th>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -142,6 +184,9 @@
     </script>
 }
 @section script{
+    <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+    <script src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
@@ -151,9 +196,9 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/TransferirGanado.js")"></script>
     <script>
-    jQuery(document).ready(function () {
-        Mensaje(message, typemessage);
-        Transferir.init();
-    });
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            Transferir.init();
+        });
     </script>
 }

@@ -1,5 +1,6 @@
 ﻿var Transferir = function () {
     "use strict";
+    var tblGanadoCorral, tblGanadoJaula;
     // Funcion para validar registrar
     var runValidator1 = function () {
         var form1 = $('#form-dg');
@@ -87,43 +88,60 @@
         });
     }
 
-    //var initDataTables = function () {
-    //    tblGanadoCorral = $('#tblGanadoCorral').DataTable({
-    //        "language": {
-    //            "url": "/Content/assets/json/Spanish.json"
-    //        },
-    //        responsive: true,
-    //        "ajax": {
-    //            "data": "",
-    //            "url": "/Admin/CatGanado/DatatableGanadoActual/",
-    //            "type": "POST",
-    //            "datatype": "json",
-    //            "dataSrc": ''
-    //        },
-    //        "columns": [
-    //            { "data": "id_ganado" },
-    //            { "data": "numArete" },
-    //            { "data": "corral" },
-    //            { "data": "genero" },
-    //            {
-    //                "data": "pesoInicial"
-    //            }
-    //        ],
-    //        "columnDefs": [
-    //            {
-    //                "targets": [0, 1, 5, 7, 9],
-    //                "visible": false,
-    //                "searchable": false
-    //            }
-    //        ]
-    //    });
-    //}
+    var initDataTables = function () {
+        tblGanadoCorral = $('#tblGanadoCorral').DataTable({
+            "language": {
+                "url": "/Content/assets/json/Spanish.json"
+            },
+            responsive: true,
+            "ajax": {
+                "data": {
+                    "Id_sucursal": 1
+                },
+                "url": "/Admin/CatGanado/DatatableGanadoActual/",
+                "type": "POST",
+                "datatype": "json",
+                "dataSrc": ''
+            },
+            "columns": [
+                { "data": "id_ganado" },
+                { "data": "id_detalle" },
+                { "data": "numArete" },
+                { "data": "corral" },
+                { "data": "genero" },
+                {
+                    "data": "merma",
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '', ' %')
+                },
+                {
+                    "data": "pesoInicial",
+                    "render": $.fn.dataTable.render.number(',', '.', 0, '', ' KG.')
+                },
+                {
+                    "data": "precioKilo",
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$')
+                },
+                {
+                    "data": "precioCompra",
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$')
+                },
+                { "data": "precioCompra" }
+            ],
+            "columnDefs": [
+                {
+                    "targets": [0, 1, 5, 7, 9],
+                    "visible": false,
+                    "searchable": false
+                }
+            ]
+        });
+    }
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
             runEvents();
-            //initDataTables();
+            initDataTables();
         }
     };
 }();

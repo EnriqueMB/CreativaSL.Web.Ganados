@@ -71,6 +71,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             Sucursal = new CatSucursalesModels { IDSucursal = Model.IDSucursal },
                             Proveedor = new CatProveedorModels { IDProveedor = Model.IDProveedor },
                             Fecha = Model.Fecha,
+                            FechaProxima = Model.FechaProxima,
                             Vehiculo = new CatVehiculoModels { IDVehiculo = Model.ID },
                             Conexion = Conexion,
                             Usuario = User.Identity.Name
@@ -152,6 +153,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             Sucursal = new CatSucursalesModels { IDSucursal = Model.IDSucursal },
                             Proveedor = new CatProveedorModels { IDProveedor = Model.IDProveedor },
                             Fecha = Model.Fecha,
+                            FechaProxima = Model.FechaProxima,
                             Vehiculo = new CatVehiculoModels(),
                             Conexion = Conexion,
                             Usuario = User.Identity.Name

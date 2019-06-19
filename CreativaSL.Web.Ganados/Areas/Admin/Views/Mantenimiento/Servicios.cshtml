@@ -50,6 +50,7 @@
                                 <thead>
                                     <tr>
                                         <th>Fecha </th>
+                                        <th>Fecha Próxima</th>
                                         <th>Sucursal</th>
                                         <th>Proveedor</th>
                                         <th>Gasto Total</th>
@@ -63,6 +64,7 @@
                                     {
                                         <tr id="@Item.IDServicio">
                                             <td>@Item.FechaFormat</td>
+                                            <td>@Item.FechaProxFormat</td>
                                             <td>@Item.Sucursal.NombreSucursal</td>
                                             <td>@Item.Proveedor.NombreRazonSocial</td>
                                             <td class="pull-right">@Item.ImporteTotalFormat</td>
