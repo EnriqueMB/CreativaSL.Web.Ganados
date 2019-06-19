@@ -2,6 +2,7 @@
 using CreativaSL.Web.Ganados.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -14,7 +15,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     public class MiCajaChicaController : Controller
     {
         private TokenProcessor Token = TokenProcessor.GetInstance();
-
+     //   string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         // GET: Admin/MiCajaChica
         public ActionResult Index()
         {
@@ -277,6 +278,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 return Json("false");
             }
+        }
+        public ActionResult ModalTicket2(int ID)
+        {
+            CajaChicaModels Imagen = new CajaChicaModels();
+            Imagen.IdCaja = ID;
+
+            _CajaChica_Datos datos = new _CajaChica_Datos();
+            datos.ObtenerImagenCajaChica(Imagen);
+
+
+            return PartialView("ModalTicket2", Imagen);
         }
 
     }
