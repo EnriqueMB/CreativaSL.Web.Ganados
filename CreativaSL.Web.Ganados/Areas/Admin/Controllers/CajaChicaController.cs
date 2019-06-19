@@ -351,5 +351,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(model);
             }
         }
+        //parte de boton ver en cajachica
+        public ActionResult ModalTicket2(int ID)
+        {
+            CajaChicaModels Imagen = new CajaChicaModels();
+            Imagen.IdCaja = ID;
+  
+            _CajaChica_Datos datos = new _CajaChica_Datos();
+            datos.ObtenerImagenCajaChica(Imagen);
+
+            
+            return PartialView("ModalTicket2", Imagen);
+        }
     }
 }

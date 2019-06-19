@@ -288,6 +288,33 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public void ObtenerImagenCajaChica(CajaChicaModels cajaChica)
+        {
+            try
+            {
+                object[] parametros = { cajaChica.IdCaja };
+                SqlDataReader dr = SqlHelper.ExecuteReader(_ConexionRepositorio.CadenaConexion, "[cajachica].[spCIDDB_get_ImageCajaChica]", parametros);
+               
+                while (dr.Read())
+                {
+
+                    cajaChica.ImagenCajaChica = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty; 
+                }
+
+                if (string.IsNullOrEmpty(cajaChica.ImagenCajaChica))
+                {
+                    cajaChica.ImagenCajaChica = Auxiliar.SetDefaultImage();
+                }
+
+                dr.Close();
+ 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<FormaPagoCajaChicaModels> LlenarComboFormaPagos(bool IncluirSelect)
         {
             try

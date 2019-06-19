@@ -9,6 +9,8 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CajaChicaModels
     {
+        public string ImagenCajaChica { get; set; }
+
         public Int64 IdCaja { get; set; }
         public DateTime FechaApertura { get; set; }
         public string NombreEmpleado { get; set; }
