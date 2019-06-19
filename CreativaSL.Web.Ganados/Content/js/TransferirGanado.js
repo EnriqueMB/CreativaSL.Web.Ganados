@@ -1,6 +1,7 @@
 ﻿var Transferir = function () {
     "use strict";
-    var tblGanadoCorral, tblGanadoJaula;
+    var tblGanadoCorral, tblGanadoTransferir;
+    var IDSucursal;
     // Funcion para validar registrar
     var runValidator1 = function () {
         var form1 = $('#form-dg');
@@ -64,7 +65,7 @@
    
     var runEvents = function () {
         $("#IdSucursal").on("change", function () {
-            var IDSucursal = $("#IdSucursal").val();
+            IDSucursal = $("#IdSucursal").val();
             GetCorrarXIDSucursal(IDSucursal);
         });
     }
@@ -89,6 +90,7 @@
     }
 
     var initDataTables = function () {
+
         tblGanadoCorral = $('#tblGanadoCorral').DataTable({
             "language": {
                 "url": "/Content/assets/json/Spanish.json"
@@ -96,7 +98,7 @@
             responsive: true,
             "ajax": {
                 "data": {
-                    "Id_sucursal": 1
+                    //"Id_sucursal": 1
                 },
                 "url": "/Admin/CatGanado/DatatableGanadoActual/",
                 "type": "POST",
@@ -105,43 +107,191 @@
             },
             "columns": [
                 { "data": "id_ganado" },
-                { "data": "id_detalle" },
                 { "data": "numArete" },
                 { "data": "corral" },
+                { "data": "Sucursal" },
                 { "data": "genero" },
-                {
-                    "data": "merma",
-                    "render": $.fn.dataTable.render.number(',', '.', 2, '', ' %')
-                },
                 {
                     "data": "pesoInicial",
                     "render": $.fn.dataTable.render.number(',', '.', 0, '', ' KG.')
-                },
-                {
-                    "data": "precioKilo",
-                    "render": $.fn.dataTable.render.number(',', '.', 2, '$')
-                },
-                {
-                    "data": "precioCompra",
-                    "render": $.fn.dataTable.render.number(',', '.', 2, '$')
-                },
-                { "data": "precioCompra" }
+                }
             ],
             "columnDefs": [
                 {
-                    "targets": [0, 1, 5, 7, 9],
+                    "targets": [0],
+                    "visible": false,
+                    "searchable": false
+                }
+            ]
+        });
+
+        tblGanadoTransferir = $('#tblGanadoTransferir').DataTable({
+            "language": {
+                "url": "/Content/assets/json/Spanish.json"
+            },
+            responsive: true,
+            "columns": [
+                { "data": "id_ganado" },
+                { "data": "numArete" },
+                { "data": "corral" },
+                { "data": "Sucursal" },
+                { "data": "genero" },
+                {
+                    "data": "pesoInicial",
+                    "render": $.fn.dataTable.render.number(',', '.', 0, '', ' KG.')
+                }
+            ],
+            "columnDefs": [
+                {
+                    "targets": [0],
                     "visible": false,
                     "searchable": false
                 }
             ]
         });
     }
+
+    var initFuncionesGanado = function () {
+
+        //Seleccionar filas 
+        $('#tblGanadoCorral tbody').on('click', 'tr', function () {
+            $(this).toggleClass('selected');
+        });
+        $('#tblGanadoTransferir tbody').on('click', 'tr', function () {
+            $(this).toggleClass('selected');
+        });
+        $('#seleccionarCorral').click(function () {
+            var nodos = tblGanadoCorral.rows({ page: 'all', search: 'applied' }).nodes();
+            for (var i = 0; i < nodos.length; i++) {
+                $(nodos[i]).toggleClass("selected");
+            }
+        });
+        $('#seleccionarTransferir').click(function () {
+            var nodos = tblGanadoTransferir.rows({ page: 'all', search: 'applied' }).nodes();
+            for (var i = 0; i < nodos.length; i++) {
+                $(nodos[i]).toggleClass("selected");
+            }
+        });
+
+        //Pasar y regresar filas en las tablas
+        $('#enviar').click(function () {
+            var rows = tblGanadoCorral.rows('.selected').data();
+
+            for (var i = 0; i < rows.length; i++) {
+                var d = rows[i];
+
+                //lo agrego a la tabla jaula para su envio
+                tblGanadoTransferir.row.add({
+                    "id_ganado": d.id_ganado,
+                    "numArete": d.numArete,
+                    "corral": d.corral,
+                    "Sucursal": d.Sucursal,
+                    "genero": d.genero,
+                    "pesoInicial": d.pesoInicial
+                }).draw();
+            }
+            tblGanadoCorral.rows('.selected').remove().draw(false);
+        });
+
+        $('#regresar').click(function () {
+            var rows = tblGanadoTransferir.rows('.selected').data();
+            for (var i = 0; i < rows.length; i++) {
+                var d = rows[i];
+                tblGanadoCorral.row.add({
+                    "id_ganado": d.id_ganado,
+                    "numArete": d.numArete,
+                    "corral": d.corral,
+                    "Sucursal": d.Sucursal,
+                    "genero": d.genero,
+                    "pesoInicial": d.pesoInicial
+                }).draw();
+            }
+            tblGanadoTransferir.rows('.selected').remove().draw(false);
+        });
+
+        $('#guardar').on('click', function () {
+            //datos de las tablas
+
+            var error = Validar();
+
+            if (error == 0) {
+                //var tblGanado = tblGanadoJaula.rows().data();
+                var tblGanado = tblGanadoTransferir.rows().data();
+                console.log(tblGanado);
+                var ganados = [];
+
+                for (var i = 0; i < tblGanado.length; i++) {
+                    var id_ganado = tblGanado[i].id_ganado;
+                    //dtTable.row(this).data()[3]
+                    
+                    var ganado =
+                    {
+                        Id_ganado: id_ganado,
+                    };
+                    ganados.push(ganado);
+                }
+
+                var Datos = {
+                    ListaGanadosParaVender: ganados,
+                    IDSucursal: $("#IdSucursal").val(),
+                    IDCorral: $("#IdCorral").val()
+                };
+
+                $.ajax({
+                    dataType: 'json',
+                    type: 'POST',
+                    url: '/Admin/CatGanado/Transferir/',
+                    data: Datos,
+                    success: function (response) {
+                        if (response == "Correcto") {
+                            window.location.href = '/Admin/CatGanado/Index';
+                        }
+                    },
+                    error: function (request, status, error) {
+                        window.location.href = '/Admin/CatGanado/Index';
+                    }
+                });
+            }
+        });
+
+    };
+
+    function Validar() {
+        var error = 0;
+        var ganado = tblGanadoTransferir.rows().data();
+        IDSucursal = $("#IdSucursal").val();
+        if (ganado.length == 0) {
+            $("#tblGanadoTransferir").addClass("errorTableCSL");
+            $("#tblGanadoTransferir").removeClass("okCSLGanado");
+            $("#validation_summary").find("dd[for='Ganado']").addClass('help-block valid').text('-Debe de seleccionar un ganado para transferir');
+            error = 1;
+        }
+        else {
+            $("#tblGanadoTransferir").addClass("okCSLGanado");
+            $("#tblGanadoTransferir").removeClass("errorTableCSL");
+            $("#validation_summary").find("dd[for='Ganado']").addClass('help-block valid').text('');
+        }
+        if (IDSucursal == "") {
+            $("#IdSucursal").addClass("errorTableCSL");
+            $("#IdSucursal").removeClass("okCSLGanado");
+            $("#validation_summary").find("dd[for='Sucursal']").addClass('help-block valid').text('-Debe de seleccionar una sucursal de tranferencia');
+            error = 1;
+        }
+        else {
+            $("#IdSucursal").addClass("okCSLGanado");
+            $("#IdSucursal").removeClass("errorTableCSL");
+            $("#validation_summary").find("dd[for='Sucursal']").addClass('help-block valid').text('');
+        }
+        return error;
+    }
+
     return {
         //main function to initiate template pages
         init: function () {
             runValidator1();
             runEvents();
             initDataTables();
+            initFuncionesGanado();
         }
     };
 }();
