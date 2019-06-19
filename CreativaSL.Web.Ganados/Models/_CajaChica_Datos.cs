@@ -288,7 +288,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public void ObtenerImagenCajaChica(CajaChicaModels cajaChica)
+        public void ObtenerImagenCajaChica(CajaChicaModels cajaChica) //metodo hecho para la imagen
         {
             try
             {
@@ -314,6 +314,11 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+
+       
+
+
 
         public List<FormaPagoCajaChicaModels> LlenarComboFormaPagos(bool IncluirSelect)
         {
@@ -621,5 +626,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+       
     }
 }

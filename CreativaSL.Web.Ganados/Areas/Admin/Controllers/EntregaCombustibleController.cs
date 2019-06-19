@@ -533,13 +533,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             Entrega.IDEntregaCombustible = ID;
             Datos.MostrarTickets(Entrega);
 
-            //Compra = new CompraModels();
-            //CompraDatos = new _Compra_Datos();
-            //Compra.Proveedor.IDTipoProveedor = IDTipoProveedor;
-            //Compra.Conexion = Conexion;
-            //Compra.ListaRangoPeso = CompraDatos.GetListadoPrecioRangoPeso(Compra);
-
-            //return PartialView("ModalListadoPrecios", Compra);
+           
             return PartialView("ModalTicket", Entrega);
         }
 

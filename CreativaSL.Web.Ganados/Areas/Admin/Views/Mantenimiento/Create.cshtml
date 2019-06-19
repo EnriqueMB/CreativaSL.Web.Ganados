@@ -69,6 +69,17 @@
                                         @Html.ValidationMessageFor(model => model.Fecha)
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-2 col-xs-12 control-label"> * Fecha próxima de servicio</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                            @Html.TextBoxFor(model => model.FechaProxima, "{0:dd/MM/yyyy}", new { id = "FechaProxima", @class = "form-control datepicker", @readonly = "readonly" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.FechaProxima)
+                                    </div>
+                                </div>
                             </div>
                             <div class="panel-footer">
                                 <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">

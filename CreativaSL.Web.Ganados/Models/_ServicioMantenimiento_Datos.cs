@@ -73,6 +73,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item = new ServiciosMantenimientoModels();
                     Item.IDServicio = !Dr.IsDBNull(Dr.GetOrdinal("IDServicio")) ? Dr.GetString(Dr.GetOrdinal("IDServicio")) : string.Empty;
                     Item.Fecha = !Dr.IsDBNull(Dr.GetOrdinal("Fecha")) ? Dr.GetDateTime(Dr.GetOrdinal("Fecha")) : DateTime.MinValue;
+                    Item.FechaProxima = !Dr.IsDBNull(Dr.GetOrdinal("FechaProxima")) ? Dr.GetDateTime(Dr.GetOrdinal("FechaProxima")) : DateTime.MinValue;
                     Item.Sucursal.NombreSucursal = !Dr.IsDBNull(Dr.GetOrdinal("Sucursal")) ? Dr.GetString(Dr.GetOrdinal("Sucursal")) : string.Empty;
                     Item.ImporteTotal = !Dr.IsDBNull(Dr.GetOrdinal("ImporteTotal")) ? Dr.GetDecimal(Dr.GetOrdinal("ImporteTotal")) : 0;
                     Item.ServiciosRealizados = !Dr.IsDBNull(Dr.GetOrdinal("Servicios")) ? Dr.GetString(Dr.GetOrdinal("Servicios")) : string.Empty;
@@ -173,6 +174,7 @@ namespace CreativaSL.Web.Ganados.Models
                                         Datos.Vehiculo.IDVehiculo ?? string.Empty,
                                         Datos.Sucursal.IDSucursal ?? string.Empty,
                                         Datos.Fecha,
+                                        Datos.FechaProxima,
                                         Datos.Usuario ?? string.Empty};
                 object Result = SqlHelper.ExecuteScalar(Datos.Conexion, "spCSLDB_Mantenimiento_ac_Servicios", Parametros);
                 if(Result != null)
@@ -257,6 +259,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Resultado.IDSucursal = !Dr.IsDBNull(Dr.GetOrdinal("IDSucursal")) ? Dr.GetString(Dr.GetOrdinal("IDSucursal")) : string.Empty;
                     Resultado.IDProveedor = !Dr.IsDBNull(Dr.GetOrdinal("IDProveedor")) ? Dr.GetString(Dr.GetOrdinal("IDProveedor")) : string.Empty;
                     Resultado.Fecha = !Dr.IsDBNull(Dr.GetOrdinal("Fecha")) ? Dr.GetDateTime(Dr.GetOrdinal("Fecha")) : DateTime.MinValue;
+                    Resultado.FechaProxima = !Dr.IsDBNull(Dr.GetOrdinal("FechaProxima")) ? Dr.GetDateTime(Dr.GetOrdinal("FechaProxima")) : DateTime.MinValue;
                     break;
                 }
                 return Resultado;

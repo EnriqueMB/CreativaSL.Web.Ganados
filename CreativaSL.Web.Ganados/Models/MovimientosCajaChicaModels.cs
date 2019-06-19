@@ -14,7 +14,7 @@ namespace CreativaSL.Web.Ganados.Models
             FolioCheque = string.Empty;
             Concepto = string.Empty;
         }
-
+    
         public Int64 IDTipoMovimiento { get; set; }
         public Int64 IdCaja { get; set; }
         public Int64 IdMovimiento { get; set; }
