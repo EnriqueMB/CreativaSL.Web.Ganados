@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Xml;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -246,7 +247,10 @@ namespace CreativaSL.Web.Ganados.Models
                         Concepto = !Dr.IsDBNull(Dr.GetOrdinal("Concepto")) ? Dr.GetString(Dr.GetOrdinal("Concepto")) : string.Empty,
                         Saldo = !Dr.IsDBNull(Dr.GetOrdinal("Saldo")) ? Dr.GetDecimal(Dr.GetOrdinal("Saldo")) : 0m,
                         FormaPago = !Dr.IsDBNull(Dr.GetOrdinal("Tipo")) ? Dr.GetString(Dr.GetOrdinal("Tipo")) : string.Empty,
-                        IDTipoMovimiento = !Dr.IsDBNull(Dr.GetOrdinal("IDTipoMovimiento")) ? Dr.GetInt32(Dr.GetOrdinal("IDTipoMovimiento")) : 0
+                        IDTipoMovimiento = !Dr.IsDBNull(Dr.GetOrdinal("IDTipoMovimiento")) ? Dr.GetInt32(Dr.GetOrdinal("IDTipoMovimiento")) : 0,
+                        IdFormaPago = !Dr.IsDBNull(Dr.GetOrdinal("IDFormaPago")) ? Dr.GetInt32(Dr.GetOrdinal("IDFormaPago")) : 0,
+                        Estatus = XmlConvert.ToBoolean(Dr.GetInt32(Dr.GetOrdinal("Estatus")).ToString()),
+                        FolioCheque = !Dr.IsDBNull(Dr.GetOrdinal("Folio")) ? Dr.GetString(Dr.GetOrdinal("Folio")):string.Empty
                     };
                     Lista.Add(Item);
                 }
@@ -277,6 +281,33 @@ namespace CreativaSL.Web.Ganados.Models
                 }
                 Dr.Close();
                 return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void ObtenerImagenCajaChica(CajaChicaModels cajaChica)
+        {
+            try
+            {
+                object[] parametros = { cajaChica.IdCaja };
+                SqlDataReader dr = SqlHelper.ExecuteReader(_ConexionRepositorio.CadenaConexion, "[cajachica].[spCIDDB_get_ImageCajaChica]", parametros);
+               
+                while (dr.Read())
+                {
+
+                    cajaChica.ImagenCajaChica = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty; 
+                }
+
+                if (string.IsNullOrEmpty(cajaChica.ImagenCajaChica))
+                {
+                    cajaChica.ImagenCajaChica = Auxiliar.SetDefaultImage();
+                }
+
+                dr.Close();
+ 
             }
             catch (Exception ex)
             {
@@ -384,7 +415,9 @@ namespace CreativaSL.Web.Ganados.Models
                     model.Recibe = !Dr.IsDBNull(Dr.GetOrdinal("PersonaRecibe")) ? Dr.GetString(Dr.GetOrdinal("PersonaRecibe")) : string.Empty;
                     model.FolioCheque = !Dr.IsDBNull(Dr.GetOrdinal("Folio")) ? Dr.GetString(Dr.GetOrdinal("Folio")) : string.Empty;
                     model.Alias = !Dr.IsDBNull(Dr.GetOrdinal("Alias")) ? Dr.GetString(Dr.GetOrdinal("Alias")) : string.Empty;
-                    model.FotoCheque = !Dr.IsDBNull(Dr.GetOrdinal("FotoComprobante")) ? Dr.GetString(Dr.GetOrdinal("FotoComprobante")) : string.Empty;
+                    model.FotoCheque = Dr.IsDBNull(Dr.GetOrdinal("FotoComprobante")) ?
+                        Auxiliar.SetDefaultImage() : string.IsNullOrEmpty(Dr.GetString(Dr.GetOrdinal("FotoComprobante"))) ?
+                       Auxiliar.SetDefaultImage() : Dr.GetString(Dr.GetOrdinal("FotoComprobante"));
                     model.Estatus = !Dr.IsDBNull(Dr.GetOrdinal("Estatus")) ? Dr.GetBoolean(Dr.GetOrdinal("Estatus")) : false;
                     break;
                 }
@@ -555,6 +588,26 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 object[] Parametros = { model.IdCaja, model.MontoApertura, model.KeyWord, IdUsuario };
                 object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion, "[cajachica].[spCIDDB_GuardarMovimientoEntrada]", Parametros);
+                if (Result != null)
+                {
+                    int Resultado = 0;
+                    int.TryParse(Result.ToString(), out Resultado);
+                    return Resultado;
+                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public int EstatusChequeCobrado(Int64 IdMovimiento, string IdUsuario)
+        {
+            try
+            {
+                object[] Parametros = { IdMovimiento, IdUsuario };
+                object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion, "[cajachica].[spCIDDB_CobrarChequeCajaChica]", Parametros);
                 if (Result != null)
                 {
                     int Resultado = 0;

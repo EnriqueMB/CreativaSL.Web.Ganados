@@ -105,7 +105,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         }
                         else
                         {
-                            string mensajeError = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";                            
+                            string mensajeError = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
                             TempData["typemessage"] = "2";
                             TempData["message"] = mensajeError;
                             ViewBag.ListaConceptos = datos.LlenarComboConceptos(false);
@@ -247,6 +247,26 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 int Resultado = datos.EliminarMovimiento(id, User.Identity.Name);
+                if (Resultado == 1)
+                {
+                    return Json("true");
+                }
+                return Json("false");
+            }
+            catch
+            {
+                return Json("false");
+            }
+        }
+
+        //POST: Admin/MiCajaChica/estatusCheque/3
+        [HttpPost]
+        public ActionResult EstatusCheque(Int64 id)
+        {
+            _CajaChica_Datos datos = new _CajaChica_Datos();
+            try
+            {
+                int Resultado = datos.EstatusChequeCobrado(id, User.Identity.Name);
                 if (Resultado == 1)
                 {
                     return Json("true");

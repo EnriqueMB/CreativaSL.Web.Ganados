@@ -68,6 +68,7 @@
                                             <td>@vehiculo.NoSerie</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    <a title="Archivos" class="btn btn-success" href="@Url.Action("Archivos", "CatVehiculo", new { id = vehiculo.IDVehiculo, nombreVehiculo = vehiculo.nombreVehiculo})"><i class="fa fa-file-text"></i></a>
                                                     <a title="Editar" href="@Url.Action("Edit", "CatVehiculo", new { id =vehiculo.IDVehiculo  })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                                                     <a title="Eliminar" id="delete-@vehiculo.IDVehiculo" data-hrefa="@Url.Action("Delete", "CatVehiculo", new { id =vehiculo.IDVehiculo })" onClick="delete_row('@vehiculo.IDVehiculo');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>

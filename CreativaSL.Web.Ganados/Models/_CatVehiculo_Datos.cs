@@ -28,6 +28,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.EsPropio = !dr.IsDBNull(dr.GetOrdinal("propio")) ? dr.GetBoolean(dr.GetOrdinal("propio")) : false;
                     Item.NoSerie = !dr.IsDBNull(dr.GetOrdinal("noSerie")) ? dr.GetString(dr.GetOrdinal("noSerie")) : string.Empty;
                     Item.Estatus = !dr.IsDBNull(dr.GetOrdinal("estatus")) ? dr.GetBoolean(dr.GetOrdinal("estatus")) : false;
+                    Item.nombreVehiculo = !dr.IsDBNull(dr.GetOrdinal("nombreVehiculo")) ? dr.GetString(dr.GetOrdinal("nombreVehiculo")) : string.Empty;
                     Lista.Add(Item);
                 }
                 dr.Close();
@@ -281,5 +282,78 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        #region Archivos
+        public string VEHICULO_index_Archivo(string conexion, string id_vehiculo)
+        {
+            try
+            {
+                object[] parametros = { id_vehiculo };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "spCSLDB_VEHICULO_index_Archivo", parametros);
+                string datatable = Auxiliar.SqlReaderToJson(dr);
+
+                dr.Close();
+                return datatable;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public RespuestaAjax VEHICULO_ac_Archivo(ArchivoVehiculoModels item, string conexion, string usuario, int opcion)
+        {
+            try
+            {
+                object[] parametros =
+                {
+                    item.Id,
+                    item.Id_vehiculo,
+                    item.Descripcion,
+                    item.UrlArchivo,
+                    item.NombreArchivo,
+                    usuario,
+                    opcion
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "spCSLDB_VEHICULO_ac_Archivo", parametros);
+                RespuestaAjax respuesta = new RespuestaAjax();
+                respuesta.Success = false;
+                respuesta.Mensaje = "";
+                while (dr.Read())
+                {
+                    respuesta.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    respuesta.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    respuesta.Href = !dr.IsDBNull(dr.GetOrdinal("nombreVehiculo")) ? dr.GetString(dr.GetOrdinal("nombreVehiculo")) : string.Empty;
+                }
+                dr.Close();
+                return respuesta;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public RespuestaAjax VEHICULO_del_Archivo(string conexion, int id)
+        {
+            try
+            {
+                object[] parametros = { id };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "spCSLDB_VEHICULO_del_Archivo", parametros);
+                RespuestaAjax respuesta = new RespuestaAjax();
+                while (dr.Read())
+                {
+                    respuesta.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    respuesta.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                }
+                dr.Close();
+                return respuesta;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
     }
 }
