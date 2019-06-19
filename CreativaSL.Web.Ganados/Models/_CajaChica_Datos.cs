@@ -288,6 +288,33 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public void ObtenerImagenCajaChica(CajaChicaModels cajaChica)
+        {
+            try
+            {
+                object[] parametros = { cajaChica.IdCaja };
+                SqlDataReader dr = SqlHelper.ExecuteReader(_ConexionRepositorio.CadenaConexion, "[cajachica].[spCIDDB_get_ImageCajaChica]", parametros);
+               
+                while (dr.Read())
+                {
+
+                    cajaChica.ImagenCajaChica = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty; 
+                }
+
+                if (string.IsNullOrEmpty(cajaChica.ImagenCajaChica))
+                {
+                    cajaChica.ImagenCajaChica = Auxiliar.SetDefaultImage();
+                }
+
+                dr.Close();
+ 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<FormaPagoCajaChicaModels> LlenarComboFormaPagos(bool IncluirSelect)
         {
             try
@@ -388,7 +415,9 @@ namespace CreativaSL.Web.Ganados.Models
                     model.Recibe = !Dr.IsDBNull(Dr.GetOrdinal("PersonaRecibe")) ? Dr.GetString(Dr.GetOrdinal("PersonaRecibe")) : string.Empty;
                     model.FolioCheque = !Dr.IsDBNull(Dr.GetOrdinal("Folio")) ? Dr.GetString(Dr.GetOrdinal("Folio")) : string.Empty;
                     model.Alias = !Dr.IsDBNull(Dr.GetOrdinal("Alias")) ? Dr.GetString(Dr.GetOrdinal("Alias")) : string.Empty;
-                    model.FotoCheque = !Dr.IsDBNull(Dr.GetOrdinal("FotoComprobante")) ? Dr.GetString(Dr.GetOrdinal("FotoComprobante")) : string.Empty;
+                    model.FotoCheque = Dr.IsDBNull(Dr.GetOrdinal("FotoComprobante")) ?
+                        Auxiliar.SetDefaultImage() : string.IsNullOrEmpty(Dr.GetString(Dr.GetOrdinal("FotoComprobante"))) ?
+                       Auxiliar.SetDefaultImage() : Dr.GetString(Dr.GetOrdinal("FotoComprobante"));
                     model.Estatus = !Dr.IsDBNull(Dr.GetOrdinal("Estatus")) ? Dr.GetBoolean(Dr.GetOrdinal("Estatus")) : false;
                     break;
                 }

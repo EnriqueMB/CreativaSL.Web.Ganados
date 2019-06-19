@@ -217,7 +217,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult DatatableGanadoActual()
+        public ActionResult DatatableGanadoActual(int Id_sucursal)
         {
             try
             {

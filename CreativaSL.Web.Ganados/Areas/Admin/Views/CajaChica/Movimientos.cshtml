@@ -49,44 +49,48 @@
                                         <th>Concepto</th>
                                         <th>Cobrado</th>
                                         <th>Saldo</th>
+                                        <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                    <tr id="@item.IdMovimiento">
-                                        <td align="center">@item.FechaString</td>
-                                        <td>@item.FolioCheque</td>
-                                        <td>@item.Entrega</td>
-                                        <td align="right">@item.EntradaString</td>
-                                        <td align="right">@item.SalidaString</td>
-                                        <td>@item.Recibe</td>
-                                        <td>@item.FormaPago</td>
-                                        <td>@item.Concepto</td>
-                                        @if (item.IDTipoMovimiento == 2)
-                                        {
-                                            if (item.IdFormaPago == 2)
+                                        <tr id="@item.IdMovimiento">
+                                            <td align="center">@item.FechaString</td>
+                                            <td>@item.FolioCheque</td>
+                                            <td>@item.Entrega</td>
+                                            <td align="right">@item.EntradaString</td>
+                                            <td align="right">@item.SalidaString</td>
+                                            <td>@item.Recibe</td>
+                                            <td>@item.FormaPago</td>
+                                            <td>@item.Concepto</td>
+
+                                            @if (item.IDTipoMovimiento == 2)
                                             {
-                                                if (item.Estatus)
+                                                if (item.IdFormaPago == 2)
                                                 {
-                                                    <td style="text-align:center"><div title="Cobrado" style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:green"></div></td>
+                                                    if (item.Estatus)
+                                                    {
+                                                        <td style="text-align:center"><div title="Cobrado" style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:green"></div></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="text-align:center"><div title="Por Cobrar" style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:red"></div></td>
+                                                    }
                                                 }
                                                 else
                                                 {
-                                                    <td style="text-align:center"><div title="Por Cobrar" style="padding:9px;margin: auto;width:1px;height:1px; border-radius:50% !important; background:red"></div></td>
+                                                    <td>No aplica</td>
                                                 }
                                             }
                                             else
                                             {
                                                 <td>No aplica</td>
                                             }
-                                        }
-                                        else
-                                        {
-                                            <td>No aplica</td>
-                                        }
-                                        <td align="right">@item.SaldoString</td>
-                                    </tr>
+                                            <td align="right">@item.SaldoString</td>
+
+                                            <td> <a title="Ver" class="btn btn-blue verTk2" data-id="@item.IdMovimiento"><i class="fa fa-eye"></i></a></td>
+                                        </tr>
                                     }
                                 </tbody>
                             </table>
@@ -100,7 +104,14 @@
                 <!-- END DEFAULT DATATABLE -->
             </div>
         </div>
-    </div>   
+    </div>
+
+    <div id="ModalImagen" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
+        <div class="modal-dialog modal-lg" id="ContenidoModalImagen">
+
+        </div>
+    </div>
+
     <script>
     var message = '@message';
     var typemessage = '@typemessage';
@@ -114,6 +125,23 @@
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
+        });
+
+        $(".verTk2").on("click", function () {
+
+            var id = $(this).attr("data-id");
+
+            $("body").css("cursor", "progress");
+            $.ajax({
+                url: '/Admin/CajaChica/ModalTicket2/',
+                type: "POST",
+                data: { ID: id },
+                success: function (data) {
+                    $("body").css("cursor", "default");
+                    $('#ContenidoModalImagen').html(data);
+                    $('#ModalImagen').modal({ backdrop: 'static', keyboard: false });
+                }
+            });
         });
     </script>
 }
