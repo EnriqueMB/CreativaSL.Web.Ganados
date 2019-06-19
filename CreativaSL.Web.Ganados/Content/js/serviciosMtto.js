@@ -25,12 +25,14 @@
             rules: {
                 IDSucursal: { required: true },
                 IDProveedor: { required: true },
-                Fecha: { required: true }
+                Fecha: { required: true },
+                FechaProxima: { required: true }
             },
             messages: {
                 IDSucursal: { required: "Seleccione una sucursal." },
                 IDProveedor: { required: "Seleccione un proveedor." },
-                Fecha: { required: "Ingrese la fecha del servicio." }
+                Fecha: { required: "Ingrese la fecha del servicio." },
+                FechaProxima: { required: "Ingrese la fecha próxima del servicio." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -96,6 +98,9 @@
 
     var runDatePicker = function () {
         $('#Fecha').datepicker({
+            format: 'dd/mm/yyyy'
+        });
+        $('#FechaProxima').datepicker({
             format: 'dd/mm/yyyy'
         });
     };
