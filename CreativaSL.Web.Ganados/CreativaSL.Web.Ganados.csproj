@@ -470,6 +470,7 @@
     <Content Include="Content\js\AgregarArchivo.js" />
     <Content Include="Content\js\AgregarArchivoChofer.js" />
     <Content Include="Content\js\AgregarArchivoEmpleado.js" />
+    <Content Include="Content\js\AgregarArchivoVehiculo.js" />
     <Content Include="Content\js\Bancos.js" />
     <Content Include="Content\js\EntradaCajaChica.js" />
     <Content Include="Content\js\CajaChica.js" />
@@ -1546,8 +1547,8 @@
     <Content Include="Areas\Admin\Views\CajaChica\EntradaCajaChica.cshtml" />
     <Content Include="Areas\Admin\Views\CatChofer\Archivos.cshtml" />
     <Content Include="Areas\Admin\Views\CatChofer\AgregarArchivo.cshtml" />
-    <Content Include="Areas\Admin\Views\CajaChica\ModalTicket2.cshtml" />
-    <Content Include="Areas\Admin\Views\EntregaCombustible\ModalTicket.cshtml" />
+    <Content Include="Areas\Admin\Views\CatVehiculo\Archivos.cshtml" />
+    <Content Include="Areas\Admin\Views\CatVehiculo\AgregarArchivo.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1661,6 +1662,7 @@
     <Compile Include="Models\AlmacenEntradaModels.cs" />
     <Compile Include="Models\ArchivoChoferModels.cs" />
     <Compile Include="Models\ArchivoEmpleadoModels.cs" />
+    <Compile Include="Models\ArchivoVehiculoModels.cs" />
     <Compile Include="Models\ArqueoCajaChicaModels.cs" />
     <Compile Include="Models\AsistenciaEmpleadoModels.cs" />
     <Compile Include="Models\Auxiliar.cs" />
@@ -2063,6 +2065,7 @@
     <Folder Include="ArchivosChofer\" />
     <Folder Include="ArchivosEmpleado\" />
     <Folder Include="ArchivosEmpresa\" />
+    <Folder Include="ArchivosVehiculo\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\CatBodega\" />
     <Folder Include="Imagenes\Fierro\" />
