@@ -332,5 +332,51 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        #region Notificacion Servicios Vehiculos
+        public List<CalendarioServiciosModels> GetListaServiciosProximos(CalendarioServiciosModels Compra)
+        {
+
+            try
+            {
+                List<CalendarioServiciosModels> Lista = new List<CalendarioServiciosModels>();
+                CalendarioServiciosModels Item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Inicio_get_ServicioProximo", Compra.fechaStart, Compra.fechaEnd);
+                while (dr.Read())
+                {
+                    Item = new CalendarioServiciosModels();
+
+                    Item.Servicio = !dr.IsDBNull(dr.GetOrdinal("Servicio")) ? dr.GetString(dr.GetOrdinal("Servicio")) : "Sin dato";
+                    Item.Encargado = !dr.IsDBNull(dr.GetOrdinal("Encargado")) ? dr.GetString(dr.GetOrdinal("Encargado")) : "Sin dato";
+                    Item.Vehiculo = !dr.IsDBNull(dr.GetOrdinal("Vehiculo")) ? dr.GetString(dr.GetOrdinal("Vehiculo")) : "Sin dato";
+                    Item.Sucursal = !dr.IsDBNull(dr.GetOrdinal("Sucursal")) ? dr.GetString(dr.GetOrdinal("Sucursal")) : "Sin dato";
+                    Item.Proveedor = !dr.IsDBNull(dr.GetOrdinal("Proveedor")) ? dr.GetString(dr.GetOrdinal("Proveedor")) : "Sin dato";
+                    Item.FechaUltServicio = !dr.IsDBNull(dr.GetOrdinal("FechaUltServicio")) ? dr.GetString(dr.GetOrdinal("FechaUltServicio")) : "Sin dato";
+                    Item.FechaProxServicio = !dr.IsDBNull(dr.GetOrdinal("FechaProxServicio")) ? dr.GetString(dr.GetOrdinal("FechaProxServicio")) : "Sin dato";
+                    Item.GastoTotal = !dr.IsDBNull(dr.GetOrdinal("GastoTotal")) ? dr.GetString(dr.GetOrdinal("GastoTotal")) : "Sin dato";
+                    Item.Estatus = !dr.IsDBNull(dr.GetOrdinal("Estatus")) ? dr.GetString(dr.GetOrdinal("Estatus")) : "Sin dato";
+                    Item.ColorEstatus = !dr.IsDBNull(dr.GetOrdinal("ColorEstatus")) ? dr.GetString(dr.GetOrdinal("ColorEstatus")) : "Red";
+
+                    DateTime FechaProgramada = !dr.IsDBNull(dr.GetOrdinal("fechaProgramada")) ? dr.GetDateTime(dr.GetOrdinal("fechaProgramada")) : DateTime.Now;
+                    Item.start = FechaProgramada.ToString("yyyy-MM-dd");
+                    Item.Letras = Item.Sucursal;
+                    string Cadena = Item.Letras.Substring(0, 4);
+                    Item.title = Cadena + " | " + Item.Vehiculo;
+
+                    Lista.Add(Item);
+                }
+                dr.Close();
+                return Lista;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        #endregion
     }
 }

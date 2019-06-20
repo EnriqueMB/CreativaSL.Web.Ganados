@@ -43,6 +43,10 @@
                 Flete:
                 <span class="label label-default" style="background:#949494">Agendado</span>
                 <span class="label label-primary" style="background:#983da9">En camino</span>
+                <br />
+                <br />
+                Servicios:
+                <span class="label label-default" style="background:#873737">Procesado</span>
             </div>
 
                 <div class="row">
@@ -262,14 +266,15 @@
                                                     title: value.title,
                                                     start: value.start,
                                                     description:
-                                                        "<p> <strong>Agente : </strong>" + value.Agente + "</p>" +
-                                                        "<p> <strong>Cliente : </strong>" + value.Cliente + "</p>" +
+                                                        "<p> <strong>Servicio : </strong>" + value.Servicio + "</p>" +
+                                                        "<p> <strong>Encargado : </strong>" + value.Encargado + "</p>" +
+                                                        "<p> <strong>Vehículo : </strong>" + value.Vehiculo + "</p>" +
                                                         "<p> <strong>Sucursal : </strong>" + value.Sucursal + "</p>" +
-                                                        "<p> <strong>Lugar origen : </strong>" + value.LugarOrigen + "</p>" +
-                                                        "<p> <strong>Lugar Destino : </strong>" + value.LugarDestino + "</p>" +
-                                                        "<p> <strong>Remitente : </strong>" + value.Remitente + "</p>" +
-                                                        "<p> <strong>Destinatario : </strong>" + value.Destinatario + "</p>" +
-                                                        "<p> <strong>Estatus : </strong>" + value.Estatus + "</p>",
+                                                        "<p> <strong>Proveedor: </strong>" + value.Proveedor + "</p>" +
+                                                        "<p> <strong>Fecha Último Servicio : </strong>" + value.FechaUltServicio + "</p>" +
+                                                        "<p> <strong>Fecha Próximo Servicio : </strong>" + value.FechaProxServicio + "</p>" +
+                                                        //"<p> <strong>GastoTotal : </strong>" + value.GastoTotal + "</p>" +
+                                                    "<p> <strong>Estatus : </strong>" + value.Estatus + "</p>",
                                                     color: value.ColorEstatus,
                                                 });
 

@@ -1669,6 +1669,7 @@
     <Compile Include="Models\CajaChicaModels.cs" />
     <Compile Include="Models\CalendarioFleteModels.cs" />
     <Compile Include="Models\CalendarioModels.cs" />
+    <Compile Include="Models\CalendarioServiciosModels.cs" />
     <Compile Include="Models\CartaPorteDetallesModels.cs" />
     <Compile Include="Models\CartaPorteModels.cs" />
     <Compile Include="Models\CatAlmacenModels.cs" />
