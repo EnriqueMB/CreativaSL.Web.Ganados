@@ -1,6 +1,7 @@
 ﻿using Microsoft.ApplicationBlocks.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -136,5 +137,23 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+
+        public int ActializarGanado(string Conexion, string IdUsuario, DataTable Ganado, string IdSucursal, Int64 IdCorral)
+        {
+            try
+            {
+                DataSet dt = SqlHelper.ExecuteDataset(Conexion, CommandType.StoredProcedure, "[dbo].[spCSLDB_Transferancia_ActializarGanado]",
+                new SqlParameter("@IdUsuario", IdUsuario),
+                new SqlParameter("@tbl_GanadoParaVenta", Ganado),
+                new SqlParameter("@IDSucursal", IdSucursal),
+                new SqlParameter("@IDCorral", IdCorral));
+                return Convert.ToInt32(dt.Tables[0].Rows[0][0].ToString());
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+
     }
 }

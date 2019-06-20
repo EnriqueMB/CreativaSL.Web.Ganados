@@ -100,15 +100,20 @@
                                                                 <a title="Cheque Cobrado" id="Cheque-@item.IdMovimiento" data-sku="@item.IdMovimiento" href="@Url.Action("EstatusCheque", "MiCajaChica", new { id = item.IdMovimiento })" class="btn btn-blue tooltips ChequeRow" data-placement="top" data-original-title="Cobrar Cheque"><i class="fa fa-thumbs-up"></i></a>
                                                                 <a title="Modificar" href="@Url.Action("Edit", "MiCajaChica", new { id = item.IdMovimiento })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Editar"><i class="fa fa-edit"></i></a>
                                                                 <a title="Eliminar" id="delete-@item.IdMovimiento" data-sku="@item.IdMovimiento" href="@Url.Action("Delete", "MiCajaChica", new { id = item.IdMovimiento })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+
                                                             }
                                                         }
                                                         else
                                                         {
                                                             <a title="Modificar" href="@Url.Action("Edit", "MiCajaChica", new { id = item.IdMovimiento })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Editar"><i class="fa fa-edit"></i></a>
                                                             <a title="Eliminar" id="delete-@item.IdMovimiento" data-sku="@item.IdMovimiento" href="@Url.Action("Delete", "MiCajaChica", new { id = item.IdMovimiento })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+
                                                         }
+                                                        /* x*/ <a title="Ver" class="btn btn-blue verTk3" data-id="@item.IdMovimiento"><i class="fa fa-eye"></i></a>
 
                                                     }
+
+
                                                 }
                                             </div>
                                             <div class="visible-xs visible-sm hidden-md hidden-lg">
@@ -143,8 +148,29 @@
                                                                             </a>
                                                                         </li>
 
+
                                                                     </ul>
                                                                 </div>
+                                                                //aca
+                                                                @*if (item.IdFormaPago == 1)
+                                                                {
+                                                                    <div class="btn-group">
+                                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                                        </a>
+
+                                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+
+                                                                            <li>
+                                                                                <a role="menuitem" tabindex="-1" data-id="@item.IdMovimiento" class="verTk3">
+                                                                                    <i class="fa fa-eye"></i> Ver
+                                                                                </a>
+                                                                            </li>
+
+                                                                        </ul>
+                                                                    </div>
+                                                                }*@
+
                                                             }
                                                         }
                                                         else
@@ -165,9 +191,35 @@
                                                                             <i class="fa fa-trash-o"></i> Eliminar
                                                                         </a>
                                                                     </li>
+                                                                    <li>
+                                                                        <a role="menuitem" tabindex="-1" data-id="@item.IdMovimiento" class="verTk3">
+                                                                            <i class="fa fa-eye"></i> Ver
+                                                                        </a>
+                                                                    </li>
+
+
                                                                 </ul>
                                                             </div>
-                                                        }
+                                                        }//termina else
+                                                          if (item.IdFormaPago == 2)
+                                                                {
+                                                                    <div class="btn-group">
+                                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                                        </a>
+
+                                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+
+                                                                            <li>
+                                                                                <a role="menuitem" tabindex="-1" data-id="@item.IdMovimiento" class="verTk3">
+                                                                                    <i class="fa fa-eye"></i> Ver
+                                                                                </a>
+                                                                            </li>
+
+                                                                        </ul>
+                                                                    </div>
+                                                                }
+
                                                     }
                                                 }
                                             </div>
@@ -219,6 +271,13 @@
             </div>
         </div>
     </div>
+    @*Sin esta parte de modal no sale, aca estan las referencias de la parte donde saldra *@
+    <div id="ModalImagen" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
+        <div class="modal-dialog modal-lg" id="ContenidoModalImagen">
+
+        </div>
+    </div>
+
     <script>
     var message = '@message';
     var typemessage = '@typemessage';
@@ -234,6 +293,23 @@
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
             CajaChica.init();
+        });
+
+        $(".verTk3").on("click", function () {
+
+            var id = $(this).attr("data-id");
+
+            $("body").css("cursor", "progress");
+            $.ajax({
+                url: '/Admin/MiCajaChica/ModalTicket2/',
+                type: "POST",
+                data: { ID: id },
+                success: function (data) {
+                    $("body").css("cursor", "default");
+                    $('#ContenidoModalImagen').html(data);
+                    $('#ModalImagen').modal({ backdrop: 'static', keyboard: false });
+                }
+            });
         });
     </script>
 }
