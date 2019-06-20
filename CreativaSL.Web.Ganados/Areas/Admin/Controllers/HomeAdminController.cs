@@ -82,6 +82,31 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Json("", JsonRequestBehavior.AllowGet);
             }
         }
+        //EVENTOSSERVICIOS
+        [HttpPost]
+        public ActionResult EventosServicio(string start, string end)
+        {
+            try
+            {
+                CalendarioServiciosModels Item = new CalendarioServiciosModels();
+                _ServicioMantenimiento_Datos ServicioDatos = new _ServicioMantenimiento_Datos();
+                Item.fechaStart = Convert.ToDateTime(start);
+                Item.fechaEnd = Convert.ToDateTime(end);
+                Item.Conexion = Conexion;
+
+                List<CalendarioServiciosModels> Lista = new List<CalendarioServiciosModels>();
+                Lista = ServicioDatos.GetListaServiciosProximos(Item);
+
+                return Json(Lista, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ocurrió un error al cargar las actividades. Por favor contacte a soporte técnico.";
+                ex.Message.ToString();
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
 
         public ActionResult LoadMenu()
         {

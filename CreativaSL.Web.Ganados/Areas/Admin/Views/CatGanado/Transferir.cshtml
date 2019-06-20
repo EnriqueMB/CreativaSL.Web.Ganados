@@ -1,10 +1,10 @@
 ﻿@model CreativaSL.Web.Ganados.Models.CatGanadoModels
 
 @{
-                /**/
+    /**/
 
-                ViewBag.Title = "Transferir";
-                Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Transferir";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 @section css
 {
@@ -39,10 +39,10 @@
 }
 @section featured{
     @{
-                        /**/
+        /**/
 
-                        var message = TempData["message"] ?? string.Empty;
-                        var typemessage = TempData["typemessage"] ?? string.Empty;
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
     }
     <div class="row">
         <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
@@ -59,7 +59,10 @@
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(model => model.IDGanado)
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-                <div id="validation_summary" class="field_error "></div> //JS
+            <div id="validation_summary" class="field_error ">
+                <dd for="Ganado" class="validacionCSL" style="color: #ff004d !important; "></dd>
+                <dd for="Sucursal" class="validacionCSL" style="color: #ff004d !important; "></dd>
+            </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"><strong>Información</strong> transferir ganado</h3>
@@ -101,7 +104,7 @@
                                         <button type="button" id="seleccionarCorral" class="btn btn-default"><i class="fa fa-hand-o-down"></i></button>
                                         <button type="button" id="enviar" class="btn btn-default"><i class="fa fa-forward"></i></button>
                                         <button type="button" id="regresar" class="btn btn-default"><i class="fa fa-backward"></i></button>
-                                        <button type="button" id="seleccionarJaula" class="btn btn-default"><i class="fa fa-hand-o-down"></i></button>
+                                        <button type="button" id="seleccionarTransferir" class="btn btn-default"><i class="fa fa-hand-o-down"></i></button>
                                     </center>
                                 </div>
                             </div>
@@ -112,58 +115,48 @@
                                     <thead>
                                         <tr>
                                             <th>Id ganado</th>
-                                            <th>Id detalle</th>
                                             <th>Núm. arete</th>
                                             <th>Corral</th>
+                                            <th>Sucursal</th>
                                             <th>Genero</th>
-                                            <th>Merma</th>
-                                            <th>Peso pagado</th>
-                                            <th>Precio/kilo (pagado)</th>
-                                            <th>Costo</th>
-                                            <th>PC</th>
+                                            <th>Peso</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
                                     <tfoot>
                                         <tr>
                                             <th>Id ganado</th>
-                                            <th>Id detalle</th>
                                             <th>Núm. arete</th>
+                                            <th>Sucursal</th>
                                             <th>Corral</th>
                                             <th>Genero</th>
-                                            <th>Merma</th>
                                             <th>Peso</th>
-                                            <th>Precio/kilo</th>
-                                            <th>Subtotal</th>
-                                            <th>PC</th>
                                         </tr>
                                     </tfoot>
                                 </table>
                             </div>
 
                             <div class="col-md-6">
-                                <table id="tblGanadoJaula" class="display table " style="width:100%">
+                                <table id="tblGanadoTransferir" class="display table " style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>Id ganado</th>
-                                            <th>Id detalle</th>
                                             <th>Núm. arete</th>
                                             <th>Corral</th>
+                                            <th>Sucursal</th>
                                             <th>Genero</th>
                                             <th>Peso</th>
-                                            <th>PC</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
                                     <tfoot>
                                         <tr>
                                             <th>Id ganado</th>
-                                            <th>Id detalle</th>
                                             <th>Núm. arete</th>
+                                            <th>Sucursal</th>
                                             <th>Corral</th>
                                             <th>Genero</th>
                                             <th>Peso</th>
-                                            <th>PC</th>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -171,7 +164,7 @@
                         </div>
                     </div>
                     <div class="panel-footer">
-                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                        <input id="guardar" type="button" value="Guardar" class="btn btn-primary pull-right">
                         <a href="@Url.Action("Index","CatGanado")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                     </div>
                 </div>
@@ -188,6 +181,7 @@
     <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
     <script src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>

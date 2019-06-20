@@ -7,6 +7,7 @@ using CreativaSL.Web.Ganados.Models;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -35,7 +36,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/CatGanado/Details/5
+        // GET: Admin/CatGanado/Transferir/5
         public ActionResult Transferir()
         {
             try
@@ -50,6 +51,34 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
 
                 throw;
+            }
+        }
+
+        //POST: Admin/CatGanado/Tranferir/1
+        [HttpPost]
+        public ActionResult Transferir(List<GanadoParaVender> ListaGanadosParaVender, string IDSucursal, Int64 IDCorral)
+        {
+            try
+            {
+                _CatGanado_Datos Datos = new _CatGanado_Datos();
+                DataTable dataTable;
+                dataTable = new DataTable("Items");
+                dataTable.Columns.Add("Id_ganado", typeof(string));
+                dataTable.Columns.Add("MermaExtra", typeof(decimal));
+                dataTable.Columns.Add("Subtotal", typeof(decimal));
+                foreach (var item in ListaGanadosParaVender)
+                {
+                    dataTable.Rows.Add(item.Id_ganado, 0, 0);
+                }
+                int Resultado = Datos.ActializarGanado(Conexion, User.Identity.Name, dataTable, IDSucursal, IDCorral);
+                if (Resultado == 1)
+                    return Json("Correcto");
+                else
+                    return Json("");
+            }
+            catch (Exception)
+            {
+                return Json("");
             }
         }
 
@@ -217,7 +246,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult DatatableGanadoActual(int Id_sucursal)
+        public ActionResult DatatableGanadoActual()
         {
             try
             {
