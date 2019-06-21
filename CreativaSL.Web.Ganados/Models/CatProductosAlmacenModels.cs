@@ -172,6 +172,14 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _IDTipoClasificacion; }
             set { _IDTipoClasificacion = value; }
         }
+        //-------------------------------------------------------------------------------
+        private bool _IdCheck;
+        public bool IdCheck
+        {
+            get { return _IdCheck; }
+            set { _IdCheck = value; }
+        }
+        //-------------------------------------------------------------------------------
 
 
         private List<CatTipoClasificacionModels> _ListaTipoClasificacion;

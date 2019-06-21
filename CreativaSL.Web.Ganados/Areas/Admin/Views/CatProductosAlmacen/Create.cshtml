@@ -42,76 +42,87 @@
                         </ul>
                     </div>
                     <div class="panel-body">
-                            <div class="form-group">
-                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Tipo de Código </label>
-                                <div class="col-md-6 col-xs-12">
-                                    @Html.DropDownListFor(model => model.IDTipoCodigo, new SelectList(Model.listaTipoCodigoProducto, "IDTipoCodigo", "Descripcion"), new { id = "IDTipoCodigo", @class = "form-control select", data_live_search = "true" })
-                                    @Html.ValidationMessageFor(model => model.IDTipoCodigo)
-                                </div>
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Tipo de Código </label>
+                            <div class="col-md-6 col-xs-12">
+                                @Html.DropDownListFor(model => model.IDTipoCodigo, new SelectList(Model.listaTipoCodigoProducto, "IDTipoCodigo", "Descripcion"), new { id = "IDTipoCodigo", @class = "form-control select", data_live_search = "true" })
+                                @Html.ValidationMessageFor(model => model.IDTipoCodigo)
                             </div>
-
-                            <div class="form-group">
-                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Unidad de medida </label>
-                                <div class="col-md-6 col-xs-12">
-                                    @Html.DropDownListFor(model => model.IDUnidadMedida, new SelectList(Model.listaUnidadMedida, "IDUnidadMedida", "Descripcion"), new { id = "IDUnidadMedida", @class = "form-control select ", data_live_search = "true" })
-                                    @Html.ValidationMessageFor(model => model.IDUnidadMedida)
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Clasificación de gasto </label>
-                                <div class="col-md-6 col-xs-12">
-                                    @Html.DropDownListFor(model => model.IDTipoClasificacion, new SelectList(Model.ListaTipoClasificacion, "IDTipoClasificacionGasto", "Descripcion"), new { id = "IDUnidadMedida", @class = "form-control select ", data_live_search = "true" })
-                                    @Html.ValidationMessageFor(model => model.IDTipoClasificacion)
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Clave</label>
-                                <div class="col-md-6 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.Clave, new { id = "Clave", @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Clave)
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Nombre</label>
-                                <div class="col-md-6 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.Nombre, new { id = "Nombre", @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Nombre)
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Descripción</label>
-                                <div class="col-md-6 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.Descripcion, new { id = "Descripcion", @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Descripcion)
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-2 col-xs-12 control-label">Imagen del producto </label>
-                                <div class="col-md-6 col-xs-12">
-                                    <div class="input-group">
-                                        @*<span class="input-group-addon"><span class="fa fa-pencil"></span></span>*@
-                                        @Html.TextBoxFor(model => model.imagen2, new { id = "imagen2", @type = "file", @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.imagen2)
-                                    <span class="help-block">Seleccione una imagen.</span>
-                                </div>
-                            </div>
-
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Unidad de medida </label>
+                            <div class="col-md-6 col-xs-12">
+                                @Html.DropDownListFor(model => model.IDUnidadMedida, new SelectList(Model.listaUnidadMedida, "IDUnidadMedida", "Descripcion"), new { id = "IDUnidadMedida", @class = "form-control select ", data_live_search = "true" })
+                                @Html.ValidationMessageFor(model => model.IDUnidadMedida)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Clasificación de gasto </label>
+                            <div class="col-md-6 col-xs-12">
+                                @Html.DropDownListFor(model => model.IDTipoClasificacion, new SelectList(Model.ListaTipoClasificacion, "IDTipoClasificacionGasto", "Descripcion"), new { id = "IDUnidadMedida", @class = "form-control select ", data_live_search = "true" })
+                                @Html.ValidationMessageFor(model => model.IDTipoClasificacion)
+                            </div>
+                        </div>
+
+
+                        @*-----------------------------------------------------------------------------------------------------------*@
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label">¿Es prestamo?</label>
+                            <div class="col-md-6 col-xs-12">
+                                @Html.CheckBoxFor(model => model.IdCheck, new { @class = "icheckbox" })
+                            </div>
+                        </div>
+                        @*-----------------------------------------------------------------------------------------------------------*@
+
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Clave</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.Clave, new { id = "Clave", @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Clave)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Nombre</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.Nombre, new { id = "Nombre", @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Nombre)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Descripción</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.TextBoxFor(model => model.Descripcion, new { id = "Descripcion", @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Descripcion)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label">Imagen del producto </label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="input-group">
+                                    @*<span class="input-group-addon"><span class="fa fa-pencil"></span></span>*@
+                                    @Html.TextBoxFor(model => model.imagen2, new { id = "imagen2", @type = "file", @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.imagen2)
+                                <span class="help-block">Seleccione una imagen.</span>
+                            </div>
+                        </div>
+
+                    </div>
                     <div class="panel-footer">
                         <input type="submit" value="Guardar" class="btn btn-primary pull-right">
                         <a href="@Url.Action("Index","CatProductosAlmacen")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>

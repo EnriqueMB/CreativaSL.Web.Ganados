@@ -67,6 +67,15 @@
                             </div>
                         </div>
 
+                        @* ------------------------------------------------------------------------------------------------------ *@
+                        <div class="form-group">
+                            <label class="col-md-2 col-xs-12 control-label">¿Es prestamo?</label>
+                            <div class="col-md-6 col-xs-12">
+                                @Html.CheckBoxFor(model => model.IdCheck, new { @class = "icheckbox" })
+                            </div>
+                        </div>
+                        @* ------------------------------------------------------------------------------------------------------ *@
+
                         <div class="form-group">
                             <label class="col-md-2 col-xs-12 control-label"><span>* </span> Clave</label>
                             <div class="col-md-6 col-xs-12">
