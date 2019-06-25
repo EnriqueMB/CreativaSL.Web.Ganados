@@ -14,7 +14,6 @@ namespace CreativaSL.Web.Ganados.Models
         public string Proveedor { get; set; }
         public string FechaUltServicio { get; set; }
         public string FechaProxServicio { get; set; }
-        public string GastoTotal { get; set; }
         public string Estatus { get; set; }
         public string ColorEstatus { get; set; }
         public string Letras { get; set; }
