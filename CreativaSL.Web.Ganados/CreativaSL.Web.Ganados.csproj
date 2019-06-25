@@ -1841,6 +1841,7 @@
     <Compile Include="Models\ResumenGastosAjustesModels.cs" />
     <Compile Include="Models\ResumenGastosModels.cs" />
     <Compile Include="Models\RptAlmacenModels.cs" />
+    <Compile Include="Models\RPTCombustibleModels.cs" />
     <Compile Include="Models\RptCuentaEstadoProveedorActualizadoModels.cs" />
     <Compile Include="Models\RptEntadaAlmacenModels.cs" />
     <Compile Include="Models\RptEntradaModels.cs" />

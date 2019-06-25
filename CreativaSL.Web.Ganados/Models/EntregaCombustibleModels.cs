@@ -15,6 +15,7 @@ namespace CreativaSL.Web.Ganados.Models
             _IDSucursal = string.Empty;
             _IDVehiculo = string.Empty;
             _IDTipoCombustible = 0;
+            _IDChofer = String.Empty;//------------------agregue
             _Fecha = DateTime.Today;
             _NoTicket = string.Empty;
             _KMInicial = 0;
@@ -33,6 +34,8 @@ namespace CreativaSL.Web.Ganados.Models
             _ListaVehiculos = new List<CatVehiculoModels>();
             _ListaTipoCombustible = new List<CatTipoCombustibleModels>();
             _ListaSucursales = new List<CatSucursalesModels>();
+            
+          //  ListaSucursales = new List<CatSucursalesModels>();
             Conexion = string.Empty;
             Resultado = 0;
             Completado = false;
@@ -106,7 +109,7 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _Proveedor; }
             set { _Proveedor = value; }
         }
-
+      //  public List<CatSucursalesModels> ListaSucursales { get; set; }
 
         private string _IDVehiculo;
         /// <summary>
@@ -129,6 +132,16 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _IDTipoCombustible; }
             set { _IDTipoCombustible = value; }
         }
+        //------------------------------------------------
+        private String _IDChofer;
+        public String IDChofer
+        {
+            get { return _IDChofer; }
+            set { _IDChofer = value; }
+        }
+        //------------------------------------------------
+
+
 
         private DateTime _Fecha;
         /// <summary>
@@ -260,6 +273,15 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _ImgTicketBand; }
             set { _ImgTicketBand = value; }
         }
+
+        private List<EntregaCombustibleModels> _listaChofer;
+
+        public List<EntregaCombustibleModels> listaChofer
+        {
+            get { return _listaChofer; }
+            set { _listaChofer = value; }
+        }
+
 
         private List<EntregaCombustibleModels> _listaEntregaCombustible;
 

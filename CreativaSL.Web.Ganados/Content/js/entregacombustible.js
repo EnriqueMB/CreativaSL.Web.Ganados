@@ -42,7 +42,8 @@
                 Total: { min:1, required: true },
                 ImgTicket: { validarImagen: true, formatoPNG: true },
                 IDVehiculo: { required: true },
-                IDTipoCombustible: { CMBINT: true }
+                IDTipoCombustible: { CMBINT: true },
+                IDChofer: { required: true }//---hay que poner esto para cuando no regresa el valor 
             },
             messages: {
                 NoTicket: { required: "Ingrese el número del ticket" },
@@ -53,7 +54,8 @@
                 Total: { min: "El total debe ser mayor a 0", required: "Ingrese el importe total del ticket" },
                 ImgTicket: { validarImagen:"Ingrese una imagen correcta", formatoPNG: "El formato de la imagen debe ser png" },
                 IDVehiculo: { required: "Seleccione un vehículo" },
-                IDTipoCombustible: { CMBINT: "Seleccione un tipo de combustible" }
+                IDTipoCombustible: { CMBINT: "Seleccione un tipo de combustible" },
+                IDChofer: {required: "Seleccione un chofer"}// lo que tenga que mencionar 
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -102,9 +104,11 @@
         $('#IDSucursal').on('change', function (event) {
             $("#IDVehiculo option").remove();
             $("#IDProveedor option").remove();
+            $("#IDChofer option").remove();
             var IdSucursal = $(this).val();
             getCatVehiculos(IdSucursal);
             getCatProveedores(IdSucursal);
+            getCatChoferes(IdSucursal);//------------------------para que lea el json
             //$(this).trigger("focusout");
         });
         function getCatVehiculos(IdSucursal) {
@@ -141,6 +145,25 @@
                         $("#IDProveedor").append('<option value="' + result[i].IDProveedor + '">' + result[i].NombreRazonSocial + '</option>');
                     }
                     $('#IDProveedor.select').selectpicker('refresh');
+                }
+            });
+        }
+        //---------------------para mostrar las opciones-----------------------------------------
+        function getCatChoferes(IdSucursal) {
+            $.ajax({
+                url: "/Admin/EntregaCombustible/ObtenerComboChoferes",
+                data: { IDSucursal: IdSucursal },
+                async: false,
+                dataType: "json",
+                type: "POST",
+                error: function () {
+                    Mensaje("Ocurrió un error al cargar el combo", "2");
+                },
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $("#IDChofer").append('<option value="' + result[i].IDChofer + '">' + result[i].Nombre + '</option>');
+                    }
+                    $('#IDChofer.select').selectpicker('refresh');
                 }
             });
         }

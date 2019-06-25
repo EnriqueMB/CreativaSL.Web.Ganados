@@ -18,7 +18,7 @@ namespace CreativaSL.Web.Ganados.Models
             Conexion = string.Empty;
             Usuario = string.Empty;
             MermaPredeterminada = 0;
-            ListaSucursales = new List<CatSucursalesModels>();
+            ListaSucursales = new List<CatSucursalesModels>(); 
             NombreSucursalMatriz = string.Empty;
             IDEmpresa = string.Empty;
             Mensaje = string.Empty;
@@ -35,6 +35,7 @@ namespace CreativaSL.Web.Ganados.Models
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public decimal MermaPredeterminada { get; set; }
         public List<CatSucursalesModels> ListaSucursales { get; set; }
+
 
         [StringLength(300, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2} y un maximo de {1}.", MinimumLength = 5)]
         public string NombreSucursalMatriz { get; set; }

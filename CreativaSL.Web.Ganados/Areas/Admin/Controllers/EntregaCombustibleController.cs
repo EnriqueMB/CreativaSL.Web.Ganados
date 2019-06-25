@@ -104,6 +104,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Entrega.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, string.Empty);
                 Entrega.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
                 Entrega.ListaProveedores = Datos.ObtenerComboProveedoresCombustible(Conexion, string.Empty);
+              //  Entrega.listaChofer = new List<EntregaCombustibleModels>();
+                Entrega.listaChofer = Datos.obtenerChofer(Conexion,string.Empty);
+                
                 return View(Entrega);
             }
             catch (Exception)
@@ -136,7 +139,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             //Entrega.UrlImagen64 = img.ToBase64String(ImageFormat.Png);
 
                             Stream s = bannerImage.InputStream;
-                            
+
                             if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
                             {
                                 Image img = (Image)Auxiliar.ProcessFile(s);
@@ -158,6 +161,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             Model.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Model.IDSucursal);
                             Model.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
                             Model.ListaProveedores = Datos.ObtenerComboProveedoresCombustible(Conexion, Model.IDSucursal);
+                            Model.listaChofer = Datos.obtenerChofer(Conexion, Model.IDSucursal);//--------------------------------
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrió un error al guardar el registro.";
                             return View(Model);
@@ -180,6 +184,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             Model.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Model.IDSucursal);
                             Model.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
                             Model.ListaProveedores = Datos.ObtenerComboProveedoresCombustible(Conexion, Model.IDSucursal);
+                            Model.listaChofer = Datos.obtenerChofer(Conexion, Model.IDSucursal);
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrió un error al guardar el registro.";
                             return View(Model);
@@ -192,6 +197,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Model.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Model.IDSucursal);
                         Model.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
                         Model.ListaProveedores = Datos.ObtenerComboProveedoresCombustible(Conexion, Model.IDSucursal);
+                        Model.listaChofer = Datos.obtenerChofer(Conexion, Model.IDSucursal);
                         return View(Model);
                     }
                 }
@@ -207,6 +213,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Model.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Model.IDSucursal);
                 Model.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
                 Model.ListaProveedores = Datos.ObtenerComboProveedoresCombustible(Conexion, Model.IDSucursal);
+                Model.listaChofer = Datos.obtenerChofer(Conexion, Model.IDSucursal);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
                 return View(Model);
@@ -239,13 +246,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     KMInicial = Entrega.KMInicial,
                     Litros = Entrega.Litros,
                     Total = Entrega.Total,
-                    UrlImagen64 = Entrega.UrlImagen64
+                    UrlImagen64 = Entrega.UrlImagen64,
+                    IDChofer = Entrega.IDChofer
                 };
                 Model.ImgTicketBand = true;
                 Model.ListaSucursales = Datos.ObtenerComboSucursales(Conexion);
                 Model.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Model.IDSucursal);
                 Model.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
                 Model.ListaProveedores = Datos.ObtenerComboProveedoresCombustible(Conexion, Model.IDSucursal);
+                Model.listaChofer = Datos.obtenerChofer(Conexion, Model.IDSucursal);
                 return View(Model);
             }
             catch (Exception)
@@ -324,6 +333,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                 Model.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Model.IDSucursal);
                                 Model.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
                                 Model.ListaProveedores = Datos.ObtenerComboProveedoresCombustible(Conexion, Model.IDSucursal);
+                                Model.listaChofer = Datos.obtenerChofer(Conexion, Model.IDSucursal);
                                 return View(Model);
                             }
                             else
@@ -334,6 +344,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                 Model.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Model.IDSucursal);
                                 Model.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
                                 Model.ListaProveedores = Datos.ObtenerComboProveedoresCombustible(Conexion, Model.IDSucursal);
+                                Model.listaChofer = Datos.obtenerChofer(Conexion, Model.IDSucursal);
                                 return View(Model);
                             }
                         }
@@ -344,6 +355,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Model.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Model.IDSucursal);
                         Model.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
                         Model.ListaProveedores = Datos.ObtenerComboProveedoresCombustible(Conexion, Model.IDSucursal);
+                        Model.listaChofer = Datos.obtenerChofer(Conexion, Model.IDSucursal);
                         return View(Model);
                     }
                 }
@@ -358,6 +370,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Model.ListaVehiculos = Datos.ObtenerComboVehiculos(Conexion, Model.IDSucursal);
                 Model.ListaTipoCombustible = Datos.ObtenerComboTiposCombustible(Conexion);
                 Model.ListaProveedores = Datos.ObtenerComboProveedoresCombustible(Conexion, Model.IDSucursal);
+                Model.listaChofer = Datos.obtenerChofer(Conexion, Model.IDSucursal);
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se pudo guardar los datos. Por favor contacte a soporte técnico";
                 return View(Model);
@@ -524,6 +537,24 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Json("", JsonRequestBehavior.AllowGet);
             }
         }
+
+        // POST: Admin/EntregaCombustible/ObtenerComboProveedores
+        [HttpPost]
+        public ActionResult ObtenerComboChoferes(string IDSucursal)
+        {
+            try
+            {
+                _Combos_Datos Datos = new _Combos_Datos();
+                List<CatChoferModels> Lista = Datos.obtenerChofer(Conexion, IDSucursal);
+                return Json(Lista, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                ex.Message.ToString();
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult ModalTicket(string ID)
         {
 

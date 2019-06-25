@@ -40,7 +40,37 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-
+        //----------------------------------------------------INICIO---------------------------------------------------------------------------------------
+        //public EntregaCombustibleModels obtenerRPtCombustible(string Cadena, string id)
+        //{
+        //    try
+        //    {
+        //        EntregaCombustibleModels Datos = new EntregaCombustibleModels();
+        //        SqlDataReader Dr = SqlHelper.ExecuteReader(Cadena, "spCSLDB_EMPRESA_get_CatEmpresasIDTIPO1");
+        //        while (Dr.Read())
+        //        {
+        //            Datos.LogoEmpresa = !Dr.IsDBNull(Dr.GetOrdinal("LogoEmpresa")) ? Dr.GetString(Dr.GetOrdinal("LogoEmpresa")) : string.Empty;
+        //            Datos.RazonFiscal = !Dr.IsDBNull(Dr.GetOrdinal("RazonFiscal")) ? Dr.GetString(Dr.GetOrdinal("RazonFiscal")) : string.Empty;
+        //            Datos.DireccionFiscal = !Dr.IsDBNull(Dr.GetOrdinal("DireccionFiscal")) ? Dr.GetString(Dr.GetOrdinal("DireccionFiscal")) : string.Empty;
+        //            Datos.RFC = !Dr.IsDBNull(Dr.GetOrdinal("RFC")) ? Dr.GetString(Dr.GetOrdinal("RFC")) : string.Empty;
+        //            Datos.Representante = !Dr.IsDBNull(Dr.GetOrdinal("Representante")) ? Dr.GetString(Dr.GetOrdinal("Representante")) : string.Empty;
+        //            Datos.NumTelefonico1 = !Dr.IsDBNull(Dr.GetOrdinal("NumTelefono1")) ? Dr.GetString(Dr.GetOrdinal("NumTelefono1")) : string.Empty;
+        //            Datos.NumTelefonico2 = !Dr.IsDBNull(Dr.GetOrdinal("NumTelefono2")) ? Dr.GetString(Dr.GetOrdinal("NumTelefono2")) : string.Empty;
+        //            Datos.Email = !Dr.IsDBNull(Dr.GetOrdinal("Correo")) ? Dr.GetString(Dr.GetOrdinal("Correo")) : string.Empty;
+        //            Datos.HorarioAtencion = !Dr.IsDBNull(Dr.GetOrdinal("HorarioAtencion")) ? Dr.GetString(Dr.GetOrdinal("HorarioAtencion")) : string.Empty;
+        //            Datos.NombreSucursal = !Dr.IsDBNull(Dr.GetOrdinal("NombreSucursal")) ? Dr.GetString(Dr.GetOrdinal("NombreSucursal")) : string.Empty;
+        //            //Bitmap bmpFromString = Datos.DatosEmpresa.LogoEmpresa.Base64StringToBitmap();
+        //            //Datos.DatosEmpresa.ImagenContruida = bmpFromString.ToBase64ImageReport(ImageFormat.Png);
+        //        }
+        //        Dr.Close();
+        //        return Datos;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+//--------------------------------------------------------------FIN----------------------------------------------------------------
         public DatosEmpresaViewModels ObtenerDatosEmpresaTipo2(string Cadena)
         {
             try
@@ -254,6 +284,43 @@ namespace CreativaSL.Web.Ganados.Models
                 throw;
             }
         }
+
+        //-------------------------------INICIO-----------------------------
+        //public List<RPTCombustibleModels> ListaRendimiento2(RPTCombustibleModels Datos)
+        //{
+        //    try
+        //    {
+        //        object[] Parametros = { Datos.FechaInicio, Datos.FechaFin, Datos.IDSucursal };
+        //        List<RptRendimientoVehiculoModels> Lista = new List<RptRendimientoVehiculoModels>();
+        //        RptRendimientoVehiculoModels Item;
+        //        SqlDataReader dr = null;
+        //        dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reporte_get_RendimientoVehiculo", Parametros);
+        //        while (dr.Read())
+        //        {
+        //            Item = new RptRendimientoVehiculoModels();
+        //            Item.NomSucursal = !dr.IsDBNull(dr.GetOrdinal("Sucursal")) ? dr.GetString(dr.GetOrdinal("Sucursal")) : string.Empty;
+        //            Item.NomVehiculo = !dr.IsDBNull(dr.GetOrdinal("Vehiculo")) ? dr.GetString(dr.GetOrdinal("Vehiculo")) : string.Empty;
+        //            Item.Fecha = !dr.IsDBNull(dr.GetOrdinal("Fecha")) ? dr.GetDateTime(dr.GetOrdinal("Fecha")) : DateTime.Today;
+        //            Item.NomProveedor = !dr.IsDBNull(dr.GetOrdinal("Proveedor")) ? dr.GetString(dr.GetOrdinal("Proveedor")) : string.Empty;
+        //            Item.NoTicket = !dr.IsDBNull(dr.GetOrdinal("NoTicket")) ? dr.GetString(dr.GetOrdinal("NoTicket")) : string.Empty;
+        //            Item.Litros = !dr.IsDBNull(dr.GetOrdinal("Litros")) ? dr.GetDecimal(dr.GetOrdinal("Litros")) : 0;
+        //            Item.KmInicial = !dr.IsDBNull(dr.GetOrdinal("KmInicial")) ? dr.GetInt32(dr.GetOrdinal("KmInicial")) : 0;
+        //            Item.KmFinal = !dr.IsDBNull(dr.GetOrdinal("KmFinal")) ? dr.GetInt32(dr.GetOrdinal("KmFinal")) : 0;
+        //            Item.Rendimiento = !dr.IsDBNull(dr.GetOrdinal("Rendimiento")) ? dr.GetDecimal(dr.GetOrdinal("Rendimiento")) : 0;
+        //            Item.PrecioLitro = !dr.IsDBNull(dr.GetOrdinal("PrecioLitro")) ? dr.GetDecimal(dr.GetOrdinal("PrecioLitro")) : 0;
+        //            Item.TotalCompra = !dr.IsDBNull(dr.GetOrdinal("Total")) ? dr.GetDecimal(dr.GetOrdinal("Total")) : 0;
+        //            Item.TipoCombustible = !dr.IsDBNull(dr.GetOrdinal("TipoCombustible")) ? dr.GetString(dr.GetOrdinal("TipoCombustible")) : string.Empty;
+        //            Lista.Add(Item);
+        //        }
+        //        dr.Close();
+        //        return Lista;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
+        //-------------------------------------FINAL----------------------------
 
         public List<RptAlmacenModels> ListaAlmacen(RptAlmacenModels Datos)
         {

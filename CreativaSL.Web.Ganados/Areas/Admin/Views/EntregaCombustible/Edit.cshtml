@@ -73,6 +73,15 @@
                                         @Html.ValidationMessageFor(model => model.IDVehiculo)
                                     </div>
                                 </div>
+                                @* ------------------------------------------------------------------------------------- *@
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label"><span>* </span> Chofer </label>
+                                    <div class="col-md-8 col-xs-12">
+                                        @Html.DropDownListFor(model => model.IDChofer, new SelectList(Model.listaChofer, "IDChofer", "Nombre"), new { id = "IDChofer", @class = "form-control select", data_live_search = "true" })
+                                        @Html.ValidationMessageFor(model => model.IDChofer)
+                                    </div>
+                                </div>
+                                @* -------------------------------------------------------------------------------------- *@
 
                                 <div class="form-group">
                                     <label class="col-md-4 col-xs-12 control-label"><span>* </span> Tipo de combustible </label>
