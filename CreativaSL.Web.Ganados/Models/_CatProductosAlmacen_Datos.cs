@@ -19,7 +19,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     datos.Opcion, datos.IDProductoAlmacen, datos.IDTipoCodigo, datos.IDTipoClasificacion,
                     datos.Clave, datos.Nombre, datos.Descripcion, datos.Almacen, datos.IDUnidadMedida,
-                    datos.Imagen, datos.BandImg, datos.Usuario
+                    datos.Imagen, datos.BandImg, datos.Usuario, datos.IdCheck
                 };
                 object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_ac_CatProductosAlmacen", parametros);
                 datos.IDProductoAlmacen = Resultado.ToString();
@@ -83,6 +83,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Almacen = !dr.IsDBNull(dr.GetOrdinal("almacen")) ? dr.GetBoolean(dr.GetOrdinal("almacen")) : false;
                     datos.IDUnidadMedida = !dr.IsDBNull(dr.GetOrdinal("id_unidadMedidaPrincipal")) ? dr.GetInt16(dr.GetOrdinal("id_unidadMedidaPrincipal")) : 0;
                     datos.IDTipoClasificacion = !dr.IsDBNull(dr.GetOrdinal("id_tipoClasificacion")) ? dr.GetInt16(dr.GetOrdinal("id_tipoClasificacion")) : 0;
+                    datos.IdCheck = !dr.IsDBNull(dr.GetOrdinal("prestamo")) ? dr.GetBoolean(dr.GetOrdinal("prestamo")) : false;
                     //datos.UltimoCosto = Convert.ToDecimal(dr["ultimoCosto"].ToString());
                 }
                 dr.Close();
