@@ -354,7 +354,6 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Proveedor = !dr.IsDBNull(dr.GetOrdinal("Proveedor")) ? dr.GetString(dr.GetOrdinal("Proveedor")) : "Sin dato";
                     Item.FechaUltServicio = !dr.IsDBNull(dr.GetOrdinal("FechaUltServicio")) ? dr.GetString(dr.GetOrdinal("FechaUltServicio")) : "Sin dato";
                     Item.FechaProxServicio = !dr.IsDBNull(dr.GetOrdinal("FechaProxServicio")) ? dr.GetString(dr.GetOrdinal("FechaProxServicio")) : "Sin dato";
-                    Item.GastoTotal = !dr.IsDBNull(dr.GetOrdinal("GastoTotal")) ? dr.GetString(dr.GetOrdinal("GastoTotal")) : "Sin dato";
                     Item.Estatus = !dr.IsDBNull(dr.GetOrdinal("Estatus")) ? dr.GetString(dr.GetOrdinal("Estatus")) : "Sin dato";
                     Item.ColorEstatus = !dr.IsDBNull(dr.GetOrdinal("ColorEstatus")) ? dr.GetString(dr.GetOrdinal("ColorEstatus")) : "Red";
 

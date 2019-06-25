@@ -1,0 +1,115 @@
+﻿@model CreativaSL.Web.Ganados.Models.ReporteTipoFleteModels
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+
+        <div class="col-md-12">
+
+
+            <div class="row">
+                <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+                    <h3></h3>
+                </div>
+                <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+                    <h3></h3>
+                </div>
+
+                <div class="col-md-12">
+                    @{ Html.EnableClientValidation(false); }
+                    @using (Html.BeginForm("ReporteFlete", "ReporteTipoFlete", FormMethod.Post, new { @class = "form-horizontal", id = "form-SMV", autocomplete = "off" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @*@Html.HiddenFor(model => model.ID)*@
+                        <div class="field_error" id="validation_summary"></div>
+                        @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><strong>Datos generales </strong> del Reporte por tipo de flete</h3>
+                                <ul class="panel-controls"></ul>
+                            </div>
+                            <div class="panel-body">
+
+                                <div class="form-group">
+                                    <label class="col-md-2 col-xs-12 control-label"><span>* </span> Sucursal </label>
+                                    <div class="col-md-6 col-xs-12">
+                                        @Html.DropDownListFor(model => model.id_sucursal, new SelectList(Model.ListaCmbSucursal, "IDSucursal", "NombreSucursal"), new { id = "id_sucursal", @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.id_sucursal)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-2 col-xs-12 control-label"><span>* </span> Tipo de Flete </label>
+                                    <div class="col-md-6 col-xs-12">
+                                        @Html.DropDownListFor(model => model.id_tipoFlete, new SelectList(Model.ListaTipoFlete, "id_tipoFlete", "descripcion"), new { id = "id_tipoFlete", @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.id_tipoFlete)
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-2 col-xs-12 control-label"> * Fecha de inicio</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                            @Html.TextBoxFor(model => model.FechaInicio, "{0:dd/MM/yyyy}", new { id = "FechaInicio", @class = "form-control datepicker", @readonly = "readonly" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.FechaInicio)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-2 col-xs-12 control-label"> * Fecha final</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                            @Html.TextBoxFor(model => model.FechaFin, "{0:dd/MM/yyyy}", new { id = "FechaFin", @class = "form-control datepicker", @readonly = "readonly" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.FechaFin)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <input type="submit" value="Generar Reporte" class="btn btn-primary pull-right">
+                                <a href="@Url.Action("Index","ReporteTipoFlete")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+            var message = '@message';
+            var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/smartwizard/jquery.smartWizard-2.0.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/ReporteTipoFlete.js")"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            TipoFlete.init();
+        });
+    </script>
+}
