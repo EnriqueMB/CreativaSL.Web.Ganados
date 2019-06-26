@@ -1553,6 +1553,8 @@
     <Content Include="Areas\Admin\Views\CajaChica\ModalTicket3.cshtml" />
     <Content Include="Areas\Admin\Views\MiCajaChica\ModalTicket2.cshtml" />
     <Content Include="Areas\Admin\Views\ReporteTipoFlete\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CajaChica\ModalTicket2.cshtml" />
+    <Content Include="Areas\Admin\Views\EntregaCombustible\ModalTicket.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />

@@ -86,7 +86,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Parametros[5] = new ReportParameter("UrlLogo", reporte.datosEmpresa.LogoEmpresa);
                 Parametros[6] = new ReportParameter("NombreSucursal", reporte.datosEmpresa.NombreSucursal);
                 Parametros[7] = new ReportParameter("FechaInicio", datos.FechaInicioFormat.ToString());
-                Parametros[8] = new ReportParameter("FechaFin", datos.FechaFin.ToString());
+                Parametros[8] = new ReportParameter("FechaFin", datos.FechaFinFormat.ToString());
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("ListaFletes", reporte.ListaReporteFlete));
                 string reportType = "PDF";
