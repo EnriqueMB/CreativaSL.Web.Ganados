@@ -53,6 +53,10 @@
                             Mensaje("Servicio procesado correctamente", "1");
                             location.reload(true);
                         }
+                        else if (result == "Nocaja")
+                        {
+                            Mensaje("El usuario con seccion activa no cuenta con caja chica.", "2");
+                        }
                         else {
                             Mensaje("Error al procesar el servicio. Intente nuevamente.", "2");
                         }

@@ -10,6 +10,7 @@ namespace CreativaSL.Web.Ganados.Models
     {
         public RptRendimientoVehiculoModels()
         {
+            
             IDSucursal = string.Empty;
             NomSucursal = string.Empty;
             FechaInicio = DateTime.Today;

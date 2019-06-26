@@ -15,6 +15,7 @@ namespace CreativaSL.Web.Ganados.ViewModels
             _IDServicio = string.Empty;
             _IDSucursal = string.Empty;
             _Fecha = DateTime.Today;
+            _FechaProxima = DateTime.Today;
             _ImporteTotal = 0;
             _ListaSucursales = new List<CatSucursalesModels>();
             _ListaProveedores = new List<CatProveedorModels>();
@@ -66,6 +67,16 @@ namespace CreativaSL.Web.Ganados.ViewModels
         {
             get { return _Fecha; }
             set { _Fecha = value; }
+        }
+        private DateTime _FechaProxima;
+        [Required(ErrorMessage = "Debe seleccionar una fecha próxima del servicio")]
+        [Display(Name = "Fecha próxima de servicio")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime FechaProxima
+        {
+            get { return _FechaProxima; }
+            set { _FechaProxima = value; }
         }
 
         private string _Observaciones;

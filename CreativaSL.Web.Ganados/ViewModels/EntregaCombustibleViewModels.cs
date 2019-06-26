@@ -27,7 +27,8 @@ namespace CreativaSL.Web.Ganados.ViewModels
             _ListaVehiculos = new List<CatVehiculoModels>();
             _ListaTipoCombustible = new List<CatTipoCombustibleModels>();
             _ListaSucursales = new List<CatSucursalesModels>();
-            _ListaProveedores = new List<CatProveedorModels>();            
+            _ListaProveedores = new List<CatProveedorModels>();
+            _IDChofer = String.Empty;
         }
        
         private string _IDEntregaCombustible;
@@ -75,7 +76,20 @@ namespace CreativaSL.Web.Ganados.ViewModels
             get { return _IDVehiculo; }
             set { _IDVehiculo = value; }
         }
-        
+        //--------------------------------------------------------------
+
+        private string _IDChofer;
+        [Required(ErrorMessage = "Seleccione un Chofer.")]
+        [Display(Name = "Chofer")]
+
+
+        public string IDChofer
+        {
+            get { return _IDChofer; }
+            set { _IDChofer = value; }
+        }
+        //--------------------------------------------------------------
+
         private int _IDTipoCombustible;
         /// <summary>
         /// Identificador del tipo de combustible
@@ -224,7 +238,16 @@ namespace CreativaSL.Web.Ganados.ViewModels
             get { return _ListaProveedores; }
             set { _ListaProveedores = value; }
         }
-        
+        //-------------------------------------------------chofer-------------------------inicio----------------------------------
+        private List<CatChoferModels> _listaChofer;
+
+        public List<CatChoferModels> listaChofer
+        {
+            get { return _listaChofer; }
+            set { _listaChofer = value; }
+        }
+        //-------------------------------------------------chofer-------------------------final----------------------------------
+
         public EntregaCombustibleModels ObtenerModeloPersistencia()
         {
             return new EntregaCombustibleModels
@@ -234,6 +257,9 @@ namespace CreativaSL.Web.Ganados.ViewModels
                 IDVehiculo = _IDVehiculo,
                 IDProveedor = _IDProveedor,
                 IDTipoCombustible = _IDTipoCombustible,
+                IDChofer = _IDChofer,//--------------------agregue
+
+
                 Fecha = _Fecha,
                 NoTicket = _NoTicket,
                 KMInicial = _KMInicial,

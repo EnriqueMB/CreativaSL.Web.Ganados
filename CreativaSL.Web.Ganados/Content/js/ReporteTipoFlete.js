@@ -1,4 +1,4 @@
-﻿var Servicios = function () {
+﻿var TipoFlete = function () {
     "use strict";
     var runValidator1 = function () {
         var form1 = $('#form-SMV');
@@ -23,16 +23,16 @@
             },
             ignore: "",
             rules: {
-                IDSucursal: { required: true },
-                IDProveedor: { required: true },
-                Fecha: { required: true },
-                FechaProxima: { required: true }
+                id_sucursal: { required: true },
+                id_tipoFlete: { required: true },
+                FechaInicio: { required: true },
+                FechaFin: { required: true }
             },
             messages: {
-                IDSucursal: { required: "Seleccione una sucursal." },
-                IDProveedor: { required: "Seleccione un proveedor." },
-                Fecha: { required: "Ingrese la fecha del servicio." },
-                FechaProxima: { required: "Ingrese la fecha próxima del servicio." }
+                id_sucursal: { required: "Seleccione una sucursal." },
+                id_tipoFlete: { required: "Seleccione un tipo de flete." },
+                FechaInicio: { required: "Ingrese la fecha inicio del reporte." },
+                FechaFin: { required: "Ingrese la fecha fin del reporte." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -63,44 +63,14 @@
             }
         });
     };
-
-
-    var runCombos = function () {
-
-        $('#IDSucursal').on('change', function (event) {
-            $("#IDProveedor option").remove();
-            var IdSucursal = $(this).val();
-            getCatProveedores(IdSucursal);
-            //$(this).trigger("focusout");
-        });
-        
-        function getCatProveedores(IdSucursal) {
-            $.ajax({
-                url: "/Admin/Mantenimiento/ObtenerComboProveedores",
-                data: { IDSucursal: IdSucursal },
-                async: false,
-                dataType: "json",
-                type: "POST",
-                error: function () {
-                    Mensaje("Ocurrió un error al cargar el combo", "2");
-                },
-                success: function (result) {
-                    for (var i = 0; i < result.length; i++) {
-                        $("#IDProveedor").append('<option value="' + result[i].IDProveedor + '">' + result[i].NombreRazonSocial + '</option>');
-                    }
-                    $('#IDProveedor.select').selectpicker('refresh');
-                }
-            });
-        }
-
-    };
+    
 
 
     var runDatePicker = function () {
-        $('#Fecha').datepicker({
+        $('#FechaInicio').datepicker({
             format: 'dd/mm/yyyy'
         });
-        $('#FechaProxima').datepicker({
+        $('#FechaFin').datepicker({
             format: 'dd/mm/yyyy'
         });
     };
@@ -108,7 +78,6 @@
         //main function to initiate template pages
         init: function () {
             runValidator1();
-            runCombos();
             runDatePicker();
         }
     };

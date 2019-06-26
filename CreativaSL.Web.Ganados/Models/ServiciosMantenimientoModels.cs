@@ -14,6 +14,7 @@ namespace CreativaSL.Web.Ganados.Models
             _Sucursal = new CatSucursalesModels();
             _Vehiculo = new CatVehiculoModels();
             _Fecha = DateTime.MinValue;
+            _FechaProxima = DateTime.MinValue;
             _ServiciosRealizados = string.Empty;
             _ImporteTotal = 0;
             _CssClassEstatus = string.Empty;
@@ -58,6 +59,14 @@ namespace CreativaSL.Web.Ganados.Models
             set { _Fecha = value; }
         }
 
+        private DateTime _FechaProxima;
+
+        public DateTime FechaProxima
+        {
+            get { return _FechaProxima; }
+            set { _FechaProxima = value; }
+        }
+
         private CatProveedorModels _Proveedor;
 
         public CatProveedorModels Proveedor
@@ -71,7 +80,10 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _Fecha.ToShortDateString(); }
         }
-
+         public string FechaProxFormat
+        {
+            get { return _FechaProxima.ToShortDateString(); }
+        }
 
         private string _ServiciosRealizados;
 

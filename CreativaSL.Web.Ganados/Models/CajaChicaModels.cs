@@ -9,9 +9,9 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CajaChicaModels
     {
-        public string ImagenCajaChica { get; set; }
+        public string ImagenCajaChica { get; set; }//propiedad para la imagen
 
-        public Int64 IdCaja { get; set; }
+        public Int64 IdCaja { get; set; }                   //propiedad utilizado para la imagen
         public DateTime FechaApertura { get; set; }
         public string NombreEmpleado { get; set; }
         [Required(ErrorMessage = "Ingrese el monto de apertura.")]
@@ -54,7 +54,10 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         public string Observacion { get; set; }
+
+        
     }
+    
 
     public class CajaChicaModelsResult
     {

@@ -86,6 +86,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Litros = !dr.IsDBNull(dr.GetOrdinal("litros")) ? dr.GetDecimal(dr.GetOrdinal("litros")) : 0;
                     datos.Total = !dr.IsDBNull(dr.GetOrdinal("total")) ? dr.GetDecimal(dr.GetOrdinal("total")) : 0;
                     datos.UrlImagen64 = !dr.IsDBNull(dr.GetOrdinal("imgTicket")) ? dr.GetString(dr.GetOrdinal("imgTicket")) : string.Empty;
+                    datos.IDChofer= !dr.IsDBNull(dr.GetOrdinal("id_chofer")) ? dr.GetString(dr.GetOrdinal("id_chofer")) : string.Empty;
                     break;
                 }
                 dr.Close();
@@ -140,7 +141,8 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Total,
                     datos.UrlImagen64 ?? string.Empty,
                     datos.BandImg,
-                    datos.Usuario ?? string.Empty
+                    datos.Usuario ?? string.Empty,
+                    datos.IDChofer ?? string.Empty
                 };
                 object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Mantenimiento_ac_EntregaCombustible", parametros);
                 datos.IDEntregaCombustible = Resultado.ToString();

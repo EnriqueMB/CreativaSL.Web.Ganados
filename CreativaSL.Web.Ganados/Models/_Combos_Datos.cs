@@ -605,5 +605,28 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        //-------------------------------------------------------------inicio----------------------------------------
+        public List<CatChoferModels> obtenerChofer(string Conexion, string IDSucursal)
+        {
+            try
+            {
+                List<CatChoferModels> Lista = new List<CatChoferModels>();
+                CatChoferModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "[dbo].[spCSLDB_Combo_get_CatChoferesXSucursal]", IDSucursal);
+                while (Dr.Read())
+                {
+                    Item = new CatChoferModels();
+                    Item.IDChofer = !Dr.IsDBNull(Dr.GetOrdinal("IDChofer")) ? Dr.GetString(Dr.GetOrdinal("IDChofer")) : string.Empty;
+                    Item.Nombre = !Dr.IsDBNull(Dr.GetOrdinal("NombreCompleto")) ? Dr.GetString(Dr.GetOrdinal("NombreCompleto")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                Dr.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

@@ -1,6 +1,6 @@
-﻿@model CreativaSL.Web.Ganados.ViewModels.ServiciosMantenimientoViewModels
+﻿@model CreativaSL.Web.Ganados.Models.ReporteTipoFleteModels
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -30,15 +30,15 @@
 
                 <div class="col-md-12">
                     @{ Html.EnableClientValidation(false); }
-                    @using (Html.BeginForm("Create", "Mantenimiento", FormMethod.Post, new { @class = "form-horizontal", id = "form-SMV", autocomplete = "off" }))
+                    @using (Html.BeginForm("ReporteFlete", "ReporteTipoFlete", FormMethod.Post, new { @class = "form-horizontal", id = "form-SMV", autocomplete = "off" }))
                     {
                         @Html.AntiForgeryToken()
-                        @Html.HiddenFor(model => model.ID)
+                        @*@Html.HiddenFor(model => model.ID)*@
                         <div class="field_error" id="validation_summary"></div>
                         @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><strong>Datos generales </strong> del servicio</h3>
+                                <h3 class="panel-title"><strong>Datos generales </strong> del Reporte por tipo de flete</h3>
                                 <ul class="panel-controls"></ul>
                             </div>
                             <div class="panel-body">
@@ -46,44 +46,45 @@
                                 <div class="form-group">
                                     <label class="col-md-2 col-xs-12 control-label"><span>* </span> Sucursal </label>
                                     <div class="col-md-6 col-xs-12">
-                                        @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaSucursales, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.IDSucursal)
+                                        @Html.DropDownListFor(model => model.id_sucursal, new SelectList(Model.ListaCmbSucursal, "IDSucursal", "NombreSucursal"), new { id = "id_sucursal", @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.id_sucursal)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-2 col-xs-12 control-label"><span>* </span> Proveedor </label>
+                                    <label class="col-md-2 col-xs-12 control-label"><span>* </span> Tipo de Flete </label>
                                     <div class="col-md-6 col-xs-12">
-                                        @Html.DropDownListFor(model => model.IDProveedor, new SelectList(Model.ListaProveedores, "IDProveedor", "NombreRazonSocial"), new { id = "IDProveedor", @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.IDProveedor)
+                                        @Html.DropDownListFor(model => model.id_tipoFlete, new SelectList(Model.ListaTipoFlete, "id_tipoFlete", "descripcion"), new { id = "id_tipoFlete", @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.id_tipoFlete)
+                                        
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-2 col-xs-12 control-label"> * Fecha de servicio</label>
-                                    <div class="col-md-6 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                            @Html.TextBoxFor(model => model.Fecha, "{0:dd/MM/yyyy}", new { id = "Fecha", @class = "form-control datepicker", @readonly = "readonly" })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.Fecha)
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-md-2 col-xs-12 control-label"> * Fecha próxima de servicio</label>
+                                    <label class="col-md-2 col-xs-12 control-label"> * Fecha de inicio</label>
                                     <div class="col-md-6 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                            @Html.TextBoxFor(model => model.FechaProxima, "{0:dd/MM/yyyy}", new { id = "FechaProxima", @class = "form-control datepicker", @readonly = "readonly" })
+                                            @Html.TextBoxFor(model => model.FechaInicio, "{0:dd/MM/yyyy}", new { id = "FechaInicio", @class = "form-control datepicker", @readonly = "readonly" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.FechaProxima)
+                                        @Html.ValidationMessageFor(model => model.FechaInicio)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-2 col-xs-12 control-label"> * Fecha final</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                            @Html.TextBoxFor(model => model.FechaFin, "{0:dd/MM/yyyy}", new { id = "FechaFin", @class = "form-control datepicker", @readonly = "readonly" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.FechaFin)
                                     </div>
                                 </div>
                             </div>
                             <div class="panel-footer">
-                                <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
-                                <a href="@Url.Action("Servicios","Mantenimiento", new { id = Model.ID })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                                <input type="submit" value="Generar Reporte" class="btn btn-primary pull-right">
+                                <a href="@Url.Action("Index","ReporteTipoFlete")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                             </div>
                         </div>
                     }
@@ -103,12 +104,12 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/smartwizard/jquery.smartWizard-2.0.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/serviciosMtto.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/ReporteTipoFlete.js")"></script>
 
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
-            Servicios.init();
+            TipoFlete.init();
         });
     </script>
 }
