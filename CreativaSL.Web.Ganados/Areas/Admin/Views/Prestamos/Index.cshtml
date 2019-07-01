@@ -1,4 +1,5 @@
-﻿@model ICollection<CreativaSL.Web.Ganados.Models.SalidaAlmacenModels>
+﻿@model ICollection<CreativaSL.Web.Ganados.Models.PrestamoHerramientaModels>
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -15,7 +16,7 @@
         <h3></h3>
     </div>
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> Salidas de Almacén </h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Prestamos de herramientas de almacén </h2>
     </div>
     <!-- END PAGE TITLE -->
     <!-- PAGE CONTENT WRAPPER -->
@@ -27,9 +28,8 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("Create", "SalidaAlmacen")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva salida</a></li>
+                            <li><a href="@Url.Action("Create", "Prestamos")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo prestamo</a></li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                            @*<li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>*@
                         </ul>
                     </div>
                     <div class="panel-body">
@@ -37,7 +37,7 @@
                             <table class="table datatable2">
                                 <thead>
                                     <tr>
-                                        <th>Folio de salida</th>
+                                        <th>Folio de Prestamo</th>
                                         <th>Estatus</th>
                                         <th>Sucursal</th>
                                         <th>Almacén</th>
@@ -49,27 +49,28 @@
                                 <tbody>
                                     @foreach (var Item in Model)
                                     {
-                                        <tr id="@Item.IDSalidaAlmacen">
-                                            <td>@Item.FolioSalida</td>
-                                            <td><span class="@Item.CssEstatus">@Item.Estatus</span></td>
+                                        <tr id="@Item.IDPrestamo">
+                                            <td>@Item.FolioPrestamo</td>
+                                            <td><span class="@Item.Css">@Item.EstatusDes</span></td>
                                             <td>@Item.Sucursal.NombreSucursal</td>
                                             <td>@Item.Almacen.nombreAlmacen</td>
-                                            <td>@Item.FechaSalidaFormat</td>
-                                            <td>@Item.Comentario</td>
+                                            <td>@Item.FechaPrestamoFormat</td>
+                                            <td>@Item.Observacion</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Detalles" class="btn btn-blue" href="@Url.Action("Details", "SalidaAlmacen", new { id = Item.IDSalidaAlmacen })"><i class="fa fa-gears"></i></a>
+                                                    <a title="Detalles" class="btn btn-blue" href="@Url.Action("Details", "Prestamos", new { id = Item.IDPrestamo })"><i class="fa fa-gears"></i></a>
                                                     @if (Item.IDEstatus == 1)
                                                     {
-                                                        <a title="Procesar" class="btn btn-primary processRow" href="@Url.Action("Procesar", "SalidaAlmacen", new { id = Item.IDSalidaAlmacen })"><i class="fa fa-caret-square-o-right"></i></a>
-                                                        <a title="Editar" href="@Url.Action("Edit", "SalidaAlmacen", new { id = Item.IDSalidaAlmacen})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                        <a title="Procesar" class="btn btn-primary processRow" href="@Url.Action("Procesar", "Prestamos", new { id = Item.IDPrestamo })"><i class="fa fa-caret-square-o-right"></i></a>
+                                                        <a title="Editar" href="@Url.Action("Edit", "Prestamos", new { id = Item.IDPrestamo})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                        <a title="Eliminar" id="delete-@Item.IDPrestamo" data-sku="@Item.IDPrestamo" href="@Url.Action("Delete", "Prestamos", new { id =  Item.IDPrestamo })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                     }
                                                     else
                                                     {
                                                         <label title="No disponible" class="btn" style="background-color:gray; " data-placement="top" data-original-title="Procesar"><i class="fa fa-caret-square-o-right" style="color:white"></i></label>
                                                         <label title="No disponible" class="btn" style="background-color:gray; " data-placement="top" data-original-title="Edit"><i class="fa fa-edit" style="color:white"></i></label>
+                                                        <label title="No disponible" class="btn" style="background-color:gray; " data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o" style="color:white"></i></label>
                                                     }
-                                                    <a title="Eliminar" id="delete-@Item.IDSalidaAlmacen" data-sku="@Item.IDSalidaAlmacen" href="@Url.Action("Delete", "SalidaAlmacen", new { id =  Item.IDSalidaAlmacen })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -78,28 +79,28 @@
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
-                                                                <a role="menuitem" class="readonly" tabindex="-1" href="@Url.Action("Details", "SalidaAlmacen", new { id = Item.IDSalidaAlmacen })">
+                                                                <a role="menuitem" class="readonly" tabindex="-1" href="@Url.Action("Details", "Prestamos", new { id = Item.IDPrestamo })">
                                                                     <i class="fa fa-gears"></i> Detalles
                                                                 </a>
                                                             </li>
                                                             @if (Item.IDEstatus == 1)
                                                             {
                                                                 <li>
-                                                                    <a role="menuitem" class="processRow readonly" tabindex="-1" href="@Url.Action("Procesar", "SalidaAlmacen", new { id = Item.IDSalidaAlmacen })">
+                                                                    <a role="menuitem" class="processRow readonly" tabindex="-1" href="@Url.Action("Procesar", "Prestamos", new { id = Item.IDPrestamo })">
                                                                         <i class="fa fa-caret-square-o-right"></i> Procesar
                                                                     </a>
                                                                 </li>
                                                                 <li>
-                                                                    <a role="menuitem" class="readonly" tabindex="-1" href="@Url.Action("Edit", "SalidaAlmacen", new { id = Item.IDSalidaAlmacen })">
+                                                                    <a role="menuitem" class="readonly" tabindex="-1" href="@Url.Action("Edit", "Prestamos", new { id = Item.IDPrestamo })">
                                                                         <i class="fa fa-edit"></i> Editar
                                                                     </a>
                                                                 </li>
+                                                                <li>
+                                                                    <a role="menuitem" class="deleteRow readonly" tabindex="-1" id="delete-@Item.IDPrestamo" data-sku="@Item.IDPrestamo" href="@Url.Action("Delete", "Prestamos", new { id =  Item.IDPrestamo })">
+                                                                        <i class="fa fa-trash-o"></i> Eliminar
+                                                                    </a>
+                                                                </li>
                                                             }
-                                                            <li>
-                                                                <a role="menuitem" class="deleteRow readonly" tabindex="-1" id="delete-@Item.IDSalidaAlmacen" data-sku="@Item.IDSalidaAlmacen" href="@Url.Action("Delete", "SalidaAlmacen", new { id =  Item.IDSalidaAlmacen })">
-                                                                    <i class="fa fa-trash-o"></i> Eliminar
-                                                                </a>
-                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -137,9 +138,9 @@
     <div class="message-box animated fadeIn" data-sound="alert" id="mb-process-row">
         <div class="mb-container">
             <div class="mb-middle">
-                <div class="mb-title"><span class="fa fa-times"></span> Procesar <strong> Entrada a almacén</strong></div>
+                <div class="mb-title"><span class="fa fa-times"></span> Prestamos <strong> Herramienta de almacén</strong></div>
                 <div class="mb-content">
-                    <p>¿Está seguro de procesar la entrada? Éste proceso NO es reversible.</p>
+                    <p>¿Está seguro de prestar la herramienta? Éste proceso NO es reversible.</p>
                     <p>Presione "sí" para confirmar.</p>
                 </div>
                 <div class="mb-footer">
@@ -163,11 +164,11 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/salidaAlmacenLista.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/PrestamosHerramientaLista.js")"></script>
     <script>
     jQuery(document).ready(function () {
         Mensaje(message, typemessage);
-        Salida.init();
+        Prestamos.init();
         });
     </script>
 }

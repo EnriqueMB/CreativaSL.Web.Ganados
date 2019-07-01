@@ -1,4 +1,4 @@
-﻿var CompraGanado = function () {
+var CompraGanado = function () {
     "use strict";
     var CANTDECIMALES = 2;
     var CANTDECIMALESENTEROS = 0;
@@ -793,7 +793,13 @@
     }
 
     function PesoSugerido(peso, repeso, MermaObtenida) {
-        if (MermaObtenida > tolerancia) {
+        console.log(MermaObtenida);
+        console.log(tolerancia);
+        console.log(peso);
+        if (tolerancia == 0) {
+            return Math.trunc(peso);
+        }
+        else if (MermaObtenida > tolerancia && tolerancia != 0) {
             var pesoPagar = repeso + (repeso * (mermaFavor / 100));
 
             return Math.trunc(pesoPagar);
