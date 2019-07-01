@@ -307,7 +307,30 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        
+
+        public List<CatProductosAlmacenModels> ObtenerComboProductosAlmacenXIDPrestamo(string Conexion, int IDPrestamo)
+        {
+            try
+            {
+                List<CatProductosAlmacenModels> Lista = new List<CatProductosAlmacenModels>();
+                CatProductosAlmacenModels Item;
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Conexion, "[prestamoHerramienta].[spCSLDB_Combo_get_ProductosAlmacenXIDPrestamo]", IDPrestamo);
+                while (Dr.Read())
+                {
+                    Item = new CatProductosAlmacenModels();
+                    Item.IDProductoAlmacen = !Dr.IsDBNull(Dr.GetOrdinal("IDProductoAlmacen")) ? Dr.GetString(Dr.GetOrdinal("IDProductoAlmacen")) : string.Empty;
+                    Item.Nombre = !Dr.IsDBNull(Dr.GetOrdinal("NombreProducto")) ? Dr.GetString(Dr.GetOrdinal("NombreProducto")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                Dr.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<CatProductosAlmacenModels> ObtenerComboProductosAlmacenXIDConciliacion(string Conexion, string IDConciliacion)
         {
             try

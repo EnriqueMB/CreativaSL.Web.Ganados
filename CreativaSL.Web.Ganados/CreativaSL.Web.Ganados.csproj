@@ -485,7 +485,11 @@
     <Content Include="Content\js\catDocumentos.js" />
     <Content Include="Content\js\catFierro.js" />
     <Content Include="Content\js\CatFierroSubir.js" />
+    <Content Include="Content\js\PrestamoHerramientasDetalle.js" />
     <Content Include="Content\js\ReporteTipoFlete.js" />
+    <Content Include="Content\js\PrestamosHerramientaLista.js" />
+    <Content Include="Content\js\PrestamosHerramientas.js" />
+    <Content Include="Content\js\PrestamosHerramientasDetalleLista.js" />
     <Content Include="Content\js\TransferirGanado.js" />
     <Content Include="Content\js\Clasificacion.js" />
     <Content Include="Content\js\ClasificacionIndex.js" />
@@ -1555,6 +1559,12 @@
     <Content Include="Areas\Admin\Views\ReporteTipoFlete\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CajaChica\ModalTicket2.cshtml" />
     <Content Include="Areas\Admin\Views\EntregaCombustible\ModalTicket.cshtml" />
+    <Content Include="Areas\Admin\Views\Prestamos\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Prestamos\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Prestamos\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Prestamos\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Prestamos\CreateDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Prestamos\EditDetails.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1602,6 +1612,7 @@
     <Compile Include="Areas\Admin\Controllers\PesajeGanadoController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReporteTipoFleteController.cs" />
     <Compile Include="Areas\Admin\Controllers\VentaGeneralController.cs" />
+    <Compile Include="Areas\Admin\PrestamosController.cs" />
     <Compile Include="Content\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AlmacenController.cs" />
@@ -1833,6 +1844,8 @@
     <Compile Include="Models\NominaVacacionesModels.cs" />
     <Compile Include="Models\PesajeGanadoDetalleModels.cs" />
     <Compile Include="Models\PesajeGanadoModels.cs" />
+    <Compile Include="Models\PrestamoHerramientaDetalleModels.cs" />
+    <Compile Include="Models\PrestamoHerramientaModels.cs" />
     <Compile Include="Models\ProductorAlmacenSucursalModels.cs" />
     <Compile Include="Models\ProveedorLugarModels.cs" />
     <Compile Include="Models\RangoPrecioProveedorModels.cs" />
@@ -1979,6 +1992,7 @@
     <Compile Include="Models\_NominaDiasFestivos_Datos.cs" />
     <Compile Include="Models\_Nomina_Datos.cs" />
     <Compile Include="Models\_PesajeGanado_Datos.cs" />
+    <Compile Include="Models\_PrestamoHerramienta_Datos.cs" />
     <Compile Include="Models\_ReporteTipoFlete_Datos.cs" />
     <Compile Include="Models\_RptGanadosVendidos_Datos.cs" />
     <Compile Include="Models\_RptProveedorMermaAlta_Datos.cs" />
@@ -2005,6 +2019,8 @@
     <Compile Include="ViewModels\EntradaAlmacenDetalleViewModels.cs" />
     <Compile Include="ViewModels\EntradaAlmacenViewModels.cs" />
     <Compile Include="ViewModels\EntregaCombustibleViewModels.cs" />
+    <Compile Include="ViewModels\PrestamoHerramientaViewModels.cs" />
+    <Compile Include="ViewModels\PrestamosHerramientasDetalleViewModels.cs" />
     <Compile Include="ViewModels\RendimientoCombustibleViewModels.cs" />
     <Compile Include="ViewModels\SalidaAlmacenDetalleViewModels.cs" />
     <Compile Include="ViewModels\SalidaAlmacenViewModels.cs" />
