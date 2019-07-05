@@ -13,7 +13,8 @@ var CompraGanado = function () {
     var mermaFavor = $("#MermaFavor").val();
 
     var LoadTableGanado = function () {
-        tblGanado = $('#tblGanado').DataTable({
+        tblGanado = $('#tblGanado')
+            .DataTable({
             "language": {
                 "url": "/Content/assets/json/Spanish.json"
             },
@@ -56,6 +57,9 @@ var CompraGanado = function () {
                         prefix: '$ '
                     }
                 );
+                $(".kg").maskMoney('mask');
+                $(".merma").maskMoney('mask');
+                $(".money").maskMoney('mask');
             }
         });
 
@@ -96,7 +100,7 @@ var CompraGanado = function () {
             }
         });
     }
-
+    
     function AgergarFilas(
         id_fila,    guardado,   mensaje,    numArete,   genero,
         peso, repeso, merma, pesopagar, costoxkilo,
@@ -240,7 +244,7 @@ var CompraGanado = function () {
     }
 
     // Eventos click de inputs de fierro en tabla
-
+    
     //Abrir modales
     $(document).on("click", "#tblGanado .fierro1", function () {
         var getIdFila = $(this).attr('id');
@@ -314,6 +318,7 @@ var CompraGanado = function () {
     
 
     var RunEventoGanado = function () {
+
         $("#tblGanado tbody").on("click", ".deleteGanado", function (e) {
             
             var tr = $(this).parents('tr');
@@ -433,6 +438,7 @@ var CompraGanado = function () {
             tblGanado.order([0, 'desc']).draw(false);
         });
         $('#btnSaveRowGanado').on('click', function () {
+            console.log("Guardar Ganado Click");
             var flag = true;
             var NUM_ELEMENTOS_FILA = 16;
 
@@ -448,11 +454,13 @@ var CompraGanado = function () {
                     if (id_guardado == id_fila) {
                         /*INICIA VALIDACION*/
                         //arete
+                        console.log(nNodes[i]);
                         var valuePeso = Number.parseFloat(GetKilosSinSimbolo(nNodes[i + PESO].value));
                         var valueRePeso = Number.parseFloat(GetKilosSinSimbolo(nNodes[i + REPESO].value));
                         var valuePesoPagar = Number.parseFloat(GetKilosSinSimbolo(nNodes[i + PESOPAGAR].value));
+                        console.log("Entra 0");
                         var valueCostoPorKilo = Number.parseFloat(GetMoneySinSimbolo(nNodes[i + COSTOPORKILO].value));
-
+                        console.log("Entra 1");
                         if (nNodes[i + ARETE].value.length < longitud_permitida_arete || nNodes[i + ARETE].value === '' || nNodes[i + ARETE].value == null) {
                             nNodes[i + ARETE].classList.remove('okCSLGanado');
                             nNodes[i + ARETE].classList.add('errorCSLGanado');
@@ -753,6 +761,7 @@ var CompraGanado = function () {
 
     //Nuevas funciones para el calculo del peso
     function calculosGanado(fila) {
+
         var mermaObtenida, pesoPagar, precioXkilo, total, pesoFinal;
         var genero = fila[GENERO].value;
         var peso = Number.parseFloat(GetKilosSinSimbolo(fila[PESO].value));
