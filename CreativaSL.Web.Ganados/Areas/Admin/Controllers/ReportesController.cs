@@ -776,7 +776,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Almacen.IDSucursal = id4;
                 Almacen.Conexion = Conexion;
                 Almacen.DatosEmpresa = R.ObtenerDatosEmpresaTipoIDSucursal(Conexion, id4);
-                Almacen.ListaAlmacen = R.ListaAlmacen(Almacen);
+                Almacen.ListaAlmacen = R.ListaEntradaSalidaAlmacen(Almacen);
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
                 Rtp.DataSources.Clear();
@@ -871,6 +871,77 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Parametros[8] = new ReportParameter("FechaFin", id3);
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("ListaEntradaAlmacen", Entrada.ListaEntradaA));
+                string reportType = id;
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + id + "</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        //Reporte de entrada y salida de almacen
+        public ActionResult RptEntradaSalidaAlmacen(string id, string id2, string id3, string id4)
+        {
+            try
+            {
+                Reporte_Datos R = new Reporte_Datos();
+                RptEntadaAlmacenModels Entrada = new RptEntadaAlmacenModels();
+                DateTime Fecha1 = DateTime.Today;
+                DateTime Fecha2 = DateTime.Today;
+                DateTime.TryParse(id2.ToString(), out Fecha1);
+                DateTime.TryParse(id3.ToString(), out Fecha2);
+                Entrada.FechaInicio = Fecha1;
+                Entrada.FechaFin = Fecha2;
+                Entrada.IDSucursal = id4;
+                Entrada.Conexion = Conexion;
+                Entrada.DatosEmpresa = R.ObtenerDatosEmpresaTipoIDSucursal(Conexion, id4);
+                Entrada.ListaEntradaA = R.ListaEntradaAlmacen(Entrada);
+                LocalReport Rtp = new LocalReport();
+                Rtp.EnableExternalImages = true;
+                Rtp.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Reports"), "ReporteAlmacen.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Reportes");
+                }
+                ReportParameter[] Parametros = new ReportParameter[9];
+                Parametros[0] = new ReportParameter("Empresa", Entrada.DatosEmpresa.RazonFiscal);
+                Parametros[1] = new ReportParameter("Direccion", Entrada.DatosEmpresa.DireccionFiscal);
+                Parametros[2] = new ReportParameter("RFC", Entrada.DatosEmpresa.RFC);
+                Parametros[3] = new ReportParameter("TelefonoCasa", Entrada.DatosEmpresa.NumTelefonico1);
+                Parametros[4] = new ReportParameter("TelefonoMovil", Entrada.DatosEmpresa.NumTelefonico2);
+                Parametros[5] = new ReportParameter("NombreSucursal", Entrada.DatosEmpresa.NombreSucursal);
+                Parametros[6] = new ReportParameter("UrlLogo", Entrada.DatosEmpresa.LogoEmpresa);
+                Parametros[7] = new ReportParameter("FechaInicio", id2);
+                Parametros[8] = new ReportParameter("FechaFin", id3);
+                Rtp.SetParameters(Parametros);
+                Rtp.DataSources.Add(new ReportDataSource("ListaAlmacen", Entrada.ListaEntradaA));
                 string reportType = id;
                 string mimeType;
                 string encoding;
