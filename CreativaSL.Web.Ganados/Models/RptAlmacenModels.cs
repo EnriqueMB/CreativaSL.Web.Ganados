@@ -24,6 +24,12 @@ namespace CreativaSL.Web.Ganados.Models
             _DatosEmpresa = new DatosEmpresaViewModels();
             FechaFin = DateTime.Today;
             FechaInicio = DateTime.Today;
+            //================
+            Fecha = DateTime.Today;
+            Hora = string.Empty;
+            Entrega = string.Empty;
+            Recibe = string.Empty;
+            TipoMovimiento = string.Empty;
         }
         public string IDSucursal { get; set; }
         public string NomSucursal { get; set; }
@@ -37,7 +43,17 @@ namespace CreativaSL.Web.Ganados.Models
         public string Conexion { get; set; }
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
-        
+
+        //Nuevos campos agregados para el reporte entrada y salida de almacen
+        public DateTime Fecha { get; set; }
+        public string Hora { get; set; }
+        public string Recibe { get; set; } //Nombre del empleado que recibe el producto
+        public string Entrega { get; set; } //Nombre de la persona que entrega el producto
+        public string TipoMovimiento { get; set; }
+
+     
+        //=========================================
+
         private List<RptAlmacenModels> _ListaAlmacen;
 
         public List<RptAlmacenModels> ListaAlmacen

@@ -385,6 +385,38 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public List<RptAlmacenModels> ListaEntradaSalidaAlmacen(RptAlmacenModels Datos)
+        {
+            try
+            {
+                object[] Parametros = { Datos.FechaInicio, Datos.FechaFin, Datos.IDSucursal };
+                List<RptAlmacenModels> Lista = new List<RptAlmacenModels>();
+                RptAlmacenModels Item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reporte_get_ReporteEntradaSalidaAlmacen", Parametros);
+                while (dr.Read())
+                {
+                    Item = new RptAlmacenModels();
+                    Item.Hora = !dr.IsDBNull(dr.GetOrdinal("Hora")) ? dr.GetString(dr.GetOrdinal("Hora")) : string.Empty; //Hora
+                    Item.Recibe = !dr.IsDBNull(dr.GetOrdinal("Recibe")) ? dr.GetString(dr.GetOrdinal("Recibe")) : string.Empty;//Recibe
+                    Item.Entrega = !dr.IsDBNull(dr.GetOrdinal("Entrega")) ? dr.GetString(dr.GetOrdinal("Entrega")) : string.Empty;//Entrega
+                    Item.TipoMovimiento = !dr.IsDBNull(dr.GetOrdinal("TipoMovimiento")) ? dr.GetString(dr.GetOrdinal("TipoMovimiento")) : string.Empty;//Tipo movimiento
+                    Item.Fecha = !dr.IsDBNull(dr.GetOrdinal("Fecha")) ? dr.GetDateTime(dr.GetOrdinal("Fecha")) : DateTime.Today;//Fecha
+                    Item.NomAlmacen = !dr.IsDBNull(dr.GetOrdinal("NombreAlmacen")) ? dr.GetString(dr.GetOrdinal("NombreAlmacen")) : string.Empty; //Almacen
+                    Item.NomProducto = !dr.IsDBNull(dr.GetOrdinal("Producto")) ? dr.GetString(dr.GetOrdinal("Producto")) : string.Empty; //Producto
+                    Item.NomUnidadMedida = !dr.IsDBNull(dr.GetOrdinal("UnidadMedida")) ? dr.GetString(dr.GetOrdinal("UnidadMedida")) : string.Empty;//Unidad de medida
+                    Item.NomSucursal = !dr.IsDBNull(dr.GetOrdinal("nombreSuc")) ? dr.GetString(dr.GetOrdinal("nombreSuc")) : string.Empty; //Sucursal
+                    Lista.Add(Item);
+                }
+                dr.Close();
+                return Lista;
+            }
+            catch (Exception ex )
+            {
+                throw ex;
+            }
+        }
+
         public List<RptSalidaAlmacenModels> ListaSalidaAlmacen(RptSalidaAlmacenModels Datos)
         {
             try
