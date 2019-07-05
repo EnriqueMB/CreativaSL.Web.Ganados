@@ -1857,6 +1857,7 @@
     <Compile Include="Models\RptGandosModels.cs" />
     <Compile Include="Models\RptJaulasXVentaModels.cs" />
     <Compile Include="Models\RptMantenimientoVehiculoModels.cs" />
+    <Compile Include="Models\RPTPagosProveedorModels.cs" />
     <Compile Include="Models\RptProvedorVendioMasModels.cs" />
     <Compile Include="Models\RptProveedorMermaAltaModels.cs" />
     <Compile Include="Models\RptProveedorMunicipioModels.cs" />
@@ -2138,6 +2139,8 @@
     <Content Include="Formatos\ComprobanteVentaGeneral.rdlc" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reports\ReporteCombustible.rdlc" />
+    <EmbeddedResource Include="Reports\ReportePagosProveedor.rdlc" />
     <EmbeddedResource Include="Reports\ReporteTipoFlete.rdlc" />
   </ItemGroup>
   <PropertyGroup>

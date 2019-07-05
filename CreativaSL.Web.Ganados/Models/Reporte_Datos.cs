@@ -40,37 +40,7 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        //----------------------------------------------------INICIO---------------------------------------------------------------------------------------
-        //public EntregaCombustibleModels obtenerRPtCombustible(string Cadena, string id)
-        //{
-        //    try
-        //    {
-        //        EntregaCombustibleModels Datos = new EntregaCombustibleModels();
-        //        SqlDataReader Dr = SqlHelper.ExecuteReader(Cadena, "spCSLDB_EMPRESA_get_CatEmpresasIDTIPO1");
-        //        while (Dr.Read())
-        //        {
-        //            Datos.LogoEmpresa = !Dr.IsDBNull(Dr.GetOrdinal("LogoEmpresa")) ? Dr.GetString(Dr.GetOrdinal("LogoEmpresa")) : string.Empty;
-        //            Datos.RazonFiscal = !Dr.IsDBNull(Dr.GetOrdinal("RazonFiscal")) ? Dr.GetString(Dr.GetOrdinal("RazonFiscal")) : string.Empty;
-        //            Datos.DireccionFiscal = !Dr.IsDBNull(Dr.GetOrdinal("DireccionFiscal")) ? Dr.GetString(Dr.GetOrdinal("DireccionFiscal")) : string.Empty;
-        //            Datos.RFC = !Dr.IsDBNull(Dr.GetOrdinal("RFC")) ? Dr.GetString(Dr.GetOrdinal("RFC")) : string.Empty;
-        //            Datos.Representante = !Dr.IsDBNull(Dr.GetOrdinal("Representante")) ? Dr.GetString(Dr.GetOrdinal("Representante")) : string.Empty;
-        //            Datos.NumTelefonico1 = !Dr.IsDBNull(Dr.GetOrdinal("NumTelefono1")) ? Dr.GetString(Dr.GetOrdinal("NumTelefono1")) : string.Empty;
-        //            Datos.NumTelefonico2 = !Dr.IsDBNull(Dr.GetOrdinal("NumTelefono2")) ? Dr.GetString(Dr.GetOrdinal("NumTelefono2")) : string.Empty;
-        //            Datos.Email = !Dr.IsDBNull(Dr.GetOrdinal("Correo")) ? Dr.GetString(Dr.GetOrdinal("Correo")) : string.Empty;
-        //            Datos.HorarioAtencion = !Dr.IsDBNull(Dr.GetOrdinal("HorarioAtencion")) ? Dr.GetString(Dr.GetOrdinal("HorarioAtencion")) : string.Empty;
-        //            Datos.NombreSucursal = !Dr.IsDBNull(Dr.GetOrdinal("NombreSucursal")) ? Dr.GetString(Dr.GetOrdinal("NombreSucursal")) : string.Empty;
-        //            //Bitmap bmpFromString = Datos.DatosEmpresa.LogoEmpresa.Base64StringToBitmap();
-        //            //Datos.DatosEmpresa.ImagenContruida = bmpFromString.ToBase64ImageReport(ImageFormat.Png);
-        //        }
-        //        Dr.Close();
-        //        return Datos;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-//--------------------------------------------------------------FIN----------------------------------------------------------------
+     
         public DatosEmpresaViewModels ObtenerDatosEmpresaTipo2(string Cadena)
         {
             try
@@ -101,7 +71,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public DatosEmpresaViewModels ObtenerDatosEmpresaTipoIDSucursal(string Cadena, string IDSucursal)
+        public DatosEmpresaViewModels ObtenerDatosEmpresaTipoIDSucursal(string Cadena, string IDSucursal)//sp para obtener los datos, se manda el id de la sucursal
         {
             try
             {
@@ -220,7 +190,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public List<RptMantenimientoVehiculoModels> ListaMantenimiento(RptMantenimientoVehiculoModels Datos)
+        public List<RptMantenimientoVehiculoModels> ListaMantenimiento(RptMantenimientoVehiculoModels Datos)//
         {
             try
             {
@@ -285,42 +255,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        //-------------------------------INICIO-----------------------------
-        //public List<RPTCombustibleModels> ListaRendimiento2(RPTCombustibleModels Datos)
-        //{
-        //    try
-        //    {
-        //        object[] Parametros = { Datos.FechaInicio, Datos.FechaFin, Datos.IDSucursal };
-        //        List<RptRendimientoVehiculoModels> Lista = new List<RptRendimientoVehiculoModels>();
-        //        RptRendimientoVehiculoModels Item;
-        //        SqlDataReader dr = null;
-        //        dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reporte_get_RendimientoVehiculo", Parametros);
-        //        while (dr.Read())
-        //        {
-        //            Item = new RptRendimientoVehiculoModels();
-        //            Item.NomSucursal = !dr.IsDBNull(dr.GetOrdinal("Sucursal")) ? dr.GetString(dr.GetOrdinal("Sucursal")) : string.Empty;
-        //            Item.NomVehiculo = !dr.IsDBNull(dr.GetOrdinal("Vehiculo")) ? dr.GetString(dr.GetOrdinal("Vehiculo")) : string.Empty;
-        //            Item.Fecha = !dr.IsDBNull(dr.GetOrdinal("Fecha")) ? dr.GetDateTime(dr.GetOrdinal("Fecha")) : DateTime.Today;
-        //            Item.NomProveedor = !dr.IsDBNull(dr.GetOrdinal("Proveedor")) ? dr.GetString(dr.GetOrdinal("Proveedor")) : string.Empty;
-        //            Item.NoTicket = !dr.IsDBNull(dr.GetOrdinal("NoTicket")) ? dr.GetString(dr.GetOrdinal("NoTicket")) : string.Empty;
-        //            Item.Litros = !dr.IsDBNull(dr.GetOrdinal("Litros")) ? dr.GetDecimal(dr.GetOrdinal("Litros")) : 0;
-        //            Item.KmInicial = !dr.IsDBNull(dr.GetOrdinal("KmInicial")) ? dr.GetInt32(dr.GetOrdinal("KmInicial")) : 0;
-        //            Item.KmFinal = !dr.IsDBNull(dr.GetOrdinal("KmFinal")) ? dr.GetInt32(dr.GetOrdinal("KmFinal")) : 0;
-        //            Item.Rendimiento = !dr.IsDBNull(dr.GetOrdinal("Rendimiento")) ? dr.GetDecimal(dr.GetOrdinal("Rendimiento")) : 0;
-        //            Item.PrecioLitro = !dr.IsDBNull(dr.GetOrdinal("PrecioLitro")) ? dr.GetDecimal(dr.GetOrdinal("PrecioLitro")) : 0;
-        //            Item.TotalCompra = !dr.IsDBNull(dr.GetOrdinal("Total")) ? dr.GetDecimal(dr.GetOrdinal("Total")) : 0;
-        //            Item.TipoCombustible = !dr.IsDBNull(dr.GetOrdinal("TipoCombustible")) ? dr.GetString(dr.GetOrdinal("TipoCombustible")) : string.Empty;
-        //            Lista.Add(Item);
-        //        }
-        //        dr.Close();
-        //        return Lista;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-        //}
-        //-------------------------------------FINAL----------------------------
+       
 
         public List<RptAlmacenModels> ListaAlmacen(RptAlmacenModels Datos)
         {
@@ -552,53 +487,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        //public List<RptGanadosMtoVentaModels> obtenerListaGanadosMtoVenta (RptGanadosMtoVentaModels datos)
-        //{
-        //    try
-        //    {
-        //        object[] parametros = { datos.fechaInicio, datos.fechaFin, datos.IdSucursal};
-        //        List<RptGanadosMtoVentaModels> lista = new List<RptGanadosMtoVentaModels>();
-        //        //List<RptGanadosMtoVentaModels> lista2 = new List<RptGanadosMtoVentaModels>();
-        //        RptGanadosMtoVentaModels item;
-        //        //RptGanadosMtoVentaModels item2;
-        //        DataSet ds = null;
-        //        ds = SqlHelper.ExecuteDataset(datos.Conexion, "spCSLDB_Reporte_get_GanadosMtoVenta", parametros);
-        //        if (ds != null)
-        //        {
-        //            DataTableReader dr = ds.Tables[0].CreateDataReader();
-        //            DataTableReader dr2 = ds.Tables[1].CreateDataReader();
-        //            while (dr.Read())
-        //            {
-        //                item = new RptGanadosMtoVentaModels();
-        //                item.cliente = !dr.IsDBNull(dr.GetOrdinal("nombreContacto")) ? dr.GetString(dr.GetOrdinal("nombreContacto")) : string.Empty;
-        //                item.numArete = !dr.IsDBNull(dr.GetOrdinal("numArete")) ? dr.GetString(dr.GetOrdinal("numArete")) : string.Empty;
-        //                item.genero = !dr.IsDBNull(dr.GetOrdinal("genero")) ? dr.GetString(dr.GetOrdinal("genero")) : string.Empty;
-        //                item.folio = !dr.IsDBNull(dr.GetOrdinal("folio")) ? dr.GetInt64(dr.GetOrdinal("folio")) : 0;
-        //                item.fechaHoraVenta = !dr.IsDBNull(dr.GetOrdinal("fechaHoraVenta")) ? dr.GetDateTime(dr.GetOrdinal("fechaHoraVenta")) : DateTime.Today;
-        //                item.montoTotal = !dr.IsDBNull(dr.GetOrdinal("montoTotal")) ? dr.GetDecimal(dr.GetOrdinal("montoTotal")) : 0;
-        //                lista.Add(item);
-        //            }
 
-        //            //while (dr2.Read())
-        //            //{
-        //            //    item2 = new RptGanadosMtoVentaModels();
-        //            //    item2.totalMachos = !dr2.IsDBNull(dr2.GetOrdinal("MACHOS")) ? dr2.GetInt32(dr2.GetOrdinal("MACHOS")) : 0;
-        //            //    item2.totalHembras = !dr2.IsDBNull(dr2.GetOrdinal("HEMBRAS")) ? dr2.GetInt32(dr2.GetOrdinal("HEMBRAS")) : 0;
-        //            //    item2.totalGanados = !dr2.IsDBNull(dr2.GetOrdinal("TOTAL")) ? dr2.GetInt32(dr2.GetOrdinal("TOTAL")) : 0;                        
-        //            //    lista2.Add(item2);
-        //            //}
-        //            dr.Close();
-        //           //dr2.Close();
-        //        }
-        //       // datos.ListaTotalGanado = lista2;
-        //        return lista;
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        throw ex; 
-        //    }
-        //}
 
         public List<RptGanadosMtoCompraModels> obtenerListaGanadosMtoCompra(RptGanadosMtoCompraModels datos)
         {
@@ -894,5 +783,64 @@ namespace CreativaSL.Web.Ganados.Models
                 throw;
             }
         }
+        //-------------------------------INICIO-----------------------------
+        public List<RPTCombustibleModels> ListaObtenerCombustible(RPTCombustibleModels Datos)
+        {
+            try
+            {
+                object[] Parametros = { Datos.FechaInic, Datos.FechaFin, Datos.IdSucursal };
+                List<RPTCombustibleModels> Lista = new List<RPTCombustibleModels>();
+                RPTCombustibleModels Item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reporte_get_Combustibles", Parametros);
+                while (dr.Read())
+                {
+                    Item = new RPTCombustibleModels();
+                    Item.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("NombreSucursal")) ? dr.GetString(dr.GetOrdinal("NombreSucursal")) : string.Empty;
+                    Item.Proveedor = !dr.IsDBNull(dr.GetOrdinal("Proveedor")) ? dr.GetString(dr.GetOrdinal("Proveedor")) : string.Empty;
+                    Item.Unidad = !dr.IsDBNull(dr.GetOrdinal("Unidad")) ? dr.GetString(dr.GetOrdinal("Unidad")) : string.Empty;
+                    Item.Fecha = !dr.IsDBNull(dr.GetOrdinal("FechaHora")) ? dr.GetDateTime(dr.GetOrdinal("FechaHora")) : DateTime.Today;
+                    Item.Chofer = !dr.IsDBNull(dr.GetOrdinal("Chofer")) ? dr.GetString(dr.GetOrdinal("Chofer")) : string.Empty;
+                    Item.Litros = !dr.IsDBNull(dr.GetOrdinal("Litros")) ? dr.GetDecimal(dr.GetOrdinal("Litros")) : 0;
+                    Item.PrecioXLitros = !dr.IsDBNull(dr.GetOrdinal("PrecioPorLitros")) ? dr.GetDecimal(dr.GetOrdinal("PrecioPorLitros")) : 0;
+                    Item.Importe = !dr.IsDBNull(dr.GetOrdinal("Importe")) ? dr.GetDecimal(dr.GetOrdinal("Importe")) : 0;
+                    Lista.Add(Item);
+                }
+                dr.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //-------------------------------------FINAL----------------------------
+
+        //-------------------------------INICIO----proveedores-------------------------
+        public List<RPTPagosProveedorModels> ListaObtenerPagoProveedores(RPTPagosProveedorModels Datos)
+        {
+            try
+            {
+                object[] Parametros = { Datos.FechaInic, Datos.FechaFin/* Datos.IdSucursal*/ };
+                List<RPTPagosProveedorModels> Lista = new List<RPTPagosProveedorModels>();
+                RPTPagosProveedorModels Item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Reportes_get_PagosProveedores", Parametros);
+                while (dr.Read())
+                {
+                    Item = new RPTPagosProveedorModels();
+                    Item.Fecha = !dr.IsDBNull(dr.GetOrdinal("Fecha")) ? dr.GetDateTime(dr.GetOrdinal("Fecha")) : DateTime.Today;
+                    Item.Total= !dr.IsDBNull(dr.GetOrdinal("Total")) ? dr.GetDecimal(dr.GetOrdinal("Total")) : 0;
+                    Lista.Add(Item);
+                }
+                dr.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //-------------------------------------FINAL----------------------------
     }
 }
