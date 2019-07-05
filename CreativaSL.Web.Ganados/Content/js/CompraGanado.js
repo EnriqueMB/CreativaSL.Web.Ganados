@@ -1,3 +1,9 @@
+/// <reference path="plugins/jquery.maskmoney.min.js" />
+/// <reference path="plugins/jquery.maskmoney.min.js" />
+/// <reference path="plugins/jquery.maskmoney.min.js" />
+/// <reference path="plugins/jquery.maskmoney.min.js" />
+/// <reference path="plugins/jquery.maskmoney.min.js" />
+/// <reference path="plugins/jquery.maskmoney.min.js" />
 var CompraGanado = function () {
     "use strict";
     var CANTDECIMALES = 2;
@@ -13,7 +19,11 @@ var CompraGanado = function () {
     var mermaFavor = $("#MermaFavor").val();
 
     var LoadTableGanado = function () {
-        tblGanado = $('#tblGanado').DataTable({
+        tblGanado = $('#tblGanado')
+            //.on('order.dt', function () { eventFired('Order'); })
+            //.on('search.dt', function () { eventFired('Search'); })
+            //.on('page.dt', function () { eventFired('Page'); })
+            .DataTable({
             "language": {
                 "url": "/Content/assets/json/Spanish.json"
             },
@@ -33,8 +43,9 @@ var CompraGanado = function () {
                 { "width": 180, "targets": 8 },
                 { "width": 115, "targets": 12 },
                 { "width": 65, "targets": 13 }
-            ],
-            "drawCallback": function (settings) {
+                ]
+            , "drawCallback": function (settings) {
+                    console.log("drw");
                 $(".kg").maskMoney(
                     {
                         allowZero: true,
@@ -56,6 +67,10 @@ var CompraGanado = function () {
                         prefix: '$ '
                     }
                 );
+
+                $(".kg").maskMoney('mask');
+                $(".merma").maskMoney('mask');
+                $(".money").maskMoney('mask');
             }
         });
 
