@@ -150,10 +150,10 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.57396cm</Width>
+                  <Width>2.41181cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.62687cm</Width>
+                  <Width>2.49118cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -498,7 +498,7 @@
                     </SortExpression>
                   </SortExpressions>
                   <TablixHeader>
-                    <Size>1.23cm</Size>
+                    <Size>2.06785cm</Size>
                     <CellContents>
                       <Textbox Name="Fecha">
                         <CanGrow>true</CanGrow>
@@ -534,7 +534,7 @@
                 </TablixMember>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>1.23cm</Size>
+                    <Size>2.06785cm</Size>
                     <CellContents>
                       <Textbox Name="Textbox10">
                         <CanGrow>true</CanGrow>
@@ -572,10 +572,10 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>ListaSalidas</DataSetName>
-            <Top>0.17639cm</Top>
-            <Left>0.29363cm</Left>
+            <Top>0.14111cm</Top>
+            <Left>2.19847cm</Left>
             <Height>2.4cm</Height>
-            <Width>4.43083cm</Width>
+            <Width>6.97083cm</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -882,10 +882,10 @@
               </Style>
             </ChartNoDataMessage>
             <DataSetName>ListaSalidas</DataSetName>
-            <Top>2.75278cm</Top>
-            <Left>0.29363cm</Left>
+            <Top>2.7175cm</Top>
+            <Left>3.52139cm</Left>
             <Height>8.36903cm</Height>
-            <Width>24.98071cm</Width>
+            <Width>23.44629cm</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -900,7 +900,7 @@
         <Height>4.45852in</Height>
         <Style />
       </Body>
-      <Width>25.27434cm</Width>
+      <Width>26.96767cm</Width>
       <Page>
         <PageHeader>
           <Height>3.20146cm</Height>
@@ -1086,8 +1086,8 @@
                 </Textbox>
               </ReportItems>
               <KeepTogether>true</KeepTogether>
-              <Top>0.28927cm</Top>
-              <Left>5.77854cm</Left>
+              <Top>0.25752cm</Top>
+              <Left>6.90688cm</Left>
               <Height>2.1825cm</Height>
               <Width>15.37167cm</Width>
               <Style>

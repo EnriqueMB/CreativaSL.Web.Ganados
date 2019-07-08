@@ -180,6 +180,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <BackgroundColor>Silver</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -211,7 +212,7 @@
                           <Paragraph>
                             <TextRuns>
                               <TextRun>
-                                <Value>FECHAS</Value>
+                                <Value>FECHA</Value>
                                 <Style>
                                   <FontWeight>Bold</FontWeight>
                                 </Style>
@@ -319,6 +320,7 @@
                             <Color>LightGrey</Color>
                             <Style>Solid</Style>
                           </Border>
+                          <BackgroundColor>Silver</BackgroundColor>
                           <PaddingLeft>2pt</PaddingLeft>
                           <PaddingRight>2pt</PaddingRight>
                           <PaddingTop>2pt</PaddingTop>
@@ -453,7 +455,7 @@
                     <Paragraph>
                       <TextRuns>
                         <TextRun>
-                          <Value>REPORTE DE PAGOS  A PROVEEDOR</Value>
+                          <Value>REPORTE SALIDA PAGO A PROVEEDORES</Value>
                           <Style>
                             <FontWeight>Bold</FontWeight>
                           </Style>
