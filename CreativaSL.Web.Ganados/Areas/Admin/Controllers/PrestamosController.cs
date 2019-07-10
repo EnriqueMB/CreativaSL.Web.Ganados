@@ -279,7 +279,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin
                 RespuestaAjax respuesta = new RespuestaAjax();
                 string usuario = User.Identity.Name;
 
-                //respuesta = Datos.ACDevolucionHerramientasAlmacenDetalle(ModelD);
+                respuesta = Datos.ACDevolucionHerramientasAlmacenDetalle(ModelD);
                 return Content(respuesta.ToJSON(), "application/json");
 
             }
