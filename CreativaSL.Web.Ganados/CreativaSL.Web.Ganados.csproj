@@ -118,7 +118,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data">
-      <HintPath>..\..\..\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+      <HintPath>..\..\..\Utileria\Dll\Microsoft.ApplicationBlocks.Data.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
@@ -1875,6 +1875,7 @@
     <Compile Include="Models\RptGandosModels.cs" />
     <Compile Include="Models\RptJaulasXVentaModels.cs" />
     <Compile Include="Models\RptMantenimientoVehiculoModels.cs" />
+    <Compile Include="Models\RPTPagosProveedorModels.cs" />
     <Compile Include="Models\RptProvedorVendioMasModels.cs" />
     <Compile Include="Models\RptProveedorMermaAltaModels.cs" />
     <Compile Include="Models\RptProveedorMunicipioModels.cs" />
@@ -2159,6 +2160,8 @@
     <Content Include="Formatos\ComprobanteVentaGeneral.rdlc" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reports\ReporteCombustible.rdlc" />
+    <EmbeddedResource Include="Reports\ReportePagosProveedor.rdlc" />
     <EmbeddedResource Include="Reports\ReporteTipoFlete.rdlc" />
   </ItemGroup>
   <PropertyGroup>

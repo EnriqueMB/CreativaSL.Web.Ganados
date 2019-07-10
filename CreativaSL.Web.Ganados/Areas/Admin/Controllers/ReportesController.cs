@@ -758,78 +758,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Reportes");
             }
         }
-        //-------------------------------------INICIO----------------------------------------------------------------------------
-        //public ActionResult RptCombustibles(string id, string id2, string id3, string id4)
-        //{
-        //    try
-        //    {
-        //        Reporte_Datos R = new Reporte_Datos();//DONDE HACE REFERENCIA AL SP 
-        //        RPTCombustibleModels Rendimiento = new RPTCombustibleModels();
-        //        DateTime Fecha1 = DateTime.Today;
-        //        DateTime Fecha2 = DateTime.Today;
-        //        DateTime.TryParse(id2.ToString(), out Fecha1);
-        //        DateTime.TryParse(id3.ToString(), out Fecha2);
-        //        Rendimiento.FechaInicio = Fecha1;
-        //        Rendimiento.FechaFin = Fecha2;
-        //        Rendimiento.IDSucursal = id4;
-        //        Rendimiento.Conexion = Conexion;
-        //        Rendimiento.EntregaCombustible = R.obtenerRPtCombustible(Conexion, id4);
-        //        Rendimiento.ListaRendimiento = R.ListaRendimiento2(Rendimiento);
-        //        LocalReport Rtp = new LocalReport();
-        //        Rtp.EnableExternalImages = true;
-        //        Rtp.DataSources.Clear();
-        //        string path = Path.Combine(Server.MapPath("~/Reports"), "ReporteRendimientoVehiculo.rdlc");
-        //        if (System.IO.File.Exists(path))
-        //        {
-        //            Rtp.ReportPath = path;
-        //        }
-        //        else
-        //        {
-        //            return RedirectToAction("Index", "Reportes");
-        //        }
-        //        ReportParameter[] Parametros = new ReportParameter[9];
-        //        Parametros[0] = new ReportParameter("Empresa", Rendimiento.DatosEmpresa.RazonFiscal);
-        //        Parametros[1] = new ReportParameter("Direccion", Rendimiento.DatosEmpresa.DireccionFiscal);
-        //        Parametros[2] = new ReportParameter("RFC", Rendimiento.DatosEmpresa.RFC);
-        //        Parametros[3] = new ReportParameter("TelefonoCasa", Rendimiento.DatosEmpresa.NumTelefonico1);
-        //        Parametros[4] = new ReportParameter("TelefonoMovil", Rendimiento.DatosEmpresa.NumTelefonico2);
-        //        Parametros[5] = new ReportParameter("NombreSucursal", Rendimiento.DatosEmpresa.NombreSucursal);
-        //        Parametros[6] = new ReportParameter("UrlLogo", Rendimiento.DatosEmpresa.LogoEmpresa);
-        //        Parametros[7] = new ReportParameter("FechaInicio", id2);
-        //        Parametros[8] = new ReportParameter("FechaFin", id3);
-        //        Rtp.SetParameters(Parametros);
-        //        Rtp.DataSources.Add(new ReportDataSource("ListaRendimiento", Rendimiento.ListaRendimiento));
-        //        string reportType = id;
-        //        string mimeType;
-        //        string encoding;
-        //        string fileNameExtension;
-
-        //        string deviceInfo = "<DeviceInfo>" +
-        //        "  <OutputFormat>" + id + "</OutputFormat>" +
-        //        "</DeviceInfo>";
-
-        //        Warning[] warnings;
-        //        string[] streams;
-        //        byte[] renderedBytes;
-
-        //        renderedBytes = Rtp.Render(
-        //            reportType,
-        //            deviceInfo,
-        //            out mimeType,
-        //            out encoding,
-        //            out fileNameExtension,
-        //            out streams,
-        //            out warnings);
-
-        //        return File(renderedBytes, mimeType);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return RedirectToAction("Index", "Reportes");
-        //    }
-        //}
-
-        //-------------------------------------FINAL    ---------------------------------------------------------------------------
+        
 
 
         public ActionResult RptAlmacen(string id, string id2, string id3, string id4)
@@ -1613,6 +1542,152 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Reportes");
             }
         }
+        //-------------------------------------INICIO----------------------------------------------------------------------------
+        public ActionResult RptCombustibles(string id, string id2, string id3, string id4)
+        {
+            try
+            {
+                Reporte_Datos R = new Reporte_Datos();//DONDE HACE REFERENCIA AL sp
+                RPTCombustibleModels Rendimiento = new RPTCombustibleModels();
+                DateTime Fecha1 = DateTime.Today;
+                DateTime Fecha2 = DateTime.Today;
+                DateTime.TryParse(id2.ToString(), out Fecha1);
+                DateTime.TryParse(id3.ToString(), out Fecha2);
+                Rendimiento.FechaInic = Fecha1;
+                Rendimiento.FechaFin = Fecha2;
+                Rendimiento.IdSucursal = id4;
+                Rendimiento.Conexion = Conexion;
+                Rendimiento.datosEmpresa = R.ObtenerDatosEmpresaTipoIDSucursal(Conexion, id4);//en obtenerRPtCombustible es el  metodo donde esta el sp
+                Rendimiento.ListaEntradas = R.ListaObtenerCombustible(Rendimiento);
+                LocalReport Rtp = new LocalReport();
+                Rtp.EnableExternalImages = true;
+                Rtp.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Reports"), "ReporteCombustible.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Reportes");
+                }
+                ReportParameter[] Parametros = new ReportParameter[9];
+                Parametros[0] = new ReportParameter("Empresa", Rendimiento.datosEmpresa.RazonFiscal);
+                Parametros[1] = new ReportParameter("Direccion", Rendimiento.datosEmpresa.DireccionFiscal);
+                Parametros[2] = new ReportParameter("RFC", Rendimiento.datosEmpresa.RFC); 
+                Parametros[3] = new ReportParameter("NombreSucursal", Rendimiento.datosEmpresa.NombreSucursal);
+                Parametros[4] = new ReportParameter("UrlLogo", Rendimiento.datosEmpresa.LogoEmpresa);
+                Parametros[5] = new ReportParameter("FechaInicio", id2);
+                Parametros[6] = new ReportParameter("FechaFin", id3);
+                Parametros[7] = new ReportParameter("TelefonoCasa", Rendimiento.datosEmpresa.NumTelefonico1);
+                Parametros[8] = new ReportParameter("NombreSucursal2", Rendimiento.datosEmpresa.NombreSucursal);
+                Rtp.SetParameters(Parametros);
+                Rtp.DataSources.Add(new ReportDataSource("ListaCombustible", Rendimiento.ListaEntradas));
+                string reportType = id;
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + id + "</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Reportes");
+            }
+        }
+
+        //-------------------------------------FINAL    ---------------------------------------------------------------------------
+
+
+
+        //-------------------------------------INICIO----------rtpPagosProveedor------------------------------------------------------------------
+        public ActionResult RptPagosProveedor(string id, string id2, string id3, string id4)
+        {
+            try
+            {
+                Reporte_Datos R = new Reporte_Datos();//DONDE HACE REFERENCIA AL sp
+                RPTPagosProveedorModels proveedor = new RPTPagosProveedorModels();
+                DateTime Fecha1 = DateTime.Today;
+                DateTime Fecha2 = DateTime.Today;
+                DateTime.TryParse(id2.ToString(), out Fecha1);
+                DateTime.TryParse(id3.ToString(), out Fecha2);
+                proveedor.FechaInic = Fecha1;
+                proveedor.FechaFin = Fecha2;
+                proveedor.IdSucursal = id4;
+                proveedor.Conexion = Conexion;
+                proveedor.datosEmpresa = R.ObtenerDatosEmpresaTipoIDSucursal(Conexion, id4);//en obtenerRPtCombustible es el  metodo donde esta el sp
+                proveedor.ListaProveedor = R.ListaObtenerPagoProveedores(proveedor);
+                LocalReport Rtp = new LocalReport();
+                Rtp.EnableExternalImages = true;
+                Rtp.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Reports"), "ReportePagosProveedor.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Reportes");
+                }
+                ReportParameter[] Parametros = new ReportParameter[7];
+                Parametros[0] = new ReportParameter("Empresa", proveedor.datosEmpresa.RazonFiscal);
+                Parametros[1] = new ReportParameter("Direccion", proveedor.datosEmpresa.DireccionFiscal);
+                Parametros[2] = new ReportParameter("RFC", proveedor.datosEmpresa.RFC);
+                Parametros[3] = new ReportParameter("NombreSucursal", proveedor.datosEmpresa.NombreSucursal);
+                Parametros[4] = new ReportParameter("UrlLogo", proveedor.datosEmpresa.LogoEmpresa);
+                Parametros[5] = new ReportParameter("FechaInicio", id2);
+                Parametros[6] = new ReportParameter("FechaFin", id3);
+                Rtp.SetParameters(Parametros);
+                Rtp.DataSources.Add(new ReportDataSource("ListaProveedor", proveedor.ListaProveedor));
+                string reportType = id;
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + id + "</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Reportes");
+            }
+        }
+
+        //-------------------------------------FINAL    ---------------------------------------------------------------------------
+
 
         #endregion
     }
