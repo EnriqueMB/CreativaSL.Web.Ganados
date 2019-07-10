@@ -32,16 +32,20 @@
                     type: 'POST',
                     dataType: 'json',
                     success: function (result) {
-                        if (result == 'true') {
+                        if (result == 1) {
                             Mensaje("Prestamo de herramienta procesado correctamente", "1");
                             location.reload(true);
                         }
-                        else {
-                            Mensaje("Error al procesar el registro. Intente nuevamente.", "2");
+                        else if (result == -3) {
+                            Mensaje("No se ha ingresado ninguna herramienta.", "2");
                         }
+                        else if (result == -2)
+                            Mensaje("No hay existencias suficientes.", "2");
+                        else if (result == -2)
+                            Mensaje("Error al procesar el registro. Intente nuevamente.", "2");
                     },
                     error: function () {
-                        Mensaje("Error al procesar el rregistro. Intente nuevamente.", "2");
+                        Mensaje("Error al procesar el registro. Intente nuevamente.", "2");
                     }
                 });
             });

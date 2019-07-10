@@ -61,12 +61,14 @@
                                                     <a title="Detalles" class="btn btn-blue" href="@Url.Action("Details", "Prestamos", new { id = Item.IDPrestamo })"><i class="fa fa-gears"></i></a>
                                                     @if (Item.IDEstatus == 1)
                                                     {
+                                                        <label title="No disponible" class="btn" style="background-color:gray; " data-placement="top" data-original-title="Devolver"><i class="fa fa-exchange" style="color:white"></i></label>
                                                         <a title="Procesar" class="btn btn-primary processRow" href="@Url.Action("Procesar", "Prestamos", new { id = Item.IDPrestamo })"><i class="fa fa-caret-square-o-right"></i></a>
                                                         <a title="Editar" href="@Url.Action("Edit", "Prestamos", new { id = Item.IDPrestamo})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                                                         <a title="Eliminar" id="delete-@Item.IDPrestamo" data-sku="@Item.IDPrestamo" href="@Url.Action("Delete", "Prestamos", new { id =  Item.IDPrestamo })" class="btn btn-danger tooltips deleteRow" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                     }
                                                     else
                                                     {
+                                                        <a title="Devolver herramientas" class="btn btn-green tooltips" href="@Url.Action("Devolucion", "Prestamos", new { id = Item.IDPrestamo })"><i class="fa fa-exchange"></i></a>
                                                         <label title="No disponible" class="btn" style="background-color:gray; " data-placement="top" data-original-title="Procesar"><i class="fa fa-caret-square-o-right" style="color:white"></i></label>
                                                         <label title="No disponible" class="btn" style="background-color:gray; " data-placement="top" data-original-title="Edit"><i class="fa fa-edit" style="color:white"></i></label>
                                                         <label title="No disponible" class="btn" style="background-color:gray; " data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o" style="color:white"></i></label>

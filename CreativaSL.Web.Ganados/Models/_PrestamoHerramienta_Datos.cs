@@ -118,7 +118,34 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-
+        public List<DevolucionHerramientaDetalleModels> ObtenerListaDetalleDevolucionHerramientas(string Conexion, int IDPrestamo)
+        {
+            try
+            {
+                List<DevolucionHerramientaDetalleModels> Lista = new List<DevolucionHerramientaDetalleModels>();
+                DevolucionHerramientaDetalleModels Item;
+                SqlDataReader Dr = null;
+                Dr = SqlHelper.ExecuteReader(Conexion, "[prestamoHerramienta].[spCSLDB_get_DevolucionHerramientaDetalle]", IDPrestamo);
+                while (Dr.Read())
+                {
+                    Item = new DevolucionHerramientaDetalleModels();
+                    Item.IDPrestamoDetalle = !Dr.IsDBNull(Dr.GetOrdinal("IDPrestamoDetalle")) ? Dr.GetInt32(Dr.GetOrdinal("IDPrestamoDetalle")) : 0;
+                    Item.IDPrestamo = !Dr.IsDBNull(Dr.GetOrdinal("IDPrestamo")) ? Dr.GetInt32(Dr.GetOrdinal("IDPrestamo")) : 0;
+                    Item.Estatus = !Dr.IsDBNull(Dr.GetOrdinal("Estatus")) ? Dr.GetInt32(Dr.GetOrdinal("Estatus")) : 0;
+                    Item.Producto.Nombre = !Dr.IsDBNull(Dr.GetOrdinal("Producto")) ? Dr.GetString(Dr.GetOrdinal("Producto")) : string.Empty;
+                    Item.Cantidad = !Dr.IsDBNull(Dr.GetOrdinal("Cantidad")) ? Dr.GetDecimal(Dr.GetOrdinal("Cantidad")) : 0;
+                    Item.CantidadPendiente = !Dr.IsDBNull(Dr.GetOrdinal("CantidadPendiente")) ? Dr.GetDecimal(Dr.GetOrdinal("CantidadPendiente")) : 0;
+                    Item.UnidadMedida.Descripcion = !Dr.IsDBNull(Dr.GetOrdinal("UnidadMedida")) ? Dr.GetString(Dr.GetOrdinal("UnidadMedida")) : string.Empty;
+                    Lista.Add(Item);
+                }
+                Dr.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public decimal ObtenerExistenciaXIDProductoIDUnidadIDPrestamo(string Conexion, int IDPrestamo, string IDProducto, string IDUnidad)
         {
@@ -159,6 +186,54 @@ namespace CreativaSL.Web.Ganados.Models
                     Datos.Completado = (Resultado == 1);
                     Datos.Resultado = Resultado;
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public RespuestaAjax ACDevolucionHerramientasAlmacenDetalle(DevolucionHerramientaDetalleModels Datos)
+        {
+            try
+            {
+
+                RespuestaAjax respuesta = new RespuestaAjax();
+                SqlDataReader dr = null;
+                object[] Parametros = {
+                    Datos.IDPrestamo,
+                    Datos.IDPrestamoDetalle,
+                    Datos.CantDevolver,
+                    Datos.Usuario ?? string.Empty };
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "[prestamoHerramienta].[spCSLDB_AC_DevolucionHerramientaAlmacenDetalle]", Parametros);
+
+                while (dr.Read())
+                {
+                    respuesta.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    respuesta.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                }
+                return respuesta;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public DevolucionHerramientaDetalleModels FinalizarDevolucionHerramientasAlmacen(string Conexion, int IdPrestamo, string IDUsuario)
+        {
+            try
+            {
+                DevolucionHerramientaDetalleModels Datos = new DevolucionHerramientaDetalleModels();
+                object[] Parametros = { IdPrestamo, IDUsuario };
+                
+                object Result = SqlHelper.ExecuteScalar(Conexion, "[prestamoHerramienta].[spCSLDB_set_FinalizarDevolucion]", Parametros);
+                if (Result != null)
+                {
+                    int Resultado = 0;
+                    int.TryParse(Result.ToString(), out Resultado);
+                    Datos.Completado = (Resultado == 1);
+                    Datos.Resultado = Resultado;
+                }
+                return Datos;
             }
             catch (Exception ex)
             {
@@ -242,6 +317,7 @@ namespace CreativaSL.Web.Ganados.Models
                 object Result = SqlHelper.ExecuteScalar(Conexion, "[prestamoHerramienta].[spCSLDB_set_ProcesarPrestamo]", Parametros);
                 if (Result != null)
                 {
+
                     int Resultado = 0;
                     int.TryParse(Result.ToString(), out Resultado);
                     Datos.Completado = (Resultado == 1);

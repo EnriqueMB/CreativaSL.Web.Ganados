@@ -472,14 +472,12 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     Datos.IDNomina, Datos.Usuario
                 };
-                object Resultado = SqlHelper.ExecuteScalar(Datos.Conexion, "spCSLDB_Nomina_set_GenerarNomina", parametros);
-                if (Resultado != null)
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Nomina_set_GenerarNomina", parametros);
+                while (dr.Read())
                 {
-                    if(!string.IsNullOrEmpty(Resultado.ToString()))
-                    {
-                      Datos.Completado = true;
-                        Datos.IDNomina = Resultado.ToString();
-                    }
+                    Datos.Completado = dr.GetBoolean(dr.GetOrdinal("Completado"));
+                    Datos.IDNomina = dr.GetString(dr.GetOrdinal("IDNomina"));
                 }
                 return Datos;
             }

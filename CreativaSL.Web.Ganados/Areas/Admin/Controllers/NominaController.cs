@@ -618,12 +618,20 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     TempData["message"] = "Los datos se generarón correctamente.";
                     return RedirectToAction("RptSaldos", "Nomina", new { id = Nomina.IDNomina, id2 = Nomina.IDSucursal});
                 }
+                else if (Nomina.Completado == false)
+                {
+
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Ya se ha generado la nómina, por favor recarge la página.";
+                    return RedirectToAction("Index", "Nomina");
+                }
                 else
                 {
                     TempData["typemessage"] = "2";
                     TempData["message"] = "Ocurrio un error al intentar generar la nomina. Intente más tarde.";
                     return RedirectToAction("Index", "Nomina");
                 }
+                
                
             }
             catch (Exception ex)

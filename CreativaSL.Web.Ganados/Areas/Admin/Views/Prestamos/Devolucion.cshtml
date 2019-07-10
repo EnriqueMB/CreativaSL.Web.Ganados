@@ -1,0 +1,231 @@
+﻿
+@model ICollection<CreativaSL.Web.Ganados.Models.DevolucionHerramientaDetalleModels>
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    int index = 0;
+    int id2 = ViewBag.IdPrestamos;
+}
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Detalle de productos </h2>
+    </div>
+    <!-- END PAGE TITLE -->
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                        <ul class="panel-controls">
+                            <li><a href="@Url.Action("Index", "Prestamos")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span> Regresar</a></li>
+                            @if (ViewBag.Estatus == 1)
+                            {
+                                <li><a href="@Url.Action("Finalizar", "Prestamos", new { id4 = id2})" tabindex="-1" class="btn btn-default btnCrear processRow readonly"><span class="fa fa-cog"></span> Finalizar</a></li>
+                            }
+                            @*<li><a href="@Url.Action("Index","SalidaAlmacen")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span>Regresar</a></li>*@
+                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table id="tbl" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Unidad de Medida</th>
+                                        <th>Cantidad Pendiente</th>
+                                        <th>Devolver</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var Item in Model)
+                                    {
+
+                                        <tr id="@Item.IDPrestamoDetalle">
+                                            <td>@Item.Producto.Nombre</td>
+                                            <td>@string.Format("{0:F3}", Item.Cantidad)</td>
+                                            <td>@Item.UnidadMedida.Descripcion</td>
+                                            <td>@string.Format("{0:F3}", Item.CantidadPendiente)</td>
+                                            <td>
+                                                @if (Item.CantidadPendiente == 0 || ViewBag.Estatus == 2)
+                                                {
+                                                <div class="col-md-6 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => Item.CantDevolver, new { id = "CantDevolver", @class = "form-control readonly cantidadDevolver", type = "number", min = "0", max = @Item.CantidadPendiente, @readonly = "readonly" })
+                                                    </div>
+                                                    <small class="errorInput" style="color: #e44e44; display: none;"></small>
+                                                    @*@Html.ValidationMessageFor(model => Item.CantDevolver)*@
+                                                </div>
+                                                }
+                                                else
+                                                {
+                                                <div class="col-md-6 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => Item.CantDevolver, new { id = "CantDevolver", @class = "form-control cantidadDevolver", type = "number", min = "0", max = @Item.CantidadPendiente })
+                                                    </div>
+                                                    <small class="errorInput" style="color: #e44e44; display: none;">La cantidad es mayor a la cantidad pendiente</small>
+                                                    @*@Html.ValidationMessageFor(model => Item.CantDevolver)*@
+                                                </div>
+                                                }
+                                            </td>
+                                            <td style="text-align:center;">
+                                                @if (Item.CantidadPendiente == 0 || ViewBag.Estatus == 2)
+                                                {
+                                                    <label title="No disponible" class="btn" style="background-color:gray; " data-placement="top" data-original-title="Devolver"><i class="fa fa-exchange" style="color:white"></i></label>
+                                                }
+                                                else
+                                                {
+                                                    <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                        <a title="Devolver" id2="@id2" class="btn btn-green tooltips devolver" data-index=@index data-placement="top" data-original-title="Devolver"><i class="fa fa-exchange"></i></a>
+                                                    </div>
+                                                    <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                        <div class="btn-group">
+                                                            <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                            </a>
+                                                            <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                <li>
+                                                                    <a role="menuitem" class="processRow readonly devolver" data-index=@index tabindex="-1" id2="@id2">
+                                                                        <i class="fa fa-edit"></i> Devolver
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                }
+
+                                            </td>
+                                        </tr>
+                                        index++;
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- END DEFAULT DATATABLE -->
+            </div>
+        </div>
+    </div>
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-process-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span>Finalizar devolución <strong>Herramienta de almacén</strong></div>
+                <div class="mb-content">
+                    <p>¿Está seguro de finalizar la devolución de herramientas? Este proceso NO es reversible.</p>
+                    <p>Presione "sí" para confirmar.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    var message = '@message';
+    var typemessage = '@typemessage';
+    </script>
+}
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/DevolucionHerramienta.js")"></script>
+    <script>
+        jQuery(document).ready(function () {
+
+            
+
+            $(document).on('keyup', '.cantidadDevolver', function () {
+                newval = $(this).val().replace(/[^0-9.]/g, "");
+                $(this).val(newval);
+            });
+
+
+            var table = $('#tbl').DataTable({
+                "ordering": false
+                , "language": {
+                    "url": "/Content/assets/json/Spanish.json"
+                },
+                "drawCallback": function (settings) {
+
+                }
+            });
+
+            $(document).on('click', '.devolver', function () {
+                var id = $(this).closest("tr").attr("id");
+                var id2 = $(this).closest("a").attr("id2")
+                var $tr = $(this).closest("tr").find("td");
+                var indexRow = $(this).attr("data-index");
+                
+                if (document.getElementsByName("Item.CantDevolver")[indexRow].value > $tr[3].innerHTML) {
+                    $(this).parent().parent().parent().find(".errorInput").css("display", "block").text("La cantidad es mayor a la cantidad pendiente.");
+                }
+                else {
+                    if (document.getElementsByName("Item.CantDevolver")[indexRow].value == 0) {
+                        $(this).parent().parent().parent().find(".errorInput").css("display", "block").text("La cantidad debe ser mayor a cero.");
+                    }
+                    else {
+                        var item =
+                        {
+                            IDPrestamo: id2,
+                            IDPrestamoDetalle: id,
+                            Cantidad: $tr[1].innerHTML,
+                            CantidadPendiente: $tr[3].innerHTML,
+                            CantDevolver: document.getElementsByName("Item.CantDevolver")[indexRow].value,
+                        };
+
+                        $.ajax({
+                            dataType: 'json',
+                            type: 'POST',
+                            url: '/Admin/Prestamos/DevolverHerramienta/',
+                            data: item,
+                            success: function (response) {
+                                location.reload();
+                                Mensaje(response.Mensaje, response.Success);
+                            },
+                            error: function (request, status, error) {
+                                window.location.reload();
+                                Mensaje(response.Mensaje, response.Success);
+                            }
+                        });
+                    }
+                   
+                }
+                //console.log(document.getElementsByName("Item.CantDevolver")[numberRow].value);
+
+            });
+
+            Mensaje(message, typemessage);
+            Devoluciones.init();
+        });
+    </script>
+}
+
+
+
+
