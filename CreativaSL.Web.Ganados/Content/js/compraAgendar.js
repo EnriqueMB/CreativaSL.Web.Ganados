@@ -155,6 +155,7 @@
         });
     };
     function AC_Proveedor() {
+        $('#btnSubmitProveedor').attr("disabled", true);
         var form = $("#frmProveedor")[0];
         var formData = new FormData(form);
         $("body").css("cursor", "progress");
@@ -177,6 +178,11 @@
                 }
                 else
                     Mensaje(json.Mensaje, "2");
+            },
+            complete: function () {
+                //Ajax request is finished, so we can enable
+                //the button again.
+                $('#btnSubmitProveedor').attr("disabled", false);
             }
         });
     }
@@ -368,6 +374,7 @@
         });
     };
     function AC_Flete() {
+        $('#btnSubmitFlete').attr("disabled", true);
         var form = $("#frmFlete")[0];
         var formData = new FormData(form);
         var IDSucursal = $("#IDSucursal").val();
@@ -400,7 +407,11 @@
                     window.location.href = '/Admin/Compra/Index/';
                     Mensaje(response.Mensaje, "2");
                 }
-                    
+            },
+            complete: function () {
+                //Ajax request is finished, so we can enable
+                //the button again.
+                $('#btnSubmitFlete').attr("disabled", false);
             }
         });
     }

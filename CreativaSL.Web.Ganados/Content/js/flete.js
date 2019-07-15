@@ -797,6 +797,7 @@
     }
     //Funciones
     function AC_Cliente() {
+        $('#btnSubmitCliente').attr("disabled", true);
         var form = $("#Frm_AC_Cliente")[0];
         var formData = new FormData(form);
 
@@ -826,10 +827,16 @@
                 }
                 else
                     Mensaje(response.Mensaje, "2");
+            },
+            complete: function () {
+                //Ajax request is finished, so we can enable
+                //the button again.
+                $('#btnSubmitCliente').attr("disabled", false);
             }
         });
     }
     function AC_Trayecto() {
+        $('#btnSubmitTrayecto').attr("disabled", true);
         var form = $("#frm_AC_Trayecto")[0];
         var formData = new FormData(form);
         formData.append("id_flete", id_fleteGlobal.val());
@@ -860,10 +867,16 @@
                 }
                 else
                     Mensaje(response.Mensaje, "2");
+            },
+            complete: function () {
+                //Ajax request is finished, so we can enable
+                //the button again.
+                $('#btnSubmitTrayecto').attr("disabled", false);
             }
         });
     }
     function AC_Cobro() {
+        $('#btnSubmitCobro').attr("disabled", true);
         var form = $("#frm_AC_Cobro")[0];
         var formData = new FormData(form);
 
@@ -883,6 +896,11 @@
                 }
                 else
                     Mensaje(response.Mensaje, "2");
+            },
+            complete: function () {
+                //Ajax request is finished, so we can enable
+                //the button again.
+                $('#btnSubmitCobro').attr("disabled", false);
             }
         });
     }
