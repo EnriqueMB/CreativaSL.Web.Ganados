@@ -39,6 +39,7 @@
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>
+                                        <th>Hora</th>
                                         <th>Folio</th>
                                         <th>Entrega</th>
                                         <th>Entrada</th>
@@ -56,6 +57,7 @@
                                     {
                                     <tr id="@item.IdMovimiento">
                                         <td align="center">@item.FechaString</td>
+                                        <td align="center">@item.HoraString</td>
                                         <td>@item.FolioCheque</td>
                                         <td>@item.Entrega</td>
                                         <td align="right">@item.EntradaString</td>
@@ -153,23 +155,23 @@
                                                                 </div>
                                                                 //aca
                                                                 @*if (item.IdFormaPago == 1)
-                                                                {
-                                                                    <div class="btn-group">
-                                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                                        </a>
+                                {
+                                    <div class="btn-group">
+                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                        </a>
 
-                                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
 
-                                                                            <li>
-                                                                                <a role="menuitem" tabindex="-1" data-id="@item.IdMovimiento" class="verTk3">
-                                                                                    <i class="fa fa-eye"></i> Ver
-                                                                                </a>
-                                                                            </li>
+                                            <li>
+                                                <a role="menuitem" tabindex="-1" data-id="@item.IdMovimiento" class="verTk3">
+                                                    <i class="fa fa-eye"></i> Ver
+                                                </a>
+                                            </li>
 
-                                                                        </ul>
-                                                                    </div>
-                                                                }*@
+                                        </ul>
+                                    </div>
+                                }*@
 
                                                             }
                                                         }
@@ -201,24 +203,24 @@
                                                                 </ul>
                                                             </div>
                                                         }//termina else
-                                                          if (item.IdFormaPago == 2)
-                                                                {
-                                                                    <div class="btn-group">
-                                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                        if (item.IdFormaPago == 2)
+                                                        {
+                                                            <div class="btn-group">
+                                                                <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                    <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                                </a>
+
+                                                                <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+
+                                                                    <li>
+                                                                        <a role="menuitem" tabindex="-1" data-id="@item.IdMovimiento" class="verTk3">
+                                                                            <i class="fa fa-eye"></i> Ver
                                                                         </a>
+                                                                    </li>
 
-                                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-
-                                                                            <li>
-                                                                                <a role="menuitem" tabindex="-1" data-id="@item.IdMovimiento" class="verTk3">
-                                                                                    <i class="fa fa-eye"></i> Ver
-                                                                                </a>
-                                                                            </li>
-
-                                                                        </ul>
-                                                                    </div>
-                                                                }
+                                                                </ul>
+                                                            </div>
+                                                        }
 
                                                     }
                                                 }

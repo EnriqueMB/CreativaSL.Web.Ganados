@@ -46,8 +46,9 @@ namespace CreativaSL.Web.Ganados.Models
         public string Alias { get; set; }
         public string FotoCheque { get; set; }
         public bool Estatus { get; set; }
-
+        
         public string FechaString { get { return string.Format("{0:dd/MM/yyyy}", Fecha); } }
+        public string HoraString { get { return string.Format("{0:hh:mm:ss}", Fecha); } }
         public string SaldoString { get { return string.Format("{0:c}", Saldo); } }
         public string EntradaString { get { return string.Format("{0:c}", Entrada); } }
         public string SalidaString { get { return string.Format("{0:c}", Salida); } }
