@@ -235,6 +235,78 @@ namespace CreativaSL.Web.Ganados.Areas.Admin
                 return View(new List<SalidaAlmacenDetalleModels>());
             }
         }
+        // GET: Admin/Prestamos/Details/5
+        [HttpGet]
+        public ActionResult Devolucion(int id)
+        {
+            try
+            {
+                List<DevolucionHerramientaDetalleModels> Model = new List<DevolucionHerramientaDetalleModels>();
+                _PrestamoHerramienta_Datos Datos = new _PrestamoHerramienta_Datos();
+                ViewBag.IdPrestamos = id;
+                Model = Datos.ObtenerListaDetalleDevolucionHerramientas(Conexion, id);
+                if(Model.Count > 0)
+                {
+                    ViewBag.Estatus = Model[0].Estatus;
+                }
+                else
+                    ViewBag.Estatus = 2;
+
+                return View(Model);
+            }
+            catch (Exception)
+            {
+                return View(new List<SalidaAlmacenDetalleModels>());
+            }
+        }
+
+        //id = IDPrestamo id2 = IDPrestamoDetalle
+        [HttpPost]
+        public ActionResult DevolverHerramienta(DevolucionHerramientaDetalleModels Models)
+        {
+            try
+            {
+                _PrestamoHerramienta_Datos Datos = new _PrestamoHerramienta_Datos();
+               
+                DevolucionHerramientaDetalleModels ModelD = new DevolucionHerramientaDetalleModels
+                {
+                    IDPrestamo = Models.IDPrestamo,
+                    IDPrestamoDetalle = Models.IDPrestamoDetalle,
+                    CantDevolver = Models.CantDevolver,
+                    Usuario = User.Identity.Name,
+                    Conexion = Conexion
+                };
+                RespuestaAjax respuesta = new RespuestaAjax();
+                string usuario = User.Identity.Name;
+
+                respuesta = Datos.ACDevolucionHerramientasAlmacenDetalle(ModelD);
+                return Content(respuesta.ToJSON(), "application/json");
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+                    
+        }
+        [HttpPost]
+        public ActionResult Finalizar(int id4)
+        {
+            try
+            {
+                _PrestamoHerramienta_Datos Datos = new _PrestamoHerramienta_Datos();
+                DevolucionHerramientaDetalleModels Prestamo = Datos.FinalizarDevolucionHerramientasAlmacen(Conexion, id4, User.Identity.Name);
+                if (Prestamo.Completado)
+                    return Json("true");
+                else
+                    return Json("");
+            }
+            catch (Exception)
+            {
+                return Json("");
+            }
+        }
+
 
         // GET: Admin/Prestamos/CreateDetails
         public ActionResult CreateDetails(int id)
@@ -595,10 +667,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin
             {
                 _PrestamoHerramienta_Datos Datos = new _PrestamoHerramienta_Datos();
                 PrestamoHerramientaModels Prestamo = Datos.ProcesarPrestamoHerramientasAlmacen(Conexion, id, User.Identity.Name);
-                if (Prestamo.Completado)
-                    return Json("true");
-                else
-                    return Json("");
+                return Json(Prestamo.Resultado);
+                //if (Prestamo.Resultado == 1)
+                //    return Json(1);
+                //else if (Prestamo.Resultado == -3)
+                //    return Json(-3);
+                //else
+                //    return Json("");
             }
             catch (Exception)
             {

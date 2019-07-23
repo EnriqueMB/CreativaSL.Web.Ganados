@@ -1,3 +1,9 @@
+/// <reference path="plugins/jquery.maskmoney.min.js" />
+/// <reference path="plugins/jquery.maskmoney.min.js" />
+/// <reference path="plugins/jquery.maskmoney.min.js" />
+/// <reference path="plugins/jquery.maskmoney.min.js" />
+/// <reference path="plugins/jquery.maskmoney.min.js" />
+/// <reference path="plugins/jquery.maskmoney.min.js" />
 var CompraGanado = function () {
     "use strict";
     var CANTDECIMALES = 2;
@@ -34,8 +40,9 @@ var CompraGanado = function () {
                 { "width": 180, "targets": 8 },
                 { "width": 115, "targets": 12 },
                 { "width": 65, "targets": 13 }
-            ],
-            "drawCallback": function (settings) {
+                ]
+            , "drawCallback": function (settings) {
+                    console.log("drw");
                 $(".kg").maskMoney(
                     {
                         allowZero: true,

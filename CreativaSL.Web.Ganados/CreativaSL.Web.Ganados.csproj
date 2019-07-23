@@ -118,7 +118,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data">
-      <HintPath>..\..\..\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+      <HintPath>..\..\..\UTILIDADES\Dll\Microsoft.ApplicationBlocks.Data.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
@@ -472,6 +472,7 @@
     <Content Include="Content\js\AgregarArchivoEmpleado.js" />
     <Content Include="Content\js\AgregarArchivoVehiculo.js" />
     <Content Include="Content\js\Bancos.js" />
+    <Content Include="Content\js\DevolucionHerramienta.js" />
     <Content Include="Content\js\EntradaCajaChica.js" />
     <Content Include="Content\js\CajaChica.js" />
     <Content Include="Content\js\CajaChicaArqueo.js" />
@@ -1565,6 +1566,7 @@
     <Content Include="Areas\Admin\Views\Prestamos\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Prestamos\CreateDetails.cshtml" />
     <Content Include="Areas\Admin\Views\Prestamos\EditDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Prestamos\Devolucion.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1612,7 +1614,7 @@
     <Compile Include="Areas\Admin\Controllers\PesajeGanadoController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReporteTipoFleteController.cs" />
     <Compile Include="Areas\Admin\Controllers\VentaGeneralController.cs" />
-    <Compile Include="Areas\Admin\PrestamosController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PrestamosController.cs" />
     <Compile Include="Content\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AlmacenController.cs" />
@@ -1793,6 +1795,7 @@
     <Compile Include="Models\DataTableResultSet.cs" />
     <Compile Include="Models\DatosGeneralesGanados.cs" />
     <Compile Include="Models\DeduccionModels.cs" />
+    <Compile Include="Models\DevolucionHerramientaDetalleModels.cs" />
     <Compile Include="Models\DocumentoCompraModels.cs" />
     <Compile Include="Models\DocumentoModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
@@ -1872,6 +1875,7 @@
     <Compile Include="Models\RptGandosModels.cs" />
     <Compile Include="Models\RptJaulasXVentaModels.cs" />
     <Compile Include="Models\RptMantenimientoVehiculoModels.cs" />
+    <Compile Include="Models\RPTPagosProveedorModels.cs" />
     <Compile Include="Models\RptProvedorVendioMasModels.cs" />
     <Compile Include="Models\RptProveedorMermaAltaModels.cs" />
     <Compile Include="Models\RptProveedorMunicipioModels.cs" />
@@ -2156,6 +2160,8 @@
     <Content Include="Formatos\ComprobanteVentaGeneral.rdlc" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reports\ReporteCombustible.rdlc" />
+    <EmbeddedResource Include="Reports\ReportePagosProveedor.rdlc" />
     <EmbeddedResource Include="Reports\ReporteTipoFlete.rdlc" />
   </ItemGroup>
   <PropertyGroup>
