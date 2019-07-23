@@ -323,9 +323,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             switch (Resultado)
                             {
                                 case -1:
+                                    ViewBag.IdCaja = model.IdCaja;
                                     mensajeError = "Contraseña incorrecta.";
                                     break;
                                 default:
+                                    ViewBag.IdCaja = model.IdCaja;
                                     mensajeError = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
                                     break;
                             }
