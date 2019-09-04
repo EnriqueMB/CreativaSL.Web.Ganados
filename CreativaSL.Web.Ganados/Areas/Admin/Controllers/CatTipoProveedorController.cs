@@ -206,7 +206,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 else
                 {
                     TempData["typemessage"] = "2";
-                    TempData["message"] = "No se pudo eliminar el corral, verifique que no tenga algún ganado incluido.";
+                    TempData["message"] = "No se pudo eliminar el tipo de proveedor, verifique que no este asignado en algún proveedor.";
                     return Json("2");
                 }
             }
