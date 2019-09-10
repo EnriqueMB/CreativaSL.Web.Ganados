@@ -205,7 +205,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 ReporteSalida.FechaInicio = Fecha1;
                 ReporteSalida.FechaFin = Fecha2;
                 ReporteSalida.Conexion = Conexion;
-                ReporteSalida.DatosEmpresa = RSalidas.ObtenerDatosEmpresaTipo1(Conexion);
+                ReporteSalida.DatosEmpresa = RSalidas.ObtenerDatosEmpresaTipo1(Conexion, "");
                 ReporteSalida.ListaSalidas = RSalidas.obtenerListaSalidas(ReporteSalida);
                 //LocalReport Rtp = new LocalReport();
                 Rtp.LocalReport.EnableExternalImages = true;
@@ -1133,7 +1133,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 REntradas.FechaInicio = Fecha1;
                 REntradas.FechaFin = Fecha2;
                 REntradas.Conexion = Conexion;
-                REntradas.DatosEmpresa = RDEntra.ObtenerDatosEmpresaTipo1(Conexion);
+                REntradas.DatosEmpresa = RDEntra.ObtenerDatosEmpresaTipo1(Conexion, "");
                 REntradas.ListaEntradas = RDEntra.ObtenerEntradas(REntradas);
                 Rtp.LocalReport.EnableExternalImages = true;
                 Rtp.LocalReport.DataSources.Clear();
@@ -1202,7 +1202,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 reporteCpra.fechaInicio = Fecha1;
                 reporteCpra.fechaFin = Fecha2;
                 reporteCpra.Conexion = Conexion;
-                reporteCpra.datosEmpresa = R.ObtenerDatosEmpresaTipo1(Conexion);
+                reporteCpra.datosEmpresa = R.ObtenerDatosEmpresaTipo1(Conexion, "");
                 reporteCpra.listaGanadosMtoCompra = R.obtenerListaGanadosMtoCompra(reporteCpra);
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
@@ -1273,7 +1273,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 reporte.fechaInicio = Fecha1;
                 reporte.fechaFin = Fecha2;
                 reporte.Conexion = Conexion;
-                reporte.datosEmpresa = R.ObtenerDatosEmpresaTipo1(Conexion);
+                reporte.datosEmpresa = R.ObtenerDatosEmpresaTipo1(Conexion, "");
                 reporte.listaJaulas = R.obtenerListaJaulasXVenta(reporte);
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
@@ -1342,7 +1342,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 reporte.fechaInicio = Fecha1;
                 reporte.fechaFin = Fecha2;
                 reporte.Conexion = Conexion;
-                reporte.datosEmpresa = R.ObtenerDatosEmpresaTipo1(Conexion);
+                reporte.datosEmpresa = R.ObtenerDatosEmpresaTipo1(Conexion, "");
                 reporte.listEstadoCuentaProveedor = R.ObtenerListaEstadoCuentaProveedor(reporte);
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
@@ -1413,7 +1413,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 reporte.Conexion = Conexion;
                 reporte.DatosEmpresa = new DatosEmpresaViewModels();
 
-                reporte.DatosEmpresa = R.ObtenerDatosEmpresaTipo1(Conexion);
+                reporte.DatosEmpresa = R.ObtenerDatosEmpresaTipo1(Conexion, "");
                 List<RptCuentaEstadoProveedorActualizadoModels> lista = new List<RptCuentaEstadoProveedorActualizadoModels>();
                 lista = R.ObtenerListaEstadoCuentaProveedorActualizado(reporte);
                 LocalReport Rtp = new LocalReport();
@@ -1488,7 +1488,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 RCorrales.FechaInicio = Fecha1;
                 RCorrales.FechaFin = Fecha2;
                 RCorrales.Conexion = Conexion;
-                RCorrales.DatosEmpresa = RDCorral.ObtenerDatosEmpresaTipo1(Conexion);
+                RCorrales.DatosEmpresa = RDCorral.ObtenerDatosEmpresaTipo1(Conexion, "");
                 RCorrales.ListaCorrales = RDCorral.ObetenerListaCorrales(RCorrales);
                 Rtp.LocalReport.EnableExternalImages = true;
                 Rtp.LocalReport.DataSources.Clear();

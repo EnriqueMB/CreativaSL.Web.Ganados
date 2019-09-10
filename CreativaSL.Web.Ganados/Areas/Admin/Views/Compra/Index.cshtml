@@ -359,7 +359,10 @@
                 { "data": "GanadoCompradoMachos" },
                 { "data": "GanadoCompradoHembras" },
                 { "data": "GanadoCompradoTotal" },
-                { "data": "GanadoKilosTotal" },
+                {
+                    "data": "GanadoKilosTotal",
+                    "render": $.fn.dataTable.render.number(',', '.', 2,'', 'Kg.'),
+                },
                 {
                     "data": "TotalCobros",
                     "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
@@ -368,7 +371,10 @@
                     "data": "TotalPagos",
                     "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
                 },
-                { "data": "MermaPromedio" },
+                {
+                    "data": "MermaPromedio",
+                        "render": $.fn.dataTable.render.number(',', '.', 2, '' , '%'),
+                },
                 {
                     "data": null,
                     "render": function (data, type, full) {

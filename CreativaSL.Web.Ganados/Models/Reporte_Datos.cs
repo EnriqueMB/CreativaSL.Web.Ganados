@@ -11,12 +11,12 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class Reporte_Datos
     {
-        public DatosEmpresaViewModels ObtenerDatosEmpresaTipo1(string Cadena)
+        public DatosEmpresaViewModels ObtenerDatosEmpresaTipo1(string Cadena, string id_sucursal)
         {
             try
             {
                 DatosEmpresaViewModels Datos = new DatosEmpresaViewModels();
-                SqlDataReader Dr = SqlHelper.ExecuteReader(Cadena, "spCSLDB_EMPRESA_get_CatEmpresasIDTIPO1");
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Cadena, "spCSLDB_EMPRESA_get_CatEmpresasIDTIPO1_V2", id_sucursal);
                 while (Dr.Read())
                 {
                     Datos.LogoEmpresa = !Dr.IsDBNull(Dr.GetOrdinal("LogoEmpresa")) ? Dr.GetString(Dr.GetOrdinal("LogoEmpresa")) : string.Empty;

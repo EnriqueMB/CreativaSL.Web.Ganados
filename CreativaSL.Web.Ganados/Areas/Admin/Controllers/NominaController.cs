@@ -481,7 +481,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Nomina.Conexion = Conexion;
                 Nomina.IDNomina = id;
                 Nomina.IDSucursal = id2;
-                Nomina = NominaD.ObtenerDatosEmpresaTipo1(Nomina);
+                Nomina = NominaD.ObtenerDatosEmpresaTipo1_V2(Nomina);
                 NominaD.ObtenerReporteNominaSaldos(Nomina);
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
