@@ -220,7 +220,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 _CajaChica_Datos datos = new _CajaChica_Datos();
                 Reporte_Datos R = new Reporte_Datos();
                 ReporteCajaChica model = datos.ObtenerDatosReporteCajaChica(id);
-                DatosEmpresaViewModels x = R.ObtenerDatosEmpresaTipo1(_ConexionRepositorio.CadenaConexion, "");
+                DatosEmpresaViewModels x = R.ObtenerDatosEmpresaGeneral(_ConexionRepositorio.CadenaConexion);
                 LocalReport Rtp = new LocalReport
                 {
                     EnableExternalImages = true

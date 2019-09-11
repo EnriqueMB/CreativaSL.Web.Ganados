@@ -17,6 +17,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     public class ReportesController : Controller
     {
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
+        private const string TODAS_SUCURSALES = "Todas las sucursales";
         // GET: Admin/Reportes
         public ActionResult Index()
         {
@@ -187,7 +188,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult RptSalidas(string id, string id2, string id3)
+        public ActionResult RptSalidas(string id, string id2, string id3, string id4)
         {
             try
             {
@@ -205,8 +206,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 ReporteSalida.FechaInicio = Fecha1;
                 ReporteSalida.FechaFin = Fecha2;
                 ReporteSalida.Conexion = Conexion;
-                ReporteSalida.DatosEmpresa = RSalidas.ObtenerDatosEmpresaTipo1(Conexion, "");
-                ReporteSalida.ListaSalidas = RSalidas.obtenerListaSalidas(ReporteSalida);
+                ReporteSalida.DatosEmpresa = string.IsNullOrEmpty(id4) ? RSalidas.ObtenerDatosEmpresaGeneral(Conexion) : RSalidas.ObtenerDatosEmpresaTipoIDSucursal(Conexion, id4);
+                ReporteSalida.DatosEmpresa.NombreSucursal = string.IsNullOrEmpty(ReporteSalida.DatosEmpresa.NombreSucursal) ? TODAS_SUCURSALES : ReporteSalida.DatosEmpresa.NombreSucursal;
+                ReporteSalida.ListaSalidas = RSalidas.obtenerListaSalidas(ReporteSalida, id4);
                 //LocalReport Rtp = new LocalReport();
                 Rtp.LocalReport.EnableExternalImages = true;
                 Rtp.LocalReport.DataSources.Clear();
@@ -498,8 +500,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 REntradas.FechaFin = Fecha2;
                 REntradas.Conexion = Conexion;
                 REntradas.IdSucursal = id4;
-                REntradas.DatosEmpresa = RDEntra.ObtenerDatosEmpresaTipoIDSucursal(Conexion, REntradas.IdSucursal);
+                REntradas.DatosEmpresa =
+                    string.IsNullOrEmpty(id4) ? RDEntra.ObtenerDatosEmpresaGeneral(Conexion)
+                                                : RDEntra.ObtenerDatosEmpresaTipoIDSucursal(Conexion, REntradas.IdSucursal); 
+
                 REntradas.ListaEntradas = RDEntra.ObtenerEntradasV2(REntradas);
+                REntradas.DatosEmpresa.NombreSucursal = string.IsNullOrEmpty(REntradas.DatosEmpresa.NombreSucursal) ? TODAS_SUCURSALES : REntradas.DatosEmpresa.NombreSucursal;
                 Rtp.LocalReport.EnableExternalImages = true;
                 Rtp.LocalReport.DataSources.Clear();
                 string path = Path.Combine(Server.MapPath("~/Reports"), "ReporteEntradasV2.rdlc");
@@ -1133,7 +1139,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 REntradas.FechaInicio = Fecha1;
                 REntradas.FechaFin = Fecha2;
                 REntradas.Conexion = Conexion;
-                REntradas.DatosEmpresa = RDEntra.ObtenerDatosEmpresaTipo1(Conexion, "");
+                REntradas.DatosEmpresa = RDEntra.ObtenerDatosEmpresaGeneral(Conexion);
                 REntradas.ListaEntradas = RDEntra.ObtenerEntradas(REntradas);
                 Rtp.LocalReport.EnableExternalImages = true;
                 Rtp.LocalReport.DataSources.Clear();
@@ -1202,7 +1208,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 reporteCpra.fechaInicio = Fecha1;
                 reporteCpra.fechaFin = Fecha2;
                 reporteCpra.Conexion = Conexion;
-                reporteCpra.datosEmpresa = R.ObtenerDatosEmpresaTipo1(Conexion, "");
+                reporteCpra.datosEmpresa = R.ObtenerDatosEmpresaGeneral(Conexion);
                 reporteCpra.listaGanadosMtoCompra = R.obtenerListaGanadosMtoCompra(reporteCpra);
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
@@ -1273,7 +1279,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 reporte.fechaInicio = Fecha1;
                 reporte.fechaFin = Fecha2;
                 reporte.Conexion = Conexion;
-                reporte.datosEmpresa = R.ObtenerDatosEmpresaTipo1(Conexion, "");
+                reporte.datosEmpresa = R.ObtenerDatosEmpresaGeneral(Conexion);
                 reporte.listaJaulas = R.obtenerListaJaulasXVenta(reporte);
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
@@ -1342,7 +1348,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 reporte.fechaInicio = Fecha1;
                 reporte.fechaFin = Fecha2;
                 reporte.Conexion = Conexion;
-                reporte.datosEmpresa = R.ObtenerDatosEmpresaTipo1(Conexion, "");
+                reporte.datosEmpresa = R.ObtenerDatosEmpresaGeneral(Conexion);
                 reporte.listEstadoCuentaProveedor = R.ObtenerListaEstadoCuentaProveedor(reporte);
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
@@ -1413,7 +1419,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 reporte.Conexion = Conexion;
                 reporte.DatosEmpresa = new DatosEmpresaViewModels();
 
-                reporte.DatosEmpresa = R.ObtenerDatosEmpresaTipo1(Conexion, "");
+                reporte.DatosEmpresa = R.ObtenerDatosEmpresaGeneral(Conexion);
                 List<RptCuentaEstadoProveedorActualizadoModels> lista = new List<RptCuentaEstadoProveedorActualizadoModels>();
                 lista = R.ObtenerListaEstadoCuentaProveedorActualizado(reporte);
                 LocalReport Rtp = new LocalReport();
@@ -1488,7 +1494,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 RCorrales.FechaInicio = Fecha1;
                 RCorrales.FechaFin = Fecha2;
                 RCorrales.Conexion = Conexion;
-                RCorrales.DatosEmpresa = RDCorral.ObtenerDatosEmpresaTipo1(Conexion, "");
+                RCorrales.DatosEmpresa = RDCorral.ObtenerDatosEmpresaGeneral(Conexion);
                 RCorrales.ListaCorrales = RDCorral.ObetenerListaCorrales(RCorrales);
                 Rtp.LocalReport.EnableExternalImages = true;
                 Rtp.LocalReport.DataSources.Clear();

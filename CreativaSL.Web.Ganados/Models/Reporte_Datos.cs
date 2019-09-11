@@ -11,12 +11,12 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class Reporte_Datos
     {
-        public DatosEmpresaViewModels ObtenerDatosEmpresaTipo1(string Cadena, string id_sucursal)
+        public DatosEmpresaViewModels ObtenerDatosEmpresaGeneral(string Cadena)
         {
             try
             {
                 DatosEmpresaViewModels Datos = new DatosEmpresaViewModels();
-                SqlDataReader Dr = SqlHelper.ExecuteReader(Cadena, "spCSLDB_EMPRESA_get_CatEmpresasIDTIPO1_V2", id_sucursal);
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Cadena, "[dbo].[spCSLDB_EMPRESA_get_CatEmpresaPrincipal]");
                 while (Dr.Read())
                 {
                     Datos.LogoEmpresa = !Dr.IsDBNull(Dr.GetOrdinal("LogoEmpresa")) ? Dr.GetString(Dr.GetOrdinal("LogoEmpresa")) : string.Empty;
@@ -28,9 +28,6 @@ namespace CreativaSL.Web.Ganados.Models
                     Datos.NumTelefonico2 = !Dr.IsDBNull(Dr.GetOrdinal("NumTelefono2")) ? Dr.GetString(Dr.GetOrdinal("NumTelefono2")) : string.Empty;
                     Datos.Email = !Dr.IsDBNull(Dr.GetOrdinal("Correo")) ? Dr.GetString(Dr.GetOrdinal("Correo")) : string.Empty;
                     Datos.HorarioAtencion = !Dr.IsDBNull(Dr.GetOrdinal("HorarioAtencion")) ? Dr.GetString(Dr.GetOrdinal("HorarioAtencion")) : string.Empty;
-                    Datos.NombreSucursal = !Dr.IsDBNull(Dr.GetOrdinal("NombreSucursal")) ? Dr.GetString(Dr.GetOrdinal("NombreSucursal")) : string.Empty;
-                    //Bitmap bmpFromString = Datos.DatosEmpresa.LogoEmpresa.Base64StringToBitmap();
-                    //Datos.DatosEmpresa.ImagenContruida = bmpFromString.ToBase64ImageReport(ImageFormat.Png);
                 }
                 Dr.Close();
                 return Datos;
@@ -90,8 +87,6 @@ namespace CreativaSL.Web.Ganados.Models
                     Datos.Email = !Dr.IsDBNull(Dr.GetOrdinal("Correo")) ? Dr.GetString(Dr.GetOrdinal("Correo")) : string.Empty;
                     Datos.HorarioAtencion = !Dr.IsDBNull(Dr.GetOrdinal("HorarioAtencion")) ? Dr.GetString(Dr.GetOrdinal("HorarioAtencion")) : string.Empty;
                     Datos.NombreSucursal = !Dr.IsDBNull(Dr.GetOrdinal("NombreSucursal")) ? Dr.GetString(Dr.GetOrdinal("NombreSucursal")) : string.Empty;
-                    //Bitmap bmpFromString = Datos.DatosEmpresa.LogoEmpresa.Base64StringToBitmap();
-                    //Datos.DatosEmpresa.ImagenContruida = bmpFromString.ToBase64ImageReport(ImageFormat.Png);
                     break;
                 }
                 Dr.Close();
@@ -137,11 +132,13 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public List<RptSalidaModels> obtenerListaSalidas(RptSalidaModels Datos)
+        public List<RptSalidaModels> obtenerListaSalidas(RptSalidaModels Datos, string idSucursal)
         {
             try
             {
-                object[] parametros = { Datos.FechaInicio, Datos.FechaFin };
+                idSucursal = idSucursal ?? string.Empty;
+
+                object[] parametros = { Datos.FechaInicio, Datos.FechaFin, idSucursal };
                 List<RptSalidaModels> lista = new List<RptSalidaModels>();
                 RptSalidaModels item;
                 SqlDataReader dr = null;
@@ -793,7 +790,7 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                object[] parametros = { Datos.FechaInicio, Datos.FechaFin };
+                object[] parametros = { Datos.FechaInicio, Datos.FechaFin, Datos.IdSucursal };
                 List<RptEntradaModels> Lista = new List<RptEntradaModels>();
                 RptEntradaModels item;
                 SqlDataReader ds = null;
