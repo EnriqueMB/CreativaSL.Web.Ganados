@@ -486,6 +486,7 @@
     <Content Include="Content\js\catDocumentos.js" />
     <Content Include="Content\js\catFierro.js" />
     <Content Include="Content\js\CatFierroSubir.js" />
+    <Content Include="Content\js\plugins\nvd3\src\models\backup\bullet.js" />
     <Content Include="Content\js\PrestamoHerramientasDetalle.js" />
     <Content Include="Content\js\ReporteTipoFlete.js" />
     <Content Include="Content\js\PrestamosHerramientaLista.js" />
@@ -543,7 +544,6 @@
     <Content Include="Content\js\plugins\jquery.dd.js" />
     <Content Include="Content\js\plugins\jquery.maskMoney.js" />
     <Content Include="Content\js\plugins\jquery.maskMoney.min.js" />
-    <Content Include="Content\js\plugins\nvd3\src\models\backup\bullet.js" />
     <Content Include="Content\js\ProveedorTransporte.js" />
     <Content Include="Content\js\RangoVenta.js" />
     <Content Include="Content\js\Socios.js" />
