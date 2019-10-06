@@ -26,6 +26,8 @@ namespace CreativaSL.Web.Ganados.Models
         public decimal TotalKilosGanado { get; set; }
         public string PlacaTracto { get; set; }
         public string PlacaJaula { get; set; }
+        public decimal TotalKilosGanadoMachos { get; set; }
+        public decimal TotalKilosGanadoHembras { get; set; }
 
     }
 }

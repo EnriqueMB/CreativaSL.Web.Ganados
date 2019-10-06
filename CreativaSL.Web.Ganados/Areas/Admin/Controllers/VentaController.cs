@@ -1546,7 +1546,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 Venta.Id_venta = id;
                 Venta.Conexion = Conexion;
-                Listareporte = reporteDatos.GetReporteGanadoDetalles(Venta);
+                Listareporte = reporteDatos.GetReporteGanadoDetallesNuevo(Venta);
                 Cabezera = reporteDatos.GetReporteCabeceraGanadoDetalles(Venta);
                 ListaFierros = reporteDatos.GetReporteFierrosVenta(Venta);
 
@@ -1564,7 +1564,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
                 ReporteGanadoModels ReporteGanado = new ReporteGanadoModels();
 
-                ReportParameter[] Parametros = new ReportParameter[19];
+                ReportParameter[] Parametros = new ReportParameter[21];
                 Parametros[0] = new ReportParameter("NombreChofer", Cabezera.NombreChofer);
                 Parametros[1] = new ReportParameter("UnidadVehiculo", Cabezera.UnidadVehiculo);
                 Parametros[2] = new ReportParameter("ModeloVehiculo", Cabezera.ModeloVehiculo);
@@ -1584,6 +1584,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Parametros[16] = new ReportParameter("TotalKilosGanado", Cabezera.TotalKilosGanado.ToString("N2"));
                 Parametros[17] = new ReportParameter("PlacaTracto", Cabezera.PlacaTracto);
                 Parametros[18] = new ReportParameter("PlacaJaula", Cabezera.PlacaJaula);
+                Parametros[19] = new ReportParameter("TotalKilosGanadoMachos", Cabezera.TotalKilosGanadoMachos.ToString("N2"));
+                Parametros[20] = new ReportParameter("TotalKilosGanadoHembras", Cabezera.TotalKilosGanadoHembras.ToString("N2"));
 
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("ListaGanado", Listareporte));

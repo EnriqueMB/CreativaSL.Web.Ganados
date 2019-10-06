@@ -21,54 +21,54 @@ var CompraGanado = function () {
     var LoadTableGanado = function () {
         tblGanado = $('#tblGanado')
             .DataTable({
-            "language": {
-                "url": "/Content/assets/json/Spanish.json"
-            },
-            "searching": false,
-            "ordering": false,
-            "autoWidth": false,
-            columnDefs: [
-                { "type": "html-input", "targets": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
-                { "width": 132, "targets": 0 },
-                { "width": 150, "targets": 1 },
-                { "width": 115, "targets": 2 },
-                { "width": 105, "targets": 3 },
-                { "width": 105, "targets": 4 },
-                { "width": 105, "targets": 5 },
-                { "width": 105, "targets": 6 },
-                { "width": 105, "targets": 7 },
-                { "width": 180, "targets": 8 },
-                { "width": 115, "targets": 12 },
-                { "width": 65, "targets": 13 }
+                "language": {
+                    "url": "/Content/assets/json/Spanish.json"
+                },
+                "searching": false,
+                "ordering": false,
+                "autoWidth": false,
+                columnDefs: [
+                    { "type": "html-input", "targets": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+                    { "width": 132, "targets": 0 },
+                    { "width": 150, "targets": 1 },
+                    { "width": 115, "targets": 2 },
+                    { "width": 105, "targets": 3 },
+                    { "width": 105, "targets": 4 },
+                    { "width": 105, "targets": 5 },
+                    { "width": 105, "targets": 6 },
+                    { "width": 105, "targets": 7 },
+                    { "width": 180, "targets": 8 },
+                    { "width": 115, "targets": 12 },
+                    { "width": 65, "targets": 13 }
                 ]
-            , "drawCallback": function (settings) {
+                , "drawCallback": function (settings) {
                     console.log("drw");
-                $(".kg").maskMoney(
-                    {
-                        allowZero: true,
-                        precision: CANTDECIMALESENTEROS,
-                        suffix: ' kg'
-                    }
-                );
-                $(".merma").maskMoney(
-                    {
-                        allowZero: true,
-                        precision: CANTDECIMALES,
-                        suffix: ' %'
-                    }
-                );
-                $(".money").maskMoney(
-                    {
-                        allowZero: true,
-                        precision: CANTDECIMALES,
-                        prefix: '$ '
-                    }
-                );
-                $(".kg").maskMoney('mask');
-                $(".merma").maskMoney('mask');
-                $(".money").maskMoney('mask');
-            }
-        });
+                    $(".kg").maskMoney(
+                        {
+                            allowZero: true,
+                            precision: CANTDECIMALESENTEROS,
+                            suffix: ' kg'
+                        }
+                    );
+                    $(".merma").maskMoney(
+                        {
+                            allowZero: true,
+                            precision: CANTDECIMALES,
+                            suffix: ' %'
+                        }
+                    );
+                    $(".money").maskMoney(
+                        {
+                            allowZero: true,
+                            precision: CANTDECIMALES,
+                            prefix: '$ '
+                        }
+                    );
+                    $(".kg").maskMoney('mask');
+                    $(".merma").maskMoney('mask');
+                    $(".money").maskMoney('mask');
+                }
+            });
 
         //para que realice la busqueda por el valor de cada elemento
         $.fn.dataTableExt.ofnSearch['html-input'] = function (value) {
@@ -83,15 +83,15 @@ var CompraGanado = function () {
                 for (var i = 0; i < data.length; i++) {
 
                     AgergarFilas(
-                        data[i].id_ganado, 
-                        data[i].guardado, 
-                        data[i].Estatus, 
-                        data[i].numArete, 
+                        data[i].id_ganado,
+                        data[i].guardado,
+                        data[i].Estatus,
+                        data[i].numArete,
                         data[i].genero,
-                        Number.parseFloat(data[i].pesoInicial), 
-                        Number.parseFloat(data[i].pesoFinal), 
-                        Number.parseFloat(data[i].merma).toFixed(CANTDECIMALES), 
-                        Number.parseFloat(data[i].pesoPagado), 
+                        Number.parseFloat(data[i].pesoInicial),
+                        Number.parseFloat(data[i].pesoFinal),
+                        Number.parseFloat(data[i].merma).toFixed(CANTDECIMALES),
+                        Number.parseFloat(data[i].pesoPagado),
                         Number.parseFloat(data[i].precioKilo).toFixed(CANTDECIMALES),
                         data[i].id_corral,
                         Number.parseFloat(data[i].subtotal).toFixed(CANTDECIMALES),
@@ -100,12 +100,34 @@ var CompraGanado = function () {
                         data[i].nombreFierro1, data[i].nombreFierro2, data[i].nombreFierro3
                     );
                 }
+                if (data.length > 0) {
+                    LoadFierro();
+                }
                 $(".kg").maskMoney('mask');
                 $(".merma").maskMoney('mask');
                 $(".money").maskMoney('mask');
-               
+
             }
         });
+    };
+
+    function LoadFierro() {
+        $(".capaModal.modalFierro1 .modalBody .fierroList").html("");
+
+        for (var itemFierro in listaFierros) {
+            $(".capaModal.modalFierro1 .modalBody .fierroList").append(`
+            <div ref="fierro1" class="fierroItem">
+                <div class="fierroImagen">
+                    <figure>
+                        <img src="/Imagenes/Fierro/`+ listaFierros[itemFierro].NombreArchivo + `" alt="` + listaFierros[itemFierro].NombreArchivo + `" />
+                    </figure>
+                </div>
+                <div class="fierroDescripcion">
+                    <input type="text" value="`+ listaFierros[itemFierro].NombreFierro + `" readonly data-id="` + listaFierros[itemFierro].IDFierro + `"/>
+                </div>
+            </div>
+            `);
+        }
     }
     
     function AgergarFilas(
@@ -180,23 +202,6 @@ var CompraGanado = function () {
         //columna, fierro1
         var html_fierro1 = '<input id="fierro1_' + id_fila + '" readonly type="text" class="fierro1 cslElegido inputCSL" value="' + nombreFierro1 + '" name="fierro1" data-id = "' + id_fierro1 + '"/>';
 
-        for (var itemFierro in listaFierros) {
-            var id_fierro_server = listaFierros[itemFierro].IDFierro;
-            
-            $(".capaModal.modalFierro1 .modalBody .fierroList").append(`
-            <div ref="fierro1" class="fierroItem">
-                <div class="fierroImagen">
-                    <figure>
-                        <img src="/Imagenes/Fierro/`+ listaFierros[itemFierro].NombreArchivo + `" alt="` + listaFierros[itemFierro].NombreArchivo +`" />
-                    </figure>
-                </div>
-                <div class="fierroDescripcion">
-                    <input type="text" value="`+ listaFierros[itemFierro].NombreFierro + `" readonly data-id="` + listaFierros[itemFierro].IDFierro+`"/>
-                </div>
-            </div>
-            `);
-        }
-
         //columna, fierro2
         var html_fierro2 = '<input id="fierro2_' + id_fila + '" readonly type="text" class="fierro2 cslElegido inputCSL" value="' + nombreFierro2 + '" name="fierro2" data-id = "' + id_fierro2 + '" />';
         var opciones_fierro2 = '';
@@ -254,6 +259,7 @@ var CompraGanado = function () {
     
     //Abrir modales
     $(document).on("click", "#tblGanado .fierro1", function () {
+        LoadFierro();
         var getIdFila = $(this).attr('id');
         $(".blackCap, .capaModal.modalFierro1 .modalFierroContent").addClass('active');
         $(".capaModal.modalFierro1").attr('idfila', getIdFila);
@@ -264,6 +270,7 @@ var CompraGanado = function () {
         guardarIDs.push(idx);
     });
     $(document).on("click", "#tblGanado .fierro2", function () {
+        LoadFierro();
         var getIdFila = $(this).attr('id');
         $(".blackCap, .capaModal.modalFierro1 .modalFierroContent").addClass('active');
         $(".capaModal.modalFierro1").attr('idfila', getIdFila);
@@ -274,6 +281,7 @@ var CompraGanado = function () {
         guardarIDs.push(idx);
     });
     $(document).on("click", "#tblGanado .fierro3", function () {
+        LoadFierro();
         var getIdFila = $(this).attr('id');
         $(".blackCap, .capaModal.modalFierro1 .modalFierroContent").addClass('active');
         $(".capaModal.modalFierro1").attr('idfila', getIdFila);
@@ -432,6 +440,7 @@ var CompraGanado = function () {
             else {
                 for (var i = 0; i < numero; i++) {
                     AgergarFilas(numeroFila, false, "Sin registrar", 0, "macho", 0, 0, 0, 0, 0, 0, 0, numeroFila, '', '', '', '', '', '');
+                    LoadFierro();
                     numeroFila++;
                 }
                 $('select.selectpicker').selectpicker({
@@ -809,9 +818,9 @@ var CompraGanado = function () {
     }
 
     function PesoSugerido(peso, repeso, MermaObtenida) {
-        console.log(MermaObtenida);
-        console.log(tolerancia);
-        console.log(peso);
+        //console.log(MermaObtenida);
+        //console.log(tolerancia);
+        //console.log(peso);
         if (tolerancia == 0) {
             return Math.trunc(peso);
         }
