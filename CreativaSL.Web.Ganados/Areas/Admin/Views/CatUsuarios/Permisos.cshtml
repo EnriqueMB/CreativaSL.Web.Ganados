@@ -27,35 +27,44 @@
                 @Html.ValidationSummary(true)
 
                 @Html.HiddenFor(model => model.id_usuario)
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">TABLA DE PERMISOS</h3>
-                    </div>
-                    <div class="panel-body">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">TABLA DE PERMISOS</h3>
+                    <ul class="panel-controls">
+                        <li>
+                            <a href="@Url.Action("Sucursales", "CatUsuarios", new { id = Model.id_usuario })" class="btn btn-default btnCrear">
+                                <span class="fa fa-building-o">
+                                </span> Sucursales
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+               
+                <div class="panel-body">
 
-                        <table class="table table-condensed">
-                            <thead>
-                                <tr class="warning">
-                                    <th style="display:none"></th>
-                                    <th style="display:none"></th>
-                                    <th>Menu</th>
-                                    <th>Permisos</th>
-                                </tr>
-                            </thead>
-                                <tbody>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr class="warning">
+                                <th style="display:none"></th>
+                                <th style="display:none"></th>
+                                <th>Menu</th>
+                                <th>Permisos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                                    @foreach (CreativaSL.Web.Ganados.Models.MenuModels menuItem in Model.listaMenu)
-                                    {
-                                        @DibujarMenu(menuItem);
-                                    }
-                                </tbody>
-                            </table>
-                        <div class="panel-footer">
-                            <input type="submit" value="Guardar" class="btn btn-primary pull-right">
-                            <a href="@Url.Action("Index", "CatUsuarios")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                        </div>
+                            @foreach (CreativaSL.Web.Ganados.Models.MenuModels menuItem in Model.listaMenu)
+                            {
+                                @DibujarMenu(menuItem);
+                            }
+                        </tbody>
+                    </table>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("Index", "CatUsuarios")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
                     </div>
                 </div>
+            </div>
             }
         </div>
     </div>
