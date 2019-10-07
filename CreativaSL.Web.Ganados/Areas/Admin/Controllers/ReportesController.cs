@@ -5,6 +5,7 @@ using Microsoft.Reporting.WebForms;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -124,10 +125,18 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 Reporte_Datos RDatos = new Reporte_Datos();
                 RptProvedorVendioMasModels ReporteVMas = new RptProvedorVendioMasModels();
-                DateTime Fecha1 = DateTime.Today;
-                DateTime Fecha2 = DateTime.Today;
-                DateTime.TryParse(id2.ToString(), out Fecha1);
-                DateTime.TryParse(id3.ToString(), out Fecha2);
+                DateTime Fecha1;
+                DateTime Fecha2;
+
+                string fromFormat = "dd/MM/yyyy";
+                string toFormat = "yyyy-MM-dd";
+
+                Fecha1 = DateTime.ParseExact(id2, fromFormat, null);
+                Fecha2 = DateTime.ParseExact(id3, fromFormat, null);
+
+
+                //DateTime.TryParse(id2.ToString(), out Fecha1);
+                //DateTime.TryParse(id3.ToString(), out Fecha2);
                 ReporteVMas.FechaInicio = Fecha1;
                 ReporteVMas.FechaFin = Fecha2;
                 ReporteVMas.Conexion = Conexion;
