@@ -191,7 +191,8 @@ namespace CreativaSL.Web.Ganados.Models
             sqlDataReader.Close();
             return lista;
         }
-        public RespuestaAjax SetSucursalesXPersona(string[] sucursales, string id_persona, string conexion)
+        //public RespuestaAjax SetSucursalesXPersona(string[] sucursales, string id_persona, string conexion)
+        public RespuestaAjax SetSucursalesXPersona(List<string> sucursales, string id_persona, string conexion)
         {
             RespuestaAjax respuestaAjax = new RespuestaAjax();
 

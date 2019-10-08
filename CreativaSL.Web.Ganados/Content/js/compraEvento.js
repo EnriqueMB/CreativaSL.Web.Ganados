@@ -116,21 +116,6 @@
 
         });
 
-        //$.ajax({
-        //    url: '/Admin/Compra/DatatableGanadoEventoXIDCompra/',
-        //    type: "POST",
-        //    data: { IDCompra: Id_compra },
-        //    success: function (data) {
-        //        for (var i = 0; i < data.length; i++) {
-        //            AgergarFilas
-        //            (
-        //                data[i].id_ganado,  data[i].numArete,   data[i].genero,
-        //                data[i].pesoPagado, data[i].precioKilo, data[i].subtotal
-        //            );
-        //        }
-        //    }
-        //});
-
         $(document).on('submit', 'form#frm_evento', function (e) {
             e.preventDefault();
 
@@ -333,12 +318,11 @@
                 );
 
             }
-            tblGanadoCargado.row('.selected').remove().draw(false);
+            tblGanadoCargado.rows('.selected').remove().draw(false);
         });
 
         $('#regresar').click(function () {
             var row = tblGanadoConEvento.rows('.selected').nodes().to$().find('.cslElegido');
-            console.log(row);
             //obtenemos el valor de toda la fila
             for (var x = 0; x < row.length; x += 6)
             {
@@ -354,7 +338,7 @@
                 }).draw();
             }
 
-            tblGanadoConEvento.row('.selected').remove().draw(false);
+            tblGanadoConEvento.rows('.selected').remove().draw(false);
         });
     }
 

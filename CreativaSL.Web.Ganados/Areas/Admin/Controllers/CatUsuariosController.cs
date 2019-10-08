@@ -354,7 +354,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Sucursales(string[] sucursales, string id_persona)
+        //public ActionResult Sucursales(string[] sucursales, string id_persona)
+        public ActionResult Sucursales(List<string> sucursales, string id_persona)
         {
             //validamos
             if (id_persona == null || string.IsNullOrEmpty(id_persona))
@@ -364,10 +365,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             _CatSucursal_Datos sucursal_Datos = new _CatSucursal_Datos();
+            //RespuestaAjax respuestaAjax = sucursal_Datos.SetSucursalesXPersona(sucursales, id_persona, Conexion);
             RespuestaAjax respuestaAjax = sucursal_Datos.SetSucursalesXPersona(sucursales, id_persona, Conexion);
 
             TempData["typemessage"] = respuestaAjax.Success ? "1" : "2";
             TempData["message"] = respuestaAjax.Success ? respuestaAjax.Mensaje : "Ocurrió un error el intentar guardar. Contacte a soporte técnico";
+
+            if(respuestaAjax.Success)
+            {
+                System.Web.HttpContext.Current.Session["lista_id_sucursales"] = sucursales;
+            }
 
             return RedirectToAction("Index");
         }
